@@ -10,11 +10,18 @@ import fastifyStatic from '@fastify/static'
 import { parse } from 'yaml'
 
 import type { Layout } from '../shared/layout.ts'
+import { describeConfig, loadConfig, secretValues } from './config.ts'
+import { initObservability, Sentry } from './observability.ts'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
-const PORT = Number(process.env.K7_PORT ?? 8080)
-// 0.0.0.0 on purpose: the iPad reaches this over the LAN, not over loopback.
-const HOST = process.env.K7_HOST ?? '0.0.0.0'
+const config = loadConfig()
+
+// Wired before the server exists, so a crash during startup is reported too.
+const reporting = initObservability({
+  dsn: config.glitchtipDsn,
+  environment: config.environment,
+  secrets: secretValues(config),
+})
 
 const app = Fastify({ logger: { transport: undefined } })
 
@@ -27,7 +34,13 @@ async function loadLayout(): Promise<Layout> {
   return layout
 }
 
-app.get('/api/health', async () => ({ ok: true, service: 'kitchen-terminal-k7' }))
+app.get('/api/health', async () => ({
+  ok: true,
+  service: 'kitchen-terminal-k7',
+  // Whether reporting is on is operational state, not a secret. Saying it out
+  // loud is how you find out the DSN was never set.
+  reporting,
+}))
 
 app.get('/api/layout', async (_req, reply) => {
   try {
@@ -39,11 +52,18 @@ app.get('/api/layout', async (_req, reply) => {
   }
 })
 
+// Every unhandled error reaches GlitchTip through the same scrubber as the rest.
+app.setErrorHandler((err, req, reply) => {
+  Sentry.captureException(err, { extra: { url: req.url, method: req.method } })
+  req.log.error({ err }, 'request failed')
+  reply.code(500).send({ error: 'internal error' })
+})
+
 await app.register(fastifyStatic, { root: resolve(ROOT, 'dist/client'), index: ['index.html'] })
 
 // The kiosk is a single-page shell added to the home screen; any unknown path is
 // still the shell rather than a 404 the user cannot navigate away from.
 app.setNotFoundHandler((_req, reply) => reply.sendFile('index.html'))
 
-const address = await app.listen({ port: PORT, host: HOST })
-app.log.info(`kitchen-terminal-k7 on ${address}`)
+const address = await app.listen({ port: config.port, host: config.host })
+app.log.info(`kitchen-terminal-k7 on ${address} — ${describeConfig(config)}`)

@@ -15,3 +15,11 @@ dist/
 
 # graph-workflow worktrees
 .claude/worktrees/
+
+# Real secret values. .env.schema declares the shape and is committed; the
+# values are not, ever. Varlock reads them from here or from a secret provider.
+.env.local
+.env.*.local
+.env
+!.env.schema
+!.env.example
