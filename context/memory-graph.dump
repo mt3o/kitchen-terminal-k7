@@ -2796,3 +2796,75 @@ source: gui
 created_at: 2026-09-08T15:40:58.550724+00:00
 
 tier -> lifetime: /gw-resolve 2026-09-08: human ruled 11 of 13 to lifetime, holding SLICEORDER (epic-scoped) and TS7GA (pending its correction) at mid-term — AICALLFK
+---
+[node:85e8cb61-7fe3-44fe-8740-60e7be03d051]
+type: slice
+tier: short-term
+path: /change/k7-storybook
+created_at: 2026-09-08T15:45:29.353010+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:25e3cb83-4527-4821-968d-b2f3f686dd9d] @ 2026-09-08T15:48:25.357406+00:00
+-> SCOPED_TO [node:be6f7836-e1bf-4d8c-b543-9cf0c362a6a5] @ 2026-09-08T15:48:25.233911+00:00
+-> SCOPED_TO [node:f57f3370-4f98-4aa5-abb9-e69c1b88472d] @ 2026-09-08T15:45:29.353010+00:00
+
+change scope: k7-storybook
+---
+[event:b927b5f0-33c2-443a-b8cc-a9fe7c666ad6]
+node_id: 85e8cb61-7fe3-44fe-8740-60e7be03d051
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T15:45:29.354807+00:00
+
+create_change k7-storybook
+---
+[node:f57f3370-4f98-4aa5-abb9-e69c1b88472d]
+type: goal
+tier: short-term
+path: /goal/k7-storybook
+created_at: 2026-09-08T15:45:29.353010+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:25e3cb83-4527-4821-968d-b2f3f686dd9d] @ 2026-09-08T15:48:25.357406+00:00
+-> DEPENDS_ON [node:3a29eee2-0cb0-4688-8e53-92c9a2b0c08e] @ 2026-09-08T15:45:29.353010+00:00
+-> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-08T15:45:29.353010+00:00
+-> DEPENDS_ON [node:be6f7836-e1bf-4d8c-b543-9cf0c362a6a5] @ 2026-09-08T15:48:25.233911+00:00
+
+Stand up Storybook against the custom elements the app actually ships, with the three luminance modes and a second theme wired in so the token contract is visible rather than asserted
+---
+[node:be6f7836-e1bf-4d8c-b543-9cf0c362a6a5]
+type: decision
+tier: mid-term
+path: /artifact/storybook-runs-the-web-components-render
+created_at: 2026-09-08T15:48:25.233911+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-08T15:48:25.233911+00:00
+-> DEPENDS_ON [node:77925b30-350a-42ee-a7de-7e8a023c5708] @ 2026-09-08T15:48:25.590140+00:00
+-> DEPENDS_ON [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-09-08T15:48:25.478741+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T15:48:25.233911+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T15:48:25.233911+00:00
+
+Storybook runs the web-components renderer rather than the Svelte one, because the components ship as custom elements and that is what the application loads. Rendering them in Storybook as internal Svelte components would exercise a form of the component the product never uses, and would stop catching the exact failure that has already happened once here: a build where the customElement option was silently dropped, so the element was never registered and the screen was blank while the build stayed green. Driving the registered element means a story that renders nothing is a story that has caught something real.
+---
+[node:25e3cb83-4527-4821-968d-b2f3f686dd9d]
+type: constraint
+tier: mid-term
+path: /artifact/storybook-configures-vite-plugin-svelte
+created_at: 2026-09-08T15:48:25.357406+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T15:48:25.357406+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T15:48:25.357406+00:00
+
+Storybook configures vite-plugin-svelte itself when it detects Svelte in the project, so a viteFinal hook that adds the plugin again compiles every component twice. The second pass feeds the compiler its own generated output and fails inside the component with a tag name error, which reads as a syntax error in the component rather than as a duplicated plugin - the misleading part is that the file it names is innocent. Check the plugin list before adding a framework plugin to a Storybook Vite config.
