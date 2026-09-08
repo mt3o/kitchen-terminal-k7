@@ -872,10 +872,10 @@ type: issue
 tier: mid-term
 path: /artifact/the-middleware-pipe-package-name-is-alre
 created_at: 2026-09-08T09:38:30.023885+00:00
-needs_review: true
+needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T09:38:30.023885+00:00
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:38:30.023885+00:00
 
@@ -910,6 +910,36 @@ source: agent-surface
 created_at: 2026-09-08T11:24:46.271853+00:00
 
 settled 2026-09-08: published as @mt3o/middleware-pipe 1.0.0, public - verified against the registry (dist-tag latest=1.0.0, access=public, version endpoint 200). The issue's claim that a new name is still needed is now false
+---
+[event:5cc043bf-83cd-485d-a420-38e88cd52ad4]
+node_id: 7835061e-c325-4e70-8051-105f22ff4f8a
+type: contradiction_cleared
+weight: 1.0
+polarity: 1
+source: gui-guided
+created_at: 2026-09-08T11:43:43.560365+00:00
+
+guided review: superseded
+---
+[event:7f358f0d-0807-4386-886f-9ee9331d9375]
+node_id: 7835061e-c325-4e70-8051-105f22ff4f8a
+type: archived
+weight: 0.0
+polarity: -1
+source: gui-guided
+created_at: 2026-09-08T11:43:43.560365+00:00
+
+guided review: superseded
+---
+[event:b49fa0e5-f8d0-4f64-9f37-a497c18f150a]
+node_id: 7835061e-c325-4e70-8051-105f22ff4f8a
+type: manual_review
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-09-08T11:43:43.560365+00:00
+
+guided resolve: recommended=superseded, chose=superseded: human ruled superseded: '@mt3o/middleware-pipe' is published at 1.0.0, public, verified against the registry (access=public, dist-tag latest=1.0.0, version endpoint 200). The issue's claim that a new name is still needed is false; its premise that the bare name was taken survives inside the replacement
 ---
 [node:40398c2a-b8e4-4721-b426-730e93b8a4d8]
 type: issue
@@ -1388,6 +1418,7 @@ trust_weight: 1.0
 archived: false
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T11:24:46.150128+00:00
 -> CONTRADICTS [node:7835061e-c325-4e70-8051-105f22ff4f8a] @ 2026-09-08T11:24:46.150128+00:00
+-> DEPENDS_ON [node:7835061e-c325-4e70-8051-105f22ff4f8a] @ 2026-09-08T11:43:43.560365+00:00
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T11:24:46.150128+00:00
 
 The middleware composition library ships as the scoped package @mt3o/middleware-pipe rather than a bare name, because the unscoped middleware-pipe was already taken on npm. Scoping was chosen over inventing a different bare name: it keeps the library's own identity readable, and it ends the naming race for everything else the project may publish. Version 1.0.0 is public from github.com/mt3o/middlewares with publishConfig.access set to public. npm never releases a published name for reuse, so this one is permanent. It clears the first of the two blockers on Faza 0; the empty vidataflux repository is the other.

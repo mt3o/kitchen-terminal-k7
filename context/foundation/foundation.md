@@ -99,8 +99,10 @@ adding an eleventh is a deliberate act, not a convenience.
 Ruled by the human in a `/gw-resolve` session, 2026-09-08. Recommendation and
 choice agreed on every item; the API journaled each write as `gui-guided`.
 
-**Promoted to lifetime — 31.** Every `constraint` and every `decision`. They now
-survive every sweep, which is the whole point of a foundation pass.
+**Promoted to lifetime — 31.** Every `constraint` and `decision` that existed at the
+time of the pass. They survive every sweep, which is the whole point of a foundation
+pass. Decisions captured *since* start at mid-term like anything else and need their
+own promotion — currently `MWPIPE` (`95f8d3a2`).
 
 | Group | Nodes |
 |---|---|
@@ -112,22 +114,31 @@ survive every sweep, which is the whole point of a foundation pass.
 | Product decisions | `TWOWIDGETS` `CAMERALOCAL` |
 | Process | `GITWORKFLOW` `TRACKERBIND` `VISIBLEPHASE` `DUMPMERGE` |
 
-**Left at mid-term — 8.** `MIDDLEWARE` `VIDATAFLUX` `TS7` `SWCACHE` `ZAKUPY`
-`SCHEMAV2ADOPT` `NIGHTSCHED` `DENSITY`. *(`MIDDLEWARE` was flagged CONTRADICTED on
-2026-09-08 when `@mt3o/middleware-pipe@1.0.0` was published — awaiting a ruling.)* Open issues should *close*; pinning them at
+**Left at mid-term — 7 issues.** `VIDATAFLUX` `TS7` `SWCACHE` `ZAKUPY`
+`SCHEMAV2ADOPT` `NIGHTSCHED` `DENSITY`. Open issues should *close*; pinning them at
 lifetime would serve the open-questions list into every recall forever, including
 long after the questions are answered.
 
-**Archived by ruling — 2.** `GITFLOW` and `PLEXMONO`, both `superseded`, with
-lineage recorded to `GITWORKFLOW` (`a17b142e`) and `SOURCECODE` (`75d638bb`).
+**Archived by ruling — 3.** All `superseded`, with lineage recorded:
+
+| Issue | Superseded by |
+|---|---|
+| `GITFLOW` `8a963777` | `GITWORKFLOW` `a17b142e` |
+| `PLEXMONO` `ee768ade` | `SOURCECODE` `75d638bb` |
+| `MIDDLEWARE` `7835061e` | `MWPIPE` `95f8d3a2` |
+
+The pattern is worth naming: an `issue` node earns its keep by being *closable*.
+Each of these was captured as an open gap, survived exactly as long as the gap did,
+and was retired by the decision that filled it. That is the lifecycle working, and
+it is why they were kept out of lifetime tier.
 
 ## Do not sweep yet
 
 `/gw-foundation` step 5 says to deactivate the foundation scope and sweep once
-promotion is done. **That is wrong for this project right now.** The 31 promoted
-nodes survive a sweep by design, but the 8 mid-term issues would go dormant — and
-two of them (`MIDDLEWARE`, `VIDATAFLUX`) are the live blockers on Faza 0. Sweeping
-would stop the project's own open questions from ranking into recall.
+promotion is done. **That is wrong for this project right now.** The promoted nodes
+survive a sweep by design, but the mid-term issues would go dormant — and `VIDATAFLUX`
+is the last live blocker on Faza 0. Sweeping would stop the project's own open
+questions from ranking into recall at precisely the moment they matter most.
 
 Keep the foundation scope active. Sweep when the issues have closed, not before.
 
