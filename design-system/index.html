@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pl" data-mode="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kitchen Terminal K7 — design system</title>
+<meta name="description" content="Index of the Kitchen Terminal K7 design system package: DESIGN.md, tokens, theme schema v2, themes, and the component kit.">
+<style>
+:root{
+  --font-ui:"Source Code Pro",ui-monospace,"SF Mono",Menlo,"Courier New",monospace;
+  --text-xs:14px;--text-sm:16px;--text-base:20px;--text-lg:24px;--text-xl:32px;
+  --glance-sm:48px;
+  --leading-body:1.45;--tracking-label:.12em;
+  --weight-medium:500;
+  --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;
+  --space-6:24px;--space-8:32px;--space-12:48px;--space-16:64px;
+  --radius:0;--border-w:1px;--border-w-strong:2px;
+  --control-h:56px;--control-h-sm:44px;
+  --motion-fast:120ms;--ease:cubic-bezier(.2,0,0,1);--blink-period:1.2s;
+  --focus-w:3px;--focus-offset:2px;
+  --bg:#1a1712;--bg-deep:#0f0d0a;--surface:#211d16;--surface-raised:#2d2922;--surface-sunken:#18140d;
+  --fg:#faab2f;--fg-muted:#888780;--fg-disabled:#65645d;
+  --border:#3a352b;--border-strong:#ba7517;
+  --accent:#faab2f;--accent-fg:#1a1712;--accent-hover:#ffc24d;--accent-active:#df9200;
+  --ghost-hover:#322e27;--ghost-active:#15120b;
+  --signal:#5dcaa5;--warn:#e08a3c;--fail:#e06138;--focus:#6ad6b0;
+  --wash-accent:rgba(250,171,47,.15);--wash-signal:rgba(93,202,165,.12);
+  color-scheme:dark;
+}
+@media (prefers-reduced-motion:reduce){:root{--motion-fast:0ms;--blink-period:0s}}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:linear-gradient(180deg,var(--bg) 0%,var(--bg-deep) 100%);
+  background-attachment:fixed;min-height:100vh;
+  color:var(--fg);font-family:var(--font-ui);font-size:var(--text-base);
+  line-height:var(--leading-body);-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:840px;margin:0 auto;padding:var(--space-12) var(--space-5) var(--space-16)}
+.hud-label{
+  font-size:var(--text-sm);font-weight:var(--weight-medium);text-transform:uppercase;
+  letter-spacing:var(--tracking-label);color:var(--fg-muted);
+}
+.meta{font-size:var(--text-xs);color:var(--fg-muted);font-variant-numeric:tabular-nums}
+.cursor{animation:blink var(--blink-period) steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+header{
+  border-bottom:var(--border-w-strong) solid var(--border-strong);
+  padding-bottom:var(--space-4);margin-bottom:var(--space-8);
+}
+.tag{
+  font-size:var(--text-sm);letter-spacing:var(--tracking-label);text-transform:uppercase;
+  padding:var(--space-1) var(--space-2);background:var(--wash-accent);
+}
+h1{font-size:var(--glance-sm);line-height:1.05;margin:var(--space-5) 0 var(--space-3);font-weight:var(--weight-medium)}
+header p{margin:0;max-width:62ch;color:var(--fg-muted);font-size:var(--text-base)}
+
+h2{
+  font-size:var(--text-sm);font-weight:var(--weight-medium);text-transform:uppercase;
+  letter-spacing:var(--tracking-label);color:var(--fg-muted);
+  margin:var(--space-12) 0 var(--space-4);padding-bottom:var(--space-2);
+  border-bottom:var(--border-w) solid var(--border);
+}
+
+.hero{
+  display:block;text-decoration:none;color:var(--fg);
+  background:var(--surface);padding:var(--space-5);
+  box-shadow:inset 0 0 0 var(--border-w-strong) var(--border-strong);
+  transition:background-color var(--motion-fast) var(--ease);
+}
+.hero:hover{background:var(--ghost-hover)}
+.hero:focus{outline:var(--focus-w) solid var(--focus);outline-offset:var(--focus-offset)}
+@supports selector(:focus-visible){.hero:focus:not(:focus-visible){outline:none}}
+.hero-top{display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-3);margin-bottom:var(--space-3)}
+.hero h3{font-size:var(--text-lg);margin:0 0 var(--space-2);font-weight:var(--weight-medium)}
+.hero p{margin:0;color:var(--fg-muted);font-size:var(--text-sm);max-width:58ch}
+.hero-cta{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:var(--control-h);padding:0 var(--space-5);margin-top:var(--space-4);
+  background:var(--accent);color:var(--accent-fg);font-weight:var(--weight-medium);
+}
+.hero:hover .hero-cta{background:var(--accent-hover)}
+
+ul.files{list-style:none;margin:0;padding:0;border-top:var(--border-w) solid var(--border)}
+ul.files li{border-bottom:var(--border-w) solid var(--border)}
+ul.files a,ul.files span.nolink{
+  display:flex;flex-wrap:wrap;gap:var(--space-2) var(--space-4);align-items:baseline;
+  padding:var(--space-3) var(--space-2);min-height:var(--control-h-sm);
+  color:var(--fg);text-decoration:none;
+  transition:background-color var(--motion-fast) var(--ease);
+}
+ul.files a:hover{background:var(--ghost-hover)}
+ul.files a:focus{outline:var(--focus-w) solid var(--focus);outline-offset:calc(var(--focus-offset) * -1)}
+@supports selector(:focus-visible){ul.files a:focus:not(:focus-visible){outline:none}}
+ul.files .name{flex:0 0 260px;font-size:var(--text-base)}
+ul.files .desc{flex:1;min-width:200px;font-size:var(--text-sm);color:var(--fg-muted)}
+
+.note-box{background:var(--surface);padding:var(--space-4) var(--space-5);margin:var(--space-8) 0 0;
+  box-shadow:inset 0 0 0 var(--border-w) var(--border-strong)}
+.note-box .hud-label{display:block;margin-bottom:var(--space-2)}
+.note-box p{margin:0;font-size:var(--text-sm);color:var(--fg-muted)}
+
+footer{margin-top:var(--space-16);padding-top:var(--space-4);border-top:var(--border-w) solid var(--border)}
+@media (max-width:640px){
+  h1{font-size:var(--text-xl)}
+  ul.files .name{flex:1 0 100%}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header data-od-id="index-header">
+  <div style="display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-3)">
+    <span class="tag">K7.DESIGN.SYSTEM</span>
+    <span class="meta">v1 // <span class="cursor">&#9608;</span></span>
+  </div>
+  <h1>Kitchen Terminal K7</h1>
+  <p>
+    System projektowy dla kuchennego kiosku na iPadzie Air 2. Bursztynowy fosfor
+    na ciepłym węglu, monospace, zero zaokrągleń, brak cieni. Trzy tryby
+    luminancji, baseline Safari 15.0.
+  </p>
+</header>
+
+<a class="hero" href="kitchen-terminal-k7-kit.html" data-od-id="cta-kit">
+  <div class="hero-top">
+    <span class="hud-label">specyfikacja normatywna</span>
+    <span class="meta">HTML // interaktywne</span>
+  </div>
+  <h3>Component kit</h3>
+  <p>
+    Wszystkie komponenty, stany i karty produktu w trzech trybach. Kontrast
+    liczony na żywo z wartości obliczonych przez przeglądarkę — przełącz tryb
+    i liczby przeliczą się same. Gdy proza i kit się różnią, rozstrzyga kit.
+  </p>
+  <span class="hero-cta">[ OTWÓRZ KIT ]</span>
+</a>
+
+<h2>Pakiet</h2>
+<ul class="files" data-od-id="file-list">
+  <li><a href="DESIGN.md">
+    <span class="name">DESIGN.md</span>
+    <span class="desc">Intencja, reguła atrament/sygnał, wyprowadzenie kontrastu, budżet Safari 15. Czytaj pierwsze.</span></a></li>
+  <li><a href="tokens.css">
+    <span class="name">tokens.css</span>
+    <span class="desc">129 tokenów, trzy tryby. Jedyne miejsce, w którym wolno zadeklarować kolor.</span></a></li>
+  <li><a href="theme.schema.v2.yaml">
+    <span class="name">theme.schema.v2.yaml</span>
+    <span class="desc">Ścisły nadzbiór istniejącego schematu: tryb night, brakujące role, stany, skala, ruch.</span></a></li>
+  <li><a href="themes/retro-scifi.yaml">
+    <span class="name">themes/retro-scifi.yaml</span>
+    <span class="desc">Motyw kanoniczny. Każda rola oznaczona KEPT / FIXED / NEW z mierzonym kontrastem.</span></a></li>
+  <li><a href="themes/daylight-lab.yaml">
+    <span class="name">themes/daylight-lab.yaml</span>
+    <span class="desc">Motyw kontrolny — jasny, zaokrąglony, niebieski. Dowód, że podmiana faktycznie działa.</span></a></li>
+  <li><a href="design-tokens.json">
+    <span class="name">design-tokens.json</span>
+    <span class="desc">Postać maszynowa dla loadera motywu i Storybooka.</span></a></li>
+  <li><a href="tailwind-v4.css">
+    <span class="name">tailwind-v4.css</span>
+    <span class="desc">Bindingi <code>@theme</code> plus mixiny <code>k7-*</code>, zgodnie z TECH-STACK.md.</span></a></li>
+  <li><a href="USAGE.md">
+    <span class="name">USAGE.md</span>
+    <span class="desc">Kolejność czytania, do/avoid, komenda lintu na wycieki hexów.</span></a></li>
+</ul>
+
+<div class="note-box" data-od-id="note-scope">
+  <span class="hud-label">zmiany wobec wireframe'ów</span>
+  <p>
+    Paleta ciemna przeszła
+    audyt bez zmian. Poprawiono trzy role w trybie jasnym (nie spełniały WCAG AA
+    jako tekst), podniesiono domyślny stopień pisma z 13 na 20 px dla dystansu
+    1 m, dołożono tryb nocny, warstwę stanów interakcji i role, których stary
+    schemat nie miał. Szczegóły i otwarte pytania — na końcu DESIGN.md.
+  </p>
+</div>
+
+<footer>
+  <p class="meta">
+    źródło: handoff-1.zip — HANDOFF.md, TECH-STACK.md, PLAN.md,
+    theme.schema.yaml, layout.schema.yaml, wireframes 01–06
+  </p>
+</footer>
+
+</div>
+</body>
+</html>

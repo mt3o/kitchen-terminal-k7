@@ -19,6 +19,7 @@ Keep them in Polish when editing; code, identifiers and commit messages are Engl
 | `docs/handoff/retro-scifi.yaml` | the default theme instance |
 | `docs/handoff/layout.example.yaml` | worked example of a full layout |
 | `docs/handoff/*.html` | standalone wireframes (open directly in a browser) |
+| `design-system/` | the built design system — `DESIGN.md` is normative prose, `kitchen-terminal-k7-kit.html` is the normative component spec, `tokens.css` is the only place a colour is defined |
 | `docs/icons/` | logo assets + usage notes |
 | `context/` | graph-workflow lifecycle files — see `context/README.md` |
 

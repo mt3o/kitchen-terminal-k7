@@ -1,0 +1,136 @@
+/* Kitchen Terminal K7 — Tailwind v4 bindings.
+ * Derived from tokens.css. tokens.css stays the source of truth.
+ *
+ * TECH-STACK.md specifies "Tailwind CSS, klasy grupowane w mixiny". This maps
+ * every utility onto the same variables the Svelte custom elements read, so a
+ * `bg-surface` in markup and a `var(--surface)` in a component's shadow DOM
+ * resolve to the same value and switch together when the theme swaps.
+ *
+ * Utilities inherit the mode automatically: --bg etc. are re-declared per
+ * [data-mode], so no dark: variants are needed anywhere in the product.
+ */
+
+@import "tailwindcss";
+@import "./tokens.css";
+
+@theme {
+  /* colour */
+  --color-bg: var(--bg);
+  --color-bg-deep: var(--bg-deep);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-disabled: var(--fg-disabled);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-active: var(--accent-active);
+  --color-ghost-hover: var(--ghost-hover);
+  --color-ghost-active: var(--ghost-active);
+  --color-signal: var(--signal);
+  --color-warn: var(--warn);
+  --color-fail: var(--fail);
+  --color-focus: var(--focus);
+  --color-wash-accent: var(--wash-accent);
+  --color-wash-signal: var(--wash-signal);
+  --color-wash-fail: var(--wash-fail);
+  --color-scrim: var(--scrim);
+
+  /* type — one family, two tiers */
+  --font-ui: var(--font-ui);
+  --font-mono: var(--font-mono);
+  --text-xs: var(--text-xs);
+  --text-sm: var(--text-sm);
+  --text-base: var(--text-base);
+  --text-lg: var(--text-lg);
+  --text-xl: var(--text-xl);
+  --text-glance-sm: var(--glance-sm);
+  --text-glance-md: var(--glance-md);
+  --text-glance-lg: var(--glance-lg);
+  --leading-body: var(--leading-body);
+  --leading-tight: var(--leading-tight);
+  --leading-glance: var(--leading-glance);
+  --tracking-label: var(--tracking-label);
+  --tracking-glance: var(--tracking-glance);
+  --font-weight-regular: var(--weight-regular);
+  --font-weight-medium: var(--weight-medium);
+  --font-weight-bold: var(--weight-bold);
+
+  /* space */
+  --spacing-1: var(--space-1);
+  --spacing-2: var(--space-2);
+  --spacing-3: var(--space-3);
+  --spacing-4: var(--space-4);
+  --spacing-5: var(--space-5);
+  --spacing-6: var(--space-6);
+  --spacing-8: var(--space-8);
+  --spacing-12: var(--space-12);
+  --spacing-16: var(--space-16);
+  --spacing-card: var(--card-pad);
+  --spacing-grid-gap: var(--grid-gap);
+
+  /* shape — radius is 0 by design; the scale exists so an alternate theme
+     (themes/daylight-lab.yaml) can raise it without touching a component */
+  --radius-none: var(--radius);
+  --radius-sm: var(--radius);
+  --radius-md: var(--radius);
+  --radius-lg: var(--radius);
+
+  /* controls */
+  --height-control: var(--control-h);
+  --height-control-sm: var(--control-h-sm);
+  --width-sidebar: var(--sidebar-w);
+
+  /* motion */
+  --duration-fast: var(--motion-fast);
+  --duration-base: var(--motion-base);
+  --duration-slow: var(--motion-slow);
+  --ease-standard: var(--ease);
+
+  /* breakpoints — the design target is 1024x768 (iPad Air 2 landscape) */
+  --breakpoint-tablet: 768px;
+  --breakpoint-kiosk: 1024px;
+}
+
+/* --- Component-layer mixins ----------------------------------------------
+ * The grouped classes TECH-STACK.md asks for. Extend here rather than
+ * repeating token lookups across Svelte components.
+ * ------------------------------------------------------------------------- */
+
+@layer components {
+  .k7-card {
+    @apply bg-surface p-card;
+    box-shadow: inset 0 0 0 var(--border-w-strong, 2px) var(--border-strong);
+    border-radius: var(--radius);
+    min-height: var(--card-min-h);
+  }
+
+  .k7-hud-label {
+    @apply text-sm font-medium uppercase text-fg-muted;
+    letter-spacing: var(--tracking-label);
+  }
+
+  .k7-readout {
+    @apply text-glance-md text-fg;
+    font-variant-numeric: tabular-nums;
+    line-height: var(--leading-glance);
+    letter-spacing: var(--tracking-glance);
+  }
+
+  .k7-focusable:focus {
+    outline: var(--focus-w) solid var(--focus);
+    outline-offset: var(--focus-offset);
+  }
+}
+
+/* Safari 15.0 has no :focus-visible. Ship :focus, then narrow it where the
+   browser does support the pseudo-class, so 15.0 still gets a visible ring. */
+@supports selector(:focus-visible) {
+  @layer components {
+    .k7-focusable:focus:not(:focus-visible) { outline: none; }
+  }
+}

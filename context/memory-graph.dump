@@ -36,6 +36,7 @@ archived: false
 -> SCOPED_TO [node:9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0] @ 2026-09-08T09:37:22.142396+00:00
 -> SCOPED_TO [node:9ea20285-de89-4f25-a25e-37700078bd59] @ 2026-09-08T09:38:01.797947+00:00
 -> SCOPED_TO [node:a17b142e-850e-4cdb-8d84-2689e75428a7] @ 2026-09-08T09:55:55.888852+00:00
+-> SCOPED_TO [node:a1d42a8e-6fb1-493c-b5ef-003288aa28f2] @ 2026-09-08T09:59:26.697299+00:00
 -> SCOPED_TO [node:a815b136-0de2-49af-ac42-6192c12def24] @ 2026-09-08T09:38:00.810299+00:00
 -> SCOPED_TO [node:a827e6ec-aec4-40a7-b922-c689d71066a3] @ 2026-09-08T09:37:37.091684+00:00
 -> SCOPED_TO [node:ac006a24-2763-40e7-8423-2b851793efcf] @ 2026-09-08T09:36:59.394279+00:00
@@ -98,6 +99,7 @@ archived: false
 -> DEPENDS_ON [node:9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0] @ 2026-09-08T09:37:22.142396+00:00
 -> DEPENDS_ON [node:9ea20285-de89-4f25-a25e-37700078bd59] @ 2026-09-08T09:38:01.797947+00:00
 -> DEPENDS_ON [node:a17b142e-850e-4cdb-8d84-2689e75428a7] @ 2026-09-08T09:55:55.888852+00:00
+-> DEPENDS_ON [node:a1d42a8e-6fb1-493c-b5ef-003288aa28f2] @ 2026-09-08T09:59:26.697299+00:00
 -> DEPENDS_ON [node:a815b136-0de2-49af-ac42-6192c12def24] @ 2026-09-08T09:38:00.810299+00:00
 -> DEPENDS_ON [node:a827e6ec-aec4-40a7-b922-c689d71066a3] @ 2026-09-08T09:37:37.091684+00:00
 -> DEPENDS_ON [node:ac006a24-2763-40e7-8423-2b851793efcf] @ 2026-09-08T09:36:59.394279+00:00
@@ -885,3 +887,18 @@ archived: false
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:55:56.268439+00:00
 
 context/memory-graph.dump is marked -merge in .gitattributes so git never line-merges it. Git aligns similar blocks and shows only their differing lines, so a three-way merge of the dump can splice half of one node's entry onto half of another and produce a store that parses and is wrong. The documented recovery, agentic-memory sync resolve, does not exist in the installed CLI - sync accepts only status, dump and restore - so a conflict is resolved by keeping one side whole, running sync restore to rebuild the database from it, and re-capturing whatever the discarded side held.
+---
+[node:a1d42a8e-6fb1-493c-b5ef-003288aa28f2]
+type: decision
+tier: mid-term
+path: /artifact/the-design-system-package-design-md-t
+created_at: 2026-09-08T09:59:26.697299+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-09-08T09:59:26.697299+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:59:26.697299+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:59:26.697299+00:00
+
+The design-system package - DESIGN.md, tokens.css, design-tokens.json, the Tailwind bindings, the v2 theme schema, both theme files and the component kit - lives at design-system/ in the repository root rather than under docs/, because tokens.css and the theme YAMLs are build inputs the theme loader reads, not handoff archaeology. The OpenDesign project of the same name is kept as a byte-identical flat mirror for working and previewing; syncing is a plain directory copy in either direction and diff -r is the check. Giving the package a home deliberately did not decide whether the v2 schema replaces the v1 contract - both are tracked and neither is retired.

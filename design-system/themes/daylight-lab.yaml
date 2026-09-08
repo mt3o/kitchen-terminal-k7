@@ -1,0 +1,76 @@
+# Kitchen Terminal K7 — alternate theme: "Daylight Lab"
+#
+# This file exists to make the theming claim in HANDOFF.md testable rather than
+# aspirational. Point layout.yaml at it and the entire product changes with no
+# code edit and no component change:
+#
+#   theme: "design-system/themes/daylight-lab.yaml"
+#
+# It deliberately breaks every stylistic assumption of the retro theme — light
+# by default, rounded, cool blue accent, no HUD frame, no cursor — precisely to
+# prove the components are reading tokens and nothing else. If anything still
+# renders amber or square, that component is violating the contract.
+#
+# Palette derived the same way: OKLCH at fixed hue/chroma, lightness walked
+# until AA is met, output as hex. Ratios measured against that mode's surface.
+
+name: "Daylight Lab"
+schemaVersion: 2
+
+typography:
+  fontFamily: "'Source Code Pro', ui-monospace, 'SF Mono', Menlo, monospace"
+  baseSizePx: 20
+  letterSpacingLabelsPx: 1
+  scale:
+    read:   { xs: 14, sm: 16, base: 20, lg: 24, xl: 32 }
+    glance: { sm: 48, md: 72, lg: 112 }
+  weights: { regular: 400, medium: 500, bold: 600 }
+
+colors:
+  background:     { light: "#eef1f5", dark: "#12161c", night: "#05070a" }
+  backgroundDeep: { light: "#dfe4eb", dark: "#0b0e13", night: "#020305" }
+  surface:        { light: "#f7f9fb", dark: "#1a1f27", night: "#0b0e13" }
+  surfaceRaised:  { light: "#ffffff", dark: "#242a34", night: "#141922" }
+  surfaceSunken:  { light: "#e8ecf1", dark: "#12161c", night: "#05070a" }
+
+  textPrimary:  { light: "#1c2128", dark: "#e6ebf2", night: "#a8b2bf" }  # 15.34 / 13.81 /  9.01
+  textMuted:    { light: "#5f6773", dark: "#98a1ae", night: "#767e8a" }  #  5.42 /  6.34 /  4.71
+  textDisabled: { light: "#9aa2ad", dark: "#5b626c", night: "#3a4048" }
+
+  border:       { light: "#d3d8e0", dark: "#2c333d", night: "#1d222a" }
+  borderStrong: { light: "#606a74", dark: "#4d5765", night: "#39424e" }  #  5.22 (>=3 required)
+
+  accent:   { light: "#1b5fbe", dark: "#6aa8f5", night: "#4d84c9" }      #  5.81 /  6.72 /  5.03
+  accentFg: { light: "#ffffff", dark: "#12161c", night: "#05070a" }      #  6.13 /  7.37 /  5.24 on accent
+
+  accentSecondary: { light: "#0a6f63", dark: "#4fc7b6", night: "#3a9a8c" }
+  signal:          { light: "#0a6f63", dark: "#4fc7b6", night: "#3a9a8c" }  #  5.74 /  8.02 /  5.69
+
+  warn:   { light: "#8a4700", dark: "#e5964a", night: "#b8763a" }        #  6.67 /  6.93 /  5.24
+  danger: { light: "#a32218", dark: "#f0705f", night: "#c55b4e" }        #  7.11 /  5.66 /  4.58
+  focus:  { light: "#1b5fbe", dark: "#6aa8f5", night: "#4d84c9" }
+
+states:
+  accentHover:  { light: "#164da0", dark: "#8bbdf8", night: "#6699d6" }
+  accentActive: { light: "#113d80", dark: "#4d90e8", night: "#3a6ea8" }
+  ghostHover:   { light: "#e8ecf1", dark: "#242a34", night: "#141922" }
+  ghostActive:  { light: "#dae0e8", dark: "#12161c", night: "#05070a" }
+
+shape:
+  borderRadiusPx: 8       # <- the visible proof. Retro theme is 0.
+  borderWidthPx: 1
+  borderWidthStrongPx: 1
+  hudBrackets: false
+
+spacing:      { basePx: 4, gridGapPx: 16, cardPaddingPx: 20, cardMinHeightPx: 240 }
+controls:     { heightPx: 56, heightSmallPx: 44, focusRingWidthPx: 3, focusRingOffsetPx: 2 }
+layout:       { targetViewportPx: 1024, sidebarWidthPx: 260, breakpointTabletPx: 768, breakpointDesktopPx: 1024 }
+motion:       { fastMs: 120, baseMs: 200, slowMs: 400, easing: "cubic-bezier(0.2, 0, 0, 1)", blinkPeriodMs: 1200 }
+nightMode:    { enabled: true, trigger: sun, startTime: "22:00", endTime: "06:00" }
+density:      { default: normal, largeScaleFactor: 1.2 }
+
+transparency: { surfaceOpacity: 1, backdropBlurPx: 0 }
+boxShadow: []             # <- no HUD frame. Elevation is border + surface step.
+effects:
+  blinkingCursor: false   # <- no cursor
+  scanlines: false

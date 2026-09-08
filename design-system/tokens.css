@@ -1,0 +1,249 @@
+/* ===========================================================================
+ * Kitchen Terminal K7 — token layer
+ * ---------------------------------------------------------------------------
+ * SOURCE OF TRUTH for every colour, size, and duration in the product.
+ * Components read these variables. Components never hard-code a colour, font,
+ * radius, or duration. This is the contract from HANDOFF.md ("Theming").
+ *
+ * Generated from design-system/themes/<name>.yaml by the theme loader
+ * (PLAN.md, Faza 1). Swapping the design = swapping that one YAML file.
+ *
+ * SHIPPED VALUES ARE HEX, NOT oklch().
+ * The palette is *derived* in OKLCH (every step is documented in DESIGN.md §3)
+ * but oklch() only landed in Safari 15.4 and the deployment baseline is
+ * Safari 15.0 (iPad Air 2 / iPhone 6s, TECH-STACK.md). Same reason there is no
+ * color-mix() anywhere: every hover/active value below is precomputed.
+ * =========================================================================== */
+
+/* --- 1. Mode-independent structure ---------------------------------------- */
+
+:root {
+  /* Type family — one family only. Hierarchy comes from weight, size and
+     tracking, never from a second display face. Self-host the woff2 from the
+     LAN backend; the iPad has no reliable route to a font CDN. */
+  --font-ui: "Source Code Pro", ui-monospace, "SF Mono", Menlo, "Courier New", monospace;
+  --font-mono: var(--font-ui);
+
+  /* Read tier — consumed at 0.4-1.0 m, hands on the glass. */
+  --text-xs: 14px;   /* meta only: token counts, timestamps, seed values */
+  --text-sm: 16px;   /* secondary labels, list meta */
+  --text-base: 20px; /* DEFAULT body. 6.9 arcmin at 1 m — see DESIGN.md §4 */
+  --text-lg: 24px;   /* card titles, list primary text */
+  --text-xl: 32px;   /* card headline numbers */
+
+  /* Glance tier — consumed at 1.5-3.0 m, from the kitchen doorway. */
+  --glance-sm: 48px; /* 8.2 arcmin at 2 m */
+  --glance-md: 72px; /* timer countdown, current temperature */
+  --glance-lg: 112px;/* clock in slideshow / idle mode */
+
+  --leading-body: 1.45;
+  --leading-tight: 1.15;
+  --leading-glance: 1.0;
+
+  /* HUD labels: uppercase + wide tracking. 0.12em == 2px at 16px, which is
+     the letterSpacingLabelsPx: 2 already accepted in retro-scifi.yaml. */
+  --tracking-label: 0.12em;
+  --tracking-glance: -0.01em;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-bold: 600;
+
+  /* Spacing — 4px base grid. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;   /* layout.example.yaml grid gap */
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Shape — sharp. borderRadiusPx: 0 is a locked decision (HANDOFF.md). */
+  --radius: 0;
+
+  /* Borders. Hairline separates content; the 2px inset ring IS the HUD frame. */
+  --border-w: 1px;
+  --border-w-strong: 2px;
+
+  /* Touch. This is a touch-only kiosk, often operated with wet or greasy
+     hands, so the primary control is pushed well past the 44px iOS floor. */
+  --control-h: 56px;
+  --control-h-sm: 44px;
+  --control-pad-x: var(--space-4);
+  --tap-slop: 8px;
+
+  /* Layout. Design target is the iPad Air 2 in landscape: 1024x768 CSS px. */
+  --sidebar-w: 260px;
+  --grid-gap: var(--space-3);
+  --card-pad: var(--space-5);
+  --card-min-h: 240px;
+  --viewport-target: 1024px;
+
+  /* Motion. On an A8X only opacity and transform are safe to animate. */
+  --motion-fast: 120ms;
+  --motion-base: 200ms;
+  --motion-slow: 400ms;   /* slideshow crossfade */
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --blink-period: 1.2s;
+
+  /* Focus ring geometry. Every focusable control gets one — non-negotiable. */
+  --focus-w: 3px;
+  --focus-offset: 2px;
+
+  color-scheme: dark;
+}
+
+/* --- 2. DARK — the default kiosk mode -------------------------------------
+ * These are the values accepted in wireframes/02-hud-retro-scifi.html, kept
+ * verbatim where they already pass WCAG. Only the missing roles are new.
+ * -------------------------------------------------------------------------- */
+
+:root,
+[data-mode="dark"] {
+  --bg: #1a1712;
+  --bg-deep: #0f0d0a;          /* gradient terminus, page only */
+  --surface: #211d16;
+  --surface-raised: #2d2922;   /* nested boxes inside a card */
+  --surface-sunken: #18140d;   /* input wells, log gutters */
+
+  --fg: #faab2f;               /* amber phosphor. This is INK, not accent. */
+  --fg-muted: #888780;         /* labels, meta            4.65:1 on surface */
+  --fg-disabled: #65645d;      /* disabled only           2.82:1 — see §2.4 */
+
+  --border: #3a352b;           /* hairline, structural */
+  --border-strong: #ba7517;    /* the 2px HUD frame       4.51:1 on surface */
+
+  --accent: #faab2f;
+  --accent-fg: #1a1712;        /* on solid amber          9.30:1 */
+  --accent-hover: #ffc24d;     /* +0.05 L                11.13:1 with fg */
+  --accent-active: #df9200;    /* -0.08 L                 7.02:1 with fg */
+
+  --ghost-hover: #322e27;      /* +0.07 L from surface    7.03:1 with fg */
+  --ghost-active: #15120b;     /* -0.05 L from surface */
+
+  --signal: #5dcaa5;           /* teal. OK / online / done    8.35:1 */
+  --warn: #e08a3c;             /* attention, not failure      6.29:1 */
+  --fail: #e06138;             /* error / destructive         4.74:1 */
+  --focus: #6ad6b0;
+
+  --wash-accent: rgba(250, 171, 47, 0.15);  /* tag chips */
+  --wash-signal: rgba(93, 202, 165, 0.12);  /* own chat messages */
+  --wash-fail: rgba(224, 97, 56, 0.12);
+  --scrim: rgba(15, 13, 10, 0.86);          /* slideshow / dialog backdrop */
+
+  color-scheme: dark;
+}
+
+/* --- 3. LIGHT — daytime, sun on the kitchen wall --------------------------
+ * The light values in the original wireframe failed WCAG AA as body text
+ * (amber 3.32:1, teal 3.03:1, muted 3.22:1). Corrected by walking OKLCH
+ * lightness down at constant hue and chroma — see DESIGN.md §3.3.
+ * -------------------------------------------------------------------------- */
+
+[data-mode="light"] {
+  --bg: #f4f2ec;
+  --bg-deep: #e7e3d8;
+  --surface: #faf8f3;
+  --surface-raised: #ffffff;
+  --surface-sunken: #efece4;
+
+  --fg: #2c2c2a;               /*                        12.50:1 on bg */
+  --fg-muted: #6a6963;         /* was #888780 (3.22)      4.92:1 on bg */
+  --fg-disabled: #878680;
+
+  --border: #c9c5ba;
+  --border-strong: #935100;    /* was #ba7517 (3.32)      5.49:1 on bg */
+
+  --accent: #995600;           /* was #ba7517             5.09:1 on bg */
+  --accent-fg: #ffffff;        /* on solid amber          5.70:1 */
+  --accent-hover: #834200;     /* -0.07 L                 7.65:1 with fg */
+  --accent-active: #733300;    /* -0.12 L                 9.53:1 with fg */
+
+  --ghost-hover: #ebebeb;
+  --ghost-active: #dbdbdb;
+
+  --signal: #007853;           /* was #1d9e75 (3.03)      4.92:1 on bg */
+  --warn: #9e3800;             /*                         6.21:1 on bg */
+  --fail: #9e2511;             /*                         6.88:1 on bg */
+  --focus: #995600;
+
+  --wash-accent: rgba(153, 86, 0, 0.10);
+  --wash-signal: rgba(0, 120, 83, 0.10);
+  --wash-fail: rgba(158, 37, 17, 0.10);
+  --scrim: rgba(44, 44, 42, 0.72);
+
+  color-scheme: light;
+}
+
+/* --- 4. NIGHT — 22:00-06:00, nobody wants a lamp on the wall --------------
+ * Not a third brand. Same hues, 8.8x lower page luminance (0.88% -> 0.10%),
+ * with every ratio still at or above AA. This is what the schema is missing:
+ * a colourPair of {light, dark} cannot express it. See theme.schema.v2.yaml.
+ * -------------------------------------------------------------------------- */
+
+[data-mode="night"] {
+  --bg: #050301;
+  --bg-deep: #020100;
+  --surface: #090703;
+  --surface-raised: #120f09;
+  --surface-sunken: #030201;
+
+  --fg: #cd8817;               /*                         6.83:1 on surface */
+  --fg-muted: #7e7a72;         /*                         4.71:1 */
+  --fg-disabled: #403d36;
+
+  --border: #221f19;
+  --border-strong: #95581d;    /*                         3.54:1 (UI, >=3) */
+
+  --accent: #cd8817;
+  --accent-fg: #050301;        /*                         6.99:1 */
+  --accent-hover: #e49e38;     /*                         8.86:1 with fg */
+  --accent-active: #b37000;    /*                         5.02:1 with fg */
+
+  --ghost-hover: #18160f;      /*                         6.14:1 with fg */
+  --ghost-active: #030201;
+
+  --signal: #3e9979;           /*                         5.79:1 */
+  --warn: #be6438;             /*                         4.86:1 */
+  --fail: #d15d4d;             /*                         5.16:1 */
+  --focus: #52ac8b;
+
+  --wash-accent: rgba(205, 136, 23, 0.12);
+  --wash-signal: rgba(62, 153, 121, 0.12);
+  --wash-fail: rgba(209, 93, 77, 0.12);
+  --scrim: rgba(2, 1, 0, 0.90);
+
+  color-scheme: dark;
+}
+
+/* --- 5. Density override --------------------------------------------------
+ * Not an accessibility bolt-on: a token-layer mode. Nothing in the product may
+ * assume a fixed height that clips when the scale grows.
+ * -------------------------------------------------------------------------- */
+
+[data-density="large"] {
+  --text-xs: 16px;
+  --text-sm: 18px;
+  --text-base: 24px;
+  --text-lg: 28px;
+  --text-xl: 40px;
+  --glance-sm: 56px;
+  --glance-md: 88px;
+  --glance-lg: 128px;
+  --control-h: 64px;
+  --control-h-sm: 52px;
+  --card-min-h: 280px;
+}
+
+/* --- 6. Motion opt-out ---------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-fast: 0ms;
+    --motion-base: 0ms;
+    --motion-slow: 0ms;
+    --blink-period: 0s;   /* cursor holds solid instead of blinking */
+  }
+}

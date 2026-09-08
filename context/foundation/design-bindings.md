@@ -11,20 +11,37 @@ tool regenerates is guaranteed to be destroyed eventually.
 2026-09-08, refreshed the same day after the Source Code Pro settlement moved §4.1, §4.2 and the open-questions list. The rule *text* is fingerprinted, never the token values, so a
 repalette does not read as a changed rule.
 
-## ⚠ The package has no tracked home
+## Where the package lives
 
-`DESIGN.md`, `tokens.css`, `design-tokens.json`, `tailwind-v4.css`,
-`theme.schema.v2.yaml`, both theme files and `kitchen-terminal-k7-kit.html` live
-only inside the OpenDesign daemon store:
+`design-system/` in this repository is the source of truth:
+
+```
+design-system/
+  DESIGN.md  USAGE.md  manifest.json
+  tokens.css  design-tokens.json  tailwind-v4.css
+  theme.schema.v2.yaml
+  themes/retro-scifi.yaml  themes/daylight-lab.yaml
+  kitchen-terminal-k7-kit.html   index.html
+```
+
+The OpenDesign project `kitchen-terminal-k7-design-system` is a **byte-identical
+mirror**, flat at its project root, kept as the working and preview surface:
 
 ```
 ~/Applications/opendesign/open-design/.od/projects/kitchen-terminal-k7-design-system/
 ```
 
-That is outside this repository and outside version control. Until it is given a
-tracked home, every fingerprint below points at a file no `git` operation can
-restore. Deciding that home is entangled with `SCHEMAV2ADOPT` — see
-`foundation.md`.
+Syncing is a plain copy in either direction — `cp -r design-system/. <od-dir>/`
+to push, the reverse to pull — and `diff -r` between them is the check. Edit in
+whichever surface suits the task, then sync and commit; a divergence that is not
+reconciled before a commit is what puts the graph out of step with the files.
+
+Fingerprints below are taken from the **repository** copy.
+
+> Whether the v2 theme schema is *adopted* — replacing `docs/handoff/theme.schema.yaml`
+> and `docs/handoff/themes/retro-scifi.yaml` as the contract the Faza 1 loader
+> validates against — is still open (`SCHEMAV2ADOPT`). Giving the package a home
+> did not decide it; both versions are tracked and neither has been retired.
 
 ## Bindings
 
@@ -56,3 +73,5 @@ conventions), `§6` (breakpoint table), `§8` (component roster), `§13` (voice)
 These are values and rosters, not claims you can disagree with — they belong in the
 files and in the component kit, which `USAGE.md` names as normative when prose and
 kit disagree. Capturing them would fill recall with restated obviousness.
+
+<!--   design-system home + OD mirror ........ a1d42a8e-6fb1-493c-b5ef-003288aa28f2 -->

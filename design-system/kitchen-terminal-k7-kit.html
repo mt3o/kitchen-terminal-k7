@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="pl" data-mode="dark" data-density="normal">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kitchen Terminal K7 — component kit</title>
+<meta name="description" content="Normative component specification for the Kitchen Terminal K7 design system. Amber-phosphor HUD, three luminance modes, Safari 15 baseline.">
+<style>
+/* ===== TOKENS — verbatim from design-system/tokens.css ==================== */
+:root{
+  --font-ui:"Source Code Pro",ui-monospace,"SF Mono",Menlo,"Courier New",monospace;
+  --font-mono:var(--font-ui);
+  --text-xs:14px;--text-sm:16px;--text-base:20px;--text-lg:24px;--text-xl:32px;
+  --glance-sm:48px;--glance-md:72px;--glance-lg:112px;
+  --leading-body:1.45;--leading-tight:1.15;--leading-glance:1;
+  --tracking-label:.12em;--tracking-glance:-.01em;
+  --weight-regular:400;--weight-medium:500;--weight-bold:600;
+  --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;
+  --space-6:24px;--space-8:32px;--space-12:48px;--space-16:64px;
+  --radius:0;--border-w:1px;--border-w-strong:2px;
+  --control-h:56px;--control-h-sm:44px;--control-pad-x:var(--space-4);--tap-slop:8px;
+  --sidebar-w:260px;--grid-gap:var(--space-3);--card-pad:var(--space-5);
+  --card-min-h:240px;--viewport-target:1024px;
+  --motion-fast:120ms;--motion-base:200ms;--motion-slow:400ms;
+  --ease:cubic-bezier(.2,0,0,1);--blink-period:1.2s;
+  --focus-w:3px;--focus-offset:2px;
+  color-scheme:dark;
+}
+:root,[data-mode="dark"]{
+  --bg:#1a1712;--bg-deep:#0f0d0a;--surface:#211d16;--surface-raised:#2d2922;--surface-sunken:#18140d;
+  --fg:#faab2f;--fg-muted:#888780;--fg-disabled:#65645d;
+  --border:#3a352b;--border-strong:#ba7517;
+  --accent:#faab2f;--accent-fg:#1a1712;--accent-hover:#ffc24d;--accent-active:#df9200;
+  --ghost-hover:#322e27;--ghost-active:#15120b;
+  --signal:#5dcaa5;--warn:#e08a3c;--fail:#e06138;--focus:#6ad6b0;
+  --wash-accent:rgba(250,171,47,.15);--wash-signal:rgba(93,202,165,.12);--wash-fail:rgba(224,97,56,.12);
+  --scrim:rgba(15,13,10,.86);color-scheme:dark;
+}
+[data-mode="light"]{
+  --bg:#f4f2ec;--bg-deep:#e7e3d8;--surface:#faf8f3;--surface-raised:#ffffff;--surface-sunken:#efece4;
+  --fg:#2c2c2a;--fg-muted:#6a6963;--fg-disabled:#878680;
+  --border:#c9c5ba;--border-strong:#935100;
+  --accent:#995600;--accent-fg:#ffffff;--accent-hover:#834200;--accent-active:#733300;
+  --ghost-hover:#ebebeb;--ghost-active:#dbdbdb;
+  --signal:#007853;--warn:#9e3800;--fail:#9e2511;--focus:#995600;
+  --wash-accent:rgba(153,86,0,.10);--wash-signal:rgba(0,120,83,.10);--wash-fail:rgba(158,37,17,.10);
+  --scrim:rgba(44,44,42,.72);color-scheme:light;
+}
+[data-mode="night"]{
+  --bg:#050301;--bg-deep:#020100;--surface:#090703;--surface-raised:#120f09;--surface-sunken:#030201;
+  --fg:#cd8817;--fg-muted:#7e7a72;--fg-disabled:#403d36;
+  --border:#221f19;--border-strong:#95581d;
+  --accent:#cd8817;--accent-fg:#050301;--accent-hover:#e49e38;--accent-active:#b37000;
+  --ghost-hover:#18160f;--ghost-active:#030201;
+  --signal:#3e9979;--warn:#be6438;--fail:#d15d4d;--focus:#52ac8b;
+  --wash-accent:rgba(205,136,23,.12);--wash-signal:rgba(62,153,121,.12);--wash-fail:rgba(209,93,77,.12);
+  --scrim:rgba(2,1,0,.90);color-scheme:dark;
+}
+[data-density="large"]{
+  --text-xs:16px;--text-sm:18px;--text-base:24px;--text-lg:28px;--text-xl:40px;
+  --glance-sm:56px;--glance-md:88px;--glance-lg:128px;
+  --control-h:64px;--control-h-sm:52px;--card-min-h:280px;
+}
+@media (prefers-reduced-motion:reduce){
+  :root{--motion-fast:0ms;--motion-base:0ms;--motion-slow:0ms;--blink-period:0s}
+}
+
+/* ===== KIT SHELL ========================================================= */
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:linear-gradient(180deg,var(--bg) 0%,var(--bg-deep) 100%);
+  background-attachment:fixed;
+  color:var(--fg);font-family:var(--font-ui);font-size:var(--text-base);
+  line-height:var(--leading-body);-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1160px;margin:0 auto;padding:var(--space-6) var(--space-5) var(--space-16)}
+
+.bar{
+  position:sticky;top:0;z-index:20;
+  display:flex;flex-wrap:wrap;gap:var(--space-4);align-items:center;justify-content:space-between;
+  padding:var(--space-3) var(--space-5);
+  background:var(--surface);border-bottom:var(--border-w-strong) solid var(--border-strong);
+}
+.bar-id{display:flex;align-items:baseline;gap:var(--space-3)}
+.cursor{animation:blink var(--blink-period) steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.switches{display:flex;flex-wrap:wrap;gap:var(--space-4);align-items:center}
+.switch{display:flex;align-items:center;gap:var(--space-2)}
+
+/* type utilities */
+.hud-label{
+  font-size:var(--text-sm);font-weight:var(--weight-medium);text-transform:uppercase;
+  letter-spacing:var(--tracking-label);color:var(--fg-muted);
+}
+.meta{font-size:var(--text-xs);color:var(--fg-muted);font-variant-numeric:tabular-nums}
+.readout{
+  font-size:var(--glance-md);line-height:var(--leading-glance);
+  letter-spacing:var(--tracking-glance);font-variant-numeric:tabular-nums;
+}
+.dim{color:var(--fg-muted)}
+
+section{margin-top:var(--space-12);scroll-margin-top:calc(var(--control-h) + var(--space-6))}
+section > h2{
+  font-size:var(--text-sm);font-weight:var(--weight-medium);text-transform:uppercase;
+  letter-spacing:var(--tracking-label);color:var(--fg-muted);
+  margin:0 0 var(--space-2);padding-bottom:var(--space-2);
+  border-bottom:var(--border-w) solid var(--border);
+}
+section > .note{margin:0 0 var(--space-5);max-width:68ch;font-size:var(--text-sm);color:var(--fg-muted)}
+h3{font-size:var(--text-base);font-weight:var(--weight-medium);margin:var(--space-6) 0 var(--space-3)}
+
+/* ===== COMPONENTS ======================================================== */
+.card{
+  background:var(--surface);padding:var(--card-pad);border-radius:var(--radius);
+  box-shadow:inset 0 0 0 var(--border-w-strong) var(--border-strong);
+}
+.card-head{
+  display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-3);
+  margin-bottom:var(--space-4);padding-bottom:var(--space-3);
+  border-bottom:var(--border-w-strong) solid var(--border-strong);
+}
+.tag{
+  font-size:var(--text-sm);letter-spacing:var(--tracking-label);text-transform:uppercase;
+  padding:var(--space-1) var(--space-2);background:var(--wash-accent);color:var(--fg);
+}
+.box{border:var(--border-w) solid var(--border);padding:var(--space-3);border-radius:var(--radius)}
+.box-strong{border-color:var(--border-strong)}
+
+/* buttons */
+.btn{
+  font-family:inherit;font-size:var(--text-base);font-weight:var(--weight-medium);
+  min-height:var(--control-h-sm);padding:var(--space-2) var(--control-pad-x);
+  border-radius:var(--radius);border:var(--border-w) solid transparent;
+  background:transparent;color:var(--fg);cursor:pointer;text-align:center;
+  display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);
+  transition:background-color var(--motion-fast) var(--ease),color var(--motion-fast) var(--ease);
+}
+.btn:focus{outline:var(--focus-w) solid var(--focus);outline-offset:var(--focus-offset)}
+@supports selector(:focus-visible){.btn:focus:not(:focus-visible){outline:none}}
+
+.btn-primary{background:var(--accent);color:var(--accent-fg);min-height:var(--control-h)}
+.btn-primary:hover{background:var(--accent-hover);color:var(--accent-fg)}
+.btn-primary:active{background:var(--accent-active);color:var(--accent-fg)}
+
+.btn-ghost{border-color:var(--border-strong);color:var(--fg)}
+.btn-ghost:hover{background:var(--ghost-hover);color:var(--fg)}
+.btn-ghost:active{background:var(--ghost-active);color:var(--fg)}
+
+.btn-text{color:var(--fg);text-decoration:underline;text-underline-offset:3px;padding:0 var(--space-2)}
+.btn-text:hover{background:var(--ghost-hover)}
+
+.btn-danger{border-color:var(--fail);color:var(--fail)}
+.btn-danger:hover{background:var(--wash-fail);color:var(--fail)}
+
+.btn:disabled,.btn[aria-disabled="true"]{
+  color:var(--fg-disabled);border-color:var(--border);background:transparent;cursor:not-allowed;
+}
+.btn-icon{min-width:var(--control-h-sm);padding:0}
+/* nbsp keeps the bracket bound to the adjacent word — the label may wrap
+   between its own words, but never leaves "]" alone on the last line */
+.btn-bracket::before{content:"[\00a0"}
+.btn-bracket::after{content:"\00a0]"}
+
+/* status badges — glyph + colour, never colour alone */
+.badge{
+  display:inline-flex;align-items:center;gap:var(--space-2);
+  font-size:var(--text-sm);letter-spacing:var(--tracking-label);text-transform:uppercase;
+  padding:var(--space-1) var(--space-2);border:var(--border-w) solid currentColor;
+  border-radius:var(--radius);
+}
+.badge-ok{color:var(--signal)}
+.badge-warn{color:var(--warn)}
+.badge-fail{color:var(--fail)}
+.badge-idle{color:var(--fg-muted)}
+
+/* field */
+.field{display:flex;flex-direction:column;gap:var(--space-2)}
+.field input,.field select{
+  font-family:inherit;font-size:var(--text-base);color:var(--fg);
+  background:var(--surface-sunken);border:var(--border-w) solid var(--border);
+  border-radius:var(--radius);min-height:var(--control-h-sm);padding:0 var(--space-3);width:100%;
+  transition:border-color var(--motion-fast) var(--ease);
+}
+.field input:focus,.field select:focus{
+  border-color:var(--border-strong);
+  outline:var(--focus-w) solid var(--focus);outline-offset:var(--focus-offset);
+}
+.field input::placeholder{color:var(--fg-muted)}
+
+/* data readout */
+.readout-block{display:flex;flex-direction:column;gap:var(--space-1)}
+
+/* rows */
+.row{
+  display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;
+  gap:var(--space-2) var(--space-3);
+  padding:var(--space-2) 0;border-bottom:var(--border-w) solid var(--border);
+}
+/* calendar row: day label sizes to its content, event text takes the rest and
+   is allowed to shrink; the badge drops to its own line before anything clips */
+.cal-day{flex:0 0 auto;min-width:56px}
+.cal-event{flex:1 1 12ch;min-width:0}
+.row:last-child{border-bottom:0}
+
+/* chat */
+.msg{
+  font-size:var(--text-base);padding:var(--space-2) var(--space-3);
+  border-left:3px solid;max-width:85%;border-radius:var(--radius);
+}
+.msg-user{align-self:flex-end;border-color:var(--signal);background:var(--wash-signal)}
+.msg-ai{align-self:flex-start;border-color:var(--border-strong);background:var(--wash-accent)}
+
+/* swatches */
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:var(--space-3)}
+.sw{border:var(--border-w) solid var(--border);border-radius:var(--radius);display:flex;flex-direction:column}
+.sw-chip{height:64px;display:flex;align-items:flex-end;padding:var(--space-2)}
+.sw-body{padding:var(--space-2) var(--space-3);background:var(--surface);flex:1;display:flex;flex-direction:column;gap:var(--space-1)}
+.sw-name{font-size:var(--text-sm)}
+.sw-meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--space-1) var(--space-2);font-size:var(--text-xs);color:var(--fg-muted);font-variant-numeric:tabular-nums}
+.pass{color:var(--signal)}
+.short{color:var(--fail)}
+
+/* specimen grid */
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr));gap:var(--grid-gap)}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:var(--grid-gap)}
+.stack{display:flex;flex-direction:column;gap:var(--space-3)}
+.inline{display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:center}
+
+/* type specimen */
+.spec{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--space-2) var(--space-4);border-bottom:var(--border-w) solid var(--border);padding:var(--space-3) 0}
+.spec-key{flex:0 0 150px;font-size:var(--text-xs);color:var(--fg-muted)}
+.spec-val{flex:1;min-width:0;overflow-wrap:anywhere}
+
+/* spacing ruler */
+.ruler{display:flex;align-items:flex-end;gap:var(--space-3);flex-wrap:wrap}
+.ruler div{background:var(--border-strong);width:var(--space-4)}
+
+/* 5-day forecast: minmax(0,1fr) lets the tracks actually shrink, and the
+   compact cells carry their own tighter padding and a smaller numeral so the
+   row still fits the card at large density */
+.forecast{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--space-2)}
+.forecast .box{padding:var(--space-2) var(--space-1);text-align:center;min-width:0}
+.forecast .t{font-size:var(--text-base);font-variant-numeric:tabular-nums}
+
+/* chat composer: the input holds a full line to itself, and the mic + send
+   pair wraps to the next line together rather than crushing the field */
+.inputrow{
+  display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:flex-start;
+  border-top:var(--border-w) solid var(--border-strong);
+  padding-top:var(--space-3);margin-top:var(--space-3);
+}
+.inputrow .field{flex:1 1 240px;min-width:0}
+.inputrow .actions{flex:0 0 auto;display:flex;gap:var(--space-2);margin-left:auto}
+
+/* audiometer histogram */
+.hist{display:flex;align-items:flex-end;gap:2px;height:72px}
+.hist i{flex:1;background:var(--signal);min-height:2px;display:block}
+.hist i.over{background:var(--warn)}
+
+/* layout diagram */
+.viewport{
+  border:var(--border-w-strong) solid var(--border-strong);
+  display:flex;height:210px;overflow:hidden;
+}
+.vp-side{flex:0 0 26%;border-right:var(--border-w) solid var(--border);background:var(--surface);padding:var(--space-3)}
+.vp-main{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:var(--space-2);padding:var(--space-3);background:var(--surface-sunken)}
+.vp-cell{border:var(--border-w) solid var(--border);display:flex;align-items:center;justify-content:center;font-size:var(--text-xs);color:var(--fg-muted)}
+
+/* mode switch controls */
+.seg{display:inline-flex;border:var(--border-w) solid var(--border-strong);border-radius:var(--radius)}
+.seg button{
+  font-family:inherit;font-size:var(--text-sm);min-height:var(--control-h-sm);
+  padding:0 var(--space-3);background:transparent;color:var(--fg);border:0;cursor:pointer;
+  transition:background-color var(--motion-fast) var(--ease);
+}
+.seg button + button{border-left:var(--border-w) solid var(--border-strong)}
+.seg button:hover{background:var(--ghost-hover)}
+.seg button:focus{outline:var(--focus-w) solid var(--focus);outline-offset:var(--focus-offset)}
+@supports selector(:focus-visible){.seg button:focus:not(:focus-visible){outline:none}}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg)}
+
+@media (max-width:767px){
+  .wrap{padding:var(--space-4) var(--space-3) var(--space-12)}
+  .spec-key{flex:0 0 100px}
+}
+</style>
+</head>
+<body>
+
+<header class="bar" data-od-id="kit-bar">
+  <div class="bar-id">
+    <span class="tag">K7.DESIGN.SYSTEM</span>
+    <span class="meta">v1 // <span class="cursor">&#9608;</span></span>
+  </div>
+  <div class="switches">
+    <div class="switch">
+      <span class="hud-label">tryb</span>
+      <div class="seg" role="group" aria-label="Tryb jasności" data-od-id="mode-switch">
+        <button type="button" data-mode-set="dark" aria-pressed="true">DARK</button>
+        <button type="button" data-mode-set="light" aria-pressed="false">LIGHT</button>
+        <button type="button" data-mode-set="night" aria-pressed="false">NIGHT</button>
+      </div>
+    </div>
+    <div class="switch">
+      <span class="hud-label">gęstość</span>
+      <div class="seg" role="group" aria-label="Gęstość typografii" data-od-id="density-switch">
+        <button type="button" data-density-set="normal" aria-pressed="true">NORMAL</button>
+        <button type="button" data-density-set="large" aria-pressed="false">LARGE</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<section data-od-id="sec-rule" style="margin-top:var(--space-8)">
+  <h2>01 — zasada nadrzędna</h2>
+  <p class="note">
+    Bursztyn to <strong>atrament</strong>: kolor tekstu, obramowań, chromu. Jest wszędzie,
+    więc nie niesie pilności. Teal to <strong>sygnał</strong>: stan dobry i ustalony —
+    ONLINE, gotowe, odhaczone. Najwyżej dwa razy na kartę. Ostrzeżenie i błąd
+    nie są bursztynowe (odcień 45 i 27 wobec 72 atramentu).
+  </p>
+  <div class="grid2">
+    <div class="card" data-od-id="rule-ink">
+      <div class="card-head"><span class="tag">ATRAMENT</span><span class="meta">hue 72</span></div>
+      <p style="margin:0 0 var(--space-3)">Cały ten akapit jest bursztynowy. Tekst, obramowanie karty, etykieta nagłówka. Bursztyn nie krzyczy — bursztyn <em>jest</em> tym ekranem.</p>
+      <div class="inline">
+        <button type="button" class="btn btn-primary btn-bracket">+ NOWY WPIS</button>
+        <button type="button" class="btn btn-ghost">ANULUJ</button>
+      </div>
+      <p class="meta" style="margin:var(--space-3) 0 0">Jeden pełny przycisk na kartę. Reszta to ghost albo link.</p>
+    </div>
+    <div class="card" data-od-id="rule-signal">
+      <div class="card-head"><span class="tag">SYGNAŁ</span><span class="meta">hue 167 / 45 / 27</span></div>
+      <div class="stack">
+        <div class="row"><span>backend LAN</span><span class="badge badge-ok">[OK] online</span></div>
+        <div class="row"><span>kontekst czatu</span><span class="badge badge-warn">[!] 82%</span></div>
+        <div class="row"><span>kalendarz Google</span><span class="badge badge-fail">[X] token wygasł</span></div>
+        <div class="row"><span>czujnik pyłków</span><span class="badge badge-idle">[--] brak</span></div>
+      </div>
+      <p class="meta" style="margin:var(--space-3) 0 0">Glif w nawiasach zawsze towarzyszy kolorowi. Nigdy sam kolor.</p>
+    </div>
+  </div>
+</section>
+
+<section data-od-id="sec-color">
+  <h2>02 — kolor</h2>
+  <p class="note">
+    Kontrast liczony na żywo z <code>getComputedStyle</code> względem
+    <code>--surface</code> w aktualnym trybie. Przełącz tryb u góry — liczby
+    przeliczą się same. Próg: 4.5:1 dla tekstu, 3:1 dla dużego tekstu, ikon i
+    obramowań niosących znaczenie.
+  </p>
+  <div class="swatches" id="swatches" data-od-id="color-swatches"></div>
+  <p class="note" style="margin-top:var(--space-4)">
+    <code>--border</code> celowo jest poniżej 3:1 — to faktura, nie nośnik
+    znaczenia. <code>--fg-disabled</code> to jedyna rola, której wolno spaść
+    poniżej progu.
+  </p>
+</section>
+
+<section data-od-id="sec-type">
+  <h2>03 — typografia</h2>
+  <p class="note">
+    Jedna rodzina: Source Code Pro (produkcyjnie self-hosted woff2 z serwera LAN).
+    Hierarchia z wagi, stopnia i światła — bez drugiego kroju. Dwa poziomy:
+    <strong>czytania</strong> (0,4–1 m) i <strong>rzutu oka</strong> (1,5–3 m).
+  </p>
+
+  <h3>Poziom czytania</h3>
+  <div data-od-id="type-read">
+    <div class="spec"><span class="spec-key">--text-xs · 14px<br>tylko meta</span><span class="spec-val" style="font-size:var(--text-xs)">cache: 24h // seed: 4821 // 312 tok. // ~0,004 USD</span></div>
+    <div class="spec"><span class="spec-key">--text-sm · 16px<br>etykiety</span><span class="spec-val" style="font-size:var(--text-sm)">LOG.WYDARZENIA — CZW</span></div>
+    <div class="spec"><span class="spec-key">--text-base · 20px<br>domyślny tekst</span><span class="spec-val" style="font-size:var(--text-base)">Czym zastąpić masło w tym przepisie?</span></div>
+    <div class="spec"><span class="spec-key">--text-lg · 24px<br>tytuły kart</span><span class="spec-val" style="font-size:var(--text-lg)">Obiad rodzinny</span></div>
+    <div class="spec"><span class="spec-key">--text-xl · 32px<br>liczby w karcie</span><span class="spec-val" style="font-size:var(--text-xl);font-variant-numeric:tabular-nums">14°C · 12 km/h</span></div>
+  </div>
+
+  <h3>Poziom rzutu oka</h3>
+  <div data-od-id="type-glance">
+    <div class="spec"><span class="spec-key">--glance-sm · 48px<br>8,2′ z 2 m</span><span class="spec-val" style="font-size:var(--glance-sm);line-height:var(--leading-glance);font-variant-numeric:tabular-nums">18:42</span></div>
+    <div class="spec"><span class="spec-key">--glance-md · 72px<br>8,2′ z 3 m</span><span class="spec-val" style="font-size:var(--glance-md);line-height:var(--leading-glance);font-variant-numeric:tabular-nums">14°</span></div>
+    <div class="spec"><span class="spec-key">--glance-lg · 112px<br>12,8′ z 3 m</span><span class="spec-val" style="font-size:var(--glance-lg);line-height:var(--leading-glance);font-variant-numeric:tabular-nums">07:12</span></div>
+  </div>
+  <p class="note" style="margin-top:var(--space-4)">
+    Wireframe'y miały tekst 11–13px. To gęstość desktopowa: 13px z 1 m to 4,5′,
+    poniżej progu komfortu. Domyślny stopień to 20px.
+  </p>
+</section>
+
+<section data-od-id="sec-shape">
+  <h2>04 — odstępy, kształt, wysokość</h2>
+  <div class="grid2">
+    <div class="stack">
+      <h3 style="margin-top:0">Siatka 4px</h3>
+      <div class="ruler" data-od-id="spacing-ruler">
+        <div style="height:var(--space-1)"></div><div style="height:var(--space-2)"></div>
+        <div style="height:var(--space-3)"></div><div style="height:var(--space-4)"></div>
+        <div style="height:var(--space-5)"></div><div style="height:var(--space-6)"></div>
+        <div style="height:var(--space-8)"></div><div style="height:var(--space-12)"></div>
+        <div style="height:var(--space-16)"></div>
+      </div>
+      <p class="meta">4 · 8 · 12 · 16 · 20 · 24 · 32 · 48 · 64</p>
+    </div>
+    <div class="stack">
+      <h3 style="margin-top:0">Głębia bez cienia</h3>
+      <div class="box" style="background:var(--surface-sunken)">
+        <span class="meta">--surface-sunken</span>
+        <div class="box" style="background:var(--surface);margin-top:var(--space-2)">
+          <span class="meta">--surface</span>
+          <div class="box" style="background:var(--surface-raised);margin-top:var(--space-2)">
+            <span class="meta">--surface-raised</span>
+          </div>
+        </div>
+      </div>
+      <p class="meta">Krok na rampie + 1px obramowanie. Zero box-shadow poza ramką HUD.</p>
+    </div>
+  </div>
+</section>
+
+<section data-od-id="sec-controls">
+  <h2>05 — kontrolki i stany</h2>
+  <p class="note">
+    Pięć stanów, zawsze parami tło/tekst. Kontrast po zmianie stanu nigdy nie
+    spada — poza <code>:disabled</code>, jedynym, któremu wolno. Ekran dotykowy:
+    główna akcja 56px, reszta 44px.
+  </p>
+
+  <h3>Rangi</h3>
+  <div class="inline" data-od-id="btn-ranks">
+    <button type="button" class="btn btn-primary btn-bracket">ZAPISZ</button>
+    <button type="button" class="btn btn-ghost">ODŚWIEŻ</button>
+    <button type="button" class="btn btn-text">pokaż wszystkie</button>
+    <button type="button" class="btn btn-danger">USUŃ</button>
+    <button type="button" class="btn btn-ghost" disabled>NIEDOSTĘPNE</button>
+    <button type="button" class="btn btn-ghost btn-icon" aria-label="Nagraj i transkrybuj">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>
+      </svg>
+    </button>
+  </div>
+  <p class="meta" style="margin-top:var(--space-3)">
+    Powyżej to okazy, nie pasek akcji. W produkcie jeden pełny przycisk na kartę.
+    Najedź i użyj Tab — pierścień fokusu jest obowiązkowy na każdym elemencie.
+  </p>
+
+  <h3>Pola</h3>
+  <div class="grid3" data-od-id="fields">
+    <label class="field"><span class="hud-label">zapytanie</span>
+      <input type="text" placeholder="wpisz pytanie..."></label>
+    <label class="field"><span class="hud-label">model</span>
+      <select><option>anthropic/claude-sonnet-4.5</option><option>kilo-auto/balanced</option></select></label>
+    <label class="field"><span class="hud-label">wyłączone</span>
+      <input type="text" value="zakupy-api" disabled></label>
+  </div>
+
+  <h3>Odczyt danych</h3>
+  <div class="grid3" data-od-id="readouts">
+    <div class="box box-strong readout-block"><span class="hud-label">temp.zewn</span><span class="readout">14°</span></div>
+    <div class="box box-strong readout-block"><span class="hud-label">timer</span><span class="readout" style="color:var(--signal)">04:37</span></div>
+    <div class="box box-strong readout-block"><span class="hud-label">koszt sesji</span><span class="readout" style="font-size:var(--text-xl)">0,041 USD</span></div>
+  </div>
+</section>
+
+<section data-od-id="sec-cards">
+  <h2>06 — karty produktu</h2>
+  <p class="note">
+    Każdy typ z <code>layout.schema.yaml</code> to ta sama skorupa: ramka HUD 2px,
+    nagłówek z etykietą i metadaną, treść, opcjonalna stopka.
+  </p>
+  <div class="grid2">
+
+    <div class="card" data-od-id="card-weather">
+      <div class="card-head"><span class="tag">SYS.POGODA</span><span class="meta">OPEN-METEO // 07:12</span></div>
+      <div class="box box-strong" style="display:flex;flex-wrap:wrap;gap:var(--space-3);justify-content:space-between;align-items:center">
+        <span class="readout">14°</span>
+        <div style="text-align:right" class="meta">
+          <div>ZACHMURZENIE 60%</div><div>WIATR 12 KM/H</div><div>ODCZUWALNA 12°</div>
+        </div>
+      </div>
+      <div class="forecast" style="margin-top:var(--space-3)">
+        <div class="box"><div class="meta">PON</div><div class="t">16°</div><div class="meta">9°</div></div>
+        <div class="box"><div class="meta">WT</div><div class="t">15°</div><div class="meta">8°</div></div>
+        <div class="box"><div class="meta">ŚR</div><div class="t">13°</div><div class="meta">7°</div></div>
+        <div class="box"><div class="meta">CZW</div><div class="t">14°</div><div class="meta">9°</div></div>
+        <div class="box"><div class="meta">PT</div><div class="t">17°</div><div class="meta">10°</div></div>
+      </div>
+      <p class="badge badge-warn" style="margin:var(--space-3) 0 0">[!] opady po 16:00 — zabierz parasol</p>
+    </div>
+
+    <div class="card" data-od-id="card-calendar">
+      <div class="card-head"><span class="tag">KALENDARZ</span><span class="meta">TYDZIEŃ 37 // 2026</span></div>
+      <div class="stack" style="gap:var(--space-2)">
+        <div class="row"><span class="hud-label cal-day">pon</span><span class="cal-event">09:00 — dentysta</span></div>
+        <div class="row"><span class="hud-label cal-day">wt</span><span class="cal-event dim">— brak wydarzeń —</span></div>
+        <div class="row"><span class="hud-label cal-day">śr</span><span class="cal-event">18:30 — trening</span><span class="badge badge-ok">[OK]</span></div>
+        <div class="row" style="background:var(--wash-accent);padding:var(--space-2)">
+          <span class="hud-label cal-day" style="color:var(--fg)">czw</span>
+          <span class="cal-event">12:00 — obiad rodzinny</span><span class="badge badge-ok">[&gt;] dziś</span>
+        </div>
+        <div class="row"><span class="hud-label cal-day">pt</span><span class="cal-event dim">— brak wydarzeń —</span></div>
+      </div>
+      <button type="button" class="btn btn-primary" style="width:100%;margin-top:var(--space-4)">+ DODAJ WYDARZENIE</button>
+    </div>
+
+    <div class="card" data-od-id="card-chat">
+      <div class="card-head"><span class="tag">CHAT.AI</span><span class="meta">sonnet-4.5</span></div>
+      <div style="display:flex;flex-direction:column;gap:var(--space-3);min-height:180px">
+        <div class="msg msg-user">czym zastąpić masło w tym przepisie?<div class="meta" style="margin-top:var(--space-1)">Ty // 18:42</div></div>
+        <div class="msg msg-ai">olej roślinny 1:1 albo margaryna. Do ciasta lepiej olej neutralny.<div class="meta" style="margin-top:var(--space-1)">sonnet-4.5 // 312 tok. // ~0,004 USD</div></div>
+      </div>
+      <div class="inputrow">
+        <label class="field"><span class="hud-label" style="position:absolute;left:-9999px">Zapytanie</span>
+          <input type="text" placeholder="wpisz pytanie..."></label>
+        <div class="actions">
+          <button type="button" class="btn btn-ghost btn-icon" aria-label="Nagraj i transkrybuj">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>
+            </svg>
+          </button>
+          <button type="button" class="btn btn-primary">WYŚLIJ</button>
+        </div>
+      </div>
+      <div class="row" style="border:0;padding-top:var(--space-3)">
+        <span class="meta">kontekst: 4/40 wiadomości</span>
+        <span class="badge badge-warn">[!] compacting za ~36</span>
+      </div>
+    </div>
+
+    <div class="card" data-od-id="card-audiometer">
+      <div class="card-head"><span class="tag">AUDIOMETR</span><span class="meta">okno 3 min // próg 80%</span></div>
+      <div class="box box-strong" style="display:flex;gap:var(--space-4);align-items:flex-end">
+        <div class="readout-block" style="flex:0 0 auto"><span class="hud-label">teraz</span><span class="readout" style="font-size:var(--glance-sm)">42%</span></div>
+        <div class="hist" id="hist" style="flex:1" aria-hidden="true"></div>
+      </div>
+      <div class="row" style="border:0;padding-top:var(--space-3)">
+        <span class="meta">próbkowanie 500 ms</span><span class="badge badge-ok">[OK] w normie</span>
+      </div>
+    </div>
+
+    <div class="card" data-od-id="card-ascii">
+      <div class="card-head"><span class="tag">ASCII.ART.DNIA</span><span class="meta">MODEL: kilo-auto/free</span></div>
+      <pre class="box" style="color:var(--signal);font-size:var(--text-sm);line-height:1.25;margin:0;overflow:hidden">    /\_/\
+   ( o.o )
+    &gt; ^ &lt;
+   ~~~~~~~
+  kot dnia</pre>
+      <div class="row" style="border:0;padding-top:var(--space-3)">
+        <span class="meta">cache: 24h // seed: 4821</span>
+        <button type="button" class="btn btn-ghost">NOWA GENERACJA</button>
+      </div>
+    </div>
+
+    <div class="card" data-od-id="card-shopping">
+      <div class="card-head"><span class="tag">ZAKUPY</span><span class="meta">local // 5 poz.</span></div>
+      <div class="stack" style="gap:0">
+        <div class="row"><span>mleko 3,2% ×2</span><span class="badge badge-idle">[--]</span></div>
+        <div class="row"><span>masło osełka</span><span class="badge badge-idle">[--]</span></div>
+        <div class="row"><span class="dim" style="text-decoration:line-through">chleb żytni</span><span class="badge badge-ok">[OK]</span></div>
+        <div class="row"><span>jajka L ×10</span><span class="badge badge-idle">[--]</span></div>
+      </div>
+      <button type="button" class="btn btn-primary" style="width:100%;margin-top:var(--space-4)">+ DODAJ POZYCJĘ</button>
+    </div>
+
+  </div>
+</section>
+
+<section data-od-id="sec-layout">
+  <h2>07 — układ</h2>
+  <p class="note">
+    Cel projektowy to iPad Air 2 poziomo: <strong>1024×768 CSS px</strong>. Nie
+    desktop skalowany w dół. Sidebar 260px permanentny od 1024px, chowalny
+    768–1023, nakładka poniżej 768 — dokładnie kontrakt
+    <code>sidebar.behavior</code> z <code>layout.schema.yaml</code>.
+  </p>
+  <div class="viewport" data-od-id="layout-diagram">
+    <div class="vp-side">
+      <div class="hud-label">sidebar</div>
+      <div class="meta" style="margin-top:var(--space-2)">260px<br>permanent ≥1024</div>
+    </div>
+    <div class="vp-main">
+      <div class="vp-cell">pogoda</div><div class="vp-cell">kalendarz</div>
+      <div class="vp-cell">karuzela</div><div class="vp-cell">timer</div>
+    </div>
+  </div>
+  <div class="grid3" style="margin-top:var(--space-4)">
+    <div class="box"><div class="hud-label">≥ 1024px</div><p class="meta" style="margin:var(--space-2) 0 0">iPad poziomo — sidebar stały, 2 kolumny po ~370px</p></div>
+    <div class="box"><div class="hud-label">768–1023px</div><p class="meta" style="margin:var(--space-2) 0 0">iPad pionowo — sidebar chowalny, 1 kolumna</p></div>
+    <div class="box"><div class="hud-label">&lt; 768px</div><p class="meta" style="margin:var(--space-2) 0 0">iPhone 6s 375px — sidebar zawsze nakładką, 1 kolumna</p></div>
+  </div>
+</section>
+
+<section data-od-id="sec-motion">
+  <h2>08 — ruch i ograniczenia Safari 15</h2>
+  <div class="grid2">
+    <div class="stack">
+      <h3 style="margin-top:0">Ruch</h3>
+      <div class="row"><span>--motion-fast</span><span class="meta">120 ms — zmiany stanu</span></div>
+      <div class="row"><span>--motion-base</span><span class="meta">200 ms — panele, karuzela</span></div>
+      <div class="row"><span>--motion-slow</span><span class="meta">400 ms — przenikanie slideshow</span></div>
+      <p class="meta">Animujemy wyłącznie <code>opacity</code> i <code>transform</code>. A8X nie ma budżetu na malowanie 24 h/dobę.</p>
+    </div>
+    <div class="stack">
+      <h3 style="margin-top:0">Czego nie wysyłamy</h3>
+      <div class="row"><span>color-mix()</span><span class="badge badge-fail">[X] 16.2</span></div>
+      <div class="row"><span>oklch() w CSS</span><span class="badge badge-fail">[X] 15.4</span></div>
+      <div class="row"><span>@container</span><span class="badge badge-fail">[X] 16.0</span></div>
+      <div class="row"><span>:has()</span><span class="badge badge-fail">[X] 15.4</span></div>
+      <div class="row"><span>dvh / svh</span><span class="badge badge-fail">[X] 15.4</span></div>
+      <div class="row"><span>backdrop-filter</span><span class="badge badge-warn">[!] -webkit-, tylko scrim</span></div>
+    </div>
+  </div>
+</section>
+
+<footer style="margin-top:var(--space-16);padding-top:var(--space-4);border-top:var(--border-w) solid var(--border)">
+  <p class="meta">
+    Kitchen Terminal K7 // design system v1 //
+    źródło: handoff-1.zip — HANDOFF.md, TECH-STACK.md, theme.schema.yaml, wireframes 01–06 //
+    pełna specyfikacja: design-system/DESIGN.md
+  </p>
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+
+  /* ---- mode + density switches ---- */
+  function bind(attr, prop, key) {
+    var btns = document.querySelectorAll('[' + attr + ']');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener('click', function (e) {
+        var val = e.currentTarget.getAttribute(attr);
+        root.setAttribute(prop, val);
+        for (var j = 0; j < btns.length; j++) {
+          btns[j].setAttribute('aria-pressed', btns[j] === e.currentTarget ? 'true' : 'false');
+        }
+        try { localStorage.setItem(key, val); } catch (err) {}
+        paintSwatches();
+      });
+    }
+    var saved = null;
+    try { saved = localStorage.getItem(key); } catch (err) {}
+    if (saved) {
+      root.setAttribute(prop, saved);
+      for (var k = 0; k < btns.length; k++) {
+        btns[k].setAttribute('aria-pressed', btns[k].getAttribute(attr) === saved ? 'true' : 'false');
+      }
+    }
+  }
+
+  /* ---- WCAG contrast, measured from the live computed values ---- */
+  function parse(c) {
+    c = c.trim();
+    var m = c.match(/^#([0-9a-f]{6})$/i);
+    if (m) return [parseInt(m[1].substr(0,2),16), parseInt(m[1].substr(2,2),16), parseInt(m[1].substr(4,2),16)];
+    m = c.match(/rgba?\(([^)]+)\)/);
+    if (m) {
+      var p = m[1].split(/[,\s\/]+/);
+      return [parseFloat(p[0]), parseFloat(p[1]), parseFloat(p[2])];
+    }
+    return null;
+  }
+  function lum(rgb) {
+    var a = rgb.map(function (v) {
+      v /= 255;
+      return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2];
+  }
+  function ratio(f, b) {
+    var A = parse(f), B = parse(b);
+    if (!A || !B) return null;
+    var l1 = lum(A), l2 = lum(B);
+    if (l1 < l2) { var t = l1; l1 = l2; l2 = t; }
+    return (l1 + 0.05) / (l2 + 0.05);
+  }
+
+  var ROLES = [
+    ['--fg',            'atrament / tekst',        4.5],
+    ['--fg-muted',      'etykiety, meta',          4.5],
+    ['--fg-disabled',   'wyłączone (zwolnione)',   0],
+    ['--accent',        'akcent = atrament',       4.5],
+    ['--accent-hover',  'akcent :hover',           3.0],
+    ['--accent-active', 'akcent :active',          3.0],
+    ['--signal',        'sygnał — OK / gotowe',    4.5],
+    ['--warn',          'ostrzeżenie',             4.5],
+    ['--fail',          'błąd / destrukcja',       4.5],
+    ['--focus',         'pierścień fokusu',        3.0],
+    ['--border-strong', 'ramka HUD 2px',           3.0],
+    ['--border',        'kreska strukturalna',     0],
+    ['--surface-raised','powierzchnia +1',         0],
+    ['--surface-sunken','powierzchnia −1',         0]
+  ];
+
+  var host = document.getElementById('swatches');
+  function paintSwatches() {
+    if (!host) return;
+    var cs = getComputedStyle(root);
+    var surface = cs.getPropertyValue('--surface').trim();
+    var out = '';
+    for (var i = 0; i < ROLES.length; i++) {
+      var name = ROLES[i][0], desc = ROLES[i][1], floor = ROLES[i][2];
+      var val = cs.getPropertyValue(name).trim();
+      var r = ratio(val, surface);
+      var txt, cls;
+      if (!floor) {
+        txt = r ? r.toFixed(2) + ':1' : '—';
+        cls = 'dim';
+      } else if (r === null) {
+        txt = '—'; cls = 'dim';
+      } else {
+        txt = r.toFixed(2) + ':1';
+        cls = r >= floor ? 'pass' : 'short';
+      }
+      var chipFg = (name === '--surface-raised' || name === '--surface-sunken' || name === '--border')
+        ? 'var(--fg)' : 'var(--surface)';
+      out += '<div class="sw">' +
+        '<div class="sw-chip" style="background:' + val + ';color:' + chipFg + '"></div>' +
+        '<div class="sw-body">' +
+          '<div class="sw-name">' + name + '</div>' +
+          '<div class="sw-meta"><span>' + desc + '</span></div>' +
+          '<div class="sw-meta"><span>' + val + '</span>' +
+            '<span class="' + cls + '">' + txt + (floor ? ' / ≥' + floor.toFixed(1) : '') + '</span>' +
+          '</div>' +
+        '</div></div>';
+    }
+    host.innerHTML = out;
+  }
+
+  /* ---- audiometer histogram, deterministic so the kit renders identically ---- */
+  var hist = document.getElementById('hist');
+  if (hist) {
+    var seed = 4821, bars = '';
+    for (var i = 0; i < 36; i++) {
+      seed = (seed * 1103515245 + 12345) % 2147483648;
+      var v = 18 + (seed % 70);
+      bars += '<i class="' + (v > 80 ? 'over' : '') + '" style="height:' + v + '%"></i>';
+    }
+    hist.innerHTML = bars;
+  }
+
+  bind('data-mode-set', 'data-mode', 'k7.kit.mode');
+  bind('data-density-set', 'data-density', 'k7.kit.density');
+  paintSwatches();
+})();
+</script>
+</body>
+</html>

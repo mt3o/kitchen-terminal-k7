@@ -1,0 +1,812 @@
+{
+  "schemaVersion": 1,
+  "format": "od-design-tokens/v1",
+  "brandId": "kitchen-terminal-k7",
+  "source": {
+    "tokensCss": "tokens.css",
+    "theme": "themes/retro-scifi.yaml",
+    "schema": "theme.schema.v2.yaml"
+  },
+  "derivation": {
+    "space": "oklch",
+    "delivery": "hex",
+    "note": "Values are derived in OKLCH at fixed hue/chroma and shipped as hex. oklch() is Safari 15.4 and color-mix() is Safari 16.2; the deployment baseline is Safari 15.0 (iPad Air 2 / iPhone 6s)."
+  },
+  "modes": [
+    "dark",
+    "light",
+    "night"
+  ],
+  "defaultMode": "dark",
+  "contrastFloors": {
+    "bodyText": 4.5,
+    "largeTextAndUi": 3.0,
+    "disabledExempt": true
+  },
+  "tokens": [
+    {
+      "name": "--font-ui",
+      "mode": "base",
+      "value": "\"Source Code Pro\", ui-monospace, \"SF Mono\", Menlo, \"Courier New\", monospace",
+      "type": "fontFamily"
+    },
+    {
+      "name": "--font-mono",
+      "mode": "base",
+      "value": "var(--font-ui)",
+      "type": "fontFamily"
+    },
+    {
+      "name": "--text-xs",
+      "mode": "base",
+      "value": "14px",
+      "type": "fontSize"
+    },
+    {
+      "name": "--text-sm",
+      "mode": "base",
+      "value": "16px",
+      "type": "fontSize"
+    },
+    {
+      "name": "--text-base",
+      "mode": "base",
+      "value": "20px",
+      "type": "fontSize"
+    },
+    {
+      "name": "--text-lg",
+      "mode": "base",
+      "value": "24px",
+      "type": "fontSize"
+    },
+    {
+      "name": "--text-xl",
+      "mode": "base",
+      "value": "32px",
+      "type": "fontSize"
+    },
+    {
+      "name": "--glance-sm",
+      "mode": "base",
+      "value": "48px",
+      "type": "fontSize"
+    },
+    {
+      "name": "--glance-md",
+      "mode": "base",
+      "value": "72px",
+      "type": "fontSize"
+    },
+    {
+      "name": "--glance-lg",
+      "mode": "base",
+      "value": "112px",
+      "type": "fontSize"
+    },
+    {
+      "name": "--leading-body",
+      "mode": "base",
+      "value": "1.45",
+      "type": "number"
+    },
+    {
+      "name": "--leading-tight",
+      "mode": "base",
+      "value": "1.15",
+      "type": "number"
+    },
+    {
+      "name": "--leading-glance",
+      "mode": "base",
+      "value": "1.0",
+      "type": "number"
+    },
+    {
+      "name": "--tracking-label",
+      "mode": "base",
+      "value": "0.12em",
+      "type": "dimension"
+    },
+    {
+      "name": "--tracking-glance",
+      "mode": "base",
+      "value": "-0.01em",
+      "type": "dimension"
+    },
+    {
+      "name": "--weight-regular",
+      "mode": "base",
+      "value": "400",
+      "type": "number"
+    },
+    {
+      "name": "--weight-medium",
+      "mode": "base",
+      "value": "500",
+      "type": "number"
+    },
+    {
+      "name": "--weight-bold",
+      "mode": "base",
+      "value": "600",
+      "type": "number"
+    },
+    {
+      "name": "--space-1",
+      "mode": "base",
+      "value": "4px",
+      "type": "dimension"
+    },
+    {
+      "name": "--space-2",
+      "mode": "base",
+      "value": "8px",
+      "type": "dimension"
+    },
+    {
+      "name": "--space-3",
+      "mode": "base",
+      "value": "12px",
+      "type": "dimension"
+    },
+    {
+      "name": "--space-4",
+      "mode": "base",
+      "value": "16px",
+      "type": "dimension"
+    },
+    {
+      "name": "--space-5",
+      "mode": "base",
+      "value": "20px",
+      "type": "dimension"
+    },
+    {
+      "name": "--space-6",
+      "mode": "base",
+      "value": "24px",
+      "type": "dimension"
+    },
+    {
+      "name": "--space-8",
+      "mode": "base",
+      "value": "32px",
+      "type": "dimension"
+    },
+    {
+      "name": "--space-12",
+      "mode": "base",
+      "value": "48px",
+      "type": "dimension"
+    },
+    {
+      "name": "--space-16",
+      "mode": "base",
+      "value": "64px",
+      "type": "dimension"
+    },
+    {
+      "name": "--radius",
+      "mode": "base",
+      "value": "0",
+      "type": "dimension"
+    },
+    {
+      "name": "--border-w",
+      "mode": "base",
+      "value": "1px",
+      "type": "dimension"
+    },
+    {
+      "name": "--border-w-strong",
+      "mode": "base",
+      "value": "2px",
+      "type": "other"
+    },
+    {
+      "name": "--control-h",
+      "mode": "base",
+      "value": "56px",
+      "type": "dimension"
+    },
+    {
+      "name": "--control-h-sm",
+      "mode": "base",
+      "value": "44px",
+      "type": "other"
+    },
+    {
+      "name": "--control-pad-x",
+      "mode": "base",
+      "value": "var(--space-4)",
+      "type": "dimension"
+    },
+    {
+      "name": "--tap-slop",
+      "mode": "base",
+      "value": "8px",
+      "type": "dimension"
+    },
+    {
+      "name": "--sidebar-w",
+      "mode": "base",
+      "value": "260px",
+      "type": "dimension"
+    },
+    {
+      "name": "--grid-gap",
+      "mode": "base",
+      "value": "var(--space-3)",
+      "type": "dimension"
+    },
+    {
+      "name": "--card-pad",
+      "mode": "base",
+      "value": "var(--space-5)",
+      "type": "dimension"
+    },
+    {
+      "name": "--card-min-h",
+      "mode": "base",
+      "value": "240px",
+      "type": "dimension"
+    },
+    {
+      "name": "--viewport-target",
+      "mode": "base",
+      "value": "1024px",
+      "type": "dimension"
+    },
+    {
+      "name": "--motion-fast",
+      "mode": "base",
+      "value": "120ms",
+      "type": "duration"
+    },
+    {
+      "name": "--motion-base",
+      "mode": "base",
+      "value": "200ms",
+      "type": "duration"
+    },
+    {
+      "name": "--motion-slow",
+      "mode": "base",
+      "value": "400ms",
+      "type": "duration"
+    },
+    {
+      "name": "--ease",
+      "mode": "base",
+      "value": "cubic-bezier(0.2, 0, 0, 1)",
+      "type": "cubicBezier"
+    },
+    {
+      "name": "--blink-period",
+      "mode": "base",
+      "value": "1.2s",
+      "type": "duration"
+    },
+    {
+      "name": "--focus-w",
+      "mode": "base",
+      "value": "3px",
+      "type": "dimension"
+    },
+    {
+      "name": "--focus-offset",
+      "mode": "base",
+      "value": "2px",
+      "type": "dimension"
+    },
+    {
+      "name": "--bg",
+      "mode": "dark",
+      "value": "#1a1712",
+      "type": "color"
+    },
+    {
+      "name": "--bg-deep",
+      "mode": "dark",
+      "value": "#0f0d0a",
+      "type": "color"
+    },
+    {
+      "name": "--surface",
+      "mode": "dark",
+      "value": "#211d16",
+      "type": "color"
+    },
+    {
+      "name": "--surface-raised",
+      "mode": "dark",
+      "value": "#2d2922",
+      "type": "color"
+    },
+    {
+      "name": "--surface-sunken",
+      "mode": "dark",
+      "value": "#18140d",
+      "type": "color"
+    },
+    {
+      "name": "--fg",
+      "mode": "dark",
+      "value": "#faab2f",
+      "type": "color"
+    },
+    {
+      "name": "--fg-muted",
+      "mode": "dark",
+      "value": "#888780",
+      "type": "color"
+    },
+    {
+      "name": "--fg-disabled",
+      "mode": "dark",
+      "value": "#65645d",
+      "type": "color"
+    },
+    {
+      "name": "--border",
+      "mode": "dark",
+      "value": "#3a352b",
+      "type": "color"
+    },
+    {
+      "name": "--border-strong",
+      "mode": "dark",
+      "value": "#ba7517",
+      "type": "color"
+    },
+    {
+      "name": "--accent",
+      "mode": "dark",
+      "value": "#faab2f",
+      "type": "color"
+    },
+    {
+      "name": "--accent-fg",
+      "mode": "dark",
+      "value": "#1a1712",
+      "type": "color"
+    },
+    {
+      "name": "--accent-hover",
+      "mode": "dark",
+      "value": "#ffc24d",
+      "type": "color"
+    },
+    {
+      "name": "--accent-active",
+      "mode": "dark",
+      "value": "#df9200",
+      "type": "color"
+    },
+    {
+      "name": "--ghost-hover",
+      "mode": "dark",
+      "value": "#322e27",
+      "type": "color"
+    },
+    {
+      "name": "--ghost-active",
+      "mode": "dark",
+      "value": "#15120b",
+      "type": "color"
+    },
+    {
+      "name": "--signal",
+      "mode": "dark",
+      "value": "#5dcaa5",
+      "type": "color"
+    },
+    {
+      "name": "--warn",
+      "mode": "dark",
+      "value": "#e08a3c",
+      "type": "color"
+    },
+    {
+      "name": "--fail",
+      "mode": "dark",
+      "value": "#e06138",
+      "type": "color"
+    },
+    {
+      "name": "--focus",
+      "mode": "dark",
+      "value": "#6ad6b0",
+      "type": "color"
+    },
+    {
+      "name": "--wash-accent",
+      "mode": "dark",
+      "value": "rgba(250, 171, 47, 0.15)",
+      "type": "color"
+    },
+    {
+      "name": "--wash-signal",
+      "mode": "dark",
+      "value": "rgba(93, 202, 165, 0.12)",
+      "type": "color"
+    },
+    {
+      "name": "--wash-fail",
+      "mode": "dark",
+      "value": "rgba(224, 97, 56, 0.12)",
+      "type": "color"
+    },
+    {
+      "name": "--scrim",
+      "mode": "dark",
+      "value": "rgba(15, 13, 10, 0.86)",
+      "type": "color"
+    },
+    {
+      "name": "--bg",
+      "mode": "light",
+      "value": "#f4f2ec",
+      "type": "color"
+    },
+    {
+      "name": "--bg-deep",
+      "mode": "light",
+      "value": "#e7e3d8",
+      "type": "color"
+    },
+    {
+      "name": "--surface",
+      "mode": "light",
+      "value": "#faf8f3",
+      "type": "color"
+    },
+    {
+      "name": "--surface-raised",
+      "mode": "light",
+      "value": "#ffffff",
+      "type": "color"
+    },
+    {
+      "name": "--surface-sunken",
+      "mode": "light",
+      "value": "#efece4",
+      "type": "color"
+    },
+    {
+      "name": "--fg",
+      "mode": "light",
+      "value": "#2c2c2a",
+      "type": "color"
+    },
+    {
+      "name": "--fg-muted",
+      "mode": "light",
+      "value": "#6a6963",
+      "type": "color"
+    },
+    {
+      "name": "--fg-disabled",
+      "mode": "light",
+      "value": "#878680",
+      "type": "color"
+    },
+    {
+      "name": "--border",
+      "mode": "light",
+      "value": "#c9c5ba",
+      "type": "color"
+    },
+    {
+      "name": "--border-strong",
+      "mode": "light",
+      "value": "#935100",
+      "type": "color"
+    },
+    {
+      "name": "--accent",
+      "mode": "light",
+      "value": "#995600",
+      "type": "color"
+    },
+    {
+      "name": "--accent-fg",
+      "mode": "light",
+      "value": "#ffffff",
+      "type": "color"
+    },
+    {
+      "name": "--accent-hover",
+      "mode": "light",
+      "value": "#834200",
+      "type": "color"
+    },
+    {
+      "name": "--accent-active",
+      "mode": "light",
+      "value": "#733300",
+      "type": "color"
+    },
+    {
+      "name": "--ghost-hover",
+      "mode": "light",
+      "value": "#ebebeb",
+      "type": "color"
+    },
+    {
+      "name": "--ghost-active",
+      "mode": "light",
+      "value": "#dbdbdb",
+      "type": "color"
+    },
+    {
+      "name": "--signal",
+      "mode": "light",
+      "value": "#007853",
+      "type": "color"
+    },
+    {
+      "name": "--warn",
+      "mode": "light",
+      "value": "#9e3800",
+      "type": "color"
+    },
+    {
+      "name": "--fail",
+      "mode": "light",
+      "value": "#9e2511",
+      "type": "color"
+    },
+    {
+      "name": "--focus",
+      "mode": "light",
+      "value": "#995600",
+      "type": "color"
+    },
+    {
+      "name": "--wash-accent",
+      "mode": "light",
+      "value": "rgba(153, 86, 0, 0.10)",
+      "type": "color"
+    },
+    {
+      "name": "--wash-signal",
+      "mode": "light",
+      "value": "rgba(0, 120, 83, 0.10)",
+      "type": "color"
+    },
+    {
+      "name": "--wash-fail",
+      "mode": "light",
+      "value": "rgba(158, 37, 17, 0.10)",
+      "type": "color"
+    },
+    {
+      "name": "--scrim",
+      "mode": "light",
+      "value": "rgba(44, 44, 42, 0.72)",
+      "type": "color"
+    },
+    {
+      "name": "--bg",
+      "mode": "night",
+      "value": "#050301",
+      "type": "color"
+    },
+    {
+      "name": "--bg-deep",
+      "mode": "night",
+      "value": "#020100",
+      "type": "color"
+    },
+    {
+      "name": "--surface",
+      "mode": "night",
+      "value": "#090703",
+      "type": "color"
+    },
+    {
+      "name": "--surface-raised",
+      "mode": "night",
+      "value": "#120f09",
+      "type": "color"
+    },
+    {
+      "name": "--surface-sunken",
+      "mode": "night",
+      "value": "#030201",
+      "type": "color"
+    },
+    {
+      "name": "--fg",
+      "mode": "night",
+      "value": "#cd8817",
+      "type": "color"
+    },
+    {
+      "name": "--fg-muted",
+      "mode": "night",
+      "value": "#7e7a72",
+      "type": "color"
+    },
+    {
+      "name": "--fg-disabled",
+      "mode": "night",
+      "value": "#403d36",
+      "type": "color"
+    },
+    {
+      "name": "--border",
+      "mode": "night",
+      "value": "#221f19",
+      "type": "color"
+    },
+    {
+      "name": "--border-strong",
+      "mode": "night",
+      "value": "#95581d",
+      "type": "color"
+    },
+    {
+      "name": "--accent",
+      "mode": "night",
+      "value": "#cd8817",
+      "type": "color"
+    },
+    {
+      "name": "--accent-fg",
+      "mode": "night",
+      "value": "#050301",
+      "type": "color"
+    },
+    {
+      "name": "--accent-hover",
+      "mode": "night",
+      "value": "#e49e38",
+      "type": "color"
+    },
+    {
+      "name": "--accent-active",
+      "mode": "night",
+      "value": "#b37000",
+      "type": "color"
+    },
+    {
+      "name": "--ghost-hover",
+      "mode": "night",
+      "value": "#18160f",
+      "type": "color"
+    },
+    {
+      "name": "--ghost-active",
+      "mode": "night",
+      "value": "#030201",
+      "type": "color"
+    },
+    {
+      "name": "--signal",
+      "mode": "night",
+      "value": "#3e9979",
+      "type": "color"
+    },
+    {
+      "name": "--warn",
+      "mode": "night",
+      "value": "#be6438",
+      "type": "color"
+    },
+    {
+      "name": "--fail",
+      "mode": "night",
+      "value": "#d15d4d",
+      "type": "color"
+    },
+    {
+      "name": "--focus",
+      "mode": "night",
+      "value": "#52ac8b",
+      "type": "color"
+    },
+    {
+      "name": "--wash-accent",
+      "mode": "night",
+      "value": "rgba(205, 136, 23, 0.12)",
+      "type": "color"
+    },
+    {
+      "name": "--wash-signal",
+      "mode": "night",
+      "value": "rgba(62, 153, 121, 0.12)",
+      "type": "color"
+    },
+    {
+      "name": "--wash-fail",
+      "mode": "night",
+      "value": "rgba(209, 93, 77, 0.12)",
+      "type": "color"
+    },
+    {
+      "name": "--scrim",
+      "mode": "night",
+      "value": "rgba(2, 1, 0, 0.90)",
+      "type": "color"
+    },
+    {
+      "name": "--text-xs",
+      "mode": "density-large",
+      "value": "16px",
+      "type": "fontSize"
+    },
+    {
+      "name": "--text-sm",
+      "mode": "density-large",
+      "value": "18px",
+      "type": "fontSize"
+    },
+    {
+      "name": "--text-base",
+      "mode": "density-large",
+      "value": "24px",
+      "type": "fontSize"
+    },
+    {
+      "name": "--text-lg",
+      "mode": "density-large",
+      "value": "28px",
+      "type": "fontSize"
+    },
+    {
+      "name": "--text-xl",
+      "mode": "density-large",
+      "value": "40px",
+      "type": "fontSize"
+    },
+    {
+      "name": "--glance-sm",
+      "mode": "density-large",
+      "value": "56px",
+      "type": "fontSize"
+    },
+    {
+      "name": "--glance-md",
+      "mode": "density-large",
+      "value": "88px",
+      "type": "fontSize"
+    },
+    {
+      "name": "--glance-lg",
+      "mode": "density-large",
+      "value": "128px",
+      "type": "fontSize"
+    },
+    {
+      "name": "--control-h",
+      "mode": "density-large",
+      "value": "64px",
+      "type": "dimension"
+    },
+    {
+      "name": "--control-h-sm",
+      "mode": "density-large",
+      "value": "52px",
+      "type": "other"
+    },
+    {
+      "name": "--card-min-h",
+      "mode": "density-large",
+      "value": "280px",
+      "type": "dimension"
+    }
+  ],
+  "summary": {
+    "totalTokens": 129,
+    "perMode": {
+      "base": 46,
+      "dark": 24,
+      "light": 24,
+      "night": 24,
+      "density-large": 11
+    }
+  }
+}

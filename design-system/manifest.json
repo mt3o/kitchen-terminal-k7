@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "od-design-system-project/v1",
+  "id": "kitchen-terminal-k7",
+  "name": "Kitchen Terminal K7",
+  "category": "Utility & Instrument",
+  "description": "Retro-futurist amber-phosphor HUD for a wall-mounted kitchen kiosk. Monospace, zero radius, no shadows, three luminance modes, built to a Safari 15.0 / iPad Air 2 baseline.",
+  "source": {
+    "type": "handoff",
+    "origin": "handoff-1.zip — HANDOFF.md, TECH-STACK.md, PLAN.md, theme.schema.yaml, layout.schema.yaml, wireframes/01-06"
+  },
+  "files": {
+    "design": "DESIGN.md",
+    "tokens": "tokens.css",
+    "designTokens": "design-tokens.json",
+    "tailwind": "tailwind-v4.css",
+    "components": "kitchen-terminal-k7-kit.html",
+    "themeSchema": "theme.schema.v2.yaml"
+  },
+  "usage": "USAGE.md",
+  "themes": [
+    { "id": "retro-scifi", "name": "Retro sci-fi HUD", "path": "themes/retro-scifi.yaml", "default": true },
+    { "id": "daylight-lab", "name": "Daylight Lab", "path": "themes/daylight-lab.yaml", "default": false }
+  ],
+  "modes": ["dark", "light", "night"],
+  "defaultMode": "dark",
+  "density": ["normal", "large"],
+  "target": {
+    "primaryDevice": "iPad Air 2 (A1567)",
+    "viewportCssPx": "1024x768 landscape",
+    "browserBaseline": "Safari 15.0",
+    "secondaryDevice": "iPhone 6s — 375x667",
+    "deployment": "LAN, PWA via Add to Home Screen, Auto-Lock Never"
+  },
+  "craft": {
+    "applies": ["color", "accessibility-baseline", "typography", "interaction-states"],
+    "suggested": ["motion"],
+    "exemptions": [
+      "display-body-type-pairing — a single monospace family is required by the brief and correct for a data-dense instrument"
+    ]
+  },
+  "importMode": "authored"
+}

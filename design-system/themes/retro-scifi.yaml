@@ -1,0 +1,133 @@
+# Kitchen Terminal K7 — canonical theme
+# Conforms to theme.schema.v2.yaml. Generates design-system/tokens.css.
+#
+# Provenance, role by role:
+#   KEPT      — accepted in the wireframes, audited, passes. Unchanged.
+#   FIXED     — accepted value failed WCAG AA. Corrected in OKLCH at constant
+#               hue and chroma. Ratio noted.
+#   NEW       — role the v1 schema had no slot for.
+#
+# All contrast ratios are measured against that mode's `surface`.
+
+name: "Retro sci-fi HUD"
+schemaVersion: 2
+
+typography:
+  fontFamily: "'Source Code Pro', ui-monospace, 'SF Mono', Menlo, 'Courier New', monospace"
+  fontSourceWoff2: "assets/fonts/source-code-pro-{400,500,600}.woff2"
+  baseSizePx: 20            # was 16 — 1 m reading distance, DESIGN.md §4.2
+  letterSpacingLabelsPx: 2  # KEPT
+  scale:
+    read:   { xs: 14, sm: 16, base: 20, lg: 24, xl: 32 }
+    glance: { sm: 48, md: 72, lg: 112 }
+  weights: { regular: 400, medium: 500, bold: 600 }
+
+colors:
+  # --- surfaces -------------------------------------------------------------
+  background:     { light: "#f4f2ec", dark: "#1a1712", night: "#050301" }  # KEPT / KEPT / NEW
+  backgroundDeep: { light: "#e7e3d8", dark: "#0f0d0a", night: "#020100" }  # KEPT from v1 gradient stop
+  surface:        { light: "#faf8f3", dark: "#211d16", night: "#090703" }
+  surfaceRaised:  { light: "#ffffff", dark: "#2d2922", night: "#120f09" }  # NEW
+  surfaceSunken:  { light: "#efece4", dark: "#18140d", night: "#030201" }  # NEW
+
+  # --- text -----------------------------------------------------------------
+  textPrimary:  { light: "#2c2c2a", dark: "#faab2f", night: "#cd8817" }
+  # KEPT dark 8.73:1 · KEPT light 13.99:1 · NEW night 6.83:1
+  textMuted:    { light: "#6a6963", dark: "#888780", night: "#7e7a72" }
+  # FIXED light: #888780 was 3.22:1 -> 4.92:1 · KEPT dark 4.65:1 · NEW night 4.71:1
+  textDisabled: { light: "#878680", dark: "#65645d", night: "#403d36" }   # NEW
+
+  # --- structure ------------------------------------------------------------
+  border:       { light: "#c9c5ba", dark: "#3a352b", night: "#221f19" }
+  # NEW. Intentionally below 3:1 — texture, never meaning.
+  borderStrong: { light: "#935100", dark: "#ba7517", night: "#95581d" }
+  # NEW light 5.49:1 · KEPT dark 4.51:1 · NEW night 3.54:1. The 2px HUD frame.
+
+  # --- accent: amber. This is INK, not an alert colour. DESIGN.md §2. -------
+  accent:   { light: "#995600", dark: "#faab2f", night: "#cd8817" }
+  # FIXED light: #ba7517 was 3.32:1 -> 5.09:1 · KEPT dark
+  accentFg: { light: "#ffffff", dark: "#1a1712", night: "#050301" }        # NEW
+
+  # --- signal: teal. Reserved for good/settled state. Max twice per card. ---
+  accentSecondary: { light: "#007853", dark: "#5dcaa5", night: "#3e9979" }
+  signal:          { light: "#007853", dark: "#5dcaa5", night: "#3e9979" }
+  # FIXED light: #1d9e75 was 3.03:1 -> 4.92:1 · KEPT dark 8.35:1 · NEW night 5.79:1
+  # `signal` is the v2 name; `accentSecondary` is kept as a v1 alias.
+
+  # --- status ---------------------------------------------------------------
+  warn:   { light: "#9e3800", dark: "#e08a3c", night: "#be6438" }
+  # NEW. Hue 45 — 27 degrees off ink amber so it is visible against it.
+  danger: { light: "#9e2511", dark: "#e06138", night: "#d15d4d" }
+  # FIXED dark: #d85a30 was 4.33:1 -> 4.74:1 · error text must clear AA
+  focus:  { light: "#995600", dark: "#6ad6b0", night: "#52ac8b" }          # NEW
+
+states:
+  # NEW. Precomputed — Safari 15.0 has no color-mix().
+  # Dark/night raise lightness on hover; light lowers it. Both increase contrast.
+  accentHover:  { light: "#834200", dark: "#ffc24d", night: "#e49e38" }
+  accentActive: { light: "#733300", dark: "#df9200", night: "#b37000" }
+  ghostHover:   { light: "#ebebeb", dark: "#322e27", night: "#18160f" }
+  ghostActive:  { light: "#dbdbdb", dark: "#15120b", night: "#030201" }
+
+shape:
+  borderRadiusPx: 0       # KEPT. Locked by the brief. No exceptions.
+  borderWidthPx: 1        # KEPT
+  borderWidthStrongPx: 2  # NEW — matches the wireframes' inset ring
+  hudBrackets: true       # KEPT
+
+spacing:
+  basePx: 4
+  gridGapPx: 12           # KEPT from layout.example.yaml
+  cardPaddingPx: 20
+  cardMinHeightPx: 240
+
+controls:
+  heightPx: 56            # wet hands, past the 44px iOS floor
+  heightSmallPx: 44
+  focusRingWidthPx: 3
+  focusRingOffsetPx: 2
+
+layout:
+  targetViewportPx: 1024  # iPad Air 2 landscape
+  sidebarWidthPx: 260     # KEPT from layout.example.yaml
+  breakpointTabletPx: 768
+  breakpointDesktopPx: 1024
+
+motion:
+  fastMs: 120
+  baseMs: 200
+  slowMs: 400
+  easing: "cubic-bezier(0.2, 0, 0, 1)"
+  blinkPeriodMs: 1200     # KEPT from the wireframes' 1.2s cursor
+
+nightMode:
+  enabled: true
+  trigger: sun            # Open-Meteo already returns sunrise/sunset
+  startTime: "22:00"      # fallback if the weather fetch fails
+  endTime: "06:00"
+
+density:
+  default: normal
+  largeScaleFactor: 1.2
+
+background:
+  gradient:
+    type: linear
+    angleDeg: 180
+    stops:
+      - { color: "#1a1712", position: 0 }
+      - { color: "#0f0d0a", position: 100 }
+    appliesTo: page       # KEPT
+
+transparency:
+  surfaceOpacity: 1       # was 0.92 — translucent cards over a gradient force a
+                          # full-screen composite on every repaint on the A8X
+  backdropBlurPx: 4       # scrim only, never per card
+
+boxShadow:
+  - { offsetXPx: 0, offsetYPx: 0, blurPx: 0, spreadPx: 2, color: "#ba7517", inset: true }
+  # KEPT. The HUD frame. The only shadow in the system.
+
+effects:
+  blinkingCursor: true    # KEPT. One per screen.
+  scanlines: false        # KEPT off — moires at 264 ppi

@@ -18,7 +18,7 @@ bug — fix it through the amendment flow, never by silently editing the store.
 | `TECH-STACK.md` | `docs/handoff/` — stack choices, own/3rd-party libraries, caveats |
 | `layout.schema.yaml`, `theme.schema.yaml`, `themes/retro-scifi.yaml` | `docs/handoff/` — the v1 contracts |
 | `git-workflow.md`, `tracker.md` | `context/foundation/` — the two bindings the lifecycle was blocked on, settled 2026-09-08 |
-| `design-system/DESIGN.md` + `tokens.css` + `theme.schema.v2.yaml` + the component kit | **OpenDesign project `kitchen-terminal-k7-design-system`** — see `design-bindings.md`; ⚠ not in this repo, not under version control |
+| `design-system/` — `DESIGN.md`, `tokens.css`, `theme.schema.v2.yaml`, both themes, the component kit | repository root; the OpenDesign project of the same name is a byte-identical mirror — see `design-bindings.md` |
 
 ## Captured nodes
 

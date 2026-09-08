@@ -1,0 +1,320 @@
+# Kitchen Terminal K7 — theme schema v2
+#
+# STRICT SUPERSET of the existing schema/theme.schema.yaml. Every file that
+# validates against v1 still validates here; v1 files simply omit the new
+# blocks and fall back to the documented defaults.
+#
+# What v2 adds, and why (full rationale in DESIGN.md):
+#   1. colorTriple  — a third mode, `night`. A {light, dark} pair cannot express
+#                     "same design, 8.8x dimmer" for a 24/7 kitchen display.
+#   2. new roles    — border, borderStrong, signal, warn, focus, accentFg.
+#                     v1 had no structural border and no non-amber warning
+#                     colour, so components were forced to invent both.
+#   3. states       — precomputed hover/active values. Safari 15 has no
+#                     color-mix(), so they cannot be derived at runtime.
+#   4. typography   — the two-tier read/glance scale the kiosk needs.
+#   5. spacing / controls / motion — previously hard-coded in components,
+#                     which breaks the "components read only tokens" contract.
+#   6. nightMode    — when the third mode engages.
+#   7. density      — large-type override as a token-layer mode.
+
+$schema: "https://json-schema.org/draft/2020-12/schema"
+$id: "https://kitchen-terminal-k7.local/schema/theme.schema.v2.yaml"
+title: Dashboard theme (v2)
+type: object
+required: [name, typography, colors, shape]
+properties:
+
+  name:
+    type: string
+    description: "Display name, e.g. 'Retro sci-fi HUD'."
+
+  schemaVersion:
+    type: integer
+    const: 2
+    default: 2
+    description: Omit for a v1 file; the loader then applies v1 defaults.
+
+  typography:
+    type: object
+    required: [fontFamily]
+    properties:
+      fontFamily:
+        type: string
+        description: >
+          CSS font-family for the single UI face. One family only — hierarchy
+          comes from weight/size/tracking, never a second display face.
+      fontSourceWoff2:
+        type: string
+        description: >
+          Project-relative path to the self-hosted woff2. The kiosk has no
+          reliable route to a font CDN; the service worker caches this with the
+          app shell.
+      baseSizePx:
+        type: integer
+        default: 20
+        description: >
+          v1 default was 16. Raised to 20: at the kiosk's 1 m reading distance
+          16px subtends 5.5 arcmin, 20px subtends 6.9. See DESIGN.md §4.2.
+      letterSpacingLabelsPx:
+        type: number
+        default: 2
+      scale:
+        type: object
+        description: Two tiers, set by viewing distance.
+        properties:
+          read:
+            type: object
+            description: "Consumed at 0.4-1.0 m."
+            properties:
+              xs: { type: integer, default: 14 }
+              sm: { type: integer, default: 16 }
+              base: { type: integer, default: 20 }
+              lg: { type: integer, default: 24 }
+              xl: { type: integer, default: 32 }
+          glance:
+            type: object
+            description: "Consumed at 1.5-3.0 m, from the doorway."
+            properties:
+              sm: { type: integer, default: 48 }
+              md: { type: integer, default: 72 }
+              lg: { type: integer, default: 112 }
+      weights:
+        type: object
+        properties:
+          regular: { type: integer, default: 400 }
+          medium: { type: integer, default: 500 }
+          bold: { type: integer, default: 600 }
+
+  colors:
+    type: object
+    description: >
+      Every role is a colorTriple {light, dark, night}. `night` is optional and
+      falls back to `dark`, which keeps v1 files valid.
+    required: [background, surface, accent, textPrimary, textMuted]
+    properties:
+      background: { $ref: "#/$defs/colorTriple" }
+      backgroundDeep: { $ref: "#/$defs/colorTriple" }
+      surface: { $ref: "#/$defs/colorTriple" }
+      surfaceRaised: { $ref: "#/$defs/colorTriple" }
+      surfaceSunken: { $ref: "#/$defs/colorTriple" }
+      textPrimary: { $ref: "#/$defs/colorTriple" }
+      textMuted: { $ref: "#/$defs/colorTriple" }
+      textDisabled:
+        $ref: "#/$defs/colorTriple"
+        description: The only role allowed below 4.5:1.
+      border:
+        $ref: "#/$defs/colorTriple"
+        description: >
+          NEW in v2. Structural hairline. Deliberately below 3:1 — it is
+          texture, never a carrier of meaning.
+      borderStrong:
+        $ref: "#/$defs/colorTriple"
+        description: "NEW in v2. The 2px HUD frame. Must reach 3:1 on surface."
+      accent: { $ref: "#/$defs/colorTriple" }
+      accentFg:
+        $ref: "#/$defs/colorTriple"
+        description: >
+          NEW in v2. Foreground on a solid accent fill. v1 had no way to state
+          this pair, so solid buttons had no defined text colour.
+      accentSecondary: { $ref: "#/$defs/colorTriple" }
+      signal:
+        $ref: "#/$defs/colorTriple"
+        description: >
+          NEW in v2. Good/settled state: ONLINE, done, checked. Reserved —
+          at most twice per card. See DESIGN.md §2.
+      warn:
+        $ref: "#/$defs/colorTriple"
+        description: >
+          NEW in v2. Must NOT share the accent's hue. On an amber screen a warm
+          warning is invisible; keep at least 25 degrees of hue separation.
+      danger: { $ref: "#/$defs/colorTriple" }
+      focus:
+        $ref: "#/$defs/colorTriple"
+        description: "NEW in v2. Focus ring. Must reach 3:1 vs. control AND surface."
+
+  states:
+    type: object
+    description: >
+      NEW in v2. Precomputed interaction values. Safari 15.0 has no color-mix(),
+      so these cannot be derived in the browser. Generate them by shifting OKLCH
+      lightness 0.06-0.12 from the resting value; contrast must never drop.
+    properties:
+      accentHover: { $ref: "#/$defs/colorTriple" }
+      accentActive: { $ref: "#/$defs/colorTriple" }
+      ghostHover: { $ref: "#/$defs/colorTriple" }
+      ghostActive: { $ref: "#/$defs/colorTriple" }
+
+  shape:
+    type: object
+    required: [borderRadiusPx, borderWidthPx]
+    properties:
+      borderRadiusPx:
+        type: integer
+        minimum: 0
+        description: "0 = sharp (retro sci-fi), >0 = rounded."
+      borderWidthPx: { type: number, default: 1 }
+      borderWidthStrongPx:
+        type: number
+        default: 2
+        description: NEW in v2. The HUD frame weight.
+      hudBrackets: { type: boolean, default: false }
+
+  spacing:
+    type: object
+    description: NEW in v2. Was hard-coded in components, breaking the token contract.
+    properties:
+      basePx: { type: integer, default: 4 }
+      gridGapPx: { type: integer, default: 12 }
+      cardPaddingPx: { type: integer, default: 20 }
+      cardMinHeightPx: { type: integer, default: 240 }
+
+  controls:
+    type: object
+    description: >
+      NEW in v2. Touch-only kiosk, frequently operated with wet hands, so the
+      primary control sits well above the 44px iOS floor.
+    properties:
+      heightPx: { type: integer, default: 56, minimum: 44 }
+      heightSmallPx: { type: integer, default: 44, minimum: 44 }
+      focusRingWidthPx: { type: integer, default: 3 }
+      focusRingOffsetPx: { type: integer, default: 2 }
+
+  layout:
+    type: object
+    description: NEW in v2. Bound to the real device, not an abstract breakpoint set.
+    properties:
+      targetViewportPx:
+        type: integer
+        default: 1024
+        description: "iPad Air 2 landscape. The design target, not a max-width."
+      sidebarWidthPx: { type: integer, default: 260 }
+      breakpointTabletPx: { type: integer, default: 768 }
+      breakpointDesktopPx: { type: integer, default: 1024 }
+
+  motion:
+    type: object
+    description: >
+      NEW in v2. Only `opacity` and `transform` may be animated — the A8X GPU
+      cannot afford paint on a display that never sleeps.
+    properties:
+      fastMs: { type: integer, default: 120 }
+      baseMs: { type: integer, default: 200 }
+      slowMs: { type: integer, default: 400 }
+      easing: { type: string, default: "cubic-bezier(0.2, 0, 0, 1)" }
+      blinkPeriodMs: { type: integer, default: 1200 }
+
+  nightMode:
+    type: object
+    description: >
+      NEW in v2. When the `night` colour set engages. Schedule only — the
+      iPad's ambient sensor sits behind a wall mount and reads the room's
+      shadow rather than its light.
+    properties:
+      enabled: { type: boolean, default: false }
+      trigger:
+        type: string
+        enum: [schedule, sun]
+        default: schedule
+        description: "sun = derive from Open-Meteo sunrise/sunset for the weather card's location."
+      startTime: { type: string, default: "22:00" }
+      endTime: { type: string, default: "06:00" }
+
+  density:
+    type: object
+    description: >
+      NEW in v2. Large-type is a token-layer mode, not an end-of-pipeline
+      toggle. No layout may assume a height that clips when the scale grows.
+    properties:
+      default:
+        type: string
+        enum: [normal, large]
+        default: normal
+      largeScaleFactor: { type: number, default: 1.2 }
+
+  background:
+    type: object
+    description: Unchanged from v1.
+    properties:
+      image:
+        type: object
+        properties:
+          url: { type: string }
+          size: { type: string, enum: [cover, contain, auto], default: cover }
+          position: { type: string, default: "center" }
+          repeat: { type: string, enum: [no-repeat, repeat, repeat-x, repeat-y], default: no-repeat }
+          opacity: { type: number, minimum: 0, maximum: 1, default: 1 }
+          appliesTo: { type: string, enum: [page, cards, both], default: page }
+      gradient:
+        type: object
+        properties:
+          type: { type: string, enum: [linear, radial], default: linear }
+          angleDeg: { type: number, default: 180 }
+          stops:
+            type: array
+            minItems: 2
+            items:
+              type: object
+              required: [color, position]
+              properties:
+                color: { type: string }
+                position: { type: number, minimum: 0, maximum: 100 }
+          appliesTo: { type: string, enum: [page, cards, both], default: page }
+
+  transparency:
+    type: object
+    properties:
+      surfaceOpacity: { type: number, minimum: 0, maximum: 1, default: 1 }
+      backdropBlurPx:
+        type: number
+        minimum: 0
+        maximum: 4
+        default: 0
+        description: >
+          v2 caps this at 4 and it is intended for the scrim only, not per card.
+          backdrop-filter needs the -webkit- prefix on Safari 15 and is the most
+          expensive effect available on an A8X.
+
+  boxShadow:
+    type: array
+    description: >
+      Elevation in this system is a 1px border plus one step on the surface
+      ramp. The only entry expected here is the card's inset HUD frame; an
+      empty list is also correct. Soft outer shadows are an anti-pattern —
+      see DESIGN.md §12.
+    items:
+      type: object
+      required: [offsetXPx, offsetYPx, blurPx, color]
+      properties:
+        offsetXPx: { type: number, default: 0 }
+        offsetYPx: { type: number, default: 0 }
+        blurPx: { type: number, minimum: 0, default: 0 }
+        spreadPx: { type: number, default: 0 }
+        color: { type: string }
+        inset: { type: boolean, default: false }
+
+  effects:
+    type: object
+    properties:
+      blinkingCursor:
+        type: boolean
+        default: false
+        description: One per screen, in the shell header. Disabled by prefers-reduced-motion.
+      scanlines:
+        type: boolean
+        default: false
+        description: >
+          Off by default. At 264 ppi a 1px repeating gradient moires, and it
+          costs a full-screen composite every frame. If enabled, restrict to
+          card headers.
+
+$defs:
+  colorTriple:
+    type: object
+    required: [light, dark]
+    properties:
+      light: { type: string, description: "Hex. Foregrounds must sit at OKLCH L <= 54%." }
+      dark: { type: string, description: "Hex." }
+      night:
+        type: string
+        description: "Hex. Optional — falls back to `dark`, which keeps v1 files valid."
