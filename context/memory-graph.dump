@@ -48,8 +48,10 @@ archived: false
 -> SCOPED_TO [node:cabf56d2-4b59-4f19-96f7-9388071c1086] @ 2026-09-08T09:37:22.262832+00:00
 -> SCOPED_TO [node:d3faf49e-9fd8-4d79-9c8a-733cb2baa856] @ 2026-09-08T09:36:59.279270+00:00
 -> SCOPED_TO [node:d44ca6f2-aba3-4b52-99ba-cebf2695b4de] @ 2026-09-08T09:55:56.019321+00:00
+-> SCOPED_TO [node:d6e551dc-7e5a-4198-bd15-5dc28cfed941] @ 2026-09-08T14:55:08.165705+00:00
 -> SCOPED_TO [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a] @ 2026-09-08T09:37:21.675646+00:00
 -> SCOPED_TO [node:e24b75ab-e370-4566-b9e7-35706cad806b] @ 2026-09-08T09:38:01.635211+00:00
+-> SCOPED_TO [node:e43574bd-bdb9-493c-83fb-7f89fb4f9d8f] @ 2026-09-08T14:55:08.289479+00:00
 -> SCOPED_TO [node:ee768ade-394d-475c-92fb-e5c5b28e0efc] @ 2026-09-08T09:38:30.858406+00:00
 -> SCOPED_TO [node:f42da1a9-633f-4fe2-81e4-47bd34b836f4] @ 2026-09-08T09:38:30.709099+00:00
 -> SCOPED_TO [node:fd9717c3-c5af-470d-a9e6-80d382652b16] @ 2026-09-08T13:31:04.312167+00:00
@@ -113,8 +115,10 @@ archived: false
 -> DEPENDS_ON [node:cabf56d2-4b59-4f19-96f7-9388071c1086] @ 2026-09-08T09:37:22.262832+00:00
 -> DEPENDS_ON [node:d3faf49e-9fd8-4d79-9c8a-733cb2baa856] @ 2026-09-08T09:36:59.279270+00:00
 -> DEPENDS_ON [node:d44ca6f2-aba3-4b52-99ba-cebf2695b4de] @ 2026-09-08T09:55:56.019321+00:00
+-> DEPENDS_ON [node:d6e551dc-7e5a-4198-bd15-5dc28cfed941] @ 2026-09-08T14:55:08.165705+00:00
 -> DEPENDS_ON [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a] @ 2026-09-08T09:37:21.675646+00:00
 -> DEPENDS_ON [node:e24b75ab-e370-4566-b9e7-35706cad806b] @ 2026-09-08T09:38:01.635211+00:00
+-> DEPENDS_ON [node:e43574bd-bdb9-493c-83fb-7f89fb4f9d8f] @ 2026-09-08T14:55:08.289479+00:00
 -> DEPENDS_ON [node:ee768ade-394d-475c-92fb-e5c5b28e0efc] @ 2026-09-08T09:38:30.858406+00:00
 -> DEPENDS_ON [node:f42da1a9-633f-4fe2-81e4-47bd34b836f4] @ 2026-09-08T09:38:30.709099+00:00
 -> DEPENDS_ON [node:fd9717c3-c5af-470d-a9e6-80d382652b16] @ 2026-09-08T13:31:04.312167+00:00
@@ -1113,7 +1117,7 @@ type: issue
 tier: mid-term
 path: /artifact/the-stack-assumes-typescript-7-with-the
 created_at: 2026-09-08T09:38:30.287095+00:00
-needs_review: false
+needs_review: true
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
@@ -1140,6 +1144,26 @@ source: agent-surface
 created_at: 2026-09-08T13:35:17.977538+00:00
 
 /gw-resolve pass 2: re-examined as part of the sweep argument. With Faza 0 unblocked this is now live Faza 0 work rather than a pre-Faza-0 blocker, and it is one of the two nodes the 'do not sweep yet' position now rests on
+---
+[event:688b5a05-1974-4141-bd31-7b918520aa2b]
+node_id: b6cc5895-5e52-462a-aab2-c934ba921825
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-08T14:55:08.289479+00:00
+
+contradicted at capture of e43574bd-bdb9-493c-83fb-7f89fb4f9d8f
+---
+[event:bfb56e44-a154-4bfa-a956-7902ddb5b360]
+node_id: b6cc5895-5e52-462a-aab2-c934ba921825
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-08T14:55:08.413008+00:00
+
+verified 2026-09-08 against the registry: typescript@7.0.2 is published, so the GA status the issue asked to check is settled and its premise no longer holds
 ---
 [node:baefeee7-a562-4085-8a4e-cd20045f4164]
 type: issue
@@ -2119,3 +2143,104 @@ archived: false
 -> ABOUT [node:f96f62c3-d72a-4c40-8e16-57278ca1f302] @ 2026-09-08T13:42:46.308554+00:00
 
 The sidebar's collapse behaviour is decided by the device shape rather than by preference: permanent in horizontal layouts, collapsible in vertical ones, and always collapsible on a phone. The phone case is a schema const, not a default - it cannot be overridden - because a permanent sidebar on a 375px screen leaves nothing for the cards it sits beside.
+---
+[node:73716ffb-625f-4745-9032-65658cd2e691]
+type: slice
+tier: short-term
+path: /change/k7-walking-skeleton
+created_at: 2026-09-08T14:54:53.263471+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:8e7f3005-1043-45a9-994b-366f80431b08] @ 2026-09-08T15:04:16.351954+00:00
+-> SCOPED_TO [node:f6891e4a-1a43-4d86-925c-cc0ef0b218d7] @ 2026-09-08T14:54:53.263471+00:00
+
+change scope: k7-walking-skeleton
+---
+[event:a0bf2916-63af-4412-97de-3aa8f8b4edab]
+node_id: 73716ffb-625f-4745-9032-65658cd2e691
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T14:54:53.265108+00:00
+
+create_change k7-walking-skeleton
+---
+[node:f6891e4a-1a43-4d86-925c-cc0ef0b218d7]
+type: goal
+tier: short-term
+path: /goal/k7-walking-skeleton
+created_at: 2026-09-08T14:54:53.263471+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-08T14:54:53.263471+00:00
+-> DEPENDS_ON [node:8e7f3005-1043-45a9-994b-366f80431b08] @ 2026-09-08T15:04:16.351954+00:00
+
+Stand up a walking skeleton for Kitchen Terminal K7: repo, Safari 15 build target, backend serving a Svelte custom element that renders cards in the real design tokens, and CI that enforces the token contract
+---
+[node:d6e551dc-7e5a-4198-bd15-5dc28cfed941]
+type: decision
+tier: mid-term
+path: /artifact/faza-0-is-sliced-walking-skeleton-first
+created_at: 2026-09-08T14:55:08.165705+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T14:55:08.165705+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T14:55:08.165705+00:00
+
+Faza 0 is sliced walking-skeleton-first rather than scaffold-first. A slice that delivers only the repo layout, or only the schema, is unverifiable until the last slice lands, which leaves the whole phase without feedback while it is still cheap to change. So slice 1 cuts a thin path through every layer at once - build target, server, one custom element, real tokens, CI - and everything after it hangs off a thing that already runs. Secrets-and-errors and Storybook are genuinely headless because they are verifiable by command with no surface and no argument; the persistence and Service Worker slices each turn on an architectural decision with real alternatives, so both will want to be argued with and neither can run unattended.
+---
+[node:e43574bd-bdb9-493c-83fb-7f89fb4f9d8f]
+type: decision
+tier: mid-term
+path: /artifact/typescript-7-with-the-native-go-compiler
+created_at: 2026-09-08T14:55:08.289479+00:00
+needs_review: true
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> CONTRADICTS [node:b6cc5895-5e52-462a-aab2-c934ba921825] @ 2026-09-08T14:55:08.289479+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T14:55:08.289479+00:00
+
+TypeScript 7 with the native Go compiler is generally available - 7.0.2 on npm - so the stack's assumption holds and scaffolding does not need a fallback to the 5.x line. The plan was written when a June 2026 release candidate was still the expectation; the verification it asked for has now been done. Vite 8, Svelte 5, Astro 7 and Fastify 5 are likewise all real releases, so nothing in the assumed stack is aspirational.
+---
+[event:665e5b05-3470-4a93-9117-5d5dcc0283f3]
+node_id: e43574bd-bdb9-493c-83fb-7f89fb4f9d8f
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-08T15:04:16.351954+00:00
+
+contradicted at capture of 8e7f3005-1043-45a9-994b-366f80431b08
+---
+[event:1d1bccdc-7247-4f76-85aa-e98aa6ac5f60]
+node_id: e43574bd-bdb9-493c-83fb-7f89fb4f9d8f
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-08T15:04:16.472674+00:00
+
+half of this is wrong and it was captured today: TypeScript 7 is indeed GA, but 'scaffolding does not need a fallback' is false - typescript-eslint 8 hard-refuses to load against 7 and svelte-check peers ^5||^6, so the scaffold pins 6.0.3
+---
+[node:8e7f3005-1043-45a9-994b-366f80431b08]
+type: decision
+tier: mid-term
+path: /artifact/typescript-is-pinned-to-the-6-x-line-no
+created_at: 2026-09-08T15:04:16.351954+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-08T15:04:16.351954+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T15:04:16.351954+00:00
+-> CONTRADICTS [node:e43574bd-bdb9-493c-83fb-7f89fb4f9d8f] @ 2026-09-08T15:04:16.351954+00:00
+
+TypeScript is pinned to the 6.x line, not 7, even though 7 is generally available. The compiler shipped ahead of its ecosystem: typescript-eslint 8 declares a peer range of >=4.8.4 <6.1.0 and refuses to load against 7 at import time rather than merely warning, and svelte-check peers ^5 || ^6. TypeScript 6.0.3 is the highest version the whole toolchain accepts, so it is the pin. Reaching for --legacy-peer-deps instead would have produced a lint setup that imports a parser its own dependency rejects. Move to 7 when typescript-eslint and svelte-check widen their ranges, not before.

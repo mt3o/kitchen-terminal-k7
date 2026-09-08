@@ -155,6 +155,11 @@ step because the MCP tools are absent.
   inventory and wireframe geometry), `screens/*.html` (clickable prototypes in the
   project's real tokens), `asks.jsonl` (the append-only agent↔human desk). All
   committed. **Not** a per-change folder, and never moved by `/gw-archive`.
+- `context/changes/domain-model/` — the ubiquitous language. 15 entities were
+  extracted from the written corpus on 2026-09-08; `domain_model()` serves them and
+  their definitions. Entities never decay and survive every sweep, so check an
+  entity's `status` before leaning on it — a `proposed` one is usable but not yet
+  settled language, and only a human confirms it.
 - `context/archive/<change-id>/` — immutable, append-only.
 - `context/foundation/` — PRD, roadmap, tech-stack: human source of truth, whose
   normative content is mirrored into the graph at lifetime tier via
@@ -167,11 +172,19 @@ step because the MCP tools are absent.
 - `context/memory-graph.dump` — the tracked store, as legible text (diffs and
   merges natively). `context/memory-graph.db` is a gitignored build artifact the
   store rebuilds on open and refreshes on close; nothing to set up, no filter.
-  If a merge conflicts in the dump, run `agentic-memory sync resolve` and `git add`
-  the result — never hand-edit the markers out, because git aligns similar blocks and
+  Never hand-edit conflict markers out of the dump: git aligns similar blocks and
   shows only their differing lines, so "keep both sides" can splice half of one entry
-  onto half of another. Memory commands refuse to run against a conflicted dump, so
-  you will be told rather than served a half-loaded graph.
+  onto half of another and yield a dump that parses and is wrong. `.gitattributes`
+  marks it `-merge` for that reason, so a conflicting dump arrives whole rather than
+  spliced. Memory commands refuse to run against a conflicted dump, so you will be
+  told rather than served a half-loaded graph.
+
+  **Recovery:** keep one side of the dump whole, run `agentic-memory sync restore` to
+  rebuild the database from it, and re-capture whatever the discarded side held.
+  (Earlier revisions of this file prescribed `agentic-memory sync resolve`. **That
+  subcommand does not exist** — `sync` accepts only `status`, `dump` and `restore`.
+  Verified against the installed CLI on 2026-09-08; if a later version adds it,
+  update this paragraph rather than trusting the memory of it.)
 - `context/foundation/tracker.md` — the issue-tracker binding (which tracker, the
   board's real state names, who may close). `tracker: none` is a valid answer.
 - `context/changes/<id>/change.md` carries `tracker:` alongside `memory_goal:` when

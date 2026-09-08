@@ -1,0 +1,99 @@
+/* The shell. Every value here is a token: no hex, no rgb(), no font-family,
+   no px radius. scripts/check-token-contract.sh fails the build otherwise. */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  /* 100vh is wrong in standalone PWA mode on Safari 15 — the toolbar is gone
+     but vh still assumes it. -webkit-fill-available is the 15.0 answer; dvh is
+     15.4 and therefore past the floor. */
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+}
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  /* A fixed height, not a minimum: the shell is the frame and the deck scrolls
+     inside it. With min-height the deck's own min-height pushes the footer off
+     the bottom of a 768px screen and the status line — the one thing that says
+     whether the terminal is alive — is the first casualty. */
+  height: 100vh;
+  height: -webkit-fill-available;
+  padding: var(--space-4);
+  overflow: hidden;
+}
+
+.shell-head,
+.shell-foot {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.shell-head {
+  border-bottom: var(--border-w-strong) solid var(--border-strong);
+  padding-bottom: var(--space-3);
+}
+
+.shell-status { display: inline-flex; align-items: center; gap: var(--space-2); }
+
+.hud-label {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--fg-muted);
+}
+
+.meta {
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* One cursor per screen. It is the system's heartbeat; multiplying it kills the
+   effect, and it is the first thing prefers-reduced-motion turns off. */
+.cursor {
+  color: var(--accent);
+  animation: k7-blink var(--blink-period, 1.2s) steps(1) infinite;
+}
+@keyframes k7-blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .cursor { animation: none; }
+}
+
+.deck {
+  /* min-height:0 is what actually lets a flex child shrink below its content
+     and scroll. Without it the deck refuses to shrink and overflows the shell. */
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: grid;
+  grid-template-columns: repeat(var(--deck-cols, 3), minmax(0, 1fr));
+  gap: var(--card-gap, var(--space-3));
+  align-content: start;
+}
+
+/* The iPad Air 2 in landscape is the design target: 1024x768. Below that is the
+   phone-over-LAN case, not a desktop scaled down. @container is Safari 16, so
+   this is a media query on purpose. */
+@media (max-width: 767px) {
+  .deck { grid-template-columns: minmax(0, 1fr); }
+}

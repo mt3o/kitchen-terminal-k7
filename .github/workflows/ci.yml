@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - run: npm ci
+
+      - name: ESLint
+        run: npm run lint
+
+      # Enforces the theming rule (components read only CSS custom properties,
+      # never hardcoded colours/fonts/radii) and the Safari 15.0 CSS floor —
+      # the target device is an iPad Air 2 capped at iPadOS 15.
+      - name: Design-token contract
+        run: npm run lint:tokens
+
+      - name: Typecheck + build
+        run: npm run build
