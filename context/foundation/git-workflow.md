@@ -83,10 +83,11 @@ resolved deliberately.
 
 ## Repository visibility
 
-`HANDOFF.md` settles the repository as **public**. Nothing in the tree carries a
-secret — Varlock keeps values out of the schema agents see, and the LAN topology
-notes name no addresses — but publication is still a one-way door, so it is a
-human's explicit act and never an agent's.
+`HANDOFF.md` settles the repository as **public**, and it was published as such on
+2026-09-08 at `https://github.com/mt3o/kitchen-terminal-k7` on the owner's explicit
+confirmation. Nothing in the tree carries a secret — Varlock keeps values out of the
+schema agents see, and the LAN topology notes name no addresses — but publication is
+a one-way door, so it stays a human's explicit act and never an agent's.
 
 <!-- graph-workflow: captured 2026-09-08 into memory_goal 59472cdc.
        branch-per-change, PR, merge commit, no squash .. a17b142e-850e-4cdb-8d84-2689e75428a7
