@@ -13,6 +13,8 @@ export interface Config {
   port: number
   host: string
   environment: string
+  /** SQLite file. `:memory:` is honoured, which is how the tests run. */
+  databasePath: string
   /** Absent means error reporting is off. That is a supported way to run. */
   glitchtipDsn: string | undefined
   kiloGatewayKey: string | undefined
@@ -34,6 +36,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     port: readPort(env.K7_PORT, 8080),
     host: env.K7_HOST ?? '0.0.0.0',
     environment: env.NODE_ENV ?? 'development',
+    databasePath: env.K7_DB_PATH ?? './data/k7.sqlite',
     glitchtipDsn: env.GLITCHTIP_DSN || undefined,
     kiloGatewayKey: env.KILO_GATEWAY_KEY || undefined,
     googleOauthRefreshToken: env.GOOGLE_OAUTH_REFRESH_TOKEN || undefined,
@@ -56,6 +59,7 @@ export function describeConfig(config: Config): string {
     `env=${config.environment}`,
     `host=${config.host}`,
     `port=${config.port}`,
+    `db=${config.databasePath}`,
     `glitchtip=${present(config.glitchtipDsn)}`,
     `kilo_key=${present(config.kiloGatewayKey)}`,
     `google_refresh=${present(config.googleOauthRefreshToken)}`,

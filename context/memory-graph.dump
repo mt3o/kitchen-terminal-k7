@@ -1117,10 +1117,10 @@ type: issue
 tier: mid-term
 path: /artifact/the-stack-assumes-typescript-7-with-the
 created_at: 2026-09-08T09:38:30.287095+00:00
-needs_review: true
+needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:38:30.287095+00:00
 
 The stack assumes TypeScript 7 with the native Go compiler, but the plan was written before that shipped and assumed an RC around June 2026. GA status must be verified before scaffolding rather than after.
@@ -1164,6 +1164,36 @@ source: agent-surface
 created_at: 2026-09-08T14:55:08.413008+00:00
 
 verified 2026-09-08 against the registry: typescript@7.0.2 is published, so the GA status the issue asked to check is settled and its premise no longer holds
+---
+[event:246dcb36-67dd-4017-9b0e-0e62315c8395]
+node_id: b6cc5895-5e52-462a-aab2-c934ba921825
+type: manual_review
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-09-08T15:40:35.815610+00:00
+
+guided resolve: recommended=superseded, chose=superseded: human ruled superseded: the verification the issue demanded has been done and the pin is settled at 6.x; lineage points at TSPIN, the node that says what the project actually does, rather than at the GA node which is itself being corrected
+---
+[event:96749897-33c3-4bf6-a12e-f2c7315b1c77]
+node_id: b6cc5895-5e52-462a-aab2-c934ba921825
+type: contradiction_cleared
+weight: 1.0
+polarity: 1
+source: gui-guided
+created_at: 2026-09-08T15:40:35.815610+00:00
+
+guided review: superseded
+---
+[event:e3b58d2f-88fb-4a06-851f-e77a093f485b]
+node_id: b6cc5895-5e52-462a-aab2-c934ba921825
+type: archived
+weight: 0.0
+polarity: -1
+source: gui-guided
+created_at: 2026-09-08T15:40:35.815610+00:00
+
+guided review: superseded
 ---
 [node:baefeee7-a562-4085-8a4e-cd20045f4164]
 type: issue
@@ -1751,6 +1781,16 @@ created_at: 2026-09-08T13:41:00.191541+00:00
 
 proposed via agent surface: docs/handoff/layout.schema.yaml:13-49
 ---
+[event:65d6eeb6-791f-4a79-ab61-e321e2898480]
+node_id: f96f62c3-d72a-4c40-8e16-57278ca1f302
+type: entity_confirmed
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:45.038499+00:00
+
+/gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
+---
 [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7]
 type: entity
 tier: short-term
@@ -1773,6 +1813,16 @@ source: agent-surface
 created_at: 2026-09-08T13:41:00.379500+00:00
 
 proposed via agent surface: docs/handoff/layout.schema.yaml:19-25; design-system/theme.schema.v2.yaml
+---
+[event:c23d198f-2d37-4c74-9435-6bb28bac7764]
+node_id: 73fb6132-40d3-4e2d-8b88-334442c4bfa7
+type: entity_confirmed
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:45.080056+00:00
+
+/gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
 ---
 [node:49ba726c-031e-4a01-839f-11a76a8bf009]
 type: entity
@@ -1798,6 +1848,16 @@ created_at: 2026-09-08T13:41:00.537283+00:00
 
 proposed via agent surface: docs/handoff/layout.schema.yaml:103-125; design-system/DESIGN.md section 8
 ---
+[event:4a104a93-85dd-4c22-b3ff-6ecf1b89be71]
+node_id: 49ba726c-031e-4a01-839f-11a76a8bf009
+type: entity_confirmed
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:45.014807+00:00
+
+/gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
+---
 [node:7e1fbadd-ddd7-496e-89e4-0f835b3753a8]
 type: entity
 tier: short-term
@@ -1821,6 +1881,16 @@ source: agent-surface
 created_at: 2026-09-08T13:41:00.698165+00:00
 
 proposed via agent surface: docs/handoff/layout.schema.yaml:26-30,53-101
+---
+[event:5681739e-96cb-45fb-b5e2-18f17d508b77]
+node_id: 7e1fbadd-ddd7-496e-89e4-0f835b3753a8
+type: entity_confirmed
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:45.068160+00:00
+
+/gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
 ---
 [node:4a2676eb-7a58-4476-adc7-b6b5631f3454]
 type: entity
@@ -1846,6 +1916,16 @@ created_at: 2026-09-08T13:41:00.870631+00:00
 
 proposed via agent surface: docs/handoff/layout.schema.yaml:31-43
 ---
+[event:d216b5b4-93ef-4daf-9b21-92349a57bd86]
+node_id: 4a2676eb-7a58-4476-adc7-b6b5631f3454
+type: entity_confirmed
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:45.032778+00:00
+
+/gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
+---
 [node:d8f13deb-0013-41b1-9f8c-a57918a3b130]
 type: entity
 tier: short-term
@@ -1869,6 +1949,16 @@ source: agent-surface
 created_at: 2026-09-08T13:41:01.029695+00:00
 
 proposed via agent surface: docs/handoff/layout.schema.yaml:405-425
+---
+[event:3c13b563-bcd1-40ec-b205-30613cf13650]
+node_id: d8f13deb-0013-41b1-9f8c-a57918a3b130
+type: entity_confirmed
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:45.021205+00:00
+
+/gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
 ---
 [node:d2844438-9992-4e20-bfb5-fa615a906574]
 type: entity
@@ -1894,6 +1984,16 @@ created_at: 2026-09-08T13:41:01.187104+00:00
 
 proposed via agent surface: docs/handoff/layout.schema.yaml:427-449
 ---
+[event:08b31cc5-a73a-4f35-bb7f-8e4cf0e5b71f]
+node_id: d2844438-9992-4e20-bfb5-fa615a906574
+type: entity_confirmed
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:45.073994+00:00
+
+/gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
+---
 [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f]
 type: entity
 tier: short-term
@@ -1916,6 +2016,16 @@ source: agent-surface
 created_at: 2026-09-08T13:41:26.799909+00:00
 
 proposed via agent surface: PLAN.md:17 table recipes; docs/handoff/layout.schema.yaml:222-235
+---
+[event:62a00d2b-45cd-41a8-89da-64789780ce24]
+node_id: 15863232-0fb0-4c79-aaa9-3750ce8c0a2f
+type: entity_confirmed
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:45.056544+00:00
+
+/gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
 ---
 [node:5af79def-9364-4086-9b1b-c26f36622dbd]
 type: entity
@@ -1940,6 +2050,16 @@ created_at: 2026-09-08T13:41:26.929005+00:00
 
 proposed via agent surface: PLAN.md:18 table shopping_list; docs/handoff/layout.schema.yaml:236-260
 ---
+[event:0e3e8e04-c068-46bb-a345-ee25d3df918f]
+node_id: 5af79def-9364-4086-9b1b-c26f36622dbd
+type: entity_confirmed
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:45.062375+00:00
+
+/gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
+---
 [node:3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550]
 type: entity
 tier: short-term
@@ -1963,6 +2083,16 @@ created_at: 2026-09-08T13:41:27.055782+00:00
 
 proposed via agent surface: docs/handoff/layout.schema.yaml:178-195
 ---
+[event:75a4b9d4-67db-48fe-8929-b08e2c9cef81]
+node_id: 3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550
+type: entity_confirmed
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:45.008315+00:00
+
+/gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
+---
 [node:7b73e502-b1fb-4587-96bd-f005b1ead665]
 type: entity
 tier: short-term
@@ -1985,6 +2115,16 @@ source: agent-surface
 created_at: 2026-09-08T13:41:27.188135+00:00
 
 proposed via agent surface: PLAN.md:18 table conversations
+---
+[event:f760afc6-c427-4c4e-84a9-da48005afcce]
+node_id: 7b73e502-b1fb-4587-96bd-f005b1ead665
+type: entity_confirmed
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:45.027071+00:00
+
+/gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
 ---
 [node:f29aa338-eddb-456b-97ad-00b602cb9a42]
 type: entity
@@ -2010,6 +2150,16 @@ created_at: 2026-09-08T13:41:27.326342+00:00
 
 proposed via agent surface: docs/handoff/layout.schema.yaml:196-200; HANDOFF.md:57-60
 ---
+[event:ca6f06c9-1ce1-4eb9-8105-c6890fa36998]
+node_id: f29aa338-eddb-456b-97ad-00b602cb9a42
+type: entity_confirmed
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:45.049880+00:00
+
+/gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
+---
 [node:f2e09a03-8e61-4299-ad7c-cef6c06775fe]
 type: entity
 tier: short-term
@@ -2033,6 +2183,16 @@ source: agent-surface
 created_at: 2026-09-08T13:41:27.461584+00:00
 
 proposed via agent surface: PLAN.md:18 table messages
+---
+[event:87167327-bf44-4a7f-b1cf-df0b4b555162]
+node_id: f2e09a03-8e61-4299-ad7c-cef6c06775fe
+type: entity_confirmed
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:45.044208+00:00
+
+/gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
 ---
 [node:8b9566f6-a1d5-4c43-952e-369c2796d5ca]
 type: entity
@@ -2058,6 +2218,16 @@ created_at: 2026-09-08T13:41:27.588084+00:00
 
 proposed via agent surface: HANDOFF.md:46; PLAN.md:112 table ai_calls
 ---
+[event:7928950b-3053-42c7-af8d-c2f8cc72ad19]
+node_id: 8b9566f6-a1d5-4c43-952e-369c2796d5ca
+type: entity_confirmed
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:44.997524+00:00
+
+/gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
+---
 [node:d3c38cda-39ed-48d1-960c-af9033c4137f]
 type: entity
 tier: short-term
@@ -2081,9 +2251,19 @@ created_at: 2026-09-08T13:41:27.712077+00:00
 
 proposed via agent surface: docs/handoff/layout.schema.yaml:265-275
 ---
+[event:3d817dd0-68fc-415a-a7ae-f0922336dbc1]
+node_id: d3c38cda-39ed-48d1-960c-af9033c4137f
+type: entity_confirmed
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:45.092533+00:00
+
+/gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
+---
 [node:11dcab1d-7177-4bb1-9965-15c8a285b9c2]
 type: decision
-tier: mid-term
+tier: lifetime
 path: /artifact/the-layout-schema-uses-the-bare-word-gri
 created_at: 2026-09-08T13:42:45.914819+00:00
 needs_review: false
@@ -2098,6 +2278,16 @@ archived: false
 -> ABOUT [node:f96f62c3-d72a-4c40-8e16-57278ca1f302] @ 2026-09-08T13:42:45.914819+00:00
 
 The layout schema uses the bare word grid for two different things - the column grid a layout's own cards flow into, and a container card type whose cells are all visible at once - so the domain model names them apart as DashboardGrid and CardGrid. The schema file itself is unchanged; the disambiguation is in the language, and code, tests and UI copy use the two names rather than the overloaded one.
+---
+[event:33fd79fb-1124-4598-b4dc-6641ac95a624]
+node_id: 11dcab1d-7177-4bb1-9965-15c8a285b9c2
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:58.556924+00:00
+
+tier -> lifetime: /gw-resolve 2026-09-08: human ruled 11 of 13 to lifetime, holding SLICEORDER (epic-scoped) and TS7GA (pending its correction) at mid-term — GRIDNAMES
 ---
 [node:1e1043c3-1804-488c-bda3-469cfb96e48e]
 type: issue
@@ -2131,7 +2321,7 @@ Slideshow is declared as an entry in a layout's card list but the schema then sp
 ---
 [node:f1d7ef56-555a-4a33-90fa-8762fee9914f]
 type: constraint
-tier: mid-term
+tier: lifetime
 path: /artifact/the-sidebar-s-collapse-behaviour-is-deci
 created_at: 2026-09-08T13:42:46.308554+00:00
 needs_review: false
@@ -2143,6 +2333,16 @@ archived: false
 -> ABOUT [node:f96f62c3-d72a-4c40-8e16-57278ca1f302] @ 2026-09-08T13:42:46.308554+00:00
 
 The sidebar's collapse behaviour is decided by the device shape rather than by preference: permanent in horizontal layouts, collapsible in vertical ones, and always collapsible on a phone. The phone case is a schema const, not a default - it cannot be overridden - because a permanent sidebar on a 375px screen leaves nothing for the cards it sits beside.
+---
+[event:d44715dc-60ca-4dfb-9ce7-5f9c58009cd7]
+node_id: f1d7ef56-555a-4a33-90fa-8762fee9914f
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:58.522217+00:00
+
+tier -> lifetime: /gw-resolve 2026-09-08: human ruled 11 of 13 to lifetime, holding SLICEORDER (epic-scoped) and TS7GA (pending its correction) at mid-term — SIDEBARCOLLAPSE
 ---
 [node:73716ffb-625f-4745-9032-65658cd2e691]
 type: slice
@@ -2196,19 +2396,29 @@ archived: false
 
 Faza 0 is sliced walking-skeleton-first rather than scaffold-first. A slice that delivers only the repo layout, or only the schema, is unverifiable until the last slice lands, which leaves the whole phase without feedback while it is still cheap to change. So slice 1 cuts a thin path through every layer at once - build target, server, one custom element, real tokens, CI - and everything after it hangs off a thing that already runs. Secrets-and-errors and Storybook are genuinely headless because they are verifiable by command with no surface and no argument; the persistence and Service Worker slices each turn on an architectural decision with real alternatives, so both will want to be argued with and neither can run unattended.
 ---
+[event:4219fcf6-55a9-4ac6-b1b9-6ac6aad9f799]
+node_id: d6e551dc-7e5a-4198-bd15-5dc28cfed941
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T15:41:18.649907+00:00
+
+/gw-resolve pass 3: presented as a promotion candidate and deliberately held at mid-term - the slice ordering is scoped to the faza-0 epic and should go dormant when that epic closes rather than rank into every future recall about backend work
+---
 [node:e43574bd-bdb9-493c-83fb-7f89fb4f9d8f]
 type: decision
 tier: mid-term
 path: /artifact/typescript-7-with-the-native-go-compiler
 created_at: 2026-09-08T14:55:08.289479+00:00
-needs_review: true
+needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> CONTRADICTS [node:b6cc5895-5e52-462a-aab2-c934ba921825] @ 2026-09-08T14:55:08.289479+00:00
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T14:55:08.289479+00:00
 
-TypeScript 7 with the native Go compiler is generally available - 7.0.2 on npm - so the stack's assumption holds and scaffolding does not need a fallback to the 5.x line. The plan was written when a June 2026 release candidate was still the expectation; the verification it asked for has now been done. Vite 8, Svelte 5, Astro 7 and Fastify 5 are likewise all real releases, so nothing in the assumed stack is aspirational.
+TypeScript 7 with the native Go compiler is generally available - 7.0.2 on npm - so the plan's assumption that it would exist has held, and the verification it asked for is done. Vite 8, Svelte 5, Astro 7 and Fastify 5 are likewise all real releases, so nothing in the assumed stack is aspirational. What does not follow, and was wrongly claimed here at first, is that scaffolding can therefore use 7: the compiler shipped ahead of its ecosystem, and the pin is 6.x.
 ---
 [event:665e5b05-3470-4a93-9117-5d5dcc0283f3]
 node_id: e43574bd-bdb9-493c-83fb-7f89fb4f9d8f
@@ -2230,9 +2440,49 @@ created_at: 2026-09-08T15:04:16.472674+00:00
 
 half of this is wrong and it was captured today: TypeScript 7 is indeed GA, but 'scaffolding does not need a fallback' is false - typescript-eslint 8 hard-refuses to load against 7 and svelte-check peers ^5||^6, so the scaffold pins 6.0.3
 ---
+[event:2c4ac171-17dd-453e-adf2-a087adb15a21]
+node_id: e43574bd-bdb9-493c-83fb-7f89fb4f9d8f
+type: content_edited
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-09-08T15:40:35.828716+00:00
+
+guided review correction
+---
+[event:46ce5b9b-0aff-4690-a64e-c839584dd6a1]
+node_id: e43574bd-bdb9-493c-83fb-7f89fb4f9d8f
+type: contradiction_cleared
+weight: 1.0
+polarity: 1
+source: gui-guided
+created_at: 2026-09-08T15:40:35.828716+00:00
+
+guided review: needs_correction
+---
+[event:f8aaa8e6-1224-4c99-8ea3-3edfe9ca7c74]
+node_id: e43574bd-bdb9-493c-83fb-7f89fb4f9d8f
+type: manual_review
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-09-08T15:40:35.828716+00:00
+
+guided resolve: recommended=needs_correction, chose=needs_correction: human approved the drafted correction: the GA half was verified against the registry and TSPIN depends on it, so superseding would strand a true fact; the wrong conclusion that no fallback was needed is removed
+---
+[event:2de84710-abd9-4690-999e-aac5a8c9220a]
+node_id: e43574bd-bdb9-493c-83fb-7f89fb4f9d8f
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T15:41:18.878884+00:00
+
+/gw-resolve pass 3: corrected in place rather than superseded, and held at mid-term pending a separate promotion ruling now that the wrong half is gone
+---
 [node:8e7f3005-1043-45a9-994b-366f80431b08]
 type: decision
-tier: mid-term
+tier: lifetime
 path: /artifact/typescript-is-pinned-to-the-6-x-line-no
 created_at: 2026-09-08T15:04:16.351954+00:00
 needs_review: false
@@ -2240,10 +2490,21 @@ retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-08T15:04:16.351954+00:00
+-> DEPENDS_ON [node:b6cc5895-5e52-462a-aab2-c934ba921825] @ 2026-09-08T15:40:35.815610+00:00
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T15:04:16.351954+00:00
 -> CONTRADICTS [node:e43574bd-bdb9-493c-83fb-7f89fb4f9d8f] @ 2026-09-08T15:04:16.351954+00:00
 
 TypeScript is pinned to the 6.x line, not 7, even though 7 is generally available. The compiler shipped ahead of its ecosystem: typescript-eslint 8 declares a peer range of >=4.8.4 <6.1.0 and refuses to load against 7 at import time rather than merely warning, and svelte-check peers ^5 || ^6. TypeScript 6.0.3 is the highest version the whole toolchain accepts, so it is the pin. Reaching for --legacy-peer-deps instead would have produced a lint setup that imports a parser its own dependency rejects. Move to 7 when typescript-eslint and svelte-check widen their ranges, not before.
+---
+[event:f7edcced-4ea5-4f64-b228-171659809cdc]
+node_id: 8e7f3005-1043-45a9-994b-366f80431b08
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:58.563071+00:00
+
+tier -> lifetime: /gw-resolve 2026-09-08: human ruled 11 of 13 to lifetime, holding SLICEORDER (epic-scoped) and TS7GA (pending its correction) at mid-term — TSPIN
 ---
 [node:3d1ec55c-f161-4684-a999-5d485a0e6bf8]
 type: goal
@@ -2292,7 +2553,7 @@ create_change k7-secrets-and-errors
 ---
 [node:62d2072b-039e-439c-9dfa-1616e42a4afa]
 type: constraint
-tier: mid-term
+tier: lifetime
 path: /artifact/secret-scrubbing-runs-in-two-layers-and
 created_at: 2026-09-08T15:18:34.673656+00:00
 needs_review: false
@@ -2306,9 +2567,19 @@ archived: false
 
 Secret scrubbing runs in two layers and neither is redundant. Exact-value scrubbing rewrites any string containing a credential this process actually holds, which is the reliable half but only covers what was registered at boot; pattern scrubbing catches credential shapes nobody registered - a bearer token from a dependency, a database URL carrying a password, a JWT - which is the half that covers what was forgotten. A registered key matches no pattern and a third-party credential appears in no registry, so dropping either layer opens a real hole. Values shorter than eight characters are ignored on purpose: a three-character secret matches inside ordinary words and turns the whole report into redaction noise.
 ---
+[event:db4e5785-355a-4750-82ed-801081143bcf]
+node_id: 62d2072b-039e-439c-9dfa-1616e42a4afa
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:58.533157+00:00
+
+tier -> lifetime: /gw-resolve 2026-09-08: human ruled 11 of 13 to lifetime, holding SLICEORDER (epic-scoped) and TS7GA (pending its correction) at mid-term — SCRUB2
+---
 [node:0cd8aca5-d80a-4e98-9c98-a0043c4b5642]
 type: constraint
-tier: mid-term
+tier: lifetime
 path: /artifact/redaction-is-proven-on-the-wire-not-in
 created_at: 2026-09-08T15:18:34.795407+00:00
 needs_review: false
@@ -2321,9 +2592,19 @@ archived: false
 
 Redaction is proven on the wire, not in a unit test. A scrubber that works but is never called is worse than no scrubber, because it makes everyone confident - so the test drives the real Sentry client with a transport that captures the envelope on its way out, and asserts on the bytes that would have reached GlitchTip. It also asserts the error message survives: a redactor that passes by destroying the evidence has not passed.
 ---
+[event:cfb07252-5ff3-40c6-9df3-e51357558d3d]
+node_id: 0cd8aca5-d80a-4e98-9c98-a0043c4b5642
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:58.538894+00:00
+
+tier -> lifetime: /gw-resolve 2026-09-08: human ruled 11 of 13 to lifetime, holding SLICEORDER (epic-scoped) and TS7GA (pending its correction) at mid-term — WIREPROOF
+---
 [node:eba12387-598a-40b6-9979-810319724e0f]
 type: decision
-tier: mid-term
+tier: lifetime
 path: /artifact/varlock-treats-every-value-as-sensitive
 created_at: 2026-09-08T15:18:34.915005+00:00
 needs_review: false
@@ -2335,9 +2616,19 @@ archived: false
 
 Varlock treats every value as sensitive unless explicitly marked public - defaultSensitive is true project-wide - and real secret values never live in the committed schema file, only in a git-ignored local env file or a secret provider. The schema declares shape and sensitivity so agents can read it safely; an agent that helpfully fills a value into it has published a credential. This project's schema sets defaultSensitive false in the header and then marks each of the three secrets sensitive individually, so the marking stays correct even if someone later edits or removes that header default.
 ---
+[event:4bac0301-cbc5-4080-b5fa-af3b8d41930b]
+node_id: eba12387-598a-40b6-9979-810319724e0f
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:58.569344+00:00
+
+tier -> lifetime: /gw-resolve 2026-09-08: human ruled 11 of 13 to lifetime, holding SLICEORDER (epic-scoped) and TS7GA (pending its correction) at mid-term — VARLOCK
+---
 [node:e611e894-afab-43c9-964b-2f886dbb02f7]
 type: decision
-tier: mid-term
+tier: lifetime
 path: /artifact/the-runtime-floor-is-node-24-not-22-ty
 created_at: 2026-09-08T15:18:35.029534+00:00
 needs_review: false
@@ -2348,3 +2639,160 @@ archived: false
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T15:18:35.029534+00:00
 
 The runtime floor is Node 24, not 22. TypeScript type stripping is stable there and needs no flag, which removes a whole class of failure: on 22 every script carries an experimental strip-types flag, that flag interacts badly with the test runner's argument ordering, and the resulting breakage reports a missing module rather than a missing flag. CI and the LAN machine both run 24, so the floor matches reality instead of aspiring below it.
+---
+[event:2751e270-cdc3-44d9-bdc6-d8daa204ff09]
+node_id: e611e894-afab-43c9-964b-2f886dbb02f7
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:58.575335+00:00
+
+tier -> lifetime: /gw-resolve 2026-09-08: human ruled 11 of 13 to lifetime, holding SLICEORDER (epic-scoped) and TS7GA (pending its correction) at mid-term — NODE24
+---
+[node:226722c6-5c0e-4215-b069-2dc8f7012cc4]
+type: slice
+tier: short-term
+path: /change/k7-persistence
+created_at: 2026-09-08T15:24:50.241963+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:3a29eee2-0cb0-4688-8e53-92c9a2b0c08e] @ 2026-09-08T15:24:50.241963+00:00
+-> SCOPED_TO [node:7e60103a-4be9-4b6c-95fc-8148d5c5f1cd] @ 2026-09-08T15:29:05.757776+00:00
+-> SCOPED_TO [node:883315ab-2366-4def-8618-8497cc880edc] @ 2026-09-08T15:29:05.877424+00:00
+-> SCOPED_TO [node:8d6eee18-8766-45cd-b78b-9840aa0b2029] @ 2026-09-08T15:29:05.996486+00:00
+-> SCOPED_TO [node:be39a535-d2ea-4b6f-851c-506bf6aa66b9] @ 2026-09-08T15:29:05.636131+00:00
+
+change scope: k7-persistence
+---
+[event:7818f172-fa24-46ca-83b9-e3bc8846a39f]
+node_id: 226722c6-5c0e-4215-b069-2dc8f7012cc4
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T15:24:50.243463+00:00
+
+create_change k7-persistence
+---
+[node:3a29eee2-0cb0-4688-8e53-92c9a2b0c08e]
+type: goal
+tier: short-term
+path: /goal/k7-persistence
+created_at: 2026-09-08T15:24:50.241963+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:3d1ec55c-f161-4684-a999-5d485a0e6bf8] @ 2026-09-08T15:24:50.241963+00:00
+-> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-08T15:24:50.241963+00:00
+-> DEPENDS_ON [node:7e60103a-4be9-4b6c-95fc-8148d5c5f1cd] @ 2026-09-08T15:29:05.757776+00:00
+-> DEPENDS_ON [node:883315ab-2366-4def-8618-8497cc880edc] @ 2026-09-08T15:29:05.877424+00:00
+-> DEPENDS_ON [node:8d6eee18-8766-45cd-b78b-9840aa0b2029] @ 2026-09-08T15:29:05.996486+00:00
+-> DEPENDS_ON [node:be39a535-d2ea-4b6f-851c-506bf6aa66b9] @ 2026-09-08T15:29:05.636131+00:00
+
+Give K7 a persistence layer: Drizzle over SQLite behind repository ports, with the five tables the domain model names and migrations that run forward and back
+---
+[node:be39a535-d2ea-4b6f-851c-506bf6aa66b9]
+type: decision
+tier: lifetime
+path: /artifact/drizzle-over-better-sqlite3-is-the-data
+created_at: 2026-09-08T15:29:05.636131+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:125f4071-59ec-4d3f-898d-ffcb3edd8aa5] @ 2026-09-08T15:29:16.833986+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T15:29:05.636131+00:00
+-> DEPENDS_ON [node:a815b136-0de2-49af-ac42-6192c12def24] @ 2026-09-08T15:29:16.492358+00:00
+-> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-09-08T15:29:05.636131+00:00
+
+Drizzle over better-sqlite3 is the data access layer, chosen from the three candidates the plan named. It is TypeScript-first so the row types are inferred from the schema rather than hand-maintained, and drizzle-kit generates migrations by diffing the schema file, which means the schema is the source of truth instead of a description of one. The alternative worth naming is Kysely, a query builder with equally good typing and less machinery - it was passed over because it has no migration story of its own, and migrations were half of what this layer had to deliver.
+---
+[event:5940794b-4a7e-4140-98f8-7e01f8265b06]
+node_id: be39a535-d2ea-4b6f-851c-506bf6aa66b9
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:58.581532+00:00
+
+tier -> lifetime: /gw-resolve 2026-09-08: human ruled 11 of 13 to lifetime, holding SLICEORDER (epic-scoped) and TS7GA (pending its correction) at mid-term — DRIZZLE
+---
+[node:7e60103a-4be9-4b6c-95fc-8148d5c5f1cd]
+type: decision
+tier: lifetime
+path: /artifact/migrations-are-applied-by-the-applicatio
+created_at: 2026-09-08T15:29:05.757776+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T15:29:05.757776+00:00
+-> DEPENDS_ON [node:a815b136-0de2-49af-ac42-6192c12def24] @ 2026-09-08T15:29:16.609668+00:00
+-> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-09-08T15:29:05.757776+00:00
+
+Migrations are applied by the application at boot, not by a CLI in a deploy step. Nobody is standing at the LAN machine when it restarts, and a server that boots against an unmigrated schema fails later and far less clearly than one that refuses to start. drizzle-kit stays a development tool for authoring migrations; applying them is the application's job, through the migrator's programmatic entry point.
+---
+[event:91db84f4-2efe-47d6-ab13-f9ec6ec67a85]
+node_id: 7e60103a-4be9-4b6c-95fc-8148d5c5f1cd
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:58.588199+00:00
+
+tier -> lifetime: /gw-resolve 2026-09-08: human ruled 11 of 13 to lifetime, holding SLICEORDER (epic-scoped) and TS7GA (pending its correction) at mid-term — BOOTMIGRATE
+---
+[node:883315ab-2366-4def-8618-8497cc880edc]
+type: constraint
+tier: lifetime
+path: /artifact/sqlite-opens-with-journal-mode-wal-and-f
+created_at: 2026-09-08T15:29:05.877424+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T15:29:05.877424+00:00
+-> DEPENDS_ON [node:a815b136-0de2-49af-ac42-6192c12def24] @ 2026-09-08T15:29:16.723149+00:00
+-> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-09-08T15:29:05.877424+00:00
+
+SQLite opens with journal_mode WAL and foreign_keys ON, and neither is a default. The kiosk reads on a timer while the backend writes, and under the default rollback journal every read waits behind a write - visible on the wall as a stutter. Foreign keys are off per-connection unless asked for, which means a schema full of cascades and set-nulls is decorative until the pragma is set; the persistence tests assert a foreign key violation specifically so that a future connection helper that forgets the pragma fails the build instead of silently discarding referential integrity.
+---
+[event:23532c10-68e3-499d-94be-2e13dd683477]
+node_id: 883315ab-2366-4def-8618-8497cc880edc
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:58.544649+00:00
+
+tier -> lifetime: /gw-resolve 2026-09-08: human ruled 11 of 13 to lifetime, holding SLICEORDER (epic-scoped) and TS7GA (pending its correction) at mid-term — PRAGMAS
+---
+[node:8d6eee18-8766-45cd-b78b-9840aa0b2029]
+type: constraint
+tier: lifetime
+path: /artifact/an-aicall-s-foreign-keys-are-nullable-an
+created_at: 2026-09-08T15:29:05.996486+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:7b73e502-b1fb-4587-96bd-f005b1ead665] @ 2026-09-08T15:29:05.996486+00:00
+-> ABOUT [node:8b9566f6-a1d5-4c43-952e-369c2796d5ca] @ 2026-09-08T15:29:05.996486+00:00
+-> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-09-08T15:29:05.996486+00:00
+-> ABOUT [node:f2e09a03-8e61-4299-ad7c-cef6c06775fe] @ 2026-09-08T15:29:05.996486+00:00
+
+An AiCall's foreign keys are nullable and delete with set null, while a Message cascades with its Conversation. This is the domain model expressed as a schema rather than a storage convenience: a Message has no identity outside its thread, so deleting the thread should take it, but an AiCall is a record of money spent and a single Message may cost several - compacting spends them with no Message at all. Deleting a conversation must therefore leave its cost history standing, orphaned but intact, because the cost view answers what the household spent and not which threads still exist.
+---
+[event:1cb8f927-137e-4ca7-bc72-490169f2b429]
+node_id: 8d6eee18-8766-45cd-b78b-9840aa0b2029
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T15:40:58.550724+00:00
+
+tier -> lifetime: /gw-resolve 2026-09-08: human ruled 11 of 13 to lifetime, holding SLICEORDER (epic-scoped) and TS7GA (pending its correction) at mid-term — AICALLFK
