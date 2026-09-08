@@ -120,7 +120,7 @@ Establish Kitchen Terminal K7's foundational constraints, concepts, and decision
 ---
 [node:0bc7e618-9b95-4977-9fe1-f3a48759276f]
 type: constraint
-tier: mid-term
+tier: lifetime
 path: /artifact/safari-15-0-is-the-hard-compile-target-f
 created_at: 2026-09-08T09:36:58.919859+00:00
 needs_review: false
@@ -131,6 +131,16 @@ archived: false
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-08T09:36:58.919859+00:00
 
 Safari 15.0 is the hard compile target for Kitchen Terminal K7, not a preference: the iPad Air 2 (A1567) and the iPhone 6s both stop at iOS/iPadOS 15, so 15.0 is the shared floor for tsconfig and Vite build.target. color-mix() (16.2), oklch() in output CSS (15.4), @container (16.0), :has() (15.4), subgrid (16.0), dvh/svh/lvh (15.4) and text-wrap:balance (17.5) must not ship; backdrop-filter needs -webkit-, :focus-visible needs a :focus fallback, and 100vh is wrong in standalone PWA mode.
+---
+[event:7ef3d2e3-c0f6-4dcc-bd38-c4f42a797a5e]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.703997+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
 ---
 [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99]
 type: facet_value
@@ -158,7 +168,7 @@ frontend
 ---
 [node:716987ce-f933-41b5-8c4e-590c09dc33bf]
 type: constraint
-tier: mid-term
+tier: lifetime
 path: /artifact/the-kiosk-runs-on-an-a8x-with-2-gb-ram-o
 created_at: 2026-09-08T09:36:59.039273+00:00
 needs_review: false
@@ -169,6 +179,16 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:36:59.039273+00:00
 
 The kiosk runs on an A8X with 2 GB RAM on a display that is never asleep, so per-frame cost is a design constraint rather than an optimisation: animate opacity and transform only (never box-shadow, filter, backdrop-filter, width or height), keep backdrop-filter to a single 4px use on the slideshow and dialog scrim rather than per card, and do not ship translucent card surfaces, soft shadows or default scanlines - each costs a full-screen composite.
+---
+[event:1701dabe-64d9-4bb5-887f-94b27cb7d7e2]
+node_id: 716987ce-f933-41b5-8c4e-590c09dc33bf
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.648159+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
 ---
 [node:e12ca220-5f82-4226-a2eb-9964701f03c4]
 type: facet_value
@@ -196,7 +216,7 @@ a11y
 ---
 [node:7108856c-d3d5-4701-bb69-11087256a081]
 type: constraint
-tier: mid-term
+tier: lifetime
 path: /artifact/the-kitchen-terminal-is-read-from-three
 created_at: 2026-09-08T09:36:59.157308+00:00
 needs_review: false
@@ -207,6 +227,16 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:36:59.157308+00:00
 
 The kitchen terminal is read from three distances - the doorway at 3 m, the counter at 1 m, and the glass at 0.4 m with wet hands - and the whole visual system is derived from them. Type is two tiers: a read tier for anything you walk up to and a glance tier for what must survive the doorway, sized by subtended x-height (comfortable at 5 arcmin, glanceable at 8). Body text is 20px, not 16; the wireframes' 11-13px is a desktop habit and is the single largest correction to the accepted wireframes.
+---
+[event:a317e4ec-5014-449f-9a11-dce857ef5958]
+node_id: 7108856c-d3d5-4701-bb69-11087256a081
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.677456+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
 ---
 [node:4c740d82-541d-4c70-9970-793467c4f26e]
 type: facet_value
@@ -222,7 +252,7 @@ backend
 ---
 [node:d3faf49e-9fd8-4d79-9c8a-733cb2baa856]
 type: decision
-tier: mid-term
+tier: lifetime
 path: /artifact/the-backend-runs-on-a-physical-machine-i
 created_at: 2026-09-08T09:36:59.279270+00:00
 needs_review: false
@@ -234,9 +264,19 @@ archived: false
 
 The backend runs on a physical machine inside the home LAN rather than on the cloud VPS used for other projects, so nothing needs to be exposed externally - but HTTPS inside a LAN is exactly what old Safari is worst at (mixed content, self-signed certificates), which makes the reverse-proxy/TLS question a deployment-phase risk rather than a settled one.
 ---
+[event:548b6067-17a0-4421-9f7b-6a4a17138d70]
+node_id: d3faf49e-9fd8-4d79-9c8a-733cb2baa856
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.762131+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
 [node:ac006a24-2763-40e7-8423-2b851793efcf]
 type: constraint
-tier: mid-term
+tier: lifetime
 path: /artifact/the-google-refresh-token-and-the-kilo-ga
 created_at: 2026-09-08T09:36:59.394279+00:00
 needs_review: false
@@ -247,6 +287,16 @@ archived: false
 -> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-08T09:36:59.394279+00:00
 
 The Google refresh token and the Kilo Gateway key are server-side only and never reach the frontend or the iPad. Varlock manages .env by schema, so agents see the schema and never the values, and secrets must not leak into GlitchTip payloads alongside errors - which is critical precisely because the AI chat logs every call.
+---
+[event:3a866a63-873b-46ec-a449-5f297c7b9ca0]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.708120+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
 ---
 [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa]
 type: facet_value
@@ -262,7 +312,7 @@ security
 ---
 [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8]
 type: constraint
-tier: mid-term
+tier: lifetime
 path: /artifact/theming-is-an-architectural-rule-in-this
 created_at: 2026-09-08T09:37:21.559263+00:00
 needs_review: false
@@ -274,9 +324,19 @@ archived: false
 
 Theming is an architectural rule in this project, not a preference: a component's CSS may reference var(--*) from the generated token sheet and nothing else - no hex literal, no rgb(), no font-family, no px radius, with sizes coming from --space-*, --text-* and --control-h*. Swapping the entire design must be a matter of pointing layout.yaml's theme: at a different file, and a CI grep for hex outside tokens.css is what keeps the contract honest. A second theme exists so the claim is testable rather than aspirational.
 ---
+[event:8a8fab84-3a90-415d-8be5-bced5de2bd59]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.712685+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
 [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a]
 type: constraint
-tier: mid-term
+tier: lifetime
 path: /artifact/amber-is-the-ink-teal-is-the-signal-th
 created_at: 2026-09-08T09:37:21.675646+00:00
 needs_review: false
@@ -287,9 +347,19 @@ archived: false
 
 Amber is the ink, teal is the signal. The handoff asked for amber as the dominant accent plus teal as the second, which read literally gives two accents and makes amber meaningless - if every glyph is amber then amber cannot also mean look here. So amber is body text, borders and chrome (it is everywhere and therefore carries no urgency) and teal is reserved for state that is good and settled, appearing at most twice per card.
 ---
+[event:605c61d4-ad91-4257-af5a-c4ee38b2974f]
+node_id: dffe0843-23d7-4095-99e1-1d39a07d1b2a
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.658355+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
 [node:9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0]
 type: constraint
-tier: mid-term
+tier: lifetime
 path: /artifact/colour-never-carries-state-alone-in-this
 created_at: 2026-09-08T09:37:22.142396+00:00
 needs_review: false
@@ -301,9 +371,19 @@ archived: false
 
 Colour never carries state alone in this UI: every state also carries a bracket glyph - [OK], [!], [X], [--]. A wall display is viewed at an angle, in sunlight, by people with colour-vision deficiency, through a greasy screen protector, so this is load-bearing rather than a nicety.
 ---
+[event:4390d9e6-9941-4c3f-8ccd-ab14236d9026]
+node_id: 9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.662571+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
 [node:cabf56d2-4b59-4f19-96f7-9388071c1086]
 type: decision
-tier: mid-term
+tier: lifetime
 path: /artifact/colours-are-derived-in-oklch-at-fixed-hu
 created_at: 2026-09-08T09:37:22.262832+00:00
 needs_review: false
@@ -316,9 +396,19 @@ archived: false
 
 Colours are derived in OKLCH at fixed hue and chroma, walking lightness until the WCAG target is met, and then written out as hex. OKLCH is the design space and hex is the delivery format, because oklch() shipped in Safari 15.4 and color-mix() in 16.2 while the deployment baseline is 15.0 - so every hover and active value is precomputed rather than mixed at runtime.
 ---
+[event:a1f5bda9-c9c8-4784-858b-0ae3a3f54476]
+node_id: cabf56d2-4b59-4f19-96f7-9388071c1086
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.766149+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
 [node:61c0030d-8bea-45cc-888b-113297483487]
 type: constraint
-tier: mid-term
+tier: lifetime
 path: /artifact/radius-is-0-everywhere-with-no-exception
 created_at: 2026-09-08T09:37:22.386658+00:00
 needs_review: false
@@ -330,9 +420,19 @@ archived: false
 
 Radius is 0 everywhere with no exceptions, including inputs, chips and the scrim, and elevation is never a shadow: depth is a 1px hairline border plus one step on the surface ramp, with the card's 2px inset frame as the only ring in the system. Sharp corners are what make the HUD read as instrumentation rather than as an app, and a blurred drop shadow under a sharp-cornered amber panel looks like a mistake.
 ---
+[event:25dfca57-2305-4920-8850-8d219d94a6d1]
+node_id: 61c0030d-8bea-45cc-888b-113297483487
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.699752+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
 [node:6d6046fc-9f71-4b88-8cfa-381a0fe1bd32]
 type: constraint
-tier: mid-term
+tier: lifetime
 path: /artifact/contrast-floors-for-the-kiosk-4-5-1-for
 created_at: 2026-09-08T09:37:22.506547+00:00
 needs_review: false
@@ -344,9 +444,19 @@ archived: false
 
 Contrast floors for the kiosk: 4.5:1 for body text and every status colour on its surface, 3:1 for large text, icons and any border that carries meaning, and 3:1 for the focus ring against both the control and the surface behind it. Disabled text is the one role allowed below. The hairline border is deliberately below 3:1 because it is texture and never a carrier of meaning - anything that must be seen uses the strong border role.
 ---
+[event:f20fd8fd-075d-488d-91e8-fd89a181516a]
+node_id: 6d6046fc-9f71-4b88-8cfa-381a0fe1bd32
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.667924+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
 [node:aef51033-1a7b-4e25-a133-f6e3053e0eb6]
 type: constraint
-tier: mid-term
+tier: lifetime
 path: /artifact/hover-raises-contrast-and-never-lowers-i
 created_at: 2026-09-08T09:37:22.623351+00:00
 needs_review: false
@@ -359,9 +469,19 @@ archived: false
 
 Hover raises contrast and never lowers it. Dropping text to the muted foreground on hover is the most common way a dark UI quietly breaks, and it is banned here.
 ---
+[event:3a7f2d41-b17e-4f9b-9a17-678611b3ea5e]
+node_id: aef51033-1a7b-4e25-a133-f6e3053e0eb6
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.688875+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
 [node:a827e6ec-aec4-40a7-b922-c689d71066a3]
 type: constraint
-tier: mid-term
+tier: lifetime
 path: /artifact/a-solid-amber-fill-is-the-loudest-thing
 created_at: 2026-09-08T09:37:37.091684+00:00
 needs_review: false
@@ -373,9 +493,19 @@ archived: false
 
 A solid amber fill is the loudest thing the design system can say, so there is at most one solid amber control per card and one per viewport for any given action; everything else is a ghost button (transparent, strong border) or a text link.
 ---
+[event:e71521be-71d8-429d-aa9a-728e87d2c689]
+node_id: a827e6ec-aec4-40a7-b922-c689d71066a3
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.694129+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
 [node:ff852de4-c6d2-4da3-906b-de637255e484]
 type: constraint
-tier: mid-term
+tier: lifetime
 path: /artifact/warn-and-fail-are-never-amber-they-sit
 created_at: 2026-09-08T09:37:37.208429+00:00
 needs_review: false
@@ -388,9 +518,19 @@ archived: false
 
 Warn and fail are never amber. They sit at hue 45 and hue 27, visibly hotter and redder than ink amber at hue 72, because on a warm amber screen a warm warning is invisible - the hue separation has to be earned.
 ---
+[event:6c8e16d8-f8db-4ad3-909b-01e1dc7d0d76]
+node_id: ff852de4-c6d2-4da3-906b-de637255e484
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.722443+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
 [node:77925b30-350a-42ee-a7de-7e8a023c5708]
 type: decision
-tier: mid-term
+tier: lifetime
 path: /artifact/frontend-is-svelte-5-with-components-exp
 created_at: 2026-09-08T09:38:00.559118+00:00
 needs_review: false
@@ -403,9 +543,19 @@ archived: false
 
 Frontend is Svelte 5 with components exported as custom elements rather than hand-written native JS. Svelte compiles away - no virtual DOM, no framework runtime, roughly 2-5 KB gzip against React+ReactDOM's 40-45 KB - so on A8X-class hardware the overhead against plain JS is negligible while the developer experience is far better. Compiling to custom elements satisfies the Web Components requirement, and the hexagonal architecture survives because components are a UI adapter behind a port.
 ---
+[event:bbc40c19-823e-4ddb-ba87-30647c1954e1]
+node_id: 77925b30-350a-42ee-a7de-7e8a023c5708
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.783922+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
 [node:125f4071-59ec-4d3f-898d-ffcb3edd8aa5]
 type: decision
-tier: mid-term
+tier: lifetime
 path: /artifact/the-backend-is-hexagonal-ports-and-ada
 created_at: 2026-09-08T09:38:00.686003+00:00
 needs_review: false
@@ -416,9 +566,19 @@ archived: false
 
 The backend is hexagonal - ports and adapters with dependency injection - which is what lets the UI, the persistence layer and every external integration be swapped behind a port instead of being wired into the application core.
 ---
+[event:55bf3c84-f14b-4284-8c93-220d6499589e]
+node_id: 125f4071-59ec-4d3f-898d-ffcb3edd8aa5
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.753527+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
 [node:a815b136-0de2-49af-ac42-6192c12def24]
 type: decision
-tier: mid-term
+tier: lifetime
 path: /artifact/sqlite-is-the-database-engine-chosen-be
 created_at: 2026-09-08T09:38:00.810299+00:00
 needs_review: false
@@ -430,6 +590,16 @@ archived: false
 -> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-09-08T09:38:00.810299+00:00
 
 SQLite is the database engine, chosen because the whole system is one machine on a LAN. Only the access layer is still open - the migration adapter and query builder must fit the hexagonal architecture (the repository is swappable behind a port) and a TypeScript-first stack; Drizzle, Kysely and better-sqlite3 are the candidates, not the decision.
+---
+[event:3a78cc14-ba16-4f3b-ac1d-0a8022626a5d]
+node_id: a815b136-0de2-49af-ac42-6192c12def24
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.779343+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
 ---
 [node:be297a51-6cb1-4526-bdb5-c01badf562a2]
 type: facet_value
@@ -445,7 +615,7 @@ data
 ---
 [node:4730c1bc-b791-4a0d-a94c-1bd4f8307102]
 type: constraint
-tier: mid-term
+tier: lifetime
 path: /artifact/conversationservice-stays-decoupled-from
 created_at: 2026-09-08T09:38:00.934031+00:00
 needs_review: false
@@ -458,6 +628,16 @@ archived: false
 -> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-08T09:38:00.934031+00:00
 
 ConversationService stays decoupled from the chat HTTP endpoint so the chat can later be driven by MCP or a dedicated skill instead of the route. It also owns the rolling window and per-model context budgeting, sized from the contextWindow reported by the Kilo Gateway model list.
+---
+[event:8f766576-12c5-4c34-bb7d-30f1c7293da0]
+node_id: 4730c1bc-b791-4a0d-a94c-1bd4f8307102
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.671885+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
 ---
 [node:68b03a85-d372-45c5-80a4-549ebf826798]
 type: facet_value
@@ -473,7 +653,7 @@ ai
 ---
 [node:279d73e0-ff0f-4184-a25c-f051d2030072]
 type: decision
-tier: mid-term
+tier: lifetime
 path: /artifact/ai-traffic-goes-through-kilo-gateway-mo
 created_at: 2026-09-08T09:38:01.059071+00:00
 needs_review: false
@@ -485,6 +665,16 @@ archived: false
 -> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-08T09:38:01.059071+00:00
 
 AI traffic goes through Kilo Gateway: models are addressed as provider/model-name, GET /models is unauthenticated and returns the model list with pricing and context window, and usage.prompt_tokens/completion_tokens in each response is what per-call cost is computed from and logged to the ai_calls table alongside session and model.
+---
+[event:58fd3586-6676-4020-ba63-44083818eb72]
+node_id: 279d73e0-ff0f-4184-a25c-f051d2030072
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.758049+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
 ---
 [node:ccc18558-7181-44df-9608-de587d8d937c]
 type: facet_value
@@ -500,7 +690,7 @@ integration
 ---
 [node:c129f201-ae3c-45c8-89d7-a170bbaf5fad]
 type: decision
-tier: mid-term
+tier: lifetime
 path: /artifact/google-calendar-is-integrated-bidirectio
 created_at: 2026-09-08T09:38:01.199535+00:00
 needs_review: false
@@ -512,9 +702,19 @@ archived: false
 
 Google Calendar is integrated bidirectionally - read plus add, edit and delete - which forces OAuth2 with a stored refresh token; a public .ics feed was rejected because it is read-only.
 ---
+[event:e1d8a254-16f6-44a4-b557-2a3b152bc8d7]
+node_id: c129f201-ae3c-45c8-89d7-a170bbaf5fad
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.736614+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
 [node:41ec3acd-0302-4120-9ef0-4b00a4945829]
 type: decision
-tier: mid-term
+tier: lifetime
 path: /artifact/error-tracking-is-glitchtip-driven-by-t
 created_at: 2026-09-08T09:38:01.357085+00:00
 needs_review: false
@@ -525,9 +725,19 @@ archived: false
 
 Error tracking is GlitchTip, driven by the @sentry/node SDK because it is wire-compatible - so the project gets Sentry's SDK ergonomics without the Sentry service.
 ---
+[event:06665712-4b24-4d55-8ad6-4615c549b1fa]
+node_id: 41ec3acd-0302-4120-9ef0-4b00a4945829
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.745388+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
 [node:18bafc37-5e9e-4d04-936a-53218abaca4b]
 type: decision
-tier: mid-term
+tier: lifetime
 path: /artifact/agentic-memory-system-and-graph-workflow
 created_at: 2026-09-08T09:38:01.499476+00:00
 needs_review: false
@@ -537,6 +747,16 @@ archived: false
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:38:01.499476+00:00
 
 agentic-memory-system and graph-workflow are tools for working ON this project, not runtime dependencies of it: they never enter package.json and live alongside the project as developer tooling.
+---
+[event:798856d8-037f-4ec3-900a-e3088b106834]
+node_id: 18bafc37-5e9e-4d04-936a-53218abaca4b
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.749256+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
 ---
 [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f]
 type: facet_value
@@ -552,7 +772,7 @@ process
 ---
 [node:e24b75ab-e370-4566-b9e7-35706cad806b]
 type: decision
-tier: mid-term
+tier: lifetime
 path: /artifact/the-original-cat-of-the-day-idea-is-spli
 created_at: 2026-09-08T09:38:01.635211+00:00
 needs_review: false
@@ -564,9 +784,19 @@ archived: false
 
 The original cat-of-the-day idea is split into two separate card types rather than one: comic-of-the-day pulls an external image from RSS and therefore carries attribution, keyword filtering and copyright exposure, while ascii-art-of-the-day is generated by the AI with its own prompt, model and size and carries none of that. Different parameters and different legal questions mean merging them into one type would be wrong.
 ---
+[event:f9c5e71d-c1ce-4331-a679-c1d1111cdd71]
+node_id: e24b75ab-e370-4566-b9e7-35706cad806b
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.794265+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
 [node:9ea20285-de89-4f25-a25e-37700078bd59]
 type: decision
-tier: mid-term
+tier: lifetime
 path: /artifact/presence-wake-from-the-slideshow-uses-th
 created_at: 2026-09-08T09:38:01.797947+00:00
 needs_review: false
@@ -578,9 +808,19 @@ archived: false
 
 Presence-wake from the slideshow uses the camera, and every frame is processed locally in the browser - the image never leaves the device. Barcode scanning into the shopping list and video notes with transcription were considered and deliberately rejected.
 ---
+[event:6ffb5924-2d72-4384-b17e-d5cef91a27eb]
+node_id: 9ea20285-de89-4f25-a25e-37700078bd59
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.727401+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
 [node:7c574f65-8059-41e1-b507-245d4b1b3d6f]
 type: constraint
-tier: mid-term
+tier: lifetime
 path: /artifact/every-phase-ends-in-something-that-can-b
 created_at: 2026-09-08T09:38:01.948165+00:00
 needs_review: false
@@ -591,9 +831,19 @@ archived: false
 
 Every phase ends in something that can be looked at before the next one starts - Storybook for components, a real screen on the real iPad for integrations. This is the project's working style, and it is why device verification happens early and often rather than at the end.
 ---
+[event:d6c8b2b1-006d-4e79-bdcd-e0d2765471a1]
+node_id: 7c574f65-8059-41e1-b507-245d4b1b3d6f
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.716485+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
 [node:012f356c-2e3e-4fe4-9388-38f089198a41]
 type: decision
-tier: mid-term
+tier: lifetime
 path: /artifact/a-v2-of-the-theme-schema-exists-as-a-str
 created_at: 2026-09-08T09:38:29.877767+00:00
 needs_review: false
@@ -604,6 +854,16 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:38:29.877767+00:00
 
 A v2 of the theme schema exists as a strict superset of v1 - every current theme file still validates - adding a night mode alongside light and dark, the border, strong-border, signal, warn, focus and accent-foreground roles, explicit hover and active states, the two-tier type scale, spacing, control heights, motion, and a night-mode schedule. It is generated from a canonical theme file that annotates every role with provenance (kept, fixed, or new) and its measured contrast ratio, and five roles were corrected because the accepted wireframe values failed WCAG AA in light mode.
+---
+[event:7f218d37-fe53-4427-981a-27262a262cc4]
+node_id: 012f356c-2e3e-4fe4-9388-38f089198a41
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.770512+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
 ---
 [node:7835061e-c325-4e70-8051-105f22ff4f8a]
 type: issue
@@ -619,6 +879,16 @@ archived: false
 
 The middleware-pipe package name is already taken on npm, so a new name is needed before publication. This blocks the start of Faza 0 and only the project owner can settle it; the repository address stays as it is in the documentation until the npm name is chosen.
 ---
+[event:81bcc400-3311-4020-a3b5-a0fe09ab0b00]
+node_id: 7835061e-c325-4e70-8051-105f22ff4f8a
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T10:12:07.513996+00:00
+
+/gw-resolve promotion pass 2026-09-08: presented as a promotion candidate and deliberately left at mid-term - an open issue should close and go dormant, not be pinned into every future recall
+---
 [node:40398c2a-b8e4-4721-b426-730e93b8a4d8]
 type: issue
 tier: mid-term
@@ -632,6 +902,16 @@ archived: false
 
 The vidataflux repository is empty and must either be filled in before it enters the stack or consciously written out of it. This blocks the start of Faza 0 and is the project owner's call.
 ---
+[event:27d40de1-c6ba-41bd-9287-7ed817d6e0c1]
+node_id: 40398c2a-b8e4-4721-b426-730e93b8a4d8
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T10:12:07.628409+00:00
+
+/gw-resolve promotion pass 2026-09-08: presented as a promotion candidate and deliberately left at mid-term - an open issue should close and go dormant, not be pinned into every future recall
+---
 [node:b6cc5895-5e52-462a-aab2-c934ba921825]
 type: issue
 tier: mid-term
@@ -644,6 +924,16 @@ archived: false
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:38:30.287095+00:00
 
 The stack assumes TypeScript 7 with the native Go compiler, but the plan was written before that shipped and assumed an RC around June 2026. GA status must be verified before scaffolding rather than after.
+---
+[event:eabe4286-cd0e-427f-ba80-900c46ca4de5]
+node_id: b6cc5895-5e52-462a-aab2-c934ba921825
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T10:12:07.743073+00:00
+
+/gw-resolve promotion pass 2026-09-08: presented as a promotion candidate and deliberately left at mid-term - an open issue should close and go dormant, not be pinned into every future recall
 ---
 [node:baefeee7-a562-4085-8a4e-cd20045f4164]
 type: issue
@@ -659,6 +949,16 @@ archived: false
 
 The Service Worker aims at a full offline cache of app shell plus data, but dynamic data - calendar events, imported recipes - has a completely different invalidation profile from the app shell, so the workbox-versus-hand-rolled decision cannot be made until that invalidation strategy is designed.
 ---
+[event:9d55badc-2a60-4c71-bad1-90189cb22f5b]
+node_id: baefeee7-a562-4085-8a4e-cd20045f4164
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T10:12:07.859547+00:00
+
+/gw-resolve promotion pass 2026-09-08: presented as a promotion candidate and deliberately left at mid-term - an open issue should close and go dormant, not be pinned into every future recall
+---
 [node:6d5ae12d-608b-4187-839b-74d56e7ff059]
 type: issue
 tier: mid-term
@@ -672,6 +972,16 @@ archived: false
 -> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-08T09:38:30.582482+00:00
 
 The shopping list has two data sources, a local table inside K7 and a zakupy-api mode where K7 is just an additional display for the separate Zakupy project. The zakupy-api mode is unavailable until Zakupy has a technical phase of its own, so only the local mode works today.
+---
+[event:686a3420-996b-4d48-846b-f91aead19108]
+node_id: 6d5ae12d-608b-4187-839b-74d56e7ff059
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T10:12:07.977444+00:00
+
+/gw-resolve promotion pass 2026-09-08: presented as a promotion candidate and deliberately left at mid-term - an open issue should close and go dormant, not be pinned into every future recall
 ---
 [node:f42da1a9-633f-4fe2-81e4-47bd34b836f4]
 type: issue
@@ -698,15 +1008,25 @@ created_at: 2026-09-08T09:41:25.903331+00:00
 
 entangled with a second problem surfaced during distillation: the design-system package has no version-controlled home, so adopting v2 and deciding where the files live are one decision, not two
 ---
+[event:e29911f3-41ae-4c25-b9de-042384c30d05]
+node_id: f42da1a9-633f-4fe2-81e4-47bd34b836f4
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T10:12:08.088072+00:00
+
+/gw-resolve promotion pass 2026-09-08: presented as a promotion candidate and deliberately left at mid-term - an open issue should close and go dormant, not be pinned into every future recall
+---
 [node:ee768ade-394d-475c-92fb-e5c5b28e0efc]
 type: issue
 tier: mid-term
 path: /artifact/the-design-system-replaces-the-courier-n
 created_at: 2026-09-08T09:38:30.858406+00:00
-needs_review: true
+needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:7108856c-d3d5-4701-bb69-11087256a081] @ 2026-09-08T09:38:30.858406+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:38:30.858406+00:00
 
@@ -742,6 +1062,36 @@ created_at: 2026-09-08T09:55:56.501634+00:00
 
 settled 2026-09-08: the face is Source Code Pro, not IBM Plex Mono - the issue named the wrong replacement, though its premise that Courier New goes was right
 ---
+[event:6fa884ed-7760-4f93-8cd3-dc54cce5cfdb]
+node_id: ee768ade-394d-475c-92fb-e5c5b28e0efc
+type: contradiction_cleared
+weight: 1.0
+polarity: 1
+source: gui-guided
+created_at: 2026-09-08T10:09:26.371475+00:00
+
+guided review: superseded
+---
+[event:bf38eaea-6787-4c5c-b783-76ea7b62538a]
+node_id: ee768ade-394d-475c-92fb-e5c5b28e0efc
+type: manual_review
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-09-08T10:09:26.371475+00:00
+
+guided resolve: recommended=superseded, chose=superseded: human ruled superseded in a /gw-resolve session: the face is Source Code Pro; the tree carries 11 Source Code Pro declarations and zero live Plex ones, and the node's surviving premise (Courier New goes) is carried inside its replacement
+---
+[event:dc1f22b9-dcf3-4622-a4c6-21669cacf3bc]
+node_id: ee768ade-394d-475c-92fb-e5c5b28e0efc
+type: archived
+weight: 0.0
+polarity: -1
+source: gui-guided
+created_at: 2026-09-08T10:09:26.371475+00:00
+
+guided review: superseded
+---
 [node:6eef8943-c521-4af4-918b-ffa1a6200bfe]
 type: issue
 tier: mid-term
@@ -766,6 +1116,16 @@ created_at: 2026-09-08T09:41:26.144202+00:00
 
 open question carried over from the design-system pass, not settled by distillation
 ---
+[event:2b428207-855a-4487-9d60-33d0a880d265]
+node_id: 6eef8943-c521-4af4-918b-ffa1a6200bfe
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T10:12:08.208651+00:00
+
+/gw-resolve promotion pass 2026-09-08: presented as a promotion candidate and deliberately left at mid-term - an open issue should close and go dormant, not be pinned into every future recall
+---
 [node:156d8b7d-0b1f-48f0-b434-c7a269edf283]
 type: issue
 tier: mid-term
@@ -789,15 +1149,25 @@ created_at: 2026-09-08T09:41:26.268961+00:00
 
 capability wired into tokens but unreachable from the product; carried to the human gate
 ---
+[event:05385fa8-4b6c-42e5-a3fd-2817fa539110]
+node_id: 156d8b7d-0b1f-48f0-b434-c7a269edf283
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T10:12:08.326534+00:00
+
+/gw-resolve promotion pass 2026-09-08: presented as a promotion candidate and deliberately left at mid-term - an open issue should close and go dormant, not be pinned into every future recall
+---
 [node:8a963777-1d94-42ad-ae4b-8a2b08d0a686]
 type: issue
 tier: mid-term
 path: /artifact/the-project-has-no-settled-git-workflow
 created_at: 2026-09-08T09:38:31.309348+00:00
-needs_review: true
+needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:38:31.309348+00:00
 
 The project has no settled git workflow and no repository yet. The repo is decided as public on GitHub named kitchen-terminal-k7 with CI modelled on the owner's other projects, but the branching model, PR flow, merge strategy and commit conventions are unstated - and every worktree, headless run and archive commit in the change lifecycle acts on those rules. The task tracker binding is unresolved for the same reason.
@@ -832,9 +1202,39 @@ created_at: 2026-09-08T09:55:56.386271+00:00
 
 settled 2026-09-08: branch-per-change with PRs into main, merge commit, no squash; the tracker binds to GitHub Issues on mt3o/kitchen-terminal-k7. The issue's claim that no git workflow exists is now false
 ---
+[event:3e4d91c8-e725-4b7d-a4f4-31d99ff84d3a]
+node_id: 8a963777-1d94-42ad-ae4b-8a2b08d0a686
+type: manual_review
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-09-08T10:09:26.383970+00:00
+
+guided resolve: recommended=superseded, chose=superseded: human ruled superseded in a /gw-resolve session: every clause is now false - the repo is live and public, the branching model is documented, merge policy is enforced on the forge (squash and rebase off), PR#1 merged as a two-parent merge commit, and the tracker binds to GitHub Issues. TRACKERBIND d44ca6f2 answers the node's final sentence and hangs off the named replacement
+---
+[event:916c1d6f-ea5d-4a1b-bf7c-b9aea7ae5334]
+node_id: 8a963777-1d94-42ad-ae4b-8a2b08d0a686
+type: contradiction_cleared
+weight: 1.0
+polarity: 1
+source: gui-guided
+created_at: 2026-09-08T10:09:26.383970+00:00
+
+guided review: superseded
+---
+[event:99f41575-189d-44e7-b36e-8fd3feff67f1]
+node_id: 8a963777-1d94-42ad-ae4b-8a2b08d0a686
+type: archived
+weight: 0.0
+polarity: -1
+source: gui-guided
+created_at: 2026-09-08T10:09:26.383970+00:00
+
+guided review: superseded
+---
 [node:a17b142e-850e-4cdb-8d84-2689e75428a7]
 type: decision
-tier: mid-term
+tier: lifetime
 path: /artifact/work-reaches-main-one-branch-at-a-time
 created_at: 2026-09-08T09:55:55.888852+00:00
 needs_review: false
@@ -842,13 +1242,24 @@ retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> CONTRADICTS [node:8a963777-1d94-42ad-ae4b-8a2b08d0a686] @ 2026-09-08T09:55:55.888852+00:00
+-> DEPENDS_ON [node:8a963777-1d94-42ad-ae4b-8a2b08d0a686] @ 2026-09-08T10:09:26.383970+00:00
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:55:55.888852+00:00
 
 Work reaches main one branch at a time, through a pull request, and lands as a merge commit: squash merging and rebase merging are both turned off. A change is a sequence of phases with a memory capture at each boundary, so the per-phase commits are the readable record of that sequence - squashing discards it and leaves one commit whose message cannot honestly describe what the phase boundaries decided, and rebasing rewrites hashes that captured nodes and review comments already point at. Branches carry the same id as the change folder and the memory scope, so branch, folder and graph agree by construction.
 ---
+[event:c03ba42f-640d-49c6-b2ac-25ce0b6c3396]
+node_id: a17b142e-850e-4cdb-8d84-2689e75428a7
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.741300+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
 [node:d44ca6f2-aba3-4b52-99ba-cebf2695b4de]
 type: decision
-tier: mid-term
+tier: lifetime
 path: /artifact/work-state-lives-in-github-issues-on-the
 created_at: 2026-09-08T09:55:56.019321+00:00
 needs_review: false
@@ -860,9 +1271,19 @@ archived: false
 
 Work state lives in GitHub Issues on the owner's personal account, at mt3o/kitchen-terminal-k7, with plain Issues rather than a Projects board and with closing reserved to a human - the workflow may move, comment on and report divergence against an issue, never close it. Knowledge still goes in the graph: a decision recorded only in an issue comment is a decision no future recall will serve, so the issue gets a pointer at most.
 ---
+[event:db9eb87a-9864-42fb-a2b4-9b6814f26c6d]
+node_id: d44ca6f2-aba3-4b52-99ba-cebf2695b4de
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.788745+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
 [node:75d638bb-1ad3-4938-8b53-cac939b73ac0]
 type: decision
-tier: mid-term
+tier: lifetime
 path: /artifact/the-monospace-face-is-source-code-pro-s
 created_at: 2026-09-08T09:55:56.142557+00:00
 needs_review: false
@@ -871,12 +1292,23 @@ trust_weight: 1.0
 archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:55:56.142557+00:00
 -> CONTRADICTS [node:ee768ade-394d-475c-92fb-e5c5b28e0efc] @ 2026-09-08T09:55:56.142557+00:00
+-> DEPENDS_ON [node:ee768ade-394d-475c-92fb-e5c5b28e0efc] @ 2026-09-08T10:09:26.371475+00:00
 
 The monospace face is Source Code Pro, self-hosted as woff2 from the LAN backend at weights 400/500/600, replacing both the Courier New placeholder in the accepted wireframes and the IBM Plex Mono the design system had proposed. It was drawn for code read on screen - dotted zero, a 1 with a full base serif against a tailed l and a serifed I, Latin Extended-A so Polish diacritics are real glyphs - and it is SIL OFL, so self-hosting is unencumbered. Its x-height is 0.486 em against Plex Mono's 0.516, so every arcminute figure in the viewing-distance table drops about 6 percent; the 20px body rule survives with margin and the 16px label size now clears the 5 arcmin comfort floor at 1 m only barely, which argues for the 20px rule rather than against the face.
 ---
+[event:32736fa5-0be3-4ce7-8fb8-141558b75473]
+node_id: 75d638bb-1ad3-4938-8b53-cac939b73ac0
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.774613+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
 [node:36e6377e-7d18-4de2-b827-8644f15bf56a]
 type: constraint
-tier: mid-term
+tier: lifetime
 path: /artifact/context-memory-graph-dump-is-marked-mer
 created_at: 2026-09-08T09:55:56.268439+00:00
 needs_review: false
@@ -888,9 +1320,19 @@ archived: false
 
 context/memory-graph.dump is marked -merge in .gitattributes so git never line-merges it. Git aligns similar blocks and shows only their differing lines, so a three-way merge of the dump can splice half of one node's entry onto half of another and produce a store that parses and is wrong. The documented recovery, agentic-memory sync resolve, does not exist in the installed CLI - sync accepts only status, dump and restore - so a conflict is resolved by keeping one side whole, running sync restore to rebuild the database from it, and re-capturing whatever the discarded side held.
 ---
+[event:e8eeef58-0787-49c7-b455-3b2006e95a5a]
+node_id: 36e6377e-7d18-4de2-b827-8644f15bf56a
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.683029+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
 [node:a1d42a8e-6fb1-493c-b5ef-003288aa28f2]
 type: decision
-tier: mid-term
+tier: lifetime
 path: /artifact/the-design-system-package-design-md-t
 created_at: 2026-09-08T09:59:26.697299+00:00
 needs_review: false
@@ -902,3 +1344,13 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:59:26.697299+00:00
 
 The design-system package - DESIGN.md, tokens.css, design-tokens.json, the Tailwind bindings, the v2 theme schema, both theme files and the component kit - lives at design-system/ in the repository root rather than under docs/, because tokens.css and the theme YAMLs are build inputs the theme loader reads, not handoff archaeology. The OpenDesign project of the same name is kept as a byte-identical flat mirror for working and previewing; syncing is a plain directory copy in either direction and diff -r is the check. Giving the package a home deliberately did not decide whether the v2 schema replaces the v1 contract - both are tracked and neither is retired.
+---
+[event:ec37ae0c-ef73-4013-b427-46a8555211be]
+node_id: a1d42a8e-6fb1-493c-b5ef-003288aa28f2
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T10:11:44.732049+00:00
+
+tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
