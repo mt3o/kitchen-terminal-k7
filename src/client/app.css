@@ -97,3 +97,120 @@ body {
 @media (max-width: 767px) {
   .deck { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* --- reconnect scrim --------------------------------------------------------
+ * Backend unreachable: keep the last screen visible, blurred behind a static
+ * scrim, with an overlay reporting what is happening. Never a crash screen,
+ * never a hidden staleness. A reconnect is not "good and settled" so it reads
+ * in --warn, never in accent amber or --signal teal (DESIGN.md §2, §12).
+ *
+ * DOM API (behaviour lives elsewhere; this file only renders it):
+ *   #reconnect              root; toggle the `hidden` attribute to show/hide
+ *   #reconnect-title        headline, e.g. "POLACZENIE UTRACONE"
+ *   #reconnect-detail       one line of plain status
+ *   #reconnect-attempt      attempt counter, e.g. "proba 3"
+ *   #reconnect-countdown    seconds to next retry
+ *   #reconnect-bar          progress track
+ *   #reconnect-bar-fill     set style.width to a percentage from the driver
+ *
+ * The blur/dim layer (.reconnect-veil) is a sibling that covers the deck, not
+ * a filter on the deck itself — filtering the deck would give it a new
+ * containing block and reposition its children. backdrop-filter here spends
+ * the product's single 4px allowance (DESIGN.md §5) and never animates: the
+ * radius stays fixed while only the overlay's opacity fades in.
+ * -------------------------------------------------------------------------- */
+
+#reconnect {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  animation: k7-reconnect-in var(--motion-base) var(--ease);
+}
+
+#reconnect[hidden] { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  #reconnect { animation: none; }
+}
+
+@keyframes k7-reconnect-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Sibling veil, not a filter on .deck: blur is static, 4px, prefixed for
+   Safari 15 (no unprefixed backdrop-filter support). Never transitioned. */
+.reconnect-veil {
+  position: absolute;
+  inset: 0;
+  background: var(--scrim);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.reconnect-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: min(92%, calc(var(--space-16) * 7));
+  padding: var(--card-pad);
+  background: var(--surface-raised);
+  border: var(--border-w-strong) solid var(--warn);
+  border-radius: var(--radius);
+  color: var(--fg);
+  font-family: var(--font-ui);
+  text-align: center;
+}
+
+.reconnect-badge {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-label);
+  color: var(--warn);
+}
+
+.reconnect-title {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-label);
+  color: var(--warn);
+}
+
+.reconnect-detail {
+  margin: 0;
+  font-size: var(--text-base);
+  color: var(--fg-muted);
+}
+
+.reconnect-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.reconnect-bar {
+  height: var(--space-2);
+  background: var(--surface-sunken);
+  border: var(--border-w) solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.reconnect-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--warn);
+  /* Width is a driven value, not an animated one — the caller sets it once
+     per tick. Transitioning it would put `width` on the forbidden list
+     (DESIGN.md §9): it forces layout on every frame on the A8X. */
+}

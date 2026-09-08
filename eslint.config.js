@@ -91,9 +91,28 @@ export default tseslint.config(
   },
 
   {
-    files: ['src/server/**/*.ts'],
+    files: ['src/server/**/*.ts', 'scripts/**/*.mjs'],
     languageOptions: {
       globals: nodeGlobals,
+    },
+  },
+
+  // The service worker is a classic script in a worker global scope — not a
+  // module and not a browser window. Without its own globals, every `self`,
+  // `caches` and `fetch` in it reads as undefined.
+  {
+    files: ['public/sw.js'],
+    languageOptions: {
+      globals: {
+        self: 'readonly',
+        caches: 'readonly',
+        clients: 'readonly',
+        fetch: 'readonly',
+        Response: 'readonly',
+        Request: 'readonly',
+        URL: 'readonly',
+        console: 'readonly',
+      },
     },
   },
 )

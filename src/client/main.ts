@@ -6,6 +6,8 @@ import '../../design-system/tokens.css'
 import './app.css'
 import './lib/K7Card.svelte'
 
+import { domReconnectUi, reconnectLoop } from './lib/reconnect.ts'
+
 import type { Card, CardType, Layout } from '../shared/layout.ts'
 
 /** Polish HUD labels, keyed by card type. Labels uppercase, data lowercase. */
@@ -60,6 +62,9 @@ function clockFace(card: Card, el: HTMLElement): void {
 
 function render(layout: Layout): void {
   if (!deck) return
+  // Idempotent: boot() runs again after a reconnect, and appending a second set
+  // of cards to the deck is the obvious way to get that wrong.
+  deck.replaceChildren()
   deck.style.setProperty('--deck-cols', String(layout.grid.columns))
   if (layout.grid.gap) deck.style.setProperty('--card-gap', layout.grid.gap)
 
@@ -85,18 +90,53 @@ function render(layout: Layout): void {
   }
 }
 
+/**
+ * The shell is cached so the wall keeps painting across a backend restart. Data
+ * is not: the backend owns freshness and answers with an age, and a second cache
+ * in front of it would answer with a lie.
+ *
+ * Registration is guarded because a Service Worker needs a secure context, and a
+ * LAN IP over plain HTTP is not one — `navigator.serviceWorker` is undefined
+ * there, and the kiosk must still work, just without the shell cache.
+ */
+function registerServiceWorker(): void {
+  if (!window.isSecureContext || !('serviceWorker' in navigator)) return
+  window.addEventListener('load', () => {
+    void navigator.serviceWorker.register('/sw.js').catch((err: unknown) => {
+      // Never fatal: a failed registration costs the offline shell, not the app.
+      console.warn('service worker registration failed', err)
+    })
+  })
+}
+
+async function loadLayout(): Promise<Layout> {
+  const res = await fetch('/api/layout')
+  if (!res.ok) throw new Error(`layout ${res.status}`)
+  return (await res.json()) as Layout
+}
+
 async function boot(): Promise<void> {
   try {
-    const res = await fetch('/api/layout')
-    if (!res.ok) throw new Error(`layout ${res.status}`)
-    const layout = (await res.json()) as Layout
+    const layout = await loadLayout()
     render(layout)
     setStatus('ONLINE', true)
     if (foot) foot.textContent = `> ${layout.cards.length} kart // motyw: ${layout.theme.split('/').pop()}`
   } catch (err) {
-    setStatus('BLAD', false)
+    // The last screen stays on the wall, blurred behind the scrim, while this
+    // runs. Never blank, and never presented as current.
+    setStatus('BRAK POLACZENIA', false)
     if (foot) foot.textContent = `> ${err instanceof Error ? err.message : 'nieznany blad'}`
+    await reconnectLoop({
+      probe: async () => {
+        const res = await fetch('/api/health', { cache: 'no-store' })
+        if (!res.ok) throw new Error(`health ${res.status}`)
+        return res
+      },
+      ui: domReconnectUi(),
+      onRecovered: () => { void boot() },
+    })
   }
 }
 
+registerServiceWorker()
 void boot()

@@ -27,6 +27,28 @@
     <footer class="shell-foot">
       <span class="meta" id="foot">&gt; ladowanie layoutu</span>
     </footer>
+    <div
+      id="reconnect"
+      hidden
+      role="alertdialog"
+      aria-modal="true"
+      aria-labelledby="reconnect-title"
+      aria-describedby="reconnect-detail"
+    >
+      <div class="reconnect-veil" aria-hidden="true"></div>
+      <div class="reconnect-panel">
+        <p class="reconnect-badge" aria-hidden="true">[!]</p>
+        <h2 id="reconnect-title" class="reconnect-title">POŁĄCZENIE UTRACONE</h2>
+        <p id="reconnect-detail" class="reconnect-detail">serwer nie odpowiada</p>
+        <p class="reconnect-line">
+          <span id="reconnect-attempt" class="meta">próba 1</span>
+          <span id="reconnect-countdown" class="meta">ponowna próba za 5 s</span>
+        </p>
+        <div id="reconnect-bar" class="reconnect-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+          <div id="reconnect-bar-fill" class="reconnect-bar-fill" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
   </div>
   <script type="module" src="/main.ts"></script>
 </body>

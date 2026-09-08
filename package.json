@@ -13,7 +13,7 @@
     "dev:server": "node --watch src/server/index.ts",
     "storybook": "storybook dev -p 6006 --no-open",
     "build:storybook": "storybook build -o dist/storybook",
-    "build": "npm run typecheck && vite build",
+    "build": "npm run typecheck && vite build && node scripts/build-precache.mjs",
     "start": "node src/server/index.ts",
     "serve": "npm run build && npm run start",
     "lint": "eslint .",
