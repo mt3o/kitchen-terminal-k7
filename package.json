@@ -27,6 +27,7 @@
   "dependencies": {
     "@fastify/static": "^8.2.0",
     "@sentry/node": "^10.73.0",
+    "acme-client": "^5.4.0",
     "better-sqlite3": "^13.0.3",
     "drizzle-orm": "^0.45.2",
     "fastify": "^5.12.3",
