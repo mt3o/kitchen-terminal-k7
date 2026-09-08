@@ -16,9 +16,11 @@ archived: false
 -> SCOPED_TO [node:156d8b7d-0b1f-48f0-b434-c7a269edf283] @ 2026-09-08T09:38:31.156725+00:00
 -> SCOPED_TO [node:18bafc37-5e9e-4d04-936a-53218abaca4b] @ 2026-09-08T09:38:01.499476+00:00
 -> SCOPED_TO [node:279d73e0-ff0f-4184-a25c-f051d2030072] @ 2026-09-08T09:38:01.059071+00:00
+-> SCOPED_TO [node:34616847-1c75-4625-a51e-be17514f7e34] @ 2026-09-08T15:59:13.187008+00:00
 -> SCOPED_TO [node:36e6377e-7d18-4de2-b827-8644f15bf56a] @ 2026-09-08T09:55:56.268439+00:00
 -> SCOPED_TO [node:40398c2a-b8e4-4721-b426-730e93b8a4d8] @ 2026-09-08T09:38:30.154849+00:00
 -> SCOPED_TO [node:41ec3acd-0302-4120-9ef0-4b00a4945829] @ 2026-09-08T09:38:01.357085+00:00
+-> SCOPED_TO [node:45f41507-8e7c-4653-9c00-d22f0254d30f] @ 2026-09-08T15:59:13.072519+00:00
 -> SCOPED_TO [node:4730c1bc-b791-4a0d-a94c-1bd4f8307102] @ 2026-09-08T09:38:00.934031+00:00
 -> SCOPED_TO [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-08T09:36:39.536190+00:00
 -> SCOPED_TO [node:61c0030d-8bea-45cc-888b-113297483487] @ 2026-09-08T09:37:22.386658+00:00
@@ -27,12 +29,14 @@ archived: false
 -> SCOPED_TO [node:6eef8943-c521-4af4-918b-ffa1a6200bfe] @ 2026-09-08T09:38:31.010276+00:00
 -> SCOPED_TO [node:7108856c-d3d5-4701-bb69-11087256a081] @ 2026-09-08T09:36:59.157308+00:00
 -> SCOPED_TO [node:716987ce-f933-41b5-8c4e-590c09dc33bf] @ 2026-09-08T09:36:59.039273+00:00
+-> SCOPED_TO [node:7417ea88-923f-4f7b-afca-3d9334b79c0a] @ 2026-09-08T15:59:13.422441+00:00
 -> SCOPED_TO [node:75d638bb-1ad3-4938-8b53-cac939b73ac0] @ 2026-09-08T09:55:56.142557+00:00
 -> SCOPED_TO [node:77925b30-350a-42ee-a7de-7e8a023c5708] @ 2026-09-08T09:38:00.559118+00:00
 -> SCOPED_TO [node:7835061e-c325-4e70-8051-105f22ff4f8a] @ 2026-09-08T09:38:30.023885+00:00
 -> SCOPED_TO [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-09-08T09:37:21.559263+00:00
 -> SCOPED_TO [node:7c574f65-8059-41e1-b507-245d4b1b3d6f] @ 2026-09-08T09:38:01.948165+00:00
 -> SCOPED_TO [node:8a963777-1d94-42ad-ae4b-8a2b08d0a686] @ 2026-09-08T09:38:31.309348+00:00
+-> SCOPED_TO [node:8f453152-4703-4c6e-8a7c-4ae5ca69b54e] @ 2026-09-08T15:59:13.306159+00:00
 -> SCOPED_TO [node:95f8d3a2-3197-4f8c-9126-80c5ddd29466] @ 2026-09-08T11:24:46.150128+00:00
 -> SCOPED_TO [node:9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0] @ 2026-09-08T09:37:22.142396+00:00
 -> SCOPED_TO [node:9ea20285-de89-4f25-a25e-37700078bd59] @ 2026-09-08T09:38:01.797947+00:00
@@ -84,9 +88,11 @@ archived: false
 -> DEPENDS_ON [node:156d8b7d-0b1f-48f0-b434-c7a269edf283] @ 2026-09-08T09:38:31.156725+00:00
 -> DEPENDS_ON [node:18bafc37-5e9e-4d04-936a-53218abaca4b] @ 2026-09-08T09:38:01.499476+00:00
 -> DEPENDS_ON [node:279d73e0-ff0f-4184-a25c-f051d2030072] @ 2026-09-08T09:38:01.059071+00:00
+-> DEPENDS_ON [node:34616847-1c75-4625-a51e-be17514f7e34] @ 2026-09-08T15:59:13.187008+00:00
 -> DEPENDS_ON [node:36e6377e-7d18-4de2-b827-8644f15bf56a] @ 2026-09-08T09:55:56.268439+00:00
 -> DEPENDS_ON [node:40398c2a-b8e4-4721-b426-730e93b8a4d8] @ 2026-09-08T09:38:30.154849+00:00
 -> DEPENDS_ON [node:41ec3acd-0302-4120-9ef0-4b00a4945829] @ 2026-09-08T09:38:01.357085+00:00
+-> DEPENDS_ON [node:45f41507-8e7c-4653-9c00-d22f0254d30f] @ 2026-09-08T15:59:13.072519+00:00
 -> DEPENDS_ON [node:4730c1bc-b791-4a0d-a94c-1bd4f8307102] @ 2026-09-08T09:38:00.934031+00:00
 -> DEPENDS_ON [node:61c0030d-8bea-45cc-888b-113297483487] @ 2026-09-08T09:37:22.386658+00:00
 -> DEPENDS_ON [node:6d5ae12d-608b-4187-839b-74d56e7ff059] @ 2026-09-08T09:38:30.582482+00:00
@@ -94,12 +100,14 @@ archived: false
 -> DEPENDS_ON [node:6eef8943-c521-4af4-918b-ffa1a6200bfe] @ 2026-09-08T09:38:31.010276+00:00
 -> DEPENDS_ON [node:7108856c-d3d5-4701-bb69-11087256a081] @ 2026-09-08T09:36:59.157308+00:00
 -> DEPENDS_ON [node:716987ce-f933-41b5-8c4e-590c09dc33bf] @ 2026-09-08T09:36:59.039273+00:00
+-> DEPENDS_ON [node:7417ea88-923f-4f7b-afca-3d9334b79c0a] @ 2026-09-08T15:59:13.422441+00:00
 -> DEPENDS_ON [node:75d638bb-1ad3-4938-8b53-cac939b73ac0] @ 2026-09-08T09:55:56.142557+00:00
 -> DEPENDS_ON [node:77925b30-350a-42ee-a7de-7e8a023c5708] @ 2026-09-08T09:38:00.559118+00:00
 -> DEPENDS_ON [node:7835061e-c325-4e70-8051-105f22ff4f8a] @ 2026-09-08T09:38:30.023885+00:00
 -> DEPENDS_ON [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-09-08T09:37:21.559263+00:00
 -> DEPENDS_ON [node:7c574f65-8059-41e1-b507-245d4b1b3d6f] @ 2026-09-08T09:38:01.948165+00:00
 -> DEPENDS_ON [node:8a963777-1d94-42ad-ae4b-8a2b08d0a686] @ 2026-09-08T09:38:31.309348+00:00
+-> DEPENDS_ON [node:8f453152-4703-4c6e-8a7c-4ae5ca69b54e] @ 2026-09-08T15:59:13.306159+00:00
 -> DEPENDS_ON [node:95f8d3a2-3197-4f8c-9126-80c5ddd29466] @ 2026-09-08T11:24:46.150128+00:00
 -> DEPENDS_ON [node:9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0] @ 2026-09-08T09:37:22.142396+00:00
 -> DEPENDS_ON [node:9ea20285-de89-4f25-a25e-37700078bd59] @ 2026-09-08T09:38:01.797947+00:00
@@ -1200,7 +1208,7 @@ type: issue
 tier: mid-term
 path: /artifact/the-service-worker-aims-at-a-full-offlin
 created_at: 2026-09-08T09:38:30.445420+00:00
-needs_review: false
+needs_review: true
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
@@ -1230,6 +1238,26 @@ source: agent-surface
 created_at: 2026-09-08T13:35:18.098546+00:00
 
 /gw-resolve pass 2: re-examined as part of the sweep argument - still open, still Faza 0 work, and one of the two nodes keeping the foundation scope active
+---
+[event:7adc2861-d920-48e4-910d-fb8e4d0cfcc2]
+node_id: baefeee7-a562-4085-8a4e-cd20045f4164
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-08T15:59:13.072519+00:00
+
+contradicted at capture of 45f41507-8e7c-4653-9c00-d22f0254d30f
+---
+[event:8cafa4a2-bc0a-431c-8902-9c5203f52a52]
+node_id: baefeee7-a562-4085-8a4e-cd20045f4164
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-08T15:59:13.913566+00:00
+
+names the wrong blocker: the workbox-versus-hand-rolled choice is not waiting on an invalidation strategy, it is waiting on TLS, because a Service Worker cannot register on an insecure origin at all - measured 2026-09-08
 ---
 [node:6d5ae12d-608b-4187-839b-74d56e7ff059]
 type: issue
@@ -2868,3 +2896,65 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T15:48:25.357406+00:00
 
 Storybook configures vite-plugin-svelte itself when it detects Svelte in the project, so a viteFinal hook that adds the plugin again compiles every component twice. The second pass feeds the compiler its own generated output and fails inside the component with a tag name error, which reads as a syntax error in the component rather than as a duplicated plugin - the misleading part is that the file it names is innocent. Check the plugin list before adding a framework plugin to a Storybook Vite config.
+---
+[node:45f41507-8e7c-4653-9c00-d22f0254d30f]
+type: constraint
+tier: mid-term
+path: /artifact/a-service-worker-cannot-run-on-this-kios
+created_at: 2026-09-08T15:59:13.072519+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99] @ 2026-09-08T15:59:13.072519+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-08T15:59:13.072519+00:00
+-> CONTRADICTS [node:baefeee7-a562-4085-8a4e-cd20045f4164] @ 2026-09-08T15:59:13.072519+00:00
+-> DEPENDS_ON [node:d3faf49e-9fd8-4d79-9c8a-733cb2baa856] @ 2026-09-08T15:59:13.546109+00:00
+
+A Service Worker cannot run on this kiosk over plain HTTP, and that is a hard blocker rather than a configuration problem. Service Workers and the Cache API require a secure context; a LAN IP over http is not one, so navigator.serviceWorker is undefined and there is nothing to configure. Measured on the real address: http://192.168.0.114 reports isSecureContext false with no serviceWorker and no caches, while http://localhost reports all three present - which is why the gap is invisible during development on the server machine and only appears on the iPad. Everything about offline behaviour is therefore downstream of TLS, and the plan that scheduled HTTPS five phases after the Service Worker had the dependency backwards.
+---
+[node:34616847-1c75-4625-a51e-be17514f7e34]
+type: decision
+tier: mid-term
+path: /artifact/tls-on-the-lan-is-a-real-certificate-for
+created_at: 2026-09-08T15:59:13.187008+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:45f41507-8e7c-4653-9c00-d22f0254d30f] @ 2026-09-08T15:59:13.669701+00:00
+-> HAS_FACET [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99] @ 2026-09-08T15:59:13.187008+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-08T15:59:13.187008+00:00
+
+TLS on the LAN is a real certificate for a real domain, issued by Let's Encrypt through a DNS-01 challenge, with the record pointing at the machine's private address. Nothing is exposed inbound: the DNS challenge proves control of the domain without an open port, and the private A record resolves only for devices on the network. The alternative considered was a local certificate authority, which needs its profile installed and then separately trusted on every device and redone at expiry - workable for one iPad, tiresome for the phone, and a maintenance task on a kitchen appliance nobody will remember. A real certificate renews itself and Safari trusts it with no device setup at all.
+---
+[node:8f453152-4703-4c6e-8a7c-4ae5ca69b54e]
+type: decision
+tier: mid-term
+path: /artifact/freshness-for-weather-and-calendar-data
+created_at: 2026-09-08T15:59:13.306159+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550] @ 2026-09-08T15:59:13.306159+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T15:59:13.306159+00:00
+-> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-09-08T15:59:13.306159+00:00
+
+Freshness for weather and calendar data is the backend's job, not the Service Worker's. The common failure is the household internet being down while the LAN is up, and in that case the server still answers and a Service Worker contributes nothing; what matters is that the server can serve its last good Open-Meteo and Google Calendar responses from SQLite. Putting the policy there also means it works today over plain HTTP with no certificate, survives an iPad reload, and is shared with the phone instead of living per-device in a cache the browser may evict. The Service Worker's remaining job is narrow and worth stating: keep the shell alive across a backend restart.
+---
+[node:7417ea88-923f-4f7b-afca-3d9334b79c0a]
+type: decision
+tier: mid-term
+path: /artifact/when-the-backend-is-unreachable-the-kios
+created_at: 2026-09-08T15:59:13.422441+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-08T15:59:13.422441+00:00
+-> DEPENDS_ON [node:716987ce-f933-41b5-8c4e-590c09dc33bf] @ 2026-09-08T15:59:13.785527+00:00
+-> HAS_FACET [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99] @ 2026-09-08T15:59:13.422441+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T15:59:13.422441+00:00
+
+When the backend is unreachable the kiosk holds the last screen behind a scrim rather than blanking or lying: the stale grid stays visible and blurred, and an overlay says what is happening and how far along the reconnect is. The blur spends the one backdrop-filter allowance the hardware budget permits - the same 4px dialog-and-slideshow scrim, prefixed for Safari 15 - and it is held static, with only the scrim's opacity animated, because a reconnect is the worst moment to composite the full screen every frame. The overlay must show real progress, attempt count and time to the next retry, since a spinner that conveys nothing is what makes people power-cycle a kitchen display.

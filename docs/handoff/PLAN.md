@@ -39,8 +39,13 @@ Rozstrzygnięte (zostawione dla śladu):
 
 Nadal otwarte, nieblokujące (rozstrzygane w trakcie Fazy 0):
 
-3. Adapter migracji + lekki ORM/query builder do SQLite — **Opus**
-4. Strategia cache'owania Service Workera dla danych dynamicznych — **Opus**
+3. ~~Adapter migracji + lekki ORM/query builder do SQLite~~ — **rozstrzygnięte: Drizzle**
+4. ~~Strategia cache'owania Service Workera~~ — **rozstrzygnięte 2026-09-08, ale nie tak,
+   jak zakładał plan.** Service Worker wymaga bezpiecznego kontekstu, a `http://` na
+   adresie LAN nim nie jest — `navigator.serviceWorker` po prostu nie istnieje. Zmierzone,
+   nie założone. Dlatego HTTPS przenosi się z Fazy 6 **przed** Service Workera, świeżość
+   danych (pogoda, kalendarz) ląduje w backendzie w SQLite, a Service Worker odpowiada już
+   tylko za powłokę aplikacji przy restarcie backendu.
 5. ~~Binding trackera zadań~~ — **rozstrzygnięte**: GitHub Issues, `mt3o/kitchen-terminal-k7`
    (`context/foundation/tracker.md`, `context/foundation/git-workflow.md`)
 
@@ -121,7 +126,9 @@ Scaffolding:
       (`creditText` + `linkToSource`) i `fallbackImageUrl` — **Haiku**
 
 ### Faza 6 — deployment i twarde detale iPada
-- [ ] Reverse proxy / HTTPS w LAN (jeśli iPad wymaga; Safari bywa marudne co do mixed content) — **Sonnet**
+- [x] ~~Reverse proxy / HTTPS w LAN~~ — **przeniesione do Fazy 0**: to nie jest detal
+      deploymentu, tylko warunek konieczny Service Workera. Certyfikat z Let's Encrypt przez
+      wyzwanie DNS-01 na prywatny rekord A; nic nie jest wystawione na zewnątrz.
 - [ ] Instrukcja "Add to Home Screen" + ustawienia Auto-Lock: Never — **Haiku**
 - [ ] Test na faktycznym starym iOS (Safari renderowanie, JS wsparcie) — **Sonnet**
 

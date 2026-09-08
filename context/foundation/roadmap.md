@@ -12,17 +12,30 @@ screen and CI enforcing the rules the graph already settled.
 
 | # | slice | mode | blocked by | delivers |
 |---|---|---|---|---|
-| 1 | `k7-walking-skeleton` | interactive | — | repo, Safari-15 build target, Fastify serving a Svelte custom element that renders Cards from `layout.yaml` in the real tokens, green CI including the hardcoded-colour grep. Openable on the iPad. |
-| 2 | `k7-secrets-and-errors` | headless | 1 | Varlock `.env.schema` + GlitchTip init; a deliberate test error proves the trace arrives and the secret does not |
-| 3 | `k7-persistence` | interactive | 1 | the SQLite access-layer decision, the five tables, migrations, one repository port with a working adapter |
-| 4 | `k7-storybook` | headless | 1 | Storybook build and the first component story |
-| 5 | `k7-offline-shell` | interactive | 1 | the Service Worker strategy decision plus app-shell offline caching, proven by pulling the network |
+| 1 | `k7-walking-skeleton` | interactive | — | ✅ repo, Safari-15 target, Fastify serving `<k7-card>` from `layout.yaml` in real tokens, green CI |
+| 2 | `k7-secrets-and-errors` | headless | 1 | ✅ Varlock schema, GlitchTip, scrubbing proven on the wire |
+| 3 | `k7-persistence` | interactive | 1 | ✅ Drizzle over SQLite behind repository ports, five tables, boot-time migrations |
+| 4 | `k7-storybook` | headless | 1 | ✅ Storybook on the web-components renderer, three luminance modes |
+| 5 | `k7-lan-tls` | interactive | 1 | **new, and a prerequisite:** a real certificate via DNS-01 for a private A record, Fastify on HTTPS, verified on the iPad |
+| 6 | `k7-backend-freshness` | headless | 3 | last-good Open-Meteo and Calendar responses cached in SQLite, served with their age |
+| 7 | `k7-offline-shell` | interactive | 5, 6 | Service Worker for the shell, plus the reconnect scrim over the blurred stale grid |
 
-**Modes are a check, not an opinion.** Slice 1 puts a UI surface on screen and slices
-3 and 5 each turn on an architectural decision with real alternatives — all three will
-want `/gw-grill`, which is never headless. Slices 2 and 4 are verifiable by command
-with no surface and no argument, so they are genuinely headless.
+**The order changed on 2026-09-08, and the reason is worth keeping.** The original
+list had `k7-offline-shell` as slice 5 blocked only on slice 1, with HTTPS sitting in
+Faza 6 — five phases later. That is backwards: a Service Worker requires a secure
+context, and a LAN IP over plain HTTP is not one, so `navigator.serviceWorker` is
+undefined and there is nothing to configure. Measured, not assumed. TLS was therefore
+promoted into this epic as slice 5, and the offline work split in two: the freshness
+policy that does **not** need a certificate (slice 6, in the backend) and the shell
+cache that does (slice 7).
+
+**Modes are a check, not an opinion.** Slices 3, 5 and 7 each turn on an
+architectural decision or put a surface on screen, so none can run unattended.
+Slices 2, 4 and 6 are verifiable by command with no surface and no argument.
 
 **Deliberately not in this epic:** the theme *loader* (Faza 1 — slice 1 links
-`tokens.css` directly rather than generating it), and dynamic-data caching, which
-`SWCACHE` says cannot be decided until the invalidation strategy is designed.
+`tokens.css` directly rather than generating it), and the thirteen unimplemented card
+types.
+
+**Open input needed for slice 5:** which domain and DNS provider. The DNS-01 challenge
+needs API access to the zone; everything else about that slice is decided.

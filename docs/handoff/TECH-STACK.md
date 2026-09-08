@@ -12,7 +12,7 @@
 | Style | Tailwind CSS, klasy grupowane w mixiny (`@apply`/warstwa komponentowa) |
 | Storybook | tak, osobny build |
 | Architektura backendu | heksagonalna (ports & adapters), dependency injection |
-| PWA | pełny cache offline (Service Worker, app shell + dane) |
+| PWA | Service Worker **tylko dla powłoki** (wymaga HTTPS — patrz niżej); świeżość danych dynamicznych trzymana w backendzie w SQLite, nie w przeglądarce |
 | Kompatybilność | iPad Air 2 (A1567) i iPhone 6s — oba wspierane do iOS/iPadOS 15, więc wspólny baseline to Safari 15 |
 | Zarządzanie credentiali | Varlock (dmno-dev/varlock) — schema-based `.env`, walidacja i typowanie, redakcja sekretów w logach, skanowanie wycieków, integracje z 1Password/Infisical/AWS/Vault; agenci AI widzą schemat, nigdy realnych wartości |
 
@@ -85,10 +85,17 @@ Kandydaci (nie ostateczna decyzja): **Drizzle ORM** (lekki, TS-first, `drizzle-k
 migracji), **Kysely** (query builder z pełnym typowaniem, mniejszy narzut niż pełny ORM),
 ewentualnie **better-sqlite3** jako sterownik niskopoziomowy pod spodem.
 
-### Strategia Service Workera
-Pełny cache offline (app shell + dane). Cache'owanie danych dynamicznych — kalendarz,
-przepisy — ma inną charakterystykę inwalidacji niż app shell, więc wymaga przemyślenia,
-zanim padnie wybór workbox vs. ręczny SW.
+### ~~Strategia Service Workera~~ — rozstrzygnięte 2026-09-08
+Blokadą nie była inwalidacja, tylko **bezpieczny kontekst**: Service Worker i Cache API
+nie istnieją na origin `http://` z adresem IP w LAN. Zmierzone na `192.168.0.114`:
+`isSecureContext=false`, brak `serviceWorker`, brak `caches`; na `localhost` wszystko troje
+jest — dlatego luka jest niewidoczna przy pracy na serwerze i pojawia się dopiero na iPadzie.
+
+Stąd trzy decyzje: HTTPS przed Service Workerem (Let's Encrypt, DNS-01, prywatny rekord A);
+świeżość pogody i kalendarza w backendzie w SQLite, bo przy padniętym internecie i żywym
+LAN-ie Service Worker nie pomaga w niczym; a sam Service Worker odpowiada tylko za powłokę.
+Wybór workbox vs. ręczny SW: **ręczny** — żadna gotowa strategia nie pokazuje wieku danych
+w UI, a to jest tu regułą nadrzędną: cache nie ma prawa kłamać o świeżości.
 
 ## Otwarte decyzje
 
