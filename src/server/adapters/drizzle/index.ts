@@ -13,6 +13,7 @@ import { drizzle, type BetterSQLite3Database } from 'drizzle-orm/better-sqlite3'
 
 import type {
   AiCall,
+  CacheEntry,
   Conversation,
   Message,
   Recipe,
@@ -24,6 +25,7 @@ import type {
   RecipeRepository,
   Repositories,
   ShoppingListRepository,
+  UpstreamCacheRepository,
 } from '../../ports/repositories.ts'
 import * as schema from '../../db/schema.ts'
 
@@ -184,5 +186,21 @@ export function createRepositories(db: Db): Repositories {
     },
   }
 
-  return { recipes, shoppingList, conversations, aiCalls }
+  const upstreamCache: UpstreamCacheRepository = {
+    async get(key) {
+      const [row] = await db.select().from(schema.upstreamCache).where(eq(schema.upstreamCache.key, key)).limit(1)
+      return row ? ({ ...row } as CacheEntry) : undefined
+    },
+    async put(key, upstream, payload, fetchedAt) {
+      const values = { key, upstream, payload, fetchedAt: fetchedAt ?? new Date() }
+      const [row] = await db
+        .insert(schema.upstreamCache)
+        .values(values)
+        .onConflictDoUpdate({ target: schema.upstreamCache.key, set: values })
+        .returning()
+      return { ...row! } as CacheEntry
+    },
+  }
+
+  return { recipes, shoppingList, conversations, aiCalls, upstreamCache }
 }

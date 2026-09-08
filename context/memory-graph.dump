@@ -3045,3 +3045,91 @@ archived: false
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T17:49:01.967859+00:00
 
 Certificate issuance defaults to the Let's Encrypt staging environment and production is opt-in through an explicit flag. Production allows five duplicate certificates per week and throttles failed validations hard, so a retry loop while the DNS credentials or the record are still wrong burns the week's budget with no remedy but waiting - and setup is exactly when things are wrong. A staging certificate is a real certificate that browsers do not trust, which makes the difference visible rather than silent. Publishing a certificate for a hostname also enters that name into public Certificate Transparency logs, so the name is discoverable even though the address it resolves to is not routable; a wildcard certificate is the way to keep the specific label out of the logs if that ever matters.
+---
+[node:17d093df-8bc9-4e91-bd34-2df2be1cce2a]
+type: goal
+tier: short-term
+path: /goal/k7-backend-freshness
+created_at: 2026-09-08T18:39:07.585780+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:306c1f5a-25cc-46a4-b0a2-499e35abae63] @ 2026-09-08T18:56:16.844498+00:00
+-> DEPENDS_ON [node:3a29eee2-0cb0-4688-8e53-92c9a2b0c08e] @ 2026-09-08T18:39:07.585780+00:00
+-> DEPENDS_ON [node:53641f0c-859e-4648-a15d-e2962e6829f0] @ 2026-09-08T18:56:16.716439+00:00
+-> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-08T18:39:07.585780+00:00
+-> DEPENDS_ON [node:822d1381-09c3-41bc-ba5c-87c90e92ef78] @ 2026-09-08T18:56:16.587347+00:00
+
+Cache upstream responses in SQLite and serve them with their age attached, so the kiosk survives the internet being down without ever rendering stale data as fresh
+---
+[node:d1fd8be9-577e-4203-b3b2-cebe522e0258]
+type: slice
+tier: short-term
+path: /change/k7-backend-freshness
+created_at: 2026-09-08T18:39:07.585780+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:17d093df-8bc9-4e91-bd34-2df2be1cce2a] @ 2026-09-08T18:39:07.585780+00:00
+-> SCOPED_TO [node:306c1f5a-25cc-46a4-b0a2-499e35abae63] @ 2026-09-08T18:56:16.844498+00:00
+-> SCOPED_TO [node:53641f0c-859e-4648-a15d-e2962e6829f0] @ 2026-09-08T18:56:16.716439+00:00
+-> SCOPED_TO [node:822d1381-09c3-41bc-ba5c-87c90e92ef78] @ 2026-09-08T18:56:16.587347+00:00
+
+change scope: k7-backend-freshness
+---
+[event:7e3400ca-48fc-41f1-bd8a-3f51ab159a97]
+node_id: d1fd8be9-577e-4203-b3b2-cebe522e0258
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T18:39:07.587270+00:00
+
+create_change k7-backend-freshness
+---
+[node:822d1381-09c3-41bc-ba5c-87c90e92ef78]
+type: constraint
+tier: mid-term
+path: /artifact/every-upstream-answer-carries-its-own-ag
+created_at: 2026-09-08T18:56:16.587347+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-08T18:56:16.587347+00:00
+-> DEPENDS_ON [node:8f453152-4703-4c6e-8a7c-4ae5ca69b54e] @ 2026-09-08T18:56:16.973970+00:00
+-> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-09-08T18:56:16.587347+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T18:56:16.587347+00:00
+
+Every upstream answer carries its own age, and the type has no variant without one. A wall display that silently shows yesterday's temperature is more harmful than one showing nothing, because nobody doubts it - so the honest field is made impossible to omit rather than easy to forget. Age is recomputed from the stored timestamp on every read and is never reset by a cache hit, which means a copy can be simultaneously fresh enough to use and two minutes old, and both facts are reported. When the upstream fails the last good answer is served marked stale with its real age; when nothing is cached and the upstream fails the request fails, because there is no honest answer and an empty shape would be rendered as real data.
+---
+[node:53641f0c-859e-4648-a15d-e2962e6829f0]
+type: constraint
+tier: mid-term
+path: /artifact/open-meteo-labels-its-timestamps-iso8601
+created_at: 2026-09-08T18:56:16.716439+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T18:56:16.716439+00:00
+-> DEPENDS_ON [node:822d1381-09c3-41bc-ba5c-87c90e92ef78] @ 2026-09-08T18:56:17.098001+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-08T18:56:16.716439+00:00
+
+Open-Meteo labels its timestamps iso8601 but returns naive local wall-clock strings with no offset and no Z, such as 2026-09-08T20:30, while the actual offset arrives separately as utc_offset_seconds. Passing those strings to Date interprets them in the server's zone, which is correct by accident whenever the server and the location agree and wrong the rest of the time, including twice a year at a daylight-saving boundary. Every timestamp is therefore resolved through the offset before it leaves the client. This is not tidiness: sunrise and sunset from this response are what a schedule-driven night mode keys off, and an hours-wrong sunset is a kitchen that dims at the wrong time in a way that looks plausible. The response also returns is_day as 0 or 1, and Boolean of the string zero is true.
+---
+[node:306c1f5a-25cc-46a4-b0a2-499e35abae63]
+type: constraint
+tier: mid-term
+path: /artifact/a-clock-injected-into-a-service-but-not
+created_at: 2026-09-08T18:56:16.844498+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T18:56:16.844498+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T18:56:16.844498+00:00
+
+A clock injected into a service but not into the repository underneath it measures age between two different clocks, and the result looks right in production and absurd in a test. The cache write takes the timestamp as a parameter rather than calling the wall clock itself, so the whole read-write-read cycle runs on one injected clock. This was found by a test asserting an age of 300 seconds and getting the distance between a fabricated date and the real present; the code would have shipped, because in production both clocks agree and nothing looks wrong.

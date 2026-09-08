@@ -61,3 +61,30 @@ export interface AiCall {
   estimatedCostUsd: number
   createdAt: Date
 }
+
+export type Upstream = 'open-meteo' | 'google-calendar' | 'kilo-gateway'
+
+/**
+ * An upstream response, always carrying its own age.
+ *
+ * There is no variant of this without `ageSeconds`, on purpose: the rule is that
+ * the cache never lies about freshness, and the way to enforce a rule like that
+ * is to make the honest field impossible to omit rather than easy to forget.
+ */
+export interface Aged<T> {
+  data: T
+  fetchedAt: Date
+  ageSeconds: number
+  /** `live` means the network answered this time; `cache` means it did not. */
+  source: 'live' | 'cache'
+  /** Older than the caller's freshness window. */
+  stale: boolean
+}
+
+/** What a cached upstream response looks like in the store. */
+export interface CacheEntry {
+  key: string
+  upstream: Upstream
+  payload: unknown
+  fetchedAt: Date
+}
