@@ -32,8 +32,9 @@ Rozstrzygnięte (zostawione dla śladu):
 
 Nadal otwarte, **blokują start Fazy 0** (po Twojej stronie):
 
-1. Nowa nazwa pakietu npm zamiast `middleware-pipe` (obecna zajęta)
-2. Uzupełnienie pustego repo `vidataflux`
+1. ~~Nowa nazwa pakietu npm zamiast `middleware-pipe`~~ — **rozstrzygnięte 2026-09-08**:
+   opublikowane jako `@mt3o/middleware-pipe@1.0.0`, publiczne
+2. Uzupełnienie pustego repo `vidataflux` — **jedyny pozostały blocker**
 
 Nadal otwarte, nieblokujące (rozstrzygane w trakcie Fazy 0):
 
@@ -53,9 +54,10 @@ To jest **jedyna** obowiązująca lista Fazy 0. `TECH-STACK.md` opisuje uzasadni
 technologii, ale nie prowadzi własnego zestawu zadań.
 
 Najpierw odblokowanie (bez tego reszta nie ma sensu):
-- [ ] Nowa nazwa pakietu npm zamiast `middleware-pipe` — **wymaga Twojej decyzji**
+- [x] ~~Nowa nazwa pakietu npm zamiast `middleware-pipe`~~ — opublikowane
+      2026-09-08 jako `@mt3o/middleware-pipe@1.0.0`, publiczne
 - [ ] Uzupełnienie pustego repo `vidataflux` (albo świadome wypisanie go ze stacku)
-      — **wymaga Twojej decyzji**
+      — **wymaga Twojej decyzji, ostatni blocker Fazy 0**
 
 Decyzje architektoniczne:
 - [ ] Adapter migracji + lekki ORM/query builder do SQLite (silnik już ustalony;

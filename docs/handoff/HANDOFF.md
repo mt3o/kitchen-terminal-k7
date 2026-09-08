@@ -82,9 +82,10 @@ Zacząć od Fazy 0 w `PLAN.md` (szkielet repo). Framework frontendu jest już
 rozstrzygnięty (Svelte 5 + custom elements — patrz `TECH-STACK.md`), więc
 scaffolding nie jest już tym zablokowany.
 
-Realnie blokują start dwie rzeczy, obie po Twojej stronie:
+Realnie blokuje start już tylko jedna rzecz, po Twojej stronie:
 
-1. **`middleware-pipe`** — nazwa zajęta na npm, potrzebna nowa przed publikacją.
+1. ~~**`middleware-pipe`** — nazwa zajęta na npm.~~ **Rozstrzygnięte 2026-09-08:**
+   opublikowane jako **`@mt3o/middleware-pipe@1.0.0`**, publiczne.
 2. **`vidataflux`** — repo jest puste, wymaga uzupełnienia zanim wejdzie do stacku.
 
 Otwarte, ale nieblokujące (do rozstrzygnięcia w trakcie Fazy 0):

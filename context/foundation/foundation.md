@@ -113,7 +113,8 @@ survive every sweep, which is the whole point of a foundation pass.
 | Process | `GITWORKFLOW` `TRACKERBIND` `VISIBLEPHASE` `DUMPMERGE` |
 
 **Left at mid-term — 8.** `MIDDLEWARE` `VIDATAFLUX` `TS7` `SWCACHE` `ZAKUPY`
-`SCHEMAV2ADOPT` `NIGHTSCHED` `DENSITY`. Open issues should *close*; pinning them at
+`SCHEMAV2ADOPT` `NIGHTSCHED` `DENSITY`. *(`MIDDLEWARE` was flagged CONTRADICTED on
+2026-09-08 when `@mt3o/middleware-pipe@1.0.0` was published — awaiting a ruling.)* Open issues should *close*; pinning them at
 lifetime would serve the open-questions list into every recall forever, including
 long after the questions are answered.
 
