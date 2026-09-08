@@ -9,10 +9,12 @@
  */
 import type {
   AiCall,
+  CacheEntry,
   Conversation,
   Message,
   Recipe,
   ShoppingListItem,
+  Upstream,
 } from '../domain/types.ts'
 
 /** Fields the caller supplies; the store owns ids and timestamps. */
@@ -49,10 +51,17 @@ export interface AiCallRepository {
   totalCostSince(since: Date): Promise<{ calls: number; costUsd: number }>
 }
 
+export interface UpstreamCacheRepository {
+  get(key: string): Promise<CacheEntry | undefined>
+  /** `fetchedAt` is injectable so age is measured against one clock, not two. */
+  put(key: string, upstream: Upstream, payload: unknown, fetchedAt?: Date): Promise<CacheEntry>
+}
+
 /** Everything the core needs from storage, in one injectable bundle. */
 export interface Repositories {
   recipes: RecipeRepository
   shoppingList: ShoppingListRepository
   conversations: ConversationRepository
   aiCalls: AiCallRepository
+  upstreamCache: UpstreamCacheRepository
 }

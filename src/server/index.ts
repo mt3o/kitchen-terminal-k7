@@ -15,6 +15,8 @@ import { describeConfig, loadConfig, secretValues } from './config.ts'
 import { runMigrations } from './db/migrate.ts'
 import { initObservability, Sentry } from './observability.ts'
 import { isAllowedHost, isPrivateAddress } from './security/network.ts'
+import { createFreshnessService } from './upstream/freshness.ts'
+import { fetchWeather, weatherCacheKey } from './upstream/open-meteo.ts'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 const config = loadConfig()
@@ -32,6 +34,7 @@ const reporting = initObservability({
 const db = openDatabase(config.databasePath)
 runMigrations(db)
 const repos = createRepositories(db)
+const fetchThrough = createFreshnessService(repos.upstreamCache)
 
 const app = Fastify({ logger: { transport: undefined } })
 
@@ -76,6 +79,50 @@ app.addHook('onRequest', async (req, reply) => {
     // ours, which is what a rebinding page looks like from in here.
     req.log.warn({ host: req.headers.host, url: req.url }, 'rejected unexpected Host header')
     return reply.code(400).send({ error: 'unexpected host' })
+  }
+})
+
+/**
+ * Weather, served through the cache and always with its age.
+ *
+ * The freshness window is 15 minutes because that is roughly how often the
+ * upstream itself updates; asking more often would return the same numbers and
+ * spend somebody else's rate limit for nothing.
+ */
+app.get('/api/weather', async (req, reply) => {
+  const q = req.query as { lat?: string; lon?: string; units?: string }
+  const latitude = Number(q.lat ?? 52.2297)
+  const longitude = Number(q.lon ?? 21.0122)
+  if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+    return reply.code(400).send({ error: 'lat and lon must be numbers' })
+  }
+  const query = {
+    latitude,
+    longitude,
+    timezone: process.env.K7_TIMEZONE ?? 'Europe/Warsaw',
+    units: q.units === 'imperial' ? ('imperial' as const) : ('metric' as const),
+  }
+
+  try {
+    return await fetchThrough({
+      key: weatherCacheKey(query),
+      upstream: 'open-meteo',
+      freshForSeconds: 900,
+      fetcher: () => fetchWeather(query),
+      onFallback: (error, ageSeconds) => {
+        // Worth a log line but not an error report: the household internet being
+        // down is an expected condition the design already accounts for.
+        req.log.warn({ err: error, ageSeconds }, 'open-meteo unreachable, serving last good')
+      },
+    })
+  } catch (error) {
+    // Nothing cached and the upstream is unreachable: there is no honest answer,
+    // so say so rather than returning an empty shape the card would render as
+    // real data.
+    return reply.code(503).send({
+      error: 'weather unavailable and nothing cached',
+      detail: error instanceof Error ? error.message : undefined,
+    })
   }
 })
 

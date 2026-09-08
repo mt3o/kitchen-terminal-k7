@@ -102,6 +102,28 @@ export const aiCalls = sqliteTable(
   (t) => [index('ai_calls_created_idx').on(t.createdAt)],
 )
 
+/**
+ * Last-good responses from upstreams the household does not control.
+ *
+ * This exists because the common failure is the internet being down while the
+ * LAN is up: the server still answers, and what matters is that it can answer
+ * with the last weather it saw rather than an error. A Service Worker cannot
+ * help with that at all — it is not the network that is missing.
+ *
+ * `fetched_at` is the whole point of the table. Anything served from here is
+ * served with its age, because a cache that cannot say how old it is has to
+ * either lie or refuse.
+ */
+export const upstreamCache = sqliteTable('upstream_cache', {
+  /** Stable per request shape — the same location and units hit the same row. */
+  key: text('key').primaryKey(),
+  upstream: text('upstream', { enum: ['open-meteo', 'google-calendar', 'kilo-gateway'] }).notNull(),
+  payload: text('payload', { mode: 'json' }).notNull(),
+  fetchedAt: integer('fetched_at', { mode: 'timestamp_ms' }).notNull().default(now),
+})
+
+export type UpstreamCacheRow = typeof upstreamCache.$inferSelect
+
 export type RecipeRow = typeof recipes.$inferSelect
 export type ShoppingListItemRow = typeof shoppingListItems.$inferSelect
 export type ConversationRow = typeof conversations.$inferSelect
