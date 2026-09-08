@@ -88,7 +88,7 @@ CT if that ever matters.
 
 Issuance has **not** been run. It needs a Cloudflare API token scoped
 `Zone:DNS:Edit` on `revert-h0m3.co.pl`, which is a secret I must not handle: put
-it in `.env.local` yourself. Then `K7_TLS_HOSTNAME`, and a staging run before
+it in `.env.local` yourself. Then `K7_HOSTNAME`, and a staging run before
 flipping production.
 
 The HTTPS listener itself is also not wired yet — the cert has to exist first.

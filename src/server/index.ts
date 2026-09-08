@@ -44,10 +44,10 @@ const fetchThrough = createFreshnessService(repos.upstreamCache)
  * error: plain HTTP is a supported way to run, it just means no Service Worker.
  */
 async function resolveTls(): Promise<{ key: string; cert: string } | undefined> {
-  if (!config.tlsHostname || !config.cloudflareApiToken) return undefined
+  if (!config.hostname || !config.cloudflareApiToken) return undefined
   const bundle = await ensureCertificate({
-    hostname: config.tlsHostname,
-    email: config.acmeEmail ?? `admin@${config.tlsHostname}`,
+    hostname: config.hostname,
+    email: config.acmeEmail ?? `admin@${config.hostname}`,
     dns: createCloudflareDns(config.cloudflareApiToken),
     dir: config.certDir,
     production: config.acmeProduction,
@@ -100,7 +100,7 @@ app.get('/api/layout', async (_req, reply) => {
 
 // Nothing on this box is authenticated, so the network boundary is the boundary.
 // Two checks, guarding two different attacks — see security/network.ts.
-const allowedHosts = [config.tlsHostname, config.host].filter((h): h is string => Boolean(h))
+const allowedHosts = [config.hostname, config.host].filter((h): h is string => Boolean(h))
 
 app.addHook('onRequest', async (req, reply) => {
   if (!isPrivateAddress(req.ip)) {

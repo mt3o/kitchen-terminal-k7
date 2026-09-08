@@ -125,3 +125,18 @@ describe('network boundary', () => {
     assert.equal(isAllowedHost(undefined, allowed), false)
   })
 })
+
+describe('the hostname is not a TLS detail', () => {
+  it('accepts the configured hostname even with TLS off', () => {
+    // Regression: the allowlist was keyed off a setting named for TLS, so with
+    // TLS disabled the kiosk answered on its IP and returned 400 for its own
+    // name — which on a tablet looks exactly like broken DNS.
+    const allowed = ['k7.revert-h0m3.co.pl']
+    assert.equal(isAllowedHost('k7.revert-h0m3.co.pl:8080', allowed), true)
+    assert.equal(isAllowedHost('k7.revert-h0m3.co.pl', allowed), true)
+  })
+
+  it('still rejects an unrelated public name', () => {
+    assert.equal(isAllowedHost('k7.revert-h0m3.co.pl', []), false, 'unset hostname must not open the allowlist')
+  })
+})

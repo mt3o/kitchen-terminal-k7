@@ -51,15 +51,21 @@ systemctl --user enable --quiet k7.service
 systemctl --user restart k7.service
 REMOTE
 
-say "waiting for the service"
-for i in $(seq 1 20); do
-  if ssh -o BatchMode=yes "$HOST" 'systemctl --user is-active --quiet k7' 2>/dev/null; then break; fi
+# Poll for a bound port, not for unit state: systemd reports `active` the moment
+# the process starts, which is before Node has finished listening, and a deploy
+# that reports success against an unbound port is a deploy that lies.
+say "waiting for the listener"
+bound=""
+for _ in $(seq 1 30); do
+  bound=$(ssh -o BatchMode=yes "$HOST" "ss -ltn 2>/dev/null | grep -oE ':(8080|8443)\\b' | head -1" || true)
+  [ -n "$bound" ] && break
   sleep 1
 done
+[ -z "$bound" ] && { echo "the service never bound a port — check: ssh $HOST journalctl --user -u k7 -n 40"; exit 1; }
 
 ssh -o BatchMode=yes "$HOST" '
   echo "state:  $(systemctl --user is-active k7) / $(systemctl --user is-enabled k7)"
-  echo "listening: $(ss -ltn 2>/dev/null | grep -oE ":(8080|8443) " | tr -d " :" | tr "\n" " ")"
+  echo "listening: $(ss -ltn 2>/dev/null | grep -oE ":(8080|8443)\\b" | tr -d ":" | sort -u | tr "\n" " ")"
   echo "--- last log lines ---"
   journalctl --user -u k7 -n 6 --no-pager -o cat 2>/dev/null | cut -c1-200
 '

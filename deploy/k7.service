@@ -11,6 +11,10 @@ Description=Kitchen Terminal K7
 Documentation=https://github.com/mt3o/kitchen-terminal-k7
 After=network-online.target
 Wants=network-online.target
+# A kitchen display that dies at 03:00 should keep coming back, not hit a restart
+# limit and wait for a human. This key lives in [Unit]; systemd ignores it with a
+# warning if it is put under [Service], which is easy to miss in a deploy log.
+StartLimitIntervalSec=0
 
 [Service]
 Type=simple
@@ -21,8 +25,6 @@ EnvironmentFile=-%h/kitchen-terminal-k7/.env.local
 ExecStart=/usr/bin/env node src/server/index.ts
 Restart=always
 RestartSec=5
-# A kitchen display that dies at 03:00 should come back, not wait for a human.
-StartLimitIntervalSec=0
 
 NoNewPrivileges=true
 PrivateTmp=true
