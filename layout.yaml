@@ -1,0 +1,53 @@
+# The screen. Swapping the whole design is swapping `theme` — nothing else.
+version: 1
+theme: "design-system/themes/retro-scifi.yaml"
+
+grid:
+  columns: 3
+  gap: "12px"
+
+cards:
+  - id: zegar
+    type: clock
+    span: { cols: 1, rows: 1 }
+    params:
+      format: "24h"
+      showDate: true
+      showSeconds: false
+      locale: "pl-PL"
+
+  - id: pogoda
+    type: weather
+    span: { cols: 1, rows: 1 }
+    refreshIntervalSeconds: 900
+    params:
+      location: { lat: 52.2297, lon: 21.0122, label: "Warszawa" }
+      units: metric
+      forecastDays: 5
+
+  - id: kalendarz
+    type: calendar
+    span: { cols: 1, rows: 1 }
+    params:
+      calendarId: primary
+      view: week
+      editable: true
+
+  - id: zakupy
+    type: shopping-list
+    span: { cols: 1, rows: 1 }
+    params:
+      dataSource: { mode: local }
+      groupByCategory: true
+
+  - id: minutnik
+    type: timer
+    span: { cols: 1, rows: 1 }
+    params:
+      presetsMinutes: [5, 10, 15, 30]
+
+  - id: czat
+    type: chat
+    span: { cols: 1, rows: 1 }
+    params:
+      defaultModel: "kilo-auto/free"

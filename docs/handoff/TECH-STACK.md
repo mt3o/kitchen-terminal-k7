@@ -4,7 +4,7 @@
 
 | Warstwa | Wybór |
 |---|---|
-| Język | TypeScript 7 (natywny kompilator Go) — **zweryfikować status GA przed scaffoldingiem**; zakładany RC czerwiec 2026, plan pisany zanim to nastąpiło |
+| Język | TypeScript — **7 jest GA (7.0.2), ale scaffold pinuje 6.0.3**: `typescript-eslint@8` odmawia startu na 7 (peer `<6.1.0`), `svelte-check` peeruje `^5 \|\| ^6`. Kompilator wyprzedził ekosystem; przejście na 7, gdy oba rozszerzą zakresy |
 | Bundler | Vite 8 |
 | Frontend framework | Svelte 5 — **rozstrzygnięte** (uzasadnienie niżej) |
 | Meta-framework | Astro |

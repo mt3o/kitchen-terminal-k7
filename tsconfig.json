@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    // Safari 15.0 is the compile floor — iPad Air 2 and iPhone 6s both stop at
+    // iOS/iPadOS 15. ES2021 is the last target Safari 15.0 fully covers.
+    "target": "ES2021",
+    "lib": ["ES2021", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "types": ["vite/client", "node"],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true
+  },
+  "include": ["src/**/*.ts", "vite.config.ts"]
+}
