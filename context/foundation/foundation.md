@@ -22,8 +22,10 @@ bug — fix it through the amendment flow, never by silently editing the store.
 
 ## Captured nodes
 
-Every node below is **mid-term** and a **lifetime-promotion candidate**. The agent
-never promotes; the human does, in the GUI.
+**Promotion pass run 2026-09-08** via `/gw-resolve` against the guided GUI API.
+31 constraints and decisions are at **lifetime** tier; the 8 open `issue` nodes were
+presented as candidates and deliberately left at **mid-term**, journaled `REVIEWED`.
+Two issues are archived, superseded by ruling — see below.
 
 | Key | Type | Node | Facets | Statement (opening) |
 |---|---|---|---|---|
@@ -92,41 +94,41 @@ adding an eleventh is a deliberate act, not a convenience.
 `a11y` · `ai` · `backend` · `data` · `frontend` · `integration` · `platform` ·
 `process` · `security` · `ui`
 
-## Promotion list — for the human
+## Promotion pass — settled
 
-Everything captured here is a lifetime candidate; that is the point of the pass.
-Ranked by how much damage a sweep would do if it went dormant:
+Ruled by the human in a `/gw-resolve` session, 2026-09-08. Recommendation and
+choice agreed on every item; the API journaled each write as `gui-guided`.
 
-| Node | Why it must survive every sweep |
+**Promoted to lifetime — 31.** Every `constraint` and every `decision`. They now
+survive every sweep, which is the whole point of a foundation pass.
+
+| Group | Nodes |
 |---|---|
-| `SAFARI15` | Every build-target, CSS and JS decision in the project is downstream of it. |
-| `TOKENCONTRACT` | The one architectural rule that a single hardcoded hex silently breaks. |
-| `SECRETS` | The only thing standing between the refresh token and a GlitchTip payload. |
-| `AMBERINK` | Three other design constraints `DEPENDS_ON` it; without it they read as arbitrary. |
-| `A8X` | Explains why half the CSS budget looks unreasonably strict. |
-| `DISTANCES` | The derivation behind 20px body text; without it someone "fixes" it back to 16. |
-| `HEXAGONAL` | Every adapter and port decision assumes it. |
-| `CONVSERVICE` | A future MCP/skill-driven chat depends on this seam existing. |
-| `SVELTE`, `SQLITE`, `LAN`, `KILO`, `GCAL`, `GLITCHTIP` | Settled stack choices with their reasons attached. |
-| `CONTRASTFLOORS`, `WARNNOTAMBER`, `BRACKETGLYPH`, `HOVERCONTRAST`, `RADIUSZERO`, `ONESOLID`, `OKLCHHEX`, `SCHEMAV2` | The design system's normative layer — the rules a component review checks against. |
-| `GITWORKFLOW`, `TRACKERBIND` | Every worktree, headless run and archive commit acts on them; a change lifecycle that forgets them corrupts its own history. |
-| `DUMPMERGE` | Names a documented recovery command that does not exist — the one node standing between a merge conflict and a silently wrong graph. |
-| `SOURCECODE` | Carries the x-height derivation that keeps someone from 'fixing' the 20px body rule back to 16. |
-| `TWOWIDGETS`, `CAMERALOCAL`, `GWTOOLS`, `VISIBLEPHASE` | Decisions with rejected alternatives recorded; cheap to re-litigate wrongly. |
+| Platform floor | `SAFARI15` `A8X` `DISTANCES` `LAN` |
+| Security | `SECRETS` |
+| Design-system law | `TOKENCONTRACT` `AMBERINK` `ONESOLID` `WARNNOTAMBER` `BRACKETGLYPH` `OKLCHHEX` `RADIUSZERO` `CONTRASTFLOORS` `HOVERCONTRAST` `SCHEMAV2` `SOURCECODE` `DSHOME` |
+| Architecture & stack | `HEXAGONAL` `SVELTE` `SQLITE` `CONVSERVICE` `GLITCHTIP` `GWTOOLS` |
+| Integrations | `KILO` `GCAL` |
+| Product decisions | `TWOWIDGETS` `CAMERALOCAL` |
+| Process | `GITWORKFLOW` `TRACKERBIND` `VISIBLEPHASE` `DUMPMERGE` |
 
-The ten `issue` nodes (`MIDDLEWARE`, `VIDATAFLUX`, `TS7`, `SWCACHE`, `ZAKUPY`,
-`SCHEMAV2ADOPT`, `PLEXMONO`, `NIGHTSCHED`, `DENSITY`, `GITFLOW`) are **accepted
-gaps, not candidates for lifetime** — they should close, and a closed issue that
-went dormant is the system working.
+**Left at mid-term — 8.** `MIDDLEWARE` `VIDATAFLUX` `TS7` `SWCACHE` `ZAKUPY`
+`SCHEMAV2ADOPT` `NIGHTSCHED` `DENSITY`. Open issues should *close*; pinning them at
+lifetime would serve the open-questions list into every recall forever, including
+long after the questions are answered.
 
-## After promotion
+**Archived by ruling — 2.** `GITFLOW` and `PLEXMONO`, both `superseded`, with
+lineage recorded to `GITWORKFLOW` (`a17b142e`) and `SOURCECODE` (`75d638bb`).
 
-```
-memory_lifecycle.py deactivate foundation --sweep
-```
+## Do not sweep yet
 
-Promoted nodes survive in the root set by design; anything declined goes dormant,
-which is the correct verdict recorded.
+`/gw-foundation` step 5 says to deactivate the foundation scope and sweep once
+promotion is done. **That is wrong for this project right now.** The 31 promoted
+nodes survive a sweep by design, but the 8 mid-term issues would go dormant — and
+two of them (`MIDDLEWARE`, `VIDATAFLUX`) are the live blockers on Faza 0. Sweeping
+would stop the project's own open questions from ranking into recall.
+
+Keep the foundation scope active. Sweep when the issues have closed, not before.
 
 ## Handoff to `/gw-domain`
 
