@@ -10,7 +10,9 @@ import fastifyStatic from '@fastify/static'
 import { parse } from 'yaml'
 
 import type { Layout } from '../shared/layout.ts'
+import { createRepositories, openDatabase } from './adapters/drizzle/index.ts'
 import { describeConfig, loadConfig, secretValues } from './config.ts'
+import { runMigrations } from './db/migrate.ts'
 import { initObservability, Sentry } from './observability.ts'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
@@ -22,6 +24,13 @@ const reporting = initObservability({
   environment: config.environment,
   secrets: secretValues(config),
 })
+
+// Migrations run here, not in a deploy step: nobody is standing at the LAN
+// machine when it restarts, and a server that boots against an unmigrated
+// schema fails later and less clearly than one that refuses to boot.
+const db = openDatabase(config.databasePath)
+runMigrations(db)
+const repos = createRepositories(db)
 
 const app = Fastify({ logger: { transport: undefined } })
 
@@ -50,6 +59,33 @@ app.get('/api/layout', async (_req, reply) => {
     // Secrets live in the Varlock schema and never reach a response body.
     return reply.code(500).send({ error: err instanceof Error ? err.message : 'layout unreadable' })
   }
+})
+
+// The shopping list is the first card wired end to end — a thin cut through
+// HTTP, port, adapter and SQLite that proves the seam rather than describing it.
+app.get('/api/shopping-list', async (req) => {
+  const includeChecked = (req.query as { checked?: string }).checked === 'all'
+  return repos.shoppingList.list({ includeChecked })
+})
+
+app.post('/api/shopping-list', async (req, reply) => {
+  const body = req.body as { label?: unknown; category?: unknown }
+  if (typeof body?.label !== 'string' || body.label.trim() === '') {
+    return reply.code(400).send({ error: 'label is required' })
+  }
+  const item = await repos.shoppingList.add({
+    label: body.label.trim(),
+    category: typeof body.category === 'string' ? body.category : null,
+  })
+  return reply.code(201).send(item)
+})
+
+app.patch('/api/shopping-list/:id', async (req, reply) => {
+  const { id } = req.params as { id: string }
+  const { checked } = req.body as { checked?: unknown }
+  if (typeof checked !== 'boolean') return reply.code(400).send({ error: 'checked must be a boolean' })
+  const item = await repos.shoppingList.setChecked(id, checked)
+  return item ?? reply.code(404).send({ error: 'no such item' })
 })
 
 // Every unhandled error reaches GlitchTip through the same scrubber as the rest.

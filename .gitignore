@@ -23,3 +23,6 @@ dist/
 .env
 !.env.schema
 !.env.example
+
+# SQLite store — data, not source.
+data/

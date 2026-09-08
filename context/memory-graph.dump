@@ -2348,3 +2348,110 @@ archived: false
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T15:18:35.029534+00:00
 
 The runtime floor is Node 24, not 22. TypeScript type stripping is stable there and needs no flag, which removes a whole class of failure: on 22 every script carries an experimental strip-types flag, that flag interacts badly with the test runner's argument ordering, and the resulting breakage reports a missing module rather than a missing flag. CI and the LAN machine both run 24, so the floor matches reality instead of aspiring below it.
+---
+[node:226722c6-5c0e-4215-b069-2dc8f7012cc4]
+type: slice
+tier: short-term
+path: /change/k7-persistence
+created_at: 2026-09-08T15:24:50.241963+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:3a29eee2-0cb0-4688-8e53-92c9a2b0c08e] @ 2026-09-08T15:24:50.241963+00:00
+-> SCOPED_TO [node:7e60103a-4be9-4b6c-95fc-8148d5c5f1cd] @ 2026-09-08T15:29:05.757776+00:00
+-> SCOPED_TO [node:883315ab-2366-4def-8618-8497cc880edc] @ 2026-09-08T15:29:05.877424+00:00
+-> SCOPED_TO [node:8d6eee18-8766-45cd-b78b-9840aa0b2029] @ 2026-09-08T15:29:05.996486+00:00
+-> SCOPED_TO [node:be39a535-d2ea-4b6f-851c-506bf6aa66b9] @ 2026-09-08T15:29:05.636131+00:00
+
+change scope: k7-persistence
+---
+[event:7818f172-fa24-46ca-83b9-e3bc8846a39f]
+node_id: 226722c6-5c0e-4215-b069-2dc8f7012cc4
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T15:24:50.243463+00:00
+
+create_change k7-persistence
+---
+[node:3a29eee2-0cb0-4688-8e53-92c9a2b0c08e]
+type: goal
+tier: short-term
+path: /goal/k7-persistence
+created_at: 2026-09-08T15:24:50.241963+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:3d1ec55c-f161-4684-a999-5d485a0e6bf8] @ 2026-09-08T15:24:50.241963+00:00
+-> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-08T15:24:50.241963+00:00
+-> DEPENDS_ON [node:7e60103a-4be9-4b6c-95fc-8148d5c5f1cd] @ 2026-09-08T15:29:05.757776+00:00
+-> DEPENDS_ON [node:883315ab-2366-4def-8618-8497cc880edc] @ 2026-09-08T15:29:05.877424+00:00
+-> DEPENDS_ON [node:8d6eee18-8766-45cd-b78b-9840aa0b2029] @ 2026-09-08T15:29:05.996486+00:00
+-> DEPENDS_ON [node:be39a535-d2ea-4b6f-851c-506bf6aa66b9] @ 2026-09-08T15:29:05.636131+00:00
+
+Give K7 a persistence layer: Drizzle over SQLite behind repository ports, with the five tables the domain model names and migrations that run forward and back
+---
+[node:be39a535-d2ea-4b6f-851c-506bf6aa66b9]
+type: decision
+tier: mid-term
+path: /artifact/drizzle-over-better-sqlite3-is-the-data
+created_at: 2026-09-08T15:29:05.636131+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:125f4071-59ec-4d3f-898d-ffcb3edd8aa5] @ 2026-09-08T15:29:16.833986+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T15:29:05.636131+00:00
+-> DEPENDS_ON [node:a815b136-0de2-49af-ac42-6192c12def24] @ 2026-09-08T15:29:16.492358+00:00
+-> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-09-08T15:29:05.636131+00:00
+
+Drizzle over better-sqlite3 is the data access layer, chosen from the three candidates the plan named. It is TypeScript-first so the row types are inferred from the schema rather than hand-maintained, and drizzle-kit generates migrations by diffing the schema file, which means the schema is the source of truth instead of a description of one. The alternative worth naming is Kysely, a query builder with equally good typing and less machinery - it was passed over because it has no migration story of its own, and migrations were half of what this layer had to deliver.
+---
+[node:7e60103a-4be9-4b6c-95fc-8148d5c5f1cd]
+type: decision
+tier: mid-term
+path: /artifact/migrations-are-applied-by-the-applicatio
+created_at: 2026-09-08T15:29:05.757776+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T15:29:05.757776+00:00
+-> DEPENDS_ON [node:a815b136-0de2-49af-ac42-6192c12def24] @ 2026-09-08T15:29:16.609668+00:00
+-> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-09-08T15:29:05.757776+00:00
+
+Migrations are applied by the application at boot, not by a CLI in a deploy step. Nobody is standing at the LAN machine when it restarts, and a server that boots against an unmigrated schema fails later and far less clearly than one that refuses to start. drizzle-kit stays a development tool for authoring migrations; applying them is the application's job, through the migrator's programmatic entry point.
+---
+[node:883315ab-2366-4def-8618-8497cc880edc]
+type: constraint
+tier: mid-term
+path: /artifact/sqlite-opens-with-journal-mode-wal-and-f
+created_at: 2026-09-08T15:29:05.877424+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T15:29:05.877424+00:00
+-> DEPENDS_ON [node:a815b136-0de2-49af-ac42-6192c12def24] @ 2026-09-08T15:29:16.723149+00:00
+-> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-09-08T15:29:05.877424+00:00
+
+SQLite opens with journal_mode WAL and foreign_keys ON, and neither is a default. The kiosk reads on a timer while the backend writes, and under the default rollback journal every read waits behind a write - visible on the wall as a stutter. Foreign keys are off per-connection unless asked for, which means a schema full of cascades and set-nulls is decorative until the pragma is set; the persistence tests assert a foreign key violation specifically so that a future connection helper that forgets the pragma fails the build instead of silently discarding referential integrity.
+---
+[node:8d6eee18-8766-45cd-b78b-9840aa0b2029]
+type: constraint
+tier: mid-term
+path: /artifact/an-aicall-s-foreign-keys-are-nullable-an
+created_at: 2026-09-08T15:29:05.996486+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:7b73e502-b1fb-4587-96bd-f005b1ead665] @ 2026-09-08T15:29:05.996486+00:00
+-> ABOUT [node:8b9566f6-a1d5-4c43-952e-369c2796d5ca] @ 2026-09-08T15:29:05.996486+00:00
+-> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-09-08T15:29:05.996486+00:00
+-> ABOUT [node:f2e09a03-8e61-4299-ad7c-cef6c06775fe] @ 2026-09-08T15:29:05.996486+00:00
+
+An AiCall's foreign keys are nullable and delete with set null, while a Message cascades with its Conversation. This is the domain model expressed as a schema rather than a storage convenience: a Message has no identity outside its thread, so deleting the thread should take it, but an AiCall is a record of money spent and a single Message may cost several - compacting spends them with no Message at all. Deleting a conversation must therefore leave its cost history standing, orphaned but intact, because the cost view answers what the household spent and not which threads still exist.
