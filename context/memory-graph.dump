@@ -33,6 +33,7 @@ archived: false
 -> SCOPED_TO [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-09-08T09:37:21.559263+00:00
 -> SCOPED_TO [node:7c574f65-8059-41e1-b507-245d4b1b3d6f] @ 2026-09-08T09:38:01.948165+00:00
 -> SCOPED_TO [node:8a963777-1d94-42ad-ae4b-8a2b08d0a686] @ 2026-09-08T09:38:31.309348+00:00
+-> SCOPED_TO [node:95f8d3a2-3197-4f8c-9126-80c5ddd29466] @ 2026-09-08T11:24:46.150128+00:00
 -> SCOPED_TO [node:9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0] @ 2026-09-08T09:37:22.142396+00:00
 -> SCOPED_TO [node:9ea20285-de89-4f25-a25e-37700078bd59] @ 2026-09-08T09:38:01.797947+00:00
 -> SCOPED_TO [node:a17b142e-850e-4cdb-8d84-2689e75428a7] @ 2026-09-08T09:55:55.888852+00:00
@@ -96,6 +97,7 @@ archived: false
 -> DEPENDS_ON [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-09-08T09:37:21.559263+00:00
 -> DEPENDS_ON [node:7c574f65-8059-41e1-b507-245d4b1b3d6f] @ 2026-09-08T09:38:01.948165+00:00
 -> DEPENDS_ON [node:8a963777-1d94-42ad-ae4b-8a2b08d0a686] @ 2026-09-08T09:38:31.309348+00:00
+-> DEPENDS_ON [node:95f8d3a2-3197-4f8c-9126-80c5ddd29466] @ 2026-09-08T11:24:46.150128+00:00
 -> DEPENDS_ON [node:9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0] @ 2026-09-08T09:37:22.142396+00:00
 -> DEPENDS_ON [node:9ea20285-de89-4f25-a25e-37700078bd59] @ 2026-09-08T09:38:01.797947+00:00
 -> DEPENDS_ON [node:a17b142e-850e-4cdb-8d84-2689e75428a7] @ 2026-09-08T09:55:55.888852+00:00
@@ -870,7 +872,7 @@ type: issue
 tier: mid-term
 path: /artifact/the-middleware-pipe-package-name-is-alre
 created_at: 2026-09-08T09:38:30.023885+00:00
-needs_review: false
+needs_review: true
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
@@ -888,6 +890,26 @@ source: agent-surface
 created_at: 2026-09-08T10:12:07.513996+00:00
 
 /gw-resolve promotion pass 2026-09-08: presented as a promotion candidate and deliberately left at mid-term - an open issue should close and go dormant, not be pinned into every future recall
+---
+[event:1f719341-05d5-48d2-8960-f4e15f4f64c7]
+node_id: 7835061e-c325-4e70-8051-105f22ff4f8a
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-08T11:24:46.150128+00:00
+
+contradicted at capture of 95f8d3a2-3197-4f8c-9126-80c5ddd29466
+---
+[event:44061573-e534-40e0-82b0-047e9d213034]
+node_id: 7835061e-c325-4e70-8051-105f22ff4f8a
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-08T11:24:46.271853+00:00
+
+settled 2026-09-08: published as @mt3o/middleware-pipe 1.0.0, public - verified against the registry (dist-tag latest=1.0.0, access=public, version endpoint 200). The issue's claim that a new name is still needed is now false
 ---
 [node:40398c2a-b8e4-4721-b426-730e93b8a4d8]
 type: issue
@@ -1354,3 +1376,18 @@ source: gui
 created_at: 2026-09-08T10:11:44.732049+00:00
 
 tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
+[node:95f8d3a2-3197-4f8c-9126-80c5ddd29466]
+type: decision
+tier: mid-term
+path: /artifact/the-middleware-composition-library-ships
+created_at: 2026-09-08T11:24:46.150128+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T11:24:46.150128+00:00
+-> CONTRADICTS [node:7835061e-c325-4e70-8051-105f22ff4f8a] @ 2026-09-08T11:24:46.150128+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T11:24:46.150128+00:00
+
+The middleware composition library ships as the scoped package @mt3o/middleware-pipe rather than a bare name, because the unscoped middleware-pipe was already taken on npm. Scoping was chosen over inventing a different bare name: it keeps the library's own identity readable, and it ends the naming race for everything else the project may publish. Version 1.0.0 is public from github.com/mt3o/middlewares with publishConfig.access set to public. npm never releases a published name for reuse, so this one is permanent. It clears the first of the two blockers on Faza 0; the empty vidataflux repository is the other.

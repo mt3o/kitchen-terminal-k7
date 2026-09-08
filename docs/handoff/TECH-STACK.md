@@ -19,8 +19,9 @@
 ## Biblioteki własne i zewnętrzne
 
 - **config-layers** (github.com/mt3o/config-layers) — Twoja biblioteka, warstwowa konfiguracja
-- **middleware-pipe** (github.com/mt3o/middlewares) — Twoja biblioteka, kompozycja middleware ze
-  statyczną walidacją (Zod). **Do publikacji na npm** — patrz zastrzeżenie niżej
+- **@mt3o/middleware-pipe** (github.com/mt3o/middlewares) — Twoja biblioteka, kompozycja
+  middleware ze statyczną walidacją (Zod). **Opublikowana na npm 2026-09-08, wersja 1.0.0,
+  publiczna** — nazwa z zakresem, bo bezprzedrostkowy `middleware-pipe` był zajęty
 - **@logosdx/\*** (github.com/logosdx/monorepo) — gotowe pakiety npm: `utils`, `observer`,
   `fetch`, `storage`, `dom`, `localize` — TypeScript-first, zero-dependency, runtime-agnostic,
   pasują dobrze do heksagonalnej architektury jako adaptery (fetch z retry, storage jako
@@ -32,9 +33,11 @@
 
 ## ⚠️ Zastrzeżenia — status
 
-1. **`middleware-pipe` — nazwa zajęta na npm. OTWARTE, blokuje start.** Potwierdzone,
-   poszukasz innej nazwy. Na razie trzymam w dokumentacji adres repo
-   (github.com/mt3o/middlewares) bez zmian — nazwa pakietu npm do ustalenia.
+1. ~~**`middleware-pipe` — nazwa zajęta na npm.**~~ **ROZSTRZYGNIĘTE 2026-09-08.**
+   Pakiet opublikowany jako **`@mt3o/middleware-pipe@1.0.0`**, publiczny. Zakres
+   (`@mt3o`) zamiast wymyślania innej bezprzedrostkowej nazwy — nazwa biblioteki
+   zostaje czytelna, a przy okazji znika wyścig o nazwy dla kolejnych pakietów.
+   npm nigdy nie zwalnia opublikowanej nazwy do ponownego użycia, więc to jest trwałe.
 2. **`agentic-memory-system` i `graph-workflow` — potwierdzone: narzędzia do PRACY
    nad projektem** (Ty + Claude Code), nie zależności runtime aplikacji. Nie trafiają
    do `package.json` — zostają jako narzędzia deweloperskie obok projektu.
@@ -42,7 +45,7 @@
    Ciebie przed użyciem w stacku (albo do świadomego wypisania ze stacku).
 4. ~~iPhone 6s vs. iPad~~ — rozwiązane, patrz wyżej (oba do iOS/iPadOS 15).
 
-**Status: 2 z 4 zastrzeżeń otwarte** (1 i 3). Zastrzeżenia 2 i 4 są rozstrzygnięte.
+**Status: 1 z 4 zastrzeżeń otwarte** (3 — `vidataflux`). Zastrzeżenia 1, 2 i 4 są rozstrzygnięte.
 
 ## Decyzje (rozstrzygnięte)
 
@@ -89,7 +92,7 @@ Rozstrzygnięte (zostawione dla śladu):
 - ~~Silnik bazy~~ — SQLite
 - ~~iPhone 6s vs. iPad jako target~~ — wspólny baseline Safari 15
 
-Nadal otwarte: patrz "⚠️ Zastrzeżenia — status" wyżej (pozycje 1 i 3) oraz
+Nadal otwarte: patrz "⚠️ Zastrzeżenia — status" wyżej (pozycja 3) oraz
 "Decyzje oddane Opusowi" — obie sekcje są ujęte w liście zadań Fazy 0.
 
 ## Zadania
@@ -111,4 +114,5 @@ Faza 0 (dodatki)", która zaczęła się rozjeżdżać z planem — została sca
        vidataflux repo empty ....... 40398c2a-b8e4-4721-b426-730e93b8a4d8
        TypeScript 7 GA unverified .. b6cc5895-5e52-462a-aab2-c934ba921825
        Service Worker strategy ..... baefeee7-a562-4085-8a4e-cd20045f4164
+       @mt3o/middleware-pipe shipped 95f8d3a2-3197-4f8c-9126-80c5ddd29466 (supersedes 7835061e-c325-4e70-8051-105f22ff4f8a)
 -->
