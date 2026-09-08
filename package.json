@@ -6,21 +6,23 @@
   "description": "Retro-futurist kitchen dashboard PWA for a wall-mounted iPad kiosk.",
   "license": "MIT",
   "engines": {
-    "node": ">=22"
+    "node": ">=24"
   },
   "scripts": {
     "dev": "vite",
-    "dev:server": "node --watch --experimental-strip-types src/server/index.ts",
+    "dev:server": "node --watch src/server/index.ts",
     "build": "npm run typecheck && vite build",
-    "start": "node --experimental-strip-types src/server/index.ts",
+    "start": "node src/server/index.ts",
     "serve": "npm run build && npm run start",
     "lint": "eslint .",
     "lint:tokens": "python3 scripts/check-token-contract.py",
-    "check": "npm run lint && npm run lint:tokens && npm run build",
+    "test": "node --test test/*.test.ts",
+    "check": "npm run lint && npm run lint:tokens && npm run test && npm run build",
     "typecheck": "tsc --noEmit && svelte-check --tsconfig ./tsconfig.json"
   },
   "dependencies": {
     "@fastify/static": "^8.2.0",
+    "@sentry/node": "^10.73.0",
     "fastify": "^5.12.3",
     "yaml": "^2.8.1"
   },

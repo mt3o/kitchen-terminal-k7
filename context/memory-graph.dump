@@ -2244,3 +2244,107 @@ archived: false
 -> CONTRADICTS [node:e43574bd-bdb9-493c-83fb-7f89fb4f9d8f] @ 2026-09-08T15:04:16.351954+00:00
 
 TypeScript is pinned to the 6.x line, not 7, even though 7 is generally available. The compiler shipped ahead of its ecosystem: typescript-eslint 8 declares a peer range of >=4.8.4 <6.1.0 and refuses to load against 7 at import time rather than merely warning, and svelte-check peers ^5 || ^6. TypeScript 6.0.3 is the highest version the whole toolchain accepts, so it is the pin. Reaching for --legacy-peer-deps instead would have produced a lint setup that imports a parser its own dependency rejects. Move to 7 when typescript-eslint and svelte-check widen their ranges, not before.
+---
+[node:3d1ec55c-f161-4684-a999-5d485a0e6bf8]
+type: goal
+tier: short-term
+path: /goal/k7-secrets-and-errors
+created_at: 2026-09-08T15:12:32.842111+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:0cd8aca5-d80a-4e98-9c98-a0043c4b5642] @ 2026-09-08T15:18:34.795407+00:00
+-> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-08T15:12:32.842111+00:00
+-> DEPENDS_ON [node:62d2072b-039e-439c-9dfa-1616e42a4afa] @ 2026-09-08T15:18:34.673656+00:00
+-> DEPENDS_ON [node:e611e894-afab-43c9-964b-2f886dbb02f7] @ 2026-09-08T15:18:35.029534+00:00
+-> DEPENDS_ON [node:eba12387-598a-40b6-9979-810319724e0f] @ 2026-09-08T15:18:34.915005+00:00
+-> DEPENDS_ON [node:f6891e4a-1a43-4d86-925c-cc0ef0b218d7] @ 2026-09-08T15:12:32.842111+00:00
+
+Prove the secrets constraint holds in code: Varlock schema for the credentials, GlitchTip wired for errors, and a test that a thrown error carrying a secret reaches the wire with the secret removed
+---
+[node:998475a7-56e8-40b5-bf27-1325fecfd34e]
+type: slice
+tier: short-term
+path: /change/k7-secrets-and-errors
+created_at: 2026-09-08T15:12:32.842111+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:0cd8aca5-d80a-4e98-9c98-a0043c4b5642] @ 2026-09-08T15:18:34.795407+00:00
+-> SCOPED_TO [node:3d1ec55c-f161-4684-a999-5d485a0e6bf8] @ 2026-09-08T15:12:32.842111+00:00
+-> SCOPED_TO [node:62d2072b-039e-439c-9dfa-1616e42a4afa] @ 2026-09-08T15:18:34.673656+00:00
+-> SCOPED_TO [node:e611e894-afab-43c9-964b-2f886dbb02f7] @ 2026-09-08T15:18:35.029534+00:00
+-> SCOPED_TO [node:eba12387-598a-40b6-9979-810319724e0f] @ 2026-09-08T15:18:34.915005+00:00
+
+change scope: k7-secrets-and-errors
+---
+[event:4f01cc8f-7d85-4b92-a92c-83b5d5e2b8d6]
+node_id: 998475a7-56e8-40b5-bf27-1325fecfd34e
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T15:12:32.843520+00:00
+
+create_change k7-secrets-and-errors
+---
+[node:62d2072b-039e-439c-9dfa-1616e42a4afa]
+type: constraint
+tier: mid-term
+path: /artifact/secret-scrubbing-runs-in-two-layers-and
+created_at: 2026-09-08T15:18:34.673656+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550] @ 2026-09-08T15:18:34.673656+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T15:18:34.673656+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-08T15:18:34.673656+00:00
+-> ABOUT [node:f29aa338-eddb-456b-97ad-00b602cb9a42] @ 2026-09-08T15:18:34.673656+00:00
+
+Secret scrubbing runs in two layers and neither is redundant. Exact-value scrubbing rewrites any string containing a credential this process actually holds, which is the reliable half but only covers what was registered at boot; pattern scrubbing catches credential shapes nobody registered - a bearer token from a dependency, a database URL carrying a password, a JWT - which is the half that covers what was forgotten. A registered key matches no pattern and a third-party credential appears in no registry, so dropping either layer opens a real hole. Values shorter than eight characters are ignored on purpose: a three-character secret matches inside ordinary words and turns the whole report into redaction noise.
+---
+[node:0cd8aca5-d80a-4e98-9c98-a0043c4b5642]
+type: constraint
+tier: mid-term
+path: /artifact/redaction-is-proven-on-the-wire-not-in
+created_at: 2026-09-08T15:18:34.795407+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-08T15:18:34.795407+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T15:18:34.795407+00:00
+-> ABOUT [node:f29aa338-eddb-456b-97ad-00b602cb9a42] @ 2026-09-08T15:18:34.795407+00:00
+
+Redaction is proven on the wire, not in a unit test. A scrubber that works but is never called is worse than no scrubber, because it makes everyone confident - so the test drives the real Sentry client with a transport that captures the envelope on its way out, and asserts on the bytes that would have reached GlitchTip. It also asserts the error message survives: a redactor that passes by destroying the evidence has not passed.
+---
+[node:eba12387-598a-40b6-9979-810319724e0f]
+type: decision
+tier: mid-term
+path: /artifact/varlock-treats-every-value-as-sensitive
+created_at: 2026-09-08T15:18:34.915005+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-08T15:18:34.915005+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T15:18:34.915005+00:00
+
+Varlock treats every value as sensitive unless explicitly marked public - defaultSensitive is true project-wide - and real secret values never live in the committed schema file, only in a git-ignored local env file or a secret provider. The schema declares shape and sensitivity so agents can read it safely; an agent that helpfully fills a value into it has published a credential. This project's schema sets defaultSensitive false in the header and then marks each of the three secrets sensitive individually, so the marking stays correct even if someone later edits or removes that header default.
+---
+[node:e611e894-afab-43c9-964b-2f886dbb02f7]
+type: decision
+tier: mid-term
+path: /artifact/the-runtime-floor-is-node-24-not-22-ty
+created_at: 2026-09-08T15:18:35.029534+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T15:18:35.029534+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T15:18:35.029534+00:00
+
+The runtime floor is Node 24, not 22. TypeScript type stripping is stable there and needs no flag, which removes a whole class of failure: on 22 every script carries an experimental strip-types flag, that flag interacts badly with the test runner's argument ordering, and the resulting breakage reports a missing module rather than a missing flag. CI and the LAN machine both run 24, so the floor matches reality instead of aspiring below it.
