@@ -180,6 +180,7 @@ retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> HAS_FACET [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99] @ 2026-09-08T09:36:59.039273+00:00
+-> ABOUT [node:d2844438-9992-4e20-bfb5-fa615a906574] @ 2026-09-08T13:42:13.543921+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:36:59.039273+00:00
 
 The kiosk runs on an A8X with 2 GB RAM on a display that is never asleep, so per-frame cost is a design constraint rather than an optimisation: animate opacity and transform only (never box-shadow, filter, backdrop-filter, width or height), keep backdrop-filter to a single 4px use on the slideshow and dialog scrim rather than per card, and do not ship translucent card surfaces, soft shadows or default scanlines - each costs a full-screen composite.
@@ -228,6 +229,7 @@ retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> HAS_FACET [node:68773fd1-2296-4527-b027-8d5d6c699ece] @ 2026-09-08T09:36:59.157308+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-09-08T13:42:09.546289+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:36:59.157308+00:00
 
 The kitchen terminal is read from three distances - the doorway at 3 m, the counter at 1 m, and the glass at 0.4 m with wet hands - and the whole visual system is derived from them. Type is two tiers: a read tier for anything you walk up to and a glance tier for what must survive the doorway, sized by subtended x-height (comfortable at 5 arcmin, glanceable at 8). Body text is 20px, not 16; the wireframes' 11-13px is a desktop habit and is the single largest correction to the accepted wireframes.
@@ -287,8 +289,10 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> ABOUT [node:3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550] @ 2026-09-08T13:42:11.955968+00:00
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T09:36:59.394279+00:00
 -> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-08T09:36:59.394279+00:00
+-> ABOUT [node:f29aa338-eddb-456b-97ad-00b602cb9a42] @ 2026-09-08T13:42:12.095896+00:00
 
 The Google refresh token and the Kilo Gateway key are server-side only and never reach the frontend or the iPad. Varlock manages .env by schema, so agents see the schema and never the values, and secrets must not leak into GlitchTip payloads alongside errors - which is critical precisely because the AI chat logs every call.
 ---
@@ -323,6 +327,8 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-08T13:42:10.306518+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-09-08T13:42:08.210723+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-08T09:37:21.559263+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:37:21.559263+00:00
 
@@ -338,6 +344,16 @@ created_at: 2026-09-08T10:11:44.712685+00:00
 
 tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
 ---
+[event:6eb33211-307a-4b52-889e-a5547c85213e]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:43:15.910122+00:00
+
+the token contract is what makes Theme a document with identity rather than a styling detail - it shaped the Theme definition
+---
 [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a]
 type: constraint
 tier: lifetime
@@ -347,6 +363,7 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-09-08T13:42:08.358690+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:37:21.675646+00:00
 
 Amber is the ink, teal is the signal. The handoff asked for amber as the dominant accent plus teal as the second, which read literally gives two accents and makes amber meaningless - if every glyph is amber then amber cannot also mean look here. So amber is body text, borders and chrome (it is everywhere and therefore carries no urgency) and teal is reserved for state that is good and settled, appearing at most twice per card.
@@ -370,7 +387,9 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-08T13:42:10.678362+00:00
 -> HAS_FACET [node:68773fd1-2296-4527-b027-8d5d6c699ece] @ 2026-09-08T09:37:22.142396+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-09-08T13:42:08.768368+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:37:22.142396+00:00
 
 Colour never carries state alone in this UI: every state also carries a bracket glyph - [OK], [!], [X], [--]. A wall display is viewed at an angle, in sunlight, by people with colour-vision deficiency, through a greasy screen protector, so this is load-bearing rather than a nicety.
@@ -395,6 +414,7 @@ retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> DEPENDS_ON [node:0bc7e618-9b95-4977-9fe1-f3a48759276f] @ 2026-09-08T09:37:22.262832+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-09-08T13:42:09.298083+00:00
 -> HAS_FACET [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99] @ 2026-09-08T09:37:22.262832+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:37:22.262832+00:00
 
@@ -419,7 +439,9 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-08T13:42:10.559122+00:00
 -> DEPENDS_ON [node:716987ce-f933-41b5-8c4e-590c09dc33bf] @ 2026-09-08T09:37:22.386658+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-09-08T13:42:08.898907+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:37:22.386658+00:00
 
 Radius is 0 everywhere with no exceptions, including inputs, chips and the scrim, and elevation is never a shadow: depth is a 1px hairline border plus one step on the surface ramp, with the card's 2px inset frame as the only ring in the system. Sharp corners are what make the HUD read as instrumentation rather than as an app, and a blurred drop shadow under a sharp-cornered amber panel looks like a mistake.
@@ -444,6 +466,7 @@ retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> HAS_FACET [node:68773fd1-2296-4527-b027-8d5d6c699ece] @ 2026-09-08T09:37:22.506547+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-09-08T13:42:09.024369+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:37:22.506547+00:00
 
 Contrast floors for the kiosk: 4.5:1 for body text and every status colour on its surface, 3:1 for large text, icons and any border that carries meaning, and 3:1 for the focus ring against both the control and the surface behind it. Disabled text is the one role allowed below. The hairline border is deliberately below 3:1 because it is texture and never a carrier of meaning - anything that must be seen uses the strong border role.
@@ -469,6 +492,7 @@ trust_weight: 1.0
 archived: false
 -> HAS_FACET [node:68773fd1-2296-4527-b027-8d5d6c699ece] @ 2026-09-08T09:37:22.623351+00:00
 -> DEPENDS_ON [node:6d6046fc-9f71-4b88-8cfa-381a0fe1bd32] @ 2026-09-08T09:38:54.333792+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-09-08T13:42:09.150522+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:37:22.623351+00:00
 
 Hover raises contrast and never lowers it. Dropping text to the muted foreground on hover is the most common way a dark UI quietly breaks, and it is banned here.
@@ -492,6 +516,8 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-08T13:42:10.431339+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-09-08T13:42:08.512786+00:00
 -> DEPENDS_ON [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a] @ 2026-09-08T09:37:37.091684+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:37:37.091684+00:00
 
@@ -517,6 +543,7 @@ retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> HAS_FACET [node:68773fd1-2296-4527-b027-8d5d6c699ece] @ 2026-09-08T09:37:37.208429+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-09-08T13:42:08.639286+00:00
 -> DEPENDS_ON [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a] @ 2026-09-08T09:37:37.208429+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:37:37.208429+00:00
 
@@ -541,6 +568,7 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-08T13:42:10.816257+00:00
 -> DEPENDS_ON [node:716987ce-f933-41b5-8c4e-590c09dc33bf] @ 2026-09-08T09:38:00.559118+00:00
 -> DEPENDS_ON [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-09-08T09:38:54.460001+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-08T09:38:00.559118+00:00
@@ -590,8 +618,13 @@ retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> DEPENDS_ON [node:125f4071-59ec-4d3f-898d-ffcb3edd8aa5] @ 2026-09-08T09:38:00.810299+00:00
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-08T13:42:12.724014+00:00
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T09:38:00.810299+00:00
+-> ABOUT [node:5af79def-9364-4086-9b1b-c26f36622dbd] @ 2026-09-08T13:42:12.901475+00:00
+-> ABOUT [node:7b73e502-b1fb-4587-96bd-f005b1ead665] @ 2026-09-08T13:42:13.036263+00:00
+-> ABOUT [node:8b9566f6-a1d5-4c43-952e-369c2796d5ca] @ 2026-09-08T13:42:13.293492+00:00
 -> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-09-08T09:38:00.810299+00:00
+-> ABOUT [node:f2e09a03-8e61-4299-ad7c-cef6c06775fe] @ 2026-09-08T13:42:13.159299+00:00
 
 SQLite is the database engine, chosen because the whole system is one machine on a LAN. Only the access layer is still open - the migration adapter and query builder must fit the hexagonal architecture (the repository is swappable behind a port) and a TypeScript-first stack; Drizzle, Kysely and better-sqlite3 are the candidates, not the decision.
 ---
@@ -604,6 +637,16 @@ source: gui
 created_at: 2026-09-08T10:11:44.779343+00:00
 
 tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
+[event:4946301a-97e1-47e7-9d7e-69f7a87f8981]
+node_id: a815b136-0de2-49af-ac42-6192c12def24
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:43:16.283313+00:00
+
+the table list is the persistence evidence behind Recipe, ShoppingListItem, Conversation, Message and AiCall
 ---
 [node:be297a51-6cb1-4526-bdb5-c01badf562a2]
 type: facet_value
@@ -630,6 +673,8 @@ archived: false
 -> DEPENDS_ON [node:279d73e0-ff0f-4184-a25c-f051d2030072] @ 2026-09-08T09:38:54.092511+00:00
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T09:38:00.934031+00:00
 -> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-08T09:38:00.934031+00:00
+-> ABOUT [node:7b73e502-b1fb-4587-96bd-f005b1ead665] @ 2026-09-08T13:42:11.059017+00:00
+-> ABOUT [node:f29aa338-eddb-456b-97ad-00b602cb9a42] @ 2026-09-08T13:42:11.183153+00:00
 
 ConversationService stays decoupled from the chat HTTP endpoint so the chat can later be driven by MCP or a dedicated skill instead of the route. It also owns the rolling window and per-model context budgeting, sized from the contextWindow reported by the Kilo Gateway model list.
 ---
@@ -642,6 +687,16 @@ source: gui
 created_at: 2026-09-08T10:11:44.671885+00:00
 
 tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
+[event:019c7a75-2a4f-4de6-a6c1-bfc4edeb6ad8]
+node_id: 4730c1bc-b791-4a0d-a94c-1bd4f8307102
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:43:16.154892+00:00
+
+the rolling-window/context-budget seam shaped the Conversation definition and its separation from the chat card
 ---
 [node:68b03a85-d372-45c5-80a4-549ebf826798]
 type: facet_value
@@ -665,8 +720,11 @@ retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-08T09:38:01.059071+00:00
+-> ABOUT [node:7b73e502-b1fb-4587-96bd-f005b1ead665] @ 2026-09-08T13:42:11.638013+00:00
+-> ABOUT [node:8b9566f6-a1d5-4c43-952e-369c2796d5ca] @ 2026-09-08T13:42:11.508562+00:00
 -> DEPENDS_ON [node:ac006a24-2763-40e7-8423-2b851793efcf] @ 2026-09-08T09:38:54.215049+00:00
 -> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-08T09:38:01.059071+00:00
+-> ABOUT [node:f29aa338-eddb-456b-97ad-00b602cb9a42] @ 2026-09-08T13:42:11.380121+00:00
 
 AI traffic goes through Kilo Gateway: models are addressed as provider/model-name, GET /models is unauthenticated and returns the model list with pricing and context window, and usage.prompt_tokens/completion_tokens in each response is what per-call cost is computed from and logged to the ai_calls table alongside session and model.
 ---
@@ -679,6 +737,16 @@ source: gui
 created_at: 2026-09-08T10:11:44.758049+00:00
 
 tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
+[event:21bd0ec8-14c6-471d-8d82-7fc4490be8bc]
+node_id: 279d73e0-ff0f-4184-a25c-f051d2030072
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:43:16.034442+00:00
+
+provider/model-name addressing and the context window from the model list shaped the Model definition
 ---
 [node:ccc18558-7181-44df-9608-de587d8d937c]
 type: facet_value
@@ -701,6 +769,7 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> ABOUT [node:3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550] @ 2026-09-08T13:42:11.801500+00:00
 -> DEPENDS_ON [node:ac006a24-2763-40e7-8423-2b851793efcf] @ 2026-09-08T09:38:01.199535+00:00
 -> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-08T09:38:01.199535+00:00
 
@@ -715,6 +784,16 @@ source: gui
 created_at: 2026-09-08T10:11:44.736614+00:00
 
 tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
+[event:5c6f60c3-4076-4b85-9228-648ab0f6b43c]
+node_id: c129f201-ae3c-45c8-89d7-a170bbaf5fad
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:43:16.660345+00:00
+
+verified against layout.schema.yaml:178-195 - params.calendar carries an editable flag for add/edit/delete, which is what forces OAuth2 over a public .ics
 ---
 [node:41ec3acd-0302-4120-9ef0-4b00a4945829]
 type: decision
@@ -783,6 +862,7 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-08T13:42:10.938906+00:00
 -> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-08T09:38:01.635211+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:38:01.635211+00:00
 
@@ -798,6 +878,16 @@ created_at: 2026-09-08T10:11:44.794265+00:00
 
 tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
 ---
+[event:f1f35a54-7ac6-451a-8580-0299ae43788c]
+node_id: e24b75ab-e370-4566-b9e7-35706cad806b
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:43:16.535840+00:00
+
+verified against layout.schema.yaml:281-330 - the schema's own comments give the same reason for the split (different params, different legal position), independently of HANDOFF.md
+---
 [node:9ea20285-de89-4f25-a25e-37700078bd59]
 type: decision
 tier: lifetime
@@ -808,6 +898,7 @@ retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-08T09:38:01.797947+00:00
+-> ABOUT [node:d2844438-9992-4e20-bfb5-fa615a906574] @ 2026-09-08T13:42:13.424036+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:38:01.797947+00:00
 
 Presence-wake from the slideshow uses the camera, and every frame is processed locally in the browser - the image never leaves the device. Barcode scanning into the shopping list and video notes with transcription were considered and deliberately rejected.
@@ -854,6 +945,7 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-09-08T13:42:09.672544+00:00
 -> DEPENDS_ON [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-09-08T09:38:29.877767+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:38:29.877767+00:00
 
@@ -1059,6 +1151,8 @@ retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> DEPENDS_ON [node:0bc7e618-9b95-4977-9fe1-f3a48759276f] @ 2026-09-08T09:38:30.445420+00:00
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-08T13:42:12.574912+00:00
+-> ABOUT [node:3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550] @ 2026-09-08T13:42:12.428170+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-08T09:38:30.445420+00:00
 
 The Service Worker aims at a full offline cache of app shell plus data, but dynamic data - calendar events, imported recipes - has a completely different invalidation profile from the app shell, so the workbox-versus-hand-rolled decision cannot be made until that invalidation strategy is designed.
@@ -1092,6 +1186,7 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> ABOUT [node:5af79def-9364-4086-9b1b-c26f36622dbd] @ 2026-09-08T13:42:12.239534+00:00
 -> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-09-08T09:38:30.582482+00:00
 -> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-08T09:38:30.582482+00:00
 
@@ -1107,6 +1202,16 @@ created_at: 2026-09-08T10:12:07.977444+00:00
 
 /gw-resolve promotion pass 2026-09-08: presented as a promotion candidate and deliberately left at mid-term - an open issue should close and go dormant, not be pinned into every future recall
 ---
+[event:b25e8f1c-4f6d-4f2b-8950-bc8db54ec1b0]
+node_id: 6d5ae12d-608b-4187-839b-74d56e7ff059
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:43:16.412992+00:00
+
+the two data sources are why ShoppingListItem is defined as the same item regardless of which store backs it
+---
 [node:f42da1a9-633f-4fe2-81e4-47bd34b836f4]
 type: issue
 tier: mid-term
@@ -1117,6 +1222,7 @@ retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> DEPENDS_ON [node:012f356c-2e3e-4fe4-9388-38f089198a41] @ 2026-09-08T09:38:30.709099+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-09-08T13:42:10.175482+00:00
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:38:30.709099+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:38:30.709099+00:00
 
@@ -1226,6 +1332,7 @@ retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> DEPENDS_ON [node:012f356c-2e3e-4fe4-9388-38f089198a41] @ 2026-09-08T09:38:31.010276+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-09-08T13:42:09.935946+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:38:31.010276+00:00
 
 Night mode exists as a third luminance mode roughly nine times dimmer than dark while still clearing WCAG AA, but its schedule is unsettled: a fixed 22:00-06:00 window, or derived from the sunrise and sunset the weather card already fetches.
@@ -1259,6 +1366,7 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-09-08T13:42:10.055668+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:38:31.156725+00:00
 
 A large density mode is wired into the tokens but nothing in the product can reach it - there is no settings screen and no layout key for it, so the capability is currently unreachable.
@@ -1414,6 +1522,7 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-09-08T13:42:09.425394+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:55:56.142557+00:00
 -> CONTRADICTS [node:ee768ade-394d-475c-92fb-e5c5b28e0efc] @ 2026-09-08T09:55:56.142557+00:00
 -> DEPENDS_ON [node:ee768ade-394d-475c-92fb-e5c5b28e0efc] @ 2026-09-08T10:09:26.371475+00:00
@@ -1463,6 +1572,7 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-09-08T13:42:09.806664+00:00
 -> DEPENDS_ON [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-09-08T09:59:26.697299+00:00
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:59:26.697299+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:59:26.697299+00:00
@@ -1533,3 +1643,479 @@ source: gui
 created_at: 2026-09-08T13:34:56.486071+00:00
 
 tier -> lifetime: /gw-resolve pass 2 on 2026-09-08: human confirmed NOVIDATAFLUX as lifetime - writing a library out of the stack is the kind of decision that gets silently re-litigated; the reason it is cheap to reverse lives on its DEPENDS_ON edges to HEXAGONAL and SQLITE
+---
+[node:177c4f41-cf9b-4a7c-b3ee-7b82855ba234]
+type: slice
+tier: short-term
+path: /change/domain-model
+created_at: 2026-09-08T13:37:06.382548+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:0598ee91-68fa-455a-86af-4d5325c91066] @ 2026-09-08T13:42:46.173590+00:00
+-> SCOPED_TO [node:11dcab1d-7177-4bb1-9965-15c8a285b9c2] @ 2026-09-08T13:42:45.914819+00:00
+-> SCOPED_TO [node:1e1043c3-1804-488c-bda3-469cfb96e48e] @ 2026-09-08T13:42:46.046271+00:00
+-> SCOPED_TO [node:c20a2113-49de-4bca-ba51-610e4d574c0a] @ 2026-09-08T13:37:06.382548+00:00
+-> SCOPED_TO [node:f1d7ef56-555a-4a33-90fa-8762fee9914f] @ 2026-09-08T13:42:46.308554+00:00
+
+change scope: domain-model
+---
+[event:10118af3-fdf6-47b8-83c3-4f87f44d359a]
+node_id: 177c4f41-cf9b-4a7c-b3ee-7b82855ba234
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:37:06.384407+00:00
+
+create_change domain-model
+---
+[node:c20a2113-49de-4bca-ba51-610e4d574c0a]
+type: goal
+tier: short-term
+path: /goal/domain-model
+created_at: 2026-09-08T13:37:06.382548+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:0598ee91-68fa-455a-86af-4d5325c91066] @ 2026-09-08T13:42:46.173590+00:00
+-> DEPENDS_ON [node:11dcab1d-7177-4bb1-9965-15c8a285b9c2] @ 2026-09-08T13:42:45.914819+00:00
+-> DEPENDS_ON [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-08T13:41:26.799909+00:00
+-> DEPENDS_ON [node:1e1043c3-1804-488c-bda3-469cfb96e48e] @ 2026-09-08T13:42:46.046271+00:00
+-> DEPENDS_ON [node:3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550] @ 2026-09-08T13:41:27.055782+00:00
+-> DEPENDS_ON [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-08T13:41:00.537283+00:00
+-> DEPENDS_ON [node:4a2676eb-7a58-4476-adc7-b6b5631f3454] @ 2026-09-08T13:41:00.870631+00:00
+-> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-08T13:37:06.382548+00:00
+-> DEPENDS_ON [node:5af79def-9364-4086-9b1b-c26f36622dbd] @ 2026-09-08T13:41:26.929005+00:00
+-> DEPENDS_ON [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-09-08T13:41:00.379500+00:00
+-> DEPENDS_ON [node:7b73e502-b1fb-4587-96bd-f005b1ead665] @ 2026-09-08T13:41:27.188135+00:00
+-> DEPENDS_ON [node:7e1fbadd-ddd7-496e-89e4-0f835b3753a8] @ 2026-09-08T13:41:00.698165+00:00
+-> DEPENDS_ON [node:8b9566f6-a1d5-4c43-952e-369c2796d5ca] @ 2026-09-08T13:41:27.588084+00:00
+-> DEPENDS_ON [node:d2844438-9992-4e20-bfb5-fa615a906574] @ 2026-09-08T13:41:01.187104+00:00
+-> DEPENDS_ON [node:d3c38cda-39ed-48d1-960c-af9033c4137f] @ 2026-09-08T13:41:27.712077+00:00
+-> DEPENDS_ON [node:d8f13deb-0013-41b1-9f8c-a57918a3b130] @ 2026-09-08T13:41:01.029695+00:00
+-> DEPENDS_ON [node:f1d7ef56-555a-4a33-90fa-8762fee9914f] @ 2026-09-08T13:42:46.308554+00:00
+-> DEPENDS_ON [node:f29aa338-eddb-456b-97ad-00b602cb9a42] @ 2026-09-08T13:41:27.326342+00:00
+-> DEPENDS_ON [node:f2e09a03-8e61-4299-ad7c-cef6c06775fe] @ 2026-09-08T13:41:27.461584+00:00
+-> DEPENDS_ON [node:f96f62c3-d72a-4c40-8e16-57278ca1f302] @ 2026-09-08T13:41:00.191541+00:00
+
+Model Kitchen Terminal K7's ubiquitous language as ratified domain entities, extracted from the written corpus before any production code mints its own names
+---
+[node:f96f62c3-d72a-4c40-8e16-57278ca1f302]
+type: entity
+tier: short-term
+path: /entity/layout
+created_at: 2026-09-08T13:41:00.191541+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-09-08T13:41:37.464635+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T13:41:00.191541+00:00
+
+Layout — The whole screen configuration: one versioned document that names a Theme and holds a DashboardGrid, an optional Sidebar and an ordered list of Cards. It is the description of the screen, not the rendered screen itself.
+---
+[event:2326f13e-ebdc-4f35-9719-a44fbf36e0bc]
+node_id: f96f62c3-d72a-4c40-8e16-57278ca1f302
+type: entity_proposed
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:41:00.191541+00:00
+
+proposed via agent surface: docs/handoff/layout.schema.yaml:13-49
+---
+[node:73fb6132-40d3-4e2d-8b88-334442c4bfa7]
+type: entity
+tier: short-term
+path: /entity/theme
+created_at: 2026-09-08T13:41:00.379500+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T13:41:00.379500+00:00
+
+Theme — The design-token document a Layout points at. Swapping the entire design means pointing a Layout at a different Theme file; components read only the CSS variables generated from it and never hardcode a colour or a face. Not the rendered styling - the source document.
+---
+[event:80d1f13a-9f27-48cf-9137-96b11e992fbf]
+node_id: 73fb6132-40d3-4e2d-8b88-334442c4bfa7
+type: entity_proposed
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:41:00.379500+00:00
+
+proposed via agent surface: docs/handoff/layout.schema.yaml:19-25; design-system/theme.schema.v2.yaml
+---
+[node:49ba726c-031e-4a01-839f-11a76a8bf009]
+type: entity
+tier: short-term
+path: /entity/card
+created_at: 2026-09-08T13:41:00.537283+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T13:41:00.537283+00:00
+-> DEPENDS_ON [node:f96f62c3-d72a-4c40-8e16-57278ca1f302] @ 2026-09-08T13:41:37.586068+00:00
+
+Card — The addressable unit of the dashboard: an id, a type that decides which component renders it, and params whose shape depends on that type. Not a Sidebar, which is its peer rather than one of its members, and not a Slideshow, which appears in the card list but renders nothing of its own.
+---
+[event:96fe8e22-4fa6-406b-a320-47aea87be319]
+node_id: 49ba726c-031e-4a01-839f-11a76a8bf009
+type: entity_proposed
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:41:00.537283+00:00
+
+proposed via agent surface: docs/handoff/layout.schema.yaml:103-125; design-system/DESIGN.md section 8
+---
+[node:7e1fbadd-ddd7-496e-89e4-0f835b3753a8]
+type: entity
+tier: short-term
+path: /entity/sidebar
+created_at: 2026-09-08T13:41:00.698165+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T13:41:00.698165+00:00
+-> DEPENDS_ON [node:f96f62c3-d72a-4c40-8e16-57278ca1f302] @ 2026-09-08T13:41:37.709386+00:00
+
+Sidebar — The persistent side panel: a top-level component alongside the card list rather than a member of it, holding its own Cards. Permanent in horizontal layouts, collapsible in vertical ones, always collapsible on a phone. Not a Card.
+---
+[event:059770ee-6cbc-45e7-964a-94cce1eafa25]
+node_id: 7e1fbadd-ddd7-496e-89e4-0f835b3753a8
+type: entity_proposed
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:41:00.698165+00:00
+
+proposed via agent surface: docs/handoff/layout.schema.yaml:26-30,53-101
+---
+[node:4a2676eb-7a58-4476-adc7-b6b5631f3454]
+type: entity
+tier: short-term
+path: /entity/dashboardgrid
+created_at: 2026-09-08T13:41:00.870631+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T13:41:00.870631+00:00
+-> DEPENDS_ON [node:f96f62c3-d72a-4c40-8e16-57278ca1f302] @ 2026-09-08T13:41:37.844937+00:00
+
+DashboardGrid — The column grid the top-level Cards of a Layout flow into. Not a CardGrid, which is a container Card with its own grid inside it - the schema uses the bare word grid for both, and this name exists to keep them apart.
+---
+[event:3f272c94-14f8-40f7-ac28-31cc9b49b823]
+node_id: 4a2676eb-7a58-4476-adc7-b6b5631f3454
+type: entity_proposed
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:41:00.870631+00:00
+
+proposed via agent surface: docs/handoff/layout.schema.yaml:31-43
+---
+[node:d8f13deb-0013-41b1-9f8c-a57918a3b130]
+type: entity
+tier: short-term
+path: /entity/cardgrid
+created_at: 2026-09-08T13:41:01.029695+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-08T13:41:37.972274+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T13:41:01.029695+00:00
+
+CardGrid — A container Card whose cells are all visible at once in a nested mini-grid, as opposed to a Carousel, which shows one slide at a time in the same slot. Not the DashboardGrid that the Layout's own Cards flow into.
+---
+[event:6b89c4d8-981d-4ade-a0f1-21ffdb5565fa]
+node_id: d8f13deb-0013-41b1-9f8c-a57918a3b130
+type: entity_proposed
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:41:01.029695+00:00
+
+proposed via agent surface: docs/handoff/layout.schema.yaml:405-425
+---
+[node:d2844438-9992-4e20-bfb5-fa615a906574]
+type: entity
+tier: short-term
+path: /entity/slideshow
+created_at: 2026-09-08T13:41:01.187104+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T13:41:01.187104+00:00
+-> DEPENDS_ON [node:f96f62c3-d72a-4c40-8e16-57278ca1f302] @ 2026-09-08T13:41:38.099177+00:00
+
+Slideshow — The full-screen idle rotation controller: after a period with no interaction it rotates through named Cards full-screen until someone touches the glass. Declared as an entry in the card list but not a Card - it renders nothing in its own slot, its span is ignored, at most one exists per Layout, and it is never nested.
+---
+[event:f42df6ae-33dd-49b8-bcb6-9332d9b4cae3]
+node_id: d2844438-9992-4e20-bfb5-fa615a906574
+type: entity_proposed
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:41:01.187104+00:00
+
+proposed via agent surface: docs/handoff/layout.schema.yaml:427-449
+---
+[node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f]
+type: entity
+tier: short-term
+path: /entity/recipe
+created_at: 2026-09-08T13:41:26.799909+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-09-08T13:41:26.799909+00:00
+
+Recipe — A dish the household has saved, imported from a URL and stored locally with tags. The extracted result, not the source web page - the same page imported twice is one Recipe.
+---
+[event:b129a157-c2b1-4c02-8570-0ad93e9217e1]
+node_id: 15863232-0fb0-4c79-aaa9-3750ce8c0a2f
+type: entity_proposed
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:41:26.799909+00:00
+
+proposed via agent surface: PLAN.md:17 table recipes; docs/handoff/layout.schema.yaml:222-235
+---
+[node:5af79def-9364-4086-9b1b-c26f36622dbd]
+type: entity
+tier: short-term
+path: /entity/shoppinglistitem
+created_at: 2026-09-08T13:41:26.929005+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-09-08T13:41:26.929005+00:00
+
+ShoppingListItem — One line on the household shopping list, carrying a category and a checked state. The list itself is a singleton per K7 instance and is not modelled; the item is the thing with identity. Its storage may be K7's own table or the separate Zakupy project's API, and it is the same item either way.
+---
+[event:280c05c1-5c3c-4291-b9fa-5ad9a6e7b40c]
+node_id: 5af79def-9364-4086-9b1b-c26f36622dbd
+type: entity_proposed
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:41:26.929005+00:00
+
+proposed via agent surface: PLAN.md:18 table shopping_list; docs/handoff/layout.schema.yaml:236-260
+---
+[node:3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550]
+type: entity
+tier: short-term
+path: /entity/calendarevent
+created_at: 2026-09-08T13:41:27.055782+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-08T13:41:27.055782+00:00
+
+CalendarEvent — An entry in the household Google calendar. K7 both reads and writes them - add, edit and delete - so this is not a read-only feed item; that difference is what forces OAuth2 rather than a public .ics.
+---
+[event:1c269801-ce9f-4514-815a-b305c3096710]
+node_id: 3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550
+type: entity_proposed
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:41:27.055782+00:00
+
+proposed via agent surface: docs/handoff/layout.schema.yaml:178-195
+---
+[node:7b73e502-b1fb-4587-96bd-f005b1ead665]
+type: entity
+tier: short-term
+path: /entity/conversation
+created_at: 2026-09-08T13:41:27.188135+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-08T13:41:27.188135+00:00
+
+Conversation — One chat thread with the AI, owning its Messages and its context budget. The unit a rolling window and compacting operate on, not the chat card that displays it.
+---
+[event:3040efde-7773-444e-956e-5215fe54867d]
+node_id: 7b73e502-b1fb-4587-96bd-f005b1ead665
+type: entity_proposed
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:41:27.188135+00:00
+
+proposed via agent surface: PLAN.md:18 table conversations
+---
+[node:f29aa338-eddb-456b-97ad-00b602cb9a42]
+type: entity
+tier: short-term
+path: /entity/model
+created_at: 2026-09-08T13:41:27.326342+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-08T13:41:27.326342+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-08T13:41:27.326342+00:00
+
+Model — An addressable LLM at the gateway, named provider/model-name, carrying a context window and a price. Someone else's catalogue entry rather than K7's own record, but the project reasons about it directly: context budgeting is sized from its context window and cost is computed from its price.
+---
+[event:13daafdd-e57b-4f2d-9402-8214f51aafe8]
+node_id: f29aa338-eddb-456b-97ad-00b602cb9a42
+type: entity_proposed
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:41:27.326342+00:00
+
+proposed via agent surface: docs/handoff/layout.schema.yaml:196-200; HANDOFF.md:57-60
+---
+[node:f2e09a03-8e61-4299-ad7c-cef6c06775fe]
+type: entity
+tier: short-term
+path: /entity/message
+created_at: 2026-09-08T13:41:27.461584+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-08T13:41:27.461584+00:00
+-> DEPENDS_ON [node:7b73e502-b1fb-4587-96bd-f005b1ead665] @ 2026-09-08T13:41:27.461584+00:00
+
+Message — One turn in a Conversation, from the person or from the model. It has no identity outside its Conversation, and it is not an AiCall - one Message may cost several.
+---
+[event:250b3901-9447-4af6-9d34-0f9f42c90c5e]
+node_id: f2e09a03-8e61-4299-ad7c-cef6c06775fe
+type: entity_proposed
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:41:27.461584+00:00
+
+proposed via agent surface: PLAN.md:18 table messages
+---
+[node:8b9566f6-a1d5-4c43-952e-369c2796d5ca]
+type: entity
+tier: short-term
+path: /entity/aicall
+created_at: 2026-09-08T13:41:27.588084+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-08T13:41:27.588084+00:00
+-> DEPENDS_ON [node:f29aa338-eddb-456b-97ad-00b602cb9a42] @ 2026-09-08T13:41:27.588084+00:00
+
+AiCall — One billable request to the gateway, recording session, model, tokens and estimated cost. Not a Message: a single Message may cost several AiCalls, and compacting spends them with no Message to show for it.
+---
+[event:1c408181-1cb9-450a-a3e1-58a307eb62ce]
+node_id: 8b9566f6-a1d5-4c43-952e-369c2796d5ca
+type: entity_proposed
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:41:27.588084+00:00
+
+proposed via agent surface: HANDOFF.md:46; PLAN.md:112 table ai_calls
+---
+[node:d3c38cda-39ed-48d1-960c-af9033c4137f]
+type: entity
+tier: short-term
+path: /entity/timer
+created_at: 2026-09-08T13:41:27.712077+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T13:41:27.712077+00:00
+
+Timer — A kitchen countdown with a lifecycle - set, running, complete. Borderline as an entity: nothing persists it and it never leaves the browser, but it has a lifecycle and people say the timer out loud.
+---
+[event:6776a4c6-0e15-4afa-84bf-afc896981481]
+node_id: d3c38cda-39ed-48d1-960c-af9033c4137f
+type: entity_proposed
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:41:27.712077+00:00
+
+proposed via agent surface: docs/handoff/layout.schema.yaml:265-275
+---
+[node:11dcab1d-7177-4bb1-9965-15c8a285b9c2]
+type: decision
+tier: mid-term
+path: /artifact/the-layout-schema-uses-the-bare-word-gri
+created_at: 2026-09-08T13:42:45.914819+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-08T13:42:45.914819+00:00
+-> ABOUT [node:4a2676eb-7a58-4476-adc7-b6b5631f3454] @ 2026-09-08T13:42:45.914819+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T13:42:45.914819+00:00
+-> ABOUT [node:d8f13deb-0013-41b1-9f8c-a57918a3b130] @ 2026-09-08T13:42:45.914819+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T13:42:45.914819+00:00
+-> ABOUT [node:f96f62c3-d72a-4c40-8e16-57278ca1f302] @ 2026-09-08T13:42:45.914819+00:00
+
+The layout schema uses the bare word grid for two different things - the column grid a layout's own cards flow into, and a container card type whose cells are all visible at once - so the domain model names them apart as DashboardGrid and CardGrid. The schema file itself is unchanged; the disambiguation is in the language, and code, tests and UI copy use the two names rather than the overloaded one.
+---
+[node:1e1043c3-1804-488c-bda3-469cfb96e48e]
+type: issue
+tier: mid-term
+path: /artifact/the-canonical-theme-carries-two-names-fo
+created_at: 2026-09-08T13:42:46.046271+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-09-08T13:42:46.046271+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T13:42:46.046271+00:00
+
+The canonical theme carries two names for one colour role: signal is the v2 name and accentSecondary is kept as a v1 alias, with identical values in all three modes. Every consumer that reads accentSecondary works, which is exactly why the alias will outlive the migration unless someone retires it deliberately.
+---
+[node:0598ee91-68fa-455a-86af-4d5325c91066]
+type: issue
+tier: mid-term
+path: /artifact/slideshow-is-declared-as-an-entry-in-a-l
+created_at: 2026-09-08T13:42:46.173590+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-08T13:42:46.173590+00:00
+-> ABOUT [node:d2844438-9992-4e20-bfb5-fa615a906574] @ 2026-09-08T13:42:46.173590+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T13:42:46.173590+00:00
+-> ABOUT [node:f96f62c3-d72a-4c40-8e16-57278ca1f302] @ 2026-09-08T13:42:46.173590+00:00
+
+Slideshow is declared as an entry in a layout's card list but the schema then spends a paragraph saying it is not a card: it renders nothing in its own grid slot, its span is ignored, at most one may exist per layout, and it may not be nested in a carousel, a card grid or the sidebar. The type system says card and the semantics say layout controller, so every one of those rules has to be enforced by hand at validation time rather than falling out of the shape.
+---
+[node:f1d7ef56-555a-4a33-90fa-8762fee9914f]
+type: constraint
+tier: mid-term
+path: /artifact/the-sidebar-s-collapse-behaviour-is-deci
+created_at: 2026-09-08T13:42:46.308554+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:7e1fbadd-ddd7-496e-89e4-0f835b3753a8] @ 2026-09-08T13:42:46.308554+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T13:42:46.308554+00:00
+-> ABOUT [node:f96f62c3-d72a-4c40-8e16-57278ca1f302] @ 2026-09-08T13:42:46.308554+00:00
+
+The sidebar's collapse behaviour is decided by the device shape rather than by preference: permanent in horizontal layouts, collapsible in vertical ones, and always collapsible on a phone. The phone case is a schema const, not a default - it cannot be overridden - because a permanent sidebar on a 375px screen leaves nothing for the cards it sits beside.
