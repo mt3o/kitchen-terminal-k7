@@ -2958,3 +2958,90 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T15:59:13.422441+00:00
 
 When the backend is unreachable the kiosk holds the last screen behind a scrim rather than blanking or lying: the stale grid stays visible and blurred, and an overlay says what is happening and how far along the reconnect is. The blur spends the one backdrop-filter allowance the hardware budget permits - the same 4px dialog-and-slideshow scrim, prefixed for Safari 15 - and it is held static, with only the scrim's opacity animated, because a reconnect is the worst moment to composite the full screen every frame. The overlay must show real progress, attempt count and time to the next retry, since a spinner that conveys nothing is what makes people power-cycle a kitchen display.
+---
+[node:70d97cb6-59dd-4020-b3e8-2f7bd0bd8c04]
+type: goal
+tier: short-term
+path: /goal/k7-lan-tls
+created_at: 2026-09-08T17:41:57.990588+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:36def95b-9c71-42d3-8cef-4935a023a76c] @ 2026-09-08T17:49:01.829509+00:00
+-> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-08T17:41:57.990588+00:00
+-> DEPENDS_ON [node:c68c6715-1e1a-4876-8f3c-35ff3d9b8fac] @ 2026-09-08T17:49:01.967859+00:00
+-> DEPENDS_ON [node:ff83d0c0-3596-408a-b047-3363ea8a99c1] @ 2026-09-08T17:49:01.705201+00:00
+
+Put the kiosk on a real certificate: a Cloudflare DNS-01 challenge for a subdomain of revert-h0m3.co.pl, renewed in-process so the appliance maintains itself, lifting the secure-context blocker on the Service Worker
+---
+[node:c1b00607-b2d5-42eb-aa31-77998b12bcab]
+type: slice
+tier: short-term
+path: /change/k7-lan-tls
+created_at: 2026-09-08T17:41:57.990588+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:36def95b-9c71-42d3-8cef-4935a023a76c] @ 2026-09-08T17:49:01.829509+00:00
+-> SCOPED_TO [node:70d97cb6-59dd-4020-b3e8-2f7bd0bd8c04] @ 2026-09-08T17:41:57.990588+00:00
+-> SCOPED_TO [node:c68c6715-1e1a-4876-8f3c-35ff3d9b8fac] @ 2026-09-08T17:49:01.967859+00:00
+-> SCOPED_TO [node:ff83d0c0-3596-408a-b047-3363ea8a99c1] @ 2026-09-08T17:49:01.705201+00:00
+
+change scope: k7-lan-tls
+---
+[event:b2f68d91-b7f8-4131-9543-cf1816433819]
+node_id: c1b00607-b2d5-42eb-aa31-77998b12bcab
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T17:41:57.991905+00:00
+
+create_change k7-lan-tls
+---
+[node:ff83d0c0-3596-408a-b047-3363ea8a99c1]
+type: constraint
+tier: mid-term
+path: /artifact/the-kiosk-is-not-reachable-from-the-inte
+created_at: 2026-09-08T17:49:01.705201+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99] @ 2026-09-08T17:49:01.705201+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-08T17:49:01.705201+00:00
+-> DEPENDS_ON [node:d3faf49e-9fd8-4d79-9c8a-733cb2baa856] @ 2026-09-08T17:49:02.087232+00:00
+
+The kiosk is not reachable from the internet because it has no public address and no port is forwarded, and that structural fact is the real boundary. The application adds two checks on top of it, each for a different attack. A source-address check rejects any client outside RFC1918, loopback and link-local, which turns an accidental port forward or a newly acquired second interface from an exposure into a 403. A Host header allowlist rejects names the kiosk does not answer to, which is what catches DNS rebinding - a page on the open internet resolving its own name to a private address and issuing requests from the household's own browser, where the packets are genuinely local and a source check sees nothing wrong. Everything already inside the network is trusted; that is a deliberate choice for a household appliance with no accounts, and authentication is the answer only if that changes.
+---
+[node:36def95b-9c71-42d3-8cef-4935a023a76c]
+type: constraint
+tier: mid-term
+path: /artifact/the-machine-s-lan-address-is-assigned-by
+created_at: 2026-09-08T17:49:01.829509+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:34616847-1c75-4625-a51e-be17514f7e34] @ 2026-09-08T17:49:02.203267+00:00
+-> HAS_FACET [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99] @ 2026-09-08T17:49:01.829509+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T17:49:01.829509+00:00
+
+The machine's LAN address is assigned by DHCP and does change - it moved from 192.168.0.114 to 192.168.1.107 in the middle of a single working session, which is how this was noticed rather than deduced. A DNS A record pointing at a leased address is therefore a certificate and a kiosk that both stop working at an arbitrary future moment, with a failure that looks like the server being down. The address must be pinned by a DHCP reservation on the router before the record is published, and the hostname rather than a literal address is what every client should be configured with.
+---
+[node:c68c6715-1e1a-4876-8f3c-35ff3d9b8fac]
+type: decision
+tier: mid-term
+path: /artifact/certificate-issuance-defaults-to-the-let
+created_at: 2026-09-08T17:49:01.967859+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:34616847-1c75-4625-a51e-be17514f7e34] @ 2026-09-08T17:49:02.315637+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-08T17:49:01.967859+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T17:49:01.967859+00:00
+
+Certificate issuance defaults to the Let's Encrypt staging environment and production is opt-in through an explicit flag. Production allows five duplicate certificates per week and throttles failed validations hard, so a retry loop while the DNS credentials or the record are still wrong burns the week's budget with no remedy but waiting - and setup is exactly when things are wrong. A staging certificate is a real certificate that browsers do not trust, which makes the difference visible rather than silent. Publishing a certificate for a hostname also enters that name into public Certificate Transparency logs, so the name is discoverable even though the address it resolves to is not routable; a wildcard certificate is the way to keep the specific label out of the logs if that ever matters.

@@ -14,6 +14,7 @@ import { createRepositories, openDatabase } from './adapters/drizzle/index.ts'
 import { describeConfig, loadConfig, secretValues } from './config.ts'
 import { runMigrations } from './db/migrate.ts'
 import { initObservability, Sentry } from './observability.ts'
+import { isAllowedHost, isPrivateAddress } from './security/network.ts'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 const config = loadConfig()
@@ -58,6 +59,23 @@ app.get('/api/layout', async (_req, reply) => {
     // The message is safe to return: it names a file and a field, never a value.
     // Secrets live in the Varlock schema and never reach a response body.
     return reply.code(500).send({ error: err instanceof Error ? err.message : 'layout unreadable' })
+  }
+})
+
+// Nothing on this box is authenticated, so the network boundary is the boundary.
+// Two checks, guarding two different attacks — see security/network.ts.
+const allowedHosts = [config.tlsHostname, config.host].filter((h): h is string => Boolean(h))
+
+app.addHook('onRequest', async (req, reply) => {
+  if (!isPrivateAddress(req.ip)) {
+    req.log.warn({ ip: req.ip, url: req.url }, 'rejected non-private client')
+    return reply.code(403).send({ error: 'forbidden' })
+  }
+  if (!isAllowedHost(req.headers.host, allowedHosts)) {
+    // Almost certainly DNS rebinding: the packets are local but the name is not
+    // ours, which is what a rebinding page looks like from in here.
+    req.log.warn({ host: req.headers.host, url: req.url }, 'rejected unexpected Host header')
+    return reply.code(400).send({ error: 'unexpected host' })
   }
 })
 

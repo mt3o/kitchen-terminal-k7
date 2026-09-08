@@ -19,6 +19,12 @@ export interface Config {
   glitchtipDsn: string | undefined
   kiloGatewayKey: string | undefined
   googleOauthRefreshToken: string | undefined
+  /** TLS is on only when a hostname and a Cloudflare token are both present. */
+  tlsHostname: string | undefined
+  cloudflareApiToken: string | undefined
+  acmeEmail: string | undefined
+  acmeProduction: boolean
+  certDir: string
 }
 
 function readPort(raw: string | undefined, fallback: number): number {
@@ -40,6 +46,11 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     glitchtipDsn: env.GLITCHTIP_DSN || undefined,
     kiloGatewayKey: env.KILO_GATEWAY_KEY || undefined,
     googleOauthRefreshToken: env.GOOGLE_OAUTH_REFRESH_TOKEN || undefined,
+    tlsHostname: env.K7_TLS_HOSTNAME || undefined,
+    cloudflareApiToken: env.CLOUDFLARE_API_TOKEN || undefined,
+    acmeEmail: env.K7_ACME_EMAIL || undefined,
+    acmeProduction: env.K7_ACME_PRODUCTION === 'true',
+    certDir: env.K7_CERT_DIR ?? './data/certs',
   }
 }
 
@@ -49,7 +60,15 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
  * into a log line is a working credential for someone else's project.
  */
 export function secretValues(config: Config): readonly (string | undefined)[] {
-  return [config.kiloGatewayKey, config.googleOauthRefreshToken, config.glitchtipDsn]
+  return [
+    config.kiloGatewayKey,
+    config.googleOauthRefreshToken,
+    config.glitchtipDsn,
+    // The Cloudflare token can edit DNS for a whole zone. It has no business in
+    // an error report, and it is the newest thing here, so it is the one most
+    // likely to be forgotten.
+    config.cloudflareApiToken,
+  ]
 }
 
 /** A one-line boot summary that is safe to print. Never include a value here. */
@@ -63,5 +82,7 @@ export function describeConfig(config: Config): string {
     `glitchtip=${present(config.glitchtipDsn)}`,
     `kilo_key=${present(config.kiloGatewayKey)}`,
     `google_refresh=${present(config.googleOauthRefreshToken)}`,
+    `tls=${config.tlsHostname ? `${config.tlsHostname}${config.acmeProduction ? '' : ' (staging)'}` : 'off'}`,
+    `cloudflare=${present(config.cloudflareApiToken)}`,
   ].join(' ')
 }
