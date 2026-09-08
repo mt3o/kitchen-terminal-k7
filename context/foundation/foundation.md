@@ -146,17 +146,37 @@ it is why they were kept out of lifetime tier.
 
 | Pass | Disputes ruled | Promotions | Entities | Consolidations |
 |---|---|---|---|---|
-| 1 | `GITFLOW`, `PLEXMONO` — both `superseded` | 31 → lifetime, 8 declined | none proposed | none |
-| 2 | `MIDDLEWARE`, `VIDATAFLUX` — both `superseded` | 2 → lifetime | none proposed | none |
+| 1 | `GITFLOW`, `PLEXMONO` — superseded | 31 → lifetime, 8 declined | none proposed | none |
+| 2 | `MIDDLEWARE`, `VIDATAFLUX` — superseded | 2 → lifetime | none proposed | none |
+| 3 | `TS7` superseded; `TS7GA` **corrected in place** | 11 → lifetime, 2 held | **15 confirmed** | declined — see below |
 
-Agent recommendation and human ruling agreed on all four disputes; every write is
-journaled `gui-guided` with both recorded, so a divergence would be visible.
+Agent recommendation and human ruling agreed on every item across all three
+passes; each write is journaled `gui-guided` with both recorded, so a divergence
+would be visible.
 
-**The domain model is still empty.** `domain_model()` returns nothing and no entity
-has been proposed, which means every capture so far names things in prose rather than
-attaching to a ratified entity. That is the largest remaining gap in this graph and
-`/gw-domain` is what closes it — brownfield extraction has no code to read yet, so
-this is the cheap moment to do it by elicitation instead.
+**The domain model is ratified.** 15 entities, `proposed` → `confirmed`. Captures
+from here on attach to settled vocabulary via `ABOUT` rather than naming things in
+prose, and `domain_model()` is now the answer to "what do we call this".
+
+**`TS7GA` was corrected, not superseded** — the first time a ruling in this project
+has been `needs_correction`. It asserted two things: that TypeScript 7 is GA
+(verified against the registry, and `TSPIN` depends on it) and that scaffolding
+therefore needed no fallback (false). Superseding would have archived a true fact
+nothing else records. Corrections exist for exactly this shape, and reaching for
+`superseded` because it is the familiar verdict would have quietly lost knowledge.
+
+**Consolidation was offered and declined.** The four candidate clusters are facet
+co-occurrence, not recurrence: the `backend` cluster groups boot-time migrations,
+the Drizzle choice, Faza-0 slice ordering and the Node floor, which share a facet
+and nothing else. Abstracting them would have produced a sentence true of none of
+them. A detector that finds candidates is not a detector that finds abstractions.
+
+### Held at mid-term on purpose
+
+| Node | Why not lifetime |
+|---|---|
+| `SLICEORDER` `d6e551dc` | Scoped to the `faza-0` epic. Should go dormant when the epic closes rather than rank into every future recall about backend work. |
+| `TS7GA` `e43574bd` | Correction has landed; promotion is a separate ruling, deliberately not folded into the same breath. |
 
 ## Do not sweep yet
 
@@ -170,11 +190,13 @@ most. Revisit once Faza 0 closes.
 
 Keep the foundation scope active. Sweep when the issues have closed, not before.
 
-## Handoff to `/gw-domain`
+## Domain model — done
 
-Terms met while distilling, as the starting inventory for domain modelling. They
-are **not** captured as entities here — only a human ratifies an entity, and
-entities never decay, so a careless one outlives every change that could correct it.
+Handed to `/gw-domain` and completed on 2026-09-08: 15 entities extracted from the
+written corpus (brownfield, every proposal with a `file:line`), ratified by the
+human in resolve pass 3. See `context/changes/domain-model/change.md`.
+
+The inventory below is what was handed over; it is kept for provenance.
 
 **Layout & shell:** Layout, Card, Sidebar, Menu, Slideshow, Carousel, Grid, Clock
 **Card types:** Weather, Calendar, Chat, Recipes, ShoppingList, Timer,
