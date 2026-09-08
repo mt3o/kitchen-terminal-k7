@@ -1,0 +1,600 @@
+# Schemat konfiguracji layoutu dashboardu kuchennego.
+# Format: JSON Schema (draft 2020-12), zapisany jako YAML.
+# Waliduje plik layoutu (np. layout.yaml) opisujący, jakie karty/panele
+# są wyświetlane, w jakiej kolejności i z jakimi parametrami.
+
+$schema: "https://json-schema.org/draft/2020-12/schema"
+$id: "https://kitchen-terminal-k7.local/schema/layout.schema.yaml"
+title: Dashboard layout
+description: >
+  Opisuje siatkę kart na ekranie dashboardu. Każda karta ma typ (decyduje,
+  jaki komponent frontendowy ją renderuje) oraz `params` — obiekt, którego
+  kształt zależy od typu (patrz definicje w $defs).
+type: object
+required: [version, theme, grid, cards]
+properties:
+  version:
+    type: integer
+    const: 1
+  theme:
+    type: string
+    description: >
+      Ścieżka do pliku motywu (patrz theme.schema.yaml), np. "themes/retro-scifi.yaml".
+      Podmiana designu całej aplikacji = podmiana tego jednego pliku, bez zmiany
+      layoutu ani kodu komponentów — komponenty czytają wyłącznie zmienne
+      CSS/tokeny wygenerowane z motywu, nigdy nie zaszywają kolorów/fontów na sztywno.
+  sidebar:
+    $ref: "#/$defs/sidebar"
+    description: >
+      Boczny panel — komponent główny, równorzędny z `cards`, nie jest jedną z kart
+      w gridzie. Zawiera własną listę kart/skrótów (np. menu, zegar, szybkie akcje).
+  grid:
+    type: object
+    description: Ustawienia siatki, w jakiej układane są karty.
+    required: [columns]
+    properties:
+      columns:
+        type: integer
+        minimum: 1
+        maximum: 4
+      gap:
+        type: string
+        description: Wartość CSS (np. "12px", "1rem").
+        default: "12px"
+  cards:
+    type: array
+    description: Lista kart w kolejności renderowania (góra-dół, lewo-prawo).
+    items:
+      $ref: "#/$defs/card"
+    minItems: 1
+
+$defs:
+
+  sidebar:
+    type: object
+    description: >
+      Panel boczny — stały element interfejsu, nie karta w gridzie. Zachowanie
+      chowania zależy od orientacji/rozmiaru ekranu: permanentny w układzie
+      horyzontalnym (desktop/tablet poziomo), chowalny w układzie pionowym,
+      zawsze chowalny na komórce (telefon), niezależnie od orientacji.
+    required: [position, content]
+    properties:
+      position:
+        type: string
+        enum: [left, right]
+        default: left
+      widthPx:
+        type: integer
+        default: 280
+      behavior:
+        type: object
+        description: Reguła chowania per typ urządzenia/orientacja — nadpisuje domyślne zasady poniżej, jeśli podana.
+        properties:
+          horizontal:
+            type: string
+            enum: [permanent, collapsible]
+            default: permanent
+            description: Układ horyzontalny (szeroki ekran/tablet w poziomie) — domyślnie permanentny, nieukrywalny.
+          vertical:
+            type: string
+            enum: [permanent, collapsible]
+            default: collapsible
+            description: Układ pionowy (tablet w pionie) — domyślnie chowalny.
+          mobile:
+            type: string
+            const: collapsible
+            default: collapsible
+            description: Telefon (komórka) — zawsze chowalny, ta wartość jest stała i nie do nadpisania.
+      defaultCollapsed:
+        type: boolean
+        default: false
+        description: Stan początkowy tam, gdzie sidebar jest chowalny (nie dotyczy trybu permanent).
+      toggleIcon:
+        type: string
+        default: "menu-2"
+        description: Nazwa ikony (Tabler outline) na przycisku rozwijania/chowania.
+      content:
+        type: array
+        minItems: 1
+        description: Karty wewnątrz sidebara — zwykle `menu` i/lub `clock`, ale dowolny typ karty jest dozwolony.
+        items:
+          $ref: "#/$defs/card"
+
+  card:
+    type: object
+    required: [id, type, params]
+    properties:
+      id:
+        type: string
+        description: Unikalny identyfikator karty w layoucie (np. "pogoda-1").
+      type:
+        type: string
+        enum: [weather, calendar, chat, recipes, shopping-list, timer, comic-of-the-day, ascii-art-of-the-day, carousel, grid, slideshow, clock, menu, audiometer]
+      span:
+        type: object
+        description: Ile kolumn/wierszy siatki zajmuje karta.
+        properties:
+          cols: { type: integer, minimum: 1, default: 1 }
+          rows: { type: integer, minimum: 1, default: 1 }
+      refreshIntervalSeconds:
+        type: integer
+        description: Co ile sekund karta odświeża dane. Pomiń dla kart bez auto-odświeżania.
+        minimum: 5
+      params:
+        description: Kształt zależny od `type` — patrz $defs.params.*
+    allOf:
+      - if: { properties: { type: { const: weather } } }
+        then: { properties: { params: { $ref: "#/$defs/params.weather" } } }
+      - if: { properties: { type: { const: calendar } } }
+        then: { properties: { params: { $ref: "#/$defs/params.calendar" } } }
+      - if: { properties: { type: { const: chat } } }
+        then: { properties: { params: { $ref: "#/$defs/params.chat" } } }
+      - if: { properties: { type: { const: recipes } } }
+        then: { properties: { params: { $ref: "#/$defs/params.recipes" } } }
+      - if: { properties: { type: { const: shopping-list } } }
+        then: { properties: { params: { $ref: "#/$defs/params.shoppingList" } } }
+      - if: { properties: { type: { const: timer } } }
+        then: { properties: { params: { $ref: "#/$defs/params.timer" } } }
+      - if: { properties: { type: { const: comic-of-the-day } } }
+        then: { properties: { params: { $ref: "#/$defs/params.comicOfTheDay" } } }
+      - if: { properties: { type: { const: ascii-art-of-the-day } } }
+        then: { properties: { params: { $ref: "#/$defs/params.asciiArtOfTheDay" } } }
+      - if: { properties: { type: { const: carousel } } }
+        then: { properties: { params: { $ref: "#/$defs/params.carousel" } } }
+      - if: { properties: { type: { const: grid } } }
+        then: { properties: { params: { $ref: "#/$defs/params.grid" } } }
+      - if: { properties: { type: { const: slideshow } } }
+        then: { properties: { params: { $ref: "#/$defs/params.slideshow" } } }
+      - if: { properties: { type: { const: clock } } }
+        then: { properties: { params: { $ref: "#/$defs/params.clock" } } }
+      - if: { properties: { type: { const: menu } } }
+        then: { properties: { params: { $ref: "#/$defs/params.menu" } } }
+      - if: { properties: { type: { const: audiometer } } }
+        then: { properties: { params: { $ref: "#/$defs/params.audiometer" } } }
+
+  params.weather:
+    type: object
+    required: [location]
+    properties:
+      location:
+        type: object
+        required: [lat, lon]
+        properties:
+          lat: { type: number }
+          lon: { type: number }
+          label: { type: string, description: "Nazwa do wyświetlenia, np. 'Warszawa'." }
+      units:
+        type: string
+        enum: [metric, imperial]
+        default: metric
+      forecastDays:
+        type: integer
+        minimum: 1
+        maximum: 10
+        default: 5
+      showAlerts:
+        type: boolean
+        default: true
+
+  params.calendar:
+    type: object
+    required: [calendarId]
+    properties:
+      calendarId:
+        type: string
+        description: ID kalendarza Google (email kalendarza lub "primary").
+      view:
+        type: string
+        enum: [week, day]
+        default: week
+      editable:
+        type: boolean
+        default: true
+        description: Czy karta pozwala dodawać/edytować/usuwać wydarzenia, czy tylko wyświetla.
+
+  params.chat:
+    type: object
+    required: [defaultModel]
+    properties:
+      defaultModel:
+        type: string
+        description: "Identyfikator modelu w formacie Kilo Gateway, np. 'anthropic/claude-sonnet-5'. Autorytatywna lista: GET /api/gateway/models."
+      availableModels:
+        type: array
+        items: { type: string }
+        description: Lista modeli dostępnych w dropdownie. Puste = pobierz dynamicznie z /api/gateway/models.
+      contextWindowMarginPercent:
+        type: integer
+        minimum: 5
+        maximum: 50
+        default: 20
+        description: Procent okna kontekstu zarezerwowany na odpowiedź (reszta na historię).
+      compactingThresholdPercent:
+        type: integer
+        minimum: 50
+        maximum: 95
+        default: 80
+        description: Przy jakim wypełnieniu okna kontekstu uruchamia się compacting.
+      voiceInput:
+        type: boolean
+        default: false
+        description: Czy pokazać ikonę mikrofonu do transkrypcji.
+
+  params.recipes:
+    type: object
+    properties:
+      maxVisible:
+        type: integer
+        default: 6
+      allowUrlImport:
+        type: boolean
+        default: true
+      tags:
+        type: array
+        items: { type: string }
+        description: Filtr — pokazuj tylko przepisy z tymi tagami. Puste = wszystkie.
+
+  params.shoppingList:
+    type: object
+    description: >
+      UWAGA: to się częściowo pokrywa z Twoim osobnym projektem "Zakupy" (część
+      rodzinnego zestawu PWA, dzieli design system z Punktomatem — lista zakupów,
+      spiżarnia, skanowanie kodów kreskowych). Zakupy nie ma jeszcze fazy technicznej
+      (decyzje produktowe/design zamknięte, kod jeszcze nie ruszył), więc na razie
+      `dataSource.mode: local` jest jedyną działającą opcją — `zakupy-api` czeka na
+      to, aż tamten projekt wystawi jakiekolwiek API.
+    properties:
+      dataSource:
+        type: object
+        description: Skąd karta czyta/zapisuje listę zakupów.
+        properties:
+          mode:
+            type: string
+            enum: [local, zakupy-api]
+            default: local
+            description: >
+              local = własna tabela w bazie K7 (prostsze, ale osobny stan od
+              telefonu/appki Zakupy); zakupy-api = ten sam stan co appka Zakupy,
+              K7 staje się dodatkowym wyświetlaczem/interfejsem do tamtych danych
+              zamiast duplikować przechowywanie.
+          apiUrl:
+            type: string
+            description: Wymagane, jeśli mode=zakupy-api — bazowy URL API projektu Zakupy.
+      groupByCategory:
+        type: boolean
+        default: true
+      showCheckedItems:
+        type: boolean
+        default: false
+
+  params.timer:
+    type: object
+    properties:
+      presetsMinutes:
+        type: array
+        items: { type: integer, minimum: 1 }
+        default: [5, 10, 15, 30]
+      soundOnComplete:
+        type: boolean
+        default: true
+
+  params.comicOfTheDay:
+    type: object
+    description: >
+      Osobny widget od `ascii-art-of-the-day` — ten pokazuje realny obraz/pasek
+      pobrany z zewnętrznego źródła (RSS), tamten generuje grafikę przez AI.
+      Rozdzielone, bo mają zupełnie inne parametry i inne kwestie prawne
+      (cudzy content z atrybucją vs. content generowany na własność).
+    required: [rssUrl]
+    properties:
+      rssUrl:
+        type: string
+        description: "Adres kanału RSS/Atom komiksu (np. oficjalny feed autora)."
+      itemSelector:
+        type: string
+        description: >
+          Opcjonalny XPath/CSS selector do wyciągnięcia obrazka z treści wpisu,
+          jeśli RSS nie ma go bezpośrednio w polu enclosure/media:content.
+      filterKeywords:
+        type: array
+        items: { type: string }
+        description: >
+          Jeśli feed miesza tematy, pokazuj tylko wpisy zawierające jedno z tych
+          słów w tytule/opisie (np. ["kot", "cat"]). Puste = bez filtrowania.
+      cacheDurationHours:
+        type: integer
+        default: 24
+        description: Jak często sprawdzać feed pod kątem nowego odcinka.
+      maxWidthPx:
+        type: integer
+        default: 380
+      linkToSource:
+        type: boolean
+        default: true
+        description: Czy pokazać link/przycisk do oryginalnej strony autora.
+      creditText:
+        type: string
+        description: "Tekst atrybucji pod obrazkiem, np. 'Źródło: simonscat.com'."
+      fallbackImageUrl:
+        type: string
+        description: Obraz pokazywany, gdy pobranie feedu się nie uda.
+
+  params.asciiArtOfTheDay:
+    type: object
+    description: >
+      Osobny widget od `comic-of-the-day` — grafika generowana przez AI
+      (Kilo Gateway), nie pobierana z zewnątrz. Brak problemów z prawami
+      autorskimi, ale wymaga innych parametrów (prompt, model, styl renderu).
+    required: [prompt]
+    properties:
+      prompt:
+        type: string
+        description: >
+          Prompt sterujący generacją, np. "kot w stylu ASCII art, klimat retro
+          terminal, jedna scena dziennie, różne sytuacje".
+      model:
+        type: string
+        default: "kilo-auto/free"
+        description: Identyfikator modelu w Kilo Gateway użyty do generacji (może być tańszy/inny niż w czacie).
+      cacheDurationHours:
+        type: integer
+        default: 24
+      maxWidthChars:
+        type: integer
+        default: 60
+        description: Maksymalna szerokość ASCII-artu w znakach (żeby nie łamał layoutu karty).
+      maxHeightLines:
+        type: integer
+        default: 24
+      colorized:
+        type: boolean
+        default: true
+        description: Czy kolorować znaki (np. amber/teal) zamiast jednolitego koloru tekstu.
+      seed:
+        type: integer
+        description: Opcjonalny seed dla powtarzalności generacji (przydatne przy debugowaniu promptu).
+      fallbackArt:
+        type: string
+        description: Statyczny ASCII-art pokazywany, gdy generacja się nie powiedzie.
+
+  params.carousel:
+    type: object
+    description: >
+      Karta-kontener przewijana lewo/prawo (swipe na iPadzie + strzałki na
+      desktopie). Slajdami są zwykłe karty — dowolny typ z tego samego
+      schematu, zagnieżdżony rekurencyjnie. Przydatne do stłoczenia kilku
+      mniej ważnych kart (przepisy, lista zakupów, kot dnia) na jednej pozycji
+      siatki zamiast zajmowania osobnych miejsc.
+    required: [slides]
+    properties:
+      slides:
+        type: array
+        minItems: 2
+        items:
+          $ref: "#/$defs/card"
+      autoAdvanceSeconds:
+        type: integer
+        minimum: 0
+        default: 0
+        description: "0 = brak auto-przewijania, tylko ręczne (swipe/strzałki)."
+      startDelaySeconds:
+        type: integer
+        minimum: 0
+        default: 0
+        description: >
+          Opóźnienie przed PIERWSZYM auto-przewinięciem po pokazaniu karty
+          (np. żeby zdążyć przeczytać pierwszy slajd zanim zacznie się rotacja).
+          Dotyczy tylko startu — kolejne przewinięcia trzymają się `autoAdvanceSeconds`.
+      loop:
+        type: boolean
+        default: true
+        description: Czy po ostatnim slajdzie wraca do pierwszego.
+      showIndicators:
+        type: boolean
+        default: true
+        description: Kropki na dole karty pokazujące pozycję i liczbę slajdów.
+      swipeEnabled:
+        type: boolean
+        default: true
+        description: Wyłącz, jeśli slajdy mają się zmieniać tylko automatycznie.
+      transition:
+        type: string
+        enum: [slide, fade]
+        default: slide
+
+  params.grid:
+    type: object
+    description: >
+      Karta-kontener z WŁASNĄ siatką w środku — w odróżnieniu od `carousel`
+      (który przewija slajdy jeden po drugim) tu wszystkie `cells` widać
+      naraz, ułożone w mini-grid. Przydatne np. do stłoczenia kilku małych
+      wskaźników (temperatura + wilgotność + wiatr) w jednej karcie.
+    required: [cells]
+    properties:
+      columns:
+        type: integer
+        minimum: 1
+        default: 2
+      gap:
+        type: string
+        default: "8px"
+      cells:
+        type: array
+        minItems: 1
+        items:
+          $ref: "#/$defs/card"
+
+  params.slideshow:
+    type: object
+    description: >
+      Pełnoekranowa rotacja GŁÓWNYCH kart dashboardu, uruchamiana automatycznie
+      po dłuższej bezczynności (np. w kuchni nikt nie dotyka ekranu godzinami) —
+      w odróżnieniu od `carousel`, który przewija slajdy w obrębie jednej
+      pozycji siatki i działa niezależnie od aktywności użytkownika.
+
+      KONTRAKT: `slideshow` jest zadeklarowany jako wpis w `cards` (żeby nie
+      wprowadzać osobnego klucza najwyższego poziomu), ale zachowuje się jak
+      kontroler całego layoutu, nie jak karta: NIE renderuje niczego we własnym
+      slocie siatki, a `span` na nim jest ignorowany. Jego `cardIds` to referencje
+      do `id` innych kart z `cards`. Dozwolony jest **najwyżej jeden** wpis typu
+      `slideshow` w całym layoucie i nie wolno go zagnieżdżać w `carousel`,
+      `grid` ani `sidebar.content`.
+    required: [idleTriggerSeconds, cardIds, intervalSeconds]
+    properties:
+      idleTriggerSeconds:
+        type: integer
+        minimum: 30
+        description: >
+          Po ilu sekundach braku interakcji (dotyk/klik/swipe gdziekolwiek na
+          ekranie) uruchamia się tryb slideshow. Np. 3600 = po godzinie ciszy.
+      cardIds:
+        type: array
+        minItems: 2
+        items: { type: string }
+        description: Lista `id` kart z sekcji `cards`, przez które slideshow rotuje pełnoekranowo.
+      intervalSeconds:
+        type: integer
+        minimum: 3
+        description: Ile sekund każda karta jest pokazywana w trybie slideshow.
+      transition:
+        type: string
+        enum: [slide, fade]
+        default: fade
+      exitOnInteraction:
+        type: boolean
+        default: true
+        description: Czy jakikolwiek dotyk ekranu natychmiast przerywa slideshow i wraca do normalnego widoku.
+      wakeOnPresence:
+        type: object
+        description: >
+          Wybudzanie z trybu slideshow (i z pełnej bezczynności ogólnie) przez
+          wykrycie, że ktoś podszedł do ekranu — kamera iPada, nie mikrofon.
+          Wykrycie NIE identyfikuje osoby, tylko sam ruch/obecność w kadrze;
+          obraz z kamery przetwarzany jest lokalnie w przeglądarce, nigdy nie
+          jest wysyłany ani zapisywany.
+        properties:
+          enabled:
+            type: boolean
+            default: false
+          method:
+            type: string
+            enum: [motion, face-detection]
+            default: motion
+            description: >
+              motion = prosta detekcja ruchu/różnicy klatek (lekkie, działa
+              lokalnie bez modeli ML); face-detection = wykrycie obecności
+              twarzy (dokładniejsze, ale cięższe obliczeniowo na starszym A8X).
+          sensitivity:
+            type: number
+            minimum: 0
+            maximum: 1
+            default: 0.5
+            description: 0 = reaguje tylko na duży/bliski ruch, 1 = reaguje na najmniejsze drgnięcie.
+          cooldownSeconds:
+            type: integer
+            default: 5
+            description: Minimalny odstęp między kolejnymi wybudzeniami — zapobiega migotaniu przy ciągłym ruchu w kadrze.
+          cameraDeviceId:
+            type: string
+            description: Opcjonalne ID konkretnej kamery, jeśli urządzenie ma więcej niż jedną. Puste = domyślna (przednia).
+
+  params.clock:
+    type: object
+    description: Komponent daty/godziny — może stać samodzielnie w gridzie/karuzeli, albo w sidebarze.
+    properties:
+      format:
+        type: string
+        enum: ["12h", "24h"]
+        default: "24h"
+      showDate:
+        type: boolean
+        default: true
+      showSeconds:
+        type: boolean
+        default: false
+      dateFormat:
+        type: string
+        default: "EEEE, d MMMM"
+        description: Wzorzec formatowania daty, np. "EEEE, d MMMM" = "czwartek, 7 września".
+      locale:
+        type: string
+        default: "pl-PL"
+
+  params.menu:
+    type: object
+    description: >
+      Menu przełączające widoczność innych kart — np. zakładki w sidebarze
+      przełączające, która karta jest aktywna w danym slocie. Nie renderuje
+      treści kart samodzielnie — tylko sterowanie, do którego `id` jest teraz aktywne.
+    required: [items]
+    properties:
+      items:
+        type: array
+        minItems: 2
+        items:
+          type: object
+          required: [cardId, label]
+          properties:
+            cardId:
+              type: string
+              description: "`id` karty z sekcji `cards` (lub `sidebar.content`), którą to menu przełącza."
+            label:
+              type: string
+            icon:
+              type: string
+              description: Nazwa ikony Tabler outline, opcjonalna.
+      orientation:
+        type: string
+        enum: [horizontal, vertical]
+        default: vertical
+      style:
+        type: string
+        enum: [tabs, icons, list]
+        default: icons
+      defaultActive:
+        type: string
+        description: "`cardId` aktywny na starcie. Domyślnie pierwszy z `items`."
+
+  params.audiometer:
+    type: object
+    description: >
+      Nasłuchuje mikrofonu (Web Audio API / getUserMedia) i pokazuje bieżący
+      poziom głośności plus histogram z ostatnich `historyDurationSeconds`.
+      Wymaga zgody użytkownika na dostęp do mikrofonu przy pierwszym uruchomieniu
+      w przeglądarce (raz na iPada, potem pamiętane przez Safari).
+    properties:
+      historyDurationSeconds:
+        type: integer
+        default: 180
+        description: Okno czasowe histogramu wstecz (domyślnie 3 minuty).
+      sampleIntervalMs:
+        type: integer
+        default: 500
+        description: Co ile ms próbkować poziom głośności.
+      unit:
+        type: string
+        enum: [dB, percent]
+        default: percent
+        description: "dB = decybele (przybliżone, z przeglądarki, nie skalibrowane); percent = znormalizowane 0-100 względem ciszy/maksimum."
+      showCurrentLevel:
+        type: boolean
+        default: true
+        description: Duży bieżący odczyt (np. słupek/licznik) obok histogramu.
+      showHistogram:
+        type: boolean
+        default: true
+      smoothingFactor:
+        type: number
+        minimum: 0
+        maximum: 1
+        default: 0.3
+        description: Wygładzanie bieżącego odczytu (0 = brak wygładzania, surowe próbki; 1 = bardzo wolna reakcja).
+      warningThreshold:
+        type: number
+        description: >
+          Opcjonalny próg (w jednostce z `unit`) po przekroczeniu którego karta
+          pokazuje wizualne ostrzeżenie (np. "za głośno w kuchni"). Puste = brak ostrzeżeń.
+      micDeviceId:
+        type: string
+        description: Opcjonalne ID konkretnego urządzenia wejściowego audio, jeśli serwer/iPad ma więcej niż jeden mikrofon. Puste = domyślny.
+

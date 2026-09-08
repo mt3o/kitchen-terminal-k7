@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Wireframe — czat AI (HUD retro sci-fi)</title>
+<style>
+  :root {
+    --bg: #1a1712; --surface: #211d16; --amber: #faab2f; --amber-dim: #ba7517;
+    --teal: #5dcaa5; --text-muted: #888780; --coral: #d85a30;
+  }
+  body { background: var(--bg); font-family: 'Courier New', monospace; padding: 24px; color: var(--amber); }
+  .card { max-width: 420px; margin: 0 auto; background: var(--surface); box-shadow: 0 0 0 2px var(--amber-dim) inset; padding: 20px; display:flex; flex-direction:column; }
+  .head { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; padding-bottom:10px; border-bottom:2px solid var(--amber-dim); }
+  .tag { font-size:13px; letter-spacing:2px; padding:2px 6px; background: rgba(250,171,47,0.15); }
+  select { font-family: inherit; background: transparent; color: var(--amber); border:1px solid var(--amber-dim); font-size:12px; padding:4px 6px; }
+  .thread { display:flex; flex-direction:column; gap:10px; margin-bottom:12px; min-height:220px; }
+  .msg { font-size:13px; padding:6px 10px; border-left:3px solid; max-width: 85%; }
+  .msg.user { align-self:flex-end; border-color: var(--teal); background: rgba(93,202,165,0.1); }
+  .msg.ai { align-self:flex-start; border-color: var(--amber-dim); background: rgba(250,171,47,0.08); }
+  .meta { font-size:11px; color: var(--text-muted); margin-top:4px; }
+  .inputrow { display:flex; gap:8px; border-top:1px solid var(--amber-dim); padding-top:12px; }
+  input[type=text] { flex:1; font-family: inherit; background: transparent; border:1px solid var(--amber-dim); color: var(--amber); padding:8px; font-size:13px; }
+  button { font-family:inherit; font-size:13px; border:1px solid var(--amber-dim); background:transparent; color: var(--amber); padding:8px 14px; }
+  .mic { width:36px; padding:8px; display:flex; align-items:center; justify-content:center; font-size:14px; }
+  .mic.rec { border-color: var(--coral); color: var(--coral); animation: pulse 1s steps(1) infinite; }
+  @keyframes pulse { 50% { opacity: 0.4; } }
+  .footer { display:flex; justify-content:space-between; font-size:11px; color: var(--text-muted); margin-top:10px; }
+  .warn { color: var(--coral); }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="head">
+    <span class="tag">CHAT.AI</span>
+    <select>
+      <option>anthropic/claude-sonnet-4.5</option>
+      <option>anthropic/claude-opus-4.6</option>
+      <option>kilo-auto/balanced</option>
+    </select>
+  </div>
+
+  <div class="thread">
+    <div class="msg user">czym zastapic maslo w tym przepisie?<div class="meta">Ty // 18:42</div></div>
+    <div class="msg ai">olej roslinny 1:1 albo margaryna. Do ciasta lepiej olej neutralny.<div class="meta">sonnet-4.5 // 312 tok. // ~0.004 USD</div></div>
+    <div class="msg user">a jak nie mam ani jednego ani drugiego?<div class="meta">Ty // 18:43</div></div>
+  </div>
+
+  <div class="inputrow">
+    <input type="text" placeholder="wpisz pytanie...">
+    <button class="mic" title="nagraj i transkrybuj">&#127908;</button>
+    <button>WYSLIJ</button>
+  </div>
+  <div class="footer" style="margin-top:6px;">
+    <span class="mic rec" style="border:none; padding:0; width:auto;">&#9679; nagrywanie... 00:03</span>
+  </div>
+
+  <div class="footer">
+    <span>kontekst: 4/40 wiadomosci</span>
+    <span class="warn">// compacting za ~36</span>
+  </div>
+</div>
+</body>
+</html>

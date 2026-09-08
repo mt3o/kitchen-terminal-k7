@@ -1,0 +1,6 @@
+* text=auto
+
+# The agentic-memory store, as legible text. Diffable on purpose — but NEVER
+# line-merged: git aligns similar blocks and will happily splice half of one
+# node's entry onto half of another, producing a dump that parses and is wrong.
+context/memory-graph.dump -merge

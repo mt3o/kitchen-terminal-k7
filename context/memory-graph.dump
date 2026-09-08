@@ -1,0 +1,783 @@
+# agentic-memory-system dump
+# format_version: 1
+
+[node:4dc8c4df-35ee-42b0-8443-b3c45f33e068]
+type: slice
+tier: short-term
+path: /change/foundation
+created_at: 2026-09-08T09:36:39.536190+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:012f356c-2e3e-4fe4-9388-38f089198a41] @ 2026-09-08T09:38:29.877767+00:00
+-> SCOPED_TO [node:0bc7e618-9b95-4977-9fe1-f3a48759276f] @ 2026-09-08T09:36:58.919859+00:00
+-> SCOPED_TO [node:125f4071-59ec-4d3f-898d-ffcb3edd8aa5] @ 2026-09-08T09:38:00.686003+00:00
+-> SCOPED_TO [node:156d8b7d-0b1f-48f0-b434-c7a269edf283] @ 2026-09-08T09:38:31.156725+00:00
+-> SCOPED_TO [node:18bafc37-5e9e-4d04-936a-53218abaca4b] @ 2026-09-08T09:38:01.499476+00:00
+-> SCOPED_TO [node:279d73e0-ff0f-4184-a25c-f051d2030072] @ 2026-09-08T09:38:01.059071+00:00
+-> SCOPED_TO [node:40398c2a-b8e4-4721-b426-730e93b8a4d8] @ 2026-09-08T09:38:30.154849+00:00
+-> SCOPED_TO [node:41ec3acd-0302-4120-9ef0-4b00a4945829] @ 2026-09-08T09:38:01.357085+00:00
+-> SCOPED_TO [node:4730c1bc-b791-4a0d-a94c-1bd4f8307102] @ 2026-09-08T09:38:00.934031+00:00
+-> SCOPED_TO [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-08T09:36:39.536190+00:00
+-> SCOPED_TO [node:61c0030d-8bea-45cc-888b-113297483487] @ 2026-09-08T09:37:22.386658+00:00
+-> SCOPED_TO [node:6d5ae12d-608b-4187-839b-74d56e7ff059] @ 2026-09-08T09:38:30.582482+00:00
+-> SCOPED_TO [node:6d6046fc-9f71-4b88-8cfa-381a0fe1bd32] @ 2026-09-08T09:37:22.506547+00:00
+-> SCOPED_TO [node:6eef8943-c521-4af4-918b-ffa1a6200bfe] @ 2026-09-08T09:38:31.010276+00:00
+-> SCOPED_TO [node:7108856c-d3d5-4701-bb69-11087256a081] @ 2026-09-08T09:36:59.157308+00:00
+-> SCOPED_TO [node:716987ce-f933-41b5-8c4e-590c09dc33bf] @ 2026-09-08T09:36:59.039273+00:00
+-> SCOPED_TO [node:77925b30-350a-42ee-a7de-7e8a023c5708] @ 2026-09-08T09:38:00.559118+00:00
+-> SCOPED_TO [node:7835061e-c325-4e70-8051-105f22ff4f8a] @ 2026-09-08T09:38:30.023885+00:00
+-> SCOPED_TO [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-09-08T09:37:21.559263+00:00
+-> SCOPED_TO [node:7c574f65-8059-41e1-b507-245d4b1b3d6f] @ 2026-09-08T09:38:01.948165+00:00
+-> SCOPED_TO [node:8a963777-1d94-42ad-ae4b-8a2b08d0a686] @ 2026-09-08T09:38:31.309348+00:00
+-> SCOPED_TO [node:9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0] @ 2026-09-08T09:37:22.142396+00:00
+-> SCOPED_TO [node:9ea20285-de89-4f25-a25e-37700078bd59] @ 2026-09-08T09:38:01.797947+00:00
+-> SCOPED_TO [node:a815b136-0de2-49af-ac42-6192c12def24] @ 2026-09-08T09:38:00.810299+00:00
+-> SCOPED_TO [node:a827e6ec-aec4-40a7-b922-c689d71066a3] @ 2026-09-08T09:37:37.091684+00:00
+-> SCOPED_TO [node:ac006a24-2763-40e7-8423-2b851793efcf] @ 2026-09-08T09:36:59.394279+00:00
+-> SCOPED_TO [node:aef51033-1a7b-4e25-a133-f6e3053e0eb6] @ 2026-09-08T09:37:22.623351+00:00
+-> SCOPED_TO [node:b6cc5895-5e52-462a-aab2-c934ba921825] @ 2026-09-08T09:38:30.287095+00:00
+-> SCOPED_TO [node:baefeee7-a562-4085-8a4e-cd20045f4164] @ 2026-09-08T09:38:30.445420+00:00
+-> SCOPED_TO [node:c129f201-ae3c-45c8-89d7-a170bbaf5fad] @ 2026-09-08T09:38:01.199535+00:00
+-> SCOPED_TO [node:cabf56d2-4b59-4f19-96f7-9388071c1086] @ 2026-09-08T09:37:22.262832+00:00
+-> SCOPED_TO [node:d3faf49e-9fd8-4d79-9c8a-733cb2baa856] @ 2026-09-08T09:36:59.279270+00:00
+-> SCOPED_TO [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a] @ 2026-09-08T09:37:21.675646+00:00
+-> SCOPED_TO [node:e24b75ab-e370-4566-b9e7-35706cad806b] @ 2026-09-08T09:38:01.635211+00:00
+-> SCOPED_TO [node:ee768ade-394d-475c-92fb-e5c5b28e0efc] @ 2026-09-08T09:38:30.858406+00:00
+-> SCOPED_TO [node:f42da1a9-633f-4fe2-81e4-47bd34b836f4] @ 2026-09-08T09:38:30.709099+00:00
+-> SCOPED_TO [node:ff852de4-c6d2-4da3-906b-de637255e484] @ 2026-09-08T09:37:37.208429+00:00
+
+change scope: foundation
+---
+[event:15fcc4a1-bd01-46fd-aa17-ce2799c56de2]
+node_id: 4dc8c4df-35ee-42b0-8443-b3c45f33e068
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T09:36:39.537518+00:00
+
+create_change foundation
+---
+[node:59472cdc-4531-4206-a9fc-968166c52250]
+type: goal
+tier: short-term
+path: /goal/foundation
+created_at: 2026-09-08T09:36:39.536190+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:012f356c-2e3e-4fe4-9388-38f089198a41] @ 2026-09-08T09:38:29.877767+00:00
+-> DEPENDS_ON [node:0bc7e618-9b95-4977-9fe1-f3a48759276f] @ 2026-09-08T09:36:58.919859+00:00
+-> DEPENDS_ON [node:125f4071-59ec-4d3f-898d-ffcb3edd8aa5] @ 2026-09-08T09:38:00.686003+00:00
+-> DEPENDS_ON [node:156d8b7d-0b1f-48f0-b434-c7a269edf283] @ 2026-09-08T09:38:31.156725+00:00
+-> DEPENDS_ON [node:18bafc37-5e9e-4d04-936a-53218abaca4b] @ 2026-09-08T09:38:01.499476+00:00
+-> DEPENDS_ON [node:279d73e0-ff0f-4184-a25c-f051d2030072] @ 2026-09-08T09:38:01.059071+00:00
+-> DEPENDS_ON [node:40398c2a-b8e4-4721-b426-730e93b8a4d8] @ 2026-09-08T09:38:30.154849+00:00
+-> DEPENDS_ON [node:41ec3acd-0302-4120-9ef0-4b00a4945829] @ 2026-09-08T09:38:01.357085+00:00
+-> DEPENDS_ON [node:4730c1bc-b791-4a0d-a94c-1bd4f8307102] @ 2026-09-08T09:38:00.934031+00:00
+-> DEPENDS_ON [node:61c0030d-8bea-45cc-888b-113297483487] @ 2026-09-08T09:37:22.386658+00:00
+-> DEPENDS_ON [node:6d5ae12d-608b-4187-839b-74d56e7ff059] @ 2026-09-08T09:38:30.582482+00:00
+-> DEPENDS_ON [node:6d6046fc-9f71-4b88-8cfa-381a0fe1bd32] @ 2026-09-08T09:37:22.506547+00:00
+-> DEPENDS_ON [node:6eef8943-c521-4af4-918b-ffa1a6200bfe] @ 2026-09-08T09:38:31.010276+00:00
+-> DEPENDS_ON [node:7108856c-d3d5-4701-bb69-11087256a081] @ 2026-09-08T09:36:59.157308+00:00
+-> DEPENDS_ON [node:716987ce-f933-41b5-8c4e-590c09dc33bf] @ 2026-09-08T09:36:59.039273+00:00
+-> DEPENDS_ON [node:77925b30-350a-42ee-a7de-7e8a023c5708] @ 2026-09-08T09:38:00.559118+00:00
+-> DEPENDS_ON [node:7835061e-c325-4e70-8051-105f22ff4f8a] @ 2026-09-08T09:38:30.023885+00:00
+-> DEPENDS_ON [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-09-08T09:37:21.559263+00:00
+-> DEPENDS_ON [node:7c574f65-8059-41e1-b507-245d4b1b3d6f] @ 2026-09-08T09:38:01.948165+00:00
+-> DEPENDS_ON [node:8a963777-1d94-42ad-ae4b-8a2b08d0a686] @ 2026-09-08T09:38:31.309348+00:00
+-> DEPENDS_ON [node:9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0] @ 2026-09-08T09:37:22.142396+00:00
+-> DEPENDS_ON [node:9ea20285-de89-4f25-a25e-37700078bd59] @ 2026-09-08T09:38:01.797947+00:00
+-> DEPENDS_ON [node:a815b136-0de2-49af-ac42-6192c12def24] @ 2026-09-08T09:38:00.810299+00:00
+-> DEPENDS_ON [node:a827e6ec-aec4-40a7-b922-c689d71066a3] @ 2026-09-08T09:37:37.091684+00:00
+-> DEPENDS_ON [node:ac006a24-2763-40e7-8423-2b851793efcf] @ 2026-09-08T09:36:59.394279+00:00
+-> DEPENDS_ON [node:aef51033-1a7b-4e25-a133-f6e3053e0eb6] @ 2026-09-08T09:37:22.623351+00:00
+-> DEPENDS_ON [node:b6cc5895-5e52-462a-aab2-c934ba921825] @ 2026-09-08T09:38:30.287095+00:00
+-> DEPENDS_ON [node:baefeee7-a562-4085-8a4e-cd20045f4164] @ 2026-09-08T09:38:30.445420+00:00
+-> DEPENDS_ON [node:c129f201-ae3c-45c8-89d7-a170bbaf5fad] @ 2026-09-08T09:38:01.199535+00:00
+-> DEPENDS_ON [node:cabf56d2-4b59-4f19-96f7-9388071c1086] @ 2026-09-08T09:37:22.262832+00:00
+-> DEPENDS_ON [node:d3faf49e-9fd8-4d79-9c8a-733cb2baa856] @ 2026-09-08T09:36:59.279270+00:00
+-> DEPENDS_ON [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a] @ 2026-09-08T09:37:21.675646+00:00
+-> DEPENDS_ON [node:e24b75ab-e370-4566-b9e7-35706cad806b] @ 2026-09-08T09:38:01.635211+00:00
+-> DEPENDS_ON [node:ee768ade-394d-475c-92fb-e5c5b28e0efc] @ 2026-09-08T09:38:30.858406+00:00
+-> DEPENDS_ON [node:f42da1a9-633f-4fe2-81e4-47bd34b836f4] @ 2026-09-08T09:38:30.709099+00:00
+-> DEPENDS_ON [node:ff852de4-c6d2-4da3-906b-de637255e484] @ 2026-09-08T09:37:37.208429+00:00
+
+Establish Kitchen Terminal K7's foundational constraints, concepts, and decisions as always-live shared knowledge
+---
+[node:0bc7e618-9b95-4977-9fe1-f3a48759276f]
+type: constraint
+tier: mid-term
+path: /artifact/safari-15-0-is-the-hard-compile-target-f
+created_at: 2026-09-08T09:36:58.919859+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99] @ 2026-09-08T09:36:58.919859+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-08T09:36:58.919859+00:00
+
+Safari 15.0 is the hard compile target for Kitchen Terminal K7, not a preference: the iPad Air 2 (A1567) and the iPhone 6s both stop at iOS/iPadOS 15, so 15.0 is the shared floor for tsconfig and Vite build.target. color-mix() (16.2), oklch() in output CSS (15.4), @container (16.0), :has() (15.4), subgrid (16.0), dvh/svh/lvh (15.4) and text-wrap:balance (17.5) must not ship; backdrop-filter needs -webkit-, :focus-visible needs a :focus fallback, and 100vh is wrong in standalone PWA mode.
+---
+[node:8a6a1300-bb21-4ae1-8d79-4957f245fc99]
+type: facet_value
+tier: lifetime
+path: /facet/platform
+created_at: 2026-09-08T09:36:58.919859+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+platform
+---
+[node:a1174884-8d33-4260-af5b-0f97264a2ea2]
+type: facet_value
+tier: lifetime
+path: /facet/frontend
+created_at: 2026-09-08T09:36:58.919859+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+frontend
+---
+[node:716987ce-f933-41b5-8c4e-590c09dc33bf]
+type: constraint
+tier: mid-term
+path: /artifact/the-kiosk-runs-on-an-a8x-with-2-gb-ram-o
+created_at: 2026-09-08T09:36:59.039273+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99] @ 2026-09-08T09:36:59.039273+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:36:59.039273+00:00
+
+The kiosk runs on an A8X with 2 GB RAM on a display that is never asleep, so per-frame cost is a design constraint rather than an optimisation: animate opacity and transform only (never box-shadow, filter, backdrop-filter, width or height), keep backdrop-filter to a single 4px use on the slideshow and dialog scrim rather than per card, and do not ship translucent card surfaces, soft shadows or default scanlines - each costs a full-screen composite.
+---
+[node:e12ca220-5f82-4226-a2eb-9964701f03c4]
+type: facet_value
+tier: lifetime
+path: /facet/ui
+created_at: 2026-09-08T09:36:59.039273+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+ui
+---
+[node:68773fd1-2296-4527-b027-8d5d6c699ece]
+type: facet_value
+tier: lifetime
+path: /facet/a11y
+created_at: 2026-09-08T09:36:59.157308+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+a11y
+---
+[node:7108856c-d3d5-4701-bb69-11087256a081]
+type: constraint
+tier: mid-term
+path: /artifact/the-kitchen-terminal-is-read-from-three
+created_at: 2026-09-08T09:36:59.157308+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:68773fd1-2296-4527-b027-8d5d6c699ece] @ 2026-09-08T09:36:59.157308+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:36:59.157308+00:00
+
+The kitchen terminal is read from three distances - the doorway at 3 m, the counter at 1 m, and the glass at 0.4 m with wet hands - and the whole visual system is derived from them. Type is two tiers: a read tier for anything you walk up to and a glance tier for what must survive the doorway, sized by subtended x-height (comfortable at 5 arcmin, glanceable at 8). Body text is 20px, not 16; the wireframes' 11-13px is a desktop habit and is the single largest correction to the accepted wireframes.
+---
+[node:4c740d82-541d-4c70-9970-793467c4f26e]
+type: facet_value
+tier: lifetime
+path: /facet/backend
+created_at: 2026-09-08T09:36:59.279270+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+backend
+---
+[node:d3faf49e-9fd8-4d79-9c8a-733cb2baa856]
+type: decision
+tier: mid-term
+path: /artifact/the-backend-runs-on-a-physical-machine-i
+created_at: 2026-09-08T09:36:59.279270+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T09:36:59.279270+00:00
+-> HAS_FACET [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99] @ 2026-09-08T09:36:59.279270+00:00
+
+The backend runs on a physical machine inside the home LAN rather than on the cloud VPS used for other projects, so nothing needs to be exposed externally - but HTTPS inside a LAN is exactly what old Safari is worst at (mixed content, self-signed certificates), which makes the reverse-proxy/TLS question a deployment-phase risk rather than a settled one.
+---
+[node:ac006a24-2763-40e7-8423-2b851793efcf]
+type: constraint
+tier: mid-term
+path: /artifact/the-google-refresh-token-and-the-kilo-ga
+created_at: 2026-09-08T09:36:59.394279+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T09:36:59.394279+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-08T09:36:59.394279+00:00
+
+The Google refresh token and the Kilo Gateway key are server-side only and never reach the frontend or the iPad. Varlock manages .env by schema, so agents see the schema and never the values, and secrets must not leak into GlitchTip payloads alongside errors - which is critical precisely because the AI chat logs every call.
+---
+[node:c3dc31be-39b3-4422-a4f6-41136bfb48aa]
+type: facet_value
+tier: lifetime
+path: /facet/security
+created_at: 2026-09-08T09:36:59.394279+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+security
+---
+[node:79662ce5-7b55-458a-b0e9-f0efd406d5a8]
+type: constraint
+tier: mid-term
+path: /artifact/theming-is-an-architectural-rule-in-this
+created_at: 2026-09-08T09:37:21.559263+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-08T09:37:21.559263+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:37:21.559263+00:00
+
+Theming is an architectural rule in this project, not a preference: a component's CSS may reference var(--*) from the generated token sheet and nothing else - no hex literal, no rgb(), no font-family, no px radius, with sizes coming from --space-*, --text-* and --control-h*. Swapping the entire design must be a matter of pointing layout.yaml's theme: at a different file, and a CI grep for hex outside tokens.css is what keeps the contract honest. A second theme exists so the claim is testable rather than aspirational.
+---
+[node:dffe0843-23d7-4095-99e1-1d39a07d1b2a]
+type: constraint
+tier: mid-term
+path: /artifact/amber-is-the-ink-teal-is-the-signal-th
+created_at: 2026-09-08T09:37:21.675646+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:37:21.675646+00:00
+
+Amber is the ink, teal is the signal. The handoff asked for amber as the dominant accent plus teal as the second, which read literally gives two accents and makes amber meaningless - if every glyph is amber then amber cannot also mean look here. So amber is body text, borders and chrome (it is everywhere and therefore carries no urgency) and teal is reserved for state that is good and settled, appearing at most twice per card.
+---
+[node:9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0]
+type: constraint
+tier: mid-term
+path: /artifact/colour-never-carries-state-alone-in-this
+created_at: 2026-09-08T09:37:22.142396+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:68773fd1-2296-4527-b027-8d5d6c699ece] @ 2026-09-08T09:37:22.142396+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:37:22.142396+00:00
+
+Colour never carries state alone in this UI: every state also carries a bracket glyph - [OK], [!], [X], [--]. A wall display is viewed at an angle, in sunlight, by people with colour-vision deficiency, through a greasy screen protector, so this is load-bearing rather than a nicety.
+---
+[node:cabf56d2-4b59-4f19-96f7-9388071c1086]
+type: decision
+tier: mid-term
+path: /artifact/colours-are-derived-in-oklch-at-fixed-hu
+created_at: 2026-09-08T09:37:22.262832+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:0bc7e618-9b95-4977-9fe1-f3a48759276f] @ 2026-09-08T09:37:22.262832+00:00
+-> HAS_FACET [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99] @ 2026-09-08T09:37:22.262832+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:37:22.262832+00:00
+
+Colours are derived in OKLCH at fixed hue and chroma, walking lightness until the WCAG target is met, and then written out as hex. OKLCH is the design space and hex is the delivery format, because oklch() shipped in Safari 15.4 and color-mix() in 16.2 while the deployment baseline is 15.0 - so every hover and active value is precomputed rather than mixed at runtime.
+---
+[node:61c0030d-8bea-45cc-888b-113297483487]
+type: constraint
+tier: mid-term
+path: /artifact/radius-is-0-everywhere-with-no-exception
+created_at: 2026-09-08T09:37:22.386658+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:716987ce-f933-41b5-8c4e-590c09dc33bf] @ 2026-09-08T09:37:22.386658+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:37:22.386658+00:00
+
+Radius is 0 everywhere with no exceptions, including inputs, chips and the scrim, and elevation is never a shadow: depth is a 1px hairline border plus one step on the surface ramp, with the card's 2px inset frame as the only ring in the system. Sharp corners are what make the HUD read as instrumentation rather than as an app, and a blurred drop shadow under a sharp-cornered amber panel looks like a mistake.
+---
+[node:6d6046fc-9f71-4b88-8cfa-381a0fe1bd32]
+type: constraint
+tier: mid-term
+path: /artifact/contrast-floors-for-the-kiosk-4-5-1-for
+created_at: 2026-09-08T09:37:22.506547+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:68773fd1-2296-4527-b027-8d5d6c699ece] @ 2026-09-08T09:37:22.506547+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:37:22.506547+00:00
+
+Contrast floors for the kiosk: 4.5:1 for body text and every status colour on its surface, 3:1 for large text, icons and any border that carries meaning, and 3:1 for the focus ring against both the control and the surface behind it. Disabled text is the one role allowed below. The hairline border is deliberately below 3:1 because it is texture and never a carrier of meaning - anything that must be seen uses the strong border role.
+---
+[node:aef51033-1a7b-4e25-a133-f6e3053e0eb6]
+type: constraint
+tier: mid-term
+path: /artifact/hover-raises-contrast-and-never-lowers-i
+created_at: 2026-09-08T09:37:22.623351+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:68773fd1-2296-4527-b027-8d5d6c699ece] @ 2026-09-08T09:37:22.623351+00:00
+-> DEPENDS_ON [node:6d6046fc-9f71-4b88-8cfa-381a0fe1bd32] @ 2026-09-08T09:38:54.333792+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:37:22.623351+00:00
+
+Hover raises contrast and never lowers it. Dropping text to the muted foreground on hover is the most common way a dark UI quietly breaks, and it is banned here.
+---
+[node:a827e6ec-aec4-40a7-b922-c689d71066a3]
+type: constraint
+tier: mid-term
+path: /artifact/a-solid-amber-fill-is-the-loudest-thing
+created_at: 2026-09-08T09:37:37.091684+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a] @ 2026-09-08T09:37:37.091684+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:37:37.091684+00:00
+
+A solid amber fill is the loudest thing the design system can say, so there is at most one solid amber control per card and one per viewport for any given action; everything else is a ghost button (transparent, strong border) or a text link.
+---
+[node:ff852de4-c6d2-4da3-906b-de637255e484]
+type: constraint
+tier: mid-term
+path: /artifact/warn-and-fail-are-never-amber-they-sit
+created_at: 2026-09-08T09:37:37.208429+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:68773fd1-2296-4527-b027-8d5d6c699ece] @ 2026-09-08T09:37:37.208429+00:00
+-> DEPENDS_ON [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a] @ 2026-09-08T09:37:37.208429+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:37:37.208429+00:00
+
+Warn and fail are never amber. They sit at hue 45 and hue 27, visibly hotter and redder than ink amber at hue 72, because on a warm amber screen a warm warning is invisible - the hue separation has to be earned.
+---
+[node:77925b30-350a-42ee-a7de-7e8a023c5708]
+type: decision
+tier: mid-term
+path: /artifact/frontend-is-svelte-5-with-components-exp
+created_at: 2026-09-08T09:38:00.559118+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:716987ce-f933-41b5-8c4e-590c09dc33bf] @ 2026-09-08T09:38:00.559118+00:00
+-> DEPENDS_ON [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-09-08T09:38:54.460001+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-08T09:38:00.559118+00:00
+
+Frontend is Svelte 5 with components exported as custom elements rather than hand-written native JS. Svelte compiles away - no virtual DOM, no framework runtime, roughly 2-5 KB gzip against React+ReactDOM's 40-45 KB - so on A8X-class hardware the overhead against plain JS is negligible while the developer experience is far better. Compiling to custom elements satisfies the Web Components requirement, and the hexagonal architecture survives because components are a UI adapter behind a port.
+---
+[node:125f4071-59ec-4d3f-898d-ffcb3edd8aa5]
+type: decision
+tier: mid-term
+path: /artifact/the-backend-is-hexagonal-ports-and-ada
+created_at: 2026-09-08T09:38:00.686003+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T09:38:00.686003+00:00
+
+The backend is hexagonal - ports and adapters with dependency injection - which is what lets the UI, the persistence layer and every external integration be swapped behind a port instead of being wired into the application core.
+---
+[node:a815b136-0de2-49af-ac42-6192c12def24]
+type: decision
+tier: mid-term
+path: /artifact/sqlite-is-the-database-engine-chosen-be
+created_at: 2026-09-08T09:38:00.810299+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:125f4071-59ec-4d3f-898d-ffcb3edd8aa5] @ 2026-09-08T09:38:00.810299+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T09:38:00.810299+00:00
+-> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-09-08T09:38:00.810299+00:00
+
+SQLite is the database engine, chosen because the whole system is one machine on a LAN. Only the access layer is still open - the migration adapter and query builder must fit the hexagonal architecture (the repository is swappable behind a port) and a TypeScript-first stack; Drizzle, Kysely and better-sqlite3 are the candidates, not the decision.
+---
+[node:be297a51-6cb1-4526-bdb5-c01badf562a2]
+type: facet_value
+tier: lifetime
+path: /facet/data
+created_at: 2026-09-08T09:38:00.810299+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+data
+---
+[node:4730c1bc-b791-4a0d-a94c-1bd4f8307102]
+type: constraint
+tier: mid-term
+path: /artifact/conversationservice-stays-decoupled-from
+created_at: 2026-09-08T09:38:00.934031+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:125f4071-59ec-4d3f-898d-ffcb3edd8aa5] @ 2026-09-08T09:38:00.934031+00:00
+-> DEPENDS_ON [node:279d73e0-ff0f-4184-a25c-f051d2030072] @ 2026-09-08T09:38:54.092511+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T09:38:00.934031+00:00
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-08T09:38:00.934031+00:00
+
+ConversationService stays decoupled from the chat HTTP endpoint so the chat can later be driven by MCP or a dedicated skill instead of the route. It also owns the rolling window and per-model context budgeting, sized from the contextWindow reported by the Kilo Gateway model list.
+---
+[node:68b03a85-d372-45c5-80a4-549ebf826798]
+type: facet_value
+tier: lifetime
+path: /facet/ai
+created_at: 2026-09-08T09:38:00.934031+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+ai
+---
+[node:279d73e0-ff0f-4184-a25c-f051d2030072]
+type: decision
+tier: mid-term
+path: /artifact/ai-traffic-goes-through-kilo-gateway-mo
+created_at: 2026-09-08T09:38:01.059071+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-08T09:38:01.059071+00:00
+-> DEPENDS_ON [node:ac006a24-2763-40e7-8423-2b851793efcf] @ 2026-09-08T09:38:54.215049+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-08T09:38:01.059071+00:00
+
+AI traffic goes through Kilo Gateway: models are addressed as provider/model-name, GET /models is unauthenticated and returns the model list with pricing and context window, and usage.prompt_tokens/completion_tokens in each response is what per-call cost is computed from and logged to the ai_calls table alongside session and model.
+---
+[node:ccc18558-7181-44df-9608-de587d8d937c]
+type: facet_value
+tier: lifetime
+path: /facet/integration
+created_at: 2026-09-08T09:38:01.059071+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+integration
+---
+[node:c129f201-ae3c-45c8-89d7-a170bbaf5fad]
+type: decision
+tier: mid-term
+path: /artifact/google-calendar-is-integrated-bidirectio
+created_at: 2026-09-08T09:38:01.199535+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:ac006a24-2763-40e7-8423-2b851793efcf] @ 2026-09-08T09:38:01.199535+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-08T09:38:01.199535+00:00
+
+Google Calendar is integrated bidirectionally - read plus add, edit and delete - which forces OAuth2 with a stored refresh token; a public .ics feed was rejected because it is read-only.
+---
+[node:41ec3acd-0302-4120-9ef0-4b00a4945829]
+type: decision
+tier: mid-term
+path: /artifact/error-tracking-is-glitchtip-driven-by-t
+created_at: 2026-09-08T09:38:01.357085+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T09:38:01.357085+00:00
+
+Error tracking is GlitchTip, driven by the @sentry/node SDK because it is wire-compatible - so the project gets Sentry's SDK ergonomics without the Sentry service.
+---
+[node:18bafc37-5e9e-4d04-936a-53218abaca4b]
+type: decision
+tier: mid-term
+path: /artifact/agentic-memory-system-and-graph-workflow
+created_at: 2026-09-08T09:38:01.499476+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:38:01.499476+00:00
+
+agentic-memory-system and graph-workflow are tools for working ON this project, not runtime dependencies of it: they never enter package.json and live alongside the project as developer tooling.
+---
+[node:c62c070b-e4a6-41b3-86f3-00ad5d96800f]
+type: facet_value
+tier: lifetime
+path: /facet/process
+created_at: 2026-09-08T09:38:01.499476+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+process
+---
+[node:e24b75ab-e370-4566-b9e7-35706cad806b]
+type: decision
+tier: mid-term
+path: /artifact/the-original-cat-of-the-day-idea-is-spli
+created_at: 2026-09-08T09:38:01.635211+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-08T09:38:01.635211+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:38:01.635211+00:00
+
+The original cat-of-the-day idea is split into two separate card types rather than one: comic-of-the-day pulls an external image from RSS and therefore carries attribution, keyword filtering and copyright exposure, while ascii-art-of-the-day is generated by the AI with its own prompt, model and size and carries none of that. Different parameters and different legal questions mean merging them into one type would be wrong.
+---
+[node:9ea20285-de89-4f25-a25e-37700078bd59]
+type: decision
+tier: mid-term
+path: /artifact/presence-wake-from-the-slideshow-uses-th
+created_at: 2026-09-08T09:38:01.797947+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-08T09:38:01.797947+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:38:01.797947+00:00
+
+Presence-wake from the slideshow uses the camera, and every frame is processed locally in the browser - the image never leaves the device. Barcode scanning into the shopping list and video notes with transcription were considered and deliberately rejected.
+---
+[node:7c574f65-8059-41e1-b507-245d4b1b3d6f]
+type: constraint
+tier: mid-term
+path: /artifact/every-phase-ends-in-something-that-can-b
+created_at: 2026-09-08T09:38:01.948165+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:38:01.948165+00:00
+
+Every phase ends in something that can be looked at before the next one starts - Storybook for components, a real screen on the real iPad for integrations. This is the project's working style, and it is why device verification happens early and often rather than at the end.
+---
+[node:012f356c-2e3e-4fe4-9388-38f089198a41]
+type: decision
+tier: mid-term
+path: /artifact/a-v2-of-the-theme-schema-exists-as-a-str
+created_at: 2026-09-08T09:38:29.877767+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-09-08T09:38:29.877767+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:38:29.877767+00:00
+
+A v2 of the theme schema exists as a strict superset of v1 - every current theme file still validates - adding a night mode alongside light and dark, the border, strong-border, signal, warn, focus and accent-foreground roles, explicit hover and active states, the two-tier type scale, spacing, control heights, motion, and a night-mode schedule. It is generated from a canonical theme file that annotates every role with provenance (kept, fixed, or new) and its measured contrast ratio, and five roles were corrected because the accepted wireframe values failed WCAG AA in light mode.
+---
+[node:7835061e-c325-4e70-8051-105f22ff4f8a]
+type: issue
+tier: mid-term
+path: /artifact/the-middleware-pipe-package-name-is-alre
+created_at: 2026-09-08T09:38:30.023885+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T09:38:30.023885+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:38:30.023885+00:00
+
+The middleware-pipe package name is already taken on npm, so a new name is needed before publication. This blocks the start of Faza 0 and only the project owner can settle it; the repository address stays as it is in the documentation until the npm name is chosen.
+---
+[node:40398c2a-b8e4-4721-b426-730e93b8a4d8]
+type: issue
+tier: mid-term
+path: /artifact/the-vidataflux-repository-is-empty-and-m
+created_at: 2026-09-08T09:38:30.154849+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:38:30.154849+00:00
+
+The vidataflux repository is empty and must either be filled in before it enters the stack or consciously written out of it. This blocks the start of Faza 0 and is the project owner's call.
+---
+[node:b6cc5895-5e52-462a-aab2-c934ba921825]
+type: issue
+tier: mid-term
+path: /artifact/the-stack-assumes-typescript-7-with-the
+created_at: 2026-09-08T09:38:30.287095+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:38:30.287095+00:00
+
+The stack assumes TypeScript 7 with the native Go compiler, but the plan was written before that shipped and assumed an RC around June 2026. GA status must be verified before scaffolding rather than after.
+---
+[node:baefeee7-a562-4085-8a4e-cd20045f4164]
+type: issue
+tier: mid-term
+path: /artifact/the-service-worker-aims-at-a-full-offlin
+created_at: 2026-09-08T09:38:30.445420+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:0bc7e618-9b95-4977-9fe1-f3a48759276f] @ 2026-09-08T09:38:30.445420+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-08T09:38:30.445420+00:00
+
+The Service Worker aims at a full offline cache of app shell plus data, but dynamic data - calendar events, imported recipes - has a completely different invalidation profile from the app shell, so the workbox-versus-hand-rolled decision cannot be made until that invalidation strategy is designed.
+---
+[node:6d5ae12d-608b-4187-839b-74d56e7ff059]
+type: issue
+tier: mid-term
+path: /artifact/the-shopping-list-has-two-data-sources
+created_at: 2026-09-08T09:38:30.582482+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-09-08T09:38:30.582482+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-08T09:38:30.582482+00:00
+
+The shopping list has two data sources, a local table inside K7 and a zakupy-api mode where K7 is just an additional display for the separate Zakupy project. The zakupy-api mode is unavailable until Zakupy has a technical phase of its own, so only the local mode works today.
+---
+[node:f42da1a9-633f-4fe2-81e4-47bd34b836f4]
+type: issue
+tier: mid-term
+path: /artifact/whether-to-adopt-the-v2-theme-schema-now
+created_at: 2026-09-08T09:38:30.709099+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:012f356c-2e3e-4fe4-9388-38f089198a41] @ 2026-09-08T09:38:30.709099+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:38:30.709099+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:38:30.709099+00:00
+
+Whether to adopt the v2 theme schema now or ship v1 and migrate later is unsettled. It is a superset so nothing breaks either way, but adopting now grows the Faza 1 theme-loader task.
+---
+[event:c4e917fc-8354-4cb5-bcca-7c2a994aa3c8]
+node_id: f42da1a9-633f-4fe2-81e4-47bd34b836f4
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T09:41:25.903331+00:00
+
+entangled with a second problem surfaced during distillation: the design-system package has no version-controlled home, so adopting v2 and deciding where the files live are one decision, not two
+---
+[node:ee768ade-394d-475c-92fb-e5c5b28e0efc]
+type: issue
+tier: mid-term
+path: /artifact/the-design-system-replaces-the-courier-n
+created_at: 2026-09-08T09:38:30.858406+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:7108856c-d3d5-4701-bb69-11087256a081] @ 2026-09-08T09:38:30.858406+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:38:30.858406+00:00
+
+The design system replaces the Courier New placeholder with self-hosted IBM Plex Mono - taller x-height, unambiguous 0/O and 1/l/I, complete Polish diacritics, a real weight axis, and no CDN because the iPad's only reliable route is the LAN server. This is a direction change from the accepted wireframes and has not been confirmed.
+---
+[event:e0f96c07-6f77-4575-9ffd-715bbe9130f6]
+node_id: ee768ade-394d-475c-92fb-e5c5b28e0efc
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T09:41:26.017122+00:00
+
+a direction change from the accepted wireframes, unconfirmed - flagged to the human rather than captured as settled
+---
+[node:6eef8943-c521-4af4-918b-ffa1a6200bfe]
+type: issue
+tier: mid-term
+path: /artifact/night-mode-exists-as-a-third-luminance-m
+created_at: 2026-09-08T09:38:31.010276+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:012f356c-2e3e-4fe4-9388-38f089198a41] @ 2026-09-08T09:38:31.010276+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:38:31.010276+00:00
+
+Night mode exists as a third luminance mode roughly nine times dimmer than dark while still clearing WCAG AA, but its schedule is unsettled: a fixed 22:00-06:00 window, or derived from the sunrise and sunset the weather card already fetches.
+---
+[event:5214bf7a-0e48-4781-9726-6fc68d23a27e]
+node_id: 6eef8943-c521-4af4-918b-ffa1a6200bfe
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T09:41:26.144202+00:00
+
+open question carried over from the design-system pass, not settled by distillation
+---
+[node:156d8b7d-0b1f-48f0-b434-c7a269edf283]
+type: issue
+tier: mid-term
+path: /artifact/a-large-density-mode-is-wired-into-the-t
+created_at: 2026-09-08T09:38:31.156725+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:38:31.156725+00:00
+
+A large density mode is wired into the tokens but nothing in the product can reach it - there is no settings screen and no layout key for it, so the capability is currently unreachable.
+---
+[event:69fa1d60-14b0-4755-b11e-b9270f820710]
+node_id: 156d8b7d-0b1f-48f0-b434-c7a269edf283
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T09:41:26.268961+00:00
+
+capability wired into tokens but unreachable from the product; carried to the human gate
+---
+[node:8a963777-1d94-42ad-ae4b-8a2b08d0a686]
+type: issue
+tier: mid-term
+path: /artifact/the-project-has-no-settled-git-workflow
+created_at: 2026-09-08T09:38:31.309348+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:38:31.309348+00:00
+
+The project has no settled git workflow and no repository yet. The repo is decided as public on GitHub named kitchen-terminal-k7 with CI modelled on the owner's other projects, but the branching model, PR flow, merge strategy and commit conventions are unstated - and every worktree, headless run and archive commit in the change lifecycle acts on those rules. The task tracker binding is unresolved for the same reason.
+---
+[event:2f4966a1-11fd-40ec-b9d4-fdb123674fb7]
+node_id: 8a963777-1d94-42ad-ae4b-8a2b08d0a686
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T09:41:25.780698+00:00
+
+blocks the lifecycle itself: /gw-foundation requires a settled git workflow before distilling, and this project has neither a repository nor a branching model - distillation proceeded on everything else and this is left at the human gate

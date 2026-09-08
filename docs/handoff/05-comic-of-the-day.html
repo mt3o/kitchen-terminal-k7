@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Wireframe — kot dnia (HUD retro sci-fi)</title>
+<style>
+  :root {
+    --bg: #1a1712; --surface: #211d16; --amber: #faab2f; --amber-dim: #ba7517;
+    --teal: #5dcaa5; --text-muted: #888780;
+  }
+  body { background: var(--bg); font-family: 'Courier New', monospace; padding: 24px; color: var(--amber); }
+  .card { max-width: 420px; margin: 0 auto; background: var(--surface); box-shadow: 0 0 0 2px var(--amber-dim) inset; padding: 20px; }
+  .head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px; padding-bottom:10px; border-bottom:2px solid var(--amber-dim); }
+  .tag { font-size:13px; letter-spacing:2px; padding:2px 6px; background: rgba(250,171,47,0.15); }
+  .ver { font-size:12px; color: var(--text-muted); }
+  .panel { border:1px solid var(--amber-dim); aspect-ratio: 4/3; display:flex; align-items:center; justify-content:center; color: var(--text-muted); font-size:12px; text-align:center; padding:12px; }
+  .caption { font-size:12px; color: var(--text-muted); margin-top:10px; text-align:center; }
+  .footer { display:flex; justify-content:space-between; font-size:11px; color: var(--text-muted); margin-top:12px; }
+  a.src { color: var(--teal); text-decoration:none; }
+  button { font-family:inherit; font-size:12px; border:1px solid var(--amber-dim); background:transparent; color: var(--amber); padding:6px 10px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="head">
+    <span class="tag">KOMIKS.DNIA</span>
+    <span class="ver">07 WRZ 2026</span>
+  </div>
+
+  <div class="panel">
+    [ OBRAZ Z RSS ]<br>
+    (pobrany z feedu, cache 24h,<br>
+    filtr slow kluczowych: cat, kot)
+  </div>
+
+  <div class="caption">"Simon's Cat" — dzisiejszy pasek</div>
+
+  <div class="footer">
+    <a class="src" href="#">zrodlo: simonscat.com &#8599;</a>
+    <button>&#8635; ODSWIEZ</button>
+  </div>
+</div>
+</body>
+</html>

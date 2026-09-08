@@ -1,0 +1,45 @@
+name: "Retro sci-fi HUD"
+
+typography:
+  fontFamily: "'Courier New', monospace"
+  baseSizePx: 16
+  letterSpacingLabelsPx: 2
+
+colors:
+  background: { light: "#f4f2ec", dark: "#1a1712" }
+  surface: { light: "#ffffff", dark: "#211d16" }
+  accent: { light: "#ba7517", dark: "#faab2f" }
+  accentSecondary: { light: "#1d9e75", dark: "#5dcaa5" }
+  danger: { light: "#993c1d", dark: "#d85a30" }
+  textPrimary: { light: "#2c2c2a", dark: "#faab2f" }
+  textMuted: { light: "#888780", dark: "#888780" }
+
+shape:
+  borderRadiusPx: 0
+  borderWidthPx: 1
+  hudBrackets: true
+
+background:
+  gradient:
+    type: linear
+    angleDeg: 180
+    stops:
+      - { color: "#1a1712", position: 0 }
+      - { color: "#0f0d0a", position: 100 }
+    appliesTo: page
+
+transparency:
+  surfaceOpacity: 0.92
+  backdropBlurPx: 4
+
+boxShadow:
+  - offsetXPx: 0
+    offsetYPx: 0
+    blurPx: 0
+    spreadPx: 2
+    color: "#ba7517"
+    inset: true
+
+effects:
+  blinkingCursor: true
+  scanlines: false

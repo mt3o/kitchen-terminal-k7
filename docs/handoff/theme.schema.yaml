@@ -1,0 +1,163 @@
+# Schemat pliku motywu (theme). Podmiana designu całej aplikacji polega na
+# podmianie jednego pliku zgodnego z tym schematem — komponenty frontendowe
+# NIE zaszywają kolorów/fontów/promieni na sztywno, tylko czytają te tokeny
+# (wygenerowane jako zmienne CSS przy starcie/buildzie).
+
+$schema: "https://json-schema.org/draft/2020-12/schema"
+$id: "https://kitchen-terminal-k7.local/schema/theme.schema.yaml"
+title: Dashboard theme
+type: object
+required: [name, typography, colors, shape]
+properties:
+  name:
+    type: string
+    description: "Nazwa motywu do wyświetlenia, np. 'Retro sci-fi HUD'."
+  typography:
+    type: object
+    required: [fontFamily]
+    properties:
+      fontFamily:
+        type: string
+        description: "Wartość CSS font-family, np. \"'Courier New', monospace\"."
+      baseSizePx:
+        type: integer
+        default: 16
+      letterSpacingLabelsPx:
+        type: number
+        default: 1
+        description: Odstęp liter dla etykiet/nagłówków w stylu HUD.
+  colors:
+    type: object
+    description: Paleta jako pary tło/tekst; każda rola ma jasny i ciemny wariant.
+    required: [background, surface, accent, textPrimary, textMuted]
+    properties:
+      background: { $ref: "#/$defs/colorPair" }
+      surface: { $ref: "#/$defs/colorPair" }
+      accent: { $ref: "#/$defs/colorPair" }
+      accentSecondary: { $ref: "#/$defs/colorPair" }
+      danger: { $ref: "#/$defs/colorPair" }
+      textPrimary: { $ref: "#/$defs/colorPair" }
+      textMuted: { $ref: "#/$defs/colorPair" }
+  shape:
+    type: object
+    required: [borderRadiusPx, borderWidthPx]
+    properties:
+      borderRadiusPx:
+        type: integer
+        minimum: 0
+        description: "0 = ostre kąty (retro sci-fi), >0 = zaokrąglone (klasyczny UI)."
+      borderWidthPx:
+        type: number
+        default: 1
+      hudBrackets:
+        type: boolean
+        default: false
+        description: Czy karty mają rysowane narożniki/obramowania w stylu HUD.
+  background:
+    type: object
+    description: Tło strony i/lub kart — obraz, gradient, albo oba (obraz na wierzchu gradientu).
+    properties:
+      image:
+        type: object
+        properties:
+          url: { type: string, description: "Ścieżka/URL do pliku obrazu." }
+          size:
+            type: string
+            enum: [cover, contain, auto]
+            default: cover
+          position:
+            type: string
+            default: "center"
+            description: "Wartość CSS background-position."
+          repeat:
+            type: string
+            enum: [no-repeat, repeat, repeat-x, repeat-y]
+            default: no-repeat
+          opacity:
+            type: number
+            minimum: 0
+            maximum: 1
+            default: 1
+          appliesTo:
+            type: string
+            enum: [page, cards, both]
+            default: page
+      gradient:
+        type: object
+        properties:
+          type:
+            type: string
+            enum: [linear, radial]
+            default: linear
+          angleDeg:
+            type: number
+            default: 180
+            description: Używane tylko dla type=linear.
+          stops:
+            type: array
+            minItems: 2
+            items:
+              type: object
+              required: [color, position]
+              properties:
+                color: { type: string, description: "Kolor hex lub rgba()." }
+                position:
+                  type: number
+                  minimum: 0
+                  maximum: 100
+                  description: Procent wzdłuż gradientu.
+          appliesTo:
+            type: string
+            enum: [page, cards, both]
+            default: page
+  transparency:
+    type: object
+    description: Efekty przezroczystości/rozmycia tła (np. szkło, HUD-owe półprzezroczyste panele).
+    properties:
+      surfaceOpacity:
+        type: number
+        minimum: 0
+        maximum: 1
+        default: 1
+        description: Przezroczystość tła kart (1 = pełne krycie).
+      backdropBlurPx:
+        type: number
+        minimum: 0
+        default: 0
+        description: "Rozmycie tego, co widać pod kartą (CSS backdrop-filter: blur())."
+  boxShadow:
+    type: array
+    description: >
+      Lista cieni nakładanych na karty (można podać kilka warstw naraz —
+      renderowane jako CSS box-shadow z przecinkiem). Pusta lista = brak cienia.
+    items:
+      type: object
+      required: [offsetXPx, offsetYPx, blurPx, color]
+      properties:
+        offsetXPx: { type: number, default: 0 }
+        offsetYPx: { type: number, default: 0 }
+        blurPx: { type: number, minimum: 0, default: 0 }
+        spreadPx: { type: number, default: 0 }
+        color: { type: string, description: "Kolor hex lub rgba(), np. 'rgba(250,171,47,0.4)'." }
+        inset:
+          type: boolean
+          default: false
+          description: "true = cień do wewnątrz (ramka/HUD), false = cień na zewnątrz (uniesienie)."
+  effects:
+    type: object
+    properties:
+      blinkingCursor:
+        type: boolean
+        default: false
+      scanlines:
+        type: boolean
+        default: false
+        description: Subtelny efekt CRT — tylko jeśli motyw jest w klimacie retro.
+
+$defs:
+  colorPair:
+    type: object
+    required: [light, dark]
+    properties:
+      light: { type: string, description: "Kolor hex, używany w jasnym trybie." }
+      dark: { type: string, description: "Kolor hex, używany w ciemnym trybie." }

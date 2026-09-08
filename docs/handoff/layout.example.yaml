@@ -1,0 +1,162 @@
+version: 1
+theme: "themes/retro-scifi.yaml"
+
+sidebar:
+  position: left
+  widthPx: 260
+  behavior:
+    horizontal: permanent
+    vertical: collapsible
+    mobile: collapsible
+  defaultCollapsed: false
+  toggleIcon: "menu-2"
+  content:
+    - id: sidebar-clock
+      type: clock
+      params:
+        format: "24h"
+        showDate: true
+        showSeconds: false
+        locale: "pl-PL"
+    - id: sidebar-menu
+      type: menu
+      params:
+        orientation: vertical
+        style: icons
+        defaultActive: pogoda-1
+        items:
+          - { cardId: pogoda-1, label: "Pogoda", icon: "cloud" }
+          - { cardId: kalendarz-1, label: "Kalendarz", icon: "calendar" }
+          - { cardId: karuzela-1, label: "Więcej", icon: "layout-grid" }
+          - { cardId: chat-1, label: "Czat", icon: "message-circle" }
+
+grid:
+  columns: 2
+  gap: "12px"
+
+cards:
+  - id: pogoda-1
+    type: grid
+    span: { cols: 1, rows: 1 }
+    params:
+      columns: 3
+      gap: "6px"
+      cells:
+        - id: pogoda-temp
+          type: weather
+          refreshIntervalSeconds: 900
+          params:
+            location: { lat: 52.2297, lon: 21.0122, label: "Warszawa" }
+            units: metric
+            forecastDays: 1
+            showAlerts: false
+        - id: pogoda-5dni
+          type: weather
+          refreshIntervalSeconds: 900
+          params:
+            location: { lat: 52.2297, lon: 21.0122, label: "Warszawa" }
+            units: metric
+            forecastDays: 5
+            showAlerts: false
+        - id: pogoda-alert
+          type: weather
+          refreshIntervalSeconds: 900
+          params:
+            location: { lat: 52.2297, lon: 21.0122, label: "Warszawa" }
+            units: metric
+            forecastDays: 1
+            showAlerts: true
+
+  - id: kalendarz-1
+    type: calendar
+    span: { cols: 1, rows: 1 }
+    refreshIntervalSeconds: 300
+    params:
+      calendarId: "primary"
+      view: week
+      editable: true
+
+  - id: karuzela-1
+    type: carousel
+    span: { cols: 1, rows: 1 }
+    params:
+      autoAdvanceSeconds: 15
+      startDelaySeconds: 5
+      loop: true
+      showIndicators: true
+      swipeEnabled: true
+      transition: slide
+      slides:
+        - id: przepisy-1
+          type: recipes
+          params:
+            maxVisible: 6
+            allowUrlImport: true
+            tags: []
+        - id: zakupy-1
+          type: shopping-list
+          params:
+            dataSource: { mode: local }
+            groupByCategory: true
+            showCheckedItems: false
+        - id: kot-1
+          type: comic-of-the-day
+          refreshIntervalSeconds: 86400
+          params:
+            # PODMIEŃ na prawdziwy feed autora przed użyciem — i trzymaj
+            # creditText/linkToSource zgodne z tym, skąd naprawdę bierzesz obrazek.
+            rssUrl: "https://simonscat.com/feed/"
+            filterKeywords: ["cat", "kot"]
+            cacheDurationHours: 24
+            linkToSource: true
+            creditText: "Źródło: simonscat.com"
+        - id: audiometr-1
+          type: audiometer
+          params:
+            historyDurationSeconds: 180
+            sampleIntervalMs: 500
+            unit: percent
+            showCurrentLevel: true
+            showHistogram: true
+            warningThreshold: 80
+
+  - id: timer-1
+    type: timer
+    span: { cols: 1, rows: 1 }
+    params:
+      presetsMinutes: [5, 10, 15, 30]
+      soundOnComplete: true
+
+  - id: chat-1
+    type: chat
+    span: { cols: 2, rows: 1 }
+    params:
+      # Kilo Gateway używa formatu `provider/model-name`. Poniższe to AKTUALNE
+      # identyfikatory modeli Anthropic (stan: wrzesień 2026) — ale autorytatywną
+      # listę dla tego gatewaya daje `GET /api/gateway/models`, więc zweryfikuj
+      # dokładne stringi tam przed wdrożeniem (patrz `chat.availableModels: []`,
+      # które pobiera listę dynamicznie).
+      defaultModel: "anthropic/claude-sonnet-5"
+      availableModels:
+        - "anthropic/claude-sonnet-5"
+        - "anthropic/claude-opus-5"
+        - "anthropic/claude-haiku-4-5"
+        - "kilo-auto/balanced"
+      contextWindowMarginPercent: 20
+      compactingThresholdPercent: 80
+      voiceInput: true
+
+  - id: slideshow-idle
+    type: slideshow
+    span: { cols: 2, rows: 1 }
+    params:
+      idleTriggerSeconds: 3600
+      cardIds: [pogoda-1, kalendarz-1, karuzela-1]
+      intervalSeconds: 12
+      transition: fade
+      exitOnInteraction: true
+      wakeOnPresence:
+        enabled: true
+        method: motion
+        sensitivity: 0.5
+        cooldownSeconds: 5

@@ -1,0 +1,179 @@
+# Kitchen Terminal K7
+
+Retro-futurist kitchen dashboard running as a PWA kiosk on an old iPad
+(Safari 15 baseline, iPad Air 2 / A8X / 2GB), with a Node/TypeScript backend on a
+physical machine in the home LAN.
+
+**Language note:** the project's foundation documents are written in Polish.
+Keep them in Polish when editing; code, identifiers and commit messages are English.
+
+## Where things are
+
+| Path | What |
+|---|---|
+| `docs/handoff/HANDOFF.md` | context, decision log, deferred ideas — read this first |
+| `docs/handoff/PLAN.md` | phased plan (Faza 0–6) with per-task model assignments |
+| `docs/handoff/TECH-STACK.md` | stack choices, own/3rd-party libraries, open caveats |
+| `docs/handoff/layout.schema.yaml` | the layout contract — 14 card types, recursive containers |
+| `docs/handoff/theme.schema.yaml` | the theme contract — every design token the app may use |
+| `docs/handoff/retro-scifi.yaml` | the default theme instance |
+| `docs/handoff/layout.example.yaml` | worked example of a full layout |
+| `docs/handoff/*.html` | standalone wireframes (open directly in a browser) |
+| `docs/icons/` | logo assets + usage notes |
+| `context/` | graph-workflow lifecycle files — see `context/README.md` |
+
+## Standing constraints
+
+- **Theming is an architectural rule, not a preference.** Components read *only*
+  CSS custom properties generated from the theme file. No component ever hardcodes
+  a colour, font, radius, border width or shadow. Swapping the whole design must be
+  a matter of pointing `layout.yaml`'s `theme:` at a different file.
+- **Safari 15 is the compile target.** iPad Air 2 and iPhone 6s both cap at
+  iOS/iPadOS 15, so that is the shared baseline for `tsconfig` and Vite `build.target`.
+  Verify on the real device early and often — do not assume modern JS/CSS lands.
+- **Secrets never reach the frontend.** The Google refresh token and the Kilo Gateway
+  key live server-side only. Varlock manages `.env` by schema; agents see the schema,
+  never the values. Secrets must not leak into GlitchTip payloads alongside errors.
+- **`ConversationService` stays decoupled from the chat endpoint** so the chat can
+  later be driven by MCP or a dedicated skill instead of the HTTP route.
+
+<!-- BEGIN graph-workflow -->
+
+## graph-workflow — change lifecycle with graph memory
+
+This project uses the graph-workflow: the 10x change lifecycle fused with the
+agentic-memory-system graph. One lifecycle, not two workflows — memory operations are
+steps inside it.
+
+**Reaching the memory surface.** Prefer the `agentic-memory` MCP tools when this
+session has them. When it does not — a fresh clone, an unapproved `.mcp.json`, a
+config that landed mid-session — use the CLI, which needs no registration:
+`agentic-memory --help` (same operations; `capture -` reads the body from stdin so
+prose never goes through shell quoting). It is installed on PATH and always acts on
+the project you are standing in, so it needs no path argument. Never skip a memory
+step because the MCP tools are absent.
+
+```
+/gw-new → worktree → /gw-research → /gw-plan → /gw-plan-review → /gw-implement | /gw-goal → /gw-review → merge → /gw-archive
+```
+
+### Task router
+
+| Situation | Skill |
+| --- | --- |
+| A question, no change open ("how does X work?", triage, onboarding) | `/gw-ask` (recall-only, foundation scope, journals usage, captures nothing) |
+| Foundation docs written or amended (PRD, tech-stack, ADRs) | `/gw-foundation` (distill into lifetime-tier candidates) |
+| The project's language is unmodelled, or a change opens new domain territory | `/gw-domain` (domain entities: greenfield elicitation or brownfield extraction; human ratifies) |
+| "What should we build next" / roadmap time / an epic just closed | `/gw-ideate` (mine the graph's issues, gaps and blind spots for evidence-backed opportunities) |
+| Starting any unit of work | `/gw-new` (folder + Goal node + seed recall — always first) |
+| Territory unknown | `/gw-research` (recall first, explore the gap, capture findings) |
+| A goal too big for one change — spans subsystems, >5 phases, reads like a product | `/gw-slice` (tracer-bullet breakdown → the human rules on granularity and order → the epic registry in `roadmap.md`; opens only the first slice) |
+| A plan or design that should be argued with before it is committed to | `/gw-grill` (one question per turn, each with a recommendation; `impact_of` on every load-bearing claim; contradictions captured and left for a human) |
+| Someone wants to *understand* part of this system, not change it | `/gw-teach` (the graph as curriculum: prerequisites in `DEPENDS_ON` order, the frontier from the journal, every claim cited). One question only → `/gw-ask` |
+| Notes or a conversation that should become a PRD | `/gw-foundation` — writes `context/foundation/prd.md` when there is none (synthesising, never interviewing), then distils it into the graph. Wanting to be *interrogated* about it instead is `/gw-grill` |
+| A UI surface to build or redesign | `/gw-wireframe` (screen inventory → one screen per turn with the user → build decisions; obeys the design system) |
+| A screen that has to be *seen* before it is built | `/gw-prototype` (the agreed deck → clickable HTML in the project's real tokens, served by pmview; refuses any screen with an unruled component gap) |
+| Someone asks for `impeccable shape` on a gw project | `/gw-wireframe` instead — same job, but grounded in the domain model and the graph. Use impeccable for the *visual* pass, after the structure is agreed |
+| Ready to design the work | `/gw-plan` (recall + impact_of + plan.md + plan-boundary capture) |
+| Plan written, before implementation | `/gw-plan-review` (fresh session, independent recall, plan vs settled constraints) |
+| Multi-phase / needs judgment | `/gw-implement` (interactive, per-phase memory loop, human gates) |
+| A bug, a regression, or a behaviour-preserving refactor | `/gw-fix` (TDD: red before any source edit, minimal green, then refactor — a full change increment) |
+| Bounded, verifiable by command | `/gw-goal` or `claude -p` (headless; humans at PR only) |
+| Change reaches PR | `/gw-review` (code review + memory human gate) |
+| Merged | `/gw-archive` (final capture, deactivate+sweep, folder → archive) |
+| An issue tracker is in use (GitHub Issues, Linear, Jira) | `/gw-track` (adopt-or-create the item, push phases/status at gates, pull acceptance criteria, report divergence) |
+| Disputes/promotions accumulated, human present | `/gw-resolve` (joint queue session: agent presents+recommends, human rules, applied via guided GUI API) |
+| Several changes archived; recall keeps returning near-duplicates | `/gw-consolidate` (cross-change recurrence → one abstraction, drafted by you, committed by the human) |
+
+### Standing rules (apply to every session)
+
+- **Recall before deciding.** At task start and before touching an unloaded
+  subsystem: `recall_context(query=..., goal_ref=<memory_goal from change.md>)`.
+  Keep the `[node:<id>]` handles — they are write-back ids.
+- **Goal-mandatory writes.** No `memory_goal` in change.md → run /gw-new's scope
+  steps before capturing anything.
+- **Capture residue, not narration** — decisions, constraints, issues, concepts,
+  invariants; one statement per artifact, readable cold, with edges.
+- **The three-part test decides *whether*.** Capture only when all three hold:
+  (1) **hard to reverse** — changing your mind later has a real cost;
+  (2) **surprising without context** — a future reader will ask "why did they do
+  it this way?"; (3) **the result of a real trade-off** — there were genuine
+  alternatives and one was picked for stated reasons. Any one missing and it is
+  conversation, not knowledge. A graph full of restated obviousness ranks *worse*
+  than a small one, because every recall then serves the obvious thing alongside
+  the load-bearing one, and retrieval is deterministic — nothing downstream
+  rescues a bad capture.
+- **Speak the graph's vocabulary.** List the controlled facet vocabulary before
+  the session's first capture (MCP vocabulary read if available, else GUI or the
+  committed dump); query recalls with the graph's own terms, not paraphrases.
+- **Speak the domain's vocabulary too.** `domain_model()` once per session, before
+  naming anything in code, tests, plans, or UI copy. Use the ratified entity names;
+  a term the model lacks is a `/gw-domain` proposal, not a word you coin. Attach
+  every capture to the entities it concerns with `ABOUT` edges — that wiring is what
+  makes an entity a hub instead of a dictionary entry.
+- **Names are not claims.** A thing the project refers to (`Invoice`, `Customer`)
+  is a domain entity via `capture_entity`, not an artifact. The test: can you
+  disagree with it? Entities never decay and survive every sweep, so a careless one
+  outlives every change that could have corrected it — and only a human ratifies.
+- **Navigate code through the graphify MCP** when the project has a code
+  knowledge graph (`graphify-out/` present) — graph queries for architecture and
+  file relationships first; raw grep/read is the fallback, not the default.
+- **Journal every session** — one batched `append_events`
+  (USED/CONFIRMED/CONTRADICTED/REVIEWED/NOTED) before ending. Honest events only.
+- **Contradictions are recorded, never resolved** — CONTRADICTS edges and
+  CONTRADICTED events flag for human review; that is the system working.
+- **Four surfaces, four jobs.** `context/design/` holds what a screen is supposed
+  to look like (the deck, the prototypes, the ask log — surface-keyed, so it
+  outlives the changes that touch it). `context/changes/` holds lifecycle state, the
+  graph holds knowledge, the tracker holds work state. A decision recorded only in
+  an issue comment is a decision no future recall will serve — knowledge goes in the
+  graph, always, and the issue gets a pointer at most.
+- **Never** mutate trust, clear flags, promote tiers, archive nodes, ratify a
+  domain entity, or commit a consolidation. Not possible via the agent surface; do
+  not work around it. You may propose, detect, draft, and recommend — every one of
+  those ends at a human.
+- **Degraded mode (store genuinely unreachable): queue, don't skip.** Try the CLI
+  transport first — "the MCP tools aren't registered" is not a degraded mode, it is
+  the other door. If the *store itself* is unreachable, append every
+  would-be operation to `context/changes/<id>/memory-backlog.md` — create_change
+  parameters, captures (content, type, edges, facets), events, promotion
+  candidates — and replay them when the surface returns. Gates consume the
+  backlog as the stand-in graph. The discipline never pauses; only the store does.
+- **`context/archive/` is immutable.** If a resolved target path starts with
+  `context/archive/`, abort with: "This change is archived. Open a new change
+  with /gw-new."
+
+### Paths
+
+- `context/changes/<change-id>/` — active change: change.md (incl. `memory_goal`),
+  plan.md, research.md. Thin lifecycle files only; knowledge lives in the graph.
+  `change.md` also carries `design_surface: <slug>` (repeatable) when the change
+  touches a UI surface — that is what makes `/gw-review` Part 1b fire.
+- `context/design/<surface>/` — keyed by **surface**, not by change, so a screen's
+  design outlives the changes that touch it. `deck.json` (the agreed screen
+  inventory and wireframe geometry), `screens/*.html` (clickable prototypes in the
+  project's real tokens), `asks.jsonl` (the append-only agent↔human desk). All
+  committed. **Not** a per-change folder, and never moved by `/gw-archive`.
+- `context/archive/<change-id>/` — immutable, append-only.
+- `context/foundation/` — PRD, roadmap, tech-stack: human source of truth, whose
+  normative content is mirrored into the graph at lifetime tier via
+  `/gw-foundation` (foundation.md carries that scope's `memory_goal`).
+  `roadmap.md` doubles as the **epic registry**: epic-sized goals are sliced
+  there into ordered change-ids; slices carry `epic: <id>` in change.md, the
+  epic id as a capture facet, and sibling slices' surviving nodes as
+  parent_refs. One change = one plan, one review sitting — epics are grouped,
+  never merged into one change.
+- `context/memory-graph.dump` — the tracked store, as legible text (diffs and
+  merges natively). `context/memory-graph.db` is a gitignored build artifact the
+  store rebuilds on open and refreshes on close; nothing to set up, no filter.
+  If a merge conflicts in the dump, run `agentic-memory sync resolve` and `git add`
+  the result — never hand-edit the markers out, because git aligns similar blocks and
+  shows only their differing lines, so "keep both sides" can splice half of one entry
+  onto half of another. Memory commands refuse to run against a conflicted dump, so
+  you will be told rather than served a half-loaded graph.
+- `context/foundation/tracker.md` — the issue-tracker binding (which tracker, the
+  board's real state names, who may close). `tracker: none` is a valid answer.
+- `context/changes/<id>/change.md` carries `tracker:` alongside `memory_goal:` when
+  a tracker is bound.
+
+<!-- END graph-workflow -->

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "agentic-memory": {
+      "type": "stdio",
+      "command": "agentic-memory-mcp",
+      "args": [],
+      "env": {
+        "MEMORY_DB_PATH": "/home/mt3o/Documents/Terminal-K7/context/memory-graph.db"
+      }
+    }
+  }
+}

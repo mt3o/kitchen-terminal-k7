@@ -1,0 +1,17 @@
+# agentic-memory working store — rebuilt from context/memory-graph.dump on open.
+# The dump is the tracked artifact; this SQLite file is a local build artifact.
+context/memory-graph.db
+context/memory-graph.db-*
+context/memory-graph.db.bak
+context/memory-graph.db.lock
+
+# graph-workflow scratch — throwaway agent proof/probe artifacts
+.gw-scratch/
+
+# node
+node_modules/
+dist/
+.DS_Store
+
+# graph-workflow worktrees
+.claude/worktrees/
