@@ -140,3 +140,30 @@ describe('the hostname is not a TLS detail', () => {
     assert.equal(isAllowedHost('k7.revert-h0m3.co.pl', []), false, 'unset hostname must not open the allowlist')
   })
 })
+
+describe('staging and production are different certificates', () => {
+  const healthy = (staging: boolean) => ({
+    certificate: '', privateKey: '', notAfter: at(89), staging,
+  })
+
+  it('reissues when production is wanted but a staging cert is on disk', () => {
+    // The bug this guards: expiry alone says "89 days left, keep it", so
+    // flipping to production changes nothing and the kiosk keeps serving an
+    // untrusted certificate while the config claims otherwise.
+    assert.equal(shouldRenew(healthy(true), new Date(), true), true)
+  })
+
+  it('reissues when staging is wanted but a production cert is on disk', () => {
+    assert.equal(shouldRenew(healthy(false), new Date(), false), true)
+  })
+
+  it('keeps a healthy certificate when the mode matches', () => {
+    assert.equal(shouldRenew(healthy(false), new Date(), true), false)
+    assert.equal(shouldRenew(healthy(true), new Date(), false), false)
+  })
+
+  it('still renews on expiry regardless of mode', () => {
+    const expiring = { certificate: '', privateKey: '', notAfter: at(3), staging: false }
+    assert.equal(shouldRenew(expiring, new Date(), true), true)
+  })
+})
