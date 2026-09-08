@@ -3133,3 +3133,121 @@ archived: false
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T18:56:16.844498+00:00
 
 A clock injected into a service but not into the repository underneath it measures age between two different clocks, and the result looks right in production and absurd in a test. The cache write takes the timestamp as a parameter rather than calling the wall clock itself, so the whole read-write-read cycle runs on one injected clock. This was found by a test asserting an age of 300 seconds and getting the distance between a fabricated date and the real present; the code would have shipped, because in production both clocks agree and nothing looks wrong.
+---
+[node:095a9bf5-61d6-4cd5-b805-72a25527c104]
+type: slice
+tier: short-term
+path: /change/k7-deploy
+created_at: 2026-09-08T19:04:27.595010+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:0fc707b2-637a-4531-8dc4-8ed0b53d321a] @ 2026-09-08T19:10:55.302453+00:00
+-> SCOPED_TO [node:2e627382-1255-4d83-929d-cbf01c4d3f6a] @ 2026-09-08T19:10:55.034822+00:00
+-> SCOPED_TO [node:430c9542-7dd1-4b78-bfa1-760e6afcee1d] @ 2026-09-08T19:04:27.595010+00:00
+-> SCOPED_TO [node:60626826-09a6-488d-80fe-6baacd54d3ae] @ 2026-09-08T19:45:38.242108+00:00
+-> SCOPED_TO [node:80270621-f604-470d-abd2-c5312497bd1e] @ 2026-09-08T19:45:38.119414+00:00
+-> SCOPED_TO [node:99f0f67d-c0a0-4e18-8141-4c62214e1991] @ 2026-09-08T19:10:55.164946+00:00
+
+change scope: k7-deploy
+---
+[event:adcc1d7d-89df-4edd-b49e-436443e1b684]
+node_id: 095a9bf5-61d6-4cd5-b805-72a25527c104
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T19:04:27.596382+00:00
+
+create_change k7-deploy
+---
+[node:430c9542-7dd1-4b78-bfa1-760e6afcee1d]
+type: goal
+tier: short-term
+path: /goal/k7-deploy
+created_at: 2026-09-08T19:04:27.595010+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:0fc707b2-637a-4531-8dc4-8ed0b53d321a] @ 2026-09-08T19:10:55.302453+00:00
+-> DEPENDS_ON [node:2e627382-1255-4d83-929d-cbf01c4d3f6a] @ 2026-09-08T19:10:55.034822+00:00
+-> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-08T19:04:27.595010+00:00
+-> DEPENDS_ON [node:60626826-09a6-488d-80fe-6baacd54d3ae] @ 2026-09-08T19:45:38.242108+00:00
+-> DEPENDS_ON [node:70d97cb6-59dd-4020-b3e8-2f7bd0bd8c04] @ 2026-09-08T19:04:27.595010+00:00
+-> DEPENDS_ON [node:80270621-f604-470d-abd2-c5312497bd1e] @ 2026-09-08T19:45:38.119414+00:00
+-> DEPENDS_ON [node:99f0f67d-c0a0-4e18-8141-4c62214e1991] @ 2026-09-08T19:10:55.164946+00:00
+
+Make the kiosk deployable to the LAN machine repeatably: a systemd unit that survives reboot, a deploy script that is the only way the service is updated, and TLS issued against the real hostname
+---
+[node:2e627382-1255-4d83-929d-cbf01c4d3f6a]
+type: constraint
+tier: mid-term
+path: /artifact/the-kiosk-backend-runs-on-a-shared-house
+created_at: 2026-09-08T19:10:55.034822+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99] @ 2026-09-08T19:10:55.034822+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T19:10:55.034822+00:00
+-> DEPENDS_ON [node:d3faf49e-9fd8-4d79-9c8a-733cb2baa856] @ 2026-09-08T19:10:55.442013+00:00
+
+The kiosk backend runs on a shared household server, not a dedicated appliance: nginx already owns port 80 for other names, docker runs paperless, portainer and invidious, and this account has no passwordless sudo. So the service is a systemd user unit rather than a system one - lingering is enabled, so it starts at boot with nobody logged in and needs no root at all. The cost is that it cannot bind 443, because that needs a capability only root can grant, so the kiosk answers on a high port. Putting it behind the nginx that is already there would give it 443 and a clean URL, but that needs a human with sudo to add a vhost, and nginx on that box currently terminates no TLS at all.
+---
+[node:99f0f67d-c0a0-4e18-8141-4c62214e1991]
+type: constraint
+tier: mid-term
+path: /artifact/the-name-the-kiosk-answers-to-is-not-a-t
+created_at: 2026-09-08T19:10:55.164946+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-08T19:10:55.164946+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T19:10:55.164946+00:00
+-> DEPENDS_ON [node:ff83d0c0-3596-408a-b047-3363ea8a99c1] @ 2026-09-08T19:10:55.574809+00:00
+
+The name the kiosk answers to is not a TLS setting, and calling it one produced a failure that looked like broken DNS. The Host-header allowlist was keyed off a variable named for TLS; with TLS not yet configured that variable was unset, so the deployed server answered on its IP address and returned 400 for its own hostname. On a tablet that is indistinguishable from a DNS problem, and the real cause is two concerns sharing one badly named setting. One name, one thing: the hostname governs the allowlist and the certificate alike, and is named for what it is rather than for the first feature that happened to need it.
+---
+[node:0fc707b2-637a-4531-8dc4-8ed0b53d321a]
+type: constraint
+tier: mid-term
+path: /artifact/a-deploy-is-finished-when-a-port-is-boun
+created_at: 2026-09-08T19:10:55.302453+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T19:10:55.302453+00:00
+
+A deploy is finished when a port is bound, not when the service manager says active. systemd reports a unit active the moment the process starts, which is before Node has finished listening, so a deploy script that checks unit state reports success against a server that is not yet answering - and on a bad day reports success against one that never will. The check polls for a bound port and fails loudly when none appears. The same reasoning applies to the deploy script being the only way the service is updated: hand edits on the box produce a running service nobody can reproduce, and the day that matters is the day it has to be rebuilt.
+---
+[node:80270621-f604-470d-abd2-c5312497bd1e]
+type: constraint
+tier: mid-term
+path: /artifact/a-certificate-s-mode-is-part-of-whether
+created_at: 2026-09-08T19:45:38.119414+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99] @ 2026-09-08T19:45:38.119414+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-08T19:45:38.119414+00:00
+-> DEPENDS_ON [node:c68c6715-1e1a-4876-8f3c-35ff3d9b8fac] @ 2026-09-08T19:45:38.370963+00:00
+
+A certificate's mode is part of whether it is still valid, not just its expiry date. Switching issuance from staging to production leaves a staging certificate on disk with most of its ninety days remaining, so a renewal check that only asks about expiry keeps it and the kiosk goes on serving an untrusted certificate while the configuration insists it is production. The only symptom is a browser warning, which is exactly the warning everyone has spent the setup hour learning to click through. The renewal gate therefore compares the stored certificate's issuing environment against the configured one and reissues on a mismatch.
+---
+[node:60626826-09a6-488d-80fe-6baacd54d3ae]
+type: constraint
+tier: mid-term
+path: /artifact/verify-a-dns-write-against-the-authorita
+created_at: 2026-09-08T19:45:38.242108+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T19:45:38.242108+00:00
+
+Verify a DNS write against the authoritative nameserver, not a recursive resolver. After the first certificate issuance the ACME challenge TXT record appeared to have leaked - a recursive query still returned it - and the cleanup code was about to be rewritten. The record had in fact been deleted; the resolver was serving a cached copy with twenty-five seconds of its sixty-second TTL left. Querying the zone's own nameserver showed it gone. A cache is not evidence about the state of a zone, and for records this short-lived the window in which a resolver disagrees with reality is most of the window in which anyone looks.

@@ -19,8 +19,12 @@ export interface Config {
   glitchtipDsn: string | undefined
   kiloGatewayKey: string | undefined
   googleOauthRefreshToken: string | undefined
-  /** TLS is on only when a hostname and a Cloudflare token are both present. */
-  tlsHostname: string | undefined
+  /**
+   * The name the kiosk answers to. Governs the Host-header allowlist and, when a
+   * Cloudflare token is also present, the certificate. Unset means the kiosk is
+   * reachable by IP only — its own hostname gets a 400.
+   */
+  hostname: string | undefined
   cloudflareApiToken: string | undefined
   acmeEmail: string | undefined
   acmeProduction: boolean
@@ -39,14 +43,14 @@ function readPort(raw: string | undefined, fallback: number): number {
 
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   return {
-    port: readPort(env.K7_PORT, 8080),
+    port: readPort(env.K7_PORT, env.K7_HOSTNAME && env.CLOUDFLARE_API_TOKEN ? 8443 : 8080),
     host: env.K7_HOST ?? '0.0.0.0',
     environment: env.NODE_ENV ?? 'development',
     databasePath: env.K7_DB_PATH ?? './data/k7.sqlite',
     glitchtipDsn: env.GLITCHTIP_DSN || undefined,
     kiloGatewayKey: env.KILO_GATEWAY_KEY || undefined,
     googleOauthRefreshToken: env.GOOGLE_OAUTH_REFRESH_TOKEN || undefined,
-    tlsHostname: env.K7_TLS_HOSTNAME || undefined,
+    hostname: env.K7_HOSTNAME || undefined,
     cloudflareApiToken: env.CLOUDFLARE_API_TOKEN || undefined,
     acmeEmail: env.K7_ACME_EMAIL || undefined,
     acmeProduction: env.K7_ACME_PRODUCTION === 'true',
@@ -82,7 +86,7 @@ export function describeConfig(config: Config): string {
     `glitchtip=${present(config.glitchtipDsn)}`,
     `kilo_key=${present(config.kiloGatewayKey)}`,
     `google_refresh=${present(config.googleOauthRefreshToken)}`,
-    `tls=${config.tlsHostname ? `${config.tlsHostname}${config.acmeProduction ? '' : ' (staging)'}` : 'off'}`,
+    `tls=${config.hostname ? `${config.hostname}${config.acmeProduction ? '' : ' (staging)'}` : 'off'}`,
     `cloudflare=${present(config.cloudflareApiToken)}`,
   ].join(' ')
 }

@@ -16,9 +16,9 @@ screen and CI enforcing the rules the graph already settled.
 | 2 | `k7-secrets-and-errors` | headless | 1 | ✅ Varlock schema, GlitchTip, scrubbing proven on the wire |
 | 3 | `k7-persistence` | interactive | 1 | ✅ Drizzle over SQLite behind repository ports, five tables, boot-time migrations |
 | 4 | `k7-storybook` | headless | 1 | ✅ Storybook on the web-components renderer, three luminance modes |
-| 5 | `k7-lan-tls` | interactive | 1 | **new, and a prerequisite:** a real certificate via DNS-01 for a private A record, Fastify on HTTPS, verified on the iPad |
-| 6 | `k7-backend-freshness` | headless | 3 | last-good Open-Meteo and Calendar responses cached in SQLite, served with their age |
-| 7 | `k7-offline-shell` | interactive | 5, 6 | Service Worker for the shell, plus the reconnect scrim over the blurred stale grid |
+| 5 | `k7-lan-tls` | interactive | 1 | ✅ real certificate via DNS-01, Fastify on HTTPS — **live and trusted** at `https://k7.revert-h0m3.co.pl:8443/` |
+| 6 | `k7-backend-freshness` | headless | 3 | ✅ last-good responses cached in SQLite and served with their age; Open-Meteo wired |
+| 7 | `k7-offline-shell` | interactive | 5, 6 | Service Worker for the shell, plus the reconnect scrim over the blurred stale grid — **unblocked: the secure context is confirmed live** |
 
 **The order changed on 2026-09-08, and the reason is worth keeping.** The original
 list had `k7-offline-shell` as slice 5 blocked only on slice 1, with HTTPS sitting in

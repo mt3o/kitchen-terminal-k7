@@ -48,9 +48,22 @@ export function daysUntil(notAfter: Date, now: Date = new Date()): number {
   return (notAfter.getTime() - now.getTime()) / 86_400_000
 }
 
-/** Pure, so the policy is testable without a network or a clock. */
-export function shouldRenew(cert: CertificateBundle | undefined, now: Date = new Date()): boolean {
+/**
+ * Pure, so the policy is testable without a network or a clock.
+ *
+ * `wantProduction` is not optional decoration. Expiry alone is the wrong test the
+ * moment somebody flips staging to production: the staging certificate on disk
+ * has 89 days left, so an expiry-only check keeps it, and the kiosk goes on
+ * serving an untrusted certificate while the configuration insists it is
+ * production. The mismatch has to force a reissue.
+ */
+export function shouldRenew(
+  cert: CertificateBundle | undefined,
+  now: Date = new Date(),
+  wantProduction?: boolean,
+): boolean {
   if (!cert) return true
+  if (wantProduction !== undefined && cert.staging !== !wantProduction) return true
   return daysUntil(cert.notAfter, now) < RENEW_BEFORE_DAYS
 }
 
@@ -155,6 +168,7 @@ export async function issueCertificate(options: CertificateOptions): Promise<Cer
 /** Load, and issue only if there is nothing usable. The common path is a read. */
 export async function ensureCertificate(options: CertificateOptions): Promise<CertificateBundle> {
   const existing = await loadCertificate(options.dir)
-  if (!shouldRenew(existing) && existing) return existing
+  const production = options.production ?? false
+  if (existing && !shouldRenew(existing, new Date(), production)) return existing
   return issueCertificate(options)
 }

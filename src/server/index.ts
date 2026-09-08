@@ -15,6 +15,8 @@ import { describeConfig, loadConfig, secretValues } from './config.ts'
 import { runMigrations } from './db/migrate.ts'
 import { initObservability, Sentry } from './observability.ts'
 import { isAllowedHost, isPrivateAddress } from './security/network.ts'
+import { createCloudflareDns } from './tls/cloudflare.ts'
+import { ensureCertificate } from './tls/certificate.ts'
 import { createFreshnessService } from './upstream/freshness.ts'
 import { fetchWeather, weatherCacheKey } from './upstream/open-meteo.ts'
 
@@ -36,7 +38,38 @@ runMigrations(db)
 const repos = createRepositories(db)
 const fetchThrough = createFreshnessService(repos.upstreamCache)
 
-const app = Fastify({ logger: { transport: undefined } })
+/**
+ * TLS is all-or-nothing and decided before Fastify exists, because the server's
+ * https options are constructor arguments. Missing configuration is not an
+ * error: plain HTTP is a supported way to run, it just means no Service Worker.
+ */
+async function resolveTls(): Promise<{ key: string; cert: string } | undefined> {
+  if (!config.hostname || !config.cloudflareApiToken) return undefined
+  const bundle = await ensureCertificate({
+    hostname: config.hostname,
+    email: config.acmeEmail ?? `admin@${config.hostname}`,
+    dns: createCloudflareDns(config.cloudflareApiToken),
+    dir: config.certDir,
+    production: config.acmeProduction,
+  })
+  return { key: bundle.privateKey, cert: bundle.certificate }
+}
+
+let tls: { key: string; cert: string } | undefined
+try {
+  tls = await resolveTls()
+} catch (error) {
+  // A certificate failure must not take the kitchen display down. Falling back
+  // to HTTP keeps the wall alive and loses only the Service Worker, which is
+  // strictly better than a blank screen while somebody debugs ACME.
+  Sentry.captureException(error)
+  process.stderr.write(`TLS setup failed, continuing on HTTP: ${error instanceof Error ? error.message : String(error)}\n`)
+}
+
+const app = Fastify({
+  logger: { transport: undefined },
+  ...(tls ? { https: { key: tls.key, cert: tls.cert } } : {}),
+})
 
 /** The Layout is read per request: editing layout.yaml should not need a restart. */
 async function loadLayout(): Promise<Layout> {
@@ -67,7 +100,7 @@ app.get('/api/layout', async (_req, reply) => {
 
 // Nothing on this box is authenticated, so the network boundary is the boundary.
 // Two checks, guarding two different attacks — see security/network.ts.
-const allowedHosts = [config.tlsHostname, config.host].filter((h): h is string => Boolean(h))
+const allowedHosts = [config.hostname, config.host].filter((h): h is string => Boolean(h))
 
 app.addHook('onRequest', async (req, reply) => {
   if (!isPrivateAddress(req.ip)) {
@@ -167,4 +200,4 @@ await app.register(fastifyStatic, { root: resolve(ROOT, 'dist/client'), index: [
 app.setNotFoundHandler((_req, reply) => reply.sendFile('index.html'))
 
 const address = await app.listen({ port: config.port, host: config.host })
-app.log.info(`kitchen-terminal-k7 on ${address} — ${describeConfig(config)}`)
+app.log.info(`kitchen-terminal-k7 on ${address} — ${describeConfig(config)} scheme=${tls ? 'https' : 'http'}`)
