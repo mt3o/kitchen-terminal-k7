@@ -102,7 +102,7 @@ choice agreed on every item; the API journaled each write as `gui-guided`.
 **Promoted to lifetime — 31.** Every `constraint` and `decision` that existed at the
 time of the pass. They survive every sweep, which is the whole point of a foundation
 pass. Decisions captured *since* start at mid-term like anything else and need their
-own promotion — currently `MWPIPE` (`95f8d3a2`).
+own promotion — currently `MWPIPE` (`95f8d3a2`) and `NOVIDATAFLUX` (`fd9717c3`).
 
 | Group | Nodes |
 |---|---|
@@ -114,8 +114,9 @@ own promotion — currently `MWPIPE` (`95f8d3a2`).
 | Product decisions | `TWOWIDGETS` `CAMERALOCAL` |
 | Process | `GITWORKFLOW` `TRACKERBIND` `VISIBLEPHASE` `DUMPMERGE` |
 
-**Left at mid-term — 7 issues.** `VIDATAFLUX` `TS7` `SWCACHE` `ZAKUPY`
-`SCHEMAV2ADOPT` `NIGHTSCHED` `DENSITY`. Open issues should *close*; pinning them at
+**Left at mid-term — 6 issues.** `TS7` `SWCACHE` `ZAKUPY` `SCHEMAV2ADOPT`
+`NIGHTSCHED` `DENSITY`. *(`VIDATAFLUX` was flagged CONTRADICTED on 2026-09-08 when
+the library was written out of the stack — awaiting a ruling.)* Open issues should *close*; pinning them at
 lifetime would serve the open-questions list into every recall forever, including
 long after the questions are answered.
 
@@ -136,9 +137,11 @@ it is why they were kept out of lifetime tier.
 
 `/gw-foundation` step 5 says to deactivate the foundation scope and sweep once
 promotion is done. **That is wrong for this project right now.** The promoted nodes
-survive a sweep by design, but the mid-term issues would go dormant — and `VIDATAFLUX`
-is the last live blocker on Faza 0. Sweeping would stop the project's own open
-questions from ranking into recall at precisely the moment they matter most.
+survive a sweep by design, but the mid-term issues would go dormant. Faza 0 is no
+longer blocked by any of them, so the argument is now weaker than it was — but
+`TS7` and `SWCACHE` are still live Faza 0 work, and sweeping would stop the
+project's own open questions from ranking into recall at the moment they matter
+most. Revisit once Faza 0 closes.
 
 Keep the foundation scope active. Sweep when the issues have closed, not before.
 

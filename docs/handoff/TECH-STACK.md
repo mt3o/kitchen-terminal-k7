@@ -28,8 +28,10 @@
   jeden interfejs na wiele backendów kluczy-wartości, obserwator zdarzeń)
 - **agentic-memory-system** i **graph-workflow** (mt3o-dev) — do zarządzania kontekstem
   (chatu?) — **patrz zastrzeżenie niżej, to nie jest biblioteka runtime**
-- **vidataflux** (mt3o-dev) — do zarządzania danymi, wymaga pakietu na npm — **patrz
-  zastrzeżenie niżej, repo jest puste**
+- ~~**vidataflux** (mt3o-dev)~~ — **wypisane ze stacku 2026-09-08.** Repo było puste,
+  a rolę „zarządzanie danymi" pokrywa już warstwa dostępu do SQLite za portem
+  repozytorium plus adaptery `@logosdx/*`. Port heksagonalny zostaje — to dokładnie
+  ten szew, w który biblioteka danych wejdzie później jako adapter, jeśli powstanie
 
 ## ⚠️ Zastrzeżenia — status
 
@@ -41,11 +43,16 @@
 2. **`agentic-memory-system` i `graph-workflow` — potwierdzone: narzędzia do PRACY
    nad projektem** (Ty + Claude Code), nie zależności runtime aplikacji. Nie trafiają
    do `package.json` — zostają jako narzędzia deweloperskie obok projektu.
-3. **`vidataflux` — puste repo. OTWARTE, blokuje start.** Do uzupełnienia przez
-   Ciebie przed użyciem w stacku (albo do świadomego wypisania ze stacku).
+3. ~~**`vidataflux` — puste repo.**~~ **ROZSTRZYGNIĘTE 2026-09-08: wypisane ze
+   stacku.** Z dwóch uczciwych odpowiedzi — uzupełnić repo albo świadomie je
+   wypisać — wybrana druga. Czekanie na bibliotekę, która jeszcze nie istnieje,
+   blokowałoby Fazę 0 dla roli, na którą stack ma już odpowiedź. Odwrót jest tani:
+   port repozytorium to ten sam szew, w który vidataflux wejdzie jako adapter,
+   jeśli kiedyś powstanie.
 4. ~~iPhone 6s vs. iPad~~ — rozwiązane, patrz wyżej (oba do iOS/iPadOS 15).
 
-**Status: 1 z 4 zastrzeżeń otwarte** (3 — `vidataflux`). Zastrzeżenia 1, 2 i 4 są rozstrzygnięte.
+**Status: 0 z 4 zastrzeżeń otwarte.** Wszystkie cztery rozstrzygnięte — **Faza 0 nie
+jest już niczym zablokowana.**
 
 ## Decyzje (rozstrzygnięte)
 
@@ -92,8 +99,9 @@ Rozstrzygnięte (zostawione dla śladu):
 - ~~Silnik bazy~~ — SQLite
 - ~~iPhone 6s vs. iPad jako target~~ — wspólny baseline Safari 15
 
-Nadal otwarte: patrz "⚠️ Zastrzeżenia — status" wyżej (pozycja 3) oraz
-"Decyzje oddane Opusowi" — obie sekcje są ujęte w liście zadań Fazy 0.
+Nadal otwarte: już tylko "Decyzje oddane Opusowi" (adapter migracji / query builder
+oraz strategia Service Workera) — obie rozstrzygane w trakcie Fazy 0, żadna jej nie
+blokuje.
 
 ## Zadania
 
@@ -115,4 +123,5 @@ Faza 0 (dodatki)", która zaczęła się rozjeżdżać z planem — została sca
        TypeScript 7 GA unverified .. b6cc5895-5e52-462a-aab2-c934ba921825
        Service Worker strategy ..... baefeee7-a562-4085-8a4e-cd20045f4164
        @mt3o/middleware-pipe shipped 95f8d3a2-3197-4f8c-9126-80c5ddd29466 (supersedes 7835061e-c325-4e70-8051-105f22ff4f8a)
+       vidataflux dropped .......... fd9717c3-c5af-470d-a9e6-80d382652b16 (supersedes 40398c2a-b8e4-4721-b426-730e93b8a4d8)
 -->

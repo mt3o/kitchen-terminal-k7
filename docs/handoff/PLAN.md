@@ -30,11 +30,12 @@ Rozstrzygnięte (zostawione dla śladu):
 - ~~Nazwa repo na GitHubie~~ — **kitchen-terminal-k7**
 - ~~Silnik bazy~~ — SQLite
 
-Nadal otwarte, **blokują start Fazy 0** (po Twojej stronie):
+~~Nadal otwarte, blokują start Fazy 0~~ — **nic już nie blokuje Fazy 0 (2026-09-08):**
 
-1. ~~Nowa nazwa pakietu npm zamiast `middleware-pipe`~~ — **rozstrzygnięte 2026-09-08**:
-   opublikowane jako `@mt3o/middleware-pipe@1.0.0`, publiczne
-2. Uzupełnienie pustego repo `vidataflux` — **jedyny pozostały blocker**
+1. ~~Nowa nazwa pakietu npm zamiast `middleware-pipe`~~ — opublikowane jako
+   `@mt3o/middleware-pipe@1.0.0`, publiczne
+2. ~~Uzupełnienie pustego repo `vidataflux`~~ — **wypisane ze stacku**; rolę pokrywa
+   warstwa SQLite za portem repozytorium + adaptery `@logosdx/*`
 
 Nadal otwarte, nieblokujące (rozstrzygane w trakcie Fazy 0):
 
@@ -53,11 +54,11 @@ Sonnet = umiarkowane, Opus = złożone/decyzje architektoniczne).
 To jest **jedyna** obowiązująca lista Fazy 0. `TECH-STACK.md` opisuje uzasadnienia
 technologii, ale nie prowadzi własnego zestawu zadań.
 
-Najpierw odblokowanie (bez tego reszta nie ma sensu):
+~~Najpierw odblokowanie~~ — **zrobione, Faza 0 startuje bez przeszkód:**
 - [x] ~~Nowa nazwa pakietu npm zamiast `middleware-pipe`~~ — opublikowane
       2026-09-08 jako `@mt3o/middleware-pipe@1.0.0`, publiczne
-- [ ] Uzupełnienie pustego repo `vidataflux` (albo świadome wypisanie go ze stacku)
-      — **wymaga Twojej decyzji, ostatni blocker Fazy 0**
+- [x] ~~Uzupełnienie pustego repo `vidataflux`~~ — świadomie wypisane ze stacku
+      2026-09-08; port repozytorium zostaje jako szew na później
 
 Decyzje architektoniczne:
 - [ ] Adapter migracji + lekki ORM/query builder do SQLite (silnik już ustalony;
