@@ -16,6 +16,7 @@ archived: false
 -> SCOPED_TO [node:156d8b7d-0b1f-48f0-b434-c7a269edf283] @ 2026-09-08T09:38:31.156725+00:00
 -> SCOPED_TO [node:18bafc37-5e9e-4d04-936a-53218abaca4b] @ 2026-09-08T09:38:01.499476+00:00
 -> SCOPED_TO [node:279d73e0-ff0f-4184-a25c-f051d2030072] @ 2026-09-08T09:38:01.059071+00:00
+-> SCOPED_TO [node:36e6377e-7d18-4de2-b827-8644f15bf56a] @ 2026-09-08T09:55:56.268439+00:00
 -> SCOPED_TO [node:40398c2a-b8e4-4721-b426-730e93b8a4d8] @ 2026-09-08T09:38:30.154849+00:00
 -> SCOPED_TO [node:41ec3acd-0302-4120-9ef0-4b00a4945829] @ 2026-09-08T09:38:01.357085+00:00
 -> SCOPED_TO [node:4730c1bc-b791-4a0d-a94c-1bd4f8307102] @ 2026-09-08T09:38:00.934031+00:00
@@ -26,6 +27,7 @@ archived: false
 -> SCOPED_TO [node:6eef8943-c521-4af4-918b-ffa1a6200bfe] @ 2026-09-08T09:38:31.010276+00:00
 -> SCOPED_TO [node:7108856c-d3d5-4701-bb69-11087256a081] @ 2026-09-08T09:36:59.157308+00:00
 -> SCOPED_TO [node:716987ce-f933-41b5-8c4e-590c09dc33bf] @ 2026-09-08T09:36:59.039273+00:00
+-> SCOPED_TO [node:75d638bb-1ad3-4938-8b53-cac939b73ac0] @ 2026-09-08T09:55:56.142557+00:00
 -> SCOPED_TO [node:77925b30-350a-42ee-a7de-7e8a023c5708] @ 2026-09-08T09:38:00.559118+00:00
 -> SCOPED_TO [node:7835061e-c325-4e70-8051-105f22ff4f8a] @ 2026-09-08T09:38:30.023885+00:00
 -> SCOPED_TO [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-09-08T09:37:21.559263+00:00
@@ -33,6 +35,7 @@ archived: false
 -> SCOPED_TO [node:8a963777-1d94-42ad-ae4b-8a2b08d0a686] @ 2026-09-08T09:38:31.309348+00:00
 -> SCOPED_TO [node:9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0] @ 2026-09-08T09:37:22.142396+00:00
 -> SCOPED_TO [node:9ea20285-de89-4f25-a25e-37700078bd59] @ 2026-09-08T09:38:01.797947+00:00
+-> SCOPED_TO [node:a17b142e-850e-4cdb-8d84-2689e75428a7] @ 2026-09-08T09:55:55.888852+00:00
 -> SCOPED_TO [node:a815b136-0de2-49af-ac42-6192c12def24] @ 2026-09-08T09:38:00.810299+00:00
 -> SCOPED_TO [node:a827e6ec-aec4-40a7-b922-c689d71066a3] @ 2026-09-08T09:37:37.091684+00:00
 -> SCOPED_TO [node:ac006a24-2763-40e7-8423-2b851793efcf] @ 2026-09-08T09:36:59.394279+00:00
@@ -42,6 +45,7 @@ archived: false
 -> SCOPED_TO [node:c129f201-ae3c-45c8-89d7-a170bbaf5fad] @ 2026-09-08T09:38:01.199535+00:00
 -> SCOPED_TO [node:cabf56d2-4b59-4f19-96f7-9388071c1086] @ 2026-09-08T09:37:22.262832+00:00
 -> SCOPED_TO [node:d3faf49e-9fd8-4d79-9c8a-733cb2baa856] @ 2026-09-08T09:36:59.279270+00:00
+-> SCOPED_TO [node:d44ca6f2-aba3-4b52-99ba-cebf2695b4de] @ 2026-09-08T09:55:56.019321+00:00
 -> SCOPED_TO [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a] @ 2026-09-08T09:37:21.675646+00:00
 -> SCOPED_TO [node:e24b75ab-e370-4566-b9e7-35706cad806b] @ 2026-09-08T09:38:01.635211+00:00
 -> SCOPED_TO [node:ee768ade-394d-475c-92fb-e5c5b28e0efc] @ 2026-09-08T09:38:30.858406+00:00
@@ -75,6 +79,7 @@ archived: false
 -> DEPENDS_ON [node:156d8b7d-0b1f-48f0-b434-c7a269edf283] @ 2026-09-08T09:38:31.156725+00:00
 -> DEPENDS_ON [node:18bafc37-5e9e-4d04-936a-53218abaca4b] @ 2026-09-08T09:38:01.499476+00:00
 -> DEPENDS_ON [node:279d73e0-ff0f-4184-a25c-f051d2030072] @ 2026-09-08T09:38:01.059071+00:00
+-> DEPENDS_ON [node:36e6377e-7d18-4de2-b827-8644f15bf56a] @ 2026-09-08T09:55:56.268439+00:00
 -> DEPENDS_ON [node:40398c2a-b8e4-4721-b426-730e93b8a4d8] @ 2026-09-08T09:38:30.154849+00:00
 -> DEPENDS_ON [node:41ec3acd-0302-4120-9ef0-4b00a4945829] @ 2026-09-08T09:38:01.357085+00:00
 -> DEPENDS_ON [node:4730c1bc-b791-4a0d-a94c-1bd4f8307102] @ 2026-09-08T09:38:00.934031+00:00
@@ -84,6 +89,7 @@ archived: false
 -> DEPENDS_ON [node:6eef8943-c521-4af4-918b-ffa1a6200bfe] @ 2026-09-08T09:38:31.010276+00:00
 -> DEPENDS_ON [node:7108856c-d3d5-4701-bb69-11087256a081] @ 2026-09-08T09:36:59.157308+00:00
 -> DEPENDS_ON [node:716987ce-f933-41b5-8c4e-590c09dc33bf] @ 2026-09-08T09:36:59.039273+00:00
+-> DEPENDS_ON [node:75d638bb-1ad3-4938-8b53-cac939b73ac0] @ 2026-09-08T09:55:56.142557+00:00
 -> DEPENDS_ON [node:77925b30-350a-42ee-a7de-7e8a023c5708] @ 2026-09-08T09:38:00.559118+00:00
 -> DEPENDS_ON [node:7835061e-c325-4e70-8051-105f22ff4f8a] @ 2026-09-08T09:38:30.023885+00:00
 -> DEPENDS_ON [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-09-08T09:37:21.559263+00:00
@@ -91,6 +97,7 @@ archived: false
 -> DEPENDS_ON [node:8a963777-1d94-42ad-ae4b-8a2b08d0a686] @ 2026-09-08T09:38:31.309348+00:00
 -> DEPENDS_ON [node:9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0] @ 2026-09-08T09:37:22.142396+00:00
 -> DEPENDS_ON [node:9ea20285-de89-4f25-a25e-37700078bd59] @ 2026-09-08T09:38:01.797947+00:00
+-> DEPENDS_ON [node:a17b142e-850e-4cdb-8d84-2689e75428a7] @ 2026-09-08T09:55:55.888852+00:00
 -> DEPENDS_ON [node:a815b136-0de2-49af-ac42-6192c12def24] @ 2026-09-08T09:38:00.810299+00:00
 -> DEPENDS_ON [node:a827e6ec-aec4-40a7-b922-c689d71066a3] @ 2026-09-08T09:37:37.091684+00:00
 -> DEPENDS_ON [node:ac006a24-2763-40e7-8423-2b851793efcf] @ 2026-09-08T09:36:59.394279+00:00
@@ -100,6 +107,7 @@ archived: false
 -> DEPENDS_ON [node:c129f201-ae3c-45c8-89d7-a170bbaf5fad] @ 2026-09-08T09:38:01.199535+00:00
 -> DEPENDS_ON [node:cabf56d2-4b59-4f19-96f7-9388071c1086] @ 2026-09-08T09:37:22.262832+00:00
 -> DEPENDS_ON [node:d3faf49e-9fd8-4d79-9c8a-733cb2baa856] @ 2026-09-08T09:36:59.279270+00:00
+-> DEPENDS_ON [node:d44ca6f2-aba3-4b52-99ba-cebf2695b4de] @ 2026-09-08T09:55:56.019321+00:00
 -> DEPENDS_ON [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a] @ 2026-09-08T09:37:21.675646+00:00
 -> DEPENDS_ON [node:e24b75ab-e370-4566-b9e7-35706cad806b] @ 2026-09-08T09:38:01.635211+00:00
 -> DEPENDS_ON [node:ee768ade-394d-475c-92fb-e5c5b28e0efc] @ 2026-09-08T09:38:30.858406+00:00
@@ -693,7 +701,7 @@ type: issue
 tier: mid-term
 path: /artifact/the-design-system-replaces-the-courier-n
 created_at: 2026-09-08T09:38:30.858406+00:00
-needs_review: false
+needs_review: true
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
@@ -711,6 +719,26 @@ source: agent-surface
 created_at: 2026-09-08T09:41:26.017122+00:00
 
 a direction change from the accepted wireframes, unconfirmed - flagged to the human rather than captured as settled
+---
+[event:a292c7f9-d3d1-402c-a070-af0128e7cd42]
+node_id: ee768ade-394d-475c-92fb-e5c5b28e0efc
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-08T09:55:56.142557+00:00
+
+contradicted at capture of 75d638bb-1ad3-4938-8b53-cac939b73ac0
+---
+[event:e2cd3d59-7cf1-48aa-87b5-d8aa782544ba]
+node_id: ee768ade-394d-475c-92fb-e5c5b28e0efc
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-08T09:55:56.501634+00:00
+
+settled 2026-09-08: the face is Source Code Pro, not IBM Plex Mono - the issue named the wrong replacement, though its premise that Courier New goes was right
 ---
 [node:6eef8943-c521-4af4-918b-ffa1a6200bfe]
 type: issue
@@ -764,7 +792,7 @@ type: issue
 tier: mid-term
 path: /artifact/the-project-has-no-settled-git-workflow
 created_at: 2026-09-08T09:38:31.309348+00:00
-needs_review: false
+needs_review: true
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
@@ -781,3 +809,79 @@ source: agent-surface
 created_at: 2026-09-08T09:41:25.780698+00:00
 
 blocks the lifecycle itself: /gw-foundation requires a settled git workflow before distilling, and this project has neither a repository nor a branching model - distillation proceeded on everything else and this is left at the human gate
+---
+[event:3a3b4e20-19e1-4a15-8706-974e53d2d696]
+node_id: 8a963777-1d94-42ad-ae4b-8a2b08d0a686
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-08T09:55:55.888852+00:00
+
+contradicted at capture of a17b142e-850e-4cdb-8d84-2689e75428a7
+---
+[event:cec25197-3677-4c60-98ae-5d60036f23b4]
+node_id: 8a963777-1d94-42ad-ae4b-8a2b08d0a686
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-08T09:55:56.386271+00:00
+
+settled 2026-09-08: branch-per-change with PRs into main, merge commit, no squash; the tracker binds to GitHub Issues on mt3o/kitchen-terminal-k7. The issue's claim that no git workflow exists is now false
+---
+[node:a17b142e-850e-4cdb-8d84-2689e75428a7]
+type: decision
+tier: mid-term
+path: /artifact/work-reaches-main-one-branch-at-a-time
+created_at: 2026-09-08T09:55:55.888852+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> CONTRADICTS [node:8a963777-1d94-42ad-ae4b-8a2b08d0a686] @ 2026-09-08T09:55:55.888852+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:55:55.888852+00:00
+
+Work reaches main one branch at a time, through a pull request, and lands as a merge commit: squash merging and rebase merging are both turned off. A change is a sequence of phases with a memory capture at each boundary, so the per-phase commits are the readable record of that sequence - squashing discards it and leaves one commit whose message cannot honestly describe what the phase boundaries decided, and rebasing rewrites hashes that captured nodes and review comments already point at. Branches carry the same id as the change folder and the memory scope, so branch, folder and graph agree by construction.
+---
+[node:d44ca6f2-aba3-4b52-99ba-cebf2695b4de]
+type: decision
+tier: mid-term
+path: /artifact/work-state-lives-in-github-issues-on-the
+created_at: 2026-09-08T09:55:56.019321+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:a17b142e-850e-4cdb-8d84-2689e75428a7] @ 2026-09-08T09:55:56.019321+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:55:56.019321+00:00
+
+Work state lives in GitHub Issues on the owner's personal account, at mt3o/kitchen-terminal-k7, with plain Issues rather than a Projects board and with closing reserved to a human - the workflow may move, comment on and report divergence against an issue, never close it. Knowledge still goes in the graph: a decision recorded only in an issue comment is a decision no future recall will serve, so the issue gets a pointer at most.
+---
+[node:75d638bb-1ad3-4938-8b53-cac939b73ac0]
+type: decision
+tier: mid-term
+path: /artifact/the-monospace-face-is-source-code-pro-s
+created_at: 2026-09-08T09:55:56.142557+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:55:56.142557+00:00
+-> CONTRADICTS [node:ee768ade-394d-475c-92fb-e5c5b28e0efc] @ 2026-09-08T09:55:56.142557+00:00
+
+The monospace face is Source Code Pro, self-hosted as woff2 from the LAN backend at weights 400/500/600, replacing both the Courier New placeholder in the accepted wireframes and the IBM Plex Mono the design system had proposed. It was drawn for code read on screen - dotted zero, a 1 with a full base serif against a tailed l and a serifed I, Latin Extended-A so Polish diacritics are real glyphs - and it is SIL OFL, so self-hosting is unencumbered. Its x-height is 0.486 em against Plex Mono's 0.516, so every arcminute figure in the viewing-distance table drops about 6 percent; the 20px body rule survives with margin and the 16px label size now clears the 5 arcmin comfort floor at 1 m only barely, which argues for the 20px rule rather than against the face.
+---
+[node:36e6377e-7d18-4de2-b827-8644f15bf56a]
+type: constraint
+tier: mid-term
+path: /artifact/context-memory-graph-dump-is-marked-mer
+created_at: 2026-09-08T09:55:56.268439+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:a17b142e-850e-4cdb-8d84-2689e75428a7] @ 2026-09-08T09:55:56.268439+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:55:56.268439+00:00
+
+context/memory-graph.dump is marked -merge in .gitattributes so git never line-merges it. Git aligns similar blocks and shows only their differing lines, so a three-way merge of the dump can splice half of one node's entry onto half of another and produce a store that parses and is wrong. The documented recovery, agentic-memory sync resolve, does not exist in the installed CLI - sync accepts only status, dump and restore - so a conflict is resolved by keeping one side whole, running sync restore to rebuild the database from it, and re-capturing whatever the discarded side held.

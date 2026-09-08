@@ -17,6 +17,7 @@ bug — fix it through the amendment flow, never by silently editing the store.
 | `PLAN.md` | `docs/handoff/` — Faza 0–6, per-task model assignments |
 | `TECH-STACK.md` | `docs/handoff/` — stack choices, own/3rd-party libraries, caveats |
 | `layout.schema.yaml`, `theme.schema.yaml`, `themes/retro-scifi.yaml` | `docs/handoff/` — the v1 contracts |
+| `git-workflow.md`, `tracker.md` | `context/foundation/` — the two bindings the lifecycle was blocked on, settled 2026-09-08 |
 | `design-system/DESIGN.md` + `tokens.css` + `theme.schema.v2.yaml` + the component kit | **OpenDesign project `kitchen-terminal-k7-design-system`** — see `design-bindings.md`; ⚠ not in this repo, not under version control |
 
 ## Captured nodes
@@ -26,42 +27,61 @@ never promotes; the human does, in the GUI.
 
 | Key | Type | Node | Facets | Statement (opening) |
 |---|---|---|---|---|
-| `A8X` | constraint | `716987ce` | platform, ui | The kiosk runs on an A8X with 2 GB RAM on a display that is never asleep, so per-frame cost is a design constraint rather than … |
+| `A8X` | constraint | `716987ce` | platform, ui | The kiosk runs on an A8X with 2 GB RAM on a display that is never asleep, so per-frame cost is a design constraint ra… |
 | `AMBERINK` | constraint | `dffe0843` | ui | Amber is the ink, teal is the signal. |
 | `BRACKETGLYPH` | constraint | `9b0e63ee` | a11y, ui | Colour never carries state alone in this UI: |
 | `CONTRASTFLOORS` | constraint | `6d6046fc` | a11y, ui | Contrast floors for the kiosk: |
-| `CONVSERVICE` | constraint | `4730c1bc` | ai, backend | ConversationService stays decoupled from the chat HTTP endpoint so the chat can later be driven by MCP or a dedicated skill ins… |
-| `DISTANCES` | constraint | `7108856c` | a11y, ui | The kitchen terminal is read from three distances - the doorway at 3 m, the counter at 1 m, and the glass at 0.4 m with wet han… |
+| `CONVSERVICE` | constraint | `4730c1bc` | ai, backend | ConversationService stays decoupled from the chat HTTP endpoint so the chat can later be driven by MCP or a dedicated… |
+| `DISTANCES` | constraint | `7108856c` | a11y, ui | The kitchen terminal is read from three distances - the doorway at 3 m, the counter at 1 m, and the glass at 0.4 m wi… |
+| `DUMPMERGE` | constraint | `36e6377e` | process | context/memory-graph.dump is marked -merge in .gitattributes so git never line-merges it. |
 | `HOVERCONTRAST` | constraint | `aef51033` | a11y, ui | Hover raises contrast and never lowers it. |
-| `ONESOLID` | constraint | `a827e6ec` | ui | A solid amber fill is the loudest thing the design system can say, so there is at most one solid amber control per card and one… |
+| `ONESOLID` | constraint | `a827e6ec` | ui | A solid amber fill is the loudest thing the design system can say, so there is at most one solid amber control per ca… |
 | `RADIUSZERO` | constraint | `61c0030d` | ui | Radius is 0 everywhere with no exceptions, including inputs, chips and the scrim, and elevation is never a shadow: |
 | `SAFARI15` | constraint | `0bc7e618` | frontend, platform | Safari 15.0 is the hard compile target for Kitchen Terminal K7, not a preference: |
 | `SECRETS` | constraint | `ac006a24` | backend, security | The Google refresh token and the Kilo Gateway key are server-side only and never reach the frontend or the iPad. |
 | `TOKENCONTRACT` | constraint | `79662ce5` | frontend, ui | Theming is an architectural rule in this project, not a preference: |
-| `VISIBLEPHASE` | constraint | `7c574f65` | process | Every phase ends in something that can be looked at before the next one starts - Storybook for components, a real screen on the… |
+| `VISIBLEPHASE` | constraint | `7c574f65` | process | Every phase ends in something that can be looked at before the next one starts - Storybook for components, a real scr… |
 | `WARNNOTAMBER` | constraint | `ff852de4` | a11y, ui | Warn and fail are never amber. |
-| `CAMERALOCAL` | decision | `9ea20285` | security, ui | Presence-wake from the slideshow uses the camera, and every frame is processed locally in the browser - the image never leaves … |
-| `GCAL` | decision | `c129f201` | integration | Google Calendar is integrated bidirectionally - read plus add, edit and delete - which forces OAuth2 with a stored refresh token; |
-| `GLITCHTIP` | decision | `41ec3acd` | backend | Error tracking is GlitchTip, driven by the @sentry/node SDK because it is wire-compatible - so the project gets Sentry's SDK er… |
+| `CAMERALOCAL` | decision | `9ea20285` | security, ui | Presence-wake from the slideshow uses the camera, and every frame is processed locally in the browser - the image nev… |
+| `GCAL` | decision | `c129f201` | integration | Google Calendar is integrated bidirectionally - read plus add, edit and delete - which forces OAuth2 with a stored re… |
+| `GITWORKFLOW` | decision | `a17b142e` | process | Work reaches main one branch at a time, through a pull request, and lands as a merge commit: |
+| `GLITCHTIP` | decision | `41ec3acd` | backend | Error tracking is GlitchTip, driven by the @sentry/node SDK because it is wire-compatible - so the project gets Sentr… |
 | `GWTOOLS` | decision | `18bafc37` | process | agentic-memory-system and graph-workflow are tools for working ON this project, not runtime dependencies of it: |
-| `HEXAGONAL` | decision | `125f4071` | backend | The backend is hexagonal - ports and adapters with dependency injection - which is what lets the UI, the persistence layer and … |
+| `HEXAGONAL` | decision | `125f4071` | backend | The backend is hexagonal - ports and adapters with dependency injection - which is what lets the UI, the persistence … |
 | `KILO` | decision | `279d73e0` | ai, integration | AI traffic goes through Kilo Gateway: |
-| `LAN` | decision | `d3faf49e` | backend, platform | The backend runs on a physical machine inside the home LAN rather than on the cloud VPS used for other projects, so nothing nee… |
-| `OKLCHHEX` | decision | `cabf56d2` | platform, ui | Colours are derived in OKLCH at fixed hue and chroma, walking lightness until the WCAG target is met, and then written out as hex. |
-| `SCHEMAV2` | decision | `012f356c` | ui | A v2 of the theme schema exists as a strict superset of v1 - every current theme file still validates - adding a night mode alo… |
+| `LAN` | decision | `d3faf49e` | backend, platform | The backend runs on a physical machine inside the home LAN rather than on the cloud VPS used for other projects, so n… |
+| `OKLCHHEX` | decision | `cabf56d2` | platform, ui | Colours are derived in OKLCH at fixed hue and chroma, walking lightness until the WCAG target is met, and then writte… |
+| `SCHEMAV2` | decision | `012f356c` | ui | A v2 of the theme schema exists as a strict superset of v1 - every current theme file still validates - adding a nigh… |
+| `SOURCECODE` | decision | `75d638bb` | ui | The monospace face is Source Code Pro, self-hosted as woff2 from the LAN backend at weights 400/500/600, replacing bo… |
 | `SQLITE` | decision | `a815b136` | backend, data | SQLite is the database engine, chosen because the whole system is one machine on a LAN. |
 | `SVELTE` | decision | `77925b30` | frontend | Frontend is Svelte 5 with components exported as custom elements rather than hand-written native JS. |
+| `TRACKERBIND` | decision | `d44ca6f2` | process | Work state lives in GitHub Issues on the owner's personal account, at mt3o/kitchen-terminal-k7, with plain Issues rat… |
 | `TWOWIDGETS` | decision | `e24b75ab` | integration, ui | The original cat-of-the-day idea is split into two separate card types rather than one: |
-| `DENSITY` | issue | `156d8b7d` | ui | A large density mode is wired into the tokens but nothing in the product can reach it - there is no settings screen and no layo… |
-| `GITFLOW` | issue | `8a963777` | process | The project has no settled git workflow and no repository yet. |
+| `DENSITY` | issue | `156d8b7d` | ui | A large density mode is wired into the tokens but nothing in the product can reach it - there is no settings screen a… |
+| `GITFLOW` ⚠ | issue | `8a963777` | process | The project has no settled git workflow and no repository yet. |
 | `MIDDLEWARE` | issue | `7835061e` | backend, process | The middleware-pipe package name is already taken on npm, so a new name is needed before publication. |
-| `NIGHTSCHED` | issue | `6eef8943` | ui | Night mode exists as a third luminance mode roughly nine times dimmer than dark while still clearing WCAG AA, but its schedule … |
-| `PLEXMONO` | issue | `ee768ade` | ui | The design system replaces the Courier New placeholder with self-hosted IBM Plex Mono - taller x-height, unambiguous 0/O and 1/… |
+| `NIGHTSCHED` | issue | `6eef8943` | ui | Night mode exists as a third luminance mode roughly nine times dimmer than dark while still clearing WCAG AA, but its… |
+| `PLEXMONO` ⚠ | issue | `ee768ade` | ui | The design system replaces the Courier New placeholder with self-hosted IBM Plex Mono - taller x-height, unambiguous … |
 | `SCHEMAV2ADOPT` | issue | `f42da1a9` | process, ui | Whether to adopt the v2 theme schema now or ship v1 and migrate later is unsettled. |
-| `SWCACHE` | issue | `baefeee7` | frontend | The Service Worker aims at a full offline cache of app shell plus data, but dynamic data - calendar events, imported recipes - … |
-| `TS7` | issue | `b6cc5895` | process | The stack assumes TypeScript 7 with the native Go compiler, but the plan was written before that shipped and assumed an RC arou… |
-| `VIDATAFLUX` | issue | `40398c2a` | process | The vidataflux repository is empty and must either be filled in before it enters the stack or consciously written out of it. |
-| `ZAKUPY` | issue | `6d5ae12d` | data, integration | The shopping list has two data sources, a local table inside K7 and a zakupy-api mode where K7 is just an additional display fo… |
+| `SWCACHE` | issue | `baefeee7` | frontend | The Service Worker aims at a full offline cache of app shell plus data, but dynamic data - calendar events, imported … |
+| `TS7` | issue | `b6cc5895` | process | The stack assumes TypeScript 7 with the native Go compiler, but the plan was written before that shipped and assumed … |
+| `VIDATAFLUX` | issue | `40398c2a` | process | The vidataflux repository is empty and must either be filled in before it enters the stack or consciously written out… |
+| `ZAKUPY` | issue | `6d5ae12d` | data, integration | The shopping list has two data sources, a local table inside K7 and a zakupy-api mode where K7 is just an additional … |
+
+## Settled since the first pass — 2026-09-08
+
+Two `issue` nodes carry a `CONTRADICTED` event because the decision that answers
+them makes their statement false. **They are flagged, not resolved** — clearing a
+flag is a human act, and the flag is the system working.
+
+| Superseded issue | Answered by | The settlement |
+|---|---|---|
+| `GITFLOW` ⚠ | `GITWORKFLOW`, `TRACKERBIND` | branch-per-change → PR → **merge commit, no squash**; GitHub Issues on `mt3o/kitchen-terminal-k7`, human closes |
+| `PLEXMONO` ⚠ | `SOURCECODE` | the face is **Source Code Pro**, not IBM Plex Mono — the issue's premise (Courier New goes) was right, its replacement was not |
+
+`DUMPMERGE` was captured alongside them: the dump is `-merge` protected in
+`.gitattributes`, and the recovery `CLAUDE.md` documents (`agentic-memory sync
+resolve`) **does not exist** in the installed CLI.
 
 ## Facet vocabulary established by this pass
 
@@ -89,6 +109,9 @@ Ranked by how much damage a sweep would do if it went dormant:
 | `CONVSERVICE` | A future MCP/skill-driven chat depends on this seam existing. |
 | `SVELTE`, `SQLITE`, `LAN`, `KILO`, `GCAL`, `GLITCHTIP` | Settled stack choices with their reasons attached. |
 | `CONTRASTFLOORS`, `WARNNOTAMBER`, `BRACKETGLYPH`, `HOVERCONTRAST`, `RADIUSZERO`, `ONESOLID`, `OKLCHHEX`, `SCHEMAV2` | The design system's normative layer — the rules a component review checks against. |
+| `GITWORKFLOW`, `TRACKERBIND` | Every worktree, headless run and archive commit acts on them; a change lifecycle that forgets them corrupts its own history. |
+| `DUMPMERGE` | Names a documented recovery command that does not exist — the one node standing between a merge conflict and a silently wrong graph. |
+| `SOURCECODE` | Carries the x-height derivation that keeps someone from 'fixing' the 20px body rule back to 16. |
 | `TWOWIDGETS`, `CAMERALOCAL`, `GWTOOLS`, `VISIBLEPHASE` | Decisions with rejected alternatives recorded; cheap to re-litigate wrongly. |
 
 The ten `issue` nodes (`MIDDLEWARE`, `VIDATAFLUX`, `TS7`, `SWCACHE`, `ZAKUPY`,

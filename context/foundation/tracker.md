@@ -32,3 +32,8 @@ serve. Knowledge goes in the graph; the issue gets a pointer at most.
 The repository does not exist on GitHub yet — see `git-workflow.md`. Until it is
 created and pushed, `/gw-track` has a binding but no board, and the lifecycle runs
 files-only for work state.
+
+<!-- graph-workflow: captured 2026-09-08 into memory_goal 59472cdc.
+       GitHub Issues on mt3o/kitchen-terminal-k7 ... d44ca6f2-aba3-4b52-99ba-cebf2695b4de
+       depends on the branch/PR/merge policy ....... a17b142e-850e-4cdb-8d84-2689e75428a7
+-->

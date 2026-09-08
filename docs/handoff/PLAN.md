@@ -39,7 +39,8 @@ Nadal otwarte, nieblokujące (rozstrzygane w trakcie Fazy 0):
 
 3. Adapter migracji + lekki ORM/query builder do SQLite — **Opus**
 4. Strategia cache'owania Service Workera dla danych dynamicznych — **Opus**
-5. Binding trackera zadań — patrz `context/foundation/tracker.md`
+5. ~~Binding trackera zadań~~ — **rozstrzygnięte**: GitHub Issues, `mt3o/kitchen-terminal-k7`
+   (`context/foundation/tracker.md`, `context/foundation/git-workflow.md`)
 
 ## Fazy i zadania
 

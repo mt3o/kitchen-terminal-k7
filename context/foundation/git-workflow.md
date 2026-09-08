@@ -87,3 +87,9 @@ resolved deliberately.
 secret — Varlock keeps values out of the schema agents see, and the LAN topology
 notes name no addresses — but publication is still a one-way door, so it is a
 human's explicit act and never an agent's.
+
+<!-- graph-workflow: captured 2026-09-08 into memory_goal 59472cdc.
+       branch-per-change, PR, merge commit, no squash .. a17b142e-850e-4cdb-8d84-2689e75428a7
+       the dump is -merge protected ................... 36e6377e-7d18-4de2-b827-8644f15bf56a
+       supersedes the open-workflow issue ............. 8a963777-1d94-42ad-ae4b-8a2b08d0a686 (CONTRADICTED)
+-->

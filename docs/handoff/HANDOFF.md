@@ -91,7 +91,10 @@ Otwarte, ale nieblokujące (do rozstrzygnięcia w trakcie Fazy 0):
 
 - adapter migracji + lekki ORM/query builder do SQLite (silnik ustalony) — **Opus**
 - strategia cache'owania Service Workera dla danych dynamicznych — **Opus**
-- binding trackera zadań (`context/foundation/tracker.md`) — czeka na Twoją odpowiedź
+- ~~binding trackera zadań~~ — **rozstrzygnięte 2026-09-08**: GitHub Issues na koncie
+  osobistym, `mt3o/kitchen-terminal-k7`, zamyka człowiek. Patrz
+  `context/foundation/tracker.md` i `context/foundation/git-workflow.md`
+  (branch-per-change → PR → merge commit, bez squasha).
 
 <!-- graph-workflow: distilled by /gw-foundation 2026-09-08 into memory_goal 59472cdc.
      Amending this file? Recall the foundation subgraph and impact_of these nodes first;
