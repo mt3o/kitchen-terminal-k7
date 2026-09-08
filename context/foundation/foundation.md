@@ -99,10 +99,15 @@ adding an eleventh is a deliberate act, not a convenience.
 Ruled by the human in a `/gw-resolve` session, 2026-09-08. Recommendation and
 choice agreed on every item; the API journaled each write as `gui-guided`.
 
-**Promoted to lifetime — 31.** Every `constraint` and `decision` that existed at the
-time of the pass. They survive every sweep, which is the whole point of a foundation
-pass. Decisions captured *since* start at mid-term like anything else and need their
-own promotion — currently `MWPIPE` (`95f8d3a2`) and `NOVIDATAFLUX` (`fd9717c3`).
+**Promoted to lifetime — 33**, across two passes. Every `constraint` and `decision`
+in the graph is at lifetime and survives every sweep, which is the point of a
+foundation pass. This is a *state*, not a standing rule: anything captured later
+starts at mid-term like everything else and needs its own promotion.
+
+| Pass | Date | Promoted |
+|---|---|---|
+| 1 | 2026-09-08 | 31 — every constraint and decision then existing |
+| 2 | 2026-09-08 | `MWPIPE` (`95f8d3a2`), `NOVIDATAFLUX` (`fd9717c3`) |
 
 | Group | Nodes |
 |---|---|
@@ -115,23 +120,43 @@ own promotion — currently `MWPIPE` (`95f8d3a2`) and `NOVIDATAFLUX` (`fd9717c3`
 | Process | `GITWORKFLOW` `TRACKERBIND` `VISIBLEPHASE` `DUMPMERGE` |
 
 **Left at mid-term — 6 issues.** `TS7` `SWCACHE` `ZAKUPY` `SCHEMAV2ADOPT`
-`NIGHTSCHED` `DENSITY`. *(`VIDATAFLUX` was flagged CONTRADICTED on 2026-09-08 when
-the library was written out of the stack — awaiting a ruling.)* Open issues should *close*; pinning them at
-lifetime would serve the open-questions list into every recall forever, including
-long after the questions are answered.
+`NIGHTSCHED` `DENSITY`. Open issues should *close*; pinning them at lifetime would
+serve the open-questions list into every recall forever, including long after the
+questions are answered.
 
-**Archived by ruling — 3.** All `superseded`, with lineage recorded:
+**Archived by ruling — 4.** All `superseded`, with lineage recorded:
 
-| Issue | Superseded by |
-|---|---|
-| `GITFLOW` `8a963777` | `GITWORKFLOW` `a17b142e` |
-| `PLEXMONO` `ee768ade` | `SOURCECODE` `75d638bb` |
-| `MIDDLEWARE` `7835061e` | `MWPIPE` `95f8d3a2` |
+| Issue | Superseded by | What closed it |
+|---|---|---|
+| `GITFLOW` `8a963777` | `GITWORKFLOW` `a17b142e` | branch-per-change, PR, merge commit |
+| `PLEXMONO` `ee768ade` | `SOURCECODE` `75d638bb` | the face is Source Code Pro |
+| `MIDDLEWARE` `7835061e` | `MWPIPE` `95f8d3a2` | published as `@mt3o/middleware-pipe@1.0.0` |
+| `VIDATAFLUX` `40398c2a` | `NOVIDATAFLUX` `fd9717c3` | written out of the stack |
+
+Four of the ten original issues closed inside a day, and the last two were the ones
+blocking Faza 0. Neither was closed by wishful ruling: each was retired by a
+decision node that says what was actually done.
 
 The pattern is worth naming: an `issue` node earns its keep by being *closable*.
 Each of these was captured as an open gap, survived exactly as long as the gap did,
 and was retired by the decision that filled it. That is the lifecycle working, and
 it is why they were kept out of lifetime tier.
+
+## Passes run
+
+| Pass | Disputes ruled | Promotions | Entities | Consolidations |
+|---|---|---|---|---|
+| 1 | `GITFLOW`, `PLEXMONO` — both `superseded` | 31 → lifetime, 8 declined | none proposed | none |
+| 2 | `MIDDLEWARE`, `VIDATAFLUX` — both `superseded` | 2 → lifetime | none proposed | none |
+
+Agent recommendation and human ruling agreed on all four disputes; every write is
+journaled `gui-guided` with both recorded, so a divergence would be visible.
+
+**The domain model is still empty.** `domain_model()` returns nothing and no entity
+has been proposed, which means every capture so far names things in prose rather than
+attaching to a ratified entity. That is the largest remaining gap in this graph and
+`/gw-domain` is what closes it — brownfield extraction has no code to read yet, so
+this is the cheap moment to do it by elicitation instead.
 
 ## Do not sweep yet
 

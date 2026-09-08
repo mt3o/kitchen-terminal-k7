@@ -948,10 +948,10 @@ type: issue
 tier: mid-term
 path: /artifact/the-vidataflux-repository-is-empty-and-m
 created_at: 2026-09-08T09:38:30.154849+00:00
-needs_review: true
+needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:38:30.154849+00:00
 
 The vidataflux repository is empty and must either be filled in before it enters the stack or consciously written out of it. This blocks the start of Faza 0 and is the project owner's call.
@@ -986,6 +986,36 @@ created_at: 2026-09-08T13:31:04.447745+00:00
 
 settled 2026-09-08: the owner ruled to go without vidataflux. The issue's premise - that the repo must be filled or the library consciously dropped - is answered by taking the second branch
 ---
+[event:0bc5839b-0b76-4471-94c4-4649fd2a91d1]
+node_id: 40398c2a-b8e4-4721-b426-730e93b8a4d8
+type: manual_review
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-09-08T13:34:56.470272+00:00
+
+guided resolve: recommended=superseded, chose=superseded: human ruled superseded: vidataflux is written out of the stack. The issue offered two branches - fill the repo or consciously drop it - and the second was taken, so the issue is answered rather than merely stale. impact_of returns only the foundation goal, so nothing depended on it
+---
+[event:4d59674f-d957-4154-b393-6746a9d67368]
+node_id: 40398c2a-b8e4-4721-b426-730e93b8a4d8
+type: contradiction_cleared
+weight: 1.0
+polarity: 1
+source: gui-guided
+created_at: 2026-09-08T13:34:56.470272+00:00
+
+guided review: superseded
+---
+[event:f3f68c14-388f-43f8-a8b3-0ce53b15a894]
+node_id: 40398c2a-b8e4-4721-b426-730e93b8a4d8
+type: archived
+weight: 0.0
+polarity: -1
+source: gui-guided
+created_at: 2026-09-08T13:34:56.470272+00:00
+
+guided review: superseded
+---
 [node:b6cc5895-5e52-462a-aab2-c934ba921825]
 type: issue
 tier: mid-term
@@ -1008,6 +1038,16 @@ source: agent-surface
 created_at: 2026-09-08T10:12:07.743073+00:00
 
 /gw-resolve promotion pass 2026-09-08: presented as a promotion candidate and deliberately left at mid-term - an open issue should close and go dormant, not be pinned into every future recall
+---
+[event:2c32827b-f969-4167-88d1-77a332e28e80]
+node_id: b6cc5895-5e52-462a-aab2-c934ba921825
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:35:17.977538+00:00
+
+/gw-resolve pass 2: re-examined as part of the sweep argument. With Faza 0 unblocked this is now live Faza 0 work rather than a pre-Faza-0 blocker, and it is one of the two nodes the 'do not sweep yet' position now rests on
 ---
 [node:baefeee7-a562-4085-8a4e-cd20045f4164]
 type: issue
@@ -1032,6 +1072,16 @@ source: agent-surface
 created_at: 2026-09-08T10:12:07.859547+00:00
 
 /gw-resolve promotion pass 2026-09-08: presented as a promotion candidate and deliberately left at mid-term - an open issue should close and go dormant, not be pinned into every future recall
+---
+[event:6e52fe7d-0938-4bf9-94ba-a5fc6d8da1fa]
+node_id: baefeee7-a562-4085-8a4e-cd20045f4164
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T13:35:18.098546+00:00
+
+/gw-resolve pass 2: re-examined as part of the sweep argument - still open, still Faza 0 work, and one of the two nodes keeping the foundation scope active
 ---
 [node:6d5ae12d-608b-4187-839b-74d56e7ff059]
 type: issue
@@ -1431,7 +1481,7 @@ tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 —
 ---
 [node:95f8d3a2-3197-4f8c-9126-80c5ddd29466]
 type: decision
-tier: mid-term
+tier: lifetime
 path: /artifact/the-middleware-composition-library-ships
 created_at: 2026-09-08T11:24:46.150128+00:00
 needs_review: false
@@ -1445,9 +1495,19 @@ archived: false
 
 The middleware composition library ships as the scoped package @mt3o/middleware-pipe rather than a bare name, because the unscoped middleware-pipe was already taken on npm. Scoping was chosen over inventing a different bare name: it keeps the library's own identity readable, and it ends the naming race for everything else the project may publish. Version 1.0.0 is public from github.com/mt3o/middlewares with publishConfig.access set to public. npm never releases a published name for reuse, so this one is permanent. It clears the first of the two blockers on Faza 0; the empty vidataflux repository is the other.
 ---
+[event:4ad2e05d-f846-4b88-8c99-bc08bc8e3813]
+node_id: 95f8d3a2-3197-4f8c-9126-80c5ddd29466
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T13:34:56.480914+00:00
+
+tier -> lifetime: /gw-resolve pass 2 on 2026-09-08: human confirmed MWPIPE as lifetime - an npm name is permanently unreusable once published, the scope choice over a new bare name is non-obvious, and a real alternative was rejected
+---
 [node:fd9717c3-c5af-470d-a9e6-80d382652b16]
 type: decision
-tier: mid-term
+tier: lifetime
 path: /artifact/vidataflux-is-written-out-of-the-stack-r
 created_at: 2026-09-08T13:31:04.312167+00:00
 needs_review: false
@@ -1456,9 +1516,20 @@ trust_weight: 1.0
 archived: false
 -> DEPENDS_ON [node:125f4071-59ec-4d3f-898d-ffcb3edd8aa5] @ 2026-09-08T13:31:04.312167+00:00
 -> CONTRADICTS [node:40398c2a-b8e4-4721-b426-730e93b8a4d8] @ 2026-09-08T13:31:04.312167+00:00
+-> DEPENDS_ON [node:40398c2a-b8e4-4721-b426-730e93b8a4d8] @ 2026-09-08T13:34:56.470272+00:00
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T13:31:04.312167+00:00
 -> DEPENDS_ON [node:a815b136-0de2-49af-ac42-6192c12def24] @ 2026-09-08T13:31:04.312167+00:00
 -> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-09-08T13:31:04.312167+00:00
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T13:31:04.312167+00:00
 
 vidataflux is written out of the stack rather than waited for. The repository was empty, so adopting it meant blocking Faza 0 on a library that did not exist yet, for a role the project already has an answer to: data access is the SQLite layer behind a repository port, with the @logosdx adapters covering fetch, storage and events. Writing it out is the cheaper of the two honest answers and it costs little to reverse - the hexagonal port is exactly the seam a data library would slot into later, as an adapter, without disturbing the core. This clears the last blocker on Faza 0.
+---
+[event:21cc3992-bd86-4f09-93bd-a99aaf09871c]
+node_id: fd9717c3-c5af-470d-a9e6-80d382652b16
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-08T13:34:56.486071+00:00
+
+tier -> lifetime: /gw-resolve pass 2 on 2026-09-08: human confirmed NOVIDATAFLUX as lifetime - writing a library out of the stack is the kind of decision that gets silently re-litigated; the reason it is cheap to reverse lives on its DEPENDS_ON edges to HEXAGONAL and SQLITE
