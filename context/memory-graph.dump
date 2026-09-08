@@ -3146,6 +3146,8 @@ archived: false
 -> SCOPED_TO [node:0fc707b2-637a-4531-8dc4-8ed0b53d321a] @ 2026-09-08T19:10:55.302453+00:00
 -> SCOPED_TO [node:2e627382-1255-4d83-929d-cbf01c4d3f6a] @ 2026-09-08T19:10:55.034822+00:00
 -> SCOPED_TO [node:430c9542-7dd1-4b78-bfa1-760e6afcee1d] @ 2026-09-08T19:04:27.595010+00:00
+-> SCOPED_TO [node:60626826-09a6-488d-80fe-6baacd54d3ae] @ 2026-09-08T19:45:38.242108+00:00
+-> SCOPED_TO [node:80270621-f604-470d-abd2-c5312497bd1e] @ 2026-09-08T19:45:38.119414+00:00
 -> SCOPED_TO [node:99f0f67d-c0a0-4e18-8141-4c62214e1991] @ 2026-09-08T19:10:55.164946+00:00
 
 change scope: k7-deploy
@@ -3172,7 +3174,9 @@ archived: false
 -> DEPENDS_ON [node:0fc707b2-637a-4531-8dc4-8ed0b53d321a] @ 2026-09-08T19:10:55.302453+00:00
 -> DEPENDS_ON [node:2e627382-1255-4d83-929d-cbf01c4d3f6a] @ 2026-09-08T19:10:55.034822+00:00
 -> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-08T19:04:27.595010+00:00
+-> DEPENDS_ON [node:60626826-09a6-488d-80fe-6baacd54d3ae] @ 2026-09-08T19:45:38.242108+00:00
 -> DEPENDS_ON [node:70d97cb6-59dd-4020-b3e8-2f7bd0bd8c04] @ 2026-09-08T19:04:27.595010+00:00
+-> DEPENDS_ON [node:80270621-f604-470d-abd2-c5312497bd1e] @ 2026-09-08T19:45:38.119414+00:00
 -> DEPENDS_ON [node:99f0f67d-c0a0-4e18-8141-4c62214e1991] @ 2026-09-08T19:10:55.164946+00:00
 
 Make the kiosk deployable to the LAN machine repeatably: a systemd unit that survives reboot, a deploy script that is the only way the service is updated, and TLS issued against the real hostname
@@ -3219,3 +3223,31 @@ archived: false
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T19:10:55.302453+00:00
 
 A deploy is finished when a port is bound, not when the service manager says active. systemd reports a unit active the moment the process starts, which is before Node has finished listening, so a deploy script that checks unit state reports success against a server that is not yet answering - and on a bad day reports success against one that never will. The check polls for a bound port and fails loudly when none appears. The same reasoning applies to the deploy script being the only way the service is updated: hand edits on the box produce a running service nobody can reproduce, and the day that matters is the day it has to be rebuilt.
+---
+[node:80270621-f604-470d-abd2-c5312497bd1e]
+type: constraint
+tier: mid-term
+path: /artifact/a-certificate-s-mode-is-part-of-whether
+created_at: 2026-09-08T19:45:38.119414+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99] @ 2026-09-08T19:45:38.119414+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-08T19:45:38.119414+00:00
+-> DEPENDS_ON [node:c68c6715-1e1a-4876-8f3c-35ff3d9b8fac] @ 2026-09-08T19:45:38.370963+00:00
+
+A certificate's mode is part of whether it is still valid, not just its expiry date. Switching issuance from staging to production leaves a staging certificate on disk with most of its ninety days remaining, so a renewal check that only asks about expiry keeps it and the kiosk goes on serving an untrusted certificate while the configuration insists it is production. The only symptom is a browser warning, which is exactly the warning everyone has spent the setup hour learning to click through. The renewal gate therefore compares the stored certificate's issuing environment against the configured one and reissues on a mismatch.
+---
+[node:60626826-09a6-488d-80fe-6baacd54d3ae]
+type: constraint
+tier: mid-term
+path: /artifact/verify-a-dns-write-against-the-authorita
+created_at: 2026-09-08T19:45:38.242108+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T19:45:38.242108+00:00
+
+Verify a DNS write against the authoritative nameserver, not a recursive resolver. After the first certificate issuance the ACME challenge TXT record appeared to have leaked - a recursive query still returned it - and the cleanup code was about to be rewritten. The record had in fact been deleted; the resolver was serving a cached copy with twenty-five seconds of its sixty-second TTL left. Querying the zone's own nameserver showed it gone. A cache is not evidence about the state of a zone, and for records this short-lived the window in which a resolver disagrees with reality is most of the window in which anyone looks.

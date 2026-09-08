@@ -9,14 +9,14 @@ parent:
   - 59472cdc-4531-4206-a9fc-968166c52250   # foundation
 epic: faza-0
 branch: change/k7-deploy
-status: deployed on HTTP; TLS pending a Cloudflare token
+status: deployed on HTTPS with a trusted certificate
 ```
 
 ## Running
 
-**`http://k7.revert-h0m3.co.pl:8080/`** — on `192.168.0.10`, as a systemd user
+**`https://k7.revert-h0m3.co.pl:8443/`** — on `192.168.0.10`, as a systemd user
 service, enabled with lingering so it comes back after a reboot with nobody
-logged in.
+logged in. Trusted certificate, `Verify return code: 0`.
 
 `./scripts/deploy.sh [ref]` is the only way it is updated.
 
@@ -69,10 +69,36 @@ None of these were visible locally.
 | Rendered at 1024×768 | six cards, live clock, `STATUS: ONLINE` |
 | `systemctl --user is-enabled` / linger | enabled / yes |
 
-## Next, and it needs you
+## TLS, done
 
-`.env.local` on the box has the hostname and timezone. **Add the Cloudflare API
-token to it** (`Zone:DNS:Edit` on `revert-h0m3.co.pl`) and redeploy: the server
-will issue a **staging** certificate and move to `:8443`. Staging is not
-browser-trusted — that is deliberate, so the first run proves the DNS-01 loop
-without spending the production rate limit. Then set `K7_ACME_PRODUCTION=true`.
+Staging first, then production, which is what the policy is for.
+
+| | |
+|---|---|
+| Staging issuance | ~25 s, `(STAGING) Dastardly Durum YR1`, untrusted as expected |
+| Challenge TXT | created and removed — verified at the **authoritative** nameserver |
+| Production issuance | `Let's Encrypt YR2`, valid to 7 Dec 2026 |
+| Chain | `Verification: OK`, `Verify return code: 0` |
+| **The point of all of it** | `isSecureContext: true`, `serviceWorker: true`, `caches: true` on the real origin |
+
+### Two things caught between staging and production
+
+**A staging certificate would have survived the flip.** `ensureCertificate` asked
+only whether the stored certificate had expired, and a staging one with 89 days
+left passes that test — so `K7_ACME_PRODUCTION=true` would have changed nothing
+and the kiosk would have kept serving an untrusted certificate while the config
+claimed otherwise. The only symptom is a browser warning, which is the warning
+everyone has just spent an hour learning to click through. The gate now compares
+the stored certificate's environment against the configured one.
+
+**The challenge record had not leaked.** A recursive query still returned it and
+the cleanup code was about to be rewritten; the authoritative nameserver had
+already dropped it and the resolver was serving a 25-second-old cache entry. A
+cache is not evidence about the state of a zone.
+
+## Left open
+
+- `:8443` rather than `:443`, because binding 443 needs root. Behind the existing
+  nginx would fix that and needs a human with sudo.
+- The renewal path has not been *observed* — it is tested as policy and will not
+  actually run for ~60 days.
