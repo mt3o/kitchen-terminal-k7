@@ -40,3 +40,8 @@ jobs:
 
       - name: Typecheck + build
         run: npm run build
+
+      - name: Storybook build
+        # Catches a story that no longer compiles, and the component-registration
+        # failure that a green app build can hide.
+        run: npm run build:storybook
