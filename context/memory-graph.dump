@@ -52,6 +52,7 @@ archived: false
 -> SCOPED_TO [node:e24b75ab-e370-4566-b9e7-35706cad806b] @ 2026-09-08T09:38:01.635211+00:00
 -> SCOPED_TO [node:ee768ade-394d-475c-92fb-e5c5b28e0efc] @ 2026-09-08T09:38:30.858406+00:00
 -> SCOPED_TO [node:f42da1a9-633f-4fe2-81e4-47bd34b836f4] @ 2026-09-08T09:38:30.709099+00:00
+-> SCOPED_TO [node:fd9717c3-c5af-470d-a9e6-80d382652b16] @ 2026-09-08T13:31:04.312167+00:00
 -> SCOPED_TO [node:ff852de4-c6d2-4da3-906b-de637255e484] @ 2026-09-08T09:37:37.208429+00:00
 
 change scope: foundation
@@ -116,6 +117,7 @@ archived: false
 -> DEPENDS_ON [node:e24b75ab-e370-4566-b9e7-35706cad806b] @ 2026-09-08T09:38:01.635211+00:00
 -> DEPENDS_ON [node:ee768ade-394d-475c-92fb-e5c5b28e0efc] @ 2026-09-08T09:38:30.858406+00:00
 -> DEPENDS_ON [node:f42da1a9-633f-4fe2-81e4-47bd34b836f4] @ 2026-09-08T09:38:30.709099+00:00
+-> DEPENDS_ON [node:fd9717c3-c5af-470d-a9e6-80d382652b16] @ 2026-09-08T13:31:04.312167+00:00
 -> DEPENDS_ON [node:ff852de4-c6d2-4da3-906b-de637255e484] @ 2026-09-08T09:37:37.208429+00:00
 
 Establish Kitchen Terminal K7's foundational constraints, concepts, and decisions as always-live shared knowledge
@@ -946,7 +948,7 @@ type: issue
 tier: mid-term
 path: /artifact/the-vidataflux-repository-is-empty-and-m
 created_at: 2026-09-08T09:38:30.154849+00:00
-needs_review: false
+needs_review: true
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
@@ -963,6 +965,26 @@ source: agent-surface
 created_at: 2026-09-08T10:12:07.628409+00:00
 
 /gw-resolve promotion pass 2026-09-08: presented as a promotion candidate and deliberately left at mid-term - an open issue should close and go dormant, not be pinned into every future recall
+---
+[event:80fab50e-9138-43c1-81a0-3de19c907295]
+node_id: 40398c2a-b8e4-4721-b426-730e93b8a4d8
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-08T13:31:04.312167+00:00
+
+contradicted at capture of fd9717c3-c5af-470d-a9e6-80d382652b16
+---
+[event:f2b75061-2d05-45ec-a60a-c7733ad7aa13]
+node_id: 40398c2a-b8e4-4721-b426-730e93b8a4d8
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-08T13:31:04.447745+00:00
+
+settled 2026-09-08: the owner ruled to go without vidataflux. The issue's premise - that the repo must be filled or the library consciously dropped - is answered by taking the second branch
 ---
 [node:b6cc5895-5e52-462a-aab2-c934ba921825]
 type: issue
@@ -1422,3 +1444,21 @@ archived: false
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T11:24:46.150128+00:00
 
 The middleware composition library ships as the scoped package @mt3o/middleware-pipe rather than a bare name, because the unscoped middleware-pipe was already taken on npm. Scoping was chosen over inventing a different bare name: it keeps the library's own identity readable, and it ends the naming race for everything else the project may publish. Version 1.0.0 is public from github.com/mt3o/middlewares with publishConfig.access set to public. npm never releases a published name for reuse, so this one is permanent. It clears the first of the two blockers on Faza 0; the empty vidataflux repository is the other.
+---
+[node:fd9717c3-c5af-470d-a9e6-80d382652b16]
+type: decision
+tier: mid-term
+path: /artifact/vidataflux-is-written-out-of-the-stack-r
+created_at: 2026-09-08T13:31:04.312167+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:125f4071-59ec-4d3f-898d-ffcb3edd8aa5] @ 2026-09-08T13:31:04.312167+00:00
+-> CONTRADICTS [node:40398c2a-b8e4-4721-b426-730e93b8a4d8] @ 2026-09-08T13:31:04.312167+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T13:31:04.312167+00:00
+-> DEPENDS_ON [node:a815b136-0de2-49af-ac42-6192c12def24] @ 2026-09-08T13:31:04.312167+00:00
+-> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-09-08T13:31:04.312167+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T13:31:04.312167+00:00
+
+vidataflux is written out of the stack rather than waited for. The repository was empty, so adopting it meant blocking Faza 0 on a library that did not exist yet, for a role the project already has an answer to: data access is the SQLite layer behind a repository port, with the @logosdx adapters covering fetch, storage and events. Writing it out is the cheaper of the two honest answers and it costs little to reverse - the hexagonal port is exactly the seam a data library would slot into later, as an adapter, without disturbing the core. This clears the last blocker on Faza 0.
