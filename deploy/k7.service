@@ -1,0 +1,38 @@
+# Kitchen Terminal K7 — a systemd *user* unit.
+#
+# User, not system, on purpose: the target is a shared machine where this account
+# has no passwordless sudo, and lingering is already enabled, so a user unit
+# starts at boot without anyone logging in. The cost is that it cannot bind port
+# 443 — that needs CAP_NET_BIND_SERVICE, which only root can grant — so the kiosk
+# runs on a high port. If this ever moves behind the nginx already on :80, the
+# unit does not change; only the port it is proxied from does.
+[Unit]
+Description=Kitchen Terminal K7
+Documentation=https://github.com/mt3o/kitchen-terminal-k7
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/kitchen-terminal-k7
+# Leading '-' so a missing secrets file is a degraded start, not a failed one:
+# without it the service runs on plain HTTP, which is a supported way to run.
+EnvironmentFile=-%h/kitchen-terminal-k7/.env.local
+ExecStart=/usr/bin/env node src/server/index.ts
+Restart=always
+RestartSec=5
+# A kitchen display that dies at 03:00 should come back, not wait for a human.
+StartLimitIntervalSec=0
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=k7
+
+[Install]
+WantedBy=default.target

@@ -39,7 +39,7 @@ function readPort(raw: string | undefined, fallback: number): number {
 
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   return {
-    port: readPort(env.K7_PORT, 8080),
+    port: readPort(env.K7_PORT, env.K7_TLS_HOSTNAME && env.CLOUDFLARE_API_TOKEN ? 8443 : 8080),
     host: env.K7_HOST ?? '0.0.0.0',
     environment: env.NODE_ENV ?? 'development',
     databasePath: env.K7_DB_PATH ?? './data/k7.sqlite',

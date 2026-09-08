@@ -3133,3 +3133,40 @@ archived: false
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T18:56:16.844498+00:00
 
 A clock injected into a service but not into the repository underneath it measures age between two different clocks, and the result looks right in production and absurd in a test. The cache write takes the timestamp as a parameter rather than calling the wall clock itself, so the whole read-write-read cycle runs on one injected clock. This was found by a test asserting an age of 300 seconds and getting the distance between a fabricated date and the real present; the code would have shipped, because in production both clocks agree and nothing looks wrong.
+---
+[node:095a9bf5-61d6-4cd5-b805-72a25527c104]
+type: slice
+tier: short-term
+path: /change/k7-deploy
+created_at: 2026-09-08T19:04:27.595010+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:430c9542-7dd1-4b78-bfa1-760e6afcee1d] @ 2026-09-08T19:04:27.595010+00:00
+
+change scope: k7-deploy
+---
+[event:adcc1d7d-89df-4edd-b49e-436443e1b684]
+node_id: 095a9bf5-61d6-4cd5-b805-72a25527c104
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T19:04:27.596382+00:00
+
+create_change k7-deploy
+---
+[node:430c9542-7dd1-4b78-bfa1-760e6afcee1d]
+type: goal
+tier: short-term
+path: /goal/k7-deploy
+created_at: 2026-09-08T19:04:27.595010+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-08T19:04:27.595010+00:00
+-> DEPENDS_ON [node:70d97cb6-59dd-4020-b3e8-2f7bd0bd8c04] @ 2026-09-08T19:04:27.595010+00:00
+
+Make the kiosk deployable to the LAN machine repeatably: a systemd unit that survives reboot, a deploy script that is the only way the service is updated, and TLS issued against the real hostname
