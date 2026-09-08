@@ -109,6 +109,35 @@ function registerServiceWorker(): void {
   })
 }
 
+/**
+ * The last good Layout, kept on the device.
+ *
+ * The Service Worker deliberately does not cache /api — the backend owns data
+ * freshness and a second cache in front of it would answer with a lie. But the
+ * Layout is not upstream data, it is the shape of the screen, and without it a
+ * reload during an outage paints an empty deck: a scrim over nothing, when the
+ * whole design is a scrim over the *stale grid*. So the shape is kept here and
+ * the data behind it is not.
+ */
+const LAYOUT_KEY = 'k7:last-layout'
+
+function rememberLayout(layout: Layout): void {
+  try {
+    localStorage.setItem(LAYOUT_KEY, JSON.stringify(layout))
+  } catch {
+    // A kiosk with storage disabled still works; it just blanks on reload.
+  }
+}
+
+function lastKnownLayout(): Layout | undefined {
+  try {
+    const raw = localStorage.getItem(LAYOUT_KEY)
+    return raw ? (JSON.parse(raw) as Layout) : undefined
+  } catch {
+    return undefined
+  }
+}
+
 async function loadLayout(): Promise<Layout> {
   const res = await fetch('/api/layout')
   if (!res.ok) throw new Error(`layout ${res.status}`)
@@ -119,13 +148,22 @@ async function boot(): Promise<void> {
   try {
     const layout = await loadLayout()
     render(layout)
+    rememberLayout(layout)
     setStatus('ONLINE', true)
     if (foot) foot.textContent = `> ${layout.cards.length} kart // motyw: ${layout.theme.split('/').pop()}`
   } catch (err) {
     // The last screen stays on the wall, blurred behind the scrim, while this
     // runs. Never blank, and never presented as current.
+    // Paint the last known screen before the scrim goes over it, so what is
+    // behind the blur is the grid the household last saw rather than a void.
+    const remembered = lastKnownLayout()
+    if (remembered) render(remembered)
     setStatus('BRAK POLACZENIA', false)
-    if (foot) foot.textContent = `> ${err instanceof Error ? err.message : 'nieznany blad'}`
+    if (foot) {
+      foot.textContent = remembered
+        ? `> ostatni znany uklad // ${err instanceof Error ? err.message : 'brak polaczenia'}`
+        : `> ${err instanceof Error ? err.message : 'nieznany blad'}`
+    }
     await reconnectLoop({
       probe: async () => {
         const res = await fetch('/api/health', { cache: 'no-store' })
