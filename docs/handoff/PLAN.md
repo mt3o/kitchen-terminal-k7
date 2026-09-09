@@ -102,11 +102,15 @@ Scaffolding:
 - [ ] Podłączenie widoku tygodnia do prawdziwych danych — **Sonnet**
 
 ### Faza 3 — przepisy i lista zakupów
-- [ ] Parser `schema.org/Recipe` (JSON-LD) z URL — **Sonnet**
-- [ ] Fallback heurystyczny (Readability.js + wykrywanie listy składników) — **Opus**
-      (niejednoznaczne dane wejściowe, wymaga projektowania heurystyki)
-- [ ] Endpoint `POST /recipes/import` + ekran potwierdzenia importu — **Sonnet**
-- [ ] CRUD listy zakupów (backend + prosty UI) — **Haiku**
+- [x] Parser `schema.org/Recipe` (JSON-LD) z URL — **Sonnet**
+- [x] ~~Fallback heurystyczny (Readability.js + wykrywanie listy składników)~~ — **Sonnet**
+      (`@mozilla/readability` + heurystyka list, jako osobna, przełączalna strategia)
+- [x] Endpoint `POST /api/recipes/import` + ekran potwierdzenia importu — **Sonnet**
+      (ścieżka `/recipes/import` skorygowana do konwencji `/api/*` reszty backendu;
+      import tylko ekstrahuje — zapis dopiero po `POST /api/recipes` z potwierdzonymi danymi)
+- [x] ~~CRUD listy zakupów (backend + prosty UI)~~ — **Sonnet**
+      (magazyn przepisów i listy zakupów, w tym `DELETE`, już istniał w warstwie
+      repozytorium przed tą zmianą; brakowało tylko tras HTTP i UI — dodane tutaj)
 
 ### Faza 4 — czat AI (Kilo Gateway)
 - [ ] Integracja z `GET /api/gateway/models` (lista modeli + cennik + context window) — **Sonnet**

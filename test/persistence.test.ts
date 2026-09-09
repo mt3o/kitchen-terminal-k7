@@ -66,6 +66,13 @@ describe('ShoppingListRepository', () => {
   it('reports a miss instead of inventing a row', async () => {
     assert.equal(await repos.shoppingList.setChecked('nope', true), undefined)
   })
+
+  it('deletes once and reports the miss on a repeat, same as recipes', async () => {
+    const item = await repos.shoppingList.add({ label: 'maslo', category: null })
+    assert.equal(await repos.shoppingList.delete(item.id), true)
+    assert.equal(await repos.shoppingList.delete(item.id), false, 'deleting twice reported success')
+    assert.deepEqual((await repos.shoppingList.list({ includeChecked: true })).map((i) => i.id), [])
+  })
 })
 
 describe('Conversation and Message', () => {

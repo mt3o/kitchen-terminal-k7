@@ -170,6 +170,30 @@
     void addItem()
   }
 
+  async function removeItem(item: ShoppingListItem): Promise<void> {
+    if (pendingIds.has(item.id)) return
+    // eslint-disable-next-line svelte/prefer-svelte-reactivity
+    pendingIds = new Set(pendingIds).add(item.id)
+    try {
+      const res = await fetch(`/api/shopping-list/${item.id}`, { method: 'DELETE' })
+      if (!res.ok && res.status !== 404) throw new Error(`delete ${res.status}`)
+      // Server-confirmed only, same as toggle(): the row leaves the list
+      // because the server said the row is gone, not because the tap happened.
+      // A 404 is treated as success too — someone else already deleted it from
+      // another device, and the end state the household cares about is the
+      // same either way.
+      items = items.filter((i) => i.id !== item.id)
+      failed = false
+    } catch {
+      failed = true
+    } finally {
+      // eslint-disable-next-line svelte/prefer-svelte-reactivity
+      const next = new Set(pendingIds)
+      next.delete(item.id)
+      pendingIds = next
+    }
+  }
+
   $effect(() => {
     // Re-fetch whenever showChecked changes; groupEnabled is a pure
     // client-side reshaping of what is already loaded.
@@ -192,17 +216,28 @@
             <p class="cat-label">{group.category || UNCATEGORISED}</p>
           {/if}
           {#each group.items as item (item.id)}
-            <button
-              type="button"
-              class="row"
-              class:row-checked={item.checked}
-              disabled={pendingIds.has(item.id)}
-              aria-pressed={item.checked}
-              onclick={() => toggle(item)}
-            >
-              <span class="glyph">{item.checked ? '[x]' : '[ ]'}</span>
-              <span class="label">{item.label}</span>
-            </button>
+            <div class="row-wrap">
+              <button
+                type="button"
+                class="row"
+                class:row-checked={item.checked}
+                disabled={pendingIds.has(item.id)}
+                aria-pressed={item.checked}
+                onclick={() => toggle(item)}
+              >
+                <span class="glyph">{item.checked ? '[x]' : '[ ]'}</span>
+                <span class="label">{item.label}</span>
+              </button>
+              <button
+                type="button"
+                class="row-delete"
+                disabled={pendingIds.has(item.id)}
+                aria-label={`usun ${item.label}`}
+                onclick={() => removeItem(item)}
+              >
+                &times;
+              </button>
+            </div>
           {/each}
         {/each}
       {/if}
@@ -262,15 +297,23 @@
     color: var(--fg-muted);
   }
 
+  .row-wrap {
+    display: flex;
+    align-items: stretch;
+    border-bottom: var(--border-w) solid var(--border);
+  }
+
+  .row-wrap:last-child { border-bottom: none; }
+
   .row {
     display: flex;
     align-items: center;
     gap: var(--space-3);
-    width: 100%;
+    flex: 1 1 auto;
+    min-width: 0;
     min-height: var(--control-h-sm);
     padding: var(--space-2) var(--space-2);
     border: none;
-    border-bottom: var(--border-w) solid var(--border);
     background: transparent;
     color: var(--fg);
     font-family: var(--font-ui);
@@ -279,14 +322,37 @@
     cursor: pointer;
   }
 
-  .row:last-child { border-bottom: none; }
-
   .row:hover {
     background: var(--ghost-hover);
     color: var(--fg);
   }
 
   .row:active { background: var(--ghost-active); }
+
+  .row-delete {
+    flex: 0 0 auto;
+    min-width: var(--control-h-sm);
+    min-height: var(--control-h-sm);
+    border: none;
+    background: transparent;
+    color: var(--fg-muted);
+    font-family: var(--font-ui);
+    font-size: var(--text-lg);
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .row-delete:hover {
+    background: var(--ghost-hover);
+    color: var(--fg);
+  }
+
+  .row-delete:active { background: var(--ghost-active); }
+
+  .row-delete:disabled {
+    cursor: not-allowed;
+    color: var(--fg-disabled);
+  }
 
   .row:focus {
     outline: var(--focus-w) solid var(--focus);
@@ -299,6 +365,14 @@
   .row:disabled {
     cursor: not-allowed;
     color: var(--fg-disabled);
+  }
+
+  .row-delete:focus {
+    outline: var(--focus-w) solid var(--focus);
+    outline-offset: calc(var(--focus-offset) * -1);
+  }
+  @supports selector(:focus-visible) {
+    .row-delete:focus:not(:focus-visible) { outline: none; }
   }
 
   .glyph {
