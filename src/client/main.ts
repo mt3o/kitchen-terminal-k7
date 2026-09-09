@@ -1,8 +1,9 @@
 // Client entry. Loads the Layout from the backend and renders one Card per entry.
 //
-// The token sheet is imported first and on purpose: it must define every var(--*)
-// before any component style resolves one.
-import '../../design-system/tokens.css'
+// The token sheet is no longer imported here: it is generated from the theme
+// the layout names and linked in index.html, which is what makes swapping the
+// design a matter of pointing `theme:` at another file rather than editing an
+// import. app.css still comes from the bundle.
 import './app.css'
 import './lib/K7Audiometer.svelte'
 import './lib/K7Card.svelte'

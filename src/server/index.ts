@@ -14,6 +14,7 @@ import { createRepositories, openDatabase } from './adapters/drizzle/index.ts'
 import { describeConfig, loadConfig, secretValues } from './config.ts'
 import { runMigrations } from './db/migrate.ts'
 import { initObservability, Sentry } from './observability.ts'
+import { generateTokensCss, type Theme } from './theme/generate.ts'
 import { isAllowedHost, isPrivateAddress } from './security/network.ts'
 import { createCloudflareDns } from './tls/cloudflare.ts'
 import { ensureCertificate } from './tls/certificate.ts'
@@ -66,6 +67,10 @@ try {
   process.stderr.write(`TLS setup failed, continuing on HTTP: ${error instanceof Error ? error.message : String(error)}\n`)
 }
 
+const req_log_error = (err: unknown): void => {
+  Sentry.captureException(err)
+}
+
 const app = Fastify({
   logger: { transport: undefined },
   ...(tls ? { https: { key: tls.key, cert: tls.cert } } : {}),
@@ -82,6 +87,33 @@ async function loadLayout(): Promise<NormalisedLayout> {
   // through a layout is how the single-page case quietly stops being tested.
   return normaliseLayout(layout)
 }
+
+/**
+ * The token stylesheet, generated from the theme the layout names.
+ *
+ * Served from the root rather than under /api because it is part of the shell:
+ * the service worker must be able to keep it for an offline paint, and /api is
+ * never cached by design. It is still generated per request, so editing a theme
+ * file needs no restart — the same rule the layout follows.
+ */
+app.get('/theme.css', async (_req, reply) => {
+  try {
+    const layout = await loadLayout()
+    const themePath = resolve(ROOT, layout.theme)
+    const theme = parse(await readFile(themePath, 'utf8')) as Theme
+    return reply
+      .type('text/css; charset=utf-8')
+      // No long cache: the whole point is that changing the file changes the
+      // design. The service worker holds a copy for the offline case.
+      .header('cache-control', 'no-cache')
+      .send(generateTokensCss(theme))
+  } catch (err) {
+    // A stylesheet that 500s leaves an unstyled kiosk, which is worse than an
+    // old one; but there is nothing to fall back to here, so say it plainly.
+    req_log_error(err)
+    return reply.code(500).type('text/css').send(`/* theme unavailable: ${err instanceof Error ? err.message : 'unknown'} */`)
+  }
+})
 
 app.get('/api/health', async () => ({
   ok: true,
