@@ -6,6 +6,7 @@
 // import. app.css still comes from the bundle.
 import './app.css'
 import './lib/K7Audiometer.svelte'
+import './lib/K7Calendar.svelte'
 import './lib/K7Card.svelte'
 import './lib/K7ShoppingList.svelte'
 import './lib/K7Timer.svelte'
@@ -230,6 +231,13 @@ function createWidget(card: Card): HTMLElement {
       ] as const) {
         attr(el, name, params[key])
       }
+      return el
+    }
+    case 'calendar': {
+      const el = document.createElement('k7-calendar')
+      attr(el, 'calendarId', params.calendarId)
+      attr(el, 'view', params.view)
+      attr(el, 'editable', params.editable)
       return el
     }
     case 'timer': {

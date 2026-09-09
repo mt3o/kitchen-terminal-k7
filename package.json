@@ -18,10 +18,12 @@
     "serve": "npm run build && npm run start",
     "lint": "eslint .",
     "lint:tokens": "python3 scripts/check-token-contract.py",
+    "tokens": "node scripts/build-tokens.mjs",
+    "tokens:check": "node scripts/build-tokens.mjs --check",
     "test": "node --test test/*.test.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "check": "npm run lint && npm run lint:tokens && npm run test && npm run build",
+    "check": "npm run lint && npm run lint:tokens && npm run tokens:check && npm run test && npm run build",
     "typecheck": "tsc --noEmit && svelte-check --tsconfig ./tsconfig.json"
   },
   "dependencies": {

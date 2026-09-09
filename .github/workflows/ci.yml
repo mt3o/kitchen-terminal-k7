@@ -35,6 +35,15 @@ jobs:
       - name: Design-token contract
         run: npm run lint:tokens
 
+      - name: Theme drift
+
+        # design-system/tokens.css is generated from the theme file. A committed copy
+
+        # that has drifted means Storybook proves a design the kiosk does not have.
+
+        run: npm run tokens:check
+
+
       - name: Tests
         run: npm test
 

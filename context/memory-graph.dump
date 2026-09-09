@@ -3716,3 +3716,75 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T06:41:30.680586+00:00
 
 The token sheet is generated from the theme file the layout names and served by the backend, never imported into the client bundle. Importing it made the layout's theme key decorative: the contract said swapping the whole design was a matter of pointing that key at another file, and nothing executed that path, so a second theme written expressly to prove it had never been loaded. Generation is checked against the committed stylesheet - colours, type scale, shape and spacing must match - so moving from a hand-written sheet to a generated one cannot quietly change the design. The sheet is served from the root and not under the API prefix because it is shell rather than data: the service worker keeps a copy so an offline paint has its colours, and fetches it network-first so a theme change appears on the next load rather than after a worker update.
+---
+[node:b503eb7d-a26c-4408-a275-7972a91e848f]
+type: slice
+tier: short-term
+path: /change/k7-calendar-week
+created_at: 2026-09-09T06:48:26.088083+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:e8c9942e-c6d8-4dc9-aa90-3f814f706180] @ 2026-09-09T06:48:26.088083+00:00
+
+change scope: k7-calendar-week
+---
+[event:cd692664-f553-4732-820a-30e1f95f1422]
+node_id: b503eb7d-a26c-4408-a275-7972a91e848f
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T06:48:26.089470+00:00
+
+create_change k7-calendar-week
+---
+[node:e8c9942e-c6d8-4dc9-aa90-3f814f706180]
+type: goal
+tier: short-term
+path: /goal/k7-calendar-week
+created_at: 2026-09-09T06:48:26.088083+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:e38777a4-339f-4aeb-8f3a-8a21daf671d0] @ 2026-09-09T06:48:26.088083+00:00
+
+A week view for the calendar card against mocked events, so the layout and the component exist before OAuth2 does
+---
+[node:a9a35af1-7025-4416-956b-8410f2286d9e]
+type: goal
+tier: short-term
+path: /goal/k7-component-stories
+created_at: 2026-09-09T06:48:26.216598+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:e38777a4-339f-4aeb-8f3a-8a21daf671d0] @ 2026-09-09T06:48:26.216598+00:00
+
+Stories for the four components built since Storybook landed, and tokens.css generated from the theme rather than hand-maintained beside it
+---
+[node:d85eefac-decd-4989-8e38-3106203b4fbd]
+type: slice
+tier: short-term
+path: /change/k7-component-stories
+created_at: 2026-09-09T06:48:26.216598+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:a9a35af1-7025-4416-956b-8410f2286d9e] @ 2026-09-09T06:48:26.216598+00:00
+
+change scope: k7-component-stories
+---
+[event:392dcc1a-59ef-4c29-946e-f1b7f08be8c1]
+node_id: d85eefac-decd-4989-8e38-3106203b4fbd
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T06:48:26.218449+00:00
+
+create_change k7-component-stories

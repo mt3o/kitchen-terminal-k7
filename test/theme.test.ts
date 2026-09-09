@@ -6,6 +6,7 @@
  * them. These tests read the real theme file and the real stylesheet.
  */
 import assert from 'node:assert/strict'
+import { execSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { describe, it } from 'node:test'
 
@@ -89,5 +90,26 @@ describe('a second theme actually produces a different design', () => {
     }
     const css = generateTokensCss(noNight)
     assert.equal(valueOf(css, '--bg', '[data-mode="night"]'), valueOf(css, '--bg', '[data-mode="dark"]'))
+  })
+})
+
+describe('the generator emits every token the components use', () => {
+  it('leaves nothing resolving to empty', () => {
+    // This is the regression that shipped: five tokens the components reference
+    // were absent from the generator, so on the deployed kiosk they resolved to
+    // nothing — silently, because an unresolved custom property is not an error.
+    const sources = execSync(
+      "grep -rhoE 'var\\(--[a-z0-9-]+' src/ --include='*.css' --include='*.svelte' --include='*.ts' || true",
+      { encoding: 'utf8' },
+    )
+    // Set inline per page by the renderer from the layout, not by the theme —
+    // they are runtime layout state that happens to travel as custom properties.
+    const RUNTIME = new Set(['--deck-cols', '--deck-rows', '--card-gap'])
+    const used = new Set(
+      [...sources.matchAll(/var\((--[a-z0-9-]+)/g)].map((m) => m[1] as string).filter((t) => !RUNTIME.has(t)),
+    )
+    const emitted = new Set([...generated.matchAll(/(--[a-z0-9-]+)\s*:/g)].map((m) => m[1] as string))
+    const missing = [...used].filter((t) => !emitted.has(t)).sort()
+    assert.deepEqual(missing, [], `components use tokens the theme does not emit: ${missing.join(' ')}`)
   })
 })

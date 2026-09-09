@@ -32,7 +32,7 @@ export interface Theme {
   shape: { borderRadiusPx: number; borderWidthPx: number; borderWidthStrongPx?: number }
   motion?: { fastMs?: number; baseMs?: number; slowMs?: number; easing?: string; blinkPeriodMs?: number }
   controls?: { heightPx?: number; heightSmallPx?: number; focusRingWidthPx?: number; focusRingOffsetPx?: number }
-  layout?: { sidebarWidthPx?: number }
+  layout?: { sidebarWidthPx?: number; targetViewportPx?: number }
   states?: Record<string, ThemeColorTriple>
   density?: { largeScaleFactor?: number }
 }
@@ -75,6 +75,15 @@ function pick(triple: ThemeColorTriple | undefined, mode: Mode): string | undefi
   return triple[mode]
 }
 
+/** `#rrggbb` → `rgba(...)`. Scrims and washes are the mode's own colours at an
+ *  alpha, so a new theme gets its own rather than inheriting amber ones. */
+function rgba(hex: string | undefined, alpha: number): string | undefined {
+  const m = /^#?([0-9a-f]{6})$/i.exec((hex ?? '').trim())
+  if (!m) return undefined
+  const n = Number.parseInt(m[1] as string, 16)
+  return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${alpha})`
+}
+
 function block(selector: string, lines: string[]): string {
   return `${selector} {\n${lines.map((l) => `  ${l}`).join('\n')}\n}`
 }
@@ -89,6 +98,23 @@ function modeBlock(theme: Theme, mode: Mode, selector: string): string {
     const value = pick(theme.states?.[key], mode)
     if (value) lines.push(`${token}: ${value};`)
   }
+  // A scrim's job is to dim, so it is built from the darkest ground the theme
+  // has rather than from the current mode's background — dimming a light screen
+  // with a light colour dims nothing.
+  const scrim = rgba(pick(theme.colors.backgroundDeep, 'dark') ?? pick(theme.colors.background, 'dark'), 0.88)
+  if (scrim) lines.push(`--scrim: ${scrim};`)
+
+  // Washes follow their own role's colour in the current mode, which is what
+  // keeps a tag chip legible after a re-theme instead of staying amber.
+  for (const [key, token] of [
+    ['accent', '--wash-accent'],
+    ['signal', '--wash-signal'],
+    ['danger', '--wash-fail'],
+  ] as const) {
+    const w = rgba(pick(theme.colors[key], mode), 0.14)
+    if (w) lines.push(`${token}: ${w};`)
+  }
+
   lines.push(`color-scheme: ${mode === 'light' ? 'light' : 'dark'};`)
   return block(selector, lines)
 }
@@ -113,7 +139,19 @@ export function generateTokensCss(theme: Theme): string {
   // size stops meaning the same thing the moment a size changes.
   structure.push(`--tracking-label: ${(t.letterSpacingLabelsPx / t.baseSizePx).toFixed(3)}em;`)
 
+  // Line heights and glance tracking are structural rather than per-theme: no
+  // theme has varied them, and a body leading is a legibility decision made once
+  // at a reading distance, not a stylistic one. A theme gains slots for them the
+  // day one needs to differ.
+  structure.push('--leading-body: 1.45;')
+  structure.push('--leading-tight: 1.15;')
+  structure.push('--leading-glance: 1.0;')
+  structure.push('--tracking-glance: -0.01em;')
+
   for (const step of [1, 2, 3, 4, 5, 6, 8, 12, 16]) structure.push(`--space-${step}: ${base * step}px;`)
+  structure.push(`--control-pad-x: ${base * 4}px;`)
+  // Touch slop: fingers on a wall display are imprecise and often wet.
+  structure.push('--tap-slop: 8px;')
   if (sp.gridGapPx) structure.push(`--grid-gap: ${sp.gridGapPx}px;`)
   if (sp.cardPaddingPx) structure.push(`--card-pad: ${sp.cardPaddingPx}px;`)
   if (sp.cardMinHeightPx) structure.push(`--card-min-h: ${sp.cardMinHeightPx}px;`)
@@ -127,6 +165,7 @@ export function generateTokensCss(theme: Theme): string {
   if (controls.focusRingWidthPx) structure.push(`--focus-w: ${controls.focusRingWidthPx}px;`)
   if (controls.focusRingOffsetPx) structure.push(`--focus-offset: ${controls.focusRingOffsetPx}px;`)
   if (theme.layout?.sidebarWidthPx) structure.push(`--sidebar-w: ${theme.layout.sidebarWidthPx}px;`)
+  if (theme.layout?.targetViewportPx) structure.push(`--viewport-target: ${theme.layout.targetViewportPx}px;`)
 
   if (motion.fastMs) structure.push(`--motion-fast: ${motion.fastMs}ms;`)
   if (motion.baseMs) structure.push(`--motion-base: ${motion.baseMs}ms;`)
