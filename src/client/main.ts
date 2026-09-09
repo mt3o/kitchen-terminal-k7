@@ -8,6 +8,7 @@ import './app.css'
 import './lib/K7Audiometer.svelte'
 import './lib/K7Card.svelte'
 import './lib/K7Chat.svelte'
+import './lib/K7Recipes.svelte'
 import './lib/K7ShoppingList.svelte'
 import './lib/K7Timer.svelte'
 import './lib/K7Weather.svelte'
@@ -256,6 +257,14 @@ function createWidget(card: Card): HTMLElement {
       attr(el, 'contextWindowMarginPercent', params.contextWindowMarginPercent)
       attr(el, 'compactingThresholdPercent', params.compactingThresholdPercent)
       attr(el, 'voiceInput', params.voiceInput)
+      return el
+    }
+    case 'recipes': {
+      const el = document.createElement('k7-recipes')
+      attr(el, 'maxVisible', params.maxVisible)
+      attr(el, 'allowUrlImport', params.allowUrlImport)
+      const tags = params.tags
+      if (Array.isArray(tags)) attr(el, 'tags', tags.join(','))
       return el
     }
     case 'clock': {
