@@ -10,11 +10,14 @@ html, body {
      overflow, so a scrollbar here would only ever mean a bug — and on the wall
      nobody is there to scroll anyway. */
   overflow: hidden;
-  /* 100vh is wrong in standalone PWA mode on Safari 15 — the toolbar is gone
-     but vh still assumes it. -webkit-fill-available is the 15.0 answer; dvh is
-     15.4 and therefore past the floor. */
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
+  /* An exact height chained from the root, and deliberately not a viewport unit.
+     `100vh` is wrong in a standalone PWA on iOS (the toolbar is gone, the unit
+     does not know); `dvh` is Safari 15.4 and past the floor; and
+     `-webkit-fill-available` — the usual iOS workaround — resolves against a
+     parent with no height of its own, which measured 887px inside a 768px
+     viewport and was itself the overflow this was meant to prevent.
+     `height: 100%` has no such ambiguity once the chain starts at <html>. */
+  height: 100%;
 }
 
 body {
@@ -31,12 +34,10 @@ body {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  /* A fixed height, not a minimum: the shell is the frame and the deck scrolls
-     inside it. With min-height the deck's own min-height pushes the footer off
-     the bottom of a 768px screen and the status line — the one thing that says
-     whether the terminal is alive — is the first casualty. */
-  height: 100vh;
-  height: -webkit-fill-available;
+  /* A fixed height, not a minimum: the shell is the frame, and the deck fits
+     inside it. With a minimum, the cards push the footer — and the status line,
+     the one element that says whether the terminal is alive — off the bottom. */
+  height: 100%;
   padding: var(--space-4);
   overflow: hidden;
 }
