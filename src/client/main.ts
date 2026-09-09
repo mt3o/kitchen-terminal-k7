@@ -81,6 +81,18 @@ function render(layout: NormalisedLayout): void {
     el.id = `page-${page.id}`
     const columns = page.grid?.columns ?? layout.grid.columns
     el.style.setProperty('--deck-cols', String(columns))
+
+    // An EXPLICIT row template, because `grid-row: 1 / -1` resolves -1 against
+    // the explicit grid: with only `grid-auto-rows` the rows are implicit, -1 is
+    // line 1, and a card asking for the whole column silently gets one cell.
+    //
+    // A full-column card takes a column to itself, so the rest share what is
+    // left — that is what decides the row count, not the raw card total.
+    const fullColumn = page.cards.filter((c) => c.span?.rows === 0).length
+    const rest = page.cards.length - fullColumn
+    const restColumns = Math.max(1, columns - fullColumn)
+    const rows = Math.max(1, fullColumn > 0 ? Math.ceil(rest / restColumns) : Math.ceil(page.cards.length / columns))
+    el.style.setProperty('--deck-rows', String(rows))
     const gap = page.grid?.gap ?? layout.grid.gap
     if (gap) el.style.setProperty('--card-gap', gap)
 
