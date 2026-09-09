@@ -94,6 +94,8 @@ export interface ChatCompletionRequest {
   /** Injected so a compaction summarisation call can ask for something short. */
   maxTokens?: number
   temperature?: number
+  /** Reused verbatim when given (e.g. to reproduce a prior ascii-art-of-the-day result). */
+  seed?: number
 }
 
 export interface GatewayChunkDelta {
@@ -170,6 +172,7 @@ export function createKiloGatewayClient(options: { apiKey?: string; baseUrl?: st
         stream_options: { include_usage: true },
         ...(request.maxTokens !== undefined ? { max_tokens: request.maxTokens } : {}),
         ...(request.temperature !== undefined ? { temperature: request.temperature } : {}),
+        ...(request.seed !== undefined ? { seed: request.seed } : {}),
       }),
     })
     if (!res.ok || !res.body) {
@@ -213,6 +216,7 @@ export function createKiloGatewayClient(options: { apiKey?: string; baseUrl?: st
         stream: false,
         ...(request.maxTokens !== undefined ? { max_tokens: request.maxTokens } : {}),
         ...(request.temperature !== undefined ? { temperature: request.temperature } : {}),
+        ...(request.seed !== undefined ? { seed: request.seed } : {}),
       }),
     })
     if (!res.ok) {

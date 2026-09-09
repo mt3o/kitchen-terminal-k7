@@ -5,9 +5,11 @@
 // design a matter of pointing `theme:` at another file rather than editing an
 // import. app.css still comes from the bundle.
 import './app.css'
+import './lib/K7AsciiArt.svelte'
 import './lib/K7Audiometer.svelte'
 import './lib/K7Card.svelte'
 import './lib/K7Chat.svelte'
+import './lib/K7Comic.svelte'
 import './lib/K7Recipes.svelte'
 import './lib/K7ShoppingList.svelte'
 import './lib/K7Timer.svelte'
@@ -245,6 +247,33 @@ function createWidget(card: Card): HTMLElement {
       const el = document.createElement('k7-shopping-list')
       attr(el, 'groupByCategory', params.groupByCategory)
       attr(el, 'showCheckedItems', params.showCheckedItems)
+      return el
+    }
+    case 'ascii-art-of-the-day': {
+      const el = document.createElement('k7-ascii-art')
+      el.setAttribute('label', LABELS['ascii-art-of-the-day'])
+      attr(el, 'prompt', params.prompt)
+      attr(el, 'model', params.model)
+      attr(el, 'cacheDurationHours', params.cacheDurationHours)
+      attr(el, 'maxWidthChars', params.maxWidthChars)
+      attr(el, 'maxHeightLines', params.maxHeightLines)
+      attr(el, 'colorized', params.colorized)
+      attr(el, 'seed', params.seed)
+      attr(el, 'fallbackArt', params.fallbackArt)
+      return el
+    }
+    case 'comic-of-the-day': {
+      const el = document.createElement('k7-comic')
+      el.setAttribute('label', LABELS['comic-of-the-day'])
+      attr(el, 'rssUrl', params.rssUrl)
+      attr(el, 'itemSelector', params.itemSelector)
+      const keywords = params.filterKeywords
+      if (Array.isArray(keywords)) attr(el, 'filterKeywords', keywords.join(','))
+      attr(el, 'cacheDurationHours', params.cacheDurationHours)
+      attr(el, 'maxWidthPx', params.maxWidthPx)
+      attr(el, 'linkToSource', params.linkToSource)
+      attr(el, 'creditText', params.creditText)
+      attr(el, 'fallbackImageUrl', params.fallbackImageUrl)
       return el
     }
     case 'chat': {

@@ -122,11 +122,11 @@ Scaffolding:
 - [ ] Dashboard/log przegląda historii kosztów (prosty widok) — **Haiku**
 
 ### Faza 5 — widgety obrazkowe (dwa osobne typy kart)
-- [ ] `ascii-art-of-the-day`: prompt + endpoint generujący ASCII-art (Kilo Gateway) — **Haiku**
-- [ ] `ascii-art-of-the-day`: cache na dzień + `seed` do debugowania promptu — **Haiku**
-- [ ] `comic-of-the-day`: pobranie i parsowanie RSS/Atom, wyciągnięcie obrazka
+- [x] `ascii-art-of-the-day`: prompt + endpoint generujący ASCII-art (Kilo Gateway) — **Haiku**
+- [x] `ascii-art-of-the-day`: cache na dzień + `seed` do debugowania promptu — **Haiku**
+- [x] `comic-of-the-day`: pobranie i parsowanie RSS/Atom, wyciągnięcie obrazka
       (`enclosure`/`media:content`, fallback na `itemSelector`) — **Sonnet**
-- [ ] `comic-of-the-day`: filtrowanie po `filterKeywords`, cache 24 h, atrybucja
+- [x] `comic-of-the-day`: filtrowanie po `filterKeywords`, cache 24 h, atrybucja
       (`creditText` + `linkToSource`) i `fallbackImageUrl` — **Haiku**
 
 ### Faza 6 — deployment i twarde detale iPada

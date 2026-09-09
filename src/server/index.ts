@@ -21,6 +21,8 @@ import { createCloudflareDns } from './tls/cloudflare.ts'
 import { ensureCertificate } from './tls/certificate.ts'
 import { createFreshnessService } from './upstream/freshness.ts'
 import { fetchWeather, weatherCacheKey } from './upstream/open-meteo.ts'
+import { asciiArtCacheKey, createAsciiArtGenerator } from './upstream/ascii-art.ts'
+import { comicCacheKey, fetchComic } from './upstream/comic-rss.ts'
 import { createKiloGatewayClient, createModelCatalog } from './upstream/kilo.ts'
 import { createConversationService } from './ai/conversation-service.ts'
 import { registerChatRoutes } from './routes/chat.ts'
@@ -43,9 +45,9 @@ runMigrations(db)
 const repos = createRepositories(db)
 const fetchThrough = createFreshnessService(repos.upstreamCache)
 
-// AI chat (Faza 4). The Kilo Gateway client and ConversationService are wired
-// here and handed to registerChatRoutes as a bundle — see routes/chat.ts for
-// why the routes themselves live in their own module.
+// AI chat (Faza 4) and ascii-art-of-the-day (Faza 5) share one Kilo Gateway
+// client and model catalogue — see routes/chat.ts for why the chat routes
+// themselves live in their own module.
 const kiloClient = createKiloGatewayClient({ apiKey: config.kiloGatewayKey })
 const modelCatalog = createModelCatalog(fetchThrough, kiloClient)
 const conversationService = createConversationService({
@@ -54,6 +56,11 @@ const conversationService = createConversationService({
   modelCatalog,
   gateway: kiloClient,
 })
+// Absent means the card fails honestly with a clear cause rather than every
+// request racing to discover a missing key — see the /api/ascii-art route.
+const generateAndRecordAsciiArt = config.kiloGatewayKey
+  ? createAsciiArtGenerator(repos.aiCalls, kiloClient, modelCatalog)
+  : undefined
 
 /**
  * TLS is all-or-nothing and decided before Fastify exists, because the server's
@@ -205,6 +212,76 @@ app.get('/api/weather', async (req, reply) => {
     // real data.
     return reply.code(503).send({
       error: 'weather unavailable and nothing cached',
+      detail: error instanceof Error ? error.message : undefined,
+    })
+  }
+})
+
+app.get('/api/ascii-art', async (req, reply) => {
+  const q = req.query as {
+    prompt?: string
+    model?: string
+    cacheDurationHours?: string
+    seed?: string
+    maxWidthChars?: string
+    maxHeightLines?: string
+  }
+  if (!q.prompt || q.prompt.trim() === '') return reply.code(400).send({ error: 'prompt is required' })
+  if (!generateAndRecordAsciiArt) {
+    return reply.code(503).send({ error: 'ascii art unavailable', detail: 'Kilo Gateway key is not configured' })
+  }
+  const model = q.model?.trim() || 'kilo-auto/free'
+  const seed = q.seed !== undefined && q.seed !== '' ? Number(q.seed) : undefined
+  if (seed !== undefined && !Number.isInteger(seed)) return reply.code(400).send({ error: 'seed must be an integer' })
+  const maxWidthChars = q.maxWidthChars !== undefined && q.maxWidthChars !== '' ? Number(q.maxWidthChars) : undefined
+  const maxHeightLines = q.maxHeightLines !== undefined && q.maxHeightLines !== '' ? Number(q.maxHeightLines) : undefined
+  const cacheDurationHours = Number(q.cacheDurationHours ?? 24)
+  const freshForSeconds = (Number.isFinite(cacheDurationHours) && cacheDurationHours > 0 ? cacheDurationHours : 24) * 3600
+  const query = { prompt: q.prompt, model, seed, maxWidthChars, maxHeightLines }
+
+  try {
+    return await fetchThrough({
+      key: asciiArtCacheKey(query),
+      upstream: 'kilo-gateway',
+      freshForSeconds,
+      fetcher: () => generateAndRecordAsciiArt(query),
+      onFallback: (error, ageSeconds) => {
+        req.log.warn({ err: error, ageSeconds }, 'kilo gateway unreachable, serving last good ascii art')
+      },
+    })
+  } catch (error) {
+    // Nothing cached and the gateway is unreachable: the client's fallbackArt
+    // param covers this locally rather than the server inventing placeholder art.
+    return reply.code(503).send({
+      error: 'ascii art unavailable and nothing cached',
+      detail: error instanceof Error ? error.message : undefined,
+    })
+  }
+})
+
+app.get('/api/comic', async (req, reply) => {
+  const q = req.query as { rssUrl?: string; itemSelector?: string; filterKeywords?: string; cacheDurationHours?: string }
+  if (!q.rssUrl || q.rssUrl.trim() === '') return reply.code(400).send({ error: 'rssUrl is required' })
+  const filterKeywords = q.filterKeywords ? q.filterKeywords.split(',').map((k) => k.trim()).filter(Boolean) : []
+  const cacheDurationHours = Number(q.cacheDurationHours ?? 24)
+  const freshForSeconds = (Number.isFinite(cacheDurationHours) && cacheDurationHours > 0 ? cacheDurationHours : 24) * 3600
+  const query = { rssUrl: q.rssUrl, itemSelector: q.itemSelector, filterKeywords }
+
+  try {
+    return await fetchThrough({
+      key: comicCacheKey(query),
+      upstream: 'rss',
+      freshForSeconds,
+      fetcher: () => fetchComic(query),
+      onFallback: (error, ageSeconds) => {
+        req.log.warn({ err: error, ageSeconds }, 'comic feed unreachable, serving last good comic')
+      },
+    })
+  } catch (error) {
+    // The client's fallbackImageUrl param covers a total miss locally rather
+    // than the server inventing a placeholder image.
+    return reply.code(503).send({
+      error: 'comic unavailable and nothing cached',
       detail: error instanceof Error ? error.message : undefined,
     })
   }
