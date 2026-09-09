@@ -30,6 +30,7 @@
 
 <script lang="ts">
   import Card from './Card.svelte'
+  import { renderMarkdown } from './markdown.ts'
 
   interface GatewayModelOption {
     id: string
@@ -259,7 +260,10 @@
           {#if m.content || streaming}
             <p class="line line-{m.role}">
               <span class="who">{m.role === 'user' ? 'ty' : m.role === 'assistant' ? 'ai' : 'sys'}</span>
-              <span class="content">{m.content}</span>
+              <!-- renderMarkdown escapes every character before generating any tag (see
+                   lib/markdown.ts) — this is not raw model/user output reaching the DOM. -->
+              <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+              <span class="content">{@html renderMarkdown(m.content)}</span>
             </p>
           {/if}
         {/each}
@@ -342,12 +346,54 @@
 
   .line-assistant .who { color: var(--signal); }
 
+  /* Markdown-rendered (see lib/markdown.ts) — line breaks come from the <p>/
+     <br> the renderer emits, not from CSS, so no white-space: pre-wrap here. */
   .content {
     flex: 1 1 auto;
     min-width: 0;
     overflow-wrap: anywhere;
-    white-space: pre-wrap;
     font-size: var(--text-sm);
+  }
+
+  .content :global(p) {
+    margin: 0 0 var(--space-2);
+  }
+  .content :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .content :global(ul),
+  .content :global(ol) {
+    margin: 0 0 var(--space-2);
+    padding-left: var(--space-4);
+  }
+  .content :global(ul:last-child),
+  .content :global(ol:last-child) {
+    margin-bottom: 0;
+  }
+
+  .content :global(code) {
+    font-family: var(--font-mono);
+    background: var(--surface-sunken);
+    border-radius: var(--radius);
+    padding: 0 0.25em;
+  }
+
+  .content :global(pre) {
+    margin: 0 0 var(--space-2);
+    padding: var(--space-2);
+    background: var(--surface-sunken);
+    border: var(--border-w) solid var(--border);
+    border-radius: var(--radius);
+    overflow-x: auto;
+  }
+  .content :global(pre code) {
+    background: none;
+    padding: 0;
+  }
+
+  .content :global(a) {
+    color: var(--signal);
   }
 
   .stale { margin: 0; color: var(--warn); font-size: var(--text-sm); }
