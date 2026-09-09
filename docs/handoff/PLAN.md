@@ -84,12 +84,12 @@ Scaffolding:
 - [ ] Szkielet bazy SQLite + migracje (schemat tabel) — **Sonnet**
 
 ### Faza 1 — dashboard statyczny (bez AI)
-- [ ] Wydzielenie tokenów designu do pliku motywu (`theme.schema.yaml`) — **Sonnet**
+- [x] ~~Wydzielenie tokenów designu do pliku motywu~~ — motyw jest źródłem, `tokens.css` generowany
       (komponenty czytają zmienne CSS wygenerowane z motywu, nie kolory/fonty na sztywno)
-- [ ] Loader motywu: wczytuje plik z `theme` wskazanego w `layout.yaml`, generuje CSS vars — **Sonnet**
+- [x] ~~Loader motywu~~ — serwer czyta plik wskazany przez `theme:` i generuje zmienne CSS; podmiana pliku zmienia cały design bez restartu
 - [ ] Layout retro-scifi: siatka, typografia, tokeny kolorów — **Sonnet**
-- [ ] Komponent: karta pogody (Open-Meteo, fetch + render) — **Haiku**
-- [ ] Komponent: timer kuchenny (czysty JS, offline) — **Haiku**
+- [x] ~~Komponent: karta pogody~~ — na żywych danych, z wiekiem odczytu
+- [x] ~~Komponent: timer kuchenny~~
 - [ ] Komponent: widok tygodnia kalendarza (na razie mockowane dane) — **Sonnet**
 - [ ] Storybook stories dla powyższych komponentów — **Haiku**
 
