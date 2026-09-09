@@ -130,7 +130,9 @@ body {
   height: 100%;
   display: grid;
   grid-template-columns: repeat(var(--deck-cols, 3), minmax(0, 1fr));
-  grid-auto-rows: minmax(0, 1fr);
+  /* Explicit, not auto: `grid-row: 1 / -1` counts against the explicit grid, so
+     a card asking for a whole column needs the rows to actually exist. */
+  grid-template-rows: repeat(var(--deck-rows, 2), minmax(0, 1fr));
   gap: var(--card-gap, var(--space-3));
 
   /* The token exists so rows do not jump as data loads. Equal `1fr` rows give

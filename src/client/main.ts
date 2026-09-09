@@ -4,6 +4,7 @@
 // before any component style resolves one.
 import '../../design-system/tokens.css'
 import './app.css'
+import './lib/K7Audiometer.svelte'
 import './lib/K7Card.svelte'
 import './lib/K7ShoppingList.svelte'
 import './lib/K7Timer.svelte'
@@ -80,6 +81,18 @@ function render(layout: NormalisedLayout): void {
     el.id = `page-${page.id}`
     const columns = page.grid?.columns ?? layout.grid.columns
     el.style.setProperty('--deck-cols', String(columns))
+
+    // An EXPLICIT row template, because `grid-row: 1 / -1` resolves -1 against
+    // the explicit grid: with only `grid-auto-rows` the rows are implicit, -1 is
+    // line 1, and a card asking for the whole column silently gets one cell.
+    //
+    // A full-column card takes a column to itself, so the rest share what is
+    // left — that is what decides the row count, not the raw card total.
+    const fullColumn = page.cards.filter((c) => c.span?.rows === 0).length
+    const rest = page.cards.length - fullColumn
+    const restColumns = Math.max(1, columns - fullColumn)
+    const rows = Math.max(1, fullColumn > 0 ? Math.ceil(rest / restColumns) : Math.ceil(page.cards.length / columns))
+    el.style.setProperty('--deck-rows', String(rows))
     const gap = page.grid?.gap ?? layout.grid.gap
     if (gap) el.style.setProperty('--card-gap', gap)
 
@@ -88,6 +101,14 @@ function render(layout: NormalisedLayout): void {
       card_el.id = card.id
       if (card.span?.cols && card.span.cols > 1) {
         card_el.style.gridColumn = `span ${Math.min(card.span.cols, columns)}`
+      }
+      // `rows` is in the layout contract and was being ignored, so a card could
+      // never occupy a full column however the file asked. `rows: 0` is the way
+      // a file says "all of them" without having to know how many there are.
+      // `!== undefined`, not truthiness: 0 is the value that means "the whole
+      // column", and a truthiness test skips exactly the case being added.
+      if (card.span?.rows !== undefined) {
+        card_el.style.gridRow = card.span.rows > 0 ? `span ${card.span.rows}` : '1 / -1'
       }
       el.appendChild(card_el)
     }
@@ -192,6 +213,22 @@ function createWidget(card: Card): HTMLElement {
       attr(el, 'lon', loc.lon)
       attr(el, 'units', params.units)
       attr(el, 'refresh', card.refreshIntervalSeconds)
+      return el
+    }
+    case 'audiometer': {
+      const el = document.createElement('k7-audiometer')
+      for (const [name, key] of [
+        ['historyDurationSeconds', 'historyDurationSeconds'],
+        ['sampleIntervalMs', 'sampleIntervalMs'],
+        ['unit', 'unit'],
+        ['showCurrentLevel', 'showCurrentLevel'],
+        ['showHistogram', 'showHistogram'],
+        ['smoothingFactor', 'smoothingFactor'],
+        ['warningThreshold', 'warningThreshold'],
+        ['micDeviceId', 'micDeviceId'],
+      ] as const) {
+        attr(el, name, params[key])
+      }
       return el
     }
     case 'timer': {
