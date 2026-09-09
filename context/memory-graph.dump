@@ -3323,3 +3323,40 @@ archived: false
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T19:56:57.300588+00:00
 
 Headless Chrome's virtual-time budget does not drive service worker installation, so a service worker cannot be verified with the screenshot-and-dump-DOM approach that works for ordinary pages. A test that way reports a blank error page and looks exactly like a broken worker; the worker in question was in fact registering, activating and caching correctly. Verification needs a real browser driven over the devtools protocol with real waits - controller present, registration activated, cache populated - and an offline check needs the backend actually stopped between a warm load and a reload, not a network condition simulated in the page.
+---
+[node:036d7035-0137-4a2f-8438-15cb318048df]
+type: slice
+tier: short-term
+path: /change/k7-widgets
+created_at: 2026-09-09T05:31:01.668253+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:4c010fc9-9310-4776-9724-89559745db67] @ 2026-09-09T05:31:01.668253+00:00
+
+change scope: k7-widgets
+---
+[event:622e6635-b662-43bd-b27c-895936001020]
+node_id: 036d7035-0137-4a2f-8438-15cb318048df
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T05:31:01.669669+00:00
+
+create_change k7-widgets
+---
+[node:4c010fc9-9310-4776-9724-89559745db67]
+type: goal
+tier: short-term
+path: /goal/k7-widgets
+created_at: 2026-09-09T05:31:01.668253+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-09T05:31:01.668253+00:00
+-> DEPENDS_ON [node:b50027cf-438d-4a12-bf40-983fc53fc63e] @ 2026-09-09T05:31:01.668253+00:00
+
+Turn the declared card types into real widgets, starting with the three that need no integration that does not exist yet: weather on live cached data, a client-side kitchen timer, and the shopping list against its endpoints

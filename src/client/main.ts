@@ -5,6 +5,9 @@
 import '../../design-system/tokens.css'
 import './app.css'
 import './lib/K7Card.svelte'
+import './lib/K7ShoppingList.svelte'
+import './lib/K7Timer.svelte'
+import './lib/K7Weather.svelte'
 
 import { domReconnectUi, reconnectLoop } from './lib/reconnect.ts'
 
@@ -69,22 +72,10 @@ function render(layout: Layout): void {
   if (layout.grid.gap) deck.style.setProperty('--card-gap', layout.grid.gap)
 
   for (const card of layout.cards) {
-    const el = document.createElement('k7-card')
-    el.setAttribute('label', LABELS[card.type] ?? card.type.toUpperCase())
+    const el = createWidget(card)
     el.id = card.id
     if (card.span?.cols && card.span.cols > 1) {
       el.style.gridColumn = `span ${Math.min(card.span.cols, layout.grid.columns)}`
-    }
-
-    if (card.type === 'clock') {
-      el.setAttribute('state', 'ok')
-      clockFace(card, el)
-    } else {
-      // Everything else is a declared slot with no body yet. Saying so beats a
-      // spinner that never resolves: [--] is the honest state.
-      el.setAttribute('state', 'idle')
-      el.setAttribute('body', 'oczekuje na implementacje')
-      el.setAttribute('meta', card.type)
     }
     deck.appendChild(el)
   }
@@ -142,6 +133,61 @@ async function loadLayout(): Promise<Layout> {
   const res = await fetch('/api/layout')
   if (!res.ok) throw new Error(`layout ${res.status}`)
   return (await res.json()) as Layout
+}
+
+/**
+ * Build the element for a card.
+ *
+ * A type with its own custom element gets it; everything else falls back to the
+ * generic shell showing `[--] oczekuje na implementacje`. Saying a card is not
+ * built yet is honest; a spinner that never resolves is not, and on a wall
+ * display nobody is there to conclude it has hung.
+ */
+function createWidget(card: Card): HTMLElement {
+  const params = (card.params ?? {}) as Record<string, unknown>
+  const attr = (el: HTMLElement, name: string, value: unknown): void => {
+    if (value !== undefined && value !== null) el.setAttribute(name, String(value))
+  }
+
+  switch (card.type) {
+    case 'weather': {
+      const el = document.createElement('k7-weather')
+      const loc = (params.location ?? {}) as { lat?: number; lon?: number }
+      attr(el, 'lat', loc.lat)
+      attr(el, 'lon', loc.lon)
+      attr(el, 'units', params.units)
+      attr(el, 'refresh', card.refreshIntervalSeconds)
+      return el
+    }
+    case 'timer': {
+      const el = document.createElement('k7-timer')
+      const presets = params.presetsMinutes
+      if (Array.isArray(presets)) attr(el, 'presets', presets.join(','))
+      attr(el, 'soundOnComplete', params.soundOnComplete)
+      return el
+    }
+    case 'shopping-list': {
+      const el = document.createElement('k7-shopping-list')
+      attr(el, 'groupByCategory', params.groupByCategory)
+      attr(el, 'showCheckedItems', params.showCheckedItems)
+      return el
+    }
+    case 'clock': {
+      const el = document.createElement('k7-card')
+      el.setAttribute('label', LABELS.clock)
+      el.setAttribute('state', 'ok')
+      clockFace(card, el)
+      return el
+    }
+    default: {
+      const el = document.createElement('k7-card')
+      el.setAttribute('label', LABELS[card.type] ?? card.type.toUpperCase())
+      el.setAttribute('state', 'idle')
+      el.setAttribute('body', 'oczekuje na implementacje')
+      el.setAttribute('meta', card.type)
+      return el
+    }
+  }
 }
 
 async function boot(): Promise<void> {
