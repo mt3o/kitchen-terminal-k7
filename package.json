@@ -29,8 +29,10 @@
     "@sentry/node": "^10.73.0",
     "acme-client": "^5.4.0",
     "better-sqlite3": "^13.0.3",
+    "cheerio": "^1.2.0",
     "drizzle-orm": "^0.45.2",
     "fastify": "^5.12.3",
+    "rss-parser": "^3.13.0",
     "yaml": "^2.8.1"
   },
   "devDependencies": {
