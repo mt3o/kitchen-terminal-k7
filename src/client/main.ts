@@ -4,6 +4,7 @@
 // before any component style resolves one.
 import '../../design-system/tokens.css'
 import './app.css'
+import './lib/K7Audiometer.svelte'
 import './lib/K7Card.svelte'
 import './lib/K7ShoppingList.svelte'
 import './lib/K7Timer.svelte'
@@ -92,7 +93,9 @@ function render(layout: NormalisedLayout): void {
       // `rows` is in the layout contract and was being ignored, so a card could
       // never occupy a full column however the file asked. `rows: 0` is the way
       // a file says "all of them" without having to know how many there are.
-      if (card.span?.rows) {
+      // `!== undefined`, not truthiness: 0 is the value that means "the whole
+      // column", and a truthiness test skips exactly the case being added.
+      if (card.span?.rows !== undefined) {
         card_el.style.gridRow = card.span.rows > 0 ? `span ${card.span.rows}` : '1 / -1'
       }
       el.appendChild(card_el)
@@ -198,6 +201,22 @@ function createWidget(card: Card): HTMLElement {
       attr(el, 'lon', loc.lon)
       attr(el, 'units', params.units)
       attr(el, 'refresh', card.refreshIntervalSeconds)
+      return el
+    }
+    case 'audiometer': {
+      const el = document.createElement('k7-audiometer')
+      for (const [name, key] of [
+        ['historyDurationSeconds', 'historyDurationSeconds'],
+        ['sampleIntervalMs', 'sampleIntervalMs'],
+        ['unit', 'unit'],
+        ['showCurrentLevel', 'showCurrentLevel'],
+        ['showHistogram', 'showHistogram'],
+        ['smoothingFactor', 'smoothingFactor'],
+        ['warningThreshold', 'warningThreshold'],
+        ['micDeviceId', 'micDeviceId'],
+      ] as const) {
+        attr(el, name, params[key])
+      }
       return el
     }
     case 'timer': {

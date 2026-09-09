@@ -13,6 +13,12 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#faab2f">
 <title>Kitchen Terminal K7</title>
+<!-- iOS ignores the manifest's icons and has no notion of a splash from it
+     either: a home-screen launch shows a white flash unless an explicit startup
+     image is given per orientation. Letterboxed onto the theme background so the
+     launch and the app that follows it are the same colour. -->
+<link rel="apple-touch-startup-image" media="(orientation: landscape)" href="/splash-2048x1536.png">
+<link rel="apple-touch-startup-image" media="(orientation: portrait)" href="/splash-1536x2048.png">
 </head>
 <body>
   <div class="shell">
