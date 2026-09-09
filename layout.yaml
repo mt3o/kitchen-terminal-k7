@@ -35,6 +35,10 @@ pages:
 
       - id: zakupy
         type: shopping-list
+        # A shopping list is read top to bottom and grows; sharing a column with
+        # another card gives it four visible rows and a scrollbar. 0 = the whole
+        # column, whatever the page's row count turns out to be.
+        span: { rows: 0 }
         params:
           dataSource: { mode: local }
           groupByCategory: true
@@ -71,3 +75,78 @@ pages:
         params:
           rssUrl: "https://example.invalid/feed.xml"
           cacheDurationHours: 24
+
+  - id: kuchnia
+    label: KUCHNIA
+    grid: { columns: 2 }
+    cards:
+      - id: audiometr
+        type: audiometer
+        params:
+          historyDurationSeconds: 180
+          sampleIntervalMs: 500
+          unit: percent
+          showCurrentLevel: true
+          showHistogram: true
+          smoothingFactor: 0.3
+          warningThreshold: 75
+
+      - id: minutnik-kuchnia
+        type: timer
+        params:
+          presetsMinutes: [1, 3, 5, 8]
+
+      - id: ascii
+        type: ascii-art-of-the-day
+        params:
+          prompt: "kot w stylu ASCII art, klimat retro terminal"
+          model: "kilo-auto/free"
+          cacheDurationHours: 24
+
+      - id: menu-kuchnia
+        type: menu
+        params:
+          items:
+            - { cardId: audiometr, label: AUDIO }
+            - { cardId: minutnik-kuchnia, label: CZAS }
+
+  - id: system
+    label: SYSTEM
+    grid: { columns: 2 }
+    cards:
+      - id: zegar-system
+        type: clock
+        params:
+          format: "24h"
+          showDate: true
+          showSeconds: true
+          locale: "pl-PL"
+
+      - id: pogoda-system
+        type: weather
+        refreshIntervalSeconds: 1800
+        params:
+          location: { lat: 52.2297, lon: 21.0122, label: "Warszawa" }
+          units: metric
+          forecastDays: 5
+
+      - id: karuzela
+        type: carousel
+        params:
+          slides:
+            - id: karuzela-zegar
+              type: clock
+              params: { format: "24h", showDate: false }
+            - id: karuzela-pogoda
+              type: weather
+              params:
+                location: { lat: 52.2297, lon: 21.0122 }
+
+      - id: grid-wskazniki
+        type: grid
+        params:
+          columns: 2
+          cells:
+            - id: wskaznik-zegar
+              type: clock
+              params: { format: "24h", showDate: false }

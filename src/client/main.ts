@@ -89,6 +89,12 @@ function render(layout: NormalisedLayout): void {
       if (card.span?.cols && card.span.cols > 1) {
         card_el.style.gridColumn = `span ${Math.min(card.span.cols, columns)}`
       }
+      // `rows` is in the layout contract and was being ignored, so a card could
+      // never occupy a full column however the file asked. `rows: 0` is the way
+      // a file says "all of them" without having to know how many there are.
+      if (card.span?.rows) {
+        card_el.style.gridRow = card.span.rows > 0 ? `span ${card.span.rows}` : '1 / -1'
+      }
       el.appendChild(card_el)
     }
     return el

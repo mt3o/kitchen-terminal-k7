@@ -156,7 +156,14 @@ $defs:
         description: Ile kolumn/wierszy siatki zajmuje karta.
         properties:
           cols: { type: integer, minimum: 1, default: 1 }
-          rows: { type: integer, minimum: 1, default: 1 }
+          rows:
+            type: integer
+            minimum: 0
+            default: 1
+            description: >
+              Ile wierszy zajmuje karta. 0 = cała kolumna, bez względu na to ile
+              wierszy ma strona — plik nie musi wiedzieć, ile kart obok niego
+              stanie.
       refreshIntervalSeconds:
         type: integer
         description: Co ile sekund karta odświeża dane. Pomiń dla kart bez auto-odświeżania.

@@ -3554,3 +3554,40 @@ archived: false
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-09T06:12:43.238508+00:00
 
 A service worker must not serve navigations cache-first when the build emits hashed filenames and empties its output directory. The cached document points at scripts that no longer exist on the server and are not in the new cache either, so the kiosk boots a shell that cannot load - and keeps doing it, because nothing about a cache hit expires. Network-first for navigations costs one request on a healthy LAN and returns the current document every time, with the cached copy still available for the case it exists for, which is the backend being unreachable. Hashed assets stay cache-first: their names are their revisions, so a hit is never stale.
+---
+[node:985229b1-13b7-4596-872b-3126fb384590]
+type: goal
+tier: short-term
+path: /goal/k7-pages-and-audiometer
+created_at: 2026-09-09T06:14:00.293252+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:54cce183-229d-4f45-8d15-ff1f0696b66c] @ 2026-09-09T06:14:00.293252+00:00
+-> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-09T06:14:00.293252+00:00
+
+Four bounded pieces: two more pages, the shopping list given a full column, a working audiometer card, and the logo assets used where iOS actually needs them
+---
+[node:e145d232-c623-4c8b-a6d6-df75aa7d9280]
+type: slice
+tier: short-term
+path: /change/k7-pages-and-audiometer
+created_at: 2026-09-09T06:14:00.293252+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:985229b1-13b7-4596-872b-3126fb384590] @ 2026-09-09T06:14:00.293252+00:00
+
+change scope: k7-pages-and-audiometer
+---
+[event:6d980ae6-da11-4225-9db9-9ec8982d0959]
+node_id: e145d232-c623-4c8b-a6d6-df75aa7d9280
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T06:14:00.294778+00:00
+
+create_change k7-pages-and-audiometer
