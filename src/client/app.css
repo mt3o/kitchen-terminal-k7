@@ -6,6 +6,10 @@
 html, body {
   margin: 0;
   padding: 0;
+  /* Nothing scrolls, ever. The deck is sized to fit rather than allowed to
+     overflow, so a scrollbar here would only ever mean a bug — and on the wall
+     nobody is there to scroll anyway. */
+  overflow: hidden;
   /* 100vh is wrong in standalone PWA mode on Safari 15 — the toolbar is gone
      but vh still assumes it. -webkit-fill-available is the 15.0 answer; dvh is
      15.4 and therefore past the floor. */
@@ -79,16 +83,38 @@ body {
 }
 
 .deck {
-  /* min-height:0 is what actually lets a flex child shrink below its content
-     and scroll. Without it the deck refuses to shrink and overflows the shell. */
+  /* The deck fits by construction rather than by luck.
+     
+     Not viewport units: `vh` is wrong in a standalone PWA on iOS (the toolbar is
+     gone but the unit does not know), `dvh/svh/lvh` are Safari 15.4 and past the
+     floor, and `vw` includes the scrollbar width, so sizing to it is how you
+     *cause* a horizontal scrollbar on a desktop browser. The grid already knows
+     how much room it has; asking the viewport is asking the wrong thing.
+
+     Instead the rows split whatever height is left — `minmax(0, 1fr)`, where the
+     0 is the load-bearing part: without it a row refuses to shrink below its
+     content and the overflow comes straight back. */
   flex: 1 1 auto;
   min-height: 0;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
   display: grid;
   grid-template-columns: repeat(var(--deck-cols, 3), minmax(0, 1fr));
+  grid-auto-rows: minmax(0, 1fr);
   gap: var(--card-gap, var(--space-3));
-  align-content: start;
+
+  /* The token exists so rows do not jump as data loads. Equal `1fr` rows give
+     that guarantee more strongly — the row height stops depending on content at
+     all — so inside the deck the minimum is released rather than fought. */
+  --card-min-h: 0;
+}
+
+/* Grid items must be allowed to shrink and to clip. Without `min-height: 0` a
+   grid item's automatic minimum size is its content, which silently defeats the
+   `1fr` rows above. */
+.deck > * {
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
 }
 
 /* The iPad Air 2 in landscape is the design target: 1024x768. Below that is the
