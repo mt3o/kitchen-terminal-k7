@@ -1,6 +1,6 @@
 # k7-image-widgets
 
-status: open
+status: implemented, PR #24 open (https://github.com/mt3o/kitchen-terminal-k7/pull/24)
 created: 2026-09-09
 memory_goal: dad51741-eead-4927-bb93-d45d6d298d61
 
