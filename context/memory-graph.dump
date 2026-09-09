@@ -48,6 +48,7 @@ archived: false
 -> SCOPED_TO [node:aef51033-1a7b-4e25-a133-f6e3053e0eb6] @ 2026-09-08T09:37:22.623351+00:00
 -> SCOPED_TO [node:b6cc5895-5e52-462a-aab2-c934ba921825] @ 2026-09-08T09:38:30.287095+00:00
 -> SCOPED_TO [node:baefeee7-a562-4085-8a4e-cd20045f4164] @ 2026-09-08T09:38:30.445420+00:00
+-> SCOPED_TO [node:bd8d7ed5-1440-4f3f-a78d-76f762696176] @ 2026-09-09T06:38:00.083354+00:00
 -> SCOPED_TO [node:c129f201-ae3c-45c8-89d7-a170bbaf5fad] @ 2026-09-08T09:38:01.199535+00:00
 -> SCOPED_TO [node:cabf56d2-4b59-4f19-96f7-9388071c1086] @ 2026-09-08T09:37:22.262832+00:00
 -> SCOPED_TO [node:d3faf49e-9fd8-4d79-9c8a-733cb2baa856] @ 2026-09-08T09:36:59.279270+00:00
@@ -119,6 +120,7 @@ archived: false
 -> DEPENDS_ON [node:aef51033-1a7b-4e25-a133-f6e3053e0eb6] @ 2026-09-08T09:37:22.623351+00:00
 -> DEPENDS_ON [node:b6cc5895-5e52-462a-aab2-c934ba921825] @ 2026-09-08T09:38:30.287095+00:00
 -> DEPENDS_ON [node:baefeee7-a562-4085-8a4e-cd20045f4164] @ 2026-09-08T09:38:30.445420+00:00
+-> DEPENDS_ON [node:bd8d7ed5-1440-4f3f-a78d-76f762696176] @ 2026-09-09T06:38:00.083354+00:00
 -> DEPENDS_ON [node:c129f201-ae3c-45c8-89d7-a170bbaf5fad] @ 2026-09-08T09:38:01.199535+00:00
 -> DEPENDS_ON [node:cabf56d2-4b59-4f19-96f7-9388071c1086] @ 2026-09-08T09:37:22.262832+00:00
 -> DEPENDS_ON [node:d3faf49e-9fd8-4d79-9c8a-733cb2baa856] @ 2026-09-08T09:36:59.279270+00:00
@@ -365,6 +367,16 @@ source: agent-surface
 created_at: 2026-09-08T13:43:15.910122+00:00
 
 the token contract is what makes Theme a document with identity rather than a styling detail - it shaped the Theme definition
+---
+[event:24784d1e-7591-4b5a-8eaa-fd89f290058d]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T06:41:30.928905+00:00
+
+demonstrated on the deployment 2026-09-09: pointing layout.yaml's theme at daylight-lab.yaml changed --bg, --accent, --radius and --font-ui, and every component followed, with no component edited and no restart
 ---
 [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a]
 type: constraint
@@ -3635,3 +3647,72 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T06:22:37.815060+00:00
 
 The microphone is never requested when a card mounts. A wall kiosk has nobody standing at it to answer a permission prompt, so a card that asks on load renders as permanently dead and the household learns to ignore it. The audiometer shows an explicit off state with one control that asks, a pending state while the browser decides, and a named failure with a way to retry when permission is refused or no device exists. The stream and the audio context are released in the teardown, because a kiosk that holds the microphone open forever is both a battery cost and a thing a household should not have to trust.
+---
+[node:bfdc005e-8633-4914-9385-35a9481a657a]
+type: slice
+tier: short-term
+path: /change/k7-theme-loader
+created_at: 2026-09-09T06:37:59.961333+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:8a7dfeec-017f-4639-8c7b-675caa8ab375] @ 2026-09-09T06:41:30.680586+00:00
+-> SCOPED_TO [node:e38777a4-339f-4aeb-8f3a-8a21daf671d0] @ 2026-09-09T06:37:59.961333+00:00
+
+change scope: k7-theme-loader
+---
+[event:58339181-ebaa-4854-a45b-2272fa7df768]
+node_id: bfdc005e-8633-4914-9385-35a9481a657a
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T06:37:59.962771+00:00
+
+create_change k7-theme-loader
+---
+[node:e38777a4-339f-4aeb-8f3a-8a21daf671d0]
+type: goal
+tier: short-term
+path: /goal/k7-theme-loader
+created_at: 2026-09-09T06:37:59.961333+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-09T06:37:59.961333+00:00
+-> DEPENDS_ON [node:8a7dfeec-017f-4639-8c7b-675caa8ab375] @ 2026-09-09T06:41:30.680586+00:00
+-> DEPENDS_ON [node:985229b1-13b7-4596-872b-3126fb384590] @ 2026-09-09T06:37:59.961333+00:00
+
+Make the theme swappable for real: the server reads the theme file layout.yaml names, generates the custom properties from it, and serves them, so pointing theme: at a different file changes the whole design
+---
+[node:bd8d7ed5-1440-4f3f-a78d-76f762696176]
+type: decision
+tier: mid-term
+path: /artifact/faza-1-is-sliced-theme-loader-first-beca
+created_at: 2026-09-09T06:38:00.083354+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-09T06:38:00.083354+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T06:38:00.083354+00:00
+
+Faza 1 is sliced theme-loader-first because the loader changes how every component receives its values: building more components before it means building them twice. It is also the only slice that converts an existing lifetime constraint from a claim into a demonstration - the second theme file was written so that "swapping the design is pointing theme at a different file" would be testable rather than aspirational, and until the loader exists it has never been loaded once. The calendar week view and the component stories both depend on the loader only in the sense that they should be written against the mechanism that will ship, not the direct stylesheet import that precedes it.
+---
+[node:8a7dfeec-017f-4639-8c7b-675caa8ab375]
+type: constraint
+tier: mid-term
+path: /artifact/the-token-sheet-is-generated-from-the-th
+created_at: 2026-09-09T06:41:30.680586+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T06:41:30.680586+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-09-09T06:41:30.680586+00:00
+-> DEPENDS_ON [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-09-09T06:41:30.811903+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T06:41:30.680586+00:00
+
+The token sheet is generated from the theme file the layout names and served by the backend, never imported into the client bundle. Importing it made the layout's theme key decorative: the contract said swapping the whole design was a matter of pointing that key at another file, and nothing executed that path, so a second theme written expressly to prove it had never been loaded. Generation is checked against the committed stylesheet - colours, type scale, shape and spacing must match - so moving from a hand-written sheet to a generated one cannot quietly change the design. The sheet is served from the root and not under the API prefix because it is shell rather than data: the service worker keeps a copy so an offline paint has its colours, and fetches it network-first so a theme change appears on the next load rather than after a worker update.

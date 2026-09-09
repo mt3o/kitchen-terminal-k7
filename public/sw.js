@@ -57,6 +57,24 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(request.url)
   if (url.origin !== self.location.origin) return
 
+  // The generated token sheet is shell, not data: keep a copy so an offline
+  // paint has its colours, but go to the network first so a theme change is
+  // visible on the next load rather than after a worker update.
+  if (url.pathname === '/theme.css') {
+    event.respondWith(
+      fetch(request)
+        .then((res) => {
+          if (res.ok) {
+            const copy = res.clone()
+            caches.open(cacheName).then((cache) => cache.put(request, copy))
+          }
+          return res
+        })
+        .catch(() => caches.match(request).then((hit) => hit ?? Response.error())),
+    )
+    return
+  }
+
   // Never cache the API. The backend owns freshness and answers with an age;
   // a second cache in front of it would answer with a lie.
   if (url.pathname.startsWith('/api/')) return

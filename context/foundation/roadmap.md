@@ -39,3 +39,28 @@ types.
 
 **Open input needed for slice 5:** which domain and DNS provider. The DNS-01 challenge
 needs API access to the zone; everything else about that slice is decided.
+
+
+## Epic: faza-1
+
+**Outcome:** the design is genuinely swappable and the cards that exist have
+stories, so the token contract stops being a claim and becomes something a
+command demonstrates.
+
+| # | slice | mode | blocked by | delivers |
+|---|---|---|---|---|
+| 1 | `k7-theme-loader` | interactive | — | the server reads the theme file `layout.yaml` names, generates the custom properties, and serves them; the client stops importing `tokens.css` directly |
+| 2 | `k7-calendar-week` | headless | 1 | the week view against mocked events — no OAuth, so it is buildable today |
+| 3 | `k7-component-stories` | headless | 1 | stories for weather, timer, shopping list and audiometer |
+
+**Why this order.** The loader changes how every component receives its values,
+so building more components first means building them twice. It is also the only
+slice that turns an existing lifetime constraint from a claim into a
+demonstration: `daylight-lab.yaml` was written to prove the swap works and has
+never once been loaded.
+
+Weather and the timer are already built — Faza 1 lists them, and they landed
+early because the backend was ready before the loader was.
+
+**Not in this epic:** anything needing OAuth2, the Kilo Gateway or the recipe
+importer. Those are Faza 2-4 and their integrations do not exist.
