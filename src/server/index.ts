@@ -14,6 +14,7 @@ import { createRepositories, openDatabase } from './adapters/drizzle/index.ts'
 import { describeConfig, loadConfig, secretValues } from './config.ts'
 import { runMigrations } from './db/migrate.ts'
 import { initObservability, Sentry } from './observability.ts'
+import { importRecipeFromUrl, RecipeImportError } from './recipes/import.ts'
 import { generateTokensCss, type Theme } from './theme/generate.ts'
 import { isAllowedHost, isPrivateAddress } from './security/network.ts'
 import { createCloudflareDns } from './tls/cloudflare.ts'
@@ -219,6 +220,85 @@ app.patch('/api/shopping-list/:id', async (req, reply) => {
   if (typeof checked !== 'boolean') return reply.code(400).send({ error: 'checked must be a boolean' })
   const item = await repos.shoppingList.setChecked(id, checked)
   return item ?? reply.code(404).send({ error: 'no such item' })
+})
+
+app.delete('/api/shopping-list/:id', async (req, reply) => {
+  const { id } = req.params as { id: string }
+  const deleted = await repos.shoppingList.delete(id)
+  return deleted ? reply.code(204).send() : reply.code(404).send({ error: 'no such item' })
+})
+
+// Recipes: import is a review step, not a save. POST /api/recipes/import only
+// extracts and returns what it found — nothing is written to SQLite until the
+// household confirms it through POST /api/recipes, which is the same shape a
+// hand-typed recipe uses. A card must not present placeholder data as real,
+// and this endpoint must not persist a guess as if it had been reviewed.
+app.get('/api/recipes', async (req) => {
+  const q = req.query as { tag?: string; limit?: string }
+  const limit = q.limit ? Number(q.limit) : undefined
+  return repos.recipes.list({
+    tag: q.tag,
+    limit: Number.isFinite(limit) ? limit : undefined,
+  })
+})
+
+app.get('/api/recipes/:id', async (req, reply) => {
+  const { id } = req.params as { id: string }
+  const recipe = await repos.recipes.get(id)
+  return recipe ?? reply.code(404).send({ error: 'no such recipe' })
+})
+
+app.post('/api/recipes/import', async (req, reply) => {
+  const { url } = req.body as { url?: unknown }
+  if (typeof url !== 'string' || url.trim() === '') {
+    return reply.code(400).send({ error: 'url is required' })
+  }
+  try {
+    const extracted = await importRecipeFromUrl(url.trim())
+    return reply.code(200).send(extracted)
+  } catch (error) {
+    if (error instanceof RecipeImportError) {
+      const status = error.reason === 'invalid-url' ? 400 : 502
+      return reply.code(status).send({ error: error.message, reason: error.reason })
+    }
+    throw error
+  }
+})
+
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((v) => typeof v === 'string')
+}
+
+app.post('/api/recipes', async (req, reply) => {
+  const body = req.body as {
+    id?: unknown
+    title?: unknown
+    sourceUrl?: unknown
+    ingredients?: unknown
+    steps?: unknown
+    tags?: unknown
+  }
+  if (typeof body?.title !== 'string' || body.title.trim() === '') {
+    return reply.code(400).send({ error: 'title is required' })
+  }
+  if (!isStringArray(body.ingredients) || !isStringArray(body.steps) || !isStringArray(body.tags)) {
+    return reply.code(400).send({ error: 'ingredients, steps and tags must be string arrays' })
+  }
+  const recipe = await repos.recipes.save({
+    id: typeof body.id === 'string' ? body.id : '',
+    title: body.title.trim(),
+    sourceUrl: typeof body.sourceUrl === 'string' ? body.sourceUrl : null,
+    ingredients: body.ingredients,
+    steps: body.steps,
+    tags: body.tags,
+  })
+  return reply.code(201).send(recipe)
+})
+
+app.delete('/api/recipes/:id', async (req, reply) => {
+  const { id } = req.params as { id: string }
+  const deleted = await repos.recipes.delete(id)
+  return deleted ? reply.code(204).send() : reply.code(404).send({ error: 'no such recipe' })
 })
 
 // Every unhandled error reaches GlitchTip through the same scrubber as the rest.
