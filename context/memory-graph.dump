@@ -3426,3 +3426,65 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T05:57:27.730936+00:00
 
 The card deck fits by construction rather than by scrolling. Rows are minmax(0, 1fr) and each grid item carries min-height zero, because a grid item's automatic minimum size is its content and that silently defeats fractional rows; the deck then clips instead of scrolling, and the page has overflow hidden so a scrollbar anywhere means a bug rather than a feature. This releases the minimum card height inside the deck, and that is not a loss: the token existed so rows would not jump as data loads, and equal fractional rows give the stronger version of the same guarantee, because row height stops depending on content at all. On a wall display nobody is present to scroll, so content below the fold is content that does not exist.
+---
+[node:54cce183-229d-4f45-8d15-ff1f0696b66c]
+type: goal
+tier: short-term
+path: /goal/k7-page-model
+created_at: 2026-09-09T05:59:31.161584+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:4c010fc9-9310-4776-9724-89559745db67] @ 2026-09-09T05:59:31.161584+00:00
+-> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-09T05:59:31.161584+00:00
+-> DEPENDS_ON [node:e1da2600-04f7-4243-bb85-f79692e086ae] @ 2026-09-09T05:59:43.216030+00:00
+
+Give the layout pages: an ordered set of screenfuls, each with its own grid, so cards can be added without shrinking the ones already there - and so that nothing ever needs to scroll
+---
+[node:a8877961-9b64-48d8-9085-31c06455ce21]
+type: slice
+tier: short-term
+path: /change/k7-page-model
+created_at: 2026-09-09T05:59:31.161584+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:54cce183-229d-4f45-8d15-ff1f0696b66c] @ 2026-09-09T05:59:31.161584+00:00
+
+change scope: k7-page-model
+---
+[event:a6170e34-07c4-487d-95df-0b3f813c3922]
+node_id: a8877961-9b64-48d8-9085-31c06455ce21
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T05:59:31.163259+00:00
+
+create_change k7-page-model
+---
+[node:e1da2600-04f7-4243-bb85-f79692e086ae]
+type: entity
+tier: short-term
+path: /entity/page
+created_at: 2026-09-09T05:59:43.216030+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T05:59:43.216030+00:00
+-> DEPENDS_ON [node:f96f62c3-d72a-4c40-8e16-57278ca1f302] @ 2026-09-09T05:59:43.216030+00:00
+
+Page — An ordered screenful of Cards within a Layout, and the unit a swipe moves between. Each Page carries its own grid, so adding Cards costs a new Page rather than shrinking the ones already on screen. Not a Slideshow, which rotates whole Cards full-screen after a period of inactivity and is driven by idleness rather than by touch; a Page is always visible, is changed deliberately, and is never nested. Not a DashboardGrid either - the grid is what a Page contains, not what it is.
+---
+[event:2d59d7b9-741f-4dab-a12b-d8a8880aee4f]
+node_id: e1da2600-04f7-4243-bb85-f79692e086ae
+type: entity_proposed
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T05:59:43.216030+00:00
+
+proposed via agent surface: elicited: the user asked for a layout grid with pages scrolled on touch like a slideshow, each page with its own grid

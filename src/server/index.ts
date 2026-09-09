@@ -9,7 +9,7 @@ import Fastify from 'fastify'
 import fastifyStatic from '@fastify/static'
 import { parse } from 'yaml'
 
-import type { Layout } from '../shared/layout.ts'
+import { normaliseLayout, type Layout, type NormalisedLayout } from '../shared/layout.ts'
 import { createRepositories, openDatabase } from './adapters/drizzle/index.ts'
 import { describeConfig, loadConfig, secretValues } from './config.ts'
 import { runMigrations } from './db/migrate.ts'
@@ -72,12 +72,15 @@ const app = Fastify({
 })
 
 /** The Layout is read per request: editing layout.yaml should not need a restart. */
-async function loadLayout(): Promise<Layout> {
+async function loadLayout(): Promise<NormalisedLayout> {
   const raw = await readFile(resolve(ROOT, 'layout.yaml'), 'utf8')
   const layout = parse(raw) as Layout
   if (layout.version !== 1) throw new Error(`unsupported layout version ${layout.version}`)
   if (!layout.theme) throw new Error('layout has no theme')
-  return layout
+  if (!layout.pages?.length && !layout.cards?.length) throw new Error('layout has neither pages nor cards')
+  // Normalised here so the renderer has one shape to handle. Two code paths
+  // through a layout is how the single-page case quietly stops being tested.
+  return normaliseLayout(layout)
 }
 
 app.get('/api/health', async () => ({

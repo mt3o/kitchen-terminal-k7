@@ -10,8 +10,9 @@ import './lib/K7Timer.svelte'
 import './lib/K7Weather.svelte'
 
 import { domReconnectUi, reconnectLoop } from './lib/reconnect.ts'
+import { createPager } from './lib/pager.ts'
 
-import type { Card, CardType, Layout } from '../shared/layout.ts'
+import type { Card, CardType, NormalisedLayout } from '../shared/layout.ts'
 
 /** Polish HUD labels, keyed by card type. Labels uppercase, data lowercase. */
 const LABELS: Record<CardType, string> = {
@@ -32,6 +33,7 @@ const LABELS: Record<CardType, string> = {
 }
 
 const deck = document.getElementById('deck')
+let pager: { destroy(): void } | undefined
 const status = document.getElementById('status')
 const foot = document.getElementById('foot')
 
@@ -63,22 +65,55 @@ function clockFace(card: Card, el: HTMLElement): void {
   window.setInterval(tick, params.showSeconds ? 1000 : 15_000)
 }
 
-function render(layout: Layout): void {
+function render(layout: NormalisedLayout): void {
   if (!deck) return
   // Idempotent: boot() runs again after a reconnect, and appending a second set
-  // of cards to the deck is the obvious way to get that wrong.
+  // of pages is the obvious way to get that wrong.
   deck.replaceChildren()
-  deck.style.setProperty('--deck-cols', String(layout.grid.columns))
-  if (layout.grid.gap) deck.style.setProperty('--card-gap', layout.grid.gap)
 
-  for (const card of layout.cards) {
-    const el = createWidget(card)
-    el.id = card.id
-    if (card.span?.cols && card.span.cols > 1) {
-      el.style.gridColumn = `span ${Math.min(card.span.cols, layout.grid.columns)}`
+  const track = document.createElement('div')
+  track.className = 'pager-track'
+
+  const pages = layout.pages.map((page) => {
+    const el = document.createElement('section')
+    el.className = 'page'
+    el.id = `page-${page.id}`
+    const columns = page.grid?.columns ?? layout.grid.columns
+    el.style.setProperty('--deck-cols', String(columns))
+    const gap = page.grid?.gap ?? layout.grid.gap
+    if (gap) el.style.setProperty('--card-gap', gap)
+
+    for (const card of page.cards) {
+      const card_el = createWidget(card)
+      card_el.id = card.id
+      if (card.span?.cols && card.span.cols > 1) {
+        card_el.style.gridColumn = `span ${Math.min(card.span.cols, columns)}`
+      }
+      el.appendChild(card_el)
     }
-    deck.appendChild(el)
+    return el
+  })
+
+  for (const page of pages) track.appendChild(page)
+  deck.appendChild(track)
+
+  // Dots only when there is more than one page: an indicator showing a single
+  // dot is chrome that says nothing.
+  if (layout.pages.length > 1) {
+    const dots = document.createElement('nav')
+    dots.className = 'pager-dots'
+    dots.setAttribute('aria-label', 'strony')
+    for (const page of layout.pages) {
+      const dot = document.createElement('span')
+      dot.className = 'pager-dot'
+      dot.title = page.label ?? page.id
+      dots.appendChild(dot)
+    }
+    deck.appendChild(dots)
   }
+
+  pager?.destroy()
+  pager = createPager(deck, layout.pages.map((p) => ({ id: p.id, label: p.label })))
 }
 
 /**
@@ -112,7 +147,7 @@ function registerServiceWorker(): void {
  */
 const LAYOUT_KEY = 'k7:last-layout'
 
-function rememberLayout(layout: Layout): void {
+function rememberLayout(layout: NormalisedLayout): void {
   try {
     localStorage.setItem(LAYOUT_KEY, JSON.stringify(layout))
   } catch {
@@ -120,19 +155,19 @@ function rememberLayout(layout: Layout): void {
   }
 }
 
-function lastKnownLayout(): Layout | undefined {
+function lastKnownLayout(): NormalisedLayout | undefined {
   try {
     const raw = localStorage.getItem(LAYOUT_KEY)
-    return raw ? (JSON.parse(raw) as Layout) : undefined
+    return raw ? (JSON.parse(raw) as NormalisedLayout) : undefined
   } catch {
     return undefined
   }
 }
 
-async function loadLayout(): Promise<Layout> {
+async function loadLayout(): Promise<NormalisedLayout> {
   const res = await fetch('/api/layout')
   if (!res.ok) throw new Error(`layout ${res.status}`)
-  return (await res.json()) as Layout
+  return (await res.json()) as NormalisedLayout
 }
 
 /**
@@ -196,7 +231,11 @@ async function boot(): Promise<void> {
     render(layout)
     rememberLayout(layout)
     setStatus('ONLINE', true)
-    if (foot) foot.textContent = `> ${layout.cards.length} kart // motyw: ${layout.theme.split('/').pop()}`
+    if (foot) {
+      const cards = layout.pages.reduce((n, p) => n + p.cards.length, 0)
+      const pagesLabel = layout.pages.length > 1 ? ` // ${layout.pages.length} strony` : ''
+      foot.textContent = `> ${cards} kart${pagesLabel} // motyw: ${layout.theme.split('/').pop()}`
+    }
   } catch (err) {
     // The last screen stays on the wall, blurred behind the scrim, while this
     // runs. Never blank, and never presented as current.
