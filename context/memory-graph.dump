@@ -3726,6 +3726,8 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> SCOPED_TO [node:09f65864-fbda-4333-86a5-9713a88b92ea] @ 2026-09-09T06:55:33.083742+00:00
+-> SCOPED_TO [node:4a749051-6bc6-4807-bc52-47748e2bb914] @ 2026-09-09T06:55:32.953663+00:00
 -> SCOPED_TO [node:e8c9942e-c6d8-4dc9-aa90-3f814f706180] @ 2026-09-09T06:48:26.088083+00:00
 
 change scope: k7-calendar-week
@@ -3749,6 +3751,8 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> DEPENDS_ON [node:09f65864-fbda-4333-86a5-9713a88b92ea] @ 2026-09-09T06:55:33.083742+00:00
+-> DEPENDS_ON [node:4a749051-6bc6-4807-bc52-47748e2bb914] @ 2026-09-09T06:55:32.953663+00:00
 -> DEPENDS_ON [node:e38777a4-339f-4aeb-8f3a-8a21daf671d0] @ 2026-09-09T06:48:26.088083+00:00
 
 A week view for the calendar card against mocked events, so the layout and the component exist before OAuth2 does
@@ -3763,6 +3767,7 @@ retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> DEPENDS_ON [node:e38777a4-339f-4aeb-8f3a-8a21daf671d0] @ 2026-09-09T06:48:26.216598+00:00
+-> DEPENDS_ON [node:fb55b3b0-5070-48a0-bd21-2168d12a92d5] @ 2026-09-09T06:55:32.816652+00:00
 
 Stories for the four components built since Storybook landed, and tokens.css generated from the theme rather than hand-maintained beside it
 ---
@@ -3776,6 +3781,7 @@ retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> SCOPED_TO [node:a9a35af1-7025-4416-956b-8410f2286d9e] @ 2026-09-09T06:48:26.216598+00:00
+-> SCOPED_TO [node:fb55b3b0-5070-48a0-bd21-2168d12a92d5] @ 2026-09-09T06:55:32.816652+00:00
 
 change scope: k7-component-stories
 ---
@@ -3788,3 +3794,46 @@ source: agent-surface
 created_at: 2026-09-09T06:48:26.218449+00:00
 
 create_change k7-component-stories
+---
+[node:fb55b3b0-5070-48a0-bd21-2168d12a92d5]
+type: constraint
+tier: mid-term
+path: /artifact/an-unresolved-css-custom-property-is-sil
+created_at: 2026-09-09T06:55:32.816652+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-09-09T06:55:32.816652+00:00
+-> DEPENDS_ON [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-09-09T06:55:33.215702+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T06:55:32.816652+00:00
+
+An unresolved CSS custom property is silent. Nothing errors, nothing warns, and the declaration simply drops - so when the token sheet moved from a hand-written file to a generated one, five properties the components referenced stopped existing and the only symptom was body text losing its line height on a wall nobody was reading closely. Generation is therefore checked twice: the committed stylesheet is regenerated in CI and the build fails if it has drifted, and a test asserts that every var reference in the component sources appears as a declaration in the generated output. Runtime layout variables the renderer sets per page are excluded by name, because they are state travelling as custom properties rather than theme tokens.
+---
+[node:4a749051-6bc6-4807-bc52-47748e2bb914]
+type: constraint
+tier: mid-term
+path: /artifact/a-card-must-not-present-placeholder-data
+created_at: 2026-09-09T06:55:32.953663+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550] @ 2026-09-09T06:55:32.953663+00:00
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-09T06:55:32.953663+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T06:55:32.953663+00:00
+
+A card must not present placeholder data as real. The calendar has no backend until OAuth2 exists, so it falls back to obviously-labelled sample events, says so in the card's meta, and stays at idle rather than ok - the state vocabulary already means something and ok would be a lie. The same reasoning that forbids a cache presenting stale data as current forbids a component presenting invented data as fetched, and a calendar is the worst card to be quietly wrong about because nobody double-checks what day it says a thing is on.
+---
+[node:09f65864-fbda-4333-86a5-9713a88b92ea]
+type: constraint
+tier: mid-term
+path: /artifact/a-date-captured-once-when-a-component-in
+created_at: 2026-09-09T06:55:33.083742+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T06:55:33.083742+00:00
+
+A date captured once when a component initialises stops being today at the first midnight. On a display that runs for months this is not an edge case but a certainty, and the card it breaks first is the calendar, whose whole job is saying what day it is; the highlighted column silently drifts a day behind and nothing about the failure looks like a failure. Anything that means now must be recomputed on a timer rather than closed over at construction.
