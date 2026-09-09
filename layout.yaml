@@ -2,52 +2,72 @@
 version: 1
 theme: "design-system/themes/retro-scifi.yaml"
 
+# The default grid. A page may override it.
 grid:
   columns: 3
   gap: "12px"
 
-cards:
-  - id: zegar
-    type: clock
-    span: { cols: 1, rows: 1 }
-    params:
-      format: "24h"
-      showDate: true
-      showSeconds: false
-      locale: "pl-PL"
+# Ordered pages, swiped between. Each carries its own grid — a plain nested
+# grid, not CSS `subgrid`, which is Safari 16 and past this project's floor.
+#
+# Cards get a whole page rather than being squeezed into one: adding a card
+# should cost a page, not shrink the cards already on the wall.
+pages:
+  - id: glowna
+    label: GLOWNA
+    grid: { columns: 2 }
+    cards:
+      - id: zegar
+        type: clock
+        params:
+          format: "24h"
+          showDate: true
+          showSeconds: false
+          locale: "pl-PL"
 
-  - id: pogoda
-    type: weather
-    span: { cols: 1, rows: 1 }
-    refreshIntervalSeconds: 900
-    params:
-      location: { lat: 52.2297, lon: 21.0122, label: "Warszawa" }
-      units: metric
-      forecastDays: 5
+      - id: pogoda
+        type: weather
+        refreshIntervalSeconds: 900
+        params:
+          location: { lat: 52.2297, lon: 21.0122, label: "Warszawa" }
+          units: metric
+          forecastDays: 5
 
-  - id: kalendarz
-    type: calendar
-    span: { cols: 1, rows: 1 }
-    params:
-      calendarId: primary
-      view: week
-      editable: true
+      - id: zakupy
+        type: shopping-list
+        params:
+          dataSource: { mode: local }
+          groupByCategory: true
 
-  - id: zakupy
-    type: shopping-list
-    span: { cols: 1, rows: 1 }
-    params:
-      dataSource: { mode: local }
-      groupByCategory: true
+      - id: minutnik
+        type: timer
+        params:
+          presetsMinutes: [5, 10, 15, 30]
 
-  - id: minutnik
-    type: timer
-    span: { cols: 1, rows: 1 }
-    params:
-      presetsMinutes: [5, 10, 15, 30]
+  - id: dom
+    label: DOM
+    grid: { columns: 2 }
+    cards:
+      - id: kalendarz
+        type: calendar
+        params:
+          calendarId: primary
+          view: week
+          editable: true
 
-  - id: czat
-    type: chat
-    span: { cols: 1, rows: 1 }
-    params:
-      defaultModel: "kilo-auto/free"
+      - id: czat
+        type: chat
+        params:
+          defaultModel: "kilo-auto/free"
+
+      - id: przepisy
+        type: recipes
+        params:
+          maxVisible: 6
+          allowUrlImport: true
+
+      - id: komiks
+        type: comic-of-the-day
+        params:
+          rssUrl: "https://example.invalid/feed.xml"
+          cacheDurationHours: 24

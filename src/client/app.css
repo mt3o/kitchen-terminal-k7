@@ -98,31 +98,85 @@ body {
   flex: 1 1 auto;
   min-height: 0;
   overflow: hidden;
+  position: relative;
+  /* A strip for the page indicator. Without it the dots sit on the bottom
+     cards' border and read as part of the card rather than as chrome. */
+  padding-bottom: var(--space-4);
+
+}
+
+/* The deck is now the pager viewport: it clips, and the track inside it slides.
+   The grid moved down onto each page, which is what "each page has its own
+   grid" means — and it is a plain nested grid, not CSS `subgrid`, which is
+   Safari 16 and past the floor. */
+.pager-track {
+  display: flex;
+  height: 100%;
+  /* Only transform is animated. On an A8X driving a display that never sleeps,
+     animating `left` or `width` costs layout on every frame. */
+  transition: transform var(--motion-base) var(--ease);
+}
+/* While a finger is down the track must track the finger exactly; a transition
+   here would make the drag feel like it is lagging behind the touch. */
+.pager-track.dragging { transition: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pager-track { transition: none; }
+}
+
+.page {
+  flex: 0 0 100%;
+  min-width: 0;
+  height: 100%;
   display: grid;
   grid-template-columns: repeat(var(--deck-cols, 3), minmax(0, 1fr));
   grid-auto-rows: minmax(0, 1fr);
   gap: var(--card-gap, var(--space-3));
 
   /* The token exists so rows do not jump as data loads. Equal `1fr` rows give
-     that guarantee more strongly — the row height stops depending on content at
-     all — so inside the deck the minimum is released rather than fought. */
+     that guarantee more strongly — row height stops depending on content at
+     all — so inside a page the minimum is released rather than fought. */
   --card-min-h: 0;
 }
 
-/* Grid items must be allowed to shrink and to clip. Without `min-height: 0` a
-   grid item's automatic minimum size is its content, which silently defeats the
-   `1fr` rows above. */
-.deck > * {
+.page > * {
   min-height: 0;
   min-width: 0;
   overflow: hidden;
 }
 
+.pager-dots {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  pointer-events: none;
+}
+
+/* Square, because radius is 0 everywhere and a round dot here would be the one
+   curved thing on the screen. */
+.pager-dot {
+  width: var(--space-3);
+  height: var(--space-1);
+  background: var(--border);
+  transition: opacity var(--motion-fast) var(--ease);
+}
+.pager-dot.is-current { background: var(--accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .pager-dot { transition: none; }
+}
+
+
+
 /* The iPad Air 2 in landscape is the design target: 1024x768. Below that is the
    phone-over-LAN case, not a desktop scaled down. @container is Safari 16, so
    this is a media query on purpose. */
 @media (max-width: 767px) {
-  .deck { grid-template-columns: minmax(0, 1fr); }
+  .page { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* --- reconnect scrim --------------------------------------------------------
