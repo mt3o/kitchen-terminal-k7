@@ -424,7 +424,9 @@
   .btn-solid {
     flex: 0 0 auto;
     min-height: var(--control-h);
-    padding: 0 var(--control-pad-x);
+    /* DESIGN.md §6: "buttons pad vertically" — min-height alone leaves a
+       two-line label touching the border. */
+    padding: var(--space-2) var(--control-pad-x);
     background: var(--accent);
     color: var(--accent-fg);
     border: var(--border-w-strong) solid var(--accent);
@@ -443,7 +445,9 @@
   .btn-ghost {
     flex: 0 0 auto;
     min-height: var(--control-h);
-    padding: 0 var(--control-pad-x);
+    /* DESIGN.md §6: "buttons pad vertically" — min-height alone leaves a
+       two-line label touching the border. */
+    padding: var(--space-2) var(--control-pad-x);
     background: transparent;
     color: var(--fg);
     border: var(--border-w-strong) solid var(--border-strong);
