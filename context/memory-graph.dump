@@ -3439,7 +3439,9 @@ archived: false
 -> DEPENDS_ON [node:0eb267d9-a394-4dc0-84c6-e18825cccfd6] @ 2026-09-09T06:05:35.176963+00:00
 -> DEPENDS_ON [node:4c010fc9-9310-4776-9724-89559745db67] @ 2026-09-09T05:59:31.161584+00:00
 -> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-09T05:59:31.161584+00:00
+-> DEPENDS_ON [node:d9ea474f-d96a-44b8-a951-37d7ac0d59e8] @ 2026-09-09T06:12:43.238508+00:00
 -> DEPENDS_ON [node:e156fb5f-8f05-400a-812b-e0552df1def3] @ 2026-09-09T06:05:35.048737+00:00
+-> DEPENDS_ON [node:e19107d4-0ace-409f-af4e-d5cee328d343] @ 2026-09-09T06:12:43.114910+00:00
 -> DEPENDS_ON [node:e1da2600-04f7-4243-bb85-f79692e086ae] @ 2026-09-09T05:59:43.216030+00:00
 
 Give the layout pages: an ordered set of screenfuls, each with its own grid, so cards can be added without shrinking the ones already there - and so that nothing ever needs to scroll
@@ -3455,7 +3457,9 @@ trust_weight: 1.0
 archived: false
 -> SCOPED_TO [node:0eb267d9-a394-4dc0-84c6-e18825cccfd6] @ 2026-09-09T06:05:35.176963+00:00
 -> SCOPED_TO [node:54cce183-229d-4f45-8d15-ff1f0696b66c] @ 2026-09-09T05:59:31.161584+00:00
+-> SCOPED_TO [node:d9ea474f-d96a-44b8-a951-37d7ac0d59e8] @ 2026-09-09T06:12:43.238508+00:00
 -> SCOPED_TO [node:e156fb5f-8f05-400a-812b-e0552df1def3] @ 2026-09-09T06:05:35.048737+00:00
+-> SCOPED_TO [node:e19107d4-0ace-409f-af4e-d5cee328d343] @ 2026-09-09T06:12:43.114910+00:00
 
 change scope: k7-page-model
 ---
@@ -3523,3 +3527,30 @@ archived: false
 -> ABOUT [node:f96f62c3-d72a-4c40-8e16-57278ca1f302] @ 2026-09-09T06:05:35.176963+00:00
 
 The layout contract gained pages without breaking the documents that predate them. A file carrying a bare card list normalises to exactly one page, and that normalisation happens once on the server rather than in the renderer, so there is a single shape to draw. Two code paths through a layout is how the single-page case quietly stops being exercised, and the single-page case is every layout written before today. A contract that breaks its own documents to gain a feature is not a contract.
+---
+[node:e19107d4-0ace-409f-af4e-d5cee328d343]
+type: constraint
+tier: mid-term
+path: /artifact/a-retry-loop-must-probe-the-resource-it
+created_at: 2026-09-09T06:12:43.114910+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-09T06:12:43.114910+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-09T06:12:43.114910+00:00
+
+A retry loop must probe the resource it actually needs, not a proxy for it. The kiosk polled a health endpoint and re-ran boot on success; when health passed but the layout did not, recovery succeeded, boot failed, and recovery ran again with no delay between them, replacing every card in the deck on each pass. The symptom is a screen that flickers constantly, and nothing in it points at the retry logic. Any gap between what the probe proves and what the caller requires is a place where the probe is satisfied and the caller is not, and that gap is a spin. Probing the real dependency closes it; a re-entrancy guard on the boot path makes overlapping runs impossible even if something else triggers one.
+---
+[node:d9ea474f-d96a-44b8-a951-37d7ac0d59e8]
+type: constraint
+tier: mid-term
+path: /artifact/a-service-worker-must-not-serve-navigati
+created_at: 2026-09-09T06:12:43.238508+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-09T06:12:43.238508+00:00
+
+A service worker must not serve navigations cache-first when the build emits hashed filenames and empties its output directory. The cached document points at scripts that no longer exist on the server and are not in the new cache either, so the kiosk boots a shell that cannot load - and keeps doing it, because nothing about a cache hit expires. Network-first for navigations costs one request on a healthy LAN and returns the current document every time, with the cached copy still available for the case it exists for, which is the backend being unreachable. Hashed assets stay cache-first: their names are their revisions, so a hit is never stale.
