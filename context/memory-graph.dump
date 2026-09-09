@@ -3251,3 +3251,75 @@ archived: false
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T19:45:38.242108+00:00
 
 Verify a DNS write against the authoritative nameserver, not a recursive resolver. After the first certificate issuance the ACME challenge TXT record appeared to have leaked - a recursive query still returned it - and the cleanup code was about to be rewritten. The record had in fact been deleted; the resolver was serving a cached copy with twenty-five seconds of its sixty-second TTL left. Querying the zone's own nameserver showed it gone. A cache is not evidence about the state of a zone, and for records this short-lived the window in which a resolver disagrees with reality is most of the window in which anyone looks.
+---
+[node:b50027cf-438d-4a12-bf40-983fc53fc63e]
+type: goal
+tier: short-term
+path: /goal/k7-offline-shell
+created_at: 2026-09-08T19:47:53.703076+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:430c9542-7dd1-4b78-bfa1-760e6afcee1d] @ 2026-09-08T19:47:53.703076+00:00
+-> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-08T19:47:53.703076+00:00
+-> DEPENDS_ON [node:b347fe70-0841-4c01-95c2-6019fa19423f] @ 2026-09-08T19:56:57.300588+00:00
+-> DEPENDS_ON [node:f0e2ae72-268a-4859-80b0-e98ec768fb10] @ 2026-09-08T19:56:57.176951+00:00
+
+Keep the kitchen wall alive across a backend restart: a hand-rolled Service Worker for the app shell, and a reconnect scrim over the blurred stale grid that says what is happening and how far along it is
+---
+[node:d3a59b66-5cba-4c3a-8b0f-41d22cadde4e]
+type: slice
+tier: short-term
+path: /change/k7-offline-shell
+created_at: 2026-09-08T19:47:53.703076+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:b347fe70-0841-4c01-95c2-6019fa19423f] @ 2026-09-08T19:56:57.300588+00:00
+-> SCOPED_TO [node:b50027cf-438d-4a12-bf40-983fc53fc63e] @ 2026-09-08T19:47:53.703076+00:00
+-> SCOPED_TO [node:f0e2ae72-268a-4859-80b0-e98ec768fb10] @ 2026-09-08T19:56:57.176951+00:00
+
+change scope: k7-offline-shell
+---
+[event:fbdb7f98-f1a7-4f2b-98eb-deea10a8bce8]
+node_id: d3a59b66-5cba-4c3a-8b0f-41d22cadde4e
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-08T19:47:53.704639+00:00
+
+create_change k7-offline-shell
+---
+[node:f0e2ae72-268a-4859-80b0-e98ec768fb10]
+type: constraint
+tier: mid-term
+path: /artifact/a-layout-is-part-of-the-shell-not-upstr
+created_at: 2026-09-08T19:56:57.176951+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-08T19:56:57.176951+00:00
+-> DEPENDS_ON [node:8f453152-4703-4c6e-8a7c-4ae5ca69b54e] @ 2026-09-08T19:57:08.915658+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-08T19:56:57.176951+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T19:56:57.176951+00:00
+-> ABOUT [node:f96f62c3-d72a-4c40-8e16-57278ca1f302] @ 2026-09-08T19:56:57.176951+00:00
+
+A Layout is part of the shell, not upstream data, and caching it on the device is what makes an outage screen honest. The service worker deliberately does not cache the API, because the backend owns data freshness and a second cache in front of it would answer with a lie - but applying that rule to the layout produced a reload during an outage that painted an empty deck, so the reconnect scrim covered a void rather than the last screen the household saw. The shape of the screen is kept locally and repainted before the scrim goes over it; the data inside the cards is still not, and the footer says the layout is the last known one rather than pretending it is current.
+---
+[node:b347fe70-0841-4c01-95c2-6019fa19423f]
+type: constraint
+tier: mid-term
+path: /artifact/headless-chrome-s-virtual-time-budget-do
+created_at: 2026-09-08T19:56:57.300588+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-08T19:56:57.300588+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T19:56:57.300588+00:00
+
+Headless Chrome's virtual-time budget does not drive service worker installation, so a service worker cannot be verified with the screenshot-and-dump-DOM approach that works for ordinary pages. A test that way reports a blank error page and looks exactly like a broken worker; the worker in question was in fact registering, activating and caching correctly. Verification needs a real browser driven over the devtools protocol with real waits - controller present, registration activated, cache populated - and an offline check needs the backend actually stopped between a warm load and a reload, not a network condition simulated in the page.
