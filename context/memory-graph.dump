@@ -3564,8 +3564,10 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> DEPENDS_ON [node:2946e332-fd2b-4b23-9f13-a6f014255945] @ 2026-09-09T06:22:37.815060+00:00
 -> DEPENDS_ON [node:54cce183-229d-4f45-8d15-ff1f0696b66c] @ 2026-09-09T06:14:00.293252+00:00
 -> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-09T06:14:00.293252+00:00
+-> DEPENDS_ON [node:e501e6f3-ae58-4154-a7db-f48d40b153e6] @ 2026-09-09T06:22:37.677683+00:00
 
 Four bounded pieces: two more pages, the shopping list given a full column, a working audiometer card, and the logo assets used where iOS actually needs them
 ---
@@ -3578,7 +3580,9 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> SCOPED_TO [node:2946e332-fd2b-4b23-9f13-a6f014255945] @ 2026-09-09T06:22:37.815060+00:00
 -> SCOPED_TO [node:985229b1-13b7-4596-872b-3126fb384590] @ 2026-09-09T06:14:00.293252+00:00
+-> SCOPED_TO [node:e501e6f3-ae58-4154-a7db-f48d40b153e6] @ 2026-09-09T06:22:37.677683+00:00
 
 change scope: k7-pages-and-audiometer
 ---
@@ -3591,3 +3595,43 @@ source: agent-surface
 created_at: 2026-09-09T06:14:00.294778+00:00
 
 create_change k7-pages-and-audiometer
+---
+[node:e501e6f3-ae58-4154-a7db-f48d40b153e6]
+type: constraint
+tier: mid-term
+path: /artifact/a-card-can-claim-a-whole-grid-column-an
+created_at: 2026-09-09T06:22:37.677683+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-09T06:22:37.677683+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T06:22:37.677683+00:00
+-> ABOUT [node:e1da2600-04f7-4243-bb85-f79692e086ae] @ 2026-09-09T06:22:37.677683+00:00
+
+A card can claim a whole grid column, and making that work needed two fixes that both fail silently. The layout contract carries span.rows and the renderer ignored it, so no file could ask for a full column however it was written; the guard was then a truthiness test, which skips zero, and zero is exactly the value chosen to mean the whole column. Worse, grid-row 1 / -1 counts against the explicit grid: with only grid-auto-rows the rows are implicit, -1 resolves to line 1, and the card asking for the column quietly receives a single cell with no error anywhere. Pages therefore template their rows explicitly, and the row count accounts for the span - a full-column card takes a column to itself, so the remaining cards share what is left, which is what decides the count rather than the raw card total.
+---
+[event:bed0bb8e-b502-4ff3-90e6-d9b6eaaea386]
+node_id: e501e6f3-ae58-4154-a7db-f48d40b153e6
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T06:22:37.945065+00:00
+
+cost two retries of a headless phase: the truthiness guard and the implicit-row grid each fail with no error, so the phase verified false twice before the cause was visible
+---
+[node:2946e332-fd2b-4b23-9f13-a6f014255945]
+type: constraint
+tier: mid-term
+path: /artifact/the-microphone-is-never-requested-when-a
+created_at: 2026-09-09T06:22:37.815060+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-09T06:22:37.815060+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-09T06:22:37.815060+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T06:22:37.815060+00:00
+
+The microphone is never requested when a card mounts. A wall kiosk has nobody standing at it to answer a permission prompt, so a card that asks on load renders as permanently dead and the household learns to ignore it. The audiometer shows an explicit off state with one control that asks, a pending state while the browser decides, and a named failure with a way to retry when permission is refused or no device exists. The stream and the audio context are released in the teardown, because a kiosk that holds the microphone open forever is both a battery cost and a thing a household should not have to trust.
