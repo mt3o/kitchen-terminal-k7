@@ -112,7 +112,6 @@ body {
 .pager-track {
   display: flex;
   height: 100%;
-  will-change: transform;
   /* Only transform is animated. On an A8X driving a display that never sleeps,
      animating `left` or `width` costs layout on every frame. */
   transition: transform var(--motion-base) var(--ease);

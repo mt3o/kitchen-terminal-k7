@@ -61,11 +61,28 @@ self.addEventListener('fetch', (event) => {
   // a second cache in front of it would answer with a lie.
   if (url.pathname.startsWith('/api/')) return
 
-  // A navigation always resolves to the shell — the kiosk is one page, and a
-  // reload while the backend is down must still paint something.
+  // Navigations go to the network first, and fall back to the cached shell.
+  //
+  // Cache-first here is the trap: the build empties its output directory, so
+  // asset filenames change and the old ones stop existing. A cached index.html
+  // therefore points at scripts that are gone from both the server and the new
+  // cache, and the kiosk keeps booting a shell that cannot load — indefinitely,
+  // because nothing about a cache hit ever expires.
+  //
+  // Network-first costs one request on a healthy LAN and gives the current
+  // shell every time; the cached copy is still there for the case it exists
+  // for, which is the backend being down.
   if (request.mode === 'navigate') {
     event.respondWith(
-      caches.match('/index.html').then((hit) => hit || fetch(request)),
+      fetch(request)
+        .then((res) => {
+          if (res.ok) {
+            const copy = res.clone()
+            caches.open(cacheName).then((cache) => cache.put('/index.html', copy))
+          }
+          return res
+        })
+        .catch(() => caches.match('/index.html').then((hit) => hit ?? Response.error())),
     )
     return
   }

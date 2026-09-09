@@ -225,12 +225,19 @@ function createWidget(card: Card): HTMLElement {
   }
 }
 
+/** Re-entrancy guard: recovery calls boot(), and two overlapping boots would
+ *  each replace the deck, which is the flicker this whole fix is about. */
+let booting = false
+
 async function boot(): Promise<void> {
+  if (booting) return
+  booting = true
   try {
     const layout = await loadLayout()
     render(layout)
     rememberLayout(layout)
     setStatus('ONLINE', true)
+    booting = false
     if (foot) {
       const cards = layout.pages.reduce((n, p) => n + p.cards.length, 0)
       const pagesLabel = layout.pages.length > 1 ? ` // ${layout.pages.length} strony` : ''
@@ -249,14 +256,25 @@ async function boot(): Promise<void> {
         ? `> ostatni znany uklad // ${err instanceof Error ? err.message : 'brak polaczenia'}`
         : `> ${err instanceof Error ? err.message : 'nieznany blad'}`
     }
+    booting = false
+    // Probe the thing actually needed, not a proxy for it.
+    //
+    // This used to poll /api/health and then call boot() again on success. When
+    // the health check passed but the layout did not — a shape the renderer
+    // could not read, say, because the page was running an older bundle against
+    // a newer server — recovery succeeded, boot failed, recovery ran again, with
+    // no delay between them. Each pass replaced every card in the deck, which is
+    // a tight loop that looks exactly like the screen flickering.
+    //
+    // Probing the layout itself removes the gap: there is no state where the
+    // probe is satisfied and the caller still is not.
     await reconnectLoop({
-      probe: async () => {
-        const res = await fetch('/api/health', { cache: 'no-store' })
-        if (!res.ok) throw new Error(`health ${res.status}`)
-        return res
-      },
+      probe: loadLayout,
       ui: domReconnectUi(),
-      onRecovered: () => { void boot() },
+      onRecovered: () => {
+        booting = false
+        void boot()
+      },
     })
   }
 }
