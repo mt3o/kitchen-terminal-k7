@@ -107,11 +107,11 @@
     const buf = new Uint8Array(analyser.fftSize)
     analyser.getByteTimeDomainData(buf)
     let sumSquares = 0
-    for (let i = 0; i < buf.length; i++) {
-      const centred = (buf[i] - 128) / 128
+    for (const sample of buf) {
+      const centred = (sample - 128) / 128
       sumSquares += centred * centred
     }
-    return Math.sqrt(sumSquares / buf.length)
+    return buf.length > 0 ? Math.sqrt(sumSquares / buf.length) : 0
   }
 
   function sample(): void {
