@@ -99,6 +99,9 @@ body {
   min-height: 0;
   overflow: hidden;
   position: relative;
+  /* A strip for the page indicator. Without it the dots sit on the bottom
+     cards' border and read as part of the card rather than as chrome. */
+  padding-bottom: var(--space-4);
 
 }
 
@@ -145,7 +148,7 @@ body {
 
 .pager-dots {
   position: absolute;
-  bottom: var(--space-2);
+  bottom: 0;
   left: 0;
   right: 0;
   display: flex;
