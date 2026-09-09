@@ -3323,3 +3323,106 @@ archived: false
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T19:56:57.300588+00:00
 
 Headless Chrome's virtual-time budget does not drive service worker installation, so a service worker cannot be verified with the screenshot-and-dump-DOM approach that works for ordinary pages. A test that way reports a blank error page and looks exactly like a broken worker; the worker in question was in fact registering, activating and caching correctly. Verification needs a real browser driven over the devtools protocol with real waits - controller present, registration activated, cache populated - and an offline check needs the backend actually stopped between a warm load and a reload, not a network condition simulated in the page.
+---
+[node:036d7035-0137-4a2f-8438-15cb318048df]
+type: slice
+tier: short-term
+path: /change/k7-widgets
+created_at: 2026-09-09T05:31:01.668253+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:240ae1c0-1cd0-40c2-974e-e5df93897bc9] @ 2026-09-09T05:38:22.879032+00:00
+-> SCOPED_TO [node:2457f906-1a58-4b4d-9c04-dc17639d9247] @ 2026-09-09T05:38:22.741693+00:00
+-> SCOPED_TO [node:26582685-718f-4003-9454-5126ff416a15] @ 2026-09-09T05:57:27.730936+00:00
+-> SCOPED_TO [node:4c010fc9-9310-4776-9724-89559745db67] @ 2026-09-09T05:31:01.668253+00:00
+-> SCOPED_TO [node:68dcc438-9bf1-4899-834a-afea99bf556a] @ 2026-09-09T05:57:27.612002+00:00
+
+change scope: k7-widgets
+---
+[event:622e6635-b662-43bd-b27c-895936001020]
+node_id: 036d7035-0137-4a2f-8438-15cb318048df
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T05:31:01.669669+00:00
+
+create_change k7-widgets
+---
+[node:4c010fc9-9310-4776-9724-89559745db67]
+type: goal
+tier: short-term
+path: /goal/k7-widgets
+created_at: 2026-09-09T05:31:01.668253+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:240ae1c0-1cd0-40c2-974e-e5df93897bc9] @ 2026-09-09T05:38:22.879032+00:00
+-> DEPENDS_ON [node:2457f906-1a58-4b4d-9c04-dc17639d9247] @ 2026-09-09T05:38:22.741693+00:00
+-> DEPENDS_ON [node:26582685-718f-4003-9454-5126ff416a15] @ 2026-09-09T05:57:27.730936+00:00
+-> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-09T05:31:01.668253+00:00
+-> DEPENDS_ON [node:68dcc438-9bf1-4899-834a-afea99bf556a] @ 2026-09-09T05:57:27.612002+00:00
+-> DEPENDS_ON [node:b50027cf-438d-4a12-bf40-983fc53fc63e] @ 2026-09-09T05:31:01.668253+00:00
+
+Turn the declared card types into real widgets, starting with the three that need no integration that does not exist yet: weather on live cached data, a client-side kitchen timer, and the shopping list against its endpoints
+---
+[node:2457f906-1a58-4b4d-9c04-dc17639d9247]
+type: constraint
+tier: mid-term
+path: /artifact/a-variable-named-state-breaks-every-sta
+created_at: 2026-09-09T05:38:22.741693+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-09T05:38:22.741693+00:00
+
+A variable named state breaks every $state rune in the same Svelte 5 component. The dollar prefix is still store-subscription syntax, so $state parses as a subscription to a local called state, and the compiler reports block-scoped variable used before its declaration pointing at each rune rather than at the name that caused it. The errors name the wrong line, which is what makes it expensive: the fix is renaming the variable, and nothing in the message suggests that. The same collision waits for any local named props, derived or effect.
+---
+[node:240ae1c0-1cd0-40c2-974e-e5df93897bc9]
+type: decision
+tier: mid-term
+path: /artifact/every-card-carries-a-shared-shell-compon
+created_at: 2026-09-09T05:38:22.879032+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-09T05:38:22.879032+00:00
+-> DEPENDS_ON [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-09-09T05:38:23.003761+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-09T05:38:22.879032+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T05:38:22.879032+00:00
+
+Every card carries a shared shell component rather than its own copy of the card chrome. The shell is an ordinary Svelte component and not a second custom element, because slotting content across two shadow roots is the fiddly way to compose them and buys nothing here - each widget is already its own custom element. The reason it matters beyond tidiness is the token contract: the checker can only prove that no component hardcodes a colour if the chrome those components share lives in exactly one file, and thirteen copies of the card frame would be thirteen places for a hex literal to appear.
+---
+[node:68dcc438-9bf1-4899-834a-afea99bf556a]
+type: constraint
+tier: mid-term
+path: /artifact/the-kiosk-sizes-itself-with-a-percentage
+created_at: 2026-09-09T05:57:27.612002+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:0bc7e618-9b95-4977-9fe1-f3a48759276f] @ 2026-09-09T05:57:27.856165+00:00
+-> HAS_FACET [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99] @ 2026-09-09T05:57:27.612002+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T05:57:27.612002+00:00
+
+The kiosk sizes itself with a percentage height chained from the root element and never with viewport units. Each unit fails differently here: 100vh is wrong in a standalone PWA on iOS because the toolbar is gone and the unit does not know; dvh, svh and lvh are Safari 15.4 and past the floor, and the token-contract check fails a build that ships them; vw includes the scrollbar width, so sizing to it is a way to cause the horizontal scrollbar it was meant to avoid. Worst of the four was the usual iOS workaround: height set to webkit-fill-available resolves against a parent that has no height of its own and measured 887 pixels inside a 768 pixel viewport, overriding the 100vh it was supposed to back up, so the fallback added for one browser was the overflow in every browser. A height of 100 percent has no such ambiguity once html carries a height.
+---
+[node:26582685-718f-4003-9454-5126ff416a15]
+type: constraint
+tier: mid-term
+path: /artifact/the-card-deck-fits-by-construction-rathe
+created_at: 2026-09-09T05:57:27.730936+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:7108856c-d3d5-4701-bb69-11087256a081] @ 2026-09-09T05:57:27.967751+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T05:57:27.730936+00:00
+
+The card deck fits by construction rather than by scrolling. Rows are minmax(0, 1fr) and each grid item carries min-height zero, because a grid item's automatic minimum size is its content and that silently defeats fractional rows; the deck then clips instead of scrolling, and the page has overflow hidden so a scrollbar anywhere means a bug rather than a feature. This releases the minimum card height inside the deck, and that is not a loss: the token existed so rows would not jump as data loads, and equal fractional rows give the stronger version of the same guarantee, because row height stops depending on content at all. On a wall display nobody is present to scroll, so content below the fold is content that does not exist.
