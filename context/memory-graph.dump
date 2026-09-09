@@ -3436,8 +3436,10 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> DEPENDS_ON [node:0eb267d9-a394-4dc0-84c6-e18825cccfd6] @ 2026-09-09T06:05:35.176963+00:00
 -> DEPENDS_ON [node:4c010fc9-9310-4776-9724-89559745db67] @ 2026-09-09T05:59:31.161584+00:00
 -> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-09T05:59:31.161584+00:00
+-> DEPENDS_ON [node:e156fb5f-8f05-400a-812b-e0552df1def3] @ 2026-09-09T06:05:35.048737+00:00
 -> DEPENDS_ON [node:e1da2600-04f7-4243-bb85-f79692e086ae] @ 2026-09-09T05:59:43.216030+00:00
 
 Give the layout pages: an ordered set of screenfuls, each with its own grid, so cards can be added without shrinking the ones already there - and so that nothing ever needs to scroll
@@ -3451,7 +3453,9 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> SCOPED_TO [node:0eb267d9-a394-4dc0-84c6-e18825cccfd6] @ 2026-09-09T06:05:35.176963+00:00
 -> SCOPED_TO [node:54cce183-229d-4f45-8d15-ff1f0696b66c] @ 2026-09-09T05:59:31.161584+00:00
+-> SCOPED_TO [node:e156fb5f-8f05-400a-812b-e0552df1def3] @ 2026-09-09T06:05:35.048737+00:00
 
 change scope: k7-page-model
 ---
@@ -3488,3 +3492,34 @@ source: agent-surface
 created_at: 2026-09-09T05:59:43.216030+00:00
 
 proposed via agent surface: elicited: the user asked for a layout grid with pages scrolled on touch like a slideshow, each page with its own grid
+---
+[node:e156fb5f-8f05-400a-812b-e0552df1def3]
+type: constraint
+tier: mid-term
+path: /artifact/a-page-s-own-grid-is-a-plain-nested-grid
+created_at: 2026-09-09T06:05:35.048737+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:0bc7e618-9b95-4977-9fe1-f3a48759276f] @ 2026-09-09T06:05:35.295940+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T06:05:35.048737+00:00
+-> ABOUT [node:e1da2600-04f7-4243-bb85-f79692e086ae] @ 2026-09-09T06:05:35.048737+00:00
+
+A page's own grid is a plain nested grid, never CSS subgrid. Subgrid is Safari 16 and past this project's floor, and the token-contract check fails a build that ships it - but the deeper point is that subgrid solves a different problem. It exists so a child's tracks can align with its parent's, and across independently paged screenfuls they must not: each page sizes its own rows from its own card count. Asking for a subgrid here is almost always asking for a nested grid, and the two are worth telling apart before the floor makes the decision for you.
+---
+[node:0eb267d9-a394-4dc0-84c6-e18825cccfd6]
+type: decision
+tier: mid-term
+path: /artifact/the-layout-contract-gained-pages-without
+created_at: 2026-09-09T06:05:35.176963+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T06:05:35.176963+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T06:05:35.176963+00:00
+-> ABOUT [node:e1da2600-04f7-4243-bb85-f79692e086ae] @ 2026-09-09T06:05:35.176963+00:00
+-> ABOUT [node:f96f62c3-d72a-4c40-8e16-57278ca1f302] @ 2026-09-09T06:05:35.176963+00:00
+
+The layout contract gained pages without breaking the documents that predate them. A file carrying a bare card list normalises to exactly one page, and that normalisation happens once on the server rather than in the renderer, so there is a single shape to draw. Two code paths through a layout is how the single-page case quietly stops being exercised, and the single-page case is every layout written before today. A contract that breaks its own documents to gain a feature is not a contract.
