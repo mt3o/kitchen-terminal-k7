@@ -22,6 +22,9 @@ import { createFreshnessService } from './upstream/freshness.ts'
 import { fetchWeather, weatherCacheKey } from './upstream/open-meteo.ts'
 import { asciiArtCacheKey, createAsciiArtGenerator } from './upstream/ascii-art.ts'
 import { comicCacheKey, fetchComic } from './upstream/comic-rss.ts'
+import { createKiloGatewayClient, createModelCatalog } from './upstream/kilo.ts'
+import { createConversationService } from './ai/conversation-service.ts'
+import { registerChatRoutes } from './routes/chat.ts'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 const config = loadConfig()
@@ -40,9 +43,23 @@ const db = openDatabase(config.databasePath)
 runMigrations(db)
 const repos = createRepositories(db)
 const fetchThrough = createFreshnessService(repos.upstreamCache)
+
+// AI chat (Faza 4) and ascii-art-of-the-day (Faza 5) share one Kilo Gateway
+// client and model catalogue — see routes/chat.ts for why the chat routes
+// themselves live in their own module.
+const kiloClient = createKiloGatewayClient({ apiKey: config.kiloGatewayKey })
+const modelCatalog = createModelCatalog(fetchThrough, kiloClient)
+const conversationService = createConversationService({
+  conversations: repos.conversations,
+  aiCalls: repos.aiCalls,
+  modelCatalog,
+  gateway: kiloClient,
+})
 // Absent means the card fails honestly with a clear cause rather than every
 // request racing to discover a missing key — see the /api/ascii-art route.
-const generateAndRecordAsciiArt = config.kiloGatewayKey ? createAsciiArtGenerator(repos.aiCalls, config.kiloGatewayKey) : undefined
+const generateAndRecordAsciiArt = config.kiloGatewayKey
+  ? createAsciiArtGenerator(repos.aiCalls, kiloClient, modelCatalog)
+  : undefined
 
 /**
  * TLS is all-or-nothing and decided before Fastify exists, because the server's
@@ -294,6 +311,16 @@ app.patch('/api/shopping-list/:id', async (req, reply) => {
   if (typeof checked !== 'boolean') return reply.code(400).send({ error: 'checked must be a boolean' })
   const item = await repos.shoppingList.setChecked(id, checked)
   return item ?? reply.code(404).send({ error: 'no such item' })
+})
+
+// AI chat (Faza 4): model catalogue, conversation CRUD, the SSE turn endpoint
+// and the cost-history view — see routes/chat.ts.
+await registerChatRoutes(app, {
+  conversations: repos.conversations,
+  aiCalls: repos.aiCalls,
+  modelCatalog,
+  conversationService,
+  reportError: (err, extra) => Sentry.captureException(err, { extra }),
 })
 
 // Every unhandled error reaches GlitchTip through the same scrubber as the rest.

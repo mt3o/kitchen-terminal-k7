@@ -36,6 +36,7 @@ const browserGlobals = {
   cancelAnimationFrame: 'readonly',
   URL: 'readonly',
   Intl: 'readonly',
+  TextDecoder: 'readonly',
 }
 
 const nodeGlobals = {

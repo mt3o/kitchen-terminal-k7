@@ -8,6 +8,7 @@ import './app.css'
 import './lib/K7AsciiArt.svelte'
 import './lib/K7Audiometer.svelte'
 import './lib/K7Card.svelte'
+import './lib/K7Chat.svelte'
 import './lib/K7Comic.svelte'
 import './lib/K7ShoppingList.svelte'
 import './lib/K7Timer.svelte'
@@ -272,6 +273,18 @@ function createWidget(card: Card): HTMLElement {
       attr(el, 'linkToSource', params.linkToSource)
       attr(el, 'creditText', params.creditText)
       attr(el, 'fallbackImageUrl', params.fallbackImageUrl)
+      return el
+    }
+    case 'chat': {
+      const el = document.createElement('k7-chat')
+      attr(el, 'defaultModel', params.defaultModel)
+      const availableModels = params.availableModels
+      if (Array.isArray(availableModels) && availableModels.length > 0) {
+        attr(el, 'availableModels', JSON.stringify(availableModels))
+      }
+      attr(el, 'contextWindowMarginPercent', params.contextWindowMarginPercent)
+      attr(el, 'compactingThresholdPercent', params.compactingThresholdPercent)
+      attr(el, 'voiceInput', params.voiceInput)
       return el
     }
     case 'clock': {
