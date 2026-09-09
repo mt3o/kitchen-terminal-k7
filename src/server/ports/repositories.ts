@@ -49,6 +49,8 @@ export interface AiCallRepository {
   record(call: New<AiCall>): Promise<AiCall>
   /** What the household has spent since a moment, for the cost view. */
   totalCostSince(since: Date): Promise<{ calls: number; costUsd: number }>
+  /** Newest first — the cost-history view's row list. */
+  listRecent(limit?: number): Promise<AiCall[]>
 }
 
 export interface UpstreamCacheRepository {

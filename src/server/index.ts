@@ -21,6 +21,9 @@ import { createCloudflareDns } from './tls/cloudflare.ts'
 import { ensureCertificate } from './tls/certificate.ts'
 import { createFreshnessService } from './upstream/freshness.ts'
 import { fetchWeather, weatherCacheKey } from './upstream/open-meteo.ts'
+import { createKiloGatewayClient, createModelCatalog } from './upstream/kilo.ts'
+import { createConversationService } from './ai/conversation-service.ts'
+import { registerChatRoutes } from './routes/chat.ts'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 const config = loadConfig()
@@ -39,6 +42,18 @@ const db = openDatabase(config.databasePath)
 runMigrations(db)
 const repos = createRepositories(db)
 const fetchThrough = createFreshnessService(repos.upstreamCache)
+
+// AI chat (Faza 4). The Kilo Gateway client and ConversationService are wired
+// here and handed to registerChatRoutes as a bundle — see routes/chat.ts for
+// why the routes themselves live in their own module.
+const kiloClient = createKiloGatewayClient({ apiKey: config.kiloGatewayKey })
+const modelCatalog = createModelCatalog(fetchThrough, kiloClient)
+const conversationService = createConversationService({
+  conversations: repos.conversations,
+  aiCalls: repos.aiCalls,
+  modelCatalog,
+  gateway: kiloClient,
+})
 
 /**
  * TLS is all-or-nothing and decided before Fastify exists, because the server's
@@ -299,6 +314,16 @@ app.delete('/api/recipes/:id', async (req, reply) => {
   const { id } = req.params as { id: string }
   const deleted = await repos.recipes.delete(id)
   return deleted ? reply.code(204).send() : reply.code(404).send({ error: 'no such recipe' })
+})
+
+// AI chat (Faza 4): model catalogue, conversation CRUD, the SSE turn endpoint
+// and the cost-history view — see routes/chat.ts.
+await registerChatRoutes(app, {
+  conversations: repos.conversations,
+  aiCalls: repos.aiCalls,
+  modelCatalog,
+  conversationService,
+  reportError: (err, extra) => Sentry.captureException(err, { extra }),
 })
 
 // Every unhandled error reaches GlitchTip through the same scrubber as the rest.
