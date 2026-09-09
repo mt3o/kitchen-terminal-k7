@@ -184,6 +184,10 @@ export function createRepositories(db: Db): Repositories {
         .where(and(gte(schema.aiCalls.createdAt, since)))
       return { calls: Number(row?.calls ?? 0), costUsd: Number(row?.costUsd ?? 0) }
     },
+    async listRecent(limit = 50) {
+      const rows = await db.select().from(schema.aiCalls).orderBy(desc(schema.aiCalls.createdAt)).limit(limit)
+      return rows.map(toAiCall)
+    },
   }
 
   const upstreamCache: UpstreamCacheRepository = {
