@@ -11,6 +11,7 @@ import { createRepositories, openDatabase } from '../src/server/adapters/drizzle
 import { runMigrations } from '../src/server/db/migrate.ts'
 import { asciiArtCacheKey, createAsciiArtGenerator } from '../src/server/upstream/ascii-art.ts'
 import { createFreshnessService } from '../src/server/upstream/freshness.ts'
+import { createKiloGatewayClient } from '../src/server/upstream/kilo.ts'
 import type { Repositories } from '../src/server/ports/repositories.ts'
 
 let repos: Repositories
@@ -25,7 +26,10 @@ beforeEach(() => {
   runMigrations(db)
   repos = createRepositories(db)
   fetchThrough = createFreshnessService(repos.upstreamCache)
-  generateAndRecord = createAsciiArtGenerator(repos.aiCalls, 'test-key')
+  const client = createKiloGatewayClient({ apiKey: 'test-key' })
+  // Pricing is best-effort for ascii-art (see ascii-art.ts) — a stub catalogue
+  // that never resolves a price exercises exactly that fallback path.
+  generateAndRecord = createAsciiArtGenerator(repos.aiCalls, client, { get: async () => undefined })
 })
 
 afterEach(() => {
