@@ -6933,3 +6933,86 @@ source: agent-surface
 created_at: 2026-09-10T06:48:45.719131+00:00
 
 StaticImage entity used to name the new K7Image.svelte component and image card type
+---
+[node:08e87a7d-af86-4011-a637-184af086d75a]
+type: goal
+tier: short-term
+path: /goal/k7-audiometer-rework
+created_at: 2026-09-10T08:01:19.600788+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:985e7b50-fce5-40da-9f30-ce40056370f2] @ 2026-09-10T08:04:19.996355+00:00
+
+Rework the audiometer's percent metric to be relative to a trailing 30-second loudness window (peak-hold with falloff, capped at 100%) instead of a fixed absolute RMS-to-percent scale, and add a raw dB readout alongside the primary level.
+---
+[event:6be08aab-6f03-4759-975a-f8777d3e95fb]
+node_id: 08e87a7d-af86-4011-a637-184af086d75a
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T08:04:24.633791+00:00
+
+Goal node for the whole change
+---
+[node:88c7c378-354a-42f8-98b8-da3646d5ae0d]
+type: slice
+tier: short-term
+path: /change/k7-audiometer-rework
+created_at: 2026-09-10T08:01:19.600788+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:08e87a7d-af86-4011-a637-184af086d75a] @ 2026-09-10T08:01:19.600788+00:00
+-> SCOPED_TO [node:985e7b50-fce5-40da-9f30-ce40056370f2] @ 2026-09-10T08:04:19.996355+00:00
+
+change scope: k7-audiometer-rework
+---
+[event:89074431-6138-4163-a96d-48076c1902f0]
+node_id: 88c7c378-354a-42f8-98b8-da3646d5ae0d
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T08:01:19.602184+00:00
+
+create_change k7-audiometer-rework
+---
+[node:985e7b50-fce5-40da-9f30-ce40056370f2]
+type: decision
+tier: short-term
+path: /artifact/the-audiometer-s-percent-display-is-rela
+created_at: 2026-09-10T08:04:19.996355+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:c312eb94-94dd-4f25-a226-2ffe26dd6de7] @ 2026-09-10T08:04:19.996355+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-10T08:04:19.996355+00:00
+
+The audiometer's percent display is relative to a trailing 30-second loudness window (REFERENCE_WINDOW_SECONDS), not a fixed absolute RMS-to-percent scale. The 100% reference is peak-hold-with-falloff: jumps up immediately to a new louder peak, eases down gradually (REFERENCE_FALLOFF_STEP=0.05 per sample) toward a newly-quieter window rather than snapping instantly, with a floor (MIN_REFERENCE_RMS=0.02) so a silent room's own noise floor never gets amplified toward 100%. This is what layout.schema.yaml's params.audiometer.unit description always claimed ("znormalizowane 0-100 względem ciszy/maksimum") but the original toPercent() implementation never actually did — it mapped raw RMS linearly to 0-100 on a fixed scale. A raw (unsmoothed) dB reading is now always shown as a secondary line regardless of the unit param.
+---
+[event:38bf4a67-a3e0-41db-86b7-df4529de3f54]
+node_id: 985e7b50-fce5-40da-9f30-ce40056370f2
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T08:04:24.639514+00:00
+
+Implemented and verified with 209 passing tests, lint, typecheck, build, storybook
+---
+[node:c312eb94-94dd-4f25-a226-2ffe26dd6de7]
+type: facet_value
+tier: lifetime
+path: /facet/audio
+created_at: 2026-09-10T08:04:19.996355+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+audio

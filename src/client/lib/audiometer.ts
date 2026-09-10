@@ -12,11 +12,66 @@
 const MIN_DB = -60
 const MAX_DB = 0
 
-/** Normalise an RMS amplitude (0..1) to a 0-100 percent scale. */
-export function toPercent(rms: number): number {
-  if (!Number.isFinite(rms)) return 0
-  const clamped = Math.min(1, Math.max(0, rms))
-  return clamped * 100
+/**
+ * The trailing window `percent` is computed relative to — this is what the
+ * schema's own params.audiometer doc always claimed ("znormalizowane 0-100
+ * względem ciszy/maksimum") but the original implementation never actually
+ * did; it mapped raw RMS to 0-100 on a fixed absolute scale instead, which
+ * is why a quiet kitchen only ever read a few percent no matter how loud the
+ * loudest thing in it was.
+ */
+export const REFERENCE_WINDOW_SECONDS = 30
+
+/**
+ * The reference (the level treated as 100%) never drops below this RMS.
+ * Without a floor, a genuinely silent room's noise floor would itself get
+ * amplified toward 100% — the "cap" side of "falloff and cap": not just an
+ * upper bound on the displayed percent, but a lower bound on what counts as
+ * the room's own ambient level.
+ */
+const MIN_REFERENCE_RMS = 0.02
+
+/**
+ * How much of the gap between the current reference and a newly *lower*
+ * windowed peak closes per sample. The reference jumps UP immediately to a
+ * new peak (an attack should register at once), but eases DOWN only by this
+ * fraction each sample — the falloff — so the 100% mark doesn't snap back
+ * down the instant a loud moment passes, the way a VU meter's peak-hold
+ * relaxes rather than resets.
+ */
+const REFERENCE_FALLOFF_STEP = 0.05
+
+/** Max of a rolling window, 0 for an empty one — split out so the empty case is one line to test. */
+export function windowMax(values: readonly number[]): number {
+  return values.length === 0 ? 0 : Math.max(...values)
+}
+
+/**
+ * Peak-hold-with-falloff: the 100% reference for `toRelativePercent`.
+ * `windowedMax` is `windowMax` over the trailing `REFERENCE_WINDOW_SECONDS`
+ * of raw RMS samples, recomputed by the caller every sample.
+ */
+export function updateReference(previousReference: number, windowedMax: number): number {
+  const target = Math.max(MIN_REFERENCE_RMS, Number.isFinite(windowedMax) ? windowedMax : 0)
+  const prev = Number.isFinite(previousReference) && previousReference > 0 ? previousReference : MIN_REFERENCE_RMS
+  if (target >= prev) return target
+  const eased = prev - (prev - target) * REFERENCE_FALLOFF_STEP
+  return Math.max(target, eased)
+}
+
+/**
+ * `rms` as a percentage of `reference` (the trailing-window peak-with-
+ * falloff level) — "how loud is this, relative to the loudest the room has
+ * recently been" rather than an absolute fraction of full-scale amplitude.
+ * Capped at 100: `reference` updates once per sample, so a sample can
+ * legitimately exceed the *previous* reference for one tick before the
+ * falloff/peak logic above catches up, and that must never paint past the
+ * top of the bar.
+ */
+export function toRelativePercent(rms: number, reference: number): number {
+  if (!Number.isFinite(rms) || rms <= 0) return 0
+  const ref = Number.isFinite(reference) && reference > 0 ? reference : MIN_REFERENCE_RMS
+  return Math.min(100, (rms / ref) * 100)
 }
 
 /** dBFS, i.e. 20 * log10(rms), floored so silence is a number, not -Infinity. */
