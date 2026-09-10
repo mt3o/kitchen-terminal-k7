@@ -37,6 +37,11 @@ Keep them in Polish when editing; code, identifiers and commit messages are Engl
   never the values. Secrets must not leak into GlitchTip payloads alongside errors.
 - **`ConversationService` stays decoupled from the chat endpoint** so the chat can
   later be driven by MCP or a dedicated skill instead of the HTTP route.
+- **Every user-facing change adds a `changelog.yaml` entry, dated, in the same
+  change that makes it.** The dashboard's own changelog popup (header, "DZIENNIK
+  ZMIAN") reads this file — an entry that lands in a later change than the one it
+  describes is one the household never actually saw attached to what changed.
+  Decided 2026-09-10.
 
 <!-- BEGIN graph-workflow -->
 

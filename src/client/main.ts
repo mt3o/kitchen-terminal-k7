@@ -20,6 +20,8 @@ import './lib/K7Timer.svelte'
 import './lib/K7Weather.svelte'
 
 import { domReconnectUi, reconnectLoop } from './lib/reconnect.ts'
+import { createChangelogUi } from './lib/changelog.ts'
+import { createPullToRefresh } from './lib/pull-refresh.ts'
 import { createPager, type Pager } from './lib/pager.ts'
 import { createSlideshowController, extractSlideshow, isForbiddenNestedSlideshow, type SlideshowController } from './lib/slideshow.ts'
 
@@ -481,4 +483,17 @@ async function boot(): Promise<void> {
 }
 
 registerServiceWorker()
+createChangelogUi()
+const shellHead = document.querySelector<HTMLElement>('.shell-head')
+if (shellHead) {
+  createPullToRefresh(shellHead, {
+    // boot() re-fetches and re-renders in place; a household member pulling
+    // down from the header wants the same recovery path a reconnect already
+    // uses, not a hard navigation reload that would flash the shell blank.
+    onRefresh: () => {
+      booting = false
+      return boot()
+    },
+  })
+}
 void boot()

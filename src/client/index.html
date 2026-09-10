@@ -29,6 +29,7 @@
     <header class="shell-head">
       <span class="hud-label">TERMINAL K7</span>
       <span class="shell-status">
+        <button type="button" id="changelog-open" class="hud-button" aria-haspopup="dialog" aria-controls="changelog">[ i ] DZIENNIK ZMIAN</button>
         <span class="hud-label" id="status">STATUS: BOOT</span>
         <span class="cursor" aria-hidden="true">&#9608;</span>
       </span>
@@ -56,6 +57,24 @@
         </p>
         <div id="reconnect-bar" class="reconnect-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100">
           <div id="reconnect-bar-fill" class="reconnect-bar-fill" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+    <div
+      id="changelog"
+      hidden
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="changelog-title"
+    >
+      <div class="changelog-veil" aria-hidden="true"></div>
+      <div class="changelog-panel">
+        <header class="changelog-head">
+          <h2 id="changelog-title" class="changelog-title">DZIENNIK ZMIAN</h2>
+          <button type="button" id="changelog-close" class="hud-button" aria-label="zamknij">[ x ]</button>
+        </header>
+        <div id="changelog-body" class="changelog-body">
+          <p class="meta">wczytywanie…</p>
         </div>
       </div>
     </div>

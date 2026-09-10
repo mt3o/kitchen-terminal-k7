@@ -10,6 +10,7 @@ import fastifyStatic from '@fastify/static'
 import { parse } from 'yaml'
 
 import { normaliseLayout, type Layout, type NormalisedLayout } from '../shared/layout.ts'
+import { parseChangelog } from '../shared/changelog.ts'
 import { createRepositories, openDatabase } from './adapters/drizzle/index.ts'
 import { describeConfig, loadConfig, secretValues } from './config.ts'
 import { runMigrations } from './db/migrate.ts'
@@ -154,6 +155,16 @@ app.get('/api/layout', async (_req, reply) => {
     // The message is safe to return: it names a file and a field, never a value.
     // Secrets live in the Varlock schema and never reach a response body.
     return reply.code(500).send({ error: err instanceof Error ? err.message : 'layout unreadable' })
+  }
+})
+
+/** Read per request, same reasoning as loadLayout: editing changelog.yaml should not need a restart. */
+app.get('/api/changelog', async (_req, reply) => {
+  try {
+    const raw = await readFile(resolve(ROOT, 'changelog.yaml'), 'utf8')
+    return parseChangelog(parse(raw))
+  } catch (err) {
+    return reply.code(500).send({ error: err instanceof Error ? err.message : 'changelog unreadable' })
   }
 })
 

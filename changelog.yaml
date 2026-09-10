@@ -1,0 +1,15 @@
+# Kitchen Terminal K7 — user-facing changelog.
+#
+# CLAUDE.md's standing constraints require every user-facing change to add an
+# entry here, with a date, in the same change that makes it — the changelog
+# card in the dashboard header reads this file (served via GET /api/changelog),
+# so an entry that lands later than the change it describes is one the
+# household never actually saw associated with what changed.
+#
+# Newest entry first.
+entries:
+  - date: "2026-09-10"
+    title: "Odświeżanie przeciągnięciem, dziennik zmian"
+    items:
+      - "Przeciągnięcie w dół od góry ekranu (nagłówek) odświeża dashboard."
+      - "Nowy przycisk w nagłówku pokazuje ten dziennik zmian."

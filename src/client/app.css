@@ -52,8 +52,38 @@ body {
 }
 
 .shell-head {
+  /* Positioning context for .pull-refresh-indicator, which is otherwise
+     absolutely positioned against the nearest ancestor — the shell, not the
+     header itself, without this. */
+  position: relative;
   border-bottom: var(--border-w-strong) solid var(--border-strong);
   padding-bottom: var(--space-3);
+}
+
+/* A small bracketed control living in the compact header row — [ i ]/[ x ]
+   style, `.btn-ghost`'s sizing scaled down to fit `--text-sm`'s header rhythm
+   rather than the full `--control-h-sm` cards use. */
+.hud-button {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  padding: var(--space-1) var(--space-2);
+  background: transparent;
+  color: var(--fg-muted);
+  border: var(--border-w) solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.hud-button:hover { background: var(--ghost-hover); color: var(--fg); }
+.hud-button:active { background: var(--ghost-active); }
+.hud-button:focus {
+  outline: var(--focus-w) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+@supports selector(:focus-visible) {
+  .hud-button:focus:not(:focus-visible) { outline: none; }
 }
 
 .shell-status { display: inline-flex; align-items: center; gap: var(--space-2); }
@@ -357,5 +387,149 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .k7-slideshow-active {
     transition-duration: 0ms;
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * Changelog popup (lib/changelog.ts). Same veil-over-panel shape as
+ * #reconnect above, reusing its single 4px backdrop-filter allowance
+ * (DESIGN.md §5) rather than a second blur value. z-index sits below
+ * #reconnect's 100 on purpose: a connection loss is more urgent than
+ * "what changed", so the reconnect scrim must win if both are ever showing.
+ * -------------------------------------------------------------------------- */
+#changelog {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+}
+#changelog[hidden] { display: none; }
+
+.changelog-veil {
+  position: absolute;
+  inset: 0;
+  background: var(--scrim);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.changelog-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: min(92%, calc(var(--space-16) * 8));
+  max-height: min(80%, calc(var(--space-16) * 10));
+  padding: var(--card-pad);
+  background: var(--surface-raised);
+  border: var(--border-w-strong) solid var(--border-strong);
+  border-radius: var(--radius);
+  color: var(--fg);
+  font-family: var(--font-ui);
+}
+
+.changelog-head {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  border-bottom: var(--border-w) solid var(--border);
+  padding-bottom: var(--space-2);
+}
+
+.changelog-title {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-label);
+  color: var(--fg);
+}
+
+.changelog-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.changelog-entry { display: flex; flex-direction: column; gap: var(--space-1); }
+.changelog-date { margin: 0; }
+.changelog-entry-title {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: var(--weight-bold);
+  color: var(--fg);
+}
+.changelog-items {
+  margin: 0;
+  padding-left: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+}
+
+/* --------------------------------------------------------------------------
+ * Pull-to-refresh indicator (lib/pull-refresh.ts). Grows out from under the
+ * header as the drag progresses — hidden above the header's own bottom edge
+ * at rest, translated down by --pull-offset (set from JS on every touchmove)
+ * until it is fully visible at the commit threshold. transform/opacity only,
+ * same "never animate width/height, only transform" rule the pager follows.
+ * -------------------------------------------------------------------------- */
+.pull-refresh-indicator {
+  --pull-offset: 0px;
+  --pull-progress: 0;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  background: var(--surface-raised);
+  border: var(--border-w) solid var(--border-strong);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  color: var(--fg-muted);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  opacity: 0;
+  transform: translate(-50%, calc(-100% + var(--pull-offset)));
+  pointer-events: none;
+}
+.pull-refresh-indicator.is-active {
+  opacity: var(--pull-progress);
+}
+.pull-refresh-indicator.is-committed {
+  color: var(--signal);
+  border-color: var(--signal);
+}
+.pull-refresh-indicator .pull-refresh-glyph {
+  display: inline-block;
+  transition: transform var(--motion-fast) var(--ease);
+}
+.pull-refresh-indicator.is-committed .pull-refresh-glyph {
+  transform: rotate(180deg);
+}
+.pull-refresh-indicator.is-refreshing {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+.pull-refresh-indicator.is-refreshing .pull-refresh-glyph {
+  animation: k7-blink var(--blink-period, 1.2s) steps(1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pull-refresh-indicator,
+  .pull-refresh-indicator .pull-refresh-glyph {
+    transition-duration: 0ms;
+  }
+  .pull-refresh-indicator.is-refreshing .pull-refresh-glyph {
+    animation: none;
   }
 }
