@@ -433,6 +433,11 @@ $defs:
       maxWidthPx:
         type: integer
         description: Opcjonalny górny limit szerokości. Puste = ograniczone tylko przez kartę.
+      label:
+        type: string
+        description: >
+          Opcjonalna etykieta karty. Domyślnie "OBRAZ" — nadpisz, gdy ten
+          konkretny obraz zasługuje na własną nazwę (np. kod QR logowania).
 
   params.carousel:
     type: object

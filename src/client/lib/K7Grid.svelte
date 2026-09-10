@@ -49,6 +49,25 @@
     gap: var(--cell-gap, var(--space-2));
     height: 100%;
     min-height: 0;
+
+    /* Custom properties inherit through the shadow boundary (K7Card.svelte's
+       own comment), so overriding the card-shape tokens here reaches every
+       nested cell's shadow DOM without either of them knowing about it. A
+       cell gets a fraction of a page cell's room, not a whole one, so it
+       needs a step down on padding/min-height/type scale — the clock's
+       --glance-sm digits (48px) were wide enough to overflow a cell on
+       their own before this.
+
+       Only --text-base steps down (to the old --text-sm), not --text-sm
+       itself: a custom property referencing another one declared on the
+       same rule resolves against that rule's own cascaded value, not the
+       pre-override one, so redefining --text-sm here too would collapse
+       --text-base, --text-sm and --text-xs to the same size instead of
+       shifting each down one tier. */
+    --card-pad: var(--space-2);
+    --card-min-h: 0;
+    --glance-sm: var(--text-xl);
+    --text-base: var(--text-sm);
   }
 
   /* Cells are arbitrary nested Cards — they must be free to shrink below

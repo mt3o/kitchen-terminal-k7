@@ -9,6 +9,25 @@
 # Newest entry first.
 entries:
   - date: "2026-09-10"
+    title: "Jasny motyw z paska stopki; węższy pasek górny"
+    items:
+      - "Nowy przycisk w stopce przełącza między jasnym a ciemnym motywem; wybór jest zapamiętywany."
+      - "Pasek górny (nagłówek) niższy — mniej miejsca zajmowanego kosztem karty."
+  - date: "2026-09-10"
+    title: "Kalendarz: dni jeden pod drugim zamiast siedmiu wąskich kolumn"
+    items:
+      - "Tydzień w karcie LOG.WYDARZENIA pokazuje teraz dni jako pełnej szerokości wiersze, przewijane pionowo — poprzednio siedem kolumn ściskało tytuły wydarzeń do jednej litery na wiersz."
+  - date: "2026-09-10"
+    title: "Siatka (SIATKA): mniejszy odstęp i czcionka dla zagnieżdżonych kart"
+    items:
+      - "Karty zagnieżdżone w karcie typu siatka dostają teraz mniejszy margines wewnętrzny i mniejszą czcionkę, w tym mniejsze cyfry zegara — wcześniej zegar mógł nie mieścić się w swojej komórce."
+  - date: "2026-09-10"
+    title: "Karuzela zdjęć: koty z Unsplash zamiast placeholderów; QR logowania"
+    items:
+      - "Karuzela zdjęć na stronie SYSTEM pokazuje teraz zdjęcia kotów zamiast szarych placeholderów."
+      - "Statyczny obraz na stronie SYSTEM to teraz kod QR logowania do Punktomatu, z własną etykietą karty."
+      - "ASCII.DNIA pokazuje teraz statyczny rezerwowy ascii-art kota, gdy generowanie się nie powiedzie (np. brak klucza do bramki AI), zamiast pustej karty."
+  - date: "2026-09-10"
     title: "Poprawka: przyciski minutnika obcinane na dole karty"
     items:
       - "Gdy karta MINUTNIK dostawała mniej miejsca niż potrzebowały wszystkie presety czasu, ostatni rząd przycisków był ucinany w połowie zamiast być dostępny przez przewijanie."

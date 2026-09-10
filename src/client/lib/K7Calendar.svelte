@@ -140,8 +140,8 @@
         <div class="col-head">
           <span class="dow">{DOW[(day.getDay() + 6) % 7]}</span>
           <span class="num">{day.getDate()}</span>
+          {#if isToday}<span class="today-mark">dzis</span>{/if}
         </div>
-        {#if isToday}<span class="today-mark">dzis</span>{/if}
         <div class="col-body">
           {#if (displayBuckets[i] ?? []).length === 0}
             <p class="empty">—</p>
@@ -160,41 +160,51 @@
 </Card>
 
 <style>
+  /* A week of seven equal-width columns squeezed a card at this card's
+     actual on-screen width to about 60px per day — "dentysta" wrapped
+     letter by letter ("dent" / "ysta"). Each day is a full-width row
+     instead, stacked vertically and scrolled as a whole: at the card's
+     normal height that shows roughly two and a half days at once, with the
+     rest one scroll gesture away, and every event title gets the card's
+     full width to wrap in rather than a seventh of it. Each `.col` was
+     already `role="row"` even in the old side-by-side layout — this makes
+     the CSS match the ARIA it was already claiming. */
   .week {
     display: flex;
+    flex-direction: column;
     height: 100%;
     min-height: 0;
-    gap: var(--space-1);
+    gap: var(--space-2);
+    overflow-y: auto;
   }
 
   .week.day-view { gap: 0; }
 
   .col {
-    flex: 1 1 0;
-    min-width: 0;
+    flex: 0 0 auto;
     display: flex;
-    flex-direction: column;
-    min-height: 0;
-    border-left: var(--border-w) solid var(--border);
-    padding: 0 var(--space-1);
+    align-items: flex-start;
+    gap: var(--space-3);
+    min-width: 0;
+    border-bottom: var(--border-w) solid var(--border);
+    padding-bottom: var(--space-2);
   }
 
-  .col:first-child { border-left: none; padding-left: 0; }
+  .col:last-child { border-bottom: none; padding-bottom: 0; }
 
   /* Colour never carries the "today" cue alone: a border step plus the
      "dzis" text label both mark it, so it still reads at an angle or for a
      colour-vision-deficient viewer. */
   .col-today {
     border-left: var(--border-w-strong) solid var(--accent);
-    border-right: var(--border-w-strong) solid var(--accent);
+    padding-left: var(--space-2);
   }
 
   .col-head {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    align-items: baseline;
+    gap: var(--space-1);
     flex: 0 0 auto;
-    padding-bottom: var(--space-1);
   }
 
   .dow {
@@ -213,19 +223,15 @@
   .col-today .num { color: var(--accent); }
 
   .today-mark {
-    flex: 0 0 auto;
-    align-self: center;
     font-size: var(--text-xs);
     text-transform: uppercase;
     letter-spacing: var(--tracking-label);
     color: var(--accent);
-    margin-bottom: var(--space-1);
   }
 
   .col-body {
     flex: 1 1 auto;
-    min-height: 0;
-    overflow-y: auto;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
