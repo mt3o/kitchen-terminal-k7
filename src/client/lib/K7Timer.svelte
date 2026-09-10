@@ -230,11 +230,19 @@
     gap: var(--space-3);
   }
 
+  /* The card's row height is fixed by the page grid regardless of content
+     (.page's rows are minmax(0, 1fr) by design), so when the presets list
+     wraps into more rows than the card is tall enough for, it must scroll
+     rather than let Card.svelte's overflow:hidden clip a row mid-button —
+     same fix as K7ShoppingList.svelte's .list. */
   .presets {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
     align-content: flex-start;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
   }
 
   .custom {

@@ -115,6 +115,16 @@
 </Card>
 
 <style>
+  /* Without an explicit block display, Safari leaves the host's height
+     indefinite inside its CSS Grid cell, so the height:100% chain below
+     (.wrap -> .frame -> .comic's max-height:100%) has nothing to resolve
+     against and the clamp is silently dropped — the comic then renders at
+     its natural size, overlapping the card above and below it. */
+  :host {
+    display: block;
+    height: 100%;
+  }
+
   /* Centers the comic (plus its credit/staleness lines) as a group in the
      card body, rather than the image sitting flush top-left whenever the
      card is taller or wider than the capped `maxWidthPx` image. */

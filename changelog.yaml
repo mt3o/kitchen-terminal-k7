@@ -9,6 +9,14 @@
 # Newest entry first.
 entries:
   - date: "2026-09-10"
+    title: "Poprawka: przyciski minutnika obcinane na dole karty"
+    items:
+      - "Gdy karta MINUTNIK dostawała mniej miejsca niż potrzebowały wszystkie presety czasu, ostatni rząd przycisków był ucinany w połowie zamiast być dostępny przez przewijanie."
+  - date: "2026-09-10"
+    title: "Poprawka: obraz komiksu/zdjęcia rozlewał się poza kartę na iPadzie"
+    items:
+      - "Na Safari (iPad) obrazek w karcie \"komiks dnia\" oraz w karcie \"obraz\" mógł wyrenderować się w naturalnym rozmiarze, nachodząc na nagłówek karty i wiersz pod spodem, zamiast zmieścić się w karcie."
+  - date: "2026-09-10"
     title: "Audiometr: procent względny, surowy odczyt dB"
     items:
       - "Procent głośności jest teraz względny do ostatnich 30 sekund, z łagodnym opadaniem szczytu zamiast sztywnej skali."
