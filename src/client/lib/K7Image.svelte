@@ -82,6 +82,16 @@
 </Card>
 
 <style>
+  /* Without an explicit block display, Safari leaves the host's height
+     indefinite inside its CSS Grid cell, so the height:100% chain below
+     (.wrap -> .frame -> .pic's max-height:100%) has nothing to resolve
+     against and the clamp is silently dropped — see K7Comic.svelte, which
+     hit this on a real iPad. */
+  :host {
+    display: block;
+    height: 100%;
+  }
+
   /* Same centering/scaling discipline as K7Comic.svelte's .wrap/.frame/.comic
      — shrink to fit, never enlarge, centered as a group with the caption. */
   .wrap {
