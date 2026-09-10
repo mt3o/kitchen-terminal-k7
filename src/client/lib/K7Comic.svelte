@@ -88,14 +88,18 @@
   <div class="wrap">
     {#if failed && !aged}
       {#if fallbackImageUrl}
-        <img class="comic" style:max-width="{widthPx}px" src={fallbackImageUrl} alt="komiks dnia (zapasowy)" />
+        <div class="frame">
+          <img class="comic" style:max-width="{widthPx}px" src={fallbackImageUrl} alt="komiks dnia (zapasowy)" />
+        </div>
       {:else}
         <p class="msg">brak komiksu</p>
       {/if}
     {:else if !aged}
       <p class="msg">wczytywanie</p>
     {:else}
-      <img class="comic" style:max-width="{widthPx}px" src={aged.data.imageUrl} alt={aged.data.title ?? 'komiks dnia'} loading="lazy" />
+      <div class="frame">
+        <img class="comic" style:max-width="{widthPx}px" src={aged.data.imageUrl} alt={aged.data.title ?? 'komiks dnia'} loading="lazy" />
+      </div>
       {#if creditText}
         {#if showLink && aged.data.sourceUrl}
           <a class="credit" href={aged.data.sourceUrl} target="_blank" rel="noreferrer">{creditText}</a>
@@ -126,7 +130,31 @@
 
   .msg { margin: 0; color: var(--fg-muted); }
 
-  .comic { display: block; width: 100%; height: auto; border: var(--border-w) solid var(--border); }
+  /* Takes whatever vertical room the credit/staleness lines leave (flex: 1,
+     not the image itself) so max-height below has a real box to shrink
+     against, with padding as breathing room around the scaled-down image. */
+  .frame {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3);
+  }
+
+  /* max-width/max-height with width/height: auto is "shrink to fit, never
+     enlarge" for a replaced element — the same effect `background-size:
+     contain` gives a background image, for a plain <img>. */
+  .comic {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border: var(--border-w) solid var(--border);
+  }
 
   .credit {
     display: block;
