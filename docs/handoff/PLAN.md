@@ -87,11 +87,11 @@ Scaffolding:
 - [x] ~~Wydzielenie tokenów designu do pliku motywu~~ — motyw jest źródłem, `tokens.css` generowany
       (komponenty czytają zmienne CSS wygenerowane z motywu, nie kolory/fonty na sztywno)
 - [x] ~~Loader motywu~~ — serwer czyta plik wskazany przez `theme:` i generuje zmienne CSS; podmiana pliku zmienia cały design bez restartu
-- [ ] Layout retro-scifi: siatka, typografia, tokeny kolorów — **Sonnet**
+- [x] ~~Layout retro-scifi~~ — siatka stronicowana, typografia i kolory z motywu
 - [x] ~~Komponent: karta pogody~~ — na żywych danych, z wiekiem odczytu
 - [x] ~~Komponent: timer kuchenny~~
-- [ ] Komponent: widok tygodnia kalendarza (na razie mockowane dane) — **Sonnet**
-- [ ] Storybook stories dla powyższych komponentów — **Haiku**
+- [x] ~~Komponent: widok tygodnia kalendarza~~ — dane przykladowe, jawnie oznaczone; realne czekaja na OAuth2
+- [x] ~~Storybook stories~~ — pogoda (w tym stan nieaktualny), minutnik, lista zakupow, audiometr
 
 ### Faza 2 — Google Calendar (dwukierunkowo)
 - [ ] Rejestracja aplikacji w Google Cloud Console, OAuth consent — **Sonnet**

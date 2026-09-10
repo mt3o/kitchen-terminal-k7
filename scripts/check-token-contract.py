@@ -17,7 +17,12 @@ import re
 import sys
 from pathlib import Path
 
-SRC = Path(__file__).resolve().parent.parent / "src"
+# Components only. The rule is that a COMPONENT may reference var(--*) and
+# nothing else; the server's theme generator is the origin of colour values by
+# definition, and scanning it would forbid the one file that must emit them.
+# Its output is checked instead, by test/theme.test.ts, which asserts the
+# generated stylesheet stays inside the Safari floor.
+SRC = Path(__file__).resolve().parent.parent / "src" / "client"
 SUFFIXES = {".svelte", ".css", ".ts"}
 
 BLOCK = re.compile(r"/\*.*?\*/", re.S)
