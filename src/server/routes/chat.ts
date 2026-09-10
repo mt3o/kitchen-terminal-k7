@@ -38,6 +38,12 @@ export interface ChatRouteDeps {
   kiloGateway: Pick<KiloGatewayClient, 'transcribeAudio'>
   /** Wraps Sentry.captureException so this module never imports observability directly. */
   reportError: (err: unknown, extra?: Record<string, unknown>) => void
+  /**
+   * Best-effort local backup of a transcription's audio + text
+   * (k7-transcript-archive) — absent disables archiving entirely (e.g. in
+   * tests), never fails the transcribe request itself if it throws.
+   */
+  archiveTranscription?: (entry: { audio: Buffer; contentType: string; text: string; model: string }) => Promise<void>
 }
 
 function clampPercent(raw: unknown, fallback: number): number {
@@ -174,6 +180,14 @@ export async function registerChatRoutes(app: FastifyInstance, deps: ChatRouteDe
         completionTokens: 0,
         estimatedCostUsd: 0,
       })
+      // Best-effort: a household member should never see "transcription
+      // failed" because the debug backup couldn't be written — the transcript
+      // they asked for already exists by this point.
+      try {
+        await deps.archiveTranscription?.({ audio: req.body, contentType, text, model })
+      } catch (archiveErr) {
+        deps.reportError(archiveErr, { route: '/api/chat/transcribe', stage: 'archive' })
+      }
       return { text }
     } catch (err) {
       // Same discipline as the SSE route above: audio bytes and the
