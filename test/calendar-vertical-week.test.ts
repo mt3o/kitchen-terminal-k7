@@ -37,4 +37,16 @@ describe('K7Calendar.svelte lays days out as a scrollable vertical list', () => 
   it('each day row is sized to its own content, not force-stretched to fill the week', () => {
     assert.match(ruleBody('.col'), /flex:\s*0 0 auto/, '.col must size to its own content height')
   })
+
+  // A live-server screenshot showed the event list's left edge zigzagging
+  // from row to row: an auto-sized .col-head (DOW + date + a "DZIS" badge
+  // on today's row only) made rows with wider headers push their events
+  // further right than rows without one.
+  it('.col-head has a fixed width so every row\'s content lines up on the same left edge', () => {
+    assert.match(ruleBody('.col-head'), /width:\s*var\(--space-12\)/, '.col-head must not auto-size — every row needs the same width')
+  })
+
+  it('the empty-day placeholder sits next to the date instead of floating centered in empty space', () => {
+    assert.match(ruleBody('.empty'), /text-align:\s*left/, '.empty must left-align, not center, so it reads as part of the date\'s row')
+  })
 })

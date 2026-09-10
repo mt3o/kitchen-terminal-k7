@@ -9,6 +9,11 @@
 # Newest entry first.
 entries:
   - date: "2026-09-10"
+    title: "Poprawka: krzywe wyrównanie w kalendarzu"
+    items:
+      - "Kolumna z datą ma teraz stałą szerokość, więc wydarzenia we wszystkich dniach zaczynają się w tym samym miejscu zamiast \"skakać\" w zależności od szerokości etykiety dnia."
+      - "Znak \"—\" przy pustym dniu jest teraz przy dacie, a nie oderwany na środku wiersza."
+  - date: "2026-09-10"
     title: "Jasny motyw z paska stopki; węższy pasek górny"
     items:
       - "Nowy przycisk w stopce przełącza między jasnym a ciemnym motywem; wybór jest zapamiętywany."
