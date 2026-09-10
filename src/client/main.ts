@@ -9,15 +9,19 @@ import './lib/K7AsciiArt.svelte'
 import './lib/K7Audiometer.svelte'
 import './lib/K7Calendar.svelte'
 import './lib/K7Card.svelte'
+import './lib/K7Carousel.svelte'
 import './lib/K7Chat.svelte'
 import './lib/K7Comic.svelte'
+import './lib/K7Grid.svelte'
+import './lib/K7Menu.svelte'
 import './lib/K7Recipes.svelte'
 import './lib/K7ShoppingList.svelte'
 import './lib/K7Timer.svelte'
 import './lib/K7Weather.svelte'
 
 import { domReconnectUi, reconnectLoop } from './lib/reconnect.ts'
-import { createPager } from './lib/pager.ts'
+import { createPager, type Pager } from './lib/pager.ts'
+import { createSlideshowController, extractSlideshow, isForbiddenNestedSlideshow, type SlideshowController } from './lib/slideshow.ts'
 
 import type { Card, CardType, NormalisedLayout } from '../shared/layout.ts'
 
@@ -40,7 +44,8 @@ const LABELS: Record<CardType, string> = {
 }
 
 const deck = document.getElementById('deck')
-let pager: { destroy(): void } | undefined
+let pager: Pager | undefined
+let slideshowController: SlideshowController | undefined
 const status = document.getElementById('status')
 const foot = document.getElementById('foot')
 
@@ -72,11 +77,21 @@ function clockFace(card: Card, el: HTMLElement): void {
   window.setInterval(tick, params.showSeconds ? 1000 : 15_000)
 }
 
-function render(layout: NormalisedLayout): void {
+function render(rawLayout: NormalisedLayout): void {
   if (!deck) return
   // Idempotent: boot() runs again after a reconnect, and appending a second set
   // of pages is the obvious way to get that wrong.
   deck.replaceChildren()
+  slideshowController?.destroy()
+  slideshowController = undefined
+
+  // `slideshow` is a layout-level controller declared inside `cards` (per the
+  // schema's own KONTRAKT note), not a rendered Card: it must never reach the
+  // grid row/column math below, or occupy a slot. Stripped first, once, so
+  // everything after this line works with an ordinary card list exactly as
+  // it always has.
+  const { layout, config: slideshowConfig, warnings: slideshowWarnings } = extractSlideshow(rawLayout)
+  for (const warning of slideshowWarnings) console.warn(`layout: ${warning}`)
 
   const track = document.createElement('div')
   track.className = 'pager-track'
@@ -141,6 +156,14 @@ function render(layout: NormalisedLayout): void {
 
   pager?.destroy()
   pager = createPager(deck, layout.pages.map((p) => ({ id: p.id, label: p.label })))
+
+  // Started only now that every card is in the DOM (`document.getElementById`
+  // for each `cardIds` entry must resolve) and the pager exists (the
+  // controller suspends it while fullscreen, per the pager/slideshow event
+  // collision this depends on — see slideshow.ts).
+  if (slideshowConfig) {
+    slideshowController = createSlideshowController(slideshowConfig, { track, pager })
+  }
 }
 
 /**
@@ -311,6 +334,58 @@ function createWidget(card: Card): HTMLElement {
       clockFace(card, el)
       return el
     }
+    case 'carousel': {
+      const el = document.createElement('k7-carousel')
+      attr(el, 'autoAdvanceSeconds', params.autoAdvanceSeconds)
+      attr(el, 'startDelaySeconds', params.startDelaySeconds)
+      attr(el, 'loop', params.loop)
+      attr(el, 'showIndicators', params.showIndicators)
+      attr(el, 'swipeEnabled', params.swipeEnabled)
+      attr(el, 'transition', params.transition)
+      const slides = Array.isArray(params.slides) ? (params.slides as Card[]) : []
+      for (const slide of slides) el.appendChild(buildNestedChild('carousel', slide))
+      return el
+    }
+    case 'grid': {
+      const el = document.createElement('k7-grid')
+      attr(el, 'columns', params.columns)
+      attr(el, 'gap', params.gap)
+      const cells = Array.isArray(params.cells) ? (params.cells as Card[]) : []
+      for (const cell of cells) el.appendChild(buildNestedChild('grid', cell))
+      return el
+    }
+    case 'menu': {
+      const el = document.createElement('k7-menu')
+      const items = Array.isArray(params.items)
+        ? (params.items as { cardId: string; label: string; icon?: string }[]).filter(
+            (it) => it && typeof it.cardId === 'string' && typeof it.label === 'string',
+          )
+        : []
+      if (items.length < 2) {
+        console.warn(`menu card '${card.id}': needs at least 2 valid items, got ${items.length} — picker will show what it has.`)
+      }
+      attr(el, 'items', JSON.stringify(items))
+      attr(el, 'orientation', params.orientation)
+      attr(el, 'style', params.style)
+      attr(el, 'defaultActive', params.defaultActive)
+      // Coordination is necessarily page-level: this component alone has the
+      // full items list (from card.params) and can reach any target by id
+      // across the whole document — a menu's targets may sit on any page,
+      // since every page coexists in the DOM (the pager only translates
+      // between them). The menu component itself never touches its targets.
+      el.addEventListener('k7-menu-change', (e) => {
+        const detail = (e as CustomEvent<{ cardId: string }>).detail
+        for (const item of items) {
+          const target = document.getElementById(item.cardId)
+          if (!target) {
+            console.warn(`menu card '${card.id}': item cardId '${item.cardId}' does not match any rendered card.`)
+            continue
+          }
+          target.hidden = item.cardId !== detail.cardId
+        }
+      })
+      return el
+    }
     default: {
       const el = document.createElement('k7-card')
       el.setAttribute('label', LABELS[card.type] ?? card.type.toUpperCase())
@@ -320,6 +395,35 @@ function createWidget(card: Card): HTMLElement {
       return el
     }
   }
+}
+
+/**
+ * Build one nested card for a `carousel`/`grid` container: the same
+ * `createWidget`, called recursively, so a grid cell that is itself a
+ * carousel (or vice versa) works exactly like any other nesting — there is
+ * no separate "nested card" construction path to keep in sync.
+ *
+ * The one exception is `slideshow`: the schema forbids nesting it inside a
+ * `carousel`'s `slides` or a `grid`'s `cells` (it is a layout-level
+ * controller, not a card — see slideshow.ts). `createWidget` has no `case
+ * 'slideshow'`, so one would already fall through to the generic
+ * placeholder; this replaces that with an explicit diagnostic instead, since
+ * "oczekuje na implementacje" (awaiting implementation) would be actively
+ * wrong here — slideshow *is* implemented, just not legal in this position.
+ */
+function buildNestedChild(parentType: 'carousel' | 'grid', nested: Card): HTMLElement {
+  if (isForbiddenNestedSlideshow(parentType, nested)) {
+    console.warn(`slideshow card '${nested.id}' must not be nested inside a '${parentType}' — ignored.`)
+    const el = document.createElement('k7-card')
+    el.setAttribute('label', LABELS.slideshow)
+    el.setAttribute('state', 'fail')
+    el.setAttribute('body', 'niedozwolone zagniezdzenie')
+    el.setAttribute('meta', nested.id)
+    return el
+  }
+  const el = createWidget(nested)
+  el.id = nested.id
+  return el
 }
 
 /** Re-entrancy guard: recovery calls boot(), and two overlapping boots would

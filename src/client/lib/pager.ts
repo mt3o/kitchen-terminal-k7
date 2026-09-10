@@ -54,6 +54,14 @@ export interface PagerPage {
 
 export interface Pager {
   go(index: number): void
+  /** Ignore touch/keyboard input without tearing listeners down — used while
+   *  the slideshow controller owns the screen. The promoted fullscreen card
+   *  stays a DOM descendant of the pager's viewport (only its CSS position
+   *  changes), so touches on it still bubble here; without this the pager
+   *  would silently steal the gesture meant to exit the slideshow and repaint
+   *  itself to whatever page that gesture resolved to. */
+  suspend(): void
+  resume(): void
   destroy(): void
 }
 
@@ -69,6 +77,7 @@ export function createPager(viewport: HTMLElement, pages: PagerPage[]): Pager {
   let startX = 0
   let startAt = 0
   let dragging = false
+  let suspended = false
 
   const count = pages.length
 
@@ -95,14 +104,14 @@ export function createPager(viewport: HTMLElement, pages: PagerPage[]): Pager {
   }
 
   const onTouchStart = (e: TouchEvent): void => {
-    if (count <= 1 || e.touches.length !== 1) return
+    if (suspended || count <= 1 || e.touches.length !== 1) return
     startX = e.touches[0]?.clientX ?? 0
     startAt = Date.now()
     setDragging(true)
   }
 
   const onTouchMove = (e: TouchEvent): void => {
-    if (!dragging) return
+    if (suspended || !dragging) return
     const dx = (e.touches[0]?.clientX ?? 0) - startX
     // Resist at the ends so the edge is felt rather than discovered.
     const atEdge = (index === 0 && dx > 0) || (index === count - 1 && dx < 0)
@@ -110,13 +119,14 @@ export function createPager(viewport: HTMLElement, pages: PagerPage[]): Pager {
   }
 
   const onTouchEnd = (e: TouchEvent): void => {
-    if (!dragging) return
+    if (suspended || !dragging) return
     setDragging(false)
     const dx = (e.changedTouches[0]?.clientX ?? 0) - startX
     go(resolveSwipe(index, count, dx, viewport.clientWidth, Date.now() - startAt).index)
   }
 
   const onKey = (e: KeyboardEvent): void => {
+    if (suspended) return
     if (e.key === 'ArrowRight') go(index + 1)
     else if (e.key === 'ArrowLeft') go(index - 1)
     else return
@@ -136,6 +146,15 @@ export function createPager(viewport: HTMLElement, pages: PagerPage[]): Pager {
 
   return {
     go,
+    suspend() {
+      suspended = true
+      // A suspend mid-drag must not leave the track answering to a finger
+      // the pager has stopped listening to.
+      setDragging(false)
+    },
+    resume() {
+      suspended = false
+    },
     destroy() {
       viewport.removeEventListener('touchstart', onTouchStart)
       viewport.removeEventListener('touchmove', onTouchMove)
