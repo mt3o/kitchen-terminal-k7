@@ -126,6 +126,13 @@ pages:
           prompt: "kot w stylu ASCII art, klimat retro terminal"
           model: "kilo-auto/free"
           cacheDurationHours: 24
+          # Shown instead of "brak ascii-art" whenever the Kilo Gateway key
+          # is not configured or the gateway is unreachable and nothing is
+          # cached yet — a static stand-in, not a fix for either condition.
+          fallbackArt: |
+            /\_/\
+            ( o.o )
+            > ^ <
 
       - id: menu-kuchnia
         type: menu
@@ -176,16 +183,20 @@ pages:
               params: { format: "24h", showDate: false }
 
       # No daily rotation, no feed — just a picture, until the layout itself
-      # is edited. Placeholder here; swap `url` for a real photo/artwork.
+      # is edited. Served from public/ rather than an external host: a login
+      # QR code is exactly the kind of image that should not depend on a
+      # third party staying up.
       - id: obraz
         type: image
         params:
-          url: "https://placehold.co/600x400/png"
-          caption: "obraz statyczny"
+          url: "/punktomat-login-qr.jpg"
+          label: "Punktomat Login QR code"
+          caption: "zeskanuj, aby się zalogować"
 
       # An "image carousel" is not its own card type — it is the existing
       # carousel with `type: image` slides, same recursion every other
-      # container card type uses.
+      # container card type uses. Placeholder cat photos from Unsplash until
+      # real photos/artwork replace them.
       - id: karuzela-zdjecia
         type: carousel
         params:
@@ -193,7 +204,11 @@ pages:
           slides:
             - id: zdjecie-1
               type: image
-              params: { url: "https://placehold.co/600x400/png?text=1", caption: "zdjęcie 1" }
+              params:
+                url: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=800&h=600&fit=crop&auto=format"
+                caption: "kot 1"
             - id: zdjecie-2
               type: image
-              params: { url: "https://placehold.co/600x400/png?text=2", caption: "zdjęcie 2" }
+              params:
+                url: "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=800&h=600&fit=crop&auto=format"
+                caption: "kot 2"

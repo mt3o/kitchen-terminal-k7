@@ -64,7 +64,12 @@ body {
      header itself, without this. */
   position: relative;
   border-bottom: var(--border-w-strong) solid var(--border-strong);
-  padding-bottom: var(--space-3);
+  /* A one-line status bar carries no paragraph, so it does not need the
+     body's 1.45 leading either — same tightening .shell-foot already has,
+     plus a shorter bottom gap: the row's actual content (a label, one small
+     button, a status word) does not earn the full --space-3 it had. */
+  line-height: var(--leading-tight);
+  padding-bottom: var(--space-2);
 }
 
 /* A small bracketed control living in the compact header row — [ i ]/[ x ]

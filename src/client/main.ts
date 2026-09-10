@@ -22,6 +22,7 @@ import './lib/K7Weather.svelte'
 
 import { domReconnectUi, reconnectLoop } from './lib/reconnect.ts'
 import { createChangelogUi } from './lib/changelog.ts'
+import { createThemeToggleUi } from './lib/theme-toggle.ts'
 import { createPullToRefresh } from './lib/pull-refresh.ts'
 import { createPager, type Pager } from './lib/pager.ts'
 import { createSlideshowController, extractSlideshow, isForbiddenNestedSlideshow, type SlideshowController } from './lib/slideshow.ts'
@@ -319,6 +320,7 @@ function createWidget(card: Card): HTMLElement {
     case 'image': {
       const el = document.createElement('k7-image')
       el.setAttribute('label', LABELS.image)
+      attr(el, 'label', params.label)
       attr(el, 'url', params.url)
       attr(el, 'altText', params.altText)
       attr(el, 'caption', params.caption)
@@ -501,6 +503,7 @@ async function boot(): Promise<void> {
 
 registerServiceWorker()
 createChangelogUi()
+createThemeToggleUi()
 const shellHead = document.querySelector<HTMLElement>('.shell-head')
 if (shellHead) {
   createPullToRefresh(shellHead, {
