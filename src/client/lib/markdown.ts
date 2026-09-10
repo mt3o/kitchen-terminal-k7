@@ -12,7 +12,9 @@
  * often than a chat message actually means italics that way.
  */
 
-function escapeHtml(text: string): string {
+/** Exported for reuse anywhere else in `lib/` that inserts plain text into
+ *  HTML — one escaper, not a second, weaker one re-invented per module. */
+export function escapeHtml(text: string): string {
   return text
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')

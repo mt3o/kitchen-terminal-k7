@@ -54,6 +54,10 @@ export interface PagerPage {
 
 export interface Pager {
   go(index: number): void
+  /** The page currently showing — so a caller that destroys and recreates the
+   *  pager (main.ts's render(), on every boot()) can land back where the
+   *  household was instead of silently resetting to page 1. */
+  current(): number
   /** Ignore touch/keyboard input without tearing listeners down — used while
    *  the slideshow controller owns the screen. The promoted fullscreen card
    *  stays a DOM descendant of the pager's viewport (only its CSS position
@@ -146,6 +150,9 @@ export function createPager(viewport: HTMLElement, pages: PagerPage[]): Pager {
 
   return {
     go,
+    current() {
+      return index
+    },
     suspend() {
       suspended = true
       // A suspend mid-drag must not leave the track answering to a finger

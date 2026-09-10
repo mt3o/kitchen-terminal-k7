@@ -20,6 +20,8 @@ import './lib/K7Timer.svelte'
 import './lib/K7Weather.svelte'
 
 import { domReconnectUi, reconnectLoop } from './lib/reconnect.ts'
+import { createChangelogUi } from './lib/changelog.ts'
+import { createPullToRefresh } from './lib/pull-refresh.ts'
 import { createPager, type Pager } from './lib/pager.ts'
 import { createSlideshowController, extractSlideshow, isForbiddenNestedSlideshow, type SlideshowController } from './lib/slideshow.ts'
 
@@ -154,8 +156,13 @@ function render(rawLayout: NormalisedLayout): void {
     deck.appendChild(dots)
   }
 
+  // Preserved across the destroy/recreate below — a boot() triggered by a
+  // pull-to-refresh (or a reconnect recovery) must not silently bounce the
+  // household back to page 1 of whatever page they were actually looking at.
+  const previousPage = pager?.current()
   pager?.destroy()
   pager = createPager(deck, layout.pages.map((p) => ({ id: p.id, label: p.label })))
+  if (previousPage !== undefined) pager.go(previousPage)
 
   // Started only now that every card is in the DOM (`document.getElementById`
   // for each `cardIds` entry must resolve) and the pager exists (the
@@ -481,4 +488,19 @@ async function boot(): Promise<void> {
 }
 
 registerServiceWorker()
+createChangelogUi()
+const shellHead = document.querySelector<HTMLElement>('.shell-head')
+if (shellHead) {
+  createPullToRefresh(shellHead, {
+    // boot() re-fetches and re-renders in place; a household member pulling
+    // down from the header wants the same recovery path a reconnect already
+    // uses, not a hard navigation reload that would flash the shell blank.
+    // Deliberately NOT clearing `booting` first: it is a re-entrancy guard
+    // against exactly the two-overlapping-boots flicker this would otherwise
+    // reintroduce if a refresh lands while reconnectLoop's own boot() is
+    // still in flight — "no-op while a boot is already running" is correct,
+    // not a bug, for a manually triggered refresh.
+    onRefresh: () => boot(),
+  })
+}
 void boot()
