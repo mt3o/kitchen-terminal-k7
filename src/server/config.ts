@@ -29,6 +29,8 @@ export interface Config {
   acmeEmail: string | undefined
   acmeProduction: boolean
   certDir: string
+  /** Voice-input audio + transcript backups (k7-transcript-archive). */
+  transcriptArchiveDir: string
 }
 
 function readPort(raw: string | undefined, fallback: number): number {
@@ -55,6 +57,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     acmeEmail: env.K7_ACME_EMAIL || undefined,
     acmeProduction: env.K7_ACME_PRODUCTION === 'true',
     certDir: env.K7_CERT_DIR ?? './data/certs',
+    transcriptArchiveDir: env.K7_TRANSCRIPT_ARCHIVE_DIR ?? './data/transcripts',
   }
 }
 

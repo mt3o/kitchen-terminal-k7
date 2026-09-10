@@ -26,6 +26,7 @@ import { comicCacheKey, fetchComic } from './upstream/comic-rss.ts'
 import { createKiloGatewayClient, createModelCatalog } from './upstream/kilo.ts'
 import { createConversationService } from './ai/conversation-service.ts'
 import { registerChatRoutes } from './routes/chat.ts'
+import { archiveTranscription, pruneTranscriptArchive } from './ai/transcript-archive.ts'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 const config = loadConfig()
@@ -402,7 +403,24 @@ await registerChatRoutes(app, {
   conversationService,
   kiloGateway: kiloClient,
   reportError: (err, extra) => Sentry.captureException(err, { extra }),
+  archiveTranscription: (entry) => archiveTranscription(config.transcriptArchiveDir, entry),
 })
+
+// A week is long enough to debug a bad transcription days after the fact,
+// short enough that a household's voice notes don't accumulate forever on
+// disk. Runs once at boot (in case the box was off past a week) and then on
+// an interval — there is no cron on this machine, and a process that runs
+// continuously is the simplest place for a sweep like this to live.
+const TRANSCRIPT_ARCHIVE_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000
+const TRANSCRIPT_ARCHIVE_SWEEP_INTERVAL_MS = 6 * 60 * 60 * 1000
+
+function sweepTranscriptArchive(): void {
+  pruneTranscriptArchive(config.transcriptArchiveDir, TRANSCRIPT_ARCHIVE_MAX_AGE_MS).catch((err: unknown) => {
+    Sentry.captureException(err, { extra: { task: 'transcript-archive-sweep' } })
+  })
+}
+sweepTranscriptArchive()
+setInterval(sweepTranscriptArchive, TRANSCRIPT_ARCHIVE_SWEEP_INTERVAL_MS).unref()
 
 // Every unhandled error reaches GlitchTip through the same scrubber as the rest.
 app.setErrorHandler((err, req, reply) => {
