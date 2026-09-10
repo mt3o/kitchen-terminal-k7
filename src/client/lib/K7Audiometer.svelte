@@ -31,7 +31,16 @@
 
 <script lang="ts">
   import Card from './Card.svelte'
-  import { toPercent, toDecibels, pushSample, smooth, exceedsThreshold } from './audiometer.ts'
+  import {
+    toDecibels,
+    toRelativePercent,
+    updateReference,
+    windowMax,
+    pushSample,
+    smooth,
+    exceedsThreshold,
+    REFERENCE_WINDOW_SECONDS
+  } from './audiometer.ts'
 
   interface Props {
     /** Custom-element attrs are always strings. */
@@ -77,18 +86,26 @@
   let smoothingFactorValue = $derived(Math.min(1, Math.max(0, asNumber(smoothingFactor, 0.3))))
   let threshold = $derived(warningThreshold.trim() === '' ? undefined : asNumber(warningThreshold, NaN))
   let maxSamples = $derived(Math.max(1, Math.round((historySeconds * 1000) / intervalMs)))
+  // The 100%-reference window is a fixed 30s regardless of historyDurationSeconds
+  // (the histogram's own, separately configurable window) — see audiometer.ts.
+  let maxReferenceSamples = $derived(Math.max(1, Math.round((REFERENCE_WINDOW_SECONDS * 1000) / intervalMs)))
 
   let cardPhase = $state<Phase>('idle')
   let errorMessage = $state('')
   let currentValue = $state(0) // smoothed, in the display unit
   let history = $state<number[]>([])
+  // Raw (unsmoothed) dB, refreshed every sample regardless of `unit` — shown
+  // as a secondary readout alongside whichever metric `unit` drives.
+  let rawDb = $state(0)
 
   let stream: MediaStream | undefined
   let audioCtx: AudioContext | undefined
   let analyser: AnalyserNode | undefined
   let sampleTimer: ReturnType<typeof setInterval> | undefined
-
-  const toDisplay = (rms: number): number => (unitMode === 'db' ? toDecibels(rms) : toPercent(rms))
+  // Raw RMS samples from the trailing REFERENCE_WINDOW_SECONDS, and the
+  // peak-hold-with-falloff level derived from their max — see updateReference.
+  let referenceWindow: number[] = []
+  let referenceValue = 0
 
   let overThreshold = $derived(exceedsThreshold(currentValue, threshold))
 
@@ -116,9 +133,16 @@
 
   function sample(): void {
     const rms = readRms()
-    const raw = toDisplay(rms)
+
+    // The 100% reference: peak-hold over the trailing 30s, easing down
+    // (never snapping) once the room goes quieter again — see audiometer.ts.
+    referenceWindow = pushSample(referenceWindow, rms, maxReferenceSamples)
+    referenceValue = updateReference(referenceValue, windowMax(referenceWindow))
+
+    const raw = unitMode === 'db' ? toDecibels(rms) : toRelativePercent(rms, referenceValue)
     currentValue = smooth(currentValue, raw, smoothingFactorValue)
     history = pushSample(history, currentValue, maxSamples)
+    rawDb = toDecibels(rms)
   }
 
   function teardownAudio(): void {
@@ -164,6 +188,9 @@
 
       currentValue = 0
       history = []
+      rawDb = 0
+      referenceWindow = []
+      referenceValue = 0
       cardPhase = 'listening'
       sampleTimer = setInterval(sample, intervalMs)
     } catch (err) {
@@ -211,6 +238,10 @@
     <div class="reading">
       {#if wantCurrentLevel}
         <p class="level" class:warn={overThreshold}>{fmt(currentValue)}</p>
+        <!-- Unsmoothed, refreshed every sample regardless of `unit` — the
+             calibrated-but-approximate raw reading, next to whichever
+             metric `unit` drives (relative percent by default). -->
+        <p class="raw-db">surowo: {Math.round(rawDb)} dB</p>
       {/if}
       {#if wantHistogram}
         <div class="histogram" role="img" aria-label="historia poziomu glosnosci">
@@ -264,6 +295,15 @@
   }
   .level.warn {
     color: var(--warn);
+  }
+
+  /* Custom elements render into a shadow root — app.css's global .meta
+     never reaches in here, so the same look is redefined locally. */
+  .raw-db {
+    margin: 0;
+    font-size: var(--text-xs);
+    color: var(--fg-muted);
+    font-variant-numeric: tabular-nums;
   }
 
   .histogram {

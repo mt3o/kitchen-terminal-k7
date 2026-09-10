@@ -652,7 +652,12 @@ $defs:
         type: string
         enum: [dB, percent]
         default: percent
-        description: "dB = decybele (przybliżone, z przeglądarki, nie skalibrowane); percent = znormalizowane 0-100 względem ciszy/maksimum."
+        description: >
+          dB = decybele (przybliżone, z przeglądarki, nie skalibrowane); percent =
+          0-100 względem najgłośniejszego momentu z ostatnich 30 sekund
+          (peak-hold z łagodnym opadaniem — 100% nie spada od razu, gdy
+          głośny moment mija). Niezależnie od `unit` karta pokazuje też
+          surowy (niewygładzony) odczyt w dB jako dodatkową linię.
       showCurrentLevel:
         type: boolean
         default: true
