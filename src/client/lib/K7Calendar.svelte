@@ -138,8 +138,10 @@
       {@const isToday = isSameDay(day, today)}
       <div class="col" class:col-today={isToday} role="row">
         <div class="col-head">
-          <span class="dow">{DOW[(day.getDay() + 6) % 7]}</span>
-          <span class="num">{day.getDate()}</span>
+          <span class="date-line">
+            <span class="dow">{DOW[(day.getDay() + 6) % 7]}</span>
+            <span class="num">{day.getDate()}</span>
+          </span>
           {#if isToday}<span class="today-mark">dzis</span>{/if}
         </div>
         <div class="col-body">
@@ -210,6 +212,16 @@
     align-items: flex-start;
     flex: 0 0 auto;
     width: var(--space-12);
+  }
+
+  /* DOW and the date number share a line: the first line of .col-head is
+     what visually aligns with the first line of .col-body (flex-start on
+     .col), and that needs to be the number people actually orient by, not
+     the small muted DOW label sitting alone above it. */
+  .date-line {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-1);
   }
 
   .dow {

@@ -36,6 +36,17 @@ import { fetchWithTimeout, type FreshnessService } from './freshness.ts'
 const BASE_URL = process.env.K7_KILO_GATEWAY_URL ?? 'https://api.kilo.ai/api/gateway'
 
 /**
+ * Reproduced live against the real gateway: a kilo-auto/free ascii-art
+ * generation request sat with no response and no error for minutes.
+ * Non-streaming, so there is no partial output to show meanwhile — 45s
+ * gives a genuinely slow (even auto-routed, even free-tier) completion
+ * real room, while still failing fast enough that a kiosk card refreshing
+ * on a timer (ascii-art-of-the-day) or a mid-conversation compacting call
+ * does not pile up stuck requests indefinitely.
+ */
+const DEFAULT_CHAT_COMPLETION_ONCE_TIMEOUT_MS = 45_000
+
+/**
  * One of three free audio-input-capable models found live in the gateway's
  * catalogue (2026-09-10) — no Whisper-named model exists, so transcription
  * here means routing audio through a multimodal chat model instead of a
@@ -152,10 +163,15 @@ export interface AudioTranscriptionRequest {
 export interface KiloGatewayClient {
   fetchModels(): Promise<GatewayModel[]>
   chatCompletion(request: ChatCompletionRequest, opts?: { signal?: AbortSignal }): AsyncGenerator<GatewayChunk>
-  /** Non-streaming, single-shot call — used for compacting summaries. */
+  /**
+   * Non-streaming, single-shot call — used for compacting summaries and
+   * ascii-art-of-the-day. `timeoutMs` defaults to
+   * {@link DEFAULT_CHAT_COMPLETION_ONCE_TIMEOUT_MS}; a caller-supplied
+   * `signal` still cancels the request too, whichever fires first.
+   */
   chatCompletionOnce(
     request: ChatCompletionRequest,
-    opts?: { signal?: AbortSignal },
+    opts?: { signal?: AbortSignal; timeoutMs?: number },
   ): Promise<{ content: string; usage: GatewayUsage }>
   /** See the module doc comment: the request contract here is a documented best-effort assumption, not a verified one. */
   transcribeAudio(request: AudioTranscriptionRequest, opts?: { signal?: AbortSignal }): Promise<{ text: string; model: string }>
@@ -264,30 +280,44 @@ export function createKiloGatewayClient(options: { apiKey?: string; baseUrl?: st
 
   async function chatCompletionOnce(
     request: ChatCompletionRequest,
-    opts: { signal?: AbortSignal } = {},
+    opts: { signal?: AbortSignal; timeoutMs?: number } = {},
   ): Promise<{ content: string; usage: GatewayUsage }> {
-    const res = await fetch(`${baseUrl}/chat/completions`, {
-      method: 'POST',
-      headers: buildHeaders(options.apiKey),
-      signal: opts.signal,
-      body: JSON.stringify({
-        model: request.model,
-        messages: request.messages,
-        stream: false,
-        ...(request.maxTokens !== undefined ? { max_tokens: request.maxTokens } : {}),
-        ...(request.temperature !== undefined ? { temperature: request.temperature } : {}),
-        ...(request.seed !== undefined ? { seed: request.seed } : {}),
-      }),
-    })
-    if (!res.ok) {
-      const text = await res.text().catch(() => '')
-      throw new Error(`kilo gateway responded ${res.status}${text ? `: ${text}` : ''}`)
+    // fetchWithTimeout (freshness.ts) exists for exactly this: an upstream
+    // that accepts the connection and never answers otherwise holds the
+    // request open indefinitely. It is GET-only, so this call builds its
+    // own AbortController rather than reusing it, merging in the caller's
+    // own signal (if any) so either one can cancel the request.
+    const controller = new AbortController()
+    const timer = setTimeout(() => controller.abort(), opts.timeoutMs ?? DEFAULT_CHAT_COMPLETION_ONCE_TIMEOUT_MS)
+    const onCallerAbort = (): void => controller.abort()
+    opts.signal?.addEventListener('abort', onCallerAbort)
+    try {
+      const res = await fetch(`${baseUrl}/chat/completions`, {
+        method: 'POST',
+        headers: buildHeaders(options.apiKey),
+        signal: controller.signal,
+        body: JSON.stringify({
+          model: request.model,
+          messages: request.messages,
+          stream: false,
+          ...(request.maxTokens !== undefined ? { max_tokens: request.maxTokens } : {}),
+          ...(request.temperature !== undefined ? { temperature: request.temperature } : {}),
+          ...(request.seed !== undefined ? { seed: request.seed } : {}),
+        }),
+      })
+      if (!res.ok) {
+        const text = await res.text().catch(() => '')
+        throw new Error(`kilo gateway responded ${res.status}${text ? `: ${text}` : ''}`)
+      }
+      const json = (await res.json()) as {
+        choices: { message: { content: string } }[]
+        usage: GatewayUsage
+      }
+      return { content: json.choices[0]?.message.content ?? '', usage: json.usage }
+    } finally {
+      clearTimeout(timer)
+      opts.signal?.removeEventListener('abort', onCallerAbort)
     }
-    const json = (await res.json()) as {
-      choices: { message: { content: string } }[]
-      usage: GatewayUsage
-    }
-    return { content: json.choices[0]?.message.content ?? '', usage: json.usage }
   }
 
   async function transcribeAudio(
