@@ -13,7 +13,7 @@
 import type { FastifyInstance } from 'fastify'
 
 import type { ConversationService } from '../ai/conversation-service.ts'
-import type { ModelCatalog } from '../upstream/kilo.ts'
+import type { KiloGatewayClient, ModelCatalog } from '../upstream/kilo.ts'
 import type { AiCallRepository, ConversationRepository } from '../ports/repositories.ts'
 
 /** Defaults mirror docs/handoff/layout.schema.yaml's params.chat. */
@@ -21,11 +21,21 @@ const DEFAULT_MARGIN_PERCENT = 20
 const DEFAULT_COMPACTING_THRESHOLD_PERCENT = 80
 const DEFAULT_COST_HISTORY_DAYS = 30
 
+/**
+ * The gateway's transcription response carries no `Content-Length` promise
+ * this codebase controls, so the raw audio body itself is the thing capped —
+ * generous enough for several minutes of a compressed voice note, small
+ * enough that a runaway upload can't exhaust the LAN box's memory.
+ */
+const TRANSCRIBE_BODY_LIMIT_BYTES = 10_000_000
+
 export interface ChatRouteDeps {
   conversations: ConversationRepository
   aiCalls: AiCallRepository
   modelCatalog: ModelCatalog
   conversationService: ConversationService
+  /** Only `transcribeAudio` is used here — kept narrow so a fake in tests doesn't need the whole client. */
+  kiloGateway: Pick<KiloGatewayClient, 'transcribeAudio'>
   /** Wraps Sentry.captureException so this module never imports observability directly. */
   reportError: (err: unknown, extra?: Record<string, unknown>) => void
 }
@@ -36,6 +46,15 @@ function clampPercent(raw: unknown, fallback: number): number {
 }
 
 export async function registerChatRoutes(app: FastifyInstance, deps: ChatRouteDeps): Promise<void> {
+  // No `@fastify/multipart` here: the client posts exactly one raw audio body
+  // per request with no other form fields, so a plain buffer parser for any
+  // `audio/*` content-type is all this route needs — see `[node:16b0ad21]`.
+  // Any other content-type still goes through Fastify's built-in parsers
+  // (or its own default 415), so this cannot shadow an existing route.
+  app.addContentTypeParser(/^audio\//, { parseAs: 'buffer' }, (_req, payload, done) => {
+    done(null, payload)
+  })
+
   app.get('/api/gateway/models', async () => {
     const models = await deps.modelCatalog.list()
     return models.map((m) => ({ id: m.id, name: m.name, contextLength: m.contextLength, pricing: m.pricing }))
@@ -121,6 +140,48 @@ export async function registerChatRoutes(app: FastifyInstance, deps: ChatRouteDe
       send('error', { type: 'error', error: 'internal error' })
     } finally {
       reply.raw.end()
+    }
+  })
+
+  /**
+   * Voice input for the chat composer (k7-chat-voice-input): transcribes a
+   * recorded clip and hands the text back for the household to review before
+   * sending — this route never touches `ConversationService` or persists a
+   * `Message`, matching the "transcribe before send, don't auto-send" UX
+   * decision. See `upstream/kilo.ts`'s module doc comment for how much of
+   * the downstream gateway contract is a verified fact versus a documented
+   * best-effort guess.
+   */
+  app.post('/api/chat/transcribe', { bodyLimit: TRANSCRIBE_BODY_LIMIT_BYTES }, async (req, reply) => {
+    const contentType = req.headers['content-type']
+    if (typeof contentType !== 'string' || !contentType.startsWith('audio/')) {
+      return reply.code(400).send({ error: 'expected an audio/* request body' })
+    }
+    if (!Buffer.isBuffer(req.body) || req.body.length === 0) {
+      return reply.code(400).send({ error: 'empty audio body' })
+    }
+
+    try {
+      const { text, model } = await deps.kiloGateway.transcribeAudio({ data: req.body, contentType })
+      // No `usage` in a transcription response to cost from (see kilo.ts) —
+      // 0 is the honest number here, not an invented token estimate.
+      await deps.aiCalls.record({
+        conversationId: null,
+        messageId: null,
+        purpose: 'transcription',
+        model,
+        promptTokens: 0,
+        completionTokens: 0,
+        estimatedCostUsd: 0,
+      })
+      return { text }
+    } catch (err) {
+      // Same discipline as the SSE route above: audio bytes and the
+      // transcript itself never reach `extra` here — only which route
+      // failed — matching `[node:a1245ccd]`'s "chat content never reaches
+      // Sentry" precedent, applied to audio/transcript content.
+      deps.reportError(err, { route: '/api/chat/transcribe' })
+      return reply.code(502).send({ error: 'transcription failed' })
     }
   })
 

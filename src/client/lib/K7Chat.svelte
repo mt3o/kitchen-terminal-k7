@@ -61,7 +61,144 @@
     voiceInput = 'false',
   }: Props = $props()
 
-  const showMic = $derived(voiceInput === 'true')
+  // Checked once, not reactively: whether the browser can record at all
+  // never changes mid-session. A kiosk on Safari 15 must never show a mic
+  // button it cannot back up — see K7Audiometer.svelte's identical
+  // "never render a dead control" discipline for microphone permission,
+  // applied here to microphone *support*.
+  const mediaSupported =
+    typeof navigator !== 'undefined' &&
+    typeof navigator.mediaDevices?.getUserMedia === 'function' &&
+    typeof MediaRecorder !== 'undefined'
+
+  const showMic = $derived(voiceInput === 'true' && mediaSupported)
+
+  type MicPhase = 'idle' | 'pending' | 'recording' | 'transcribing'
+  let micPhase = $state<MicPhase>('idle')
+
+  let micStream: MediaStream | undefined
+  let micRecorder: MediaRecorder | undefined
+
+  /** First `MediaRecorder`-supported type wins; Safari does not reliably
+   *  support WebM the way Chromium does, so nothing here is hardcoded. */
+  function pickRecorderMimeType(): string | undefined {
+    const candidates = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/mp4;codecs=mp4a.40.2']
+    return candidates.find((t) => MediaRecorder.isTypeSupported(t))
+  }
+
+  function teardownMic(): void {
+    if (micRecorder && micRecorder.state !== 'inactive') {
+      try {
+        micRecorder.stop()
+      } catch {
+        /* already stopped */
+      }
+    }
+    micRecorder = undefined
+    if (micStream) {
+      for (const track of micStream.getTracks()) track.stop()
+      micStream = undefined
+    }
+  }
+
+  function micErrorMessage(err: unknown): string {
+    const name = (err as { name?: string })?.name
+    if (name === 'NotAllowedError' || name === 'SecurityError') return 'odmowa dostepu do mikrofonu'
+    if (name === 'NotFoundError') return 'brak mikrofonu'
+    return 'blad nagrywania'
+  }
+
+  async function startRecording(): Promise<void> {
+    micPhase = 'pending'
+    failed = false
+    errorText = ''
+    try {
+      micStream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      const mimeType = pickRecorderMimeType()
+      const recorder = mimeType ? new MediaRecorder(micStream, { mimeType }) : new MediaRecorder(micStream)
+      const chunks: Blob[] = []
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) chunks.push(e.data)
+      }
+      recorder.onstop = () => {
+        // teardownMic() (unmount, or a fresh startRecording superseding this
+        // one) clears `micRecorder` synchronously before this event fires —
+        // if it no longer matches, this recorder was torn down and must not
+        // kick off a stray network call.
+        if (micRecorder !== recorder) return
+        // The stream must stay alive until the recorder has actually
+        // finished flushing its last chunk (onstop fires after that) —
+        // stopping tracks any earlier can truncate the final chunk. Released
+        // here, immediately after, and always before the network call.
+        if (micStream) {
+          for (const track of micStream.getTracks()) track.stop()
+          micStream = undefined
+        }
+        void transcribe(new Blob(chunks, { type: recorder.mimeType || mimeType || 'application/octet-stream' }))
+      }
+      micRecorder = recorder
+      recorder.start()
+      micPhase = 'recording'
+    } catch (err) {
+      teardownMic()
+      micPhase = 'idle'
+      failed = true
+      errorText = micErrorMessage(err)
+    }
+  }
+
+  function stopRecording(): void {
+    micRecorder?.stop()
+  }
+
+  async function transcribe(blob: Blob): Promise<void> {
+    micRecorder = undefined
+    micPhase = 'transcribing'
+    try {
+      const res = await fetch('/api/chat/transcribe', {
+        method: 'POST',
+        headers: { 'content-type': blob.type || 'application/octet-stream' },
+        body: blob,
+      })
+      if (!res.ok) throw new Error(`transcribe ${res.status}`)
+      const body = (await res.json()) as { text?: string }
+      // Populates the compose field for review — never auto-sent.
+      if (typeof body.text === 'string' && body.text.trim() !== '') {
+        input = body.text.trim()
+      }
+    } catch (err) {
+      failed = true
+      errorText = (err as Error).message || 'transkrypcja nieudana'
+    } finally {
+      micPhase = 'idle'
+    }
+  }
+
+  function onMicClick(): void {
+    if (micPhase === 'idle') void startRecording()
+    else if (micPhase === 'recording') stopRecording()
+    // 'pending'/'transcribing': button is disabled, nothing to do.
+  }
+
+  // Bracket-glyph convention: every state carries text, not just colour.
+  const micLabel = $derived(
+    micPhase === 'recording'
+      ? '[* REC]'
+      : micPhase === 'pending'
+        ? '[MIC...]'
+        : micPhase === 'transcribing'
+          ? '[...]'
+          : '[MIC]',
+  )
+  const micAriaLabel = $derived(
+    micPhase === 'recording'
+      ? 'zatrzymaj nagrywanie'
+      : micPhase === 'pending'
+        ? 'oczekiwanie na zgode mikrofonu'
+        : micPhase === 'transcribing'
+          ? 'trwa transkrypcja'
+          : 'rozpocznij nagrywanie glosowe',
+  )
 
   let models = $state<GatewayModelOption[]>([])
   // Deliberately captures only the initial value: once the household picks a
@@ -237,6 +374,10 @@
     return () => {
       ac.abort()
       controller?.abort()
+      // A card that can be destroyed and recreated (theme/layout reload)
+      // must not leak an open microphone — same discipline as
+      // K7Audiometer.svelte's teardown.
+      teardownMic()
     }
   })
 </script>
@@ -275,8 +416,15 @@
 
     <form class="composer" onsubmit={onSubmit}>
       {#if showMic}
-        <button type="button" class="btn-ghost mic" disabled title="transkrypcja audio — wkrótce" aria-label="nagrywanie glosowe (niedostepne)">
-          [MIC]
+        <button
+          type="button"
+          class="btn-ghost mic"
+          class:recording={micPhase === 'recording'}
+          disabled={micPhase === 'pending' || micPhase === 'transcribing'}
+          onclick={onMicClick}
+          aria-label={micAriaLabel}
+        >
+          {micLabel}
         </button>
       {/if}
       <input
@@ -460,6 +608,22 @@
     color: var(--fg-disabled);
     border-color: var(--border);
     cursor: not-allowed;
+  }
+
+  /* Recording state: colour never carries this alone — the label itself
+     switches to "[* REC]" (see micLabel). Opacity-only animation per the
+     A8X per-frame-cost budget — never box-shadow/filter. */
+  .mic.recording {
+    color: var(--warn);
+    border-color: var(--warn);
+    animation: mic-pulse 1s ease-in-out infinite;
+  }
+  @keyframes mic-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mic.recording { animation: none; }
   }
 
   button:focus,
