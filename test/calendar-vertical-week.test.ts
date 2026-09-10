@@ -46,6 +46,14 @@ describe('K7Calendar.svelte lays days out as a scrollable vertical list', () => 
     assert.match(ruleBody('.col-head'), /width:\s*var\(--space-12\)/, '.col-head must not auto-size — every row needs the same width')
   })
 
+  // A second live-server screenshot showed the DOW label and date number
+  // stacked as separate lines, so the row's first line — the one that
+  // aligns with the first event/placeholder line — was the small muted
+  // DOW text, not the number people actually orient by.
+  it('DOW and the date number share one line, so events align with the number', () => {
+    assert.match(ruleBody('.date-line'), /display:\s*flex/, '.date-line must lay dow+num out on one line')
+  })
+
   it('the empty-day placeholder sits next to the date instead of floating centered in empty space', () => {
     assert.match(ruleBody('.empty'), /text-align:\s*left/, '.empty must left-align, not center, so it reads as part of the date\'s row')
   })

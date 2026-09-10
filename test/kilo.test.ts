@@ -5,9 +5,9 @@
  * comment line and the final usage-carrying chunk before `data: [DONE]`.
  */
 import assert from 'node:assert/strict'
-import { describe, it } from 'node:test'
+import { afterEach, describe, it } from 'node:test'
 
-import { estimateCostUsd, fileNameForContentType, mapGatewayModel, parseSseFrame, splitSseFrames } from '../src/server/upstream/kilo.ts'
+import { createKiloGatewayClient, estimateCostUsd, fileNameForContentType, mapGatewayModel, parseSseFrame, splitSseFrames } from '../src/server/upstream/kilo.ts'
 
 describe('splitSseFrames', () => {
   it('splits complete frames and keeps a partial tail for the next chunk', () => {
@@ -100,5 +100,40 @@ describe('fileNameForContentType', () => {
 
   it('falls back to a generic extension for an unrecognised type', () => {
     assert.equal(fileNameForContentType('audio/x-made-up'), 'audio.bin')
+  })
+})
+
+describe('chatCompletionOnce', () => {
+  const realFetch = globalThis.fetch
+
+  afterEach(() => {
+    globalThis.fetch = realFetch
+  })
+
+  /**
+   * Reproduced live: with a real KILO_GATEWAY_KEY configured, an ascii-art
+   * generation request to kilo-auto/free was still pending minutes later —
+   * no response, no error, nothing in the server log past "incoming
+   * request". fetchWithTimeout (freshness.ts) exists specifically for "an
+   * upstream that accepts the connection and then never answers holds the
+   * request open... those pile up" — chatCompletionOnce never adopted it.
+   * This stub fetch mimics exactly that: it only ever settles via the
+   * request's own AbortSignal, never on its own.
+   */
+  it('does not hang forever when the gateway accepts the connection and never answers', async () => {
+    globalThis.fetch = ((_url: string, init?: RequestInit) =>
+      new Promise((_resolve, reject) => {
+        init?.signal?.addEventListener('abort', () => reject(new DOMException('aborted', 'AbortError')))
+      })) as unknown as typeof fetch
+
+    const client = createKiloGatewayClient({ apiKey: 'test-key' })
+    const outcome = await Promise.race([
+      client
+        .chatCompletionOnce({ model: 'kilo-auto/free', messages: [{ role: 'user', content: 'hi' }] }, { timeoutMs: 50 })
+        .then(() => 'resolved' as const)
+        .catch(() => 'rejected' as const),
+      new Promise<'never-settled'>((resolve) => setTimeout(() => resolve('never-settled'), 1000)),
+    ])
+    assert.equal(outcome, 'rejected', 'chatCompletionOnce must reject via its own timeout rather than hang past it')
   })
 })

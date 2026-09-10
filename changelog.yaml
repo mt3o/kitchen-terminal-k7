@@ -9,6 +9,14 @@
 # Newest entry first.
 entries:
   - date: "2026-09-10"
+    title: "Poprawka: generowanie ASCII-artu mogło wisieć bez końca"
+    items:
+      - "Zapytanie do bramki AI (kilo-auto/free) mogło nigdy nie dostać odpowiedzi ani błędu, blokując kartę ASCII.DNIA (i podsumowania w czacie) w nieskończoność. Teraz ma limit czasu 45s, po którym karta pokazuje ostatni dobry wynik albo rezerwowy ascii-art zamiast wisieć."
+  - date: "2026-09-10"
+    title: "Kalendarz: data i numer dnia znów na jednej linii"
+    items:
+      - "Skrót dnia tygodnia i numer daty są teraz obok siebie zamiast jeden pod drugim — pierwsza linia wydarzeń wyrównuje się do numeru dnia, a nie do małej szarej etykiety nad nim."
+  - date: "2026-09-10"
     title: "Poprawka: krzywe wyrównanie w kalendarzu"
     items:
       - "Kolumna z datą ma teraz stałą szerokość, więc wydarzenia we wszystkich dniach zaczynają się w tym samym miejscu zamiast \"skakać\" w zależności od szerokości etykiety dnia."
