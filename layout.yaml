@@ -48,6 +48,22 @@ pages:
         params:
           presetsMinutes: [1, 3, 5, 10, 15, 20, 30, 45, 60]
 
+      # A slideshow entry is declared inside `cards` like any other card (the
+      # schema's own KONTRAKT note explains why) but renders nothing in its
+      # own slot — `span` is ignored on it — and instead takes over the whole
+      # screen after a long silence. At most one is allowed per layout, and
+      # `cardIds` may point anywhere: this one rotates across three different
+      # pages to actually exercise that. `wakeOnPresence` is deliberately
+      # left unset — camera-based wake is out of scope for this change.
+      - id: pokaz-domowy
+        type: slideshow
+        params:
+          idleTriggerSeconds: 1800
+          intervalSeconds: 15
+          cardIds: [zegar, pogoda, kalendarz, audiometr]
+          transition: fade
+          exitOnInteraction: true
+
   - id: dom
     label: DOM
     grid: { columns: 2 }

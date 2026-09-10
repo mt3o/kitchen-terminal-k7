@@ -104,7 +104,7 @@ describe('the generator emits every token the components use', () => {
     )
     // Set inline per page by the renderer from the layout, not by the theme —
     // they are runtime layout state that happens to travel as custom properties.
-    const RUNTIME = new Set(['--deck-cols', '--deck-rows', '--card-gap'])
+    const RUNTIME = new Set(['--deck-cols', '--deck-rows', '--card-gap', '--cell-cols', '--cell-gap'])
     const used = new Set(
       [...sources.matchAll(/var\((--[a-z0-9-]+)/g)].map((m) => m[1] as string).filter((t) => !RUNTIME.has(t)),
     )

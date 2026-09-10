@@ -297,3 +297,65 @@ body {
      per tick. Transitioning it would put `width` on the forbidden list
      (DESIGN.md §9): it forces layout on every frame on the A8X. */
 }
+
+/* --- menu: cross-widget visibility --------------------------------------
+ * The `menu` card type coordinates which of several OTHER cards is active by
+ * toggling the native `hidden` attribute on them (src/client/lib/slideshow.ts
+ * and main.ts's `case 'menu'`). `[hidden]` is a UA-stylesheet rule and loses
+ * to any author style that sets `display` on the same element — including a
+ * custom element's own shadow-root `:host { display: ... }`. Only
+ * K7Card.svelte (and the new container components) set one today, but a menu
+ * could target anything, so this is made unconditionally reliable rather than
+ * relying on today's widgets happening not to collide with it.
+ * ------------------------------------------------------------------------- */
+.page [hidden] {
+  display: none !important;
+}
+
+/* --- slideshow: full-screen idle rotation -------------------------------
+ * `slideshow` is a layout-level controller, not a rendered card (KONTRAKT
+ * note in layout.schema.yaml): after a period of no interaction it promotes
+ * one already-rendered target card in place to cover the whole viewport,
+ * rather than moving or cloning it — reparenting a Svelte custom element
+ * fires disconnectedCallback/connectedCallback, which tears the component
+ * down and re-mounts it, losing state (a running timer, an armed
+ * audiometer). See createSlideshowController in
+ * src/client/lib/slideshow.ts, which drives these classes.
+ *
+ * The veil is a sibling layer behind the promoted card, not a filter on it —
+ * same reasoning as `.reconnect-veil` above, and the same single 4px
+ * backdrop-filter allowance DESIGN.md §5 grants the slideshow specifically.
+ * -------------------------------------------------------------------------- */
+.k7-slideshow-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 499;
+  background: var(--scrim);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+.k7-slideshow-veil[hidden] {
+  display: none;
+}
+
+.k7-slideshow-active {
+  position: fixed !important;
+  inset: 0;
+  z-index: 500;
+  background: var(--bg);
+  transition:
+    opacity var(--motion-slow) var(--ease),
+    transform var(--motion-slow) var(--ease);
+}
+.k7-slideshow-enter-fade {
+  opacity: 0;
+}
+.k7-slideshow-enter-slide {
+  transform: translate3d(100%, 0, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .k7-slideshow-active {
+    transition-duration: 0ms;
+  }
+}
