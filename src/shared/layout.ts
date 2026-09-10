@@ -14,7 +14,7 @@ export interface Card {
 
 export type CardType =
   | 'weather' | 'calendar' | 'chat' | 'recipes' | 'shopping-list' | 'timer'
-  | 'comic-of-the-day' | 'ascii-art-of-the-day' | 'carousel' | 'grid'
+  | 'comic-of-the-day' | 'ascii-art-of-the-day' | 'image' | 'carousel' | 'grid'
   | 'slideshow' | 'clock' | 'menu' | 'audiometer'
 
 export interface GridSettings {

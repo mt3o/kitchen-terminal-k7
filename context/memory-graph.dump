@@ -6438,6 +6438,16 @@ created_at: 2026-09-10T04:30:40.373082+00:00
 
 proposed via agent surface: docs/handoff/layout.schema.yaml params.carousel; proposed while implementing k7-container-widgets
 ---
+[event:3d2d5e27-8115-49f1-a584-7f71b25bde23]
+node_id: aff11b74-f850-469a-b282-92ef59377990
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T06:48:45.724122+00:00
+
+Confirmed the existing Carousel entity already covers an 'image carousel' once StaticImage cards exist as slides — no new component needed
+---
 [node:441547c8-c8df-41c9-86d0-eebe5da729de]
 type: entity
 tier: short-term
@@ -6855,3 +6865,71 @@ source: agent-surface
 created_at: 2026-09-10T06:05:47.236514+00:00
 
 Constraint captured, then dogfooded immediately by adding this change's own changelog.yaml entry
+---
+[node:c7fd59cf-268c-473e-acb1-559187232e85]
+type: goal
+tier: short-term
+path: /goal/k7-single-image
+created_at: 2026-09-10T06:45:54.386724+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:9ec2ba02-df53-4a40-8e6b-dfb52e4f86b7] @ 2026-09-10T06:46:04.939365+00:00
+
+Add a new "image" card type — a static image from a configured URL, no rotation/polling — plus a slightly shorter footer bar; wire it into layout.yaml alongside the existing carousel/grid so an "image carousel" is just the generic carousel holding image-card slides.
+---
+[node:cb41c38e-bfe7-4077-af7e-905e6bfccf52]
+type: slice
+tier: short-term
+path: /change/k7-single-image
+created_at: 2026-09-10T06:45:54.386724+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:c7fd59cf-268c-473e-acb1-559187232e85] @ 2026-09-10T06:45:54.386724+00:00
+
+change scope: k7-single-image
+---
+[event:e9b69c5e-cbd3-4166-a7de-340669c5d23b]
+node_id: cb41c38e-bfe7-4077-af7e-905e6bfccf52
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T06:45:54.392284+00:00
+
+create_change k7-single-image
+---
+[node:9ec2ba02-df53-4a40-8e6b-dfb52e4f86b7]
+type: entity
+tier: short-term
+path: /entity/staticimage
+created_at: 2026-09-10T06:46:04.939365+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+StaticImage — A Card showing one image from a configured URL — no daily rotation, no polling, no external feed. Not AsciiArtOfTheDay (AI-generated, own prompt/model) or the Comic entity implied by comic-of-the-day (RSS-fed, dated, attributed) — both of those change on a schedule; a StaticImage is fixed until the layout is edited.
+---
+[event:a3af6738-c1a0-464d-bf34-47872df3dc0a]
+node_id: 9ec2ba02-df53-4a40-8e6b-dfb52e4f86b7
+type: entity_proposed
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T06:46:04.939365+00:00
+
+proposed via agent surface: User request: "single image" widget, in the same request as ascii-art/menu/carousel/grid (all already built) — the one genuinely new card type in that list.
+---
+[event:85b0b40f-2298-4cf7-97b2-05040e1bac5d]
+node_id: 9ec2ba02-df53-4a40-8e6b-dfb52e4f86b7
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T06:48:45.719131+00:00
+
+StaticImage entity used to name the new K7Image.svelte component and image card type
