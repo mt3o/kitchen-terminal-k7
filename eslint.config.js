@@ -25,6 +25,8 @@ const browserGlobals = {
   AnalyserNode: 'readonly',
   MediaStream: 'readonly',
   MediaStreamConstraints: 'readonly',
+  MediaRecorder: 'readonly',
+  Blob: 'readonly',
   DOMException: 'readonly',
   SubmitEvent: 'readonly',
   Event: 'readonly',

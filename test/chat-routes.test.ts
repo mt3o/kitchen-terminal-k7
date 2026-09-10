@@ -48,6 +48,15 @@ function fakeGateway(): Pick<KiloGatewayClient, 'chatCompletion' | 'chatCompleti
   }
 }
 
+/** Set per-test to exercise both the happy path and a gateway failure. */
+let transcribeImpl: Pick<KiloGatewayClient, 'transcribeAudio'>['transcribeAudio']
+
+function fakeKiloGateway(): Pick<KiloGatewayClient, 'transcribeAudio'> {
+  return {
+    transcribeAudio: (...args) => transcribeImpl(...args),
+  }
+}
+
 beforeEach(async () => {
   const db = openDatabase(':memory:')
   runMigrations(db)
@@ -62,13 +71,16 @@ beforeEach(async () => {
     gateway: fakeGateway(),
   })
 
+  transcribeImpl = async () => ({ text: 'kup mleko', model: 'thinkingmachines/inkling-small:free' })
+
   app = Fastify()
   await registerChatRoutes(app, {
     conversations: repos.conversations,
     aiCalls: repos.aiCalls,
     modelCatalog,
     conversationService,
-    reportError: (err) => reportedErrors.push(err),
+    kiloGateway: fakeKiloGateway(),
+    reportError: (err, extra) => reportedErrors.push({ err, extra }),
   })
   await app.ready()
 })
@@ -152,6 +164,65 @@ describe('POST /api/chat/conversations/:id/messages (SSE)', () => {
       payload: { content: '' },
     })
     assert.equal(res.statusCode, 400)
+  })
+})
+
+describe('POST /api/chat/transcribe', () => {
+  it('transcribes an audio/* body and records a 0-cost ai_call', async () => {
+    const res = await app.inject({
+      method: 'POST',
+      url: '/api/chat/transcribe',
+      headers: { 'content-type': 'audio/webm' },
+      payload: Buffer.from([1, 2, 3, 4]),
+    })
+    assert.equal(res.statusCode, 200)
+    assert.deepEqual(res.json(), { text: 'kup mleko' })
+
+    const history = await repos.aiCalls.listRecent(1)
+    assert.equal(history[0]?.purpose, 'transcription')
+    assert.equal(history[0]?.model, 'thinkingmachines/inkling-small:free')
+    assert.equal(history[0]?.estimatedCostUsd, 0)
+    assert.equal(history[0]?.conversationId, null)
+  })
+
+  it('rejects a non-audio content-type with 400', async () => {
+    const res = await app.inject({
+      method: 'POST',
+      url: '/api/chat/transcribe',
+      headers: { 'content-type': 'text/plain' },
+      payload: 'not audio',
+    })
+    assert.equal(res.statusCode, 400)
+  })
+
+  it('rejects an empty audio body with 400', async () => {
+    const res = await app.inject({
+      method: 'POST',
+      url: '/api/chat/transcribe',
+      headers: { 'content-type': 'audio/webm' },
+      payload: Buffer.alloc(0),
+    })
+    assert.equal(res.statusCode, 400)
+  })
+
+  it('502s a gateway failure without leaking audio bytes or transcript text into the error report', async () => {
+    transcribeImpl = async () => {
+      throw new Error('kilo gateway responded 500: <secret-looking upstream body>')
+    }
+    const res = await app.inject({
+      method: 'POST',
+      url: '/api/chat/transcribe',
+      headers: { 'content-type': 'audio/webm' },
+      payload: Buffer.from([9, 9, 9]),
+    })
+    assert.equal(res.statusCode, 502)
+    assert.deepEqual(res.json(), { error: 'transcription failed' })
+
+    assert.equal(reportedErrors.length, 1)
+    const reported = reportedErrors[0] as { extra?: Record<string, unknown> }
+    // Only the route name may travel as `extra` — never the audio buffer or
+    // any transcript-shaped text, per [node:a1245ccd].
+    assert.deepEqual(reported.extra, { route: '/api/chat/transcribe' })
   })
 })
 

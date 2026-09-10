@@ -7,7 +7,7 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
 
-import { estimateCostUsd, mapGatewayModel, parseSseFrame, splitSseFrames } from '../src/server/upstream/kilo.ts'
+import { estimateCostUsd, fileNameForContentType, mapGatewayModel, parseSseFrame, splitSseFrames } from '../src/server/upstream/kilo.ts'
 
 describe('splitSseFrames', () => {
   it('splits complete frames and keeps a partial tail for the next chunk', () => {
@@ -88,5 +88,17 @@ describe('estimateCostUsd', () => {
 
   it('is 0 for an unpriced model rather than throwing', () => {
     assert.equal(estimateCostUsd({ prompt_tokens: 1000, completion_tokens: 500 }, null), 0)
+  })
+})
+
+describe('fileNameForContentType', () => {
+  it('maps known audio content-types to a sensible extension', () => {
+    assert.equal(fileNameForContentType('audio/webm'), 'audio.webm')
+    assert.equal(fileNameForContentType('audio/webm;codecs=opus'), 'audio.webm')
+    assert.equal(fileNameForContentType('audio/mp4'), 'audio.mp4')
+  })
+
+  it('falls back to a generic extension for an unrecognised type', () => {
+    assert.equal(fileNameForContentType('audio/x-made-up'), 'audio.bin')
   })
 })

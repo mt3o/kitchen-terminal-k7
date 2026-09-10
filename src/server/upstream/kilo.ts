@@ -13,10 +13,37 @@
  * No AI SDK or SSE library is added for this: one streaming endpoint does not
  * justify a new dependency, and the project already has exactly this shape of
  * hand-rolled client for Open-Meteo (`upstream/open-meteo.ts`).
+ *
+ * `transcribeAudio` (added for k7-chat-voice-input) is a different story:
+ * `POST {base}/audio/transcriptions` was confirmed live (2026-09-10) to be a
+ * real, distinct route — its `x-matched-path` response header names it
+ * exactly, unlike a genuinely unimplemented path (e.g. `/audio/speech`),
+ * which falls through to a catch-all "only accepts /chat/completions" error.
+ * Its *request contract*, however, could NOT be verified live: every
+ * unauthenticated attempt (JSON body, multipart body, with/without a fake
+ * bearer token) returned the same generic "Could not parse request body"
+ * error before any auth-specific error appeared, and no real
+ * `KILO_GATEWAY_KEY` was available in the sandbox this was built in to get
+ * past that. The implementation below is a **documented best-effort
+ * assumption** — OpenAI-Whisper-style `multipart/form-data` with `file` +
+ * `model` fields, responding `{ text: string }` — not a verified contract
+ * like the chat-completions shape above. `K7_KILO_TRANSCRIPTION_MODEL` is
+ * the escape hatch: if the assumption is wrong, an operator can repoint the
+ * model (or, with a code change, the field shape) without redeploying blind.
  */
 import { fetchWithTimeout, type FreshnessService } from './freshness.ts'
 
 const BASE_URL = process.env.K7_KILO_GATEWAY_URL ?? 'https://api.kilo.ai/api/gateway'
+
+/**
+ * One of three free audio-input-capable models found live in the gateway's
+ * catalogue (2026-09-10) — no Whisper-named model exists, so transcription
+ * here means routing audio through a multimodal chat model instead of a
+ * dedicated speech-to-text model. Unverified which model `/audio/
+ * transcriptions` actually expects; this is a starting default, not a
+ * confirmed fit.
+ */
+const DEFAULT_TRANSCRIPTION_MODEL = process.env.K7_KILO_TRANSCRIPTION_MODEL ?? 'thinkingmachines/inkling-small:free'
 
 /** Model list and pricing change rarely; unlike weather, per-request freshness buys nothing. */
 const MODELS_FRESH_FOR_SECONDS = 3600
@@ -113,6 +140,15 @@ export interface GatewayChunk {
   usage?: GatewayUsage
 }
 
+export interface AudioTranscriptionRequest {
+  /** Raw audio bytes exactly as recorded — no re-encoding happens on this side of the wire. */
+  data: Buffer
+  /** The browser's own `MediaRecorder.mimeType` (or the client's declared upload content-type). */
+  contentType: string
+  /** Defaults to {@link DEFAULT_TRANSCRIPTION_MODEL} when omitted. */
+  model?: string
+}
+
 export interface KiloGatewayClient {
   fetchModels(): Promise<GatewayModel[]>
   chatCompletion(request: ChatCompletionRequest, opts?: { signal?: AbortSignal }): AsyncGenerator<GatewayChunk>
@@ -121,6 +157,8 @@ export interface KiloGatewayClient {
     request: ChatCompletionRequest,
     opts?: { signal?: AbortSignal },
   ): Promise<{ content: string; usage: GatewayUsage }>
+  /** See the module doc comment: the request contract here is a documented best-effort assumption, not a verified one. */
+  transcribeAudio(request: AudioTranscriptionRequest, opts?: { signal?: AbortSignal }): Promise<{ text: string; model: string }>
 }
 
 /**
@@ -152,6 +190,28 @@ function buildHeaders(apiKey: string | undefined): HeadersInit {
   const headers: Record<string, string> = { 'content-type': 'application/json' }
   if (apiKey) headers.authorization = `Bearer ${apiKey}`
   return headers
+}
+
+/** No `content-type` here on purpose: a multipart body needs `fetch` to set its own boundary. */
+function buildAuthHeader(apiKey: string | undefined): HeadersInit {
+  const headers: Record<string, string> = {}
+  if (apiKey) headers.authorization = `Bearer ${apiKey}`
+  return headers
+}
+
+/** A filename is required by multipart form conventions even though the gateway (presumably) only reads the bytes and the field's declared type. */
+export function fileNameForContentType(contentType: string): string {
+  const mime = contentType.split(';')[0]?.trim().toLowerCase() ?? ''
+  const ext =
+    {
+      'audio/webm': 'webm',
+      'audio/ogg': 'ogg',
+      'audio/mp4': 'mp4',
+      'audio/mpeg': 'mp3',
+      'audio/wav': 'wav',
+      'audio/x-wav': 'wav',
+    }[mime] ?? 'bin'
+  return `audio.${ext}`
 }
 
 export function createKiloGatewayClient(options: { apiKey?: string; baseUrl?: string } = {}): KiloGatewayClient {
@@ -230,10 +290,38 @@ export function createKiloGatewayClient(options: { apiKey?: string; baseUrl?: st
     return { content: json.choices[0]?.message.content ?? '', usage: json.usage }
   }
 
+  async function transcribeAudio(
+    request: AudioTranscriptionRequest,
+    opts: { signal?: AbortSignal } = {},
+  ): Promise<{ text: string; model: string }> {
+    const model = request.model ?? DEFAULT_TRANSCRIPTION_MODEL
+    const form = new FormData()
+    form.append('model', model)
+    form.append(
+      'file',
+      new Blob([new Uint8Array(request.data)], { type: request.contentType }),
+      fileNameForContentType(request.contentType),
+    )
+    const res = await fetch(`${baseUrl}/audio/transcriptions`, {
+      method: 'POST',
+      headers: buildAuthHeader(options.apiKey),
+      signal: opts.signal,
+      body: form,
+    })
+    if (!res.ok) {
+      const text = await res.text().catch(() => '')
+      throw new Error(`kilo gateway responded ${res.status}${text ? `: ${text}` : ''}`)
+    }
+    const json = (await res.json()) as { text?: string }
+    if (typeof json.text !== 'string') throw new Error('kilo gateway returned no transcript text')
+    return { text: json.text, model }
+  }
+
   return {
     fetchModels: () => fetchModels(baseUrl),
     chatCompletion,
     chatCompletionOnce,
+    transcribeAudio,
   }
 }
 

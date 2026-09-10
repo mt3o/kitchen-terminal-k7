@@ -400,6 +400,7 @@ await registerChatRoutes(app, {
   aiCalls: repos.aiCalls,
   modelCatalog,
   conversationService,
+  kiloGateway: kiloClient,
   reportError: (err, extra) => Sentry.captureException(err, { extra }),
 })
 

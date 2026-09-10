@@ -63,6 +63,7 @@ pages:
         type: chat
         params:
           defaultModel: "kilo-auto/free"
+          voiceInput: true
 
       - id: przepisy
         type: recipes
