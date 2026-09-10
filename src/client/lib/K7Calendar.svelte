@@ -200,11 +200,16 @@
     padding-left: var(--space-2);
   }
 
+  /* Fixed width, not auto: an auto-sized head lets "DZIS" on today's row
+     (or a two-digit vs one-digit date) push that row's events further
+     right than every other row's, so the event list's left edge zigzags
+     from day to day instead of lining up in a column. */
   .col-head {
     display: flex;
-    align-items: baseline;
-    gap: var(--space-1);
+    flex-direction: column;
+    align-items: flex-start;
     flex: 0 0 auto;
+    width: var(--space-12);
   }
 
   .dow {
@@ -237,9 +242,12 @@
     gap: var(--space-1);
   }
 
+  /* Left-aligned, not centered: centering it in the remaining row width
+     floats it in empty space disconnected from the date it belongs to —
+     left-aligned, it reads as part of the same row as the date badge. */
   .empty {
     margin: 0;
-    text-align: center;
+    text-align: left;
     color: var(--fg-disabled);
     font-size: var(--text-sm);
   }
