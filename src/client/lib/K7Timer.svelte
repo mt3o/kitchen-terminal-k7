@@ -27,7 +27,7 @@
     soundOnComplete?: string
   }
 
-  let { presets = '5,10,15,30', soundOnComplete = 'true' }: Props = $props()
+  let { presets = '1,3,5,10,15,20,30,45,60', soundOnComplete = 'true' }: Props = $props()
 
   type Phase = 'idle' | 'running' | 'paused' | 'finished'
 
@@ -92,11 +92,36 @@
     }
   }
 
-  function start(minutes: number): void {
-    totalSeconds = minutes * 60
+  function beginCountdown(seconds: number): void {
+    totalSeconds = seconds
     remainingSeconds = totalSeconds
     deadline = Date.now() + totalSeconds * 1000
     phase = 'running'
+  }
+
+  function start(minutes: number): void {
+    beginCountdown(minutes * 60)
+  }
+
+  // Custom duration: minutes + seconds, entered by hand for anything the
+  // presets don't cover. Kept as separate fields rather than one "minutes"
+  // input with decimals — mm:ss is how a kitchen timer is actually asked for.
+  let customMinutes = $state(5)
+  let customSeconds = $state(0)
+
+  let customTotalSeconds = $derived(
+    Math.max(0, Math.floor(customMinutes || 0)) * 60 + Math.max(0, Math.min(59, Math.floor(customSeconds || 0)))
+  )
+  let customValid = $derived(customTotalSeconds > 0)
+
+  function startCustom(): void {
+    if (!customValid) return
+    beginCountdown(customTotalSeconds)
+  }
+
+  function onCustomSubmit(e: SubmitEvent): void {
+    e.preventDefault()
+    startCustom()
   }
 
   function pause(): void {
@@ -139,12 +164,39 @@
 
 <Card label="MINUTNIK" state={cardState}>
   {#if phase === 'idle'}
-    <div class="presets">
-      {#each presetMinutes as minutes (minutes)}
-        <button type="button" class="btn-ghost preset" onclick={() => start(minutes)}>
-          {minutes} min
-        </button>
-      {/each}
+    <div class="idle-wrap">
+      <div class="presets">
+        {#each presetMinutes as minutes (minutes)}
+          <button type="button" class="btn-ghost preset" onclick={() => start(minutes)}>
+            {minutes} min
+          </button>
+        {/each}
+      </div>
+      <form class="custom" onsubmit={onCustomSubmit}>
+        <span class="custom-label">WLASNY CZAS</span>
+        <input
+          class="custom-field"
+          type="number"
+          inputmode="numeric"
+          min="0"
+          max="999"
+          step="1"
+          aria-label="minuty"
+          bind:value={customMinutes}
+        />
+        <span class="custom-sep">:</span>
+        <input
+          class="custom-field"
+          type="number"
+          inputmode="numeric"
+          min="0"
+          max="59"
+          step="1"
+          aria-label="sekundy"
+          bind:value={customSeconds}
+        />
+        <button type="submit" class="btn-solid custom-start" disabled={!customValid}>START</button>
+      </form>
     </div>
   {:else}
     <div class="readout" class:finished={phase === 'finished'}>{readout}</div>
@@ -170,12 +222,65 @@
 </Card>
 
 <style>
+  .idle-wrap {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    gap: var(--space-3);
+  }
+
   .presets {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
     align-content: flex-start;
-    height: 100%;
+  }
+
+  .custom {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: auto;
+    padding-top: var(--space-3);
+    border-top: var(--border-w) solid var(--border);
+  }
+
+  .custom-label {
+    flex: 1 1 100%;
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--fg-muted);
+  }
+
+  .custom-field {
+    width: 3.5em;
+    min-height: var(--control-h-sm);
+    padding: 0 var(--space-2);
+    font-family: var(--font-ui);
+    font-size: var(--text-base);
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+    color: var(--fg);
+    background: var(--surface-sunken);
+    border: var(--border-w) solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .custom-field:focus {
+    border-color: var(--border-strong);
+    outline: var(--focus-w) solid var(--focus);
+    outline-offset: var(--focus-offset);
+  }
+
+  .custom-sep {
+    color: var(--fg-muted);
+  }
+
+  .custom-start {
+    margin-left: auto;
   }
 
   .controls {
@@ -221,7 +326,9 @@
      "wznów" (resume), the card's single primary action while paused. */
   .btn-solid {
     min-height: var(--control-h);
-    padding: 0 var(--control-pad-x);
+    /* DESIGN.md §6: "buttons pad vertically" — min-height alone leaves a
+       two-line label touching the border. */
+    padding: var(--space-2) var(--control-pad-x);
     background: var(--accent);
     color: var(--accent-fg);
     border: var(--border-w-strong) solid var(--accent);
@@ -237,7 +344,9 @@
 
   .btn-ghost {
     min-height: var(--control-h-sm);
-    padding: 0 var(--control-pad-x);
+    /* DESIGN.md §6: "buttons pad vertically" — min-height alone leaves a
+       two-line label touching the border. */
+    padding: var(--space-2) var(--control-pad-x);
     background: transparent;
     color: var(--fg);
     border: var(--border-w-strong) solid var(--border-strong);

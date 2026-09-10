@@ -117,7 +117,7 @@ export const aiCalls = sqliteTable(
 export const upstreamCache = sqliteTable('upstream_cache', {
   /** Stable per request shape — the same location and units hit the same row. */
   key: text('key').primaryKey(),
-  upstream: text('upstream', { enum: ['open-meteo', 'google-calendar', 'kilo-gateway'] }).notNull(),
+  upstream: text('upstream', { enum: ['open-meteo', 'google-calendar', 'kilo-gateway', 'rss'] }).notNull(),
   payload: text('payload', { mode: 'json' }).notNull(),
   fetchedAt: integer('fetched_at', { mode: 'timestamp_ms' }).notNull().default(now),
 })

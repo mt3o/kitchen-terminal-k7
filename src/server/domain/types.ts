@@ -62,7 +62,7 @@ export interface AiCall {
   createdAt: Date
 }
 
-export type Upstream = 'open-meteo' | 'google-calendar' | 'kilo-gateway'
+export type Upstream = 'open-meteo' | 'google-calendar' | 'kilo-gateway' | 'rss'
 
 /**
  * An upstream response, always carrying its own age.

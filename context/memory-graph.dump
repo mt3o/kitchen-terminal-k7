@@ -160,6 +160,86 @@ created_at: 2026-09-08T10:11:44.703997+00:00
 
 tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
 ---
+[event:075d40ae-0acd-446c-afbb-c6626a8987b1]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:57:02.458629+00:00
+
+K7Recipes.svelte will respect the Safari 15 floor; backend-only deps (jsdom/readability) are exempt since they never reach the client bundle
+---
+[event:82694437-7be3-4efc-b465-defde6bbf466]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:58:33.811923+00:00
+
+confirmed jsdom/readability are backend-only and exempt from the Safari 15 floor
+---
+[event:ae3f1b12-93d7-47ab-8444-467e45ca907c]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:01:31.932886+00:00
+
+Safari 15 floor checked against plan's claim that jsdom/@mozilla/readability are backend-only and exempt; confirmed structurally via vite.config.ts (build root is src/client only, server tree is separate).
+---
+[event:64796734-db8c-422c-bc31-3a69a8239ed5]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:02:33.947644+00:00
+
+Checked plan for Safari-15-incompatible APIs; none found (crypto.randomInt is server-side only).
+---
+[event:eda9ac16-4d77-4287-8e3f-c1d9a04677c2]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:03:11.822482+00:00
+
+Plan's client-side fetch/ReadableStream/AbortController usage stays within Safari 15 capability per this constraint; no disallowed CSS/JS features proposed.
+---
+[event:96059268-5783-41d8-b2ea-24282d822665]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:04:31.820883+00:00
+
+Safari 15 compile target — plan.md doesn't introduce anything violating this (no new build-target-sensitive syntax called out)
+---
+[event:b85d4caa-29e1-4436-a4f3-6613c132a38f]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:10:47.626004+00:00
+
+verified via vite build that jsdom/@mozilla/readability never enter the client bundle
+---
+[event:25f53511-31d5-4c51-96e8-e932c50bcf53]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:15:04.727564+00:00
+
+no Safari-15-incompatible JS/CSS introduced; npm run lint:tokens' floor checks passed clean
+---
 [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99]
 type: facet_value
 tier: lifetime
@@ -320,6 +400,96 @@ created_at: 2026-09-08T10:11:44.708120+00:00
 
 tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
 ---
+[event:e21a15b5-6cad-41ba-b14c-6307681e0f39]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:54:33.483406+00:00
+
+guides where the Kilo Gateway key may be read (config.ts only, never sent to client)
+---
+[event:d94f9507-4935-4358-916b-e95106bca2c2]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:55:02.065729+00:00
+
+confirmed KILO_GATEWAY_KEY is server-side-only per config.ts
+---
+[event:796b4453-3075-479f-8304-9780fe9ddac7]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:55:02.751227+00:00
+
+confirmed KILO_GATEWAY_KEY must stay server-side only, read via config.ts not process.env directly in the new client
+---
+[event:facc2637-6dda-4af1-aae4-0a0c2d85d3fe]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:59:07.588876+00:00
+
+shaped the decision to keep chat content out of Sentry extra/logs
+---
+[event:9b9ae727-24a4-4270-b71d-3431bf1e882c]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:01:31.937918+00:00
+
+Secrets-never-reach-frontend constraint re-checked; recipe import fetches public pages with no credential involved, so not applicable to this plan.
+---
+[event:cf133a0e-5f9b-4560-a84e-7aa9469dde69]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:02:33.945608+00:00
+
+Confirmed plan threads kiloGatewayKey as a parameter rather than reading env directly, and never sends it to the frontend.
+---
+[event:490f6d8f-6fda-43dc-a477-e4386554cc9b]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:03:11.819023+00:00
+
+Confirmed config.ts:kiloGatewayKey and secretValues() wiring still hold; plan respects secrets-server-side-only.
+---
+[event:7a8d0862-1b8b-43ed-b8ed-428e296f58af]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:04:31.812317+00:00
+
+Secrets-server-side-only constraint checked against plan.md Phase 1/3 (kiloGatewayKey threading, no frontend exposure) — respected
+---
+[event:2a1084b7-5e27-41ec-8f15-920f25ad71a4]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:15:04.722532+00:00
+
+kiloGatewayKey is threaded server-side only through config.ts and kilo-gateway.ts, never sent to the client or included in any /api response
+---
 [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa]
 type: facet_value
 tier: lifetime
@@ -378,6 +548,96 @@ created_at: 2026-09-09T06:41:30.928905+00:00
 
 demonstrated on the deployment 2026-09-09: pointing layout.yaml's theme at daylight-lab.yaml changed --bg, --accent, --radius and --font-ui, and every component followed, with no component edited and no restart
 ---
+[event:13f8e2f4-6243-47bc-af88-4e9ff84775a6]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:54:33.481489+00:00
+
+token-only CSS rule will govern K7Chat.svelte styling
+---
+[event:b055538e-b9f8-4cf7-9337-8fa2b6e78513]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:55:02.752477+00:00
+
+confirmed token-only styling rule applies to the two new card components
+---
+[event:377dbe45-2161-441d-b3de-4e9026e72d2a]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:57:02.457454+00:00
+
+governs K7Recipes.svelte styling — tokens only
+---
+[event:96ddf02a-f14e-4561-90f6-b39a3d6b6835]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:01:31.931711+00:00
+
+Tokens-only theming constraint checked against Phase 4's plan to reuse the existing Card shell rather than introduce new styled surfaces.
+---
+[event:13c75998-28c5-4fb9-b4e7-57edeccfc6fb]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:02:33.946996+00:00
+
+Checked plan's maxWidthPx inline-style justification against the token-only rule; the rule scopes colour/font/radius/border/shadow, so the numeric layout exception is legitimate.
+---
+[event:1b3e57e7-4871-4396-a19c-683a4db90cb3]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:03:11.823093+00:00
+
+Plan's K7Chat.svelte CSS is specified as tokens-only, matching this constraint.
+---
+[event:1dfef350-86a4-4e62-a9a9-794aadd55d7e]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:04:31.820260+00:00
+
+Theming architectural rule — plan.md Phase 4 CSS section commits to tokens-only, consistent
+---
+[event:1bc94f21-af53-45c1-a22a-6b01e0f4a070]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:10:47.625242+00:00
+
+K7Recipes.svelte and K7ShoppingList.svelte delete affordance styled tokens-only, verified by the token contract script
+---
+[event:e6aa4f7f-0353-4f27-a75f-29cc1cd6a641]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:12:37.476146+00:00
+
+npm run lint:tokens passed clean on both new components; no hardcoded colours/fonts/radii
+---
 [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a]
 type: constraint
 tier: lifetime
@@ -427,6 +687,46 @@ source: gui
 created_at: 2026-09-08T10:11:44.662571+00:00
 
 tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
+[event:38cf80e7-d29e-408a-9ebe-08dfc370fe3b]
+node_id: 9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:54:33.482419+00:00
+
+Card.svelte's ok/warn/fail/idle glyph state machine will be reused for the chat card
+---
+[event:8a81c73e-7f3d-4ff9-932f-f85ec4091f01]
+node_id: 9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:01:31.937356+00:00
+
+Glyph-plus-colour state constraint re-checked against plan's stated use of [OK]/[--] glyphs for K7Recipes; compliant, no new evidence needed.
+---
+[event:3f591cac-bd7c-4de6-83ed-c7971f5fca3e]
+node_id: 9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:02:33.948886+00:00
+
+Confirmed state vocabulary (fail/warn/ok/idle) inherited via Card shell carries the bracket-glyph requirement, consistent with K7Weather precedent.
+---
+[event:1bc200c8-1830-4a6d-8558-bc222cf73fcd]
+node_id: 9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:12:37.478784+00:00
+
+both cards inherit the bracket-glyph state vocabulary via Card.svelte, no colour-only state
 ---
 [node:cabf56d2-4b59-4f19-96f7-9388071c1086]
 type: decision
@@ -480,6 +780,16 @@ created_at: 2026-09-08T10:11:44.699752+00:00
 
 tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
 ---
+[event:40d483f6-6db9-4a5d-b854-3b3961943060]
+node_id: 61c0030d-8bea-45cc-888b-113297483487
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:01:31.936773+00:00
+
+Radius-zero/no-shadow constraint re-checked against plan's reuse of the existing Card shell for the review-state UI; no new surface treatment proposed that would conflict.
+---
 [node:6d6046fc-9f71-4b88-8cfa-381a0fe1bd32]
 type: constraint
 tier: lifetime
@@ -504,6 +814,16 @@ source: gui
 created_at: 2026-09-08T10:11:44.667924+00:00
 
 tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
+[event:800a1945-1a4f-44d6-a95e-ffc6d26d345d]
+node_id: 6d6046fc-9f71-4b88-8cfa-381a0fe1bd32
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:02:33.953047+00:00
+
+Checked contrast-floor constraint against colorized fg/fg-muted toggle; no new evidence, both are pre-vetted tokens.
 ---
 [node:aef51033-1a7b-4e25-a133-f6e3053e0eb6]
 type: constraint
@@ -557,6 +877,56 @@ created_at: 2026-09-08T10:11:44.694129+00:00
 
 tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
 ---
+[event:68674ec9-10a1-4cb8-98f2-092f2dd704c6]
+node_id: a827e6ec-aec4-40a7-b922-c689d71066a3
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:58:33.811172+00:00
+
+plan reasons about which button in K7Recipes.svelte gets the one solid-amber allowance
+---
+[event:a0f8d196-0d31-481a-9603-f28743afd681]
+node_id: a827e6ec-aec4-40a7-b922-c689d71066a3
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:01:31.933979+00:00
+
+One-solid-amber-control-per-card constraint checked against Phase 4's button treatment; plan justifies IMPORTUJ as ghost by citing a different card's control, and never states which single control in K7Recipes itself is solid amber (ZAPISZ, presumably) - flagged as a minor gap in the review.
+---
+[event:115d58ab-9134-4692-9f65-642dce35bc80]
+node_id: a827e6ec-aec4-40a7-b922-c689d71066a3
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:01:53.888445+00:00
+
+at-most-one-solid-amber rule applied to the send button in K7Chat.svelte's plan
+---
+[event:9d759394-ac47-43e1-a522-dd6c40b67668]
+node_id: a827e6ec-aec4-40a7-b922-c689d71066a3
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:03:11.823653+00:00
+
+Plan's one solid-amber send button plus ghost controls matches this constraint.
+---
+[event:915a0e50-2b51-4a9f-bdad-cde1a370e087]
+node_id: a827e6ec-aec4-40a7-b922-c689d71066a3
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:10:47.623250+00:00
+
+K7Recipes.svelte gives ZAPISZ the single solid-amber control, ghost for the rest
+---
 [node:ff852de4-c6d2-4da3-906b-de637255e484]
 type: constraint
 tier: lifetime
@@ -608,6 +978,16 @@ source: gui
 created_at: 2026-09-08T10:11:44.783922+00:00
 
 tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
+[event:d6ca6e79-a9dd-4f04-93f6-879774f45338]
+node_id: 77925b30-350a-42ee-a7de-7e8a023c5708
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:54:33.480473+00:00
+
+K7Weather.svelte custom-element pattern is the template for K7Chat.svelte
 ---
 [node:125f4071-59ec-4d3f-898d-ffcb3edd8aa5]
 type: decision
@@ -722,6 +1102,66 @@ created_at: 2026-09-08T13:43:16.154892+00:00
 
 the rolling-window/context-budget seam shaped the Conversation definition and its separation from the chat card
 ---
+[event:9849c97f-a929-4e88-913f-97a354bd5826]
+node_id: 4730c1bc-b791-4a0d-a94c-1bd4f8307102
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:54:33.470245+00:00
+
+ConversationRepository/AiCallRepository ports already exist exactly per this constraint; the decoupling still has to be built at the service/route boundary
+---
+[event:7cf270d3-d906-4a57-be00-b608e3e6e62e]
+node_id: 4730c1bc-b791-4a0d-a94c-1bd4f8307102
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:55:02.060146+00:00
+
+observed schema.ts/domain/types.ts/ports already shaped exactly per this constraint
+---
+[event:a0ac6fb6-c52d-49da-948b-acf6c6a9cd49]
+node_id: 4730c1bc-b791-4a0d-a94c-1bd4f8307102
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:59:07.582978+00:00
+
+plan's ConversationService interface design exists specifically to fulfil this constraint
+---
+[event:6e6c293e-56dc-4c40-ad34-a9649468279f]
+node_id: 4730c1bc-b791-4a0d-a94c-1bd4f8307102
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:01:53.879116+00:00
+
+grounded the ConversationService async-generator interface and compacting design
+---
+[event:65d1973f-1f4d-4f0d-9784-6ae3b01e6a5c]
+node_id: 4730c1bc-b791-4a0d-a94c-1bd4f8307102
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:03:11.808800+00:00
+
+Verified ConversationService.streamTurn's interface (ChatTurnInput/ChatEvent, no Fastify types) in plan.md Phase 2 genuinely satisfies the CONVSERVICE decoupling constraint.
+---
+[event:27dac772-7d18-437b-9f3f-dec36cab3563]
+node_id: 4730c1bc-b791-4a0d-a94c-1bd4f8307102
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:04:31.806653+00:00
+
+CONVSERVICE lifetime constraint checked against plan.md Phase 2 — plan's streamTurn interface has zero Fastify types, satisfies decoupling
+---
 [node:68b03a85-d372-45c5-80a4-549ebf826798]
 type: facet_value
 tier: lifetime
@@ -771,6 +1211,86 @@ source: agent-surface
 created_at: 2026-09-08T13:43:16.034442+00:00
 
 provider/model-name addressing and the context window from the model list shaped the Model definition
+---
+[event:d8c90531-7986-4353-a5e3-30ac6671b9c5]
+node_id: 279d73e0-ff0f-4184-a25c-f051d2030072
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:54:33.479641+00:00
+
+layout.schema.yaml params.chat and HANDOFF.md confirm provider/model-name addressing and GET /models
+---
+[event:ae663446-d5a6-434a-a975-d8dfd31e6d6e]
+node_id: 279d73e0-ff0f-4184-a25c-f051d2030072
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:55:02.061466+00:00
+
+confirmed against KILO_GATEWAY_KEY wiring in config.ts and .env.schema
+---
+[event:b36e840e-b606-4664-9cc8-91fc821930a8]
+node_id: 279d73e0-ff0f-4184-a25c-f051d2030072
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:55:02.750566+00:00
+
+confirmed Kilo Gateway addressing/usage-cost pattern to follow when building the standalone client
+---
+[event:c28300ae-2d13-47eb-a30b-3a4b84ef5e22]
+node_id: 279d73e0-ff0f-4184-a25c-f051d2030072
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:59:07.590357+00:00
+
+Kilo Gateway client design (provider/model-name, GET /models, usage fields) follows this decision directly
+---
+[event:4a1a514a-02fc-4c96-983c-793c5565a865]
+node_id: 279d73e0-ff0f-4184-a25c-f051d2030072
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:01:53.884132+00:00
+
+confirmed live against the real gateway during planning
+---
+[event:9bc6cdb8-9b3c-4674-bfbd-01781e9656af]
+node_id: 279d73e0-ff0f-4184-a25c-f051d2030072
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:02:33.944906+00:00
+
+Traced impact_of this node; surfaced that sibling change k7-ai-chat is also scoped to build a Kilo Gateway HTTP client, a merge-collision risk plan.md does not flag.
+---
+[event:17fa8a78-8ba7-428f-8959-4568c20d85fb]
+node_id: 279d73e0-ff0f-4184-a25c-f051d2030072
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:03:11.818398+00:00
+
+Plan's live-verified Kilo Gateway wire format (Phase 1) is consistent with this decision's addressing/usage-field description; could not independently re-verify the live claim.
+---
+[event:ebfd5311-8c28-4c4c-bdc8-5f5a04a8672a]
+node_id: 279d73e0-ff0f-4184-a25c-f051d2030072
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:04:31.811624+00:00
+
+Kilo Gateway addressing/pricing decision checked against plan.md Phase 1 client design — consistent
 ---
 [node:ccc18558-7181-44df-9608-de587d8d937c]
 type: facet_value
@@ -911,6 +1431,36 @@ source: agent-surface
 created_at: 2026-09-08T13:43:16.535840+00:00
 
 verified against layout.schema.yaml:281-330 - the schema's own comments give the same reason for the split (different params, different legal position), independently of HANDOFF.md
+---
+[event:7b222c07-cfd9-44a2-bf04-290aac4bec25]
+node_id: e24b75ab-e370-4566-b9e7-35706cad806b
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:55:02.749716+00:00
+
+confirmed comic vs ascii-art must stay two separate card types/services, matched against actual layout.yaml and schema entries
+---
+[event:ba7f56c8-d2fe-4701-871b-86367c1eecfd]
+node_id: e24b75ab-e370-4566-b9e7-35706cad806b
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:02:33.942423+00:00
+
+Verified plan keeps comic-of-the-day and ascii-art-of-the-day as fully separate services/types per this decision, no merged abstraction.
+---
+[event:987754a0-68d5-444c-8195-e7eea443ad7b]
+node_id: e24b75ab-e370-4566-b9e7-35706cad806b
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:12:37.477121+00:00
+
+implemented as two fully separate services (ascii-art.ts/kilo-gateway.ts vs comic-rss.ts) and two separate Svelte components with no shared abstraction beyond fetchThrough
 ---
 [node:9ea20285-de89-4f25-a25e-37700078bd59]
 type: decision
@@ -1271,6 +1821,16 @@ created_at: 2026-09-08T15:59:13.913566+00:00
 
 names the wrong blocker: the workbox-versus-hand-rolled choice is not waiting on an invalidation strategy, it is waiting on TLS, because a Service Worker cannot register on an insecure origin at all - measured 2026-09-08
 ---
+[event:12bcb1f7-1d26-4f0a-ae7c-fe019e7d0486]
+node_id: baefeee7-a562-4085-8a4e-cd20045f4164
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:01:31.936183+00:00
+
+Disputed Service Worker/dynamic-data issue re-assessed for relevance; this plan does not touch the Service Worker or offline caching, so it neither takes a side nor silently builds on one.
+---
 [node:6d5ae12d-608b-4187-839b-74d56e7ff059]
 type: issue
 tier: mid-term
@@ -1305,6 +1865,36 @@ source: agent-surface
 created_at: 2026-09-08T13:43:16.412992+00:00
 
 the two data sources are why ShoppingListItem is defined as the same item regardless of which store backs it
+---
+[event:3a5410ae-6ce3-48af-baef-a48790f923bd]
+node_id: 6d5ae12d-608b-4187-839b-74d56e7ff059
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:57:02.456892+00:00
+
+confirmed zakupy-api mode stays out of scope for this change
+---
+[event:b93a16b4-8407-4e02-9da0-62a6db6064d8]
+node_id: 6d5ae12d-608b-4187-839b-74d56e7ff059
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:01:31.933413+00:00
+
+Zakupy-api out-of-scope issue checked against plan's explicit non-goals section, which correctly excludes it.
+---
+[event:bf53c8dd-fa52-4560-9aee-632ec4948693]
+node_id: 6d5ae12d-608b-4187-839b-74d56e7ff059
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:10:47.626661+00:00
+
+zakupy-api mode untouched, only local mode implemented
 ---
 [node:f42da1a9-633f-4fe2-81e4-47bd34b836f4]
 type: issue
@@ -2067,6 +2657,16 @@ created_at: 2026-09-08T15:40:45.056544+00:00
 
 /gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
 ---
+[event:035502e2-4297-41fc-a9c5-51b1282d3b8f]
+node_id: 15863232-0fb0-4c79-aaa9-3750ce8c0a2f
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:57:02.451411+00:00
+
+grounded the Recipe entity's shape while reading the already-built repository stack
+---
 [node:5af79def-9364-4086-9b1b-c26f36622dbd]
 type: entity
 tier: short-term
@@ -2099,6 +2699,16 @@ source: gui
 created_at: 2026-09-08T15:40:45.062375+00:00
 
 /gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
+---
+[event:83bd1902-12c3-4d8d-b291-6a2122ba44f1]
+node_id: 5af79def-9364-4086-9b1b-c26f36622dbd
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:57:02.456275+00:00
+
+grounded ShoppingListItem while confirming DELETE is the only missing CRUD verb
 ---
 [node:3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550]
 type: entity
@@ -2166,6 +2776,36 @@ created_at: 2026-09-08T15:40:45.027071+00:00
 
 /gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
 ---
+[event:16d0473d-a73c-40d2-a31b-8a47a35aa506]
+node_id: 7b73e502-b1fb-4587-96bd-f005b1ead665
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:54:33.476223+00:00
+
+schema.ts conversations/messages tables match this entity exactly
+---
+[event:8b60c220-bd65-4812-a8b7-ee955f7e214d]
+node_id: 7b73e502-b1fb-4587-96bd-f005b1ead665
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:55:02.064004+00:00
+
+Conversation entity grounds ConversationService's unit of operation
+---
+[event:290fe43c-fe33-4d8f-a470-6e1d6911f413]
+node_id: 7b73e502-b1fb-4587-96bd-f005b1ead665
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:01:53.886150+00:00
+
+Conversation entity is the unit ConversationService operates on
+---
 [node:f29aa338-eddb-456b-97ad-00b602cb9a42]
 type: entity
 tier: short-term
@@ -2199,6 +2839,36 @@ source: gui
 created_at: 2026-09-08T15:40:45.049880+00:00
 
 /gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
+---
+[event:7e921922-c6a3-42c4-ad5a-124cd6376f1f]
+node_id: f29aa338-eddb-456b-97ad-00b602cb9a42
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:54:33.475280+00:00
+
+Model entity matches conversations.model / aiCalls.model text columns storing provider/model-name
+---
+[event:762c94d4-e5c9-47ec-b938-0c893ff480a6]
+node_id: f29aa338-eddb-456b-97ad-00b602cb9a42
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:55:02.063183+00:00
+
+Model entity vocabulary used to name the gateway client's types
+---
+[event:7959a159-2ba1-4f69-87d6-777231ec9f33]
+node_id: f29aa338-eddb-456b-97ad-00b602cb9a42
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:01:53.885150+00:00
+
+Model entity shaped the GatewayModel client type
 ---
 [node:f2e09a03-8e61-4299-ad7c-cef6c06775fe]
 type: entity
@@ -2234,6 +2904,26 @@ created_at: 2026-09-08T15:40:45.044208+00:00
 
 /gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
 ---
+[event:89b68fd0-bc60-4847-822f-4c2bb680e6d7]
+node_id: f2e09a03-8e61-4299-ad7c-cef6c06775fe
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:54:33.477237+00:00
+
+messages table/domain type has no identity outside its conversation, cascades on delete
+---
+[event:0400f79e-fe4f-41c4-a4ee-8d9040892ef0]
+node_id: f2e09a03-8e61-4299-ad7c-cef6c06775fe
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:01:53.887022+00:00
+
+Message entity grounds the compaction-summary storage design
+---
 [node:8b9566f6-a1d5-4c43-952e-369c2796d5ca]
 type: entity
 tier: short-term
@@ -2267,6 +2957,26 @@ source: gui
 created_at: 2026-09-08T15:40:44.997524+00:00
 
 /gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
+---
+[event:0869d8fd-01e9-495a-863e-82d658915012]
+node_id: 8b9566f6-a1d5-4c43-952e-369c2796d5ca
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:54:33.478157+00:00
+
+aiCalls table matches: nullable FKs, purpose enum includes compacting
+---
+[event:cd8c9226-271c-452a-8e64-dfcf851c7c55]
+node_id: 8b9566f6-a1d5-4c43-952e-369c2796d5ca
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:01:53.887770+00:00
+
+AiCall entity grounds the chat/compacting logging design
 ---
 [node:d3c38cda-39ed-48d1-960c-af9033c4137f]
 type: entity
@@ -2617,6 +3327,56 @@ created_at: 2026-09-08T15:40:58.533157+00:00
 
 tier -> lifetime: /gw-resolve 2026-09-08: human ruled 11 of 13 to lifetime, holding SLICEORDER (epic-scoped) and TS7GA (pending its correction) at mid-term — SCRUB2
 ---
+[event:20aa1cc8-8867-4338-9941-ac4e70526868]
+node_id: 62d2072b-039e-439c-9dfa-1616e42a4afa
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:54:33.484164+00:00
+
+redact.ts's two-layer scrubbing must be verified to cover chat transcripts and the gateway key
+---
+[event:c3175124-758f-4a2f-bda8-7d400298140b]
+node_id: 62d2072b-039e-439c-9dfa-1616e42a4afa
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:55:02.064830+00:00
+
+two-layer scrubbing discipline informs how chat call errors must be logged
+---
+[event:23d506b2-21ff-42c0-a3d2-ef9fb045f441]
+node_id: 62d2072b-039e-439c-9dfa-1616e42a4afa
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:59:07.589713+00:00
+
+clarified why redact.ts pattern-matching isn't the right tool for conversation content
+---
+[event:ccbc402c-2b3c-4946-9861-0593f0b5f64e]
+node_id: 62d2072b-039e-439c-9dfa-1616e42a4afa
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:03:11.819589+00:00
+
+Plan's decision to exclude chat content from scrubber patterns (not a credential shape) is consistent with this constraint's reasoning.
+---
+[event:ed16c04d-8c5e-4c14-9208-e4a8a877953c]
+node_id: 62d2072b-039e-439c-9dfa-1616e42a4afa
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:04:31.813044+00:00
+
+Two-layer redaction constraint checked against plan.md Phase 3 error-handling section — respected, correctly notes chat content is not a secret
+---
 [node:0cd8aca5-d80a-4e98-9c98-a0043c4b5642]
 type: constraint
 tier: lifetime
@@ -2641,6 +3401,16 @@ source: gui
 created_at: 2026-09-08T15:40:58.538894+00:00
 
 tier -> lifetime: /gw-resolve 2026-09-08: human ruled 11 of 13 to lifetime, holding SLICEORDER (epic-scoped) and TS7GA (pending its correction) at mid-term — WIREPROOF
+---
+[event:e772923c-409d-46a4-9f38-2d9f096c4b74]
+node_id: 0cd8aca5-d80a-4e98-9c98-a0043c4b5642
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:03:11.824264+00:00
+
+Confirmed this constraint is about proving secret-scrubbing on the wire; since the plan adds no new scrubbing logic (content is deliberately unscrubbed, key-scrubbing is pre-existing and already covered), no new violation.
 ---
 [node:eba12387-598a-40b6-9979-810319724e0f]
 type: decision
@@ -2837,6 +3607,56 @@ created_at: 2026-09-08T15:40:58.550724+00:00
 
 tier -> lifetime: /gw-resolve 2026-09-08: human ruled 11 of 13 to lifetime, holding SLICEORDER (epic-scoped) and TS7GA (pending its correction) at mid-term — AICALLFK
 ---
+[event:6fbe62e2-56b3-43e5-93b2-f07c9400e6ff]
+node_id: 8d6eee18-8766-45cd-b78b-9840aa0b2029
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:54:33.478895+00:00
+
+verified in schema.ts: messages cascade, aiCalls set null on delete
+---
+[event:de6d9574-f24b-404d-88f7-eb9fce819d30]
+node_id: 8d6eee18-8766-45cd-b78b-9840aa0b2029
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:55:02.062283+00:00
+
+schema.ts ai_calls FKs are nullable+set null, messages cascade, exactly as recorded
+---
+[event:134277c0-98cc-4b0c-a2bd-fc312a541c15]
+node_id: 8d6eee18-8766-45cd-b78b-9840aa0b2029
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:59:07.588042+00:00
+
+compacting's null-messageId aiCalls row and additive summary columns are designed around this
+---
+[event:f09793e0-a46a-4694-8715-e686caed2ad9]
+node_id: 8d6eee18-8766-45cd-b78b-9840aa0b2029
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:03:11.816074+00:00
+
+Verified AiCall nullable-FK/set-null schema and the plan's compacting ai_calls row (messageId: null) still respect this constraint under the revised sentinel-message design.
+---
+[event:fc3c821c-07fd-4ed7-af05-6a1e2dd9a09e]
+node_id: 8d6eee18-8766-45cd-b78b-9840aa0b2029
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:04:31.816160+00:00
+
+AiCall nullable-FK/set-null constraint — confirmed already implemented in schema.ts, no action needed in plan
+---
 [node:85e8cb61-7fe3-44fe-8740-60e7be03d051]
 type: slice
 tier: short-term
@@ -2925,6 +3745,16 @@ archived: false
 
 A Service Worker cannot run on this kiosk over plain HTTP, and that is a hard blocker rather than a configuration problem. Service Workers and the Cache API require a secure context; a LAN IP over http is not one, so navigator.serviceWorker is undefined and there is nothing to configure. Measured on the real address: http://192.168.0.114 reports isSecureContext false with no serviceWorker and no caches, while http://localhost reports all three present - which is why the gap is invisible during development on the server machine and only appears on the iPad. Everything about offline behaviour is therefore downstream of TLS, and the plan that scheduled HTTPS five phases after the Service Worker had the dependency backwards.
 ---
+[event:dffbf033-f6a0-4729-9988-f687a70d12fe]
+node_id: 45f41507-8e7c-4653-9c00-d22f0254d30f
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:02:33.952440+00:00
+
+Confirmed this disputed Service-Worker/TLS contradiction is unrelated to k7-image-widgets and correctly untouched by the plan.
+---
 [node:34616847-1c75-4625-a51e-be17514f7e34]
 type: decision
 tier: mid-term
@@ -2954,6 +3784,26 @@ archived: false
 -> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-09-08T15:59:13.306159+00:00
 
 Freshness for weather and calendar data is the backend's job, not the Service Worker's. The common failure is the household internet being down while the LAN is up, and in that case the server still answers and a Service Worker contributes nothing; what matters is that the server can serve its last good Open-Meteo and Google Calendar responses from SQLite. Putting the policy there also means it works today over plain HTTP with no certificate, survives an iPad reload, and is shared with the phone instead of living per-device in a cache the browser may evict. The Service Worker's remaining job is narrow and worth stating: keep the shell alive across a backend restart.
+---
+[event:890a4d29-32b7-46d2-828a-44004b3e28ed]
+node_id: 8f453152-4703-4c6e-8a7c-4ae5ca69b54e
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:55:02.753115+00:00
+
+weather's freshness-is-backend's-job pattern verified in code (freshness.ts, index.ts /api/weather route) and is the precedent for the two new upstreams
+---
+[event:3d907e56-a4a7-43d4-a191-d681695c5141]
+node_id: 8f453152-4703-4c6e-8a7c-4ae5ca69b54e
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:02:33.944108+00:00
+
+Confirmed plan follows the backend-owns-freshness precedent rather than inventing client-side caching for either widget.
 ---
 [node:7417ea88-923f-4f7b-afca-3d9334b79c0a]
 type: decision
@@ -3116,6 +3966,36 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T18:56:16.587347+00:00
 
 Every upstream answer carries its own age, and the type has no variant without one. A wall display that silently shows yesterday's temperature is more harmful than one showing nothing, because nobody doubts it - so the honest field is made impossible to omit rather than easy to forget. Age is recomputed from the stored timestamp on every read and is never reset by a cache hit, which means a copy can be simultaneously fresh enough to use and two minutes old, and both facts are reported. When the upstream fails the last good answer is served marked stale with its real age; when nothing is cached and the upstream fails the request fails, because there is no honest answer and an empty shape would be rendered as real data.
+---
+[event:3679e730-4473-459b-b9ce-ab6aa8b183a2]
+node_id: 822d1381-09c3-41bc-ba5c-87c90e92ef78
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:55:02.744573+00:00
+
+confirmed the age/freshness pattern (fetchThrough, Aged<T>) is what both new widgets must reuse via upstream/freshness.ts
+---
+[event:7e008ee4-6776-4e50-9185-91d7a0094c7e]
+node_id: 822d1381-09c3-41bc-ba5c-87c90e92ef78
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:02:33.943237+00:00
+
+Confirmed both widgets reuse fetchThrough/Aged<T> as-is (verified against freshness.ts source), satisfying the honest-age constraint.
+---
+[event:da06d753-fd9f-461c-81fe-2b52cb5d811b]
+node_id: 822d1381-09c3-41bc-ba5c-87c90e92ef78
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:12:37.470167+00:00
+
+both ascii-art and comic routes implement the Aged<T>/fetchThrough pattern exactly as documented, verified by running the server and tests
 ---
 [node:53641f0c-859e-4648-a15d-e2962e6829f0]
 type: constraint
@@ -3409,6 +4289,36 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T05:38:22.879032+00:00
 
 Every card carries a shared shell component rather than its own copy of the card chrome. The shell is an ordinary Svelte component and not a second custom element, because slotting content across two shadow roots is the fiddly way to compose them and buys nothing here - each widget is already its own custom element. The reason it matters beyond tidiness is the token contract: the checker can only prove that no component hardcodes a colour if the chrome those components share lives in exactly one file, and thirteen copies of the card frame would be thirteen places for a hex literal to appear.
+---
+[event:f31553ee-a6ad-4f55-9323-4f8a5e7f689f]
+node_id: 240ae1c0-1cd0-40c2-974e-e5df93897bc9
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:55:02.751861+00:00
+
+confirmed both new cards should wrap the shared Card.svelte shell rather than building their own chrome
+---
+[event:d3cdd68e-d160-4f0f-a393-16c698e21c3b]
+node_id: 240ae1c0-1cd0-40c2-974e-e5df93897bc9
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:02:33.946294+00:00
+
+Confirmed both new cards wrap the shared Card shell rather than reimplementing chrome, verified against K7Weather.svelte's use of Card.
+---
+[event:74c32bbf-2218-4c05-adf4-25e7f7494e46]
+node_id: 240ae1c0-1cd0-40c2-974e-e5df93897bc9
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:12:37.475208+00:00
+
+K7AsciiArt.svelte and K7Comic.svelte both wrap the shared Card.svelte shell rather than building their own chrome
 ---
 [node:68dcc438-9bf1-4899-834a-afea99bf556a]
 type: constraint
@@ -3825,6 +4735,86 @@ archived: false
 
 A card must not present placeholder data as real. The calendar has no backend until OAuth2 exists, so it falls back to obviously-labelled sample events, says so in the card's meta, and stays at idle rather than ok - the state vocabulary already means something and ok would be a lie. The same reasoning that forbids a cache presenting stale data as current forbids a component presenting invented data as fetched, and a calendar is the worst card to be quietly wrong about because nobody double-checks what day it says a thing is on.
 ---
+[event:9407b721-56d1-478e-9dc2-d41110dd0451]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:57:02.458048+00:00
+
+governs the import-review UI must not silently save unreviewed extraction as if confirmed
+---
+[event:53e96903-93e5-4fcf-8493-3e955df519de]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:59:29.514879+00:00
+
+both card designs explicitly avoid presenting fabricated/placeholder data as real on fetch failure
+---
+[event:67fbf89f-de70-4752-9494-cd5c9f29cbaf]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:01:31.932330+00:00
+
+No-placeholder-as-real constraint checked against K7Recipes idle/list state description; plan uses [OK]/[--] glyph convention, no fabricated data.
+---
+[event:6dc98b48-dec3-4174-9d5e-7bb4110ebdef]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:01:53.889006+00:00
+
+no-placeholder-as-real rule applied to the disabled mic affordance
+---
+[event:4939d1af-f47c-4d6c-82af-c41c0a8ac20c]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:02:33.948310+00:00
+
+Confirmed both widgets' fallback/fail states avoid presenting placeholder data as real, matching plan's explicit citation.
+---
+[event:929505e8-02c5-4e2c-86e6-0bc8197ba931]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:04:31.819688+00:00
+
+No-placeholder-as-real constraint — plan.md's disabled-but-visible mic affordance in Non-goals/Phase 4 correctly applies this
+---
+[event:10b36023-bc2b-44f1-92ad-4d22d498273e]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:10:47.624356+00:00
+
+drove both the two-step import/save HTTP contract and the extractFallback empty-ingredients bug fix
+---
+[event:4c5a3bf9-b809-4c2e-86cc-9e335d7d0ff6]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:12:37.478035+00:00
+
+both cards show an honest fail/idle state or an explicitly-labelled fallback rather than inventing data on fetch failure
+---
 [node:09f65864-fbda-4333-86a5-9713a88b92ea]
 type: constraint
 tier: mid-term
@@ -3837,3 +4827,1194 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T06:55:33.083742+00:00
 
 A date captured once when a component initialises stops being today at the first midnight. On a display that runs for months this is not an edge case but a certainty, and the card it breaks first is the calendar, whose whole job is saying what day it is; the highlighted column silently drifts a day behind and nothing about the failure looks like a failure. Anything that means now must be recomputed on a timer rather than closed over at construction.
+---
+[node:441eae7f-f0ec-48cc-8875-94aab772f252]
+type: slice
+tier: short-term
+path: /change/k7-recipes-shopping
+created_at: 2026-09-09T11:51:13.841786+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:03e6c5c0-b1f3-4cf9-9d82-07820b1f94fd] @ 2026-09-09T12:09:28.232831+00:00
+-> SCOPED_TO [node:1eee1694-5c04-4e38-ad65-5d933789a15a] @ 2026-09-09T11:58:24.154941+00:00
+-> SCOPED_TO [node:2135f0a4-e132-48e6-917f-2284e5a88662] @ 2026-09-09T11:56:07.883692+00:00
+-> SCOPED_TO [node:2c5e94f2-dcab-4edc-a5b3-a2a5ee098c51] @ 2026-09-09T11:56:14.706976+00:00
+-> SCOPED_TO [node:487b0814-c423-443a-adf7-8f466044076f] @ 2026-09-09T12:04:24.069216+00:00
+-> SCOPED_TO [node:7aa1c37e-f2a8-44ad-9331-4e9029002f70] @ 2026-09-09T11:51:13.841786+00:00
+-> SCOPED_TO [node:9bc167d9-3517-4bd1-a488-f066a5c8f690] @ 2026-09-09T12:06:31.797646+00:00
+-> SCOPED_TO [node:a0e8d46f-ac32-4c55-ba72-daab617c78e8] @ 2026-09-09T11:58:21.521930+00:00
+-> SCOPED_TO [node:faf594c8-d42b-4068-96f6-bd211eecee0a] @ 2026-09-09T11:56:10.635003+00:00
+-> SCOPED_TO [node:fc7ebc25-3d70-456f-9250-9a37e772c607] @ 2026-09-09T11:58:27.145295+00:00
+
+change scope: k7-recipes-shopping
+---
+[event:f24938a9-ed02-46a2-87ae-fdf743bae307]
+node_id: 441eae7f-f0ec-48cc-8875-94aab772f252
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:51:13.843426+00:00
+
+create_change k7-recipes-shopping
+---
+[node:7aa1c37e-f2a8-44ad-9331-4e9029002f70]
+type: goal
+tier: short-term
+path: /goal/k7-recipes-shopping
+created_at: 2026-09-09T11:51:13.841786+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:03e6c5c0-b1f3-4cf9-9d82-07820b1f94fd] @ 2026-09-09T12:09:28.232831+00:00
+-> DEPENDS_ON [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-09T11:51:13.841786+00:00
+-> DEPENDS_ON [node:1eee1694-5c04-4e38-ad65-5d933789a15a] @ 2026-09-09T11:58:24.154941+00:00
+-> DEPENDS_ON [node:2135f0a4-e132-48e6-917f-2284e5a88662] @ 2026-09-09T11:56:07.883692+00:00
+-> DEPENDS_ON [node:2c5e94f2-dcab-4edc-a5b3-a2a5ee098c51] @ 2026-09-09T11:56:14.706976+00:00
+-> DEPENDS_ON [node:487b0814-c423-443a-adf7-8f466044076f] @ 2026-09-09T12:04:24.069216+00:00
+-> DEPENDS_ON [node:4a749051-6bc6-4807-bc52-47748e2bb914] @ 2026-09-09T11:51:13.841786+00:00
+-> DEPENDS_ON [node:5af79def-9364-4086-9b1b-c26f36622dbd] @ 2026-09-09T11:51:13.841786+00:00
+-> DEPENDS_ON [node:6d5ae12d-608b-4187-839b-74d56e7ff059] @ 2026-09-09T11:51:13.841786+00:00
+-> DEPENDS_ON [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-09-09T11:51:13.841786+00:00
+-> DEPENDS_ON [node:9bc167d9-3517-4bd1-a488-f066a5c8f690] @ 2026-09-09T12:06:31.797646+00:00
+-> DEPENDS_ON [node:a0e8d46f-ac32-4c55-ba72-daab617c78e8] @ 2026-09-09T11:58:21.521930+00:00
+-> DEPENDS_ON [node:faf594c8-d42b-4068-96f6-bd211eecee0a] @ 2026-09-09T11:56:10.635003+00:00
+-> DEPENDS_ON [node:fc7ebc25-3d70-456f-9250-9a37e772c607] @ 2026-09-09T11:58:27.145295+00:00
+
+Faza 3: build recipe import (schema.org/Recipe JSON-LD extraction with a Readability-based fallback strategy) with a review-before-save UI, and finish shopping-list CRUD by adding the missing DELETE endpoint and its UI affordance.
+---
+[node:048276b3-fcad-4800-a603-cb4e08628c89]
+type: slice
+tier: short-term
+path: /change/k7-ai-chat
+created_at: 2026-09-09T11:51:18.427223+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:15962ca3-ed5c-4201-a339-4687338a0fec] @ 2026-09-09T11:58:41.643681+00:00
+-> SCOPED_TO [node:28ed347c-7e50-4680-81ba-cb7d8a532959] @ 2026-09-09T12:16:43.227021+00:00
+-> SCOPED_TO [node:5c914a38-718c-4e80-82b1-59fe74cee111] @ 2026-09-09T11:54:52.932369+00:00
+-> SCOPED_TO [node:8bfaa6ba-c432-44f9-a9f5-12aed72a8f15] @ 2026-09-09T11:58:47.465608+00:00
+-> SCOPED_TO [node:93ee78af-543c-4a73-b50b-a52755ce33fb] @ 2026-09-09T11:51:18.427223+00:00
+-> SCOPED_TO [node:9bc23700-e8f0-4792-9fa7-02d36aa9c759] @ 2026-09-09T11:54:50.775639+00:00
+-> SCOPED_TO [node:9edc0d30-df8b-4832-98af-9d7615b449a6] @ 2026-09-09T12:16:41.081770+00:00
+-> SCOPED_TO [node:a1245ccd-7feb-4183-bfc0-a6f2ab543921] @ 2026-09-09T11:58:56.315499+00:00
+-> SCOPED_TO [node:b30b1c95-e5df-4b99-b059-11bc950ee6fe] @ 2026-09-09T12:01:45.117809+00:00
+-> SCOPED_TO [node:c83ab909-9f3b-4347-a917-a75257f7faa2] @ 2026-09-09T11:54:14.731397+00:00
+-> SCOPED_TO [node:d365f52c-8a1b-4071-ac23-119de7808a5b] @ 2026-09-09T11:58:58.915598+00:00
+-> SCOPED_TO [node:e8469646-a163-40f5-a596-12eff5660cf5] @ 2026-09-09T12:01:33.517864+00:00
+-> SCOPED_TO [node:f2fe867a-99c2-4fc9-a8cd-0e16a97af0b4] @ 2026-09-09T12:01:39.453435+00:00
+-> SCOPED_TO [node:f73b288e-3ce8-47d1-aedb-0b20cec11a2b] @ 2026-09-09T11:58:50.369867+00:00
+-> SCOPED_TO [node:ff9ca87f-3e9e-4631-b3e5-6a18bfa18139] @ 2026-09-09T11:54:17.658995+00:00
+
+change scope: k7-ai-chat
+---
+[event:4d1c143a-3075-41c4-bb43-c1cc90591f32]
+node_id: 048276b3-fcad-4800-a603-cb4e08628c89
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:51:18.432143+00:00
+
+create_change k7-ai-chat
+---
+[node:93ee78af-543c-4a73-b50b-a52755ce33fb]
+type: goal
+tier: short-term
+path: /goal/k7-ai-chat
+created_at: 2026-09-09T11:51:18.427223+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:15962ca3-ed5c-4201-a339-4687338a0fec] @ 2026-09-09T11:58:41.643681+00:00
+-> DEPENDS_ON [node:28ed347c-7e50-4680-81ba-cb7d8a532959] @ 2026-09-09T12:16:43.227021+00:00
+-> DEPENDS_ON [node:5c914a38-718c-4e80-82b1-59fe74cee111] @ 2026-09-09T11:54:52.932369+00:00
+-> DEPENDS_ON [node:8bfaa6ba-c432-44f9-a9f5-12aed72a8f15] @ 2026-09-09T11:58:47.465608+00:00
+-> DEPENDS_ON [node:9bc23700-e8f0-4792-9fa7-02d36aa9c759] @ 2026-09-09T11:54:50.775639+00:00
+-> DEPENDS_ON [node:9edc0d30-df8b-4832-98af-9d7615b449a6] @ 2026-09-09T12:16:41.081770+00:00
+-> DEPENDS_ON [node:a1245ccd-7feb-4183-bfc0-a6f2ab543921] @ 2026-09-09T11:58:56.315499+00:00
+-> DEPENDS_ON [node:b30b1c95-e5df-4b99-b059-11bc950ee6fe] @ 2026-09-09T12:01:45.117809+00:00
+-> DEPENDS_ON [node:c83ab909-9f3b-4347-a917-a75257f7faa2] @ 2026-09-09T11:54:14.731397+00:00
+-> DEPENDS_ON [node:d365f52c-8a1b-4071-ac23-119de7808a5b] @ 2026-09-09T11:58:58.915598+00:00
+-> DEPENDS_ON [node:e8469646-a163-40f5-a596-12eff5660cf5] @ 2026-09-09T12:01:33.517864+00:00
+-> DEPENDS_ON [node:f2fe867a-99c2-4fc9-a8cd-0e16a97af0b4] @ 2026-09-09T12:01:39.453435+00:00
+-> DEPENDS_ON [node:f73b288e-3ce8-47d1-aedb-0b20cec11a2b] @ 2026-09-09T11:58:50.369867+00:00
+-> DEPENDS_ON [node:ff9ca87f-3e9e-4631-b3e5-6a18bfa18139] @ 2026-09-09T11:54:17.658995+00:00
+
+Deliver Faza 4 — AI chat via Kilo Gateway: model picker backed by GET /models, a decoupled ConversationService doing rolling-window/per-model context budgeting and compacting, an SSE chat endpoint, the K7Chat.svelte card with its Storybook story, ai_calls logging for every gateway call, and a minimal cost-history view.
+---
+[node:4425741f-040e-4f4e-a8e7-aac9a34a06a1]
+type: slice
+tier: short-term
+path: /change/k7-image-widgets
+created_at: 2026-09-09T11:51:40.233361+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:136541ad-1f97-4a6e-8762-03f613f33ccc] @ 2026-09-09T11:59:07.019913+00:00
+-> SCOPED_TO [node:1dd47195-f438-4eb2-abe8-c16ac3cfcd4f] @ 2026-09-09T11:54:51.494531+00:00
+-> SCOPED_TO [node:2fb87236-454e-4032-abca-eb79490d5e25] @ 2026-09-09T12:12:18.080456+00:00
+-> SCOPED_TO [node:6645438f-1bc5-4c0c-81fe-b03817eb4f7b] @ 2026-09-09T11:59:03.219083+00:00
+-> SCOPED_TO [node:6a05648a-312c-4785-b1c2-e54f93e5b102] @ 2026-09-09T11:54:49.448640+00:00
+-> SCOPED_TO [node:8f5f9b3a-7a3b-482d-967e-54f732773e30] @ 2026-09-09T12:12:20.585019+00:00
+-> SCOPED_TO [node:9eda7861-7736-42ab-8498-ef37dc5e0c31] @ 2026-09-09T12:05:11.200410+00:00
+-> SCOPED_TO [node:dad51741-eead-4927-bb93-d45d6d298d61] @ 2026-09-09T11:51:40.233361+00:00
+-> SCOPED_TO [node:e38c12d4-6532-4e27-b901-b0ef7f3e4849] @ 2026-09-09T11:54:45.505227+00:00
+
+change scope: k7-image-widgets
+---
+[event:fe0fd00f-dcd4-4d6b-9117-05f916bc0d9a]
+node_id: 4425741f-040e-4f4e-a8e7-aac9a34a06a1
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:51:40.234528+00:00
+
+create_change k7-image-widgets
+---
+[node:dad51741-eead-4927-bb93-d45d6d298d61]
+type: goal
+tier: short-term
+path: /goal/k7-image-widgets
+created_at: 2026-09-09T11:51:40.233361+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:136541ad-1f97-4a6e-8762-03f613f33ccc] @ 2026-09-09T11:59:07.019913+00:00
+-> DEPENDS_ON [node:1dd47195-f438-4eb2-abe8-c16ac3cfcd4f] @ 2026-09-09T11:54:51.494531+00:00
+-> DEPENDS_ON [node:2fb87236-454e-4032-abca-eb79490d5e25] @ 2026-09-09T12:12:18.080456+00:00
+-> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-09T11:51:40.233361+00:00
+-> DEPENDS_ON [node:6645438f-1bc5-4c0c-81fe-b03817eb4f7b] @ 2026-09-09T11:59:03.219083+00:00
+-> DEPENDS_ON [node:6a05648a-312c-4785-b1c2-e54f93e5b102] @ 2026-09-09T11:54:49.448640+00:00
+-> DEPENDS_ON [node:8f5f9b3a-7a3b-482d-967e-54f732773e30] @ 2026-09-09T12:12:20.585019+00:00
+-> DEPENDS_ON [node:9eda7861-7736-42ab-8498-ef37dc5e0c31] @ 2026-09-09T12:05:11.200410+00:00
+-> DEPENDS_ON [node:e38c12d4-6532-4e27-b901-b0ef7f3e4849] @ 2026-09-09T11:54:45.505227+00:00
+
+Implement Faza 5 of the K7 dashboard plan: two independent image widget card types — ascii-art-of-the-day (Kilo Gateway prompt-driven ASCII art generation, cached daily with a stored seed) and comic-of-the-day (RSS/Atom feed fetch + parse, image extraction, keyword filtering, attribution, caching) — each as its own Svelte 5 custom-element card with a Storybook story, following the upstream_cache/freshness precedent set by the weather widget.
+---
+[node:c83ab909-9f3b-4347-a917-a75257f7faa2]
+type: constraint
+tier: short-term
+path: /artifact/the-chat-card-s-params-contract-docs-ha
+created_at: 2026-09-09T11:54:14.731397+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:4730c1bc-b791-4a0d-a94c-1bd4f8307102] @ 2026-09-09T11:54:14.731397+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:54:14.731397+00:00
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-09T11:54:14.731397+00:00
+-> ABOUT [node:7b73e502-b1fb-4587-96bd-f005b1ead665] @ 2026-09-09T11:54:14.731397+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-09T11:54:14.731397+00:00
+-> ABOUT [node:f29aa338-eddb-456b-97ad-00b602cb9a42] @ 2026-09-09T11:54:14.731397+00:00
+
+The chat card's params contract (docs/handoff/layout.schema.yaml params.chat, layout.yaml id: czat) already pins ConversationService's budgeting interface before any code exists: defaultModel (required string), optional availableModels (empty = fetch dynamically from GET /api/gateway/models), contextWindowMarginPercent (5-50, default 20, reserved for the response) and compactingThresholdPercent (50-95, default 80, triggers compacting), plus voiceInput (boolean, default false) for the mic feature. These are the exact knobs the service's budgeting/compacting logic must read from card params rather than invent.
+---
+[event:1dd4d134-f116-4664-a790-58af5c5170f3]
+node_id: c83ab909-9f3b-4347-a917-a75257f7faa2
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:59:07.591042+00:00
+
+K7Chat.svelte props and ConversationService's marginPercent/thresholdPercent params are taken verbatim from this
+---
+[event:621d43d0-b239-4014-8324-e01c81f8999c]
+node_id: c83ab909-9f3b-4347-a917-a75257f7faa2
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:03:11.816801+00:00
+
+Verified layout.schema.yaml params.chat and layout.yaml's czat card directly against the repo; plan's Phase 4 props match exactly.
+---
+[event:ae3e6025-c646-4089-b25e-5954d022793f]
+node_id: c83ab909-9f3b-4347-a917-a75257f7faa2
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:04:31.816712+00:00
+
+Chat card param contract — verified directly against layout.schema.yaml and layout.yaml, matches plan.md exactly
+---
+[node:ff9ca87f-3e9e-4631-b3e5-6a18bfa18139]
+type: constraint
+tier: short-term
+path: /artifact/src-server-index-ts-is-one-flat-file-wit
+created_at: 2026-09-09T11:54:17.658995+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:54:17.658995+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-09T11:54:17.658995+00:00
+
+src/server/index.ts is one flat file with every route registered inline (no routes/ directory, no plugin split) — weather, shopping-list, health, layout, theme.css, the error handler and static serving all live in this one module. Faza 3 (recipes/shopping-list) and Faza 5 (image widgets) sibling agents edit this same file concurrently, so any addition here must be a minimal, additive block (new routes appended near the existing ones, no reordering or refactor) to keep the three branches mergeable independently.
+---
+[event:970c3283-672a-43a1-86c8-99e22fa4a932]
+node_id: ff9ca87f-3e9e-4631-b3e5-6a18bfa18139
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:59:07.591871+00:00
+
+governed the decision to append routes as a minimal block in index.ts
+---
+[event:8d6b355b-9512-4011-8b74-0a23e447e5c2]
+node_id: ff9ca87f-3e9e-4631-b3e5-6a18bfa18139
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:03:11.817698+00:00
+
+Verified index.ts is still a flat file with shopping-list routes then error handler; plan's Phase 3 correctly avoids inline additions by using a new routes/chat.ts module instead.
+---
+[event:7a0bb078-3ad5-42f4-b2ff-25b2347a4d9a]
+node_id: ff9ca87f-3e9e-4631-b3e5-6a18bfa18139
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:04:31.814330+00:00
+
+Duplicate of 5c914a38 — same check, same verdict
+---
+[node:e38c12d4-6532-4e27-b901-b0ef7f3e4849]
+type: constraint
+tier: short-term
+path: /artifact/the-upstream-cache-table-s-upstream-en
+created_at: 2026-09-09T11:54:45.505227+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-09T11:59:19.228308+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:54:45.505227+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-09-09T11:59:09.579449+00:00
+-> DEPENDS_ON [node:822d1381-09c3-41bc-ba5c-87c90e92ef78] @ 2026-09-09T11:54:45.505227+00:00
+-> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-09-09T11:54:45.505227+00:00
+-> DEPENDS_ON [node:e24b75ab-e370-4566-b9e7-35706cad806b] @ 2026-09-09T11:54:45.505227+00:00
+
+The upstream_cache table's `upstream` enum (schema.ts) and the matching `Upstream` union (domain/types.ts) only cover 'open-meteo' | 'google-calendar' | 'kilo-gateway'. comic-of-the-day's RSS/Atom source has no value to tag its cache entries with — a new enum member (e.g. 'rss') must be added to both plus a Drizzle migration before comic-of-the-day can reuse the existing fetchThrough/freshness service the way weather does.
+---
+[event:e17706e8-7b01-4622-a319-67290565304c]
+node_id: e38c12d4-6532-4e27-b901-b0ef7f3e4849
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:59:29.508592+00:00
+
+plan Phase 1 adds the 'rss' Upstream enum value this node identified as missing
+---
+[event:e51e8f17-0d96-498b-ab62-b7b8673d228f]
+node_id: e38c12d4-6532-4e27-b901-b0ef7f3e4849
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:02:33.937403+00:00
+
+Confirmed upstream_cache/Upstream enum gap for RSS still true in schema.ts and domain/types.ts; verdict relies on Phase 1 closing this gap before comic-of-the-day can use fetchThrough.
+---
+[node:6a05648a-312c-4785-b1c2-e54f93e5b102]
+type: issue
+tier: short-term
+path: /artifact/no-kilo-gateway-http-client-exists-anywh
+created_at: 2026-09-09T11:54:49.448640+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:279d73e0-ff0f-4184-a25c-f051d2030072] @ 2026-09-09T11:54:49.448640+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:54:49.448640+00:00
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-09T11:54:49.448640+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-09T11:54:49.448640+00:00
+
+No Kilo Gateway HTTP client exists anywhere in the repo as of Faza 5 research (Faza 4's AI chat has not landed in this worktree — only the Conversation/Message/AiCall schema and repos exist, no ConversationService, no chat route, no gateway wrapper). ascii-art-of-the-day is the first feature to actually call the gateway, so it must build a minimal standalone client rather than reuse one, following open-meteo.ts's shape (a free fetchX function using fetchWithTimeout) and threading config.kiloGatewayKey in as a parameter rather than reading process.env directly, matching how config.ts threads other secrets.
+---
+[event:57849be8-f010-4638-bacf-362c0c7e45d9]
+node_id: 6a05648a-312c-4785-b1c2-e54f93e5b102
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:59:29.513449+00:00
+
+plan Phase 1 builds the minimal Kilo Gateway client this node identified as absent
+---
+[event:a74b21aa-6c23-484a-b387-2ca8fe527d61]
+node_id: 6a05648a-312c-4785-b1c2-e54f93e5b102
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:02:33.949474+00:00
+
+Confirmed via grep that no Kilo Gateway client exists yet in this worktree, validating the issue and Phase 1's plan to build one.
+---
+[event:816325f0-7934-4b7c-a437-424cd287ae4f]
+node_id: 6a05648a-312c-4785-b1c2-e54f93e5b102
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:03:11.815434+00:00
+
+Same sibling-duplication finding, corroborating node.
+---
+[event:ebd175d0-ffb9-4dad-9154-a5dd62c455f7]
+node_id: 6a05648a-312c-4785-b1c2-e54f93e5b102
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:05:10.335418+00:00
+
+same duplication finding, the issue-side node
+---
+[node:9bc23700-e8f0-4792-9fa7-02d36aa9c759]
+type: concept
+tier: mid-term
+path: /artifact/the-faza-4-persistence-layer-conversati
+created_at: 2026-09-09T11:54:50.775639+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:279d73e0-ff0f-4184-a25c-f051d2030072] @ 2026-09-09T11:54:50.775639+00:00
+-> DEPENDS_ON [node:4730c1bc-b791-4a0d-a94c-1bd4f8307102] @ 2026-09-09T11:54:50.775639+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:54:50.775639+00:00
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-09T11:54:50.775639+00:00
+
+The Faza 4 persistence layer (conversations/messages/ai_calls tables, Conversation/Message/AiCall domain types, ConversationRepository/AiCallRepository ports, and their Drizzle adapter implementations) was already fully built before this change, with migrations and tests in place. PLAN.md's Faza 4 checkboxes are stale on this point. k7-ai-chat is therefore scoped to only: the Kilo Gateway HTTP client, ConversationService (rolling window + budgeting + compacting), the SSE chat route, K7Chat.svelte, and a cost-history surface.
+---
+[event:c695ad66-12da-406e-8934-d9e8a331a45d]
+node_id: 9bc23700-e8f0-4792-9fa7-02d36aa9c759
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:02:33.950629+00:00
+
+This node (surfaced via impact_of on 279d73e0) confirms k7-ai-chat's scope includes building the Kilo Gateway client itself, the basis for the sibling-branch collision finding.
+---
+[event:913420f5-0220-4cef-a9a6-b1882a221977]
+node_id: 9bc23700-e8f0-4792-9fa7-02d36aa9c759
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:03:11.821934+00:00
+
+Confirmed schema.ts/repositories.ts/drizzle adapter for conversations/messages/aiCalls are fully built and unreferenced by any chat code, matching this concept.
+---
+[event:4f27ec8f-7662-4e5a-8dc8-72d4eaefcf2c]
+node_id: 9bc23700-e8f0-4792-9fa7-02d36aa9c759
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:04:31.817275+00:00
+
+Persistence-already-built summary — verified directly against schema.ts, repositories.ts, drizzle adapter, migrations — accurate
+---
+[event:69373cb5-587f-4d16-b615-eb23ace2373b]
+node_id: 9bc23700-e8f0-4792-9fa7-02d36aa9c759
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:05:10.336751+00:00
+
+re-verified directly from my own worktree (not the shared checkout): schema/ports/adapter for conversations/messages/ai_calls are identical between the two and fully built
+---
+[node:1dd47195-f438-4eb2-abe8-c16ac3cfcd4f]
+type: issue
+tier: short-term
+path: /artifact/no-rss-atom-parsing-library-is-installed
+created_at: 2026-09-09T11:54:51.494531+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:54:51.494531+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-09T11:54:51.494531+00:00
+-> DEPENDS_ON [node:e24b75ab-e370-4566-b9e7-35706cad806b] @ 2026-09-09T11:54:51.494531+00:00
+
+No RSS/Atom parsing library is installed in package.json (no rss-parser, fast-xml-parser, xml2js, or similar) — comic-of-the-day needs one added as a new dependency to parse the feed and extract enclosure/media:content images, with itemSelector-based fallback extraction per the schema field.
+---
+[event:4a300e11-92c8-4ed1-ae73-5f8d16fb3ae6]
+node_id: 1dd47195-f438-4eb2-abe8-c16ac3cfcd4f
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:59:29.514273+00:00
+
+plan Phase 1 adds rss-parser and cheerio as the missing RSS/extraction dependencies
+---
+[event:642c2847-2992-4716-bf9f-5329666abc2e]
+node_id: 1dd47195-f438-4eb2-abe8-c16ac3cfcd4f
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:02:33.950053+00:00
+
+Confirmed via package.json that no RSS/Atom parser dependency exists yet, validating the issue and Phase 1's plan to add rss-parser.
+---
+[node:5c914a38-718c-4e80-82b1-59fe74cee111]
+type: constraint
+tier: mid-term
+path: /artifact/src-server-index-ts-is-one-flat-fastify
+created_at: 2026-09-09T11:54:52.932369+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:54:52.932369+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-09T11:54:52.932369+00:00
+
+src/server/index.ts is one flat Fastify file with every route registered inline between the private-network onRequest hook and the shared error handler — no routes/ directory or plugin split. Multiple phases (recipes/shopping-list, AI chat, image widgets) append routes to this same file concurrently in sibling worktrees, so each phase's addition must be a small, clearly-delimited, additive block to keep the merges independent.
+---
+[event:8b7f7163-2ea9-493a-8297-88bca3c7b573]
+node_id: 5c914a38-718c-4e80-82b1-59fe74cee111
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:04:31.813737+00:00
+
+index.ts shared-flat-file constraint checked against plan.md Phase 3's routes-in-own-module approach — respected; verified against actual index.ts structure
+---
+[node:2135f0a4-e132-48e6-917f-2284e5a88662]
+type: concept
+tier: short-term
+path: /artifact/the-recipes-repository-stack-is-already
+created_at: 2026-09-09T11:56:07.883692+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-09T11:56:07.883692+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:56:07.883692+00:00
+
+The recipes repository stack is already fully built and tested ahead of any HTTP layer: src/server/domain/types.ts defines Recipe, src/server/db/schema.ts has the recipes table (JSON columns for ingredients/steps/tags), src/server/ports/repositories.ts declares RecipeRepository (list/get/save/delete), and src/server/adapters/drizzle/index.ts implements all four methods — all exercised by test/persistence.test.ts. The Faza 3 gap is HTTP routes, the JSON-LD/Readability extraction, the review-before-save UI and K7Recipes.svelte, not storage. PLAN.md's checkbox phrasing ("CRUD listy zakupów (backend + prosty UI)") undersells how much of the recipes side was already done incidentally while building the shopping list slice.
+---
+[event:84d4e8e0-7cab-463b-bf70-94fe52f7d330]
+node_id: 2135f0a4-e132-48e6-917f-2284e5a88662
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:58:33.804975+00:00
+
+plan scopes only HTTP/extraction/UI since storage is already built
+---
+[event:d7b8a42d-9140-409f-92e2-a7ca8c7132d0]
+node_id: 2135f0a4-e132-48e6-917f-2284e5a88662
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:01:31.925273+00:00
+
+Verified against repo (repositories.ts, drizzle/index.ts) that recipe storage is fully implemented; grounds the plan's Phase 1/2 scoping to HTTP+extraction+UI only.
+---
+[event:7a970c14-8261-4fda-b856-472b12a4ef77]
+node_id: 2135f0a4-e132-48e6-917f-2284e5a88662
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:10:47.616540+00:00
+
+implementation only added HTTP/extraction/UI, confirming storage needed no changes
+---
+[node:faf594c8-d42b-4068-96f6-bd211eecee0a]
+type: decision
+tier: short-term
+path: /artifact/every-k7-http-endpoint-lives-under-the
+created_at: 2026-09-09T11:56:10.635003+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:56:10.635003+00:00
+
+Every K7 HTTP endpoint lives under the /api prefix (/api/shopping-list, /api/weather, /api/layout, /api/health — src/server/index.ts) except /theme.css, which is deliberately unprefixed because it is shell rather than data. PLAN.md's literal wording "POST /recipes/import" does not match this convention; the new recipe routes are placed at /api/recipes and /api/recipes/import to stay consistent with every existing route rather than following the plan doc's bare path literally.
+---
+[event:a0db5aac-f53a-4611-b7f9-9f24ee30fc14]
+node_id: faf594c8-d42b-4068-96f6-bd211eecee0a
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:58:33.809843+00:00
+
+plan routes recipes under /api/* per this decision
+---
+[event:5dbe05e8-a65f-4201-b2a7-55b901691409]
+node_id: faf594c8-d42b-4068-96f6-bd211eecee0a
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:01:31.930308+00:00
+
+Confirmed via index.ts grep that all routes are /api/*; plan's deviation from PLAN.md's bare /recipes/import path is correctly justified.
+---
+[event:5f465135-f619-49ff-8682-3834073d1240]
+node_id: faf594c8-d42b-4068-96f6-bd211eecee0a
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:10:47.621589+00:00
+
+routes implemented under /api/recipes* per this decision
+---
+[node:2c5e94f2-dcab-4edc-a5b3-a2a5ee098c51]
+type: constraint
+tier: short-term
+path: /artifact/src-server-index-ts-is-a-side-effecting
+created_at: 2026-09-09T11:56:14.706976+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:56:14.706976+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-09T11:56:14.706976+00:00
+
+src/server/index.ts is a side-effecting bootstrap script (opens the DB, runs migrations, calls app.listen at module top level) with no exported buildApp/createServer factory, so there is no Fastify route-level test harness (no app.inject usage anywhere in test/). Existing tests only exercise pure modules — repositories directly (test/persistence.test.ts) and fetch/parse logic with an injected fetcher (test/freshness.test.ts, mirroring src/server/upstream/open-meteo.ts's fetchWithTimeout pattern). The established convention for testable non-trivial logic here is: extract it into its own pure module under src/server/<area>/, test that module directly, and keep the route handler in index.ts a thin, untested pass-through — not to refactor index.ts into an exported app factory, since Faza 4/5 sibling branches also edit this file and a restructure would create avoidable merge conflicts.
+---
+[event:a1236907-defb-4b37-8ccf-1a1c8e9c0493]
+node_id: 2c5e94f2-dcab-4edc-a5b3-a2a5ee098c51
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T11:58:33.810524+00:00
+
+plan keeps extraction logic in a pure tested module and route handlers thin/untested, matching this convention
+---
+[event:457cbbae-d8fe-44f2-85f4-d6b437d4aeb9]
+node_id: 2c5e94f2-dcab-4edc-a5b3-a2a5ee098c51
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:01:31.931059+00:00
+
+Confirmed via grep (no app.inject/buildApp/createServer anywhere in test/ or src/) that no Fastify test harness exists; grounds the plan's pure-module test strategy for extraction logic and untested route handlers.
+---
+[event:4e760666-0dd9-45a3-b3e6-842dd379d81f]
+node_id: 2c5e94f2-dcab-4edc-a5b3-a2a5ee098c51
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:10:47.622424+00:00
+
+extraction logic built as a pure tested module; route handlers left thin/untested
+---
+[node:a0e8d46f-ac32-4c55-ba72-daab617c78e8]
+type: decision
+tier: short-term
+path: /artifact/the-recipe-import-http-contract-is-a-two
+created_at: 2026-09-09T11:58:21.521930+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-09T11:58:21.521930+00:00
+-> DEPENDS_ON [node:4a749051-6bc6-4807-bc52-47748e2bb914] @ 2026-09-09T11:58:21.521930+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:58:21.521930+00:00
+
+The recipe import HTTP contract is a two-step confirm flow rather than one endpoint: POST /api/recipes/import only extracts and returns an unsaved Recipe (id: ''), never writes to the database; a separate POST /api/recipes persists the (possibly user-edited) fields the review UI submits after the household approves them. This is what makes "review before save" real at the HTTP layer rather than only a UI convention — the server itself has no path that persists an unreviewed extraction.
+---
+[event:df8ef044-7038-45a4-942f-615601f4ca5f]
+node_id: a0e8d46f-ac32-4c55-ba72-daab617c78e8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:01:31.935085+00:00
+
+Two-step import/save HTTP contract checked against Phase 2's route descriptions (POST /api/recipes/import extracts only, POST /api/recipes persists) - consistent.
+---
+[node:1eee1694-5c04-4e38-ad65-5d933789a15a]
+type: decision
+tier: short-term
+path: /artifact/json-ld-extraction-and-the-readability-b
+created_at: 2026-09-09T11:58:24.154941+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-09T11:58:24.154941+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:58:24.154941+00:00
+
+JSON-LD extraction and the Readability-based fallback for recipe import are built as two genuinely separate functions (extractJsonLd, extractFallback) in src/server/recipes/extract.ts, each returning a complete Recipe or undefined, tried in that order by the orchestrator — never merged into one heuristic that mixes signals from both. This follows the task's explicit instruction to keep the strategies distinct and swappable rather than silently guess-mixing them.
+---
+[event:3fada9a9-a3dd-447f-aab4-34139573be43]
+node_id: 1eee1694-5c04-4e38-ad65-5d933789a15a
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:01:31.935624+00:00
+
+Distinct-strategies decision checked against Phase 1's extractJsonLd/extractFallback module design - consistent, no guess-mixing.
+---
+[node:fc7ebc25-3d70-456f-9250-9a37e772c607]
+type: decision
+tier: short-term
+path: /artifact/the-recipe-import-review-before-save-ui
+created_at: 2026-09-09T11:58:27.145295+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-09T11:58:27.145295+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T11:58:27.145295+00:00
+
+The recipe-import review-before-save UI in K7Recipes.svelte is an in-card expanded state (reusing the existing Card shell), not a new dialog/modal design-system primitive — no dialog component exists in design-system/kitchen-terminal-k7-kit.html to build against, and inventing one was judged out of scope for this change. Made without a /gw-wireframe pass since this change ran unattended; flagged for human review in the PR in case the in-card pattern doesn't read well on the actual device.
+---
+[event:130208cf-24a7-4068-8c90-a42531102796]
+node_id: fc7ebc25-3d70-456f-9250-9a37e772c607
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:01:31.934532+00:00
+
+Confirmed the plan's in-card review-state design avoids inventing a new modal primitive, consistent with this captured decision and design-system component gap.
+---
+[node:15962ca3-ed5c-4201-a339-4687338a0fec]
+type: decision
+tier: short-term
+path: /artifact/conversationservice-s-context-budgeting
+created_at: 2026-09-09T11:58:41.643681+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:4730c1bc-b791-4a0d-a94c-1bd4f8307102] @ 2026-09-09T11:58:41.643681+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:58:41.643681+00:00
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-09T11:58:41.643681+00:00
+-> ABOUT [node:f29aa338-eddb-456b-97ad-00b602cb9a42] @ 2026-09-09T11:58:41.643681+00:00
+
+ConversationService's context-budgeting uses a chars/4 token-count heuristic rather than a real tokenizer (no tiktoken-equivalent dependency added). Chosen because this is a kiosk-scale hobby project — the cost of an occasional misbudget (compacting a turn early/late) is low, and a real tokenizer means picking and pinning one per provider/model family Kilo Gateway fronts, which the gateway itself doesn't disclose. Documented as approximate; the real prompt_tokens/completion_tokens the gateway reports are used for actual cost logging (ai_calls) whenever present, so billing accuracy doesn't depend on the estimate — only the compacting trigger point does.
+---
+[event:2b55d868-05c5-41e7-a6d6-01cd64d25521]
+node_id: 15962ca3-ed5c-4201-a339-4687338a0fec
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:03:11.821353+00:00
+
+Plan's chars/4 estimateTokens heuristic and real-usage-for-billing split matches this decision.
+---
+[event:0bdb53e7-8540-4a2d-ab1a-a125e274f666]
+node_id: 15962ca3-ed5c-4201-a339-4687338a0fec
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:16:31.731513+00:00
+
+implemented verbatim in src/server/ai/tokens.ts (estimateTokens = ceil(len/4))
+---
+[node:8bfaa6ba-c432-44f9-a9f5-12aed72a8f15]
+type: decision
+tier: short-term
+path: /artifact/compacting-persists-as-two-additive-colu
+created_at: 2026-09-09T11:58:47.465608+00:00
+needs_review: true
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:58:47.465608+00:00
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-09T11:58:47.465608+00:00
+-> ABOUT [node:7b73e502-b1fb-4587-96bd-f005b1ead665] @ 2026-09-09T11:58:47.465608+00:00
+-> ABOUT [node:8b9566f6-a1d5-4c43-952e-369c2796d5ca] @ 2026-09-09T11:58:47.465608+00:00
+-> DEPENDS_ON [node:8d6eee18-8766-45cd-b78b-9840aa0b2029] @ 2026-09-09T11:58:47.465608+00:00
+
+Compacting persists as two additive columns on `conversations` — `summary` (text, nullable) and `summarizedThroughMessageId` (references messages.id, set null on delete) — rather than deleting or mutating the summarized `messages` rows. History stays intact for the UI to display in full; ConversationService's context-builder reads the summary plus everything after `summarizedThroughMessageId` instead of the full row set once compacting has run. This keeps the AiCall recorded for a compaction's messageId null exactly as [node:8d6eee18] describes — no single Message to point at.
+---
+[event:da272f2b-7223-48be-abf7-f680a5fe03b6]
+node_id: 8bfaa6ba-c432-44f9-a9f5-12aed72a8f15
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:03:11.813866+00:00
+
+Plan's revised compacting design (sentinel [COMPACT] system message in existing messages table) silently supersedes this captured decision (two additive conversations columns) with no acknowledgment, CONTRADICTS edge, or mention in the plan text — flagged as a review finding.
+---
+[event:2ccde711-f90e-4cc9-8c37-3fe13afe06b5]
+node_id: 8bfaa6ba-c432-44f9-a9f5-12aed72a8f15
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:04:31.814977+00:00
+
+Compacting-via-additive-columns decision contradicts f2fe867a and plan.md's sentinel-message design; verified against actual schema.ts (no summary/summarizedThroughMessageId columns exist) — this node describes an unimplemented design, flagged as an unresolved graph contradiction in the review
+---
+[event:09a35170-ba52-4e18-a93e-46fa3e298bda]
+node_id: 8bfaa6ba-c432-44f9-a9f5-12aed72a8f15
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-09T12:04:49.777628+00:00
+
+Supersedes the additive-columns compacting design (conversations.summary/summarizedThroughMessageId) with a schema-free sentinel-message design ('[COMPACT] '-prefixed role:system Message) — same requirement (compacting persists without deleting history, AiCall messageId stays null per [node:8d6eee18]), different mechanism. No migration needed; window boundary is found by scanning for the sentinel instead of reading a column. Both designs were captured in the same change during plan iteration; this records the reversal explicitly per the project's 'contradictions are recorded, never resolved' rule rather than leaving it silent.
+---
+[event:7e1c8bfb-c0e3-4d08-9870-09f76ee5eea2]
+node_id: 8bfaa6ba-c432-44f9-a9f5-12aed72a8f15
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:05:10.327863+00:00
+
+superseded by f2fe867a sentinel-message compacting design; CONTRADICTS edge added so the reversal is explicit rather than silent
+---
+[node:f73b288e-3ce8-47d1-aedb-0b20cec11a2b]
+type: decision
+tier: short-term
+path: /artifact/conversationservice-s-public-interface
+created_at: 2026-09-09T11:58:50.369867+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:4730c1bc-b791-4a0d-a94c-1bd4f8307102] @ 2026-09-09T11:58:50.369867+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:58:50.369867+00:00
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-09T11:58:50.369867+00:00
+-> ABOUT [node:7b73e502-b1fb-4587-96bd-f005b1ead665] @ 2026-09-09T11:58:50.369867+00:00
+
+ConversationService's public interface (sendMessage returning an AsyncGenerator<ChatEvent>) carries no Fastify Request/Reply types anywhere in its signature — fulfils the CONVSERVICE constraint directly. The HTTP route is a thin adapter that translates ChatEvents into SSE frames; a future MCP tool or dedicated skill can call sendMessage directly with no HTTP layer involved.
+---
+[event:ca0b2cf6-6a93-4666-9fa2-9699e4215593]
+node_id: f73b288e-3ce8-47d1-aedb-0b20cec11a2b
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:16:31.732429+00:00
+
+near-duplicate of node e8469646 (same async-generator decision, method named sendMessage here vs streamTurn in the implementation and in e8469646) — left for /gw-consolidate rather than merged unilaterally
+---
+[node:a1245ccd-7feb-4183-bfc0-a6f2ab543921]
+type: decision
+tier: short-term
+path: /artifact/chat-routes-never-pass-raw-message-conte
+created_at: 2026-09-09T11:58:56.315499+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:58:56.315499+00:00
+-> DEPENDS_ON [node:62d2072b-039e-439c-9dfa-1616e42a4afa] @ 2026-09-09T11:58:56.315499+00:00
+-> DEPENDS_ON [node:ac006a24-2763-40e7-8423-2b851793efcf] @ 2026-09-09T11:58:56.315499+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-09T11:58:56.315499+00:00
+-> ABOUT [node:f2e09a03-8e61-4299-ad7c-cef6c06775fe] @ 2026-09-09T11:58:56.315499+00:00
+
+Chat routes never pass raw message content into Sentry.captureException's extra context or into log lines — only conversationId/model. This is how "chat transcripts must not leak into GlitchTip" is satisfied without stretching redact.ts's credential-pattern scrubbing over ordinary conversation text: conversation content isn't a credential shape, so pattern-matching it would either miss it entirely or, if forced, corrupt legitimate error diagnostics by over-redacting. The existing exact-value layer already covers the Kilo Gateway key itself via secretValues(); this decision covers the orthogonal case the key-scrubbing was never meant to handle.
+---
+[event:7913081b-628c-4bba-84b3-c775a8d51eec]
+node_id: a1245ccd-7feb-4183-bfc0-a6f2ab543921
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:03:11.820139+00:00
+
+Plan's Phase 3 explicitly keeps content out of Sentry extra/log lines, matching this decision.
+---
+[event:e895734b-65a0-4fb7-8b47-92253b19a9a1]
+node_id: a1245ccd-7feb-4183-bfc0-a6f2ab543921
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:04:31.819137+00:00
+
+Chat content never passed to Sentry extra — consistent with plan.md Phase 3
+---
+[event:1ad82645-8516-4efa-9f95-515a1c32b516]
+node_id: a1245ccd-7feb-4183-bfc0-a6f2ab543921
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:16:31.730574+00:00
+
+src/server/routes/chat.ts's reportError call passes only {conversationId}, never message content
+---
+[node:d365f52c-8a1b-4071-ac23-119de7808a5b]
+type: decision
+tier: short-term
+path: /artifact/sse-for-the-chat-endpoint-is-hand-rolled
+created_at: 2026-09-09T11:58:58.915598+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:58:58.915598+00:00
+-> DEPENDS_ON [node:ff9ca87f-3e9e-4631-b3e5-6a18bfa18139] @ 2026-09-09T11:58:58.915598+00:00
+
+SSE for the chat endpoint is hand-rolled via Fastify's reply.hijack() + reply.raw.write(), not a library — this is the first streaming endpoint in the codebase, and one endpoint doesn't justify a new dependency. Matches the project's existing pattern of a single fetchWithTimeout helper with no HTTP client library for outbound calls either.
+---
+[event:2e82809b-0a11-4bbc-9ed0-dabcbcda3f1f]
+node_id: d365f52c-8a1b-4071-ac23-119de7808a5b
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:03:11.820710+00:00
+
+Plan's Phase 3 hand-rolled SSE via reply.hijack() matches this decision exactly.
+---
+[event:4c9bb053-0670-463c-9fd4-5993984ade1d]
+node_id: d365f52c-8a1b-4071-ac23-119de7808a5b
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:04:31.817906+00:00
+
+Hand-rolled SSE via reply.hijack() decision — consistent with plan.md Phase 3, no library added
+---
+[event:a6e1ecb9-774a-454c-b7ab-0253f23b549d]
+node_id: d365f52c-8a1b-4071-ac23-119de7808a5b
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:16:31.725359+00:00
+
+implemented exactly this way in src/server/routes/chat.ts: reply.hijack() + reply.raw.write(), no SSE library
+---
+[node:6645438f-1bc5-4c0c-81fe-b03817eb4f7b]
+type: decision
+tier: short-term
+path: /artifact/ascii-art-of-the-day-builds-the-project
+created_at: 2026-09-09T11:59:03.219083+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:279d73e0-ff0f-4184-a25c-f051d2030072] @ 2026-09-09T11:59:03.219083+00:00
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-09T11:59:23.606340+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:59:03.219083+00:00
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-09T11:59:03.219083+00:00
+-> DEPENDS_ON [node:6a05648a-312c-4785-b1c2-e54f93e5b102] @ 2026-09-09T11:59:03.219083+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-09T11:59:03.219083+00:00
+
+ascii-art-of-the-day builds the project's first Kilo Gateway HTTP client (src/server/upstream/kilo-gateway.ts) rather than waiting for Faza 4's chat integration to land, because Faza 4 hadn't landed in this worktree when Faza 5 started. It follows open-meteo.ts's free-function shape (fetchWithTimeout, no shared client interface) and assumes an OpenAI-chat-compatible wire format (POST {base}/chat/completions, Authorization: Bearer, usage.prompt_tokens/completion_tokens) inferred from HANDOFF.md's provider/model-name addressing and cost-logging notes — this has not been verified against a live gateway and is flagged for human confirmation once one is reachable or Faza 4's chat work lands and can be diffed against it.
+---
+[event:ced952f3-59ee-4ed0-acd4-ed6832478b93]
+node_id: 6645438f-1bc5-4c0c-81fe-b03817eb4f7b
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:02:33.951837+00:00
+
+Re-examined the Kilo Gateway client capture; matches plan.md's Phase 1/Non-goals text and is openly flagged for human verification, no new evidence.
+---
+[event:711ebdf6-1bd1-473a-a845-5c24e2635a64]
+node_id: 6645438f-1bc5-4c0c-81fe-b03817eb4f7b
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:03:11.814671+00:00
+
+Sibling Faza 5 branch already built an independent, unverified Kilo Gateway client; this plan's own Phase 1 client (src/server/upstream/kilo.ts) is a second, differently-pathed implementation with no cross-reference — flagged as an integration-coordination risk.
+---
+[event:e3ce4c68-7948-4f02-8936-448c6d4e894a]
+node_id: 6645438f-1bc5-4c0c-81fe-b03817eb4f7b
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:05:10.334626+00:00
+
+duplicate Faza 5 Kilo client, now flagged in plan.md's PR notes for human /gw-consolidate
+---
+[event:7d11d833-db66-40f7-bb33-da91b918de7f]
+node_id: 6645438f-1bc5-4c0c-81fe-b03817eb4f7b
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:05:30.304216+00:00
+
+k7-ai-chat verified live against the real Kilo Gateway on 2026-09-09 (no key needed for /models or the free tier): POST {base}/chat/completions, OpenAI-compatible, Authorization: Bearer when a key is present, usage.prompt_tokens/completion_tokens on the response — exactly the wire format this node assumed. See node b30b1c95 for the full verified shape including SSE streaming.
+---
+[node:136541ad-1f97-4a6e-8762-03f613f33ccc]
+type: decision
+tier: short-term
+path: /artifact/comic-of-the-day-s-itemselector-field-d
+created_at: 2026-09-09T11:59:07.019913+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:1dd47195-f438-4eb2-abe8-c16ac3cfcd4f] @ 2026-09-09T11:59:07.019913+00:00
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-09T11:59:25.299713+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:59:07.019913+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-09T11:59:07.019913+00:00
+-> DEPENDS_ON [node:e24b75ab-e370-4566-b9e7-35706cad806b] @ 2026-09-09T11:59:07.019913+00:00
+
+comic-of-the-day's itemSelector field (docs/handoff/layout.schema.yaml) is documented as "XPath/CSS selector" but is implemented as CSS-only, via cheerio — a full XPath engine was judged disproportionate for one feed-image-extraction field on a kitchen widget. Flagged for a human call: add XPath support later if a real feed needs it, or narrow the schema field's description to CSS to match reality.
+---
+[event:b8637746-8b3f-4839-b65d-0442fdf5b5f9]
+node_id: 136541ad-1f97-4a6e-8762-03f613f33ccc
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:02:33.951255+00:00
+
+Re-examined the CSS-only itemSelector capture; matches plan.md's Phase 3/Non-goals text and is openly flagged for human decision, no new evidence.
+---
+[node:e8469646-a163-40f5-a596-12eff5660cf5]
+type: decision
+tier: mid-term
+path: /artifact/conversationservice-is-implemented-as-a
+created_at: 2026-09-09T12:01:33.517864+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:4730c1bc-b791-4a0d-a94c-1bd4f8307102] @ 2026-09-09T12:01:33.517864+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T12:01:33.517864+00:00
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-09T12:01:33.517864+00:00
+-> ABOUT [node:7b73e502-b1fb-4587-96bd-f005b1ead665] @ 2026-09-09T12:01:33.517864+00:00
+
+ConversationService is implemented as a plain async generator interface — streamTurn(input, signal): AsyncGenerator<ChatEvent> — with zero Fastify/HTTP types anywhere in the module. The SSE route's only job is to iterate the generator and write each ChatEvent as an SSE frame. This is the concrete interface chosen to satisfy the CONVSERVICE constraint (decoupled from the chat HTTP endpoint so MCP/a skill can drive it later): the generator boundary is what makes a future non-HTTP caller (an MCP tool, a CLI skill) able to consume the exact same turn logic by just iterating it, with no adapter needed beyond swapping who reads the events.
+---
+[event:d49c4a50-12db-4504-aaf0-145731cdd800]
+node_id: e8469646-a163-40f5-a596-12eff5660cf5
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:04:31.818494+00:00
+
+ConversationService async-generator interface decision — matches plan.md's ChatEvent/streamTurn shape
+---
+[event:238767bc-43b7-4ec2-bbf6-ce6e74ccb535]
+node_id: e8469646-a163-40f5-a596-12eff5660cf5
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:05:10.336091+00:00
+
+ConversationService's async-generator interface design this plan implements
+---
+[node:f2fe867a-99c2-4fc9-a8cd-0e16a97af0b4]
+type: decision
+tier: mid-term
+path: /artifact/compacting-is-implemented-without-new-sc
+created_at: 2026-09-09T12:01:39.453435+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:4730c1bc-b791-4a0d-a94c-1bd4f8307102] @ 2026-09-09T12:01:39.453435+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T12:01:39.453435+00:00
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-09T12:01:39.453435+00:00
+-> ABOUT [node:8b9566f6-a1d5-4c43-952e-369c2796d5ca] @ 2026-09-09T12:01:39.453435+00:00
+-> CONTRADICTS [node:8bfaa6ba-c432-44f9-a9f5-12aed72a8f15] @ 2026-09-09T12:04:49.777628+00:00
+-> ABOUT [node:f2e09a03-8e61-4299-ad7c-cef6c06775fe] @ 2026-09-09T12:01:39.453435+00:00
+
+Compacting is implemented without new schema: the summary produced by the cheaper model is persisted as an ordinary Message with role='system' and content prefixed '[COMPACT] '. When ConversationService builds the working context window for a turn, it scans messages oldest-first and, if a '[COMPACT]'-prefixed system message exists, starts the window from the most recent one forward — older messages stay in the database untouched (visible in the full transcript) but are excluded from what is sent to the gateway. A hard rolling-window drop-oldest safety net (independent of compacting, re-checked after every drop) guarantees the gateway is never sent more than the model's context budget regardless of the token estimator's accuracy, since token counting uses a length/4 heuristic rather than a real tokenizer.
+---
+[event:991bce0d-3d97-478e-a5d3-69e971a2b70e]
+node_id: f2fe867a-99c2-4fc9-a8cd-0e16a97af0b4
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:04:31.815577+00:00
+
+Sentinel-message compacting design matches plan.md Phase 2 exactly and matches actual schema.ts (no new columns) — this is the accurate/current design
+---
+[event:cc828d23-a94a-4aaf-9bba-b465d4b963cc]
+node_id: f2fe867a-99c2-4fc9-a8cd-0e16a97af0b4
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:05:10.332709+00:00
+
+the compacting design plan.md now actually implements
+---
+[node:b30b1c95-e5df-4b99-b059-11bc950ee6fe]
+type: concept
+tier: mid-term
+path: /artifact/the-kilo-gateway-is-byte-for-byte-openai
+created_at: 2026-09-09T12:01:45.117809+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:279d73e0-ff0f-4184-a25c-f051d2030072] @ 2026-09-09T12:01:45.117809+00:00
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-09T12:01:45.117809+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-09T12:01:45.117809+00:00
+-> ABOUT [node:f29aa338-eddb-456b-97ad-00b602cb9a42] @ 2026-09-09T12:01:45.117809+00:00
+
+The Kilo Gateway is byte-for-byte OpenAI-compatible: POST /api/gateway/chat/completions with stream:true and stream_options.include_usage:true returns SSE frames shaped {"choices":[{"delta":{"content":"..."}}]}, an ": KILO PROCESSING" comment/keepalive line that must be skipped rather than JSON-parsed, a final chunk carrying usage.{prompt_tokens,completion_tokens}, then a literal "data: [DONE]". GET /api/gateway/models needs no auth and returns pricing.{prompt,completion} as decimal-string USD-per-token, or "-1" for auto-router entries with no fixed price (mapped to null; cost math for those falls back to 0 rather than throwing). Verified live against the real gateway during planning (2026-09-09), including a real free-tier chat completion end to end.
+---
+[event:1171fc8b-0dee-486c-bf15-4719414301ab]
+node_id: b30b1c95-e5df-4b99-b059-11bc950ee6fe
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-09T12:05:10.333746+00:00
+
+live-verified Kilo Gateway wire format grounds Phase 1's client implementation
+---
+[node:487b0814-c423-443a-adf7-8f466044076f]
+type: constraint
+tier: short-term
+path: /artifact/node-s-built-in-typescript-type-strippin
+created_at: 2026-09-09T12:04:24.069216+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T12:04:24.069216+00:00
+
+Node's built-in TypeScript type-stripping (used to run src/server/*.ts directly via `node --watch`/`node --test`, no separate transpile step) does not support TS constructor parameter properties ("constructor(public readonly x: T)") — it throws ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX at runtime even though tsc/svelte-check would accept it. Discovered writing RecipeImportError in src/server/recipes/import.ts; fixed by declaring the field and assigning it in the constructor body instead. Any future server-side class with constructor-shorthand fields will hit the same failure.
+---
+[node:9eda7861-7736-42ab-8498-ef37dc5e0c31]
+type: concept
+tier: short-term
+path: /artifact/extending-upstreamcache-s-upstream-dri
+created_at: 2026-09-09T12:05:11.200410+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T12:05:11.200410+00:00
+-> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-09-09T12:05:11.200410+00:00
+-> DEPENDS_ON [node:e38c12d4-6532-4e27-b901-b0ef7f3e4849] @ 2026-09-09T12:05:11.200410+00:00
+
+Extending upstreamCache's `upstream` Drizzle enum (and the domain-level Upstream union) needs no migration on SQLite — drizzle-kit generate confirmed "No schema changes, nothing to migrate": SQLite text columns carry no CHECK constraint from a Drizzle enum, it's TS-level only. Plan.md's Phase 1 assumed a migration would be needed; it wasn't. Future Upstream/enum-like additions on this schema can skip the migration step entirely as long as the column stays `text`.
+---
+[node:9bc167d9-3517-4bd1-a488-f066a5c8f690]
+type: issue
+tier: short-term
+path: /artifact/extractfallback-s-readability-based-stra
+created_at: 2026-09-09T12:06:31.797646+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-09T12:06:31.797646+00:00
+-> DEPENDS_ON [node:4a749051-6bc6-4807-bc52-47748e2bb914] @ 2026-09-09T12:06:31.797646+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T12:06:31.797646+00:00
+
+extractFallback's Readability-based strategy initially returned a "successful" extraction (title only, empty ingredients/steps) for any page Readability considers article-shaped, even one with no list-shaped content at all — confirmed live against https://www.example.com during manual smoke testing, which is exactly the kind of page this would silently mis-handle. Fixed by treating a zero-length ingredients list as a failed extraction (return undefined), not a thin one: a real recipe page always has at least an ingredients list, so a title-only match is the fallback heuristic's version of "no honest answer" and must not be presented as if it had found a recipe. This is the same "no placeholder data as real" reasoning as node 4a749051, applied to what "successful extraction" is allowed to mean.
+---
+[node:03e6c5c0-b1f3-4cf9-9d82-07820b1f94fd]
+type: decision
+tier: short-term
+path: /artifact/k7recipes-svelte-s-review-before-save-ui
+created_at: 2026-09-09T12:09:28.232831+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-09T12:09:28.232831+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-09T12:09:28.232831+00:00
+-> DEPENDS_ON [node:a827e6ec-aec4-40a7-b922-c689d71066a3] @ 2026-09-09T12:09:28.232831+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T12:09:28.232831+00:00
+
+K7Recipes.svelte's review-before-save UI reuses the same field shapes for both the import-then-edit flow and manual entry ("+ RECZNIE" opens the same review form with empty fields, sourceUrl: null) — one review form, two ways to reach it, rather than a separate manual-add form. ZAPISZ is the card's single solid-amber control (the design system's one-per-card budget); IMPORTUJ, + RECZNIE, ANULUJ and the delete "x" are all ghost controls. This closes the plan-review agent's minor finding that the plan hadn't stated explicitly which control carries the solid-amber budget within K7Recipes itself.
+---
+[node:2fb87236-454e-4032-abca-eb79490d5e25]
+type: concept
+tier: short-term
+path: /artifact/rss-parser-keeps-content-encoded-und
+created_at: 2026-09-09T12:12:18.080456+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:1dd47195-f438-4eb2-abe8-c16ac3cfcd4f] @ 2026-09-09T12:12:18.080456+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T12:12:18.080456+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-09T12:12:18.080456+00:00
+
+rss-parser keeps `<content:encoded>` under its own literal key (`item['content:encoded']`), separate from `.content`/`.contentSnippet` — for plain RSS 2.0 those instead come from `<description>` (verified against rss-parser's lib/parser.js: `xmlItem.description` maps to `.content`, while `content:encoded` is declared as its own field in lib/fields.js, not renamed). A comic/feed image extractor that only checks `.content` for embedded `<img>` tags will silently miss any feed that puts its real HTML body in `content:encoded` (common for WordPress-style feeds) and only a plain-text description elsewhere.
+---
+[node:8f5f9b3a-7a3b-482d-967e-54f732773e30]
+type: constraint
+tier: short-term
+path: /artifact/in-a-svelte-5-component-svelte-file
+created_at: 2026-09-09T12:12:20.585019+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-09T12:12:25.457240+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-09T12:12:20.585019+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-09T12:12:20.585019+00:00
+
+In a Svelte 5 component (.svelte file), instantiating the built-in `URLSearchParams` anywhere in the script — even purely locally, inside an async function, never touching component state — trips eslint-plugin-svelte's `svelte/prefer-svelte-reactivity` rule ("Use SvelteURLSearchParams instead"). The rule doesn't distinguish reactive from throwaway use. Fix used here: build query strings with manual template literals + encodeURIComponent instead (matching K7Weather.svelte's existing convention), rather than adding SvelteURLSearchParams or suppressing the rule.
+---
+[node:9edc0d30-df8b-4832-98af-9d7615b449a6]
+type: decision
+tier: short-term
+path: /artifact/the-mic-affordance-for-mikrofon-w-czaci
+created_at: 2026-09-09T12:16:41.081770+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:4a749051-6bc6-4807-bc52-47748e2bb914] @ 2026-09-09T12:16:41.081770+00:00
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-09T12:16:41.081770+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-09T12:16:41.081770+00:00
+
+The mic affordance for 'Mikrofon w czacie' ships as a visible, permanently-disabled button in K7Chat.svelte (title="transkrypcja audio — wkrótce") rather than being omitted, when the chat card's voiceInput param is true. Full transcription wiring (purpose='transcription' AiCall, an actual recording+upload flow) is deferred out of k7-ai-chat's scope entirely. This differs from the audiometer's mic-permission pattern (which actually requests the mic on demand) — here nothing requests any permission at all yet, since there is no transcription call to feed.
+---
+[node:28ed347c-7e50-4680-81ba-cb7d8a532959]
+type: decision
+tier: short-term
+path: /artifact/k7chat-svelte-shows-the-user-s-own-typed
+created_at: 2026-09-09T12:16:43.227021+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-09T12:16:43.227021+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-09T12:16:43.227021+00:00
+
+K7Chat.svelte shows the user's own typed message immediately on send, before the server confirms it, unlike K7ShoppingList's strictly server-confirmed writes. This is a deliberate, scoped exception: the shopping list's no-optimistic-UI rule exists because multiple devices can race on the same list, and a chat turn has exactly one author typing into their own card with nothing to race against, so there is no data-consistency hazard an optimistic echo could hide.

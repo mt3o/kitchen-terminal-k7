@@ -14,12 +14,18 @@ import { createRepositories, openDatabase } from './adapters/drizzle/index.ts'
 import { describeConfig, loadConfig, secretValues } from './config.ts'
 import { runMigrations } from './db/migrate.ts'
 import { initObservability, Sentry } from './observability.ts'
+import { importRecipeFromUrl, RecipeImportError } from './recipes/import.ts'
 import { generateTokensCss, type Theme } from './theme/generate.ts'
 import { isAllowedHost, isPrivateAddress } from './security/network.ts'
 import { createCloudflareDns } from './tls/cloudflare.ts'
 import { ensureCertificate } from './tls/certificate.ts'
 import { createFreshnessService } from './upstream/freshness.ts'
 import { fetchWeather, weatherCacheKey } from './upstream/open-meteo.ts'
+import { asciiArtCacheKey, createAsciiArtGenerator } from './upstream/ascii-art.ts'
+import { comicCacheKey, fetchComic } from './upstream/comic-rss.ts'
+import { createKiloGatewayClient, createModelCatalog } from './upstream/kilo.ts'
+import { createConversationService } from './ai/conversation-service.ts'
+import { registerChatRoutes } from './routes/chat.ts'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 const config = loadConfig()
@@ -38,6 +44,23 @@ const db = openDatabase(config.databasePath)
 runMigrations(db)
 const repos = createRepositories(db)
 const fetchThrough = createFreshnessService(repos.upstreamCache)
+
+// AI chat (Faza 4) and ascii-art-of-the-day (Faza 5) share one Kilo Gateway
+// client and model catalogue — see routes/chat.ts for why the chat routes
+// themselves live in their own module.
+const kiloClient = createKiloGatewayClient({ apiKey: config.kiloGatewayKey })
+const modelCatalog = createModelCatalog(fetchThrough, kiloClient)
+const conversationService = createConversationService({
+  conversations: repos.conversations,
+  aiCalls: repos.aiCalls,
+  modelCatalog,
+  gateway: kiloClient,
+})
+// Absent means the card fails honestly with a clear cause rather than every
+// request racing to discover a missing key — see the /api/ascii-art route.
+const generateAndRecordAsciiArt = config.kiloGatewayKey
+  ? createAsciiArtGenerator(repos.aiCalls, kiloClient, modelCatalog)
+  : undefined
 
 /**
  * TLS is all-or-nothing and decided before Fastify exists, because the server's
@@ -194,6 +217,76 @@ app.get('/api/weather', async (req, reply) => {
   }
 })
 
+app.get('/api/ascii-art', async (req, reply) => {
+  const q = req.query as {
+    prompt?: string
+    model?: string
+    cacheDurationHours?: string
+    seed?: string
+    maxWidthChars?: string
+    maxHeightLines?: string
+  }
+  if (!q.prompt || q.prompt.trim() === '') return reply.code(400).send({ error: 'prompt is required' })
+  if (!generateAndRecordAsciiArt) {
+    return reply.code(503).send({ error: 'ascii art unavailable', detail: 'Kilo Gateway key is not configured' })
+  }
+  const model = q.model?.trim() || 'kilo-auto/free'
+  const seed = q.seed !== undefined && q.seed !== '' ? Number(q.seed) : undefined
+  if (seed !== undefined && !Number.isInteger(seed)) return reply.code(400).send({ error: 'seed must be an integer' })
+  const maxWidthChars = q.maxWidthChars !== undefined && q.maxWidthChars !== '' ? Number(q.maxWidthChars) : undefined
+  const maxHeightLines = q.maxHeightLines !== undefined && q.maxHeightLines !== '' ? Number(q.maxHeightLines) : undefined
+  const cacheDurationHours = Number(q.cacheDurationHours ?? 24)
+  const freshForSeconds = (Number.isFinite(cacheDurationHours) && cacheDurationHours > 0 ? cacheDurationHours : 24) * 3600
+  const query = { prompt: q.prompt, model, seed, maxWidthChars, maxHeightLines }
+
+  try {
+    return await fetchThrough({
+      key: asciiArtCacheKey(query),
+      upstream: 'kilo-gateway',
+      freshForSeconds,
+      fetcher: () => generateAndRecordAsciiArt(query),
+      onFallback: (error, ageSeconds) => {
+        req.log.warn({ err: error, ageSeconds }, 'kilo gateway unreachable, serving last good ascii art')
+      },
+    })
+  } catch (error) {
+    // Nothing cached and the gateway is unreachable: the client's fallbackArt
+    // param covers this locally rather than the server inventing placeholder art.
+    return reply.code(503).send({
+      error: 'ascii art unavailable and nothing cached',
+      detail: error instanceof Error ? error.message : undefined,
+    })
+  }
+})
+
+app.get('/api/comic', async (req, reply) => {
+  const q = req.query as { rssUrl?: string; itemSelector?: string; filterKeywords?: string; cacheDurationHours?: string }
+  if (!q.rssUrl || q.rssUrl.trim() === '') return reply.code(400).send({ error: 'rssUrl is required' })
+  const filterKeywords = q.filterKeywords ? q.filterKeywords.split(',').map((k) => k.trim()).filter(Boolean) : []
+  const cacheDurationHours = Number(q.cacheDurationHours ?? 24)
+  const freshForSeconds = (Number.isFinite(cacheDurationHours) && cacheDurationHours > 0 ? cacheDurationHours : 24) * 3600
+  const query = { rssUrl: q.rssUrl, itemSelector: q.itemSelector, filterKeywords }
+
+  try {
+    return await fetchThrough({
+      key: comicCacheKey(query),
+      upstream: 'rss',
+      freshForSeconds,
+      fetcher: () => fetchComic(query),
+      onFallback: (error, ageSeconds) => {
+        req.log.warn({ err: error, ageSeconds }, 'comic feed unreachable, serving last good comic')
+      },
+    })
+  } catch (error) {
+    // The client's fallbackImageUrl param covers a total miss locally rather
+    // than the server inventing a placeholder image.
+    return reply.code(503).send({
+      error: 'comic unavailable and nothing cached',
+      detail: error instanceof Error ? error.message : undefined,
+    })
+  }
+})
+
 // The shopping list is the first card wired end to end — a thin cut through
 // HTTP, port, adapter and SQLite that proves the seam rather than describing it.
 app.get('/api/shopping-list', async (req) => {
@@ -219,6 +312,95 @@ app.patch('/api/shopping-list/:id', async (req, reply) => {
   if (typeof checked !== 'boolean') return reply.code(400).send({ error: 'checked must be a boolean' })
   const item = await repos.shoppingList.setChecked(id, checked)
   return item ?? reply.code(404).send({ error: 'no such item' })
+})
+
+app.delete('/api/shopping-list/:id', async (req, reply) => {
+  const { id } = req.params as { id: string }
+  const deleted = await repos.shoppingList.delete(id)
+  return deleted ? reply.code(204).send() : reply.code(404).send({ error: 'no such item' })
+})
+
+// Recipes: import is a review step, not a save. POST /api/recipes/import only
+// extracts and returns what it found — nothing is written to SQLite until the
+// household confirms it through POST /api/recipes, which is the same shape a
+// hand-typed recipe uses. A card must not present placeholder data as real,
+// and this endpoint must not persist a guess as if it had been reviewed.
+app.get('/api/recipes', async (req) => {
+  const q = req.query as { tag?: string; limit?: string }
+  const limit = q.limit ? Number(q.limit) : undefined
+  return repos.recipes.list({
+    tag: q.tag,
+    limit: Number.isFinite(limit) ? limit : undefined,
+  })
+})
+
+app.get('/api/recipes/:id', async (req, reply) => {
+  const { id } = req.params as { id: string }
+  const recipe = await repos.recipes.get(id)
+  return recipe ?? reply.code(404).send({ error: 'no such recipe' })
+})
+
+app.post('/api/recipes/import', async (req, reply) => {
+  const { url } = req.body as { url?: unknown }
+  if (typeof url !== 'string' || url.trim() === '') {
+    return reply.code(400).send({ error: 'url is required' })
+  }
+  try {
+    const extracted = await importRecipeFromUrl(url.trim())
+    return reply.code(200).send(extracted)
+  } catch (error) {
+    if (error instanceof RecipeImportError) {
+      const status = error.reason === 'invalid-url' ? 400 : 502
+      return reply.code(status).send({ error: error.message, reason: error.reason })
+    }
+    throw error
+  }
+})
+
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((v) => typeof v === 'string')
+}
+
+app.post('/api/recipes', async (req, reply) => {
+  const body = req.body as {
+    id?: unknown
+    title?: unknown
+    sourceUrl?: unknown
+    ingredients?: unknown
+    steps?: unknown
+    tags?: unknown
+  }
+  if (typeof body?.title !== 'string' || body.title.trim() === '') {
+    return reply.code(400).send({ error: 'title is required' })
+  }
+  if (!isStringArray(body.ingredients) || !isStringArray(body.steps) || !isStringArray(body.tags)) {
+    return reply.code(400).send({ error: 'ingredients, steps and tags must be string arrays' })
+  }
+  const recipe = await repos.recipes.save({
+    id: typeof body.id === 'string' ? body.id : '',
+    title: body.title.trim(),
+    sourceUrl: typeof body.sourceUrl === 'string' ? body.sourceUrl : null,
+    ingredients: body.ingredients,
+    steps: body.steps,
+    tags: body.tags,
+  })
+  return reply.code(201).send(recipe)
+})
+
+app.delete('/api/recipes/:id', async (req, reply) => {
+  const { id } = req.params as { id: string }
+  const deleted = await repos.recipes.delete(id)
+  return deleted ? reply.code(204).send() : reply.code(404).send({ error: 'no such recipe' })
+})
+
+// AI chat (Faza 4): model catalogue, conversation CRUD, the SSE turn endpoint
+// and the cost-history view — see routes/chat.ts.
+await registerChatRoutes(app, {
+  conversations: repos.conversations,
+  aiCalls: repos.aiCalls,
+  modelCatalog,
+  conversationService,
+  reportError: (err, extra) => Sentry.captureException(err, { extra }),
 })
 
 // Every unhandled error reaches GlitchTip through the same scrubber as the rest.
