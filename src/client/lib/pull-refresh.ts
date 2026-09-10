@@ -24,6 +24,16 @@ export const PULL_THRESHOLD_PX = 72
 export const PULL_MAX_PX = 140
 /** Early on, a drag more horizontal than vertical is a mis-aimed swipe, not a pull. */
 const HORIZONTAL_ABORT_RATIO = 1.2
+/** Below this many px of horizontal movement, the ratio check is noise, not
+ *  intent — a finger's first touchmove is often 1-2px in either axis before
+ *  the real direction is clear, and without a deadzone that first sample
+ *  alone could permanently abort a genuine downward pull. */
+const HORIZONTAL_DEADZONE_PX = 8
+
+/** Pure: whether this drag has revealed itself as a horizontal swipe, not a pull. */
+export function shouldAbort(dx: number, dy: number): boolean {
+  return Math.abs(dx) > HORIZONTAL_DEADZONE_PX && Math.abs(dx) > Math.abs(dy) * HORIZONTAL_ABORT_RATIO
+}
 
 export interface PullState {
   /** 0–1 toward the commit threshold, for the indicator's fill/rotation. */
@@ -100,7 +110,7 @@ export function createPullToRefresh(header: HTMLElement, options: PullToRefreshO
     const dx = (e.touches[0]?.clientX ?? 0) - startX
     const dy = (e.touches[0]?.clientY ?? 0) - startY
 
-    if (!aborted && Math.abs(dx) > Math.abs(dy) * HORIZONTAL_ABORT_RATIO) {
+    if (!aborted && shouldAbort(dx, dy)) {
       aborted = true
       paint({ progress: 0, committed: false, offsetPx: 0 })
     }

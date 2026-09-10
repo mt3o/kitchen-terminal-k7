@@ -69,7 +69,13 @@ body {
   font-weight: var(--weight-medium);
   text-transform: uppercase;
   letter-spacing: var(--tracking-label);
+  /* DESIGN.md's normative minimum control height applies here same as any
+     other button — a compact header row is not an exemption from the
+     44px-equivalent iOS touch target. */
+  min-height: var(--control-h-sm);
   padding: var(--space-1) var(--space-2);
+  display: inline-flex;
+  align-items: center;
   background: transparent;
   color: var(--fg-muted);
   border: var(--border-w) solid var(--border);

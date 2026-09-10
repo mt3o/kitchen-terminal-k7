@@ -240,6 +240,36 @@ created_at: 2026-09-09T12:15:04.727564+00:00
 
 no Safari-15-incompatible JS/CSS introduced; npm run lint:tokens' floor checks passed clean
 ---
+[event:2d319350-7740-471b-bffc-9300a9ca75df]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:36:21.641920+00:00
+
+plan corrects the task brief's webm/opus assumption against the real Safari 15 deployment floor
+---
+[event:45ef142f-10fb-48c1-a161-5bf6d4423aa3]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:37:13.915054+00:00
+
+plan-review: confirmed the Safari-15/MediaRecorder webm correction is well-founded against the real deployment floor
+---
+[event:7552e46c-aa61-40db-88ab-a74b7469ae9d]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:43:04.119705+00:00
+
+K7Chat's MediaRecorder mime-type probe (not hardcoded webm) is implemented and typechecks/lints/builds clean
+---
 [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99]
 type: facet_value
 tier: lifetime
@@ -288,6 +318,16 @@ source: gui
 created_at: 2026-09-08T10:11:44.648159+00:00
 
 tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
+[event:8631e6d2-b8ce-40ac-8f09-931c184c4d46]
+node_id: 716987ce-f933-41b5-8c4e-590c09dc33bf
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:56:38.044904+00:00
+
+A8X hardware budget (transform/opacity only, no per-card backdrop-filter) drove carousel and slideshow transition implementation
 ---
 [node:e12ca220-5f82-4226-a2eb-9964701f03c4]
 type: facet_value
@@ -489,6 +529,26 @@ source: agent-surface
 created_at: 2026-09-09T12:15:04.722532+00:00
 
 kiloGatewayKey is threaded server-side only through config.ts and kilo-gateway.ts, never sent to the client or included in any /api response
+---
+[event:169aa557-f64a-4a2a-b5f7-ad6078c8154f]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:33:13.700562+00:00
+
+confirmed KILO_GATEWAY_KEY stays server-side only for the new transcribe route
+---
+[event:7331b8ac-dea3-47be-a417-691000ff45a2]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:37:13.913843+00:00
+
+plan-review: secrets constraint respected — reuses the existing server-side kiloClient, no new secret path
 ---
 [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa]
 type: facet_value
@@ -1162,6 +1222,16 @@ created_at: 2026-09-09T12:04:31.806653+00:00
 
 CONVSERVICE lifetime constraint checked against plan.md Phase 2 — plan's streamTurn interface has zero Fastify types, satisfies decoupling
 ---
+[event:a3c7f0c0-3929-41b7-af5c-488b59dc70f4]
+node_id: 4730c1bc-b791-4a0d-a94c-1bd4f8307102
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:37:13.908982+00:00
+
+plan-review: CONVSERVICE respected trivially — the transcribe route never touches ConversationService/streamTurn at all, it's a fully separate route
+---
 [node:68b03a85-d372-45c5-80a4-549ebf826798]
 type: facet_value
 tier: lifetime
@@ -1486,6 +1556,16 @@ source: gui
 created_at: 2026-09-08T10:11:44.727401+00:00
 
 tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
+[event:4530493b-8809-4986-9ca8-87e6a8b809fc]
+node_id: 9ea20285-de89-4f25-a25e-37700078bd59
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:56:38.046066+00:00
+
+CAMERALOCAL decision confirmed wakeOnPresence is a settled future feature, not an open question, informing the deferral note in the PR
 ---
 [node:7c574f65-8059-41e1-b507-245d4b1b3d6f]
 type: constraint
@@ -2075,6 +2155,16 @@ created_at: 2026-09-08T10:12:08.326534+00:00
 
 /gw-resolve promotion pass 2026-09-08: presented as a promotion candidate and deliberately left at mid-term - an open issue should close and go dormant, not be pinned into every future recall
 ---
+[event:01009603-0e98-4072-af1f-f72b63a35e80]
+node_id: 156d8b7d-0b1f-48f0-b434-c7a269edf283
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:56:38.047168+00:00
+
+surfaced during recall but unrelated to this change (density mode is a theme/settings gap, not a card-type gap)
+---
 [node:8a963777-1d94-42ad-ae4b-8a2b08d0a686]
 type: issue
 tier: mid-term
@@ -2488,6 +2578,16 @@ created_at: 2026-09-08T15:40:45.014807+00:00
 
 /gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
 ---
+[event:659687fb-aa1d-4a59-a8d4-80a9a083f822]
+node_id: 49ba726c-031e-4a01-839f-11a76a8bf009
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:56:38.041744+00:00
+
+Card entity grounded the createWidget recursion design
+---
 [node:7e1fbadd-ddd7-496e-89e4-0f835b3753a8]
 type: entity
 tier: short-term
@@ -2590,6 +2690,16 @@ created_at: 2026-09-08T15:40:45.021205+00:00
 
 /gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
 ---
+[event:262c8874-0928-43e8-a67a-46ed248894a9]
+node_id: d8f13deb-0013-41b1-9f8c-a57918a3b130
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:56:38.042741+00:00
+
+CardGrid entity definition matched exactly what the grid card type needed to be
+---
 [node:d2844438-9992-4e20-bfb5-fa615a906574]
 type: entity
 tier: short-term
@@ -2623,6 +2733,16 @@ source: gui
 created_at: 2026-09-08T15:40:45.073994+00:00
 
 /gw-resolve 2026-09-08: human confirmed all 15 after reviewing every definition pre-capture and amending three (grid pair renamed DashboardGrid/CardGrid, Model and Timer kept as borderline)
+---
+[event:0081e73e-01be-4421-8154-b2db9000245c]
+node_id: d2844438-9992-4e20-bfb5-fa615a906574
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:56:38.043464+00:00
+
+Slideshow entity's 'renders nothing of its own' framing drove the extractSlideshow-before-grid-math design
 ---
 [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f]
 type: entity
@@ -3039,6 +3159,16 @@ created_at: 2026-09-08T15:40:58.556924+00:00
 
 tier -> lifetime: /gw-resolve 2026-09-08: human ruled 11 of 13 to lifetime, holding SLICEORDER (epic-scoped) and TS7GA (pending its correction) at mid-term — GRIDNAMES
 ---
+[event:1074abaf-56ee-47fb-b04d-3992ae0cdcd5]
+node_id: 11dcab1d-7177-4bb1-9965-15c8a285b9c2
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:58:56.515623+00:00
+
+DashboardGrid/CardGrid disambiguation decision confirmed the naming this change relied on throughout
+---
 [node:1e1043c3-1804-488c-bda3-469cfb96e48e]
 type: issue
 tier: mid-term
@@ -3068,6 +3198,16 @@ archived: false
 -> ABOUT [node:f96f62c3-d72a-4c40-8e16-57278ca1f302] @ 2026-09-08T13:42:46.173590+00:00
 
 Slideshow is declared as an entry in a layout's card list but the schema then spends a paragraph saying it is not a card: it renders nothing in its own grid slot, its span is ignored, at most one may exist per layout, and it may not be nested in a carousel, a card grid or the sidebar. The type system says card and the semantics say layout controller, so every one of those rules has to be enforced by hand at validation time rather than falling out of the shape.
+---
+[event:4ef6195e-4d58-4828-b5bd-9cf80ddcf445]
+node_id: 0598ee91-68fa-455a-86af-4d5325c91066
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:56:38.044250+00:00
+
+issue about slideshow being declared as a card but behaving as a layout controller was confirmed exactly as described, and resolved by this change's extractSlideshow filtering
 ---
 [node:f1d7ef56-555a-4a33-90fa-8762fee9914f]
 type: constraint
@@ -3656,6 +3796,16 @@ source: agent-surface
 created_at: 2026-09-09T12:04:31.816160+00:00
 
 AiCall nullable-FK/set-null constraint — confirmed already implemented in schema.ts, no action needed in plan
+---
+[event:a04f71ea-5d46-41ab-bd3c-807f5b342a3d]
+node_id: 8d6eee18-8766-45cd-b78b-9840aa0b2029
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:36:21.641170+00:00
+
+plan's AiCall cost-fallback reasoning follows this schema/domain rationale
 ---
 [node:85e8cb61-7fe3-44fe-8740-60e7be03d051]
 type: slice
@@ -4419,6 +4569,16 @@ created_at: 2026-09-09T05:59:43.216030+00:00
 
 proposed via agent surface: elicited: the user asked for a layout grid with pages scrolled on touch like a slideshow, each page with its own grid
 ---
+[event:6f0a855e-06c5-4c4d-a9f1-0e20f806bad7]
+node_id: e1da2600-04f7-4243-bb85-f79692e086ae
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:56:38.046615+00:00
+
+Page entity (proposed, not yet confirmed) was relevant background but not directly load-bearing for this change's decisions
+---
 [node:e156fb5f-8f05-400a-812b-e0552df1def3]
 type: constraint
 tier: mid-term
@@ -4543,6 +4703,16 @@ created_at: 2026-09-09T06:22:37.945065+00:00
 
 cost two retries of a headless phase: the truthiness guard and the implicit-row grid each fail with no error, so the phase verified false twice before the cause was visible
 ---
+[event:c6b2c464-da08-4f96-ad9a-b9fec424aa20]
+node_id: e501e6f3-ae58-4154-a7db-f48d40b153e6
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:56:38.045477+00:00
+
+existing span.rows===0 grid math footgun informed filtering slideshow cards out before that computation runs, not interacting with it
+---
 [node:2946e332-fd2b-4b23-9f13-a6f014255945]
 type: constraint
 tier: mid-term
@@ -4557,6 +4727,46 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T06:22:37.815060+00:00
 
 The microphone is never requested when a card mounts. A wall kiosk has nobody standing at it to answer a permission prompt, so a card that asks on load renders as permanently dead and the household learns to ignore it. The audiometer shows an explicit off state with one control that asks, a pending state while the browser decides, and a named failure with a way to retry when permission is refused or no device exists. The stream and the audio context are released in the teardown, because a kiosk that holds the microphone open forever is both a battery cost and a thing a household should not have to trust.
+---
+[event:0ea12bac-a808-4331-bd04-17ba4b9dced5]
+node_id: 2946e332-fd2b-4b23-9f13-a6f014255945
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:33:13.699957+00:00
+
+mic-permission UX pattern (no request on mount, explicit control, release on teardown) will drive K7Chat's recording UI
+---
+[event:b06ab778-baa7-4d9e-a9ac-f1aef3e69836]
+node_id: 2946e332-fd2b-4b23-9f13-a6f014255945
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:36:21.639808+00:00
+
+plan's client mic UX mirrors the audiometer's permission/teardown discipline exactly
+---
+[event:1508b64f-ce7d-4075-80bc-5f26921cb679]
+node_id: 2946e332-fd2b-4b23-9f13-a6f014255945
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:37:13.915643+00:00
+
+plan-review: client mic UX phases mirror the audiometer precedent faithfully (feature-detect, click-only permission, immediate track stop, teardown on unmount)
+---
+[event:d3478f0e-bdbf-43ee-b8be-0cb48f1f7c40]
+node_id: 2946e332-fd2b-4b23-9f13-a6f014255945
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:41:37.305422+00:00
+
+K7Chat's mic UI implemented following the exact audiometer permission/teardown pattern; npm run build:storybook confirms the component still registers as a custom element
 ---
 [node:bfdc005e-8633-4914-9385-35a9481a657a]
 type: slice
@@ -5048,6 +5258,26 @@ source: agent-surface
 created_at: 2026-09-09T12:04:31.816712+00:00
 
 Chat card param contract — verified directly against layout.schema.yaml and layout.yaml, matches plan.md exactly
+---
+[event:53c7ff77-e79c-4a97-87f5-c65c074542ae]
+node_id: c83ab909-9f3b-4347-a917-a75257f7faa2
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:33:13.699106+00:00
+
+confirmed voiceInput param contract before touching layout.yaml and K7Chat.svelte
+---
+[event:6d4b633e-a221-43eb-8e1b-6b97deb3a4a0]
+node_id: c83ab909-9f3b-4347-a917-a75257f7faa2
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:36:21.631750+00:00
+
+plan wires layout.yaml voiceInput per the card params contract
 ---
 [node:ff9ca87f-3e9e-4631-b3e5-6a18bfa18139]
 type: constraint
@@ -5672,6 +5902,46 @@ created_at: 2026-09-09T12:16:31.730574+00:00
 
 src/server/routes/chat.ts's reportError call passes only {conversationId}, never message content
 ---
+[event:e2edfdcc-3156-4743-a292-83dfa1ac4cd0]
+node_id: a1245ccd-7feb-4183-bfc0-a6f2ab543921
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:33:13.701152+00:00
+
+same never-log-content precedent will apply to audio/transcript content in the new route
+---
+[event:3099bc4a-5640-46cd-9088-e4692bd88753]
+node_id: a1245ccd-7feb-4183-bfc0-a6f2ab543921
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:36:21.640509+00:00
+
+plan's error-reporting for the transcribe route follows the same never-log-content precedent
+---
+[event:b23d2717-779d-43f4-a8dc-a07a27e08535]
+node_id: a1245ccd-7feb-4183-bfc0-a6f2ab543921
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:37:13.914484+00:00
+
+plan-review: redaction precedent is concretely enforced (specific reportError payload spec) plus a dedicated test, not just asserted
+---
+[event:4c6dff37-0a28-4a70-9f7e-eb704277b65e]
+node_id: a1245ccd-7feb-4183-bfc0-a6f2ab543921
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:41:37.306118+00:00
+
+proven on the wire with a dedicated test asserting reportError's extra never carries audio/transcript content, only the route name
+---
 [node:d365f52c-8a1b-4071-ac23-119de7808a5b]
 type: decision
 tier: short-term
@@ -5773,6 +6043,16 @@ source: agent-surface
 created_at: 2026-09-09T12:05:30.304216+00:00
 
 k7-ai-chat verified live against the real Kilo Gateway on 2026-09-09 (no key needed for /models or the free tier): POST {base}/chat/completions, OpenAI-compatible, Authorization: Bearer when a key is present, usage.prompt_tokens/completion_tokens on the response — exactly the wire format this node assumed. See node b30b1c95 for the full verified shape including SSE streaming.
+---
+[event:3f6bc2c1-0dfe-4bdf-a235-ce060142b1cb]
+node_id: 6645438f-1bc5-4c0c-81fe-b03817eb4f7b
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:33:13.702717+00:00
+
+following the same unverified-assumption-with-PR-flag discipline for the transcription client
 ---
 [node:136541ad-1f97-4a6e-8762-03f613f33ccc]
 type: decision
@@ -5901,6 +6181,16 @@ created_at: 2026-09-09T12:05:10.333746+00:00
 
 live-verified Kilo Gateway wire format grounds Phase 1's client implementation
 ---
+[event:71f788ce-5188-40bd-aead-c7ecc3eb4196]
+node_id: b30b1c95-e5df-4b99-b059-11bc950ee6fe
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:33:13.701955+00:00
+
+re-verified gateway reachability and chat-completions-only scope live 2026-09-10; audio/transcriptions is a separate, unverified contract
+---
 [node:487b0814-c423-443a-adf7-8f466044076f]
 type: constraint
 tier: short-term
@@ -6018,3 +6308,550 @@ archived: false
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-09T12:16:43.227021+00:00
 
 K7Chat.svelte shows the user's own typed message immediately on send, before the server confirms it, unlike K7ShoppingList's strictly server-confirmed writes. This is a deliberate, scoped exception: the shopping list's no-optimistic-UI rule exists because multiple devices can race on the same list, and a chat turn has exactly one author typing into their own card with nothing to race against, so there is no data-consistency hazard an optimistic echo could hide.
+---
+[node:1ca64b34-866e-4406-a8f5-f84f6d6a95f5]
+type: slice
+tier: short-term
+path: /change/k7-chat-voice-input
+created_at: 2026-09-10T04:29:32.005036+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:0ad01425-8a46-47be-8df3-644d583df0e0] @ 2026-09-10T04:41:31.378576+00:00
+-> SCOPED_TO [node:16b0ad21-fc54-45e2-aada-d2bac35f6ce2] @ 2026-09-10T04:32:39.576257+00:00
+-> SCOPED_TO [node:243ffaa5-1310-4137-a72e-a8d9255b9188] @ 2026-09-10T04:29:32.005036+00:00
+-> SCOPED_TO [node:2704bad5-2b87-4396-a588-cf44648677dc] @ 2026-09-10T04:32:29.283797+00:00
+-> SCOPED_TO [node:466bbddd-85e9-48f5-a22b-103e0549d9d0] @ 2026-09-10T04:35:50.844022+00:00
+-> SCOPED_TO [node:46aa6597-4b01-448c-aab3-4b6d8fadaa8a] @ 2026-09-10T04:35:56.030713+00:00
+-> SCOPED_TO [node:5e767aff-06be-449b-900b-e6dc2edd6fa2] @ 2026-09-10T04:32:42.841383+00:00
+-> SCOPED_TO [node:8a798d59-f620-4326-b489-7d0075a7ef26] @ 2026-09-10T04:36:05.591766+00:00
+-> SCOPED_TO [node:94e0b884-137c-41ac-92b1-ba1edeb57c6e] @ 2026-09-10T04:36:00.981817+00:00
+-> SCOPED_TO [node:a555044b-699f-4d49-8e2d-c5abe8c42d86] @ 2026-09-10T04:36:10.119002+00:00
+-> SCOPED_TO [node:ee4cadd2-0306-442e-b799-04e79880745b] @ 2026-09-10T04:32:34.085502+00:00
+
+change scope: k7-chat-voice-input
+---
+[event:93b104ea-49e8-4f15-b183-3ea9cec137df]
+node_id: 1ca64b34-866e-4406-a8f5-f84f6d6a95f5
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:29:32.006811+00:00
+
+create_change k7-chat-voice-input
+---
+[node:243ffaa5-1310-4137-a72e-a8d9255b9188]
+type: goal
+tier: short-term
+path: /goal/k7-chat-voice-input
+created_at: 2026-09-10T04:29:32.005036+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:0ad01425-8a46-47be-8df3-644d583df0e0] @ 2026-09-10T04:41:31.378576+00:00
+-> DEPENDS_ON [node:16b0ad21-fc54-45e2-aada-d2bac35f6ce2] @ 2026-09-10T04:32:39.576257+00:00
+-> DEPENDS_ON [node:2704bad5-2b87-4396-a588-cf44648677dc] @ 2026-09-10T04:32:29.283797+00:00
+-> DEPENDS_ON [node:466bbddd-85e9-48f5-a22b-103e0549d9d0] @ 2026-09-10T04:35:50.844022+00:00
+-> DEPENDS_ON [node:46aa6597-4b01-448c-aab3-4b6d8fadaa8a] @ 2026-09-10T04:35:56.030713+00:00
+-> DEPENDS_ON [node:5e767aff-06be-449b-900b-e6dc2edd6fa2] @ 2026-09-10T04:32:42.841383+00:00
+-> DEPENDS_ON [node:8a798d59-f620-4326-b489-7d0075a7ef26] @ 2026-09-10T04:36:05.591766+00:00
+-> DEPENDS_ON [node:94e0b884-137c-41ac-92b1-ba1edeb57c6e] @ 2026-09-10T04:36:00.981817+00:00
+-> DEPENDS_ON [node:a555044b-699f-4d49-8e2d-c5abe8c42d86] @ 2026-09-10T04:36:10.119002+00:00
+-> DEPENDS_ON [node:ee4cadd2-0306-442e-b799-04e79880745b] @ 2026-09-10T04:32:34.085502+00:00
+
+Implement full voice-mode recording and transcription for the AI chat card: enable the existing disabled mic button behind voiceInput, record audio client-side with MediaRecorder, transcribe it server-side via the Kilo Gateway (extending src/server/upstream/kilo.ts), and populate the compose field with the transcript without auto-sending.
+---
+[node:85a5c983-13fe-4c52-a72e-9d1621485898]
+type: goal
+tier: short-term
+path: /goal/k7-container-widgets
+created_at: 2026-09-10T04:30:08.359241+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:20b11c2e-cc5a-4569-8be1-16ea7de5c52c] @ 2026-09-10T04:39:22.410429+00:00
+-> DEPENDS_ON [node:441547c8-c8df-41c9-86d0-eebe5da729de] @ 2026-09-10T04:30:44.187200+00:00
+-> DEPENDS_ON [node:443681c4-4837-4568-b441-a468849e9207] @ 2026-09-10T04:39:07.240338+00:00
+-> DEPENDS_ON [node:49912e9d-20bb-4002-b6f0-5c9f4ce058e0] @ 2026-09-10T04:39:18.567870+00:00
+-> DEPENDS_ON [node:63dfc17a-f531-4874-af0c-fd483d358a78] @ 2026-09-10T04:56:23.991020+00:00
+-> DEPENDS_ON [node:7e27848a-5129-4fed-bb31-c050fd57fc92] @ 2026-09-10T04:39:14.650881+00:00
+-> DEPENDS_ON [node:aff11b74-f850-469a-b282-92ef59377990] @ 2026-09-10T04:30:40.373082+00:00
+-> DEPENDS_ON [node:c4b43952-3bbc-4917-87a7-9afbbebf1fd8] @ 2026-09-10T04:56:18.567508+00:00
+-> DEPENDS_ON [node:ca0c4f4f-2eae-448f-a6bc-a8e70594e292] @ 2026-09-10T04:39:10.736540+00:00
+
+Implement the four remaining layout.schema.yaml card types (carousel, grid, slideshow, menu) in src/client/main.ts's createWidget switch, replacing their current placeholder fallback.
+---
+[node:c5b03768-e869-445d-ad8d-f17155c2d7f9]
+type: slice
+tier: short-term
+path: /change/k7-container-widgets
+created_at: 2026-09-10T04:30:08.359241+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:20b11c2e-cc5a-4569-8be1-16ea7de5c52c] @ 2026-09-10T04:39:22.410429+00:00
+-> SCOPED_TO [node:443681c4-4837-4568-b441-a468849e9207] @ 2026-09-10T04:39:07.240338+00:00
+-> SCOPED_TO [node:49912e9d-20bb-4002-b6f0-5c9f4ce058e0] @ 2026-09-10T04:39:18.567870+00:00
+-> SCOPED_TO [node:63dfc17a-f531-4874-af0c-fd483d358a78] @ 2026-09-10T04:56:23.991020+00:00
+-> SCOPED_TO [node:7e27848a-5129-4fed-bb31-c050fd57fc92] @ 2026-09-10T04:39:14.650881+00:00
+-> SCOPED_TO [node:85a5c983-13fe-4c52-a72e-9d1621485898] @ 2026-09-10T04:30:08.359241+00:00
+-> SCOPED_TO [node:c4b43952-3bbc-4917-87a7-9afbbebf1fd8] @ 2026-09-10T04:56:18.567508+00:00
+-> SCOPED_TO [node:ca0c4f4f-2eae-448f-a6bc-a8e70594e292] @ 2026-09-10T04:39:10.736540+00:00
+
+change scope: k7-container-widgets
+---
+[event:2847ffc7-f0cc-4421-b4e8-2ec6a060c152]
+node_id: c5b03768-e869-445d-ad8d-f17155c2d7f9
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:30:08.364211+00:00
+
+create_change k7-container-widgets
+---
+[node:aff11b74-f850-469a-b282-92ef59377990]
+type: entity
+tier: short-term
+path: /entity/carousel
+created_at: 2026-09-10T04:30:40.373082+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-10T04:30:40.373082+00:00
+
+Carousel — A container Card that shows one nested slide-card at a time in its own grid slot, advancing by manual swipe/arrow or optional auto-rotation. Not a CardGrid, which shows all its cells at once rather than paging through them.
+---
+[event:d0e9bad6-a948-430e-bfc5-b906d55c7e53]
+node_id: aff11b74-f850-469a-b282-92ef59377990
+type: entity_proposed
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:30:40.373082+00:00
+
+proposed via agent surface: docs/handoff/layout.schema.yaml params.carousel; proposed while implementing k7-container-widgets
+---
+[node:441547c8-c8df-41c9-86d0-eebe5da729de]
+type: entity
+tier: short-term
+path: /entity/menu
+created_at: 2026-09-10T04:30:44.187200+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-10T04:30:44.187200+00:00
+
+Menu — A Card that lets the household pick which one of several other named Cards is active in a shared slot, by id. It renders only the picker itself - the switcher, not the switched content - so the target Cards' visibility is coordinated at the page level rather than inside the Menu.
+---
+[event:ad482ea7-dec2-4b4b-ba15-cf30c53c308e]
+node_id: 441547c8-c8df-41c9-86d0-eebe5da729de
+type: entity_proposed
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:30:44.187200+00:00
+
+proposed via agent surface: docs/handoff/layout.schema.yaml params.menu; layout.yaml menu-kuchnia/audiometr/minutnik-kuchnia; proposed while implementing k7-container-widgets
+---
+[node:2704bad5-2b87-4396-a588-cf44648677dc]
+type: issue
+tier: short-term
+path: /artifact/kilo-gateway-s-post-api-gateway-audio-t
+created_at: 2026-09-10T04:32:29.283797+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-10T04:32:29.283797+00:00
+-> DEPENDS_ON [node:b30b1c95-e5df-4b99-b059-11bc950ee6fe] @ 2026-09-10T04:32:29.283797+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-10T04:32:29.283797+00:00
+
+Kilo Gateway's POST /api/gateway/audio/transcriptions is a real, distinct route — confirmed live 2026-09-10 via the x-matched-path response header (= /api/gateway/audio/transcriptions), unlike a genuinely unknown path (e.g. /api/gateway/audio/speech) which falls through to the catch-all "This endpoint only accepts the path `/chat/completions`" error. However its exact request contract could NOT be verified: every unauthenticated attempt (JSON body, multipart/form-data body, valid JSON with model+file fields, a fake bearer token) returned the same generic {"error":"Invalid request","error_type":"invalid_request","message":"Could not parse request body. Please ensure it is valid JSON."} before any auth-specific error appeared (contrast: chat/completions with a fake bearer returns a distinct PAID_MODEL_AUTH_REQUIRED error). No real KILO_GATEWAY_KEY is available in this sandbox (secrets are server-side only per project policy), so the field names/shape (multipart vs JSON, field name for the audio payload) remain a documented best-effort assumption — OpenAI-Whisper-style multipart with fields `file` and `model` — not a live-verified contract, unlike the chat-completions shape in upstream/kilo.ts which was fully verified live.
+---
+[event:a0af91a5-dff4-43bc-86b5-15e8c1da366d]
+node_id: 2704bad5-2b87-4396-a588-cf44648677dc
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:36:21.637469+00:00
+
+plan builds against the documented best-effort contract and adds an env override as mitigation
+---
+[event:b0060e27-2b50-4e7b-9ea6-4b0de8df8e42]
+node_id: 2704bad5-2b87-4396-a588-cf44648677dc
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:43:04.124582+00:00
+
+shipped against the documented best-effort contract with an env override escape hatch; still genuinely unverified pending a real KILO_GATEWAY_KEY
+---
+[node:ee4cadd2-0306-442e-b799-04e79880745b]
+type: concept
+tier: short-term
+path: /artifact/kilo-gateway-s-model-catalogue-368-mode
+created_at: 2026-09-10T04:32:34.085502+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-10T04:32:34.085502+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-10T04:32:34.085502+00:00
+
+Kilo Gateway's model catalogue (368 models, fetched live 2026-09-10) has no Whisper-named or "transcription"-named model, but 33 models declare "audio" in architecture.input_modalities (chat-completion multimodal models: google/gemini-3.x-flash family, meta/muse-spark, thinkingmachines/inkling, nvidia/nemotron-3-nano-omni, openai/gpt-audio, etc). Three are free: thinkingmachines/inkling-small:free, thinkingmachines/inkling:free, nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free. This means transcription on this gateway is most plausibly implemented by routing audio through an audio-input-capable chat model rather than a dedicated Whisper endpoint, and a free audio-input model is available as a sensible default for the transcribe route's model config (mirroring the chat card's kilo-auto/free default pattern) — though which model /audio/transcriptions actually accepts could not be confirmed live (see the sibling issue node on the unverified contract).
+---
+[event:b8327c51-099e-4cca-afa5-dbd69e17f6c2]
+node_id: ee4cadd2-0306-442e-b799-04e79880745b
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:36:21.638264+00:00
+
+plan picks a free audio-input model as the default
+---
+[node:16b0ad21-fc54-45e2-aada-d2bac35f6ce2]
+type: constraint
+tier: short-term
+path: /artifact/as-of-2026-09-10-package-json-has-no-mu
+created_at: 2026-09-10T04:32:39.576257+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-10T04:32:39.576257+00:00
+
+As of 2026-09-10, package.json has no multipart-body-parsing dependency (no @fastify/multipart, busboy, formidable) and src/server/index.ts registers no multipart or raw-body content-type parser — only fastify's built-in JSON body parsing is in use across every existing route (chat, recipes, etc). The chat-voice-input transcribe endpoint is the first route in this codebase that needs to accept binary audio, so it must either add @fastify/multipart or use Fastify's addContentTypeParser to accept a raw octet-stream/audio body directly (avoiding a new dependency) — the client can POST the MediaRecorder Blob's bytes with a real audio content-type (e.g. audio/webm) rather than wrapping it in multipart, since there is exactly one file per request and no other form fields are strictly needed (the model id can go in a query string or header instead).
+---
+[event:3bc76752-f5d7-4609-9d97-210c3c0892d1]
+node_id: 16b0ad21-fc54-45e2-aada-d2bac35f6ce2
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:36:21.636665+00:00
+
+plan's raw addContentTypeParser decision directly resolves this gap
+---
+[event:9d45601d-7b32-4121-b215-ae7d8e179b9a]
+node_id: 16b0ad21-fc54-45e2-aada-d2bac35f6ce2
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:41:37.299811+00:00
+
+implemented exactly as planned: addContentTypeParser(/^audio\//) inside registerChatRoutes, no new dependency, npm run check passed clean
+---
+[node:5e767aff-06be-449b-900b-e6dc2edd6fa2]
+type: issue
+tier: short-term
+path: /artifact/layout-yaml-s-czat-card-root-layout-y
+created_at: 2026-09-10T04:32:42.841383+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-10T04:32:42.841383+00:00
+-> DEPENDS_ON [node:c83ab909-9f3b-4347-a917-a75257f7faa2] @ 2026-09-10T04:32:42.841383+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-10T04:32:42.841383+00:00
+
+layout.yaml's `czat` card (root layout.yaml, id: czat, type: chat) currently sets only params.defaultModel — it does not set voiceInput: true, so the existing disabled mic button placeholder in K7Chat.svelte (showMic derived from voiceInput === 'true') never renders even after the feature ships in code, unless layout.yaml is updated alongside it.
+---
+[event:48ad3d6f-836f-43da-b7a6-7777779372d7]
+node_id: 5e767aff-06be-449b-900b-e6dc2edd6fa2
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:36:21.639078+00:00
+
+plan phase 3 fixes layout.yaml directly
+---
+[event:545763b1-a5c8-4701-9e7f-071e37038dc3]
+node_id: 5e767aff-06be-449b-900b-e6dc2edd6fa2
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T04:41:37.304676+00:00
+
+layout.yaml's czat card now sets voiceInput: true
+---
+[node:466bbddd-85e9-48f5-a22b-103e0549d9d0]
+type: decision
+tier: short-term
+path: /artifact/k7-chat-voice-input-s-server-transcribe
+created_at: 2026-09-10T04:35:50.844022+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:16b0ad21-fc54-45e2-aada-d2bac35f6ce2] @ 2026-09-10T04:35:50.844022+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-10T04:35:50.844022+00:00
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-10T04:35:50.844022+00:00
+-> ABOUT [node:8b9566f6-a1d5-4c43-952e-369c2796d5ca] @ 2026-09-10T04:35:50.844022+00:00
+
+k7-chat-voice-input's server transcribe route (POST /api/chat/transcribe) accepts a raw audio body (not multipart) from the client via a Fastify addContentTypeParser matching /^audio\// as a buffer, with bodyLimit raised to 10MB for that route — deliberately avoiding @fastify/multipart since there's exactly one file per request and no other form fields, and this is the first route in the codebase needing binary upload [node:16b0ad21]. The server itself then builds the multipart/form-data request Kilo Gateway's /audio/transcriptions endpoint is assumed to need, using Node's global FormData/Blob (no new dependency) — client-to-K7-server is raw bytes, K7-server-to-gateway is multipart.
+---
+[node:46aa6597-4b01-448c-aab3-4b6d8fadaa8a]
+type: decision
+tier: short-term
+path: /artifact/k7-chat-voice-input-s-transcription-cost
+created_at: 2026-09-10T04:35:56.030713+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-10T04:35:56.030713+00:00
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-10T04:35:56.030713+00:00
+-> ABOUT [node:8b9566f6-a1d5-4c43-952e-369c2796d5ca] @ 2026-09-10T04:35:56.030713+00:00
+-> DEPENDS_ON [node:8d6eee18-8766-45cd-b78b-9840aa0b2029] @ 2026-09-10T04:35:56.030713+00:00
+
+k7-chat-voice-input's transcription cost logging fallback: AiCall.record for purpose:'transcription' always logs promptTokens: 0, completionTokens: 0, estimatedCostUsd: 0, because the assumed OpenAI-Whisper-style transcription response carries no usage object at all (unlike chat completions, which always report prompt_tokens/completion_tokens). This is a deliberate degrade-to-zero rather than inventing a token estimate from audio duration or file size — matching ascii-art.ts's existing precedent of tolerating a best-effort-only cost calculation rather than failing the primary action over bookkeeping.
+---
+[node:94e0b884-137c-41ac-92b1-ba1edeb57c6e]
+type: decision
+tier: short-term
+path: /artifact/k7-chat-voice-input-s-transcription-mode
+created_at: 2026-09-10T04:36:00.981817+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:2704bad5-2b87-4396-a588-cf44648677dc] @ 2026-09-10T04:36:00.981817+00:00
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-10T04:36:00.981817+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-10T04:36:00.981817+00:00
+-> DEPENDS_ON [node:ee4cadd2-0306-442e-b799-04e79880745b] @ 2026-09-10T04:36:00.981817+00:00
+
+k7-chat-voice-input's transcription model is selected via a DEFAULT_TRANSCRIPTION_MODEL constant in kilo.ts (thinkingmachines/inkling-small:free, one of three free audio-input-capable models found live — [node:ee4cadd2]), overridable by a K7_KILO_TRANSCRIPTION_MODEL env var, mirroring the existing K7_KILO_GATEWAY_URL override pattern. This is the deliberate escape hatch for the unverified /audio/transcriptions contract [node:2704bad5]: an operator can repoint the model without a code change if the free-tier default turns out unsuitable or the endpoint expects a different kind of model entirely.
+---
+[node:8a798d59-f620-4326-b489-7d0075a7ef26]
+type: decision
+tier: short-term
+path: /artifact/k7-chat-voice-input-s-client-picks-the-m
+created_at: 2026-09-10T04:36:05.591766+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:0bc7e618-9b95-4977-9fe1-f3a48759276f] @ 2026-09-10T04:36:05.591766+00:00
+-> HAS_FACET [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99] @ 2026-09-10T04:36:05.591766+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-10T04:36:05.591766+00:00
+
+k7-chat-voice-input's client picks the MediaRecorder mime type at runtime via MediaRecorder.isTypeSupported against a candidate list (audio/webm;codecs=opus, audio/webm, audio/mp4, audio/mp4;codecs=mp4a.40.2), falling back to the browser default if none match, and uploads with the recorder's actual reported mimeType — deliberately not hardcoding audio/webm as the original task brief assumed. Safari's MediaRecorder does not reliably support WebM containers the way Chromium's does (it typically produces audio/mp4/AAC), and Safari 15 on the iPad Air 2 is this project's actual deployment target [node:0bc7e618], so a hardcoded webm/opus assumption would likely have shipped broken on the real device.
+---
+[node:a555044b-699f-4d49-8e2d-c5abe8c42d86]
+type: decision
+tier: short-term
+path: /artifact/k7-chat-voice-input-s-k7chat-svelte-mic
+created_at: 2026-09-10T04:36:10.119002+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:2946e332-fd2b-4b23-9f13-a6f014255945] @ 2026-09-10T04:36:10.119002+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-10T04:36:10.119002+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-10T04:36:10.119002+00:00
+
+k7-chat-voice-input's K7Chat.svelte mic control follows the K7Audiometer.svelte permission pattern exactly [node:2946e332]: feature-detected once (MediaRecorder + getUserMedia existence check) so showMic is false and the button never renders on an unsupported browser rather than rendering-then-breaking; getUserMedia is only ever called from the click handler, never on mount/effect; the MediaStream's tracks are stopped immediately after recording stops (before the network call), and the component's existing unmount $effect is extended to also tear down any live stream/recorder. Errors reuse the composer's existing failed/errorText display rather than a new UI region.
+---
+[node:443681c4-4837-4568-b441-a468849e9207]
+type: decision
+tier: short-term
+path: /artifact/carousel-and-grid-nesting-needs-no-expor
+created_at: 2026-09-10T04:39:07.240338+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:77925b30-350a-42ee-a7de-7e8a023c5708] @ 2026-09-10T04:39:07.240338+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-10T04:39:07.240338+00:00
+-> ABOUT [node:aff11b74-f850-469a-b282-92ef59377990] @ 2026-09-10T04:39:26.569731+00:00
+-> ABOUT [node:d8f13deb-0013-41b1-9f8c-a57918a3b130] @ 2026-09-10T04:39:28.667124+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-10T04:39:07.240338+00:00
+
+Carousel and grid nesting needs no export/circular-import workaround: createWidget(card) in main.ts stays a single non-exported recursive function. For carousel/grid, it builds the container custom element, then calls itself on each nested slide/cell card and appends the result as a light-DOM child, which the container's shadow-DOM <slot> projects. No .svelte file ever imports createWidget.
+---
+[node:ca0c4f4f-2eae-448f-a6bc-a8e70594e292]
+type: decision
+tier: short-term
+path: /artifact/slideshow-s-fullscreen-presentation-prom
+created_at: 2026-09-10T04:39:10.736540+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-10T04:39:10.736540+00:00
+-> ABOUT [node:d2844438-9992-4e20-bfb5-fa615a906574] @ 2026-09-10T04:39:29.859566+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-10T04:39:10.736540+00:00
+
+Slideshow's fullscreen presentation promotes the already-rendered target card element in place (a CSS class giving it position:fixed; inset:0) rather than reparenting or cloning it. Reparenting a Svelte custom element via appendChild fires disconnectedCallback/connectedCallback, which tears down and remounts the Svelte component instance, losing internal state (a running timer, an armed/streaming audiometer, in-progress chat scroll). In-place CSS promotion works because .pager-track's inline transform is the only ancestor that would otherwise create a new containing block for position:fixed (a transformed ancestor makes fixed descendants position relative to it, not the viewport); the transform is temporarily cleared while the slideshow is active and restored via the existing pager.go() handle on exit.
+---
+[node:7e27848a-5129-4fed-bb31-c050fd57fc92]
+type: decision
+tier: short-term
+path: /artifact/menu-to-target-visibility-coordination-i
+created_at: 2026-09-10T04:39:14.650881+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:441547c8-c8df-41c9-86d0-eebe5da729de] @ 2026-09-10T04:39:31.781331+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-10T04:39:14.650881+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-10T04:39:14.650881+00:00
+
+Menu-to-target visibility coordination is necessarily page-level, living in main.ts rather than inside K7Menu.svelte: the menu component only knows its own items and dispatches a bubbling+composed CustomEvent('k7-menu-change', {detail:{cardId}}); main.ts (which alone has the full items list from card.params and can call document.getElementById) listens and toggles the native `hidden` attribute on every other target. This matches layout.yaml's real menu-kuchnia usage (audiometr/minutnik-kuchnia each keep their own separate grid slot; the menu hides one, CSS Grid auto-placement reflows around the gap) rather than inventing a shared-single-slot container the schema prose gestures at but no layout file exercises - flagged for human confirmation in the PR.
+---
+[node:49912e9d-20bb-4002-b6f0-5c9f4ce058e0]
+type: constraint
+tier: short-term
+path: /artifact/hidden-is-a-ua-stylesheet-rule-displa
+created_at: 2026-09-10T04:39:18.567870+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-10T04:39:18.567870+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-10T04:39:18.567870+00:00
+
+[hidden] is a UA-stylesheet rule (display:none) that loses to any author style setting display on the same element, including a custom element's own shadow-root :host{display:...} rule. Only K7Card.svelte currently sets :host{display:block} among existing widgets, so native hidden happens to work on today's two menu targets (k7-audiometer, k7-timer) by accident of them having no :host display rule. Added a defensive `.page [hidden] { display: none !important; }` rule to app.css so menu-driven hiding stays correct regardless of which widget a future menu targets, including the new container components which do set :host{display:block}.
+---
+[node:20b11c2e-cc5a-4569-8be1-16ea7de5c52c]
+type: issue
+tier: short-term
+path: /artifact/wakeonpresence-camera-based-motion-face
+created_at: 2026-09-10T04:39:22.410429+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:9ea20285-de89-4f25-a25e-37700078bd59] @ 2026-09-10T04:39:22.410429+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-10T04:39:22.410429+00:00
+-> ABOUT [node:d2844438-9992-4e20-bfb5-fa615a906574] @ 2026-09-10T04:39:33.069357+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-10T04:39:22.410429+00:00
+
+wakeOnPresence (camera-based motion/face-detection wake from the slideshow) is deliberately deferred out of k7-container-widgets: idleTriggerSeconds, intervalSeconds, transition and exitOnInteraction are implemented fully; wakeOnPresence params are parsed and stored but never acted on. This is a materially separate feature (webcam access, local motion/face-detection processing) that deserves its own decision moment. Note: [node:9ea20285] (CAMERALOCAL) already records presence-wake-via-camera as a settled lifetime decision for *when* it is built, not a maybe - this change does not implement it and does not contradict that decision, it simply isn't built yet.
+---
+[node:0ad01425-8a46-47be-8df3-644d583df0e0]
+type: concept
+tier: short-term
+path: /artifact/eslint-config-js-s-browserglobals-allowl
+created_at: 2026-09-10T04:41:31.378576+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-10T04:41:31.378576+00:00
+
+eslint.config.js's browserGlobals allowlist (hand-maintained, not the `globals` package, deliberately per its own comment) needed MediaRecorder and Blob added for k7-chat-voice-input's K7Chat.svelte mic feature — the project's pattern is every new browser API a component touches must be added to this list explicitly, matching how MediaStream/AudioContext were already added for K7Audiometer.svelte.
+---
+[node:c4b43952-3bbc-4917-87a7-9afbbebf1fd8]
+type: decision
+tier: short-term
+path: /artifact/the-slideshow-s-promoted-fullscreen-card
+created_at: 2026-09-10T04:56:18.567508+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-10T04:56:18.567508+00:00
+-> ABOUT [node:d2844438-9992-4e20-bfb5-fa615a906574] @ 2026-09-10T04:56:18.567508+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-10T04:56:18.567508+00:00
+
+The slideshow's promoted fullscreen card stays a DOM descendant of .pager-track/deck even though it is visually position:fixed — DOM event bubbling follows the tree, not paint position. An independent plan review caught that the page-level pager (pager.ts) was still listening for touchstart/touchmove/touchend on deck and keydown on window with no awareness the slideshow owns the screen, so an interaction meant to exit the slideshow would also be read as a page swipe/arrow-key, silently repainting the pager to the wrong page underneath. Fixed by adding suspend()/resume() to Pager (pager.ts): a `suspended` flag checked at the top of every pager handler, called by the slideshow controller around fullscreen entry/exit. This is a genuine architectural fix, not a documentation note — pager.ts's public Pager interface changed.
+---
+[node:63dfc17a-f531-4874-af0c-fd483d358a78]
+type: decision
+tier: short-term
+path: /artifact/k7-container-widgets-was-verified-in-a-r
+created_at: 2026-09-10T04:56:23.991020+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-10T04:56:23.991020+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-10T04:56:23.991020+00:00
+
+k7-container-widgets was verified in a real browser (headless Chromium via playwright-core against the actual google-chrome binary, used transiently then reverted from package.json — not a project dependency), not just via unit tests and static checks. Confirmed against layout.yaml's real karuzela/grid-wskazniki/menu-kuchnia usage: carousel next-button click correctly advances both slides' translate3d() (0%/100% before, -100%/0% after — the outgoing slide exits left, the incoming one lands at 0%); menu-kuchnia's defaultActive correctly shows audiometr and hides minutnik-kuchnia on initial mount (the dispatch-on-mount effect works), and clicking the second menu item correctly flips both — audiometrHidden:true, minutnikHidden:false — confirming the full k7-menu-change event -> main.ts listener -> document.getElementById -> hidden attribute -> [hidden]!important CSS pipeline works end to end. No JS console errors during any of this; the only failed network requests were an ascii-art gateway call (no real Kilo Gateway key in the sandbox) and one benign 404, both unrelated to the four new card types.
+---
+[node:720f132e-d35a-4f3c-aa4d-d3a81a6c0ac4]
+type: goal
+tier: short-term
+path: /goal/k7-refresh-changelog
+created_at: 2026-09-10T05:55:08.597927+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:1b5ac370-7e9f-4d4e-a56c-cde37a7d92ad] @ 2026-09-10T05:55:20.392678+00:00
+
+Add a header pull-to-refresh gesture and a changelog popup fed by changelog.yaml, and establish the standing rule that every user-facing change adds a dated changelog.yaml entry in the same change.
+---
+[event:5293cfc6-16e7-4746-b61c-62b0054d2d13]
+node_id: 720f132e-d35a-4f3c-aa4d-d3a81a6c0ac4
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T06:05:47.235007+00:00
+
+Goal node for the whole change
+---
+[node:e53be271-6a19-4e6a-94e2-dd2006fb797f]
+type: slice
+tier: short-term
+path: /change/k7-refresh-changelog
+created_at: 2026-09-10T05:55:08.597927+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:1b5ac370-7e9f-4d4e-a56c-cde37a7d92ad] @ 2026-09-10T05:55:20.392678+00:00
+-> SCOPED_TO [node:720f132e-d35a-4f3c-aa4d-d3a81a6c0ac4] @ 2026-09-10T05:55:08.597927+00:00
+
+change scope: k7-refresh-changelog
+---
+[event:7f808079-4be2-4903-98d6-eaf6f8032256]
+node_id: e53be271-6a19-4e6a-94e2-dd2006fb797f
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T05:55:08.599131+00:00
+
+create_change k7-refresh-changelog
+---
+[node:1b5ac370-7e9f-4d4e-a56c-cde37a7d92ad]
+type: constraint
+tier: mid-term
+path: /artifact/every-user-facing-change-must-add-a-date
+created_at: 2026-09-10T05:55:20.392678+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-10T05:55:20.392678+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-10T05:55:20.392678+00:00
+
+Every user-facing change must add a dated entry to changelog.yaml in the same change that makes it. The dashboard's own changelog popup (header button, "DZIENNIK ZMIAN") reads changelog.yaml via GET /api/changelog — an entry added in a later change than the one it describes is one the household never saw attached to what actually changed. Decided 2026-09-10, also recorded in CLAUDE.md's standing constraints.
+---
+[event:f30a1ad9-d117-4e74-8203-969bbf3ae769]
+node_id: 1b5ac370-7e9f-4d4e-a56c-cde37a7d92ad
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-10T06:05:47.236514+00:00
+
+Constraint captured, then dogfooded immediately by adding this change's own changelog.yaml entry

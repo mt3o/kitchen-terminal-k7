@@ -156,8 +156,13 @@ function render(rawLayout: NormalisedLayout): void {
     deck.appendChild(dots)
   }
 
+  // Preserved across the destroy/recreate below — a boot() triggered by a
+  // pull-to-refresh (or a reconnect recovery) must not silently bounce the
+  // household back to page 1 of whatever page they were actually looking at.
+  const previousPage = pager?.current()
   pager?.destroy()
   pager = createPager(deck, layout.pages.map((p) => ({ id: p.id, label: p.label })))
+  if (previousPage !== undefined) pager.go(previousPage)
 
   // Started only now that every card is in the DOM (`document.getElementById`
   // for each `cardIds` entry must resolve) and the pager exists (the
@@ -490,10 +495,12 @@ if (shellHead) {
     // boot() re-fetches and re-renders in place; a household member pulling
     // down from the header wants the same recovery path a reconnect already
     // uses, not a hard navigation reload that would flash the shell blank.
-    onRefresh: () => {
-      booting = false
-      return boot()
-    },
+    // Deliberately NOT clearing `booting` first: it is a re-entrancy guard
+    // against exactly the two-overlapping-boots flicker this would otherwise
+    // reintroduce if a refresh lands while reconnectLoop's own boot() is
+    // still in flight — "no-op while a boot is already running" is correct,
+    // not a bug, for a manually triggered refresh.
+    onRefresh: () => boot(),
   })
 }
 void boot()

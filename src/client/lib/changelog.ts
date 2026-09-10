@@ -8,10 +8,7 @@
  * opens it should not cost an extra request on every reconnect.
  */
 import type { Changelog, ChangelogEntry } from '../../shared/changelog.ts'
-
-function escapeHtml(text: string): string {
-  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-}
+import { escapeHtml } from './markdown.ts'
 
 /** One entry's markup — escaped, since a date/title/item is data, not markup. */
 function renderEntry(entry: ChangelogEntry): string {
