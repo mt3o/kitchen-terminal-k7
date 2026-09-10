@@ -51,6 +51,13 @@ body {
   gap: var(--space-3);
 }
 
+.shell-foot {
+  /* A one-line status strip inherits the body's 1.45 paragraph leading by
+     default, which reads as taller than the single short line actually
+     needs — tightened the same way --leading-tight already exists for. */
+  line-height: var(--leading-tight);
+}
+
 .shell-head {
   /* Positioning context for .pull-refresh-indicator, which is otherwise
      absolutely positioned against the nearest ancestor — the shell, not the

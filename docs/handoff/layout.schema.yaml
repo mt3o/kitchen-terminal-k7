@@ -150,7 +150,7 @@ $defs:
         description: Unikalny identyfikator karty w layoucie (np. "pogoda-1").
       type:
         type: string
-        enum: [weather, calendar, chat, recipes, shopping-list, timer, comic-of-the-day, ascii-art-of-the-day, carousel, grid, slideshow, clock, menu, audiometer]
+        enum: [weather, calendar, chat, recipes, shopping-list, timer, comic-of-the-day, ascii-art-of-the-day, image, carousel, grid, slideshow, clock, menu, audiometer]
       span:
         type: object
         description: Ile kolumn/wierszy siatki zajmuje karta.
@@ -187,6 +187,8 @@ $defs:
         then: { properties: { params: { $ref: "#/$defs/params.comicOfTheDay" } } }
       - if: { properties: { type: { const: ascii-art-of-the-day } } }
         then: { properties: { params: { $ref: "#/$defs/params.asciiArtOfTheDay" } } }
+      - if: { properties: { type: { const: image } } }
+        then: { properties: { params: { $ref: "#/$defs/params.image" } } }
       - if: { properties: { type: { const: carousel } } }
         then: { properties: { params: { $ref: "#/$defs/params.carousel" } } }
       - if: { properties: { type: { const: grid } } }
@@ -404,6 +406,33 @@ $defs:
       fallbackArt:
         type: string
         description: Statyczny ASCII-art pokazywany, gdy generacja się nie powiedzie.
+
+  params.image:
+    type: object
+    description: >
+      Pojedynczy statyczny obraz spod danego URL — bez odpytywania, bez
+      rotacji dziennej. To odróżnia go od `ascii-art-of-the-day` (generowany
+      przez AI wg harmonogramu) i `comic-of-the-day` (pobierany z RSS wg
+      harmonogramu): oba tamte zmieniają się same, ten zmienia się tylko przez
+      edycję layoutu. Karuzela zdjęć nie potrzebuje osobnego typu karty —
+      `carousel` ze slajdami typu `image` już nią jest.
+    required: [url]
+    properties:
+      url:
+        type: string
+        description: Adres obrazu.
+      altText:
+        type: string
+        description: Tekst alternatywny. Domyślnie `caption`, jeśli podane, inaczej ogólny opis.
+      caption:
+        type: string
+        description: Podpis pokazywany pod obrazem, ta sama rola co `creditText` w comic-of-the-day.
+      linkUrl:
+        type: string
+        description: Opcjonalny link po kliknięciu w obraz (otwierany w nowej karcie).
+      maxWidthPx:
+        type: integer
+        description: Opcjonalny górny limit szerokości. Puste = ograniczone tylko przez kartę.
 
   params.carousel:
     type: object

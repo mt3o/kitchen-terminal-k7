@@ -13,6 +13,7 @@ import './lib/K7Carousel.svelte'
 import './lib/K7Chat.svelte'
 import './lib/K7Comic.svelte'
 import './lib/K7Grid.svelte'
+import './lib/K7Image.svelte'
 import './lib/K7Menu.svelte'
 import './lib/K7Recipes.svelte'
 import './lib/K7ShoppingList.svelte'
@@ -37,6 +38,7 @@ const LABELS: Record<CardType, string> = {
   timer: 'MINUTNIK',
   'comic-of-the-day': 'KOMIKS.DNIA',
   'ascii-art-of-the-day': 'ASCII.DNIA',
+  image: 'OBRAZ',
   carousel: 'KARUZELA',
   grid: 'SIATKA',
   slideshow: 'POKAZ',
@@ -312,6 +314,16 @@ function createWidget(card: Card): HTMLElement {
       attr(el, 'linkToSource', params.linkToSource)
       attr(el, 'creditText', params.creditText)
       attr(el, 'fallbackImageUrl', params.fallbackImageUrl)
+      return el
+    }
+    case 'image': {
+      const el = document.createElement('k7-image')
+      el.setAttribute('label', LABELS.image)
+      attr(el, 'url', params.url)
+      attr(el, 'altText', params.altText)
+      attr(el, 'caption', params.caption)
+      attr(el, 'linkUrl', params.linkUrl)
+      attr(el, 'maxWidthPx', params.maxWidthPx)
       return el
     }
     case 'chat': {
