@@ -85,30 +85,45 @@
 </script>
 
 <Card label={label} meta={meta} state={cardState as 'ok' | 'warn' | 'fail' | 'idle'}>
-  {#if failed && !aged}
-    {#if fallbackImageUrl}
-      <img class="comic" style:max-width="{widthPx}px" src={fallbackImageUrl} alt="komiks dnia (zapasowy)" />
-    {:else}
-      <p class="msg">brak komiksu</p>
-    {/if}
-  {:else if !aged}
-    <p class="msg">wczytywanie</p>
-  {:else}
-    <img class="comic" style:max-width="{widthPx}px" src={aged.data.imageUrl} alt={aged.data.title ?? 'komiks dnia'} loading="lazy" />
-    {#if creditText}
-      {#if showLink && aged.data.sourceUrl}
-        <a class="credit" href={aged.data.sourceUrl} target="_blank" rel="noreferrer">{creditText}</a>
+  <div class="wrap">
+    {#if failed && !aged}
+      {#if fallbackImageUrl}
+        <img class="comic" style:max-width="{widthPx}px" src={fallbackImageUrl} alt="komiks dnia (zapasowy)" />
       {:else}
-        <p class="credit">{creditText}</p>
+        <p class="msg">brak komiksu</p>
+      {/if}
+    {:else if !aged}
+      <p class="msg">wczytywanie</p>
+    {:else}
+      <img class="comic" style:max-width="{widthPx}px" src={aged.data.imageUrl} alt={aged.data.title ?? 'komiks dnia'} loading="lazy" />
+      {#if creditText}
+        {#if showLink && aged.data.sourceUrl}
+          <a class="credit" href={aged.data.sourceUrl} target="_blank" rel="noreferrer">{creditText}</a>
+        {:else}
+          <p class="credit">{creditText}</p>
+        {/if}
+      {/if}
+      {#if aged.stale}
+        <p class="stale">[!] dane sprzed {Math.round(aged.ageSeconds / 3600)}h</p>
       {/if}
     {/if}
-    {#if aged.stale}
-      <p class="stale">[!] dane sprzed {Math.round(aged.ageSeconds / 3600)}h</p>
-    {/if}
-  {/if}
+  </div>
 </Card>
 
 <style>
+  /* Centers the comic (plus its credit/staleness lines) as a group in the
+     card body, rather than the image sitting flush top-left whenever the
+     card is taller or wider than the capped `maxWidthPx` image. */
+  .wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 0;
+    text-align: center;
+  }
+
   .msg { margin: 0; color: var(--fg-muted); }
 
   .comic { display: block; width: 100%; height: auto; border: var(--border-w) solid var(--border); }
