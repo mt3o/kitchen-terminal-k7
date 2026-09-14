@@ -1623,7 +1623,7 @@ created_at: 2026-09-08T09:38:30.023885+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: true
+archived: false
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T09:38:30.023885+00:00
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:38:30.023885+00:00
 
@@ -1689,6 +1689,16 @@ created_at: 2026-09-08T11:43:43.560365+00:00
 
 guided resolve: recommended=superseded, chose=superseded: human ruled superseded: '@mt3o/middleware-pipe' is published at 1.0.0, public, verified against the registry (access=public, dist-tag latest=1.0.0, version endpoint 200). The issue's claim that a new name is still needed is false; its premise that the bare name was taken survives inside the replacement
 ---
+[event:d1bb9157-ade3-4d67-898d-96d5cf09b998]
+node_id: 7835061e-c325-4e70-8051-105f22ff4f8a
+type: reactivated
+weight: 0.0
+polarity: 1
+source: lifecycle-cli
+created_at: 2026-09-14T12:08:36.396341+00:00
+
+10x lifecycle sweep
+---
 [node:40398c2a-b8e4-4721-b426-730e93b8a4d8]
 type: issue
 tier: mid-term
@@ -1697,7 +1707,7 @@ created_at: 2026-09-08T09:38:30.154849+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: true
+archived: false
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:38:30.154849+00:00
 
 The vidataflux repository is empty and must either be filled in before it enters the stack or consciously written out of it. This blocks the start of Faza 0 and is the project owner's call.
@@ -1762,6 +1772,16 @@ created_at: 2026-09-08T13:34:56.470272+00:00
 
 guided review: superseded
 ---
+[event:a03e4923-298b-4169-8ec8-213996fec9e0]
+node_id: 40398c2a-b8e4-4721-b426-730e93b8a4d8
+type: reactivated
+weight: 0.0
+polarity: 1
+source: lifecycle-cli
+created_at: 2026-09-14T12:08:36.396341+00:00
+
+10x lifecycle sweep
+---
 [node:b6cc5895-5e52-462a-aab2-c934ba921825]
 type: issue
 tier: mid-term
@@ -1770,7 +1790,7 @@ created_at: 2026-09-08T09:38:30.287095+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: true
+archived: false
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:38:30.287095+00:00
 
 The stack assumes TypeScript 7 with the native Go compiler, but the plan was written before that shipped and assumed an RC around June 2026. GA status must be verified before scaffolding rather than after.
@@ -1845,12 +1865,22 @@ created_at: 2026-09-08T15:40:35.815610+00:00
 
 guided review: superseded
 ---
+[event:41fb2fb5-091b-4b70-a250-be336284b516]
+node_id: b6cc5895-5e52-462a-aab2-c934ba921825
+type: reactivated
+weight: 0.0
+polarity: 1
+source: lifecycle-cli
+created_at: 2026-09-14T12:08:36.396341+00:00
+
+10x lifecycle sweep
+---
 [node:baefeee7-a562-4085-8a4e-cd20045f4164]
 type: issue
 tier: mid-term
 path: /artifact/the-service-worker-aims-at-a-full-offlin
 created_at: 2026-09-08T09:38:30.445420+00:00
-needs_review: true
+needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
@@ -1859,7 +1889,7 @@ archived: false
 -> ABOUT [node:3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550] @ 2026-09-08T13:42:12.428170+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-08T09:38:30.445420+00:00
 
-The Service Worker aims at a full offline cache of app shell plus data, but dynamic data - calendar events, imported recipes - has a completely different invalidation profile from the app shell, so the workbox-versus-hand-rolled decision cannot be made until that invalidation strategy is designed.
+K7's Service Worker (hand-rolled, chosen over workbox, shipped in k7-offline-shell) is scoped to the app shell only today — no API response is cached, so a network outage loses all card data even though the shell repaints. Decided 2026-09-14: selected API responses — calendar first — are to be cached by the Service Worker with a stale-while-revalidate strategy: serve the cached response, revalidate in the background once it is stale, and fall back to the cached version when a fresh fetch is unavailable. Not yet implemented. Which other endpoints qualify (a mutating write path likely does not) and the per-endpoint invalidation details remain open.
 ---
 [event:9d55badc-2a60-4c71-bad1-90189cb22f5b]
 node_id: baefeee7-a562-4085-8a4e-cd20045f4164
@@ -1910,6 +1940,36 @@ source: agent-surface
 created_at: 2026-09-09T12:01:31.936183+00:00
 
 Disputed Service Worker/dynamic-data issue re-assessed for relevance; this plan does not touch the Service Worker or offline caching, so it neither takes a side nor silently builds on one.
+---
+[event:5fa7ac7b-3014-4095-928d-de7b4e9d9e2e]
+node_id: baefeee7-a562-4085-8a4e-cd20045f4164
+type: content_edited
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-09-14T15:53:51.597477+00:00
+
+guided review correction
+---
+[event:6820c7be-e21c-4e32-8567-8847ecafa41d]
+node_id: baefeee7-a562-4085-8a4e-cd20045f4164
+type: manual_review
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-09-14T15:53:51.597477+00:00
+
+guided resolve: recommended=needs_correction, chose=needs_correction: Human ruling (mt3o, 2026-09-14): "we gotta correct it. Some of the API calls, like the calendar one, are fine to be cached, and read from cache, so that they are revalidated when stale, and cached version used when fresh is not available." Verified against the codebase first: public/sw.js + k7-offline-shell/change.md confirm the workbox-vs-hand-rolled decision was already made (hand-rolled) and shipped, shell-only, deliberately not caching /api — both nodes in the original dispute were stale (one on the resolved TLS blocker, one on a decision that had already been made a different way than either assumed).
+---
+[event:e4e56620-e0c5-4b36-81bc-9210ca3fb70c]
+node_id: baefeee7-a562-4085-8a4e-cd20045f4164
+type: contradiction_cleared
+weight: 1.0
+polarity: 1
+source: gui-guided
+created_at: 2026-09-14T15:53:51.597477+00:00
+
+guided review: needs_correction
 ---
 [node:6d5ae12d-608b-4187-839b-74d56e7ff059]
 type: issue
@@ -2020,7 +2080,7 @@ created_at: 2026-09-08T09:38:30.858406+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: true
+archived: false
 -> DEPENDS_ON [node:7108856c-d3d5-4701-bb69-11087256a081] @ 2026-09-08T09:38:30.858406+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:38:30.858406+00:00
 
@@ -2085,6 +2145,16 @@ source: gui-guided
 created_at: 2026-09-08T10:09:26.371475+00:00
 
 guided review: superseded
+---
+[event:a0b9225d-672f-4c48-8466-2fb11b5a8e95]
+node_id: ee768ade-394d-475c-92fb-e5c5b28e0efc
+type: reactivated
+weight: 0.0
+polarity: 1
+source: lifecycle-cli
+created_at: 2026-09-14T12:08:36.396341+00:00
+
+10x lifecycle sweep
 ---
 [node:6eef8943-c521-4af4-918b-ffa1a6200bfe]
 type: issue
@@ -2173,7 +2243,7 @@ created_at: 2026-09-08T09:38:31.309348+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: true
+archived: false
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:38:31.309348+00:00
 
 The project has no settled git workflow and no repository yet. The repo is decided as public on GitHub named kitchen-terminal-k7 with CI modelled on the owner's other projects, but the branching model, PR flow, merge strategy and commit conventions are unstated - and every worktree, headless run and archive commit in the change lifecycle acts on those rules. The task tracker binding is unresolved for the same reason.
@@ -2237,6 +2307,16 @@ source: gui-guided
 created_at: 2026-09-08T10:09:26.383970+00:00
 
 guided review: superseded
+---
+[event:d67c619f-1de9-4074-887c-8ce4ebb29442]
+node_id: 8a963777-1d94-42ad-ae4b-8a2b08d0a686
+type: reactivated
+weight: 0.0
+polarity: 1
+source: lifecycle-cli
+created_at: 2026-09-14T12:08:36.396341+00:00
+
+10x lifecycle sweep
 ---
 [node:a17b142e-850e-4cdb-8d84-2689e75428a7]
 type: decision
@@ -4303,6 +4383,7 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> DEPENDS_ON [node:07a456b4-8f9a-40ee-977a-9c5f32f06249] @ 2026-09-14T15:54:17.591874+00:00
 -> DEPENDS_ON [node:430c9542-7dd1-4b78-bfa1-760e6afcee1d] @ 2026-09-08T19:47:53.703076+00:00
 -> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-08T19:47:53.703076+00:00
 -> DEPENDS_ON [node:b347fe70-0841-4c01-95c2-6019fa19423f] @ 2026-09-08T19:56:57.300588+00:00
@@ -4319,6 +4400,7 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> SCOPED_TO [node:07a456b4-8f9a-40ee-977a-9c5f32f06249] @ 2026-09-14T15:54:17.591874+00:00
 -> SCOPED_TO [node:b347fe70-0841-4c01-95c2-6019fa19423f] @ 2026-09-08T19:56:57.300588+00:00
 -> SCOPED_TO [node:b50027cf-438d-4a12-bf40-983fc53fc63e] @ 2026-09-08T19:47:53.703076+00:00
 -> SCOPED_TO [node:f0e2ae72-268a-4859-80b0-e98ec768fb10] @ 2026-09-08T19:56:57.176951+00:00
@@ -4578,6 +4660,16 @@ source: agent-surface
 created_at: 2026-09-10T04:56:38.046615+00:00
 
 Page entity (proposed, not yet confirmed) was relevant background but not directly load-bearing for this change's decisions
+---
+[event:9f9b0ecf-78d7-43de-bd41-008f8b13c2b6]
+node_id: e1da2600-04f7-4243-bb85-f79692e086ae
+type: entity_confirmed
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-14T18:29:34.746386+00:00
+
+Human ruling (mt3o, 2026-09-14, /gw-resolve): confirm all four remaining proposed entities.
 ---
 [node:e156fb5f-8f05-400a-812b-e0552df1def3]
 type: constraint
@@ -5133,6 +5225,16 @@ created_at: 2026-09-09T11:51:18.432143+00:00
 
 create_change k7-ai-chat
 ---
+[event:19f50598-f103-447e-8033-b4af4a1c2d55]
+node_id: 048276b3-fcad-4800-a603-cb4e08628c89
+type: slice_deactivated
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-14T12:08:36.392202+00:00
+
+merge: deactivate k7-ai-chat
+---
 [node:93ee78af-543c-4a73-b50b-a52755ce33fb]
 type: goal
 tier: short-term
@@ -5141,7 +5243,7 @@ created_at: 2026-09-09T11:51:18.427223+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:15962ca3-ed5c-4201-a339-4687338a0fec] @ 2026-09-09T11:58:41.643681+00:00
 -> DEPENDS_ON [node:28ed347c-7e50-4680-81ba-cb7d8a532959] @ 2026-09-09T12:16:43.227021+00:00
 -> DEPENDS_ON [node:5c914a38-718c-4e80-82b1-59fe74cee111] @ 2026-09-09T11:54:52.932369+00:00
@@ -5158,6 +5260,16 @@ archived: false
 -> DEPENDS_ON [node:ff9ca87f-3e9e-4631-b3e5-6a18bfa18139] @ 2026-09-09T11:54:17.658995+00:00
 
 Deliver Faza 4 — AI chat via Kilo Gateway: model picker backed by GET /models, a decoupled ConversationService doing rolling-window/per-model context budgeting and compacting, an SSE chat endpoint, the K7Chat.svelte card with its Storybook story, ai_calls logging for every gateway call, and a minimal cost-history view.
+---
+[event:c0068e09-586d-4caa-a278-acfd8e7f1c89]
+node_id: 93ee78af-543c-4a73-b50b-a52755ce33fb
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-14T12:08:36.396341+00:00
+
+10x lifecycle sweep
 ---
 [node:4425741f-040e-4f4e-a8e7-aac9a34a06a1]
 type: slice
@@ -5219,7 +5331,7 @@ created_at: 2026-09-09T11:54:14.731397+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:4730c1bc-b791-4a0d-a94c-1bd4f8307102] @ 2026-09-09T11:54:14.731397+00:00
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:54:14.731397+00:00
 -> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-09T11:54:14.731397+00:00
@@ -5279,6 +5391,16 @@ created_at: 2026-09-10T04:36:21.631750+00:00
 
 plan wires layout.yaml voiceInput per the card params contract
 ---
+[event:6f405bb7-36c4-40df-8ac7-4a8db184208e]
+node_id: c83ab909-9f3b-4347-a917-a75257f7faa2
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-14T12:08:36.396341+00:00
+
+10x lifecycle sweep
+---
 [node:ff9ca87f-3e9e-4631-b3e5-6a18bfa18139]
 type: constraint
 tier: short-term
@@ -5287,7 +5409,7 @@ created_at: 2026-09-09T11:54:17.658995+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:54:17.658995+00:00
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-09T11:54:17.658995+00:00
 
@@ -5322,6 +5444,16 @@ source: agent-surface
 created_at: 2026-09-09T12:04:31.814330+00:00
 
 Duplicate of 5c914a38 — same check, same verdict
+---
+[event:75bc965e-b65f-4c20-be31-c54c6fd90b06]
+node_id: ff9ca87f-3e9e-4631-b3e5-6a18bfa18139
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-14T12:08:36.396341+00:00
+
+10x lifecycle sweep
 ---
 [node:e38c12d4-6532-4e27-b901-b0ef7f3e4849]
 type: constraint
@@ -5425,7 +5557,7 @@ created_at: 2026-09-09T11:54:50.775639+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:279d73e0-ff0f-4184-a25c-f051d2030072] @ 2026-09-09T11:54:50.775639+00:00
 -> DEPENDS_ON [node:4730c1bc-b791-4a0d-a94c-1bd4f8307102] @ 2026-09-09T11:54:50.775639+00:00
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:54:50.775639+00:00
@@ -5473,6 +5605,16 @@ created_at: 2026-09-09T12:05:10.336751+00:00
 
 re-verified directly from my own worktree (not the shared checkout): schema/ports/adapter for conversations/messages/ai_calls are identical between the two and fully built
 ---
+[event:5934999b-c529-4857-af56-a831405b519d]
+node_id: 9bc23700-e8f0-4792-9fa7-02d36aa9c759
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-14T12:08:36.396341+00:00
+
+10x lifecycle sweep
+---
 [node:1dd47195-f438-4eb2-abe8-c16ac3cfcd4f]
 type: issue
 tier: short-term
@@ -5516,7 +5658,7 @@ created_at: 2026-09-09T11:54:52.932369+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:54:52.932369+00:00
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-09T11:54:52.932369+00:00
 
@@ -5531,6 +5673,16 @@ source: agent-surface
 created_at: 2026-09-09T12:04:31.813737+00:00
 
 index.ts shared-flat-file constraint checked against plan.md Phase 3's routes-in-own-module approach — respected; verified against actual index.ts structure
+---
+[event:f57be480-2563-4c2a-8d10-6ce4a30dc598]
+node_id: 5c914a38-718c-4e80-82b1-59fe74cee111
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-14T12:08:36.396341+00:00
+
+10x lifecycle sweep
 ---
 [node:2135f0a4-e132-48e6-917f-2284e5a88662]
 type: concept
@@ -5744,7 +5896,7 @@ created_at: 2026-09-09T11:58:41.643681+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:4730c1bc-b791-4a0d-a94c-1bd4f8307102] @ 2026-09-09T11:58:41.643681+00:00
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:58:41.643681+00:00
 -> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-09T11:58:41.643681+00:00
@@ -5772,6 +5924,16 @@ created_at: 2026-09-09T12:16:31.731513+00:00
 
 implemented verbatim in src/server/ai/tokens.ts (estimateTokens = ceil(len/4))
 ---
+[event:7a6e4351-af04-4fe2-b8a7-b493cb25facc]
+node_id: 15962ca3-ed5c-4201-a339-4687338a0fec
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-14T12:08:36.396341+00:00
+
+10x lifecycle sweep
+---
 [node:8bfaa6ba-c432-44f9-a9f5-12aed72a8f15]
 type: decision
 tier: short-term
@@ -5780,7 +5942,7 @@ created_at: 2026-09-09T11:58:47.465608+00:00
 needs_review: true
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:58:47.465608+00:00
 -> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-09T11:58:47.465608+00:00
 -> ABOUT [node:7b73e502-b1fb-4587-96bd-f005b1ead665] @ 2026-09-09T11:58:47.465608+00:00
@@ -5829,6 +5991,16 @@ created_at: 2026-09-09T12:05:10.327863+00:00
 
 superseded by f2fe867a sentinel-message compacting design; CONTRADICTS edge added so the reversal is explicit rather than silent
 ---
+[event:4c65584f-e9f3-4332-95e6-97d5c8186c56]
+node_id: 8bfaa6ba-c432-44f9-a9f5-12aed72a8f15
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-14T12:08:36.396341+00:00
+
+10x lifecycle sweep
+---
 [node:f73b288e-3ce8-47d1-aedb-0b20cec11a2b]
 type: decision
 tier: short-term
@@ -5837,7 +6009,7 @@ created_at: 2026-09-09T11:58:50.369867+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:4730c1bc-b791-4a0d-a94c-1bd4f8307102] @ 2026-09-09T11:58:50.369867+00:00
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:58:50.369867+00:00
 -> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-09T11:58:50.369867+00:00
@@ -5855,6 +6027,16 @@ created_at: 2026-09-09T12:16:31.732429+00:00
 
 near-duplicate of node e8469646 (same async-generator decision, method named sendMessage here vs streamTurn in the implementation and in e8469646) — left for /gw-consolidate rather than merged unilaterally
 ---
+[event:26a29c83-42c0-4e75-b8a0-66697b8194fd]
+node_id: f73b288e-3ce8-47d1-aedb-0b20cec11a2b
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-14T12:08:36.396341+00:00
+
+10x lifecycle sweep
+---
 [node:a1245ccd-7feb-4183-bfc0-a6f2ab543921]
 type: decision
 tier: short-term
@@ -5863,7 +6045,7 @@ created_at: 2026-09-09T11:58:56.315499+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:58:56.315499+00:00
 -> DEPENDS_ON [node:62d2072b-039e-439c-9dfa-1616e42a4afa] @ 2026-09-09T11:58:56.315499+00:00
 -> DEPENDS_ON [node:ac006a24-2763-40e7-8423-2b851793efcf] @ 2026-09-09T11:58:56.315499+00:00
@@ -5942,6 +6124,16 @@ created_at: 2026-09-10T04:41:37.306118+00:00
 
 proven on the wire with a dedicated test asserting reportError's extra never carries audio/transcript content, only the route name
 ---
+[event:17216d2e-8bfe-4a54-a20c-ce52c2bc9517]
+node_id: a1245ccd-7feb-4183-bfc0-a6f2ab543921
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-14T12:08:36.396341+00:00
+
+10x lifecycle sweep
+---
 [node:d365f52c-8a1b-4071-ac23-119de7808a5b]
 type: decision
 tier: short-term
@@ -5950,7 +6142,7 @@ created_at: 2026-09-09T11:58:58.915598+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:58:58.915598+00:00
 -> DEPENDS_ON [node:ff9ca87f-3e9e-4631-b3e5-6a18bfa18139] @ 2026-09-09T11:58:58.915598+00:00
 
@@ -5985,6 +6177,16 @@ source: agent-surface
 created_at: 2026-09-09T12:16:31.725359+00:00
 
 implemented exactly this way in src/server/routes/chat.ts: reply.hijack() + reply.raw.write(), no SSE library
+---
+[event:bd85e849-4509-4583-b242-db07436a3206]
+node_id: d365f52c-8a1b-4071-ac23-119de7808a5b
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-14T12:08:36.396341+00:00
+
+10x lifecycle sweep
 ---
 [node:6645438f-1bc5-4c0c-81fe-b03817eb4f7b]
 type: decision
@@ -6089,7 +6291,7 @@ created_at: 2026-09-09T12:01:33.517864+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:4730c1bc-b791-4a0d-a94c-1bd4f8307102] @ 2026-09-09T12:01:33.517864+00:00
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T12:01:33.517864+00:00
 -> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-09T12:01:33.517864+00:00
@@ -6117,6 +6319,16 @@ created_at: 2026-09-09T12:05:10.336091+00:00
 
 ConversationService's async-generator interface design this plan implements
 ---
+[event:f9ddc4fc-e7b4-4959-9cdf-70c7c96d8c5c]
+node_id: e8469646-a163-40f5-a596-12eff5660cf5
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-14T12:08:36.396341+00:00
+
+10x lifecycle sweep
+---
 [node:f2fe867a-99c2-4fc9-a8cd-0e16a97af0b4]
 type: decision
 tier: mid-term
@@ -6125,7 +6337,7 @@ created_at: 2026-09-09T12:01:39.453435+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:4730c1bc-b791-4a0d-a94c-1bd4f8307102] @ 2026-09-09T12:01:39.453435+00:00
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T12:01:39.453435+00:00
 -> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-09T12:01:39.453435+00:00
@@ -6155,6 +6367,16 @@ created_at: 2026-09-09T12:05:10.332709+00:00
 
 the compacting design plan.md now actually implements
 ---
+[event:f7903640-f05f-4763-ba0a-a197eb6d8d51]
+node_id: f2fe867a-99c2-4fc9-a8cd-0e16a97af0b4
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-14T12:08:36.396341+00:00
+
+10x lifecycle sweep
+---
 [node:b30b1c95-e5df-4b99-b059-11bc950ee6fe]
 type: concept
 tier: mid-term
@@ -6163,7 +6385,7 @@ created_at: 2026-09-09T12:01:45.117809+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:279d73e0-ff0f-4184-a25c-f051d2030072] @ 2026-09-09T12:01:45.117809+00:00
 -> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-09T12:01:45.117809+00:00
 -> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-09T12:01:45.117809+00:00
@@ -6190,6 +6412,16 @@ source: agent-surface
 created_at: 2026-09-10T04:33:13.701955+00:00
 
 re-verified gateway reachability and chat-completions-only scope live 2026-09-10; audio/transcriptions is a separate, unverified contract
+---
+[event:71dbe61b-bbfa-4c23-b350-8455dc3cc56e]
+node_id: b30b1c95-e5df-4b99-b059-11bc950ee6fe
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-14T12:08:36.396341+00:00
+
+10x lifecycle sweep
 ---
 [node:487b0814-c423-443a-adf7-8f466044076f]
 type: constraint
@@ -6288,12 +6520,22 @@ created_at: 2026-09-09T12:16:41.081770+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:4a749051-6bc6-4807-bc52-47748e2bb914] @ 2026-09-09T12:16:41.081770+00:00
 -> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-09T12:16:41.081770+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-09T12:16:41.081770+00:00
 
 The mic affordance for 'Mikrofon w czacie' ships as a visible, permanently-disabled button in K7Chat.svelte (title="transkrypcja audio — wkrótce") rather than being omitted, when the chat card's voiceInput param is true. Full transcription wiring (purpose='transcription' AiCall, an actual recording+upload flow) is deferred out of k7-ai-chat's scope entirely. This differs from the audiometer's mic-permission pattern (which actually requests the mic on demand) — here nothing requests any permission at all yet, since there is no transcription call to feed.
+---
+[event:ca5f69b5-e57a-4460-a868-c5bf21248cd8]
+node_id: 9edc0d30-df8b-4832-98af-9d7615b449a6
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-14T12:08:36.396341+00:00
+
+10x lifecycle sweep
 ---
 [node:28ed347c-7e50-4680-81ba-cb7d8a532959]
 type: decision
@@ -6303,11 +6545,21 @@ created_at: 2026-09-09T12:16:43.227021+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-09T12:16:43.227021+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-09T12:16:43.227021+00:00
 
 K7Chat.svelte shows the user's own typed message immediately on send, before the server confirms it, unlike K7ShoppingList's strictly server-confirmed writes. This is a deliberate, scoped exception: the shopping list's no-optimistic-UI rule exists because multiple devices can race on the same list, and a chat turn has exactly one author typing into their own card with nothing to race against, so there is no data-consistency hazard an optimistic echo could hide.
+---
+[event:b5f44f05-da50-4a54-90d0-10f97373a93f]
+node_id: 28ed347c-7e50-4680-81ba-cb7d8a532959
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-14T12:08:36.396341+00:00
+
+10x lifecycle sweep
 ---
 [node:1ca64b34-866e-4406-a8f5-f84f6d6a95f5]
 type: slice
@@ -6448,6 +6700,16 @@ created_at: 2026-09-10T06:48:45.724122+00:00
 
 Confirmed the existing Carousel entity already covers an 'image carousel' once StaticImage cards exist as slides — no new component needed
 ---
+[event:c90984c2-b272-4a8c-bc7b-529bed623ebf]
+node_id: aff11b74-f850-469a-b282-92ef59377990
+type: entity_confirmed
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-14T18:29:34.689561+00:00
+
+Human ruling (mt3o, 2026-09-14, /gw-resolve): confirm all four remaining proposed entities.
+---
 [node:441547c8-c8df-41c9-86d0-eebe5da729de]
 type: entity
 tier: short-term
@@ -6470,6 +6732,16 @@ source: agent-surface
 created_at: 2026-09-10T04:30:44.187200+00:00
 
 proposed via agent surface: docs/handoff/layout.schema.yaml params.menu; layout.yaml menu-kuchnia/audiometr/minutnik-kuchnia; proposed while implementing k7-container-widgets
+---
+[event:267d1bdf-cf22-4492-983a-7e9f450f3ccc]
+node_id: 441547c8-c8df-41c9-86d0-eebe5da729de
+type: entity_confirmed
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-14T18:29:34.721132+00:00
+
+Human ruling (mt3o, 2026-09-14, /gw-resolve): confirm all four remaining proposed entities.
 ---
 [node:2704bad5-2b87-4396-a588-cf44648677dc]
 type: issue
@@ -6934,6 +7206,16 @@ created_at: 2026-09-10T06:48:45.719131+00:00
 
 StaticImage entity used to name the new K7Image.svelte component and image card type
 ---
+[event:7932732d-2797-46e1-925c-ad9ee75e570b]
+node_id: 9ec2ba02-df53-4a40-8e6b-dfb52e4f86b7
+type: entity_confirmed
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-14T18:29:34.769281+00:00
+
+Human ruling (mt3o, 2026-09-14, /gw-resolve): confirm all four remaining proposed entities.
+---
 [node:08e87a7d-af86-4011-a637-184af086d75a]
 type: goal
 tier: short-term
@@ -7016,3 +7298,18 @@ trust_weight: 1.0
 archived: false
 
 audio
+---
+[node:07a456b4-8f9a-40ee-977a-9c5f32f06249]
+type: decision
+tier: mid-term
+path: /artifact/decided-2026-09-14-correcting-a-stale-m
+created_at: 2026-09-14T15:54:17.591874+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550] @ 2026-09-14T15:54:17.591874+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-14T15:54:17.591874+00:00
+-> DEPENDS_ON [node:baefeee7-a562-4085-8a4e-cd20045f4164] @ 2026-09-14T15:54:17.591874+00:00
+
+Decided 2026-09-14, correcting a stale mid-term issue node (formerly framed as "workbox-vs-hand-rolled blocked on an undesigned invalidation strategy" — that decision was already made and shipped hand-rolled, shell-only, in k7-offline-shell): selected API responses, calendar first, will be cached by the Service Worker with a stale-while-revalidate strategy — serve the cached response, revalidate in the background once it is stale, and fall back to the cached version when a fresh fetch is unavailable. Not yet implemented. Which other endpoints qualify (a mutating write path likely does not) and the per-endpoint invalidation details remain open.
