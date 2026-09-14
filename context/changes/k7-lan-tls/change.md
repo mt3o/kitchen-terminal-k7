@@ -9,8 +9,15 @@ epic: faza-0
 slice: 5
 mode: interactive
 branch: change/k7-lan-tls
-status: code-complete-pending-credentials
+status: superseded-by-k7-deploy
 ```
+
+**Note (2026-09-14):** this file's own status line and its "Not done — needs
+credentials only" section below are stale — the Cloudflare token was supplied
+and issuance/wiring happened as part of `context/changes/k7-deploy/change.md`
+(now itself updated 2026-09-14 with what changed after that). Left as written
+below for the historical record of what this change actually delivered in code
+and tests; see `k7-deploy` for what actually ran in production.
 
 ## What this delivers
 

@@ -9,6 +9,10 @@
 # Newest entry first.
 entries:
   - date: "2026-09-10"
+    title: "Panel dostępny pod adresem bez numeru portu"
+    items:
+      - "Terminal K7 odpowiada teraz pod https://k7.revert-h0m3.co.pl/ bez podawania numeru portu — serwer nginx na tej samej maszynie przyjmuje ruch na standardowych portach 80 i 443 i kieruje go dalej do K7; port 80 przekierowuje na https."
+  - date: "2026-09-10"
     title: "Poprawka: generowanie ASCII-artu mogło wisieć bez końca"
     items:
       - "Zapytanie do bramki AI (kilo-auto/free) mogło nigdy nie dostać odpowiedzi ani błędu, blokując kartę ASCII.DNIA (i podsumowania w czacie) w nieskończoność. Teraz ma limit czasu 45s, po którym karta pokazuje ostatni dobry wynik albo rezerwowy ascii-art zamiast wisieć."

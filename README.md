@@ -55,6 +55,7 @@ Server environment variables (see `src/server/index.ts`):
 |---|---|---|
 | `K7_PORT` | `8080` | HTTP port |
 | `K7_HOST` | `0.0.0.0` | Bind address — `0.0.0.0` on purpose, so the iPad can reach it over the LAN |
+| `K7_TRUST_PROXY` | unset | Loopback address of a reverse proxy in front of K7 (e.g. `127.0.0.1` for the nginx LAN deploy), so `req.ip` reflects the real client instead of the proxy |
 
 Other useful scripts:
 
