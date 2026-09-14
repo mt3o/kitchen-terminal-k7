@@ -98,7 +98,38 @@ cache is not evidence about the state of a zone.
 
 ## Left open
 
-- `:8443` rather than `:443`, because binding 443 needs root. Behind the existing
-  nginx would fix that and needs a human with sudo.
 - The renewal path has not been *observed* — it is tested as policy and will not
   actually run for ~60 days.
+
+## Update 2026-09-14 — `:443`/`:80`, done outside this repo
+
+The `:8443` item above is resolved, entirely on the server side — no commit in
+this repo did it, which is why this change.md and `changelog.yaml` had gone
+stale on it. Done by a session working directly on `192.168.0.10` as root, per
+mt3o's direction, not by a `/gw-*` change here:
+
+- **2026-09-10** — nginx added an SNI-passthrough stream (`ssl_preread`) for
+  `k7.revert-h0m3.co.pl`: `:80` redirects to https, `:443` relays the still-
+  encrypted TLS straight to K7's own `:8443`, so K7 kept issuing and terminating
+  its own certificate. `https://k7.revert-h0m3.co.pl/` has worked with no port
+  since that date.
+- **2026-09-14** — switched to nginx terminating TLS itself with the box's
+  wildcard Let's Encrypt cert (certbot, `*.revert-h0m3.co.pl`), reverse-proxying
+  plaintext to K7's `:8443` over loopback with `proxy_protocol` carrying the real
+  client IP. K7 does not yet read that header — see below.
+
+**Left open by this switch, paused on mt3o's instruction (2026-09-14):**
+
+- K7's Fastify instance needs `trustProxy` pointed at the loopback address so
+  `req.ip` comes from the PROXY-protocol/`X-Forwarded-For` info nginx now sends,
+  instead of seeing every request as `127.0.0.1`. Until this lands, the
+  LAN-source check in `security/network.ts` is effectively blind (still safe —
+  everything still reads as private — just no longer meaningful as the
+  "accidental exposure" check the file's docstring describes).
+- K7 is still bound to `0.0.0.0:8443`, so a LAN client can still reach it
+  directly, bypassing nginx (and, until `trustProxy` lands, could in principle
+  spoof its own forwarded-for value by talking to K7 directly). Binding K7 to
+  `127.0.0.1` was suggested alongside the above.
+- Whether K7 keeps its own in-process ACME/Cloudflare-DNS-01 client at all, now
+  that nginx terminates TLS with its own wildcard cert, is an open question —
+  not decided, not started.

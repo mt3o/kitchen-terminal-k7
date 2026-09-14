@@ -99,6 +99,12 @@ const req_log_error = (err: unknown): void => {
 const app = Fastify({
   logger: { transport: undefined },
   ...(tls ? { https: { key: tls.key, cert: tls.cert } } : {}),
+  // Behind nginx (the LAN deploy), every TCP connection arrives from
+  // nginx's own loopback hop — req.ip would otherwise always read as
+  // nginx, not the LAN client. Only that one loopback address is trusted,
+  // so a request that reaches K7 directly (:8443 is still open on the LAN)
+  // cannot spoof its own X-Forwarded-For.
+  ...(config.trustProxy ? { trustProxy: config.trustProxy } : {}),
 })
 
 /** The Layout is read per request: editing layout.yaml should not need a restart. */

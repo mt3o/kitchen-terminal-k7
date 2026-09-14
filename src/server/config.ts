@@ -12,6 +12,17 @@
 export interface Config {
   port: number
   host: string
+  /**
+   * The one loopback address a reverse proxy in front of this process runs on,
+   * or undefined when nothing sits in front. Passed straight to Fastify's
+   * `trustProxy` — only a request whose TCP peer is this address gets its
+   * `X-Forwarded-For` honoured for `req.ip`. Leaving this unset when a proxy
+   * *is* in front just means every request logs as the proxy's own address;
+   * setting it when no proxy exists would let anyone on the LAN spoof their
+   * own address by sending the header themselves, so it is opt-in per
+   * deployment rather than always on.
+   */
+  trustProxy: string | undefined
   environment: string
   /** SQLite file. `:memory:` is honoured, which is how the tests run. */
   databasePath: string
@@ -47,6 +58,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   return {
     port: readPort(env.K7_PORT, env.K7_HOSTNAME && env.CLOUDFLARE_API_TOKEN ? 8443 : 8080),
     host: env.K7_HOST ?? '0.0.0.0',
+    trustProxy: env.K7_TRUST_PROXY || undefined,
     environment: env.NODE_ENV ?? 'development',
     databasePath: env.K7_DB_PATH ?? './data/k7.sqlite',
     glitchtipDsn: env.GLITCHTIP_DSN || undefined,
@@ -85,6 +97,7 @@ export function describeConfig(config: Config): string {
     `env=${config.environment}`,
     `host=${config.host}`,
     `port=${config.port}`,
+    `trust_proxy=${config.trustProxy ?? 'off'}`,
     `db=${config.databasePath}`,
     `glitchtip=${present(config.glitchtipDsn)}`,
     `kilo_key=${present(config.kiloGatewayKey)}`,
