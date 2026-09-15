@@ -10784,6 +10784,7 @@ archived: false
 -> DEPENDS_ON [node:3fbd6715-ab1c-4515-aa6c-6daf97354ffe] @ 2026-09-15T13:11:51.426845+00:00
 -> DEPENDS_ON [node:447637ba-6aa5-4f22-9e2c-306dc4ede3e2] @ 2026-09-15T13:11:59.819780+00:00
 -> DEPENDS_ON [node:5786ab1c-0b77-47f6-b106-71b194355c7a] @ 2026-09-15T12:53:23.002143+00:00
+-> DEPENDS_ON [node:5e50c7e3-1caf-4a51-808f-ecc07cd24889] @ 2026-09-15T13:28:44.291256+00:00
 -> DEPENDS_ON [node:87702f1f-1848-4624-9b52-e03c40aef76d] @ 2026-09-15T12:53:39.376790+00:00
 -> DEPENDS_ON [node:92c62be9-95e4-40db-94f2-fe8465110bf5] @ 2026-09-15T13:13:02.941322+00:00
 -> DEPENDS_ON [node:bb5beeed-3cc4-468a-b4c3-a6575cb25f41] @ 2026-09-15T12:48:47.622097+00:00
@@ -10817,6 +10818,7 @@ archived: false
 -> SCOPED_TO [node:3fbd6715-ab1c-4515-aa6c-6daf97354ffe] @ 2026-09-15T13:11:51.426845+00:00
 -> SCOPED_TO [node:447637ba-6aa5-4f22-9e2c-306dc4ede3e2] @ 2026-09-15T13:11:59.819780+00:00
 -> SCOPED_TO [node:5786ab1c-0b77-47f6-b106-71b194355c7a] @ 2026-09-15T12:53:23.002143+00:00
+-> SCOPED_TO [node:5e50c7e3-1caf-4a51-808f-ecc07cd24889] @ 2026-09-15T13:28:44.291256+00:00
 -> SCOPED_TO [node:87702f1f-1848-4624-9b52-e03c40aef76d] @ 2026-09-15T12:53:39.376790+00:00
 -> SCOPED_TO [node:92c62be9-95e4-40db-94f2-fe8465110bf5] @ 2026-09-15T13:13:02.941322+00:00
 -> SCOPED_TO [node:bb5beeed-3cc4-468a-b4c3-a6575cb25f41] @ 2026-09-15T12:48:47.622097+00:00
@@ -11131,3 +11133,28 @@ source: agent-surface
 created_at: 2026-09-15T13:13:06.300181+00:00
 
 merged as PR #49 after adversarial review with live-socket verification
+---
+[node:5e50c7e3-1caf-4a51-808f-ecc07cd24889]
+type: decision
+tier: mid-term
+path: /artifact/round-3-of-k7-calendar-ssrf-fix-the-pee
+created_at: 2026-09-15T13:28:44.291256+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T13:28:44.291256+00:00
+-> DEPENDS_ON [node:92c62be9-95e4-40db-94f2-fe8465110bf5] @ 2026-09-15T13:28:44.291256+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-15T13:28:44.291256+00:00
+
+Round 3 of k7-calendar-ssrf-fix: the peer session tested round-2 (bracketed-IPv6/0.0.0.0/redirect fixes) live against a real canary listener and found the class was STILL open — a hostname that resolves to a private address (the household's own LAN A records, localtest.me, 127.0.0.1.nip.io) sails past isFetchableUrl entirely, since that function only validates a literal address, never resolves the name. Confirmed live: rssUrl=http://k7.revert-h0m3.co.pl:47811/, http://127.0.0.1.nip.io:47811/, http://localtest.me:47811/ all reached the peer's canary listener. Fix: new src/server/security/dns-pin.ts's resolvePinned() does ONE DNS lookup (dns.lookup with all:true), rejects if ANY returned address is private (not just the first — a mixed public+private answer is exactly the inconsistent-use bug a partial check misses), then returns an undici Agent whose connector is pinned to dial ONLY that vetted address, never re-resolving — closing the two-step TOCTOU gap where a second DNS answer could swap in a private address between the check and the actual connection (DNS rebinding). Applied to both comic-rss.ts's fetchComic and recipes/import.ts's importRecipeFromUrl (the only two routes fetching a client/user-influenced URL). Real implementation obstacles hit and fixed during this: (1) undici's Agent/connect.lookup callback must receive an ARRAY of {address,family} objects, not a flat (address,family) pair — the flat form threw ERR_INVALID_IP_ADDRESS deep inside node:net, not a type error, only found via live testing. (2) Node's global fetch() cannot accept a dispatcher built from the separately-installed npm undici package — it's built on its own internal, version-pinned undici copy, and passing an external Agent throws InvalidArgumentError('invalid onRequestStart method'); fetchWithTimeout (freshness.ts) now branches to undici's OWN fetch export when a dispatcher is given, keeping every other caller's global-fetch-based behavior (and their globalThis.fetch test stubs) completely unchanged. (3) The dispatcher must not be closed until AFTER the response body is fully read (res.text()), not immediately after fetch() resolves — closing early would cut the body stream off mid-read. (4) Testability: since undiciFetch cannot be intercepted by the existing globalThis.fetch stubbing convention, both fetchComic and importRecipeFromUrl gained an injectable `fetcher` escape hatch (matching the project's established DI-over-mocking discipline) that bypasses DNS-pinning entirely for feed/extraction-logic tests; a separate lookupAll fixture on ComicQuery exercises the real DNS-pinned path's own reject behavior directly. undici added as a direct dependency (was previously only transitive via cheerio/jsdom) — no new npm audit findings.
+---
+[event:28627270-c701-4f3e-b4a6-ea6e197c171a]
+node_id: 5e50c7e3-1caf-4a51-808f-ecc07cd24889
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T13:28:48.302249+00:00
+
+implemented and empirically verified DNS-pinning against the exact peer-reported attack payloads

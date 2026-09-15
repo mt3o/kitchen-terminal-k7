@@ -70,7 +70,7 @@ const RSS_NO_IMAGE = `<?xml version="1.0"?>
 describe('fetchComic', () => {
   it('prefers the enclosure image when present', async () => {
     stubFeed(RSS_WITH_ENCLOSURE)
-    const result = await fetchComic({ rssUrl: 'https://feed.example/rss.xml' })
+    const result = await fetchComic({ rssUrl: 'https://feed.example/rss.xml', fetcher: (u) => fetch(u) })
     assert.equal(result.imageUrl, 'https://example.com/cat.png')
     assert.equal(result.sourceUrl, 'https://example.com/1')
     assert.equal(result.title, 'Cat Comic')
@@ -78,52 +78,78 @@ describe('fetchComic', () => {
 
   it('falls back to media:content when there is no enclosure', async () => {
     stubFeed(RSS_WITH_MEDIA_CONTENT)
-    const result = await fetchComic({ rssUrl: 'https://feed.example/rss.xml' })
+    const result = await fetchComic({ rssUrl: 'https://feed.example/rss.xml', fetcher: (u) => fetch(u) })
     assert.equal(result.imageUrl, 'https://example.com/dog.png')
   })
 
   it('falls back to the first <img> in content:encoded when neither enclosure nor media:content exist', async () => {
     stubFeed(RSS_WITH_ENCODED_IMG)
-    const result = await fetchComic({ rssUrl: 'https://feed.example/rss.xml' })
+    const result = await fetchComic({ rssUrl: 'https://feed.example/rss.xml', fetcher: (u) => fetch(u) })
     assert.equal(result.imageUrl, 'https://example.com/plain.png')
   })
 
   it('uses itemSelector as a CSS selector against the entry HTML when given', async () => {
     stubFeed(RSS_WITH_ENCODED_IMG)
-    const result = await fetchComic({ rssUrl: 'https://feed.example/rss.xml', itemSelector: '.comic img' })
+    const result = await fetchComic({ rssUrl: 'https://feed.example/rss.xml', itemSelector: '.comic img', fetcher: (u) => fetch(u) })
     assert.equal(result.imageUrl, 'https://example.com/plain.png')
   })
 
   it('picks the first entry whose title or description matches filterKeywords', async () => {
     stubFeed(RSS_TWO_ITEMS)
-    const result = await fetchComic({ rssUrl: 'https://feed.example/rss.xml', filterKeywords: ['cooking'] })
+    const result = await fetchComic({ rssUrl: 'https://feed.example/rss.xml', filterKeywords: ['cooking'], fetcher: (u) => fetch(u) })
     assert.equal(result.imageUrl, 'https://example.com/kitchen.png')
     assert.equal(result.title, 'Kitchen Comic')
   })
 
   it('matches keywords case-insensitively', async () => {
     stubFeed(RSS_TWO_ITEMS)
-    const result = await fetchComic({ rssUrl: 'https://feed.example/rss.xml', filterKeywords: ['SPACE'] })
+    const result = await fetchComic({ rssUrl: 'https://feed.example/rss.xml', filterKeywords: ['SPACE'], fetcher: (u) => fetch(u) })
     assert.equal(result.title, 'Space Comic')
   })
 
   it('throws when no entry matches filterKeywords, rather than serving the wrong comic', async () => {
     stubFeed(RSS_TWO_ITEMS)
     await assert.rejects(
-      () => fetchComic({ rssUrl: 'https://feed.example/rss.xml', filterKeywords: ['nonexistent-topic'] }),
+      () => fetchComic({ rssUrl: 'https://feed.example/rss.xml', filterKeywords: ['nonexistent-topic'], fetcher: (u) => fetch(u) }),
       /filterKeywords/,
     )
   })
 
   it('throws when the matched entry has no extractable image', async () => {
     stubFeed(RSS_NO_IMAGE)
-    await assert.rejects(() => fetchComic({ rssUrl: 'https://feed.example/rss.xml' }), /no image/)
+    await assert.rejects(() => fetchComic({ rssUrl: 'https://feed.example/rss.xml', fetcher: (u) => fetch(u) }), /no image/)
   })
 
   it('takes the first entry when no filterKeywords are given', async () => {
     stubFeed(RSS_TWO_ITEMS)
-    const result = await fetchComic({ rssUrl: 'https://feed.example/rss.xml' })
+    const result = await fetchComic({ rssUrl: 'https://feed.example/rss.xml', fetcher: (u) => fetch(u) })
     assert.equal(result.title, 'Space Comic')
+  })
+})
+
+describe('fetchComic DNS-pinned path (no fetcher injected)', () => {
+  it('rejects an rssUrl that resolves to a private address, without ever fetching the feed', async () => {
+    stubFeed(RSS_WITH_ENCLOSURE) // would prove this ran if reached — it must not be
+    await assert.rejects(
+      fetchComic({
+        rssUrl: 'https://internal.example/rss.xml',
+        lookupAll: async () => [{ address: '192.168.1.5', family: 4 }],
+      }),
+      /private/,
+    )
+  })
+
+  it('rejects when the mixed DNS answer includes any private address, not just the first', async () => {
+    await assert.rejects(
+      fetchComic({
+        rssUrl: 'https://mixed.example/rss.xml',
+        lookupAll: async () => [
+          { address: '93.184.216.34', family: 4 },
+          { address: '127.0.0.1', family: 4 },
+        ],
+      }),
+      /private/,
+    )
   })
 })
 
