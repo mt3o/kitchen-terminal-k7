@@ -360,21 +360,26 @@ body {
   display: none !important;
 }
 
-/* --- slideshow: full-screen idle rotation -------------------------------
- * `slideshow` is a layout-level controller, not a rendered card (KONTRAKT
- * note in layout.schema.yaml): after a period of no interaction it promotes
- * one already-rendered target card in place to cover the whole viewport,
- * rather than moving or cloning it — reparenting a Svelte custom element
- * fires disconnectedCallback/connectedCallback, which tears the component
- * down and re-mounts it, losing state (a running timer, an armed
- * audiometer). See createSlideshowController in
- * src/client/lib/slideshow.ts, which drives these classes.
+/* --- card fullscreen: shared by the Slideshow and a card's own manual
+ * button -------------------------------------------------------------------
+ * One card is promoted in place to cover the whole viewport, rather than
+ * moved or cloned — reparenting a Svelte custom element fires
+ * disconnectedCallback/connectedCallback, which tears the component down and
+ * re-mounts it, losing state (a running timer, an armed audiometer). Two
+ * callers drive these classes through one shared owner,
+ * src/client/lib/fullscreen-lock.ts: the Slideshow (a layout-level
+ * controller, not a rendered card — see the KONTRAKT note in
+ * layout.schema.yaml — idle-driven, via src/client/lib/slideshow.ts), and any
+ * card whose `fullscreen` prop is set on its `<Card>` shell (household-driven,
+ * via a header button).
  *
  * The veil is a sibling layer behind the promoted card, not a filter on it —
  * same reasoning as `.reconnect-veil` above, and the same single 4px
  * backdrop-filter allowance DESIGN.md §5 grants the slideshow specifically.
+ * Only the Slideshow's crossfade uses it; a manual toggle is a direct switch,
+ * no transition.
  * -------------------------------------------------------------------------- */
-.k7-slideshow-veil {
+.k7-fullscreen-veil {
   position: fixed;
   inset: 0;
   z-index: 499;
@@ -382,11 +387,11 @@ body {
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
-.k7-slideshow-veil[hidden] {
+.k7-fullscreen-veil[hidden] {
   display: none;
 }
 
-.k7-slideshow-active {
+.k7-fullscreen-active {
   position: fixed !important;
   inset: 0;
   z-index: 500;
@@ -403,7 +408,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .k7-slideshow-active {
+  .k7-fullscreen-active {
     transition-duration: 0ms;
   }
 }

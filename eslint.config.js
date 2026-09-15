@@ -18,6 +18,7 @@ const browserGlobals = {
   HTMLElement: 'readonly',
   HTMLDivElement: 'readonly',
   HTMLSlotElement: 'readonly',
+  ShadowRoot: 'readonly',
   TouchEvent: 'readonly',
   customElements: 'readonly',
   CustomEvent: 'readonly',
@@ -72,7 +73,7 @@ const projectRules = {
 
 export default tseslint.config(
   {
-    ignores: ['dist/**', 'node_modules/**', 'context/**', 'docs/**', 'design-system/**', '.claude/**'],
+    ignores: ['dist/**', 'node_modules/**', 'context/**', 'docs/**', 'design-system/**', '.claude/**', '.gw-scratch/**'],
   },
 
   js.configs.recommended,

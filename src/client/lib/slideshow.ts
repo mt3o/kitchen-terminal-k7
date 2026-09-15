@@ -157,36 +157,51 @@ export function slideshowReducer(state: SlideshowState, event: SlideshowEvent, c
 // the reducer above is — there would be little to gain from faking timers and
 // a DOM just to re-prove the reducer's own transitions. What lives here is
 // only "when do we dispatch which event" and "how do we paint the result".
-
-/** What the controller needs from the page-level pager, so a touch meant to
- *  exit the slideshow does not also get read as a page swipe — the promoted
- *  card is still a DOM descendant of the pager's viewport, only its CSS
- *  position changes, so events on it still bubble there. */
-export interface PagerHandle {
-  suspend(): void
-  resume(): void
-}
+//
+// The promotion CSS class, the `.pager-track` transform, and
+// `Pager.suspend()`/`resume()` are no longer owned here — they moved to
+// `fullscreen-lock.ts`, the one module both this controller and a card's own
+// manual fullscreen button call through, so there is exactly one place that
+// touches them instead of two competing copies. This module now only decides
+// *when* a card enters/rotates/exits fullscreen and runs its own idle/interval
+// timers and crossfade veil.
+import { enterSlideshow, exitSlideshow, isManualFullscreenActive, rotateSlideshow } from './fullscreen-lock.ts'
 
 export interface SlideshowControllerDeps {
-  /** `.pager-track` — the one ancestor whose transform would otherwise make
-   *  `position: fixed` on the promoted card resolve against it instead of the
-   *  viewport. Cleared while fullscreen, restored verbatim on exit. */
-  track: HTMLElement
-  pager: PagerHandle
   /** Injected for testability of callers, not used by this module's own
    *  tests (there are none — see the note above). Defaults to `document`. */
   doc?: Document
 }
 
 export interface SlideshowController {
+  /** Called while a card's own manual fullscreen owns the slot, so the idle
+   *  timer does not silently fire underneath a manual session, and the
+   *  rotation interval does not keep advancing while nothing shows it. */
+  suspend(): void
+  resume(): void
   destroy(): void
 }
 
-const ACTIVE_CLASS = 'k7-slideshow-active'
 const ENTER_FADE = 'k7-slideshow-enter-fade'
 const ENTER_SLIDE = 'k7-slideshow-enter-slide'
+const VEIL_CLASS = 'k7-fullscreen-veil'
 
-export function createSlideshowController(config: SlideshowConfig, deps: SlideshowControllerDeps): SlideshowController {
+/**
+ * Whether an interaction while `mode` should exit the Slideshow's own
+ * fullscreen. `manualOwned` always wins to `false` regardless of the other
+ * two: a card's own manual fullscreen currently owning the slot means this
+ * interaction is not the household asking to leave the Slideshow at all —
+ * most concretely, the touchstart/mousedown that ACQUIRES manual fullscreen
+ * fires before the button's own click, so this guard is what stops that
+ * acquiring tap from tearing the Slideshow down first. Pure and unit-tested
+ * alongside `slideshowReducer`.
+ */
+export function shouldExitOnInteraction(mode: SlideshowMode, exitOnInteraction: boolean, manualOwned: boolean): boolean {
+  if (manualOwned) return false
+  return mode === 'fullscreen' && exitOnInteraction
+}
+
+export function createSlideshowController(config: SlideshowConfig, deps: SlideshowControllerDeps = {}): SlideshowController {
   const doc = deps.doc ?? document
   const win = doc.defaultView ?? window
 
@@ -197,43 +212,45 @@ export function createSlideshowController(config: SlideshowConfig, deps: Slidesh
   })
   if (resolvedIds.length < 2) {
     console.warn('slideshow: fewer than 2 resolvable cardIds after validation — controller not started.')
-    return { destroy() {} }
+    return { suspend() {}, resume() {}, destroy() {} }
   }
 
   let state: SlideshowState = INITIAL_SLIDESHOW_STATE
   let idleTimer: ReturnType<typeof setTimeout> | undefined
   let intervalTimer: ReturnType<typeof setInterval> | undefined
-  let savedTrackTransform = ''
+  let suspended = false
   let veil: HTMLElement | undefined
 
   function ensureVeil(): HTMLElement {
     if (veil) return veil
     const el = doc.createElement('div')
-    el.className = 'k7-slideshow-veil'
+    el.className = VEIL_CLASS
     el.hidden = true
     doc.body.appendChild(el)
     veil = el
     return el
   }
 
+  function currentId(): string | undefined {
+    return resolvedIds[state.index]
+  }
+
   function currentEl(): HTMLElement | null {
-    const id = resolvedIds[state.index]
+    const id = currentId()
     return id ? doc.getElementById(id) : null
   }
 
-  function enterFullscreen(): void {
-    deps.pager.suspend()
-    const track = deps.track
-    savedTrackTransform = track.style.transform
-    // No transition while the containing-block context changes underneath a
-    // fully opaque, covering element — nothing is visible during the swap.
-    track.style.transition = 'none'
-    track.style.transform = 'none'
-    ensureVeil().hidden = false
+  function startInterval(): void {
+    intervalTimer = setInterval(rotate, Math.max(3, config.intervalSeconds) * 1000)
+  }
 
+  function enterFullscreen(): void {
+    const id = currentId()
+    if (id) enterSlideshow(id)
+    ensureVeil().hidden = false
     const el = currentEl()
     if (el) {
-      el.classList.add(ACTIVE_CLASS, config.transition === 'fade' ? ENTER_FADE : ENTER_SLIDE)
+      el.classList.add(config.transition === 'fade' ? ENTER_FADE : ENTER_SLIDE)
       // Force layout so the enter class's start state actually paints before
       // it is removed — otherwise the browser may coalesce both into one
       // frame and skip the transition entirely.
@@ -245,26 +262,19 @@ export function createSlideshowController(config: SlideshowConfig, deps: Slidesh
   }
 
   function exitFullscreen(): void {
-    const el = currentEl()
-    el?.classList.remove(ACTIVE_CLASS, ENTER_FADE, ENTER_SLIDE)
+    exitSlideshow()
     if (veil) veil.hidden = true
-    const track = deps.track
-    track.style.transform = savedTrackTransform
-    // Restore the normal paging transition on the next frame, after the
-    // instantaneous restore above has had a chance to apply without animating.
-    win.requestAnimationFrame(() => {
-      track.style.transition = ''
-    })
-    deps.pager.resume()
   }
 
   function rotate(): void {
     const outgoing = currentEl()
-    outgoing?.classList.remove(ACTIVE_CLASS, ENTER_FADE, ENTER_SLIDE)
+    outgoing?.classList.remove(ENTER_FADE, ENTER_SLIDE)
     state = slideshowReducer(state, { type: 'interval-tick' }, { ...config, cardIds: resolvedIds })
+    const id = currentId()
+    if (id) rotateSlideshow(id)
     const incoming = currentEl()
     if (incoming) {
-      incoming.classList.add(ACTIVE_CLASS, config.transition === 'fade' ? ENTER_FADE : ENTER_SLIDE)
+      incoming.classList.add(config.transition === 'fade' ? ENTER_FADE : ENTER_SLIDE)
       void incoming.offsetHeight
       win.requestAnimationFrame(() => {
         incoming.classList.remove(ENTER_FADE, ENTER_SLIDE)
@@ -278,15 +288,20 @@ export function createSlideshowController(config: SlideshowConfig, deps: Slidesh
       state = slideshowReducer(state, { type: 'idle-timeout' }, { ...config, cardIds: resolvedIds })
       if (state.mode !== 'fullscreen') return
       enterFullscreen()
-      intervalTimer = setInterval(rotate, Math.max(3, config.intervalSeconds) * 1000)
+      startInterval()
     }, Math.max(30, config.idleTriggerSeconds) * 1000)
   }
 
   function onInteraction(): void {
+    const manualOwned = isManualFullscreenActive()
     if (state.mode === 'active') {
-      scheduleIdle()
+      // A card's own manual fullscreen owning the slot means our idle timer
+      // is deliberately suspended (see `suspend()` below) — resetting it
+      // here would silently undo that suspension.
+      if (!manualOwned) scheduleIdle()
       return
     }
+    if (!shouldExitOnInteraction(state.mode, config.exitOnInteraction, manualOwned)) return
     const next = slideshowReducer(state, { type: 'interaction' }, { ...config, cardIds: resolvedIds })
     if (next.mode === state.mode) return // exitOnInteraction is false: stay fullscreen
     state = next
@@ -302,6 +317,26 @@ export function createSlideshowController(config: SlideshowConfig, deps: Slidesh
   scheduleIdle()
 
   return {
+    suspend() {
+      if (suspended) return
+      suspended = true
+      if (state.mode === 'active') {
+        if (idleTimer !== undefined) clearTimeout(idleTimer)
+        idleTimer = undefined
+      } else {
+        if (intervalTimer !== undefined) clearInterval(intervalTimer)
+        intervalTimer = undefined
+      }
+    },
+    resume() {
+      if (!suspended) return
+      suspended = false
+      if (state.mode === 'active') {
+        scheduleIdle()
+      } else {
+        startInterval()
+      }
+    },
     destroy() {
       win.removeEventListener('touchstart', onInteraction)
       win.removeEventListener('mousedown', onInteraction)
