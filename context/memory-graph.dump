@@ -10718,3 +10718,65 @@ source: lifecycle-cli
 created_at: 2026-09-15T12:41:17.581026+00:00
 
 10x lifecycle sweep
+---
+[node:25df1729-dc32-4525-ae98-d7691fac18fc]
+type: goal
+tier: short-term
+path: /goal/k7-calendar-ssrf-fix
+created_at: 2026-09-15T12:48:38.205400+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:bb5beeed-3cc4-468a-b4c3-a6575cb25f41] @ 2026-09-15T12:48:47.622097+00:00
+
+Fix an SSRF vulnerability in /api/calendar/week (trusted client-supplied url/mode/calendarId, fetched server-side with no validation), found live during k7-multi-calendar's deploy. Also fix the pre-existing K7Calendar.svelte day-label reactivity bug flagged by both this project's own review and the deploy check.
+---
+[node:e4b8c4b9-c1d0-497d-87f6-69e4d6459348]
+type: slice
+tier: short-term
+path: /change/k7-calendar-ssrf-fix
+created_at: 2026-09-15T12:48:38.205400+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:25df1729-dc32-4525-ae98-d7691fac18fc] @ 2026-09-15T12:48:38.205400+00:00
+-> SCOPED_TO [node:bb5beeed-3cc4-468a-b4c3-a6575cb25f41] @ 2026-09-15T12:48:47.622097+00:00
+
+change scope: k7-calendar-ssrf-fix
+---
+[event:8e9cdb5a-93fc-4f88-b0c7-226c52215d38]
+node_id: e4b8c4b9-c1d0-497d-87f6-69e4d6459348
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:48:38.211059+00:00
+
+create_change k7-calendar-ssrf-fix
+---
+[node:bb5beeed-3cc4-468a-b4c3-a6575cb25f41]
+type: decision
+tier: mid-term
+path: /artifact/ssrf-fix-for-api-calendar-week-found-l
+created_at: 2026-09-15T12:48:47.622097+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T12:48:47.622097+00:00
+-> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-09-15T12:48:47.622097+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-15T12:48:47.622097+00:00
+
+SSRF fix for /api/calendar/week (found live during k7-multi-calendar's home-server deploy, by the peer session running there): the route originally trusted client-supplied `mode`/`url`/`calendarId` query params and fetched `url` server-side with zero validation — a LAN client could direct K7's own server to fetch an arbitrary address (127.0.0.1, a docker bridge IP, another LAN host's admin panel like Portainer). Fix: the route now takes only `id` from the client and resolves the actual source (mode + url/calendarId) from layout.yaml server-side, via a new pure findConfiguredCalendar() in src/server/calendar-lookup.ts (extracted to its own module rather than left inline in index.ts, since index.ts boots the whole server as an import side effect and isn't unit-testable in isolation). The lookup searches recursively through grid cells and carousel slides, not just top-level page cards, since a calendar card could legitimately be nested per the layout schema's recursive-container shape — fixing only the top-level case would have just relocated the vulnerability to nested calendars. layout.yaml is trusted (only the household edits it); a request never is. Client-side, K7Calendar.svelte's calendarQuery() was simplified to send only `?id=`, dropping the now-unnecessary mode/url/calendarId params entirely.
+---
+[event:af26bb45-468f-42d0-bffb-d7efef811f47]
+node_id: bb5beeed-3cc4-468a-b4c3-a6575cb25f41
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:48:55.373256+00:00
+
+implemented and tested the SSRF fix + reactivity fix

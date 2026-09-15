@@ -100,7 +100,7 @@
   })
 
   let weekStart = $derived(startOfWeek(today))
-  let days = weekDays(weekStart)
+  let days = $derived(weekDays(weekStart))
   const displayDays = $derived(dayView ? days.filter((d) => isSameDay(d, today)) : days)
 
   const DOW = ['PN', 'WT', 'SR', 'CZ', 'PT', 'SB', 'ND']
@@ -146,24 +146,13 @@
     data: CalendarEvent[]
   }
 
-  function calendarQuery(cal: Calendar): URLSearchParams {
-    // A local throwaway, never held as state — same non-reactive case as
-    // mockEvents' own throwaway Date above.
-    // eslint-disable-next-line svelte/prefer-svelte-reactivity
-    const params = new URLSearchParams({ id: cal.id })
-    if (cal.source.mode === 'google') {
-      params.set('mode', 'google')
-      params.set('calendarId', cal.source.calendarId)
-    } else {
-      params.set('mode', 'ics')
-      params.set('url', cal.source.url)
-    }
-    return params
-  }
-
   async function loadCalendar(cal: Calendar, signal: AbortSignal): Promise<void> {
     try {
-      const res = await fetch(`/api/calendar/week?${calendarQuery(cal)}`, { signal })
+      // The server resolves everything else (which source mode, which
+      // URL/calendarId) itself from layout.yaml — sending them from here
+      // would let a LAN client direct K7's server to fetch an address of
+      // its own choosing (see calendar-lookup.ts's own doc comment).
+      const res = await fetch(`/api/calendar/week?id=${encodeURIComponent(cal.id)}`, { signal })
       if (!res.ok) {
         // A not-configured Google calendar is not this calendar failing —
         // it was never going to have real data until credentials exist.
