@@ -24,6 +24,8 @@ import { createFreshnessService } from './upstream/freshness.ts'
 import { fetchWeather, weatherCacheKey } from './upstream/open-meteo.ts'
 import { asciiArtCacheKey, createAsciiArtGenerator } from './upstream/ascii-art.ts'
 import { comicCacheKey, fetchComic } from './upstream/comic-rss.ts'
+import { icsCacheKey, fetchIcsCalendar } from './upstream/ics-calendar.ts'
+import { createGoogleCalendarClient, googleCalendarCacheKey, hasGoogleCalendarCredentials } from './upstream/google-calendar.ts'
 import { fetchUnsplashPhotos, unsplashCacheKey, UNSPLASH_MAX_COUNT, type UnsplashOrientation } from './upstream/unsplash.ts'
 import { createKiloGatewayClient, createModelCatalog } from './upstream/kilo.ts'
 import { createConversationService } from './ai/conversation-service.ts'
@@ -63,6 +65,18 @@ const conversationService = createConversationService({
 // request racing to discover a missing key — see the /api/ascii-art route.
 const generateAndRecordAsciiArt = config.kiloGatewayKey
   ? createAsciiArtGenerator(repos.aiCalls, kiloClient, modelCatalog)
+  : undefined
+
+// Absent is a supported way to run — see hasGoogleCalendarCredentials's own
+// doc comment: a Google-sourced Calendar with no credentials configured
+// falls back to the client's existing mock events, same as it always has.
+const googleCalendarCreds = {
+  clientId: config.googleOauthClientId,
+  clientSecret: config.googleOauthClientSecret,
+  refreshToken: config.googleOauthRefreshToken,
+}
+const googleCalendarClient = hasGoogleCalendarCredentials(googleCalendarCreds)
+  ? createGoogleCalendarClient(googleCalendarCreds)
   : undefined
 
 /**
@@ -304,6 +318,81 @@ app.get('/api/comic', async (req, reply) => {
       detail: error instanceof Error ? error.message : undefined,
     })
   }
+})
+
+/** Monday 00:00 (local) through the following Monday 00:00 — same first-day-of-week convention as the client's own `startOfWeek` (`calendar.ts`), duplicated here since the server does not import client code. */
+function currentWeekWindow(now: Date = new Date()): { from: Date; to: Date } {
+  const from = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  const mondayOffset = (from.getDay() + 6) % 7 // 0 = Sunday .. 6 = Saturday
+  from.setDate(from.getDate() - mondayOffset)
+  const to = new Date(from)
+  to.setDate(to.getDate() + 7)
+  return { from, to }
+}
+
+/**
+ * One calendar per request, called once per configured `Calendar`
+ * (`[node:53a1b84b]`) — never the whole card at once, so one dead .ics feed
+ * or a not-yet-configured Google account cannot blank the others. `id` is
+ * the app-configured `Calendar.id`, used only for cache-keying; `mode` plus
+ * its one companion field (`url` for `ics`, `calendarId` for `google`)
+ * decide which upstream answers.
+ */
+app.get('/api/calendar/week', async (req, reply) => {
+  const q = req.query as { id?: string; mode?: string; url?: string; calendarId?: string }
+  if (!q.id || q.id.trim() === '') return reply.code(400).send({ error: 'id is required' })
+  const { from, to } = currentWeekWindow()
+
+  if (q.mode === 'ics') {
+    if (!q.url || q.url.trim() === '') return reply.code(400).send({ error: 'url is required for mode=ics' })
+    const url = q.url
+    try {
+      return await fetchThrough({
+        key: icsCacheKey(q.id),
+        upstream: 'ics',
+        freshForSeconds: 3600,
+        fetcher: () => fetchIcsCalendar({ url, from, to }),
+        onFallback: (error, ageSeconds) => {
+          req.log.warn({ err: error, ageSeconds, calendarId: q.id }, '.ics calendar unreachable, serving last good')
+        },
+      })
+    } catch (error) {
+      return reply.code(503).send({
+        error: 'calendar unavailable and nothing cached',
+        detail: error instanceof Error ? error.message : undefined,
+      })
+    }
+  }
+
+  if (q.mode === 'google') {
+    if (!googleCalendarClient) {
+      // Structural, not transient — never going to succeed until the
+      // household configures credentials. A distinct `code` (not just prose
+      // in `detail`) is what lets the client show its existing mock
+      // fallback instead of the "no cache ever" error state, the same
+      // distinction /api/ascii-art's absent-key case makes informally.
+      return reply.code(503).send({ error: 'google calendar not configured', code: 'not-configured' })
+    }
+    const calendarId = q.calendarId?.trim() || 'primary'
+    try {
+      return await fetchThrough({
+        key: googleCalendarCacheKey(q.id),
+        upstream: 'google-calendar',
+        freshForSeconds: 900,
+        fetcher: () => googleCalendarClient.fetchEvents({ calendarId, from, to }),
+        onFallback: (error, ageSeconds) => {
+          req.log.warn({ err: error, ageSeconds, calendarId: q.id }, 'google calendar unreachable, serving last good')
+        },
+      })
+    } catch (error) {
+      return reply.code(503).send({
+        error: 'calendar unavailable and nothing cached',
+        detail: error instanceof Error ? error.message : undefined,
+      })
+    }
+  }
+
+  return reply.code(400).send({ error: 'mode must be "ics" or "google"' })
 })
 
 app.get('/api/unsplash', async (req, reply) => {

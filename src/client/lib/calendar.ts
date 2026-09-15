@@ -18,6 +18,18 @@ export interface CalendarEvent {
   start: string
   end: string
   allDay?: boolean
+  /** Which configured `Calendar` this came from — set once fetched, so a merged main-tab bucket can still attribute each event for the colour tick. */
+  calendarId?: string
+}
+
+export type CalendarSource = { mode: 'google'; calendarId: string } | { mode: 'ics'; url: string }
+
+/** A configured calendar source for this card — one tab, one fetch. Mirrors the server's own `Calendar`/`CalendarSource` (`domain/types.ts`); declared separately per this project's no-client-imports-server-types precedent. */
+export interface Calendar {
+  id: string
+  name: string
+  showInMain: boolean
+  source: CalendarSource
 }
 
 /** `YYYY-MM-DD` with no time component — Google Calendar's all-day shape. */
@@ -103,4 +115,154 @@ export function formatRange(event: CalendarEvent): string {
   const end = parseEventDate(event.end)
   const time = (d: Date): string => `${pad2(d.getHours())}:${pad2(d.getMinutes())}`
   return `${time(start)}-${time(end)}`
+}
+
+/**
+ * Which events feed the day grid for the given tab selection. `'main'`
+ * merges every calendar flagged `showInMain`; any other tab shows only that
+ * one calendar, regardless of its own `showInMain` value
+ * (`[node:53a1b84b]`'s per-calendar-fetch decision; the merge itself is
+ * this function). With a single configured calendar there is no tab strip
+ * at all (`calendar-tabs` deck, `single-calendar` state) — its own events
+ * show unconditionally, since `showInMain` only matters once there is a
+ * choice between calendars to make.
+ */
+export function selectEventsForTab(
+  calendars: Calendar[],
+  eventsByCalendar: Record<string, CalendarEvent[]>,
+  selectedTab: string,
+): CalendarEvent[] {
+  if (calendars.length <= 1) {
+    const only = calendars[0]
+    return only ? (eventsByCalendar[only.id] ?? []) : []
+  }
+  if (selectedTab === 'main') {
+    return calendars.filter((c) => c.showInMain).flatMap((c) => eventsByCalendar[c.id] ?? [])
+  }
+  return eventsByCalendar[selectedTab] ?? []
+}
+
+const pad2Date = (n: number): string => String(n).padStart(2, '0')
+
+/** `error:<calendarId>:<date>` — enough to recognise a synthetic placeholder without a new field. */
+export function syntheticErrorEventId(calendarId: string, dateIso: string): string {
+  return `error:${calendarId}:${dateIso}`
+}
+
+/**
+ * One synthetic all-day "load error" placeholder per day of the week, for a
+ * calendar with no cache to fall back to at all (`calendar-tabs` deck,
+ * `degraded — no cache ever` state, `[node:855ab1c4]`). Scoped to that
+ * calendar's own bucket only — reuses the existing event markup, no new
+ * error component.
+ */
+export function syntheticErrorWeek(calendarId: string, weekStart: Date): CalendarEvent[] {
+  return weekDays(weekStart).map((day) => {
+    const iso = `${day.getFullYear()}-${pad2Date(day.getMonth() + 1)}-${pad2Date(day.getDate())}`
+    return {
+      id: syntheticErrorEventId(calendarId, iso),
+      title: 'blad wczytywania',
+      start: iso,
+      end: iso,
+      allDay: true,
+      calendarId,
+    }
+  })
+}
+
+export function isSyntheticErrorEvent(event: CalendarEvent): boolean {
+  return event.id.startsWith('error:')
+}
+
+/**
+ * Hue bands reserved for meaning — amber (accent/ink), warn, fail/danger,
+ * and signal (teal) — computed from the theme's own real hue values
+ * (`design-system/themes/retro-scifi.yaml`, all three luminance modes;
+ * accent/warn/danger cluster at roughly 5-40°, signal at roughly 155-165°),
+ * not guessed, each with a safety margin. A calendar tick never lands in
+ * either band (WARNNOTAMBER's own hue-separation reasoning, `[node:79662ce5]`,
+ * `[node:ff852de4]`, applied to an unbounded set instead of a fixed palette).
+ */
+const RESERVED_HUE_BANDS: readonly (readonly [number, number])[] = [
+  [0, 50],
+  [145, 180],
+]
+
+function usableHueArcs(): { start: number; end: number }[] {
+  const sorted = [...RESERVED_HUE_BANDS].sort((a, b) => a[0] - b[0])
+  const arcs: { start: number; end: number }[] = []
+  let cursor = 0
+  for (const [start, end] of sorted) {
+    if (start > cursor) arcs.push({ start: cursor, end: start })
+    cursor = Math.max(cursor, end)
+  }
+  if (cursor < 360) arcs.push({ start: cursor, end: 360 })
+  return arcs
+}
+
+/**
+ * Position in `[0, 1)` mapped onto the hue wheel with the reserved bands
+ * excised and the remaining arcs concatenated, so consecutive positions
+ * never straddle a gap the way a naive `position * 360` would.
+ */
+function hueAt(position: number): number {
+  const arcs = usableHueArcs()
+  const total = arcs.reduce((sum, a) => sum + (a.end - a.start), 0)
+  let target = (((position % 1) + 1) % 1) * total
+  for (const arc of arcs) {
+    const len = arc.end - arc.start
+    if (target < len) return arc.start + target
+    target -= len
+  }
+  return arcs[arcs.length - 1]?.end ?? 0
+}
+
+/**
+ * One hue per calendar, evenly spaced across the usable hue wheel. Not
+ * drawn from a fixed token set — the number of configured calendars is
+ * arbitrary and unknown at theme-build time, so this interpolates smoothly
+ * as calendars are added rather than running out of a small fixed palette
+ * (per the wireframe session's own ruling on this). `total<=1` still
+ * returns a real, stable first hue rather than a degenerate case, so a
+ * second calendar added later never reshuffles the first one's colour.
+ */
+export function calendarTickHue(index: number, total: number): number {
+  return hueAt(total <= 1 ? 0 : index / total)
+}
+
+export type ThemeLuminanceMode = 'light' | 'dark' | 'night'
+
+/**
+ * Saturation/lightness per luminance mode, chosen so the tick clears the
+ * 3:1 CONTRASTFLOORS non-text floor against `--surface-sunken` (the
+ * event box's own background) across the *entire* allowed hue range —
+ * verified numerically against retro-scifi.yaml's real surfaceSunken
+ * values (light #efece4, dark #18140d, night #030201) at every 5° of hue,
+ * not guessed: worst case clears 3.7:1 (dark/night) to 4.4:1 (light) with
+ * margin. One lightness per mode because the same lightness does not clear
+ * the floor against both a light and a dark surface.
+ */
+const TICK_SATURATION = 0.55
+const TICK_LIGHTNESS: Record<ThemeLuminanceMode, number> = { light: 0.28, dark: 0.62, night: 0.58 }
+
+/** Standard HSL→RGB, formatted as `#rrggbb` — never the `hsl()` function syntax itself, which the token contract bans outright in this directory. */
+function hslToHex(h: number, s: number, l: number): string {
+  const c = (1 - Math.abs(2 * l - 1)) * s
+  const x = c * (1 - Math.abs(((h / 60) % 2) - 1))
+  const m = l - c / 2
+  let r = 0
+  let g = 0
+  let b = 0
+  if (h < 60) [r, g, b] = [c, x, 0]
+  else if (h < 120) [r, g, b] = [x, c, 0]
+  else if (h < 180) [r, g, b] = [0, c, x]
+  else if (h < 240) [r, g, b] = [0, x, c]
+  else if (h < 300) [r, g, b] = [x, 0, c]
+  else [r, g, b] = [c, 0, x]
+  const toHex = (v: number): string => Math.round((v + m) * 255).toString(16).padStart(2, '0')
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`
+}
+
+export function calendarTickColor(index: number, total: number, mode: ThemeLuminanceMode = 'dark'): string {
+  return hslToHex(calendarTickHue(index, total), TICK_SATURATION, TICK_LIGHTNESS[mode])
 }

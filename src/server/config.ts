@@ -30,6 +30,8 @@ export interface Config {
   glitchtipDsn: string | undefined
   kiloGatewayKey: string | undefined
   googleOauthRefreshToken: string | undefined
+  googleOauthClientId: string | undefined
+  googleOauthClientSecret: string | undefined
   /** Absent means the unsplash-carousel card answers 503 and shows its fail state. */
   unsplashAccessKey: string | undefined
   /**
@@ -74,6 +76,8 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     glitchtipDsn: env.GLITCHTIP_DSN || undefined,
     kiloGatewayKey: env.KILO_GATEWAY_KEY || undefined,
     googleOauthRefreshToken: env.GOOGLE_OAUTH_REFRESH_TOKEN || undefined,
+    googleOauthClientId: env.GOOGLE_OAUTH_CLIENT_ID || undefined,
+    googleOauthClientSecret: env.GOOGLE_OAUTH_CLIENT_SECRET || undefined,
     unsplashAccessKey: env.UNSPLASH_ACCESS_KEY || undefined,
     unsplashSecretKey: env.UNSPLASH_SECRET_KEY || undefined,
     unsplashAppName: env.UNSPLASH_APP_NAME || 'kitchen_terminal_k7',
@@ -95,6 +99,8 @@ export function secretValues(config: Config): readonly (string | undefined)[] {
   return [
     config.kiloGatewayKey,
     config.googleOauthRefreshToken,
+    config.googleOauthClientId,
+    config.googleOauthClientSecret,
     config.glitchtipDsn,
     // The Cloudflare token can edit DNS for a whole zone. It has no business in
     // an error report, and it is the newest thing here, so it is the one most
@@ -117,6 +123,7 @@ export function describeConfig(config: Config): string {
     `glitchtip=${present(config.glitchtipDsn)}`,
     `kilo_key=${present(config.kiloGatewayKey)}`,
     `google_refresh=${present(config.googleOauthRefreshToken)}`,
+    `google_oauth_client=${present(config.googleOauthClientId)}/${present(config.googleOauthClientSecret)}`,
     `unsplash=${present(config.unsplashAccessKey)}`,
     `tls=${config.hostname ? `${config.hostname}${config.acmeProduction ? '' : ' (staging)'}` : 'off'}`,
     `cloudflare=${present(config.cloudflareApiToken)}`,

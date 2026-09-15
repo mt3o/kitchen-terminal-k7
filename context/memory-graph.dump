@@ -136,6 +136,16 @@ archived: false
 
 Establish Kitchen Terminal K7's foundational constraints, concepts, and decisions as always-live shared knowledge
 ---
+[event:faf3e06d-d660-4704-817f-50b9c662d626]
+node_id: 59472cdc-4531-4206-a9fc-968166c52250
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.650724+00:00
+
+Foundation-scope goal seen via impact_of on c129f201; confirmed it is the reason many unrelated Faza-era goals surface as shallow dependents, not a real functional coupling.
+---
 [node:0bc7e618-9b95-4977-9fe1-f3a48759276f]
 type: constraint
 tier: lifetime
@@ -309,6 +319,16 @@ source: agent-surface
 created_at: 2026-09-15T06:45:54.379481+00:00
 
 Ran npm run check on change/k7-card-fullscreen (lint:tokens' check-token-contract.py, tokens:check, 240 unit tests, typecheck, vite build) — all green. Manually confirmed Element.getRootNode()/ShadowRoot (new to this codebase) are old, well-supported DOM APIs, safe under the Safari 15 / iPadOS 15 floor.
+---
+[event:b3655c4d-3455-4c31-9699-bdc1acddf319]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.649401+00:00
+
+Safari 15 floor checked against Phase 4's JS-computed-hex approach; no post-15.0 CSS feature relied on.
 ---
 [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99]
 type: facet_value
@@ -630,6 +650,36 @@ created_at: 2026-09-15T06:45:54.396024+00:00
 
 Reviewed the diff for secret handling — none; pure client-side DOM/CSS/store work, not applicable.
 ---
+[event:3488118f-da27-4554-930b-30cd1f9ce135]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.648838+00:00
+
+Secrets-server-side-only constraint checked against config.ts/.env.schema and Phase 1's two new OAuth secret slots; compliant with the project's scrubber-registration discipline.
+---
+[event:ce6333fd-d7f5-4835-ac34-33f933838960]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:10:16.406124+00:00
+
+Confirmed Phase 1 registers GOOGLE_OAUTH_CLIENT_ID/SECRET in secretValues(), matching this constraint.
+---
+[event:8ce8e863-66b5-4384-91a6-2cf242daf387]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:33:39.609387+00:00
+
+gw-review PR#45: GOOGLE_OAUTH_CLIENT_ID/SECRET added to config.ts's secretValues() scrubber list alongside the existing refresh token, same change that introduces them.
+---
 [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa]
 type: facet_value
 tier: lifetime
@@ -808,6 +858,66 @@ created_at: 2026-09-15T06:45:54.385072+00:00
 
 lint:tokens passed (no hex/rgb literals) on the full diff including the new fullscreen-lock.ts/Card.svelte/app.css code.
 ---
+[event:87b4738a-d0c2-4676-b883-42a32e85a4df]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T07:23:22.678084+00:00
+
+the token-only CSS rule the new tab-strip UI must respect since it's a genuinely new pattern with no existing precedent to copy
+---
+[event:a58b5457-4052-4b14-bdf0-f880c47bc227]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T07:30:42.981237+00:00
+
+token-only CSS constraint governs the new tab-strip design and per-calendar colour treatment
+---
+[event:d692e7dd-691b-4309-9e4a-2a31c54c1980]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T08:49:31.548750+00:00
+
+token-only CSS constraint reasoned about explicitly for the dynamic-colour decision, concluded compatible since the math runs in JS not CSS
+---
+[event:4549a3ff-f5da-4cad-8439-1538489c261b]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.648320+00:00
+
+Token-only CSS constraint checked against Phase 4's JS-computed inline hex custom property; plan explicitly frames it as a reasoned, flagged exception rather than a silent violation.
+---
+[event:2bc515cb-9169-4772-bdd5-6ab1e614832e]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:10:16.404970+00:00
+
+Verified against scripts/check-token-contract.py: the CI hex-literal scan has no allowlist and scans .ts/.svelte/.css under src/client, but only matches static hex literals in source text -- a runtime-computed hex string written via style.setProperty on a custom property doesn't trip it, and the component CSS itself still only references var(--*). Phase 4's colour-tick exception is real and correctly reasoned, not a silent violation.
+---
+[event:aa89d7f0-0498-4c40-91f9-e6a0c505bec8]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:33:39.606098+00:00
+
+gw-review PR#45: calendarTickColor's JS-computed inline custom property is the plan's deliberate, documented exception to token-only CSS, not a violation — reviewed the reasoning, matches TOKENCONTRACT's own carve-out logic.
+---
 [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a]
 type: constraint
 tier: lifetime
@@ -831,6 +941,36 @@ source: gui
 created_at: 2026-09-08T10:11:44.658355+00:00
 
 tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
+[event:f64cb551-4af9-44ee-bab3-be3471b4879d]
+node_id: dffe0843-23d7-4095-99e1-1d39a07d1b2a
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T08:49:31.544428+00:00
+
+AMBERINK ruled out a colored tab underline as the active-state indicator
+---
+[event:109f80c2-dfba-4c1e-b3e1-b11801ceb80e]
+node_id: dffe0843-23d7-4095-99e1-1d39a07d1b2a
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.645517+00:00
+
+AMBERINK constraint checked against deck's bracket-glyph active-tab marker; respected.
+---
+[event:4e6e152f-2097-4a1f-9cd3-14eda78ac988]
+node_id: dffe0843-23d7-4095-99e1-1d39a07d1b2a
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:33:39.607742+00:00
+
+gw-review PR#45: RESERVED_HUE_BANDS excludes the amber-ink and teal-signal hue ranges from the calendar tick's computed hue wheel.
 ---
 [node:9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0]
 type: constraint
@@ -897,6 +1037,36 @@ source: agent-surface
 created_at: 2026-09-09T12:12:37.478784+00:00
 
 both cards inherit the bracket-glyph state vocabulary via Card.svelte, no colour-only state
+---
+[event:740c80ed-6429-4001-b05c-18a45f502a73]
+node_id: 9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T08:49:31.545276+00:00
+
+BRACKETGLYPH directly shaped the active-tab bracket marker and reuse of the existing glyph vocabulary for tab problem states
+---
+[event:e9fcbb9a-d369-48bf-ab37-cea4a7ac92c4]
+node_id: 9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.646077+00:00
+
+BRACKETGLYPH constraint checked against deck states/behavior; respected.
+---
+[event:4316216b-3d5f-4955-8a80-5897118b794c]
+node_id: 9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:33:39.607227+00:00
+
+gw-review PR#45: active tab uses literal bracket text plus border-color change, never colour alone; [!]/[X] glyphs reused verbatim.
 ---
 [node:cabf56d2-4b59-4f19-96f7-9388071c1086]
 type: decision
@@ -980,6 +1150,36 @@ created_at: 2026-09-15T06:45:54.384400+00:00
 
 lint:tokens passed (border-radius must be a token); Card.svelte's new .fullscreen-btn CSS uses var(--radius), no box-shadow anywhere in the diff.
 ---
+[event:658b8907-12e5-4bc8-9d0a-1957a80c5d0c]
+node_id: 61c0030d-8bea-45cc-888b-113297483487
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T08:49:31.545944+00:00
+
+RADIUSZERO/no-shadow constraint on any tab elevation treatment
+---
+[event:b54cf912-b65f-44c2-b489-6e705053f6ff]
+node_id: 61c0030d-8bea-45cc-888b-113297483487
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.646670+00:00
+
+RADIUSZERO/no-shadow constraint checked; no new radius/shadow introduced by the tab strip design.
+---
+[event:1cef3bac-98ef-474d-b9e2-82b6c4a944e9]
+node_id: 61c0030d-8bea-45cc-888b-113297483487
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:33:39.606673+00:00
+
+gw-review PR#45: --radius resolves to 0px in tokens.css; tab/event styling uses var(--radius) exclusively, no hardcoded radius or shadow.
+---
 [node:6d6046fc-9f71-4b88-8cfa-381a0fe1bd32]
 type: constraint
 tier: lifetime
@@ -1014,6 +1214,46 @@ source: agent-surface
 created_at: 2026-09-09T12:02:33.953047+00:00
 
 Checked contrast-floor constraint against colorized fg/fg-muted toggle; no new evidence, both are pre-vetted tokens.
+---
+[event:65cdc3e7-6be1-4d2c-bd01-7bc6bf82cea5]
+node_id: 6d6046fc-9f71-4b88-8cfa-381a0fe1bd32
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T08:49:31.546591+00:00
+
+CONTRASTFLOORS governs the per-calendar colour tick's contrast requirement
+---
+[event:6b2ede10-7b39-4b64-807c-bb0357ab30de]
+node_id: 6d6046fc-9f71-4b88-8cfa-381a0fe1bd32
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.647226+00:00
+
+Contrast-floor constraint checked against Phase 4's per-calendar colour-tick text; plan explicitly flags real unresolved tuning work rather than assuming it solved.
+---
+[event:e8333083-dad0-48f6-af2e-f5d796337ed2]
+node_id: 6d6046fc-9f71-4b88-8cfa-381a0fe1bd32
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:10:16.407257+00:00
+
+Confirmed Phase 4 openly flags the 3:1 border-contrast floor as real unresolved work needing real checks, not guessed numbers.
+---
+[event:ea0797e5-260d-40aa-ad99-f638de49dc71]
+node_id: 6d6046fc-9f71-4b88-8cfa-381a0fe1bd32
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:33:39.608835+00:00
+
+gw-review PR#45: contrast floor for calendar ticks independently verified (see CONFIRMED event); other surfaces reuse existing token roles unchanged.
 ---
 [node:aef51033-1a7b-4e25-a133-f6e3053e0eb6]
 type: constraint
@@ -1197,6 +1437,36 @@ created_at: 2026-09-15T06:45:54.385772+00:00
 
 Verified Card.svelte's new fullscreen button is ghost-styled (transparent background, bordered) via existing ghost tokens, not solid amber — ONESOLID budget respected.
 ---
+[event:2f023720-025b-433f-8f0d-208a406842df]
+node_id: a827e6ec-aec4-40a7-b922-c689d71066a3
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T08:49:31.539531+00:00
+
+ONESOLID governed the tab strip being ghost controls, not solid amber
+---
+[event:3bae7f94-416b-49a4-aef3-f474f4c2aca7]
+node_id: a827e6ec-aec4-40a7-b922-c689d71066a3
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.644967+00:00
+
+ONESOLID constraint checked against deck's ghost-button tab strip; respected.
+---
+[event:7a9fbca3-77a0-41b7-9677-130c1a7e4632]
+node_id: a827e6ec-aec4-40a7-b922-c689d71066a3
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:33:39.608312+00:00
+
+gw-review PR#45: tab strip is a ghost-button recipe (transparent background, border), no solid amber fill introduced.
+---
 [node:ff852de4-c6d2-4da3-906b-de637255e484]
 type: constraint
 tier: lifetime
@@ -1222,6 +1492,16 @@ source: gui
 created_at: 2026-09-08T10:11:44.722443+00:00
 
 tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
+[event:d36ffef6-96bd-4164-9c7c-f18fbe0dbc3f]
+node_id: ff852de4-c6d2-4da3-906b-de637255e484
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.647779+00:00
+
+WARNNOTAMBER hue-separation reasoning checked against plan's colour-tick hue-avoidance approach; consistent reuse of reasoning.
 ---
 [node:77925b30-350a-42ee-a7de-7e8a023c5708]
 type: decision
@@ -1628,6 +1908,36 @@ source: agent-surface
 created_at: 2026-09-08T13:43:16.660345+00:00
 
 verified against layout.schema.yaml:178-195 - params.calendar carries an editable flag for add/edit/delete, which is what forces OAuth2 over a public .ics
+---
+[event:4684134a-16fc-4234-9dc5-1cd83353722b]
+node_id: c129f201-ae3c-45c8-89d7-a170bbaf5fad
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T07:20:09.462941+00:00
+
+the lifetime decision this change's read-only-ics reconciliation (49b47c86) had to be checked against
+---
+[event:56428808-4b16-4b13-a184-b23493e87a3a]
+node_id: c129f201-ae3c-45c8-89d7-a170bbaf5fad
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T07:23:22.675150+00:00
+
+verified against the actual server tree: no Google Calendar backend code exists anywhere -- this decision was never implemented, only decided
+---
+[event:c216539d-43e7-438d-8e3d-1bc17679ab8e]
+node_id: c129f201-ae3c-45c8-89d7-a170bbaf5fad
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.636704+00:00
+
+Lifetime decision re-derived and impact_of traced; plan's 'wide but shallow-relevant, no real functional dependent' characterization confirmed accurate against the returned dependents.
 ---
 [node:41ec3acd-0302-4120-9ef0-4b00a4945829]
 type: decision
@@ -2908,6 +3218,16 @@ created_at: 2026-09-14T19:48:57.293490+00:00
 
 the fullscreen trait attaches to the Card entity generically, not just the calendar
 ---
+[event:57d07341-5e93-4c7a-82b4-fe53ce52fb4f]
+node_id: 49ba726c-031e-4a01-839f-11a76a8bf009
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T07:20:09.463641+00:00
+
+Calendar entity's DEPENDS_ON target (exists only within a calendar-type Card's config)
+---
 [node:7e1fbadd-ddd7-496e-89e4-0f835b3753a8]
 type: entity
 tier: short-term
@@ -3165,10 +3485,11 @@ type: entity
 tier: short-term
 path: /entity/calendarevent
 created_at: 2026-09-08T13:41:27.055782+00:00
-needs_review: false
+needs_review: true
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> DEPENDS_ON [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-09-15T07:19:46.546671+00:00
 -> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-08T13:41:27.055782+00:00
 
 CalendarEvent — An entry in the household Google calendar. K7 both reads and writes them - add, edit and delete - so this is not a read-only feed item; that difference is what forces OAuth2 rather than a public .ics.
@@ -3202,6 +3523,36 @@ source: agent-surface
 created_at: 2026-09-14T19:48:57.298047+00:00
 
 CalendarEvent is the domain entity K7Calendar renders, not itself load-bearing for the fullscreen mechanism, but the ABOUT edge on the new SWR-caching decision from the prior session points here too
+---
+[event:3dd9fa28-9529-41a4-8beb-6af545fb9b77]
+node_id: 3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-15T07:20:09.457081+00:00
+
+definition is too narrow now that Calendar exists as its own entity (k7-multi-calendar, 2026-09-15) -- see the correcting concept node c4994962 for the proposed broadened wording, human-approved but not written into the entity text yet
+---
+[event:641c1f6b-e953-402a-994a-e0c082c8e098]
+node_id: 3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.643285+00:00
+
+Confirmed this is the actual disputed entity (not c4994962, which is the concept describing the dispute); plan handles the situation correctly in substance.
+---
+[event:60eabca7-bd7c-4015-b57f-124c2250083b]
+node_id: 3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:33:39.610544+00:00
+
+gw-review PR#45: disputed CalendarEvent entity definition is a known, already-flagged non-goal of this change (human action in memory GUI); code correctly treats CalendarEvent per the broadened c4994962 wording without needing the entity text itself updated.
 ---
 [node:7b73e502-b1fb-4587-96bd-f005b1ead665]
 type: entity
@@ -3892,6 +4243,16 @@ created_at: 2026-09-09T12:03:11.824264+00:00
 
 Confirmed this constraint is about proving secret-scrubbing on the wire; since the plan adds no new scrubbing logic (content is deliberately unscrubbed, key-scrubbing is pre-existing and already covered), no new violation.
 ---
+[event:25a8366b-d2ff-433a-8521-e470b396d85a]
+node_id: 0cd8aca5-d80a-4e98-9c98-a0043c4b5642
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.650058+00:00
+
+Wire-proof redaction constraint checked against test/observability.test.ts; the existing test drives the generic scrubbing mechanism via an injected secrets array, so registering the two new OAuth secrets in secretValues() is sufficient without a new per-secret test.
+---
 [node:eba12387-598a-40b6-9979-810319724e0f]
 type: decision
 tier: lifetime
@@ -4304,6 +4665,46 @@ source: agent-surface
 created_at: 2026-09-09T12:02:33.944108+00:00
 
 Confirmed plan follows the backend-owns-freshness precedent rather than inventing client-side caching for either widget.
+---
+[event:e40f23b7-aada-47ca-850c-7e258f6ded06]
+node_id: 8f453152-4703-4c6e-8a7c-4ae5ca69b54e
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T07:23:22.676925+00:00
+
+confirms freshness/caching is the backend's job via createFreshnessService, the pattern the new ics fetcher should reuse
+---
+[event:745ce1b1-b4ef-4d0d-bcc7-032633594576]
+node_id: 8f453152-4703-4c6e-8a7c-4ae5ca69b54e
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T07:30:42.979522+00:00
+
+freshness-is-backend's-job pattern reused for both new upstreams
+---
+[event:93ad0f0e-8084-4290-85fa-e183852761d4]
+node_id: 8f453152-4703-4c6e-8a7c-4ae5ca69b54e
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T08:49:31.547987+00:00
+
+existing freshness/stale-serve pattern reused directly for the degraded state, no new mechanism
+---
+[event:4ddd7abd-176f-4469-9a51-87ed41a6f088]
+node_id: 8f453152-4703-4c6e-8a7c-4ae5ca69b54e
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.639861+00:00
+
+Freshness-service placement decision checked against freshness.ts source; extends cleanly as plan claims.
 ---
 [node:7417ea88-923f-4f7b-afca-3d9334b79c0a]
 type: decision
@@ -5427,6 +5828,66 @@ created_at: 2026-09-09T12:12:37.478035+00:00
 
 both cards show an honest fail/idle state or an explicitly-labelled fallback rather than inventing data on fetch failure
 ---
+[event:268d7a66-d9da-49dd-981b-c2206d0cce1c]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T07:23:22.677503+00:00
+
+the no-placeholder-data-as-real rule the existing mock-fallback already follows and any new source must too
+---
+[event:3ac3ddcb-6c4f-48bd-9bd2-537eb7f71d65]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T07:30:42.980388+00:00
+
+no-placeholder-as-real rule extended to the credential-absent Google fallback
+---
+[event:536672a2-ffd8-4580-b7e6-015ee5ac31c2]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T08:49:31.547258+00:00
+
+no-placeholder-as-real rule directly shaped the synthetic error-event design
+---
+[event:567106e0-2bd4-4f4c-93f8-d9fada55bbaa]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.651331+00:00
+
+No-placeholder-as-real constraint reviewed against Phase 3's mock-fallback-for-absent-Google-credentials behavior; consistent, no new evidence needed.
+---
+[event:2f5361b0-5782-448a-8b0c-97e2ff62449e]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:10:16.406691+00:00
+
+Confirmed Phase 3's no-credentials-configured fallback to existing mock treatment respects this constraint.
+---
+[event:86c7705a-7494-4665-a463-a16680607926]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:33:39.603321+00:00
+
+gw-review PR#45: not-configured Google calendar falls back to labelled mock events at state=idle, meta='dane przykladowe' — matches the no-placeholder-as-real rule.
+---
 [node:09f65864-fbda-4333-86a5-9713a88b92ea]
 type: constraint
 tier: mid-term
@@ -5802,6 +6263,56 @@ source: agent-surface
 created_at: 2026-09-09T12:02:33.937403+00:00
 
 Confirmed upstream_cache/Upstream enum gap for RSS still true in schema.ts and domain/types.ts; verdict relies on Phase 1 closing this gap before comic-of-the-day can use fetchThrough.
+---
+[event:4ea3ba23-d250-42fc-a3ad-9ac4167c5bc9]
+node_id: e38c12d4-6532-4e27-b901-b0ef7f3e4849
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T07:23:22.676279+00:00
+
+the Upstream enum extension pattern (rss added for comic-of-the-day) is the direct template for adding an 'ics' upstream member
+---
+[event:a1ef086b-70d4-4023-9c4a-d9e2d6d34dbb]
+node_id: e38c12d4-6532-4e27-b901-b0ef7f3e4849
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T07:30:42.978817+00:00
+
+the rss-enum-addition precedent directly followed for the new 'ics' upstream member
+---
+[event:cdcdae2c-2775-4cba-82f7-d95f1c73284a]
+node_id: e38c12d4-6532-4e27-b901-b0ef7f3e4849
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.643814+00:00
+
+rss-enum-member precedent checked directly against src/server/db/schema.ts and domain/types.ts; confirmed both files were touched for 'rss' and the plan's 'ics' addition omits the schema.ts side.
+---
+[event:97e3d17a-e707-4a51-b432-6a5f89e7dbec]
+node_id: e38c12d4-6532-4e27-b901-b0ef7f3e4849
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:10:16.407801+00:00
+
+Confirmed the 'rss' Upstream-enum precedent this plan follows for 'ics' is accurately described against src/server/domain/types.ts:65 and src/server/db/schema.ts:120.
+---
+[event:1e3affcd-3186-4b9a-949c-34c76d379639]
+node_id: e38c12d4-6532-4e27-b901-b0ef7f3e4849
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:33:39.605541+00:00
+
+gw-review PR#45: 'ics' literal correctly added to both domain/types.ts Upstream union and db/schema.ts's hand-written enum copy, per the plan's own caught gap.
 ---
 [node:6a05648a-312c-4785-b1c2-e54f93e5b102]
 type: issue
@@ -9005,6 +9516,920 @@ archived: false
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-15T06:45:11.881469+00:00
 
 k7-card-fullscreen's plan.md (Phase 1, "Extended test") committed to unit-testing SlideshowController.suspend()/resume()'s bookkeeping ("suspending while mode==='active' and resuming reschedules idle detection fresh; suspending while mode==='fullscreen' and resuming restarts the interval") but the shipped test/slideshow.test.ts contains no such tests — only shouldExitOnInteraction gained coverage. suspend()/resume() are part of slideshow.ts's impure DOM/timer-wiring half (real setTimeout/setInterval closures), which this project's own established convention already exempts from unit testing (the file's own header comment says so) — so the plan's "reducer/state level" framing for this specific test was not actually achievable without a bigger refactor (injectable fake timers), and the gap is arguably the right call, not a bug. But nothing in change.md's Outcome or the diff calls out that this specific promised test was dropped in favor of the Phase 3 real-browser scenarios (3/4/5) that do exercise the same behavior manually. Generalizable lesson: when a plan's "Extended test" section promises unit coverage for behavior that turns out to live in a module's already-declared-impure half, either the plan should be corrected before implementation closes, or the change's Outcome should explicitly note the substitution (automated → manual) so a reviewer isn't left to discover the gap by diffing plan.md against the test files.
+---
+[node:0ba26a6c-e82e-497d-a7da-42a4c5013729]
+type: goal
+tier: short-term
+path: /goal/k7-multi-calendar
+created_at: 2026-09-15T07:14:00.307205+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:08825c88-7072-4a40-ae83-c54fe30fec3d] @ 2026-09-15T09:05:54.961115+00:00
+-> DEPENDS_ON [node:0f3e6ce1-ad37-48d7-91be-9ed69d8ae950] @ 2026-09-15T10:32:35.376649+00:00
+-> DEPENDS_ON [node:156c9e97-0f19-4ba6-92be-e61465e34c1f] @ 2026-09-15T07:22:57.865159+00:00
+-> DEPENDS_ON [node:1a47e9ff-095d-49dc-9a9f-fdc17fd76c6b] @ 2026-09-15T12:23:29.385161+00:00
+-> DEPENDS_ON [node:33cd6c5b-8802-415f-9b36-81f2f68cbc92] @ 2026-09-15T08:33:47.970335+00:00
+-> DEPENDS_ON [node:3885f57e-c98b-4f16-814c-5b9b3d880198] @ 2026-09-15T07:30:11.508942+00:00
+-> DEPENDS_ON [node:3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550] @ 2026-09-15T07:14:00.307205+00:00
+-> DEPENDS_ON [node:49b47c86-54b4-4824-b3e1-2ddbe79a82b6] @ 2026-09-15T07:14:16.880102+00:00
+-> DEPENDS_ON [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-15T07:14:00.307205+00:00
+-> DEPENDS_ON [node:4a749051-6bc6-4807-bc52-47748e2bb914] @ 2026-09-15T07:14:00.307205+00:00
+-> DEPENDS_ON [node:53a1b84b-bb63-4ea4-b6b1-c739e8aa1170] @ 2026-09-15T07:30:24.783670+00:00
+-> DEPENDS_ON [node:5ac606c5-2f54-4a59-9ea6-16320cc0ab19] @ 2026-09-15T10:32:44.607434+00:00
+-> DEPENDS_ON [node:6cc420b8-f974-44f2-86db-b1ca47d3d06a] @ 2026-09-15T07:23:09.545552+00:00
+-> DEPENDS_ON [node:6e173c60-5243-48f4-9d43-3635c3e272b9] @ 2026-09-15T07:25:27.227165+00:00
+-> DEPENDS_ON [node:834d4089-c726-4399-90c2-c540e2f8b6a4] @ 2026-09-15T08:33:36.699206+00:00
+-> DEPENDS_ON [node:855ab1c4-b0b1-4050-8183-66a45b16042c] @ 2026-09-15T08:48:42.141442+00:00
+-> DEPENDS_ON [node:9c025bd5-ade9-49ac-a405-17152a775327] @ 2026-09-15T11:09:51.444607+00:00
+-> DEPENDS_ON [node:a019c0e9-f208-45a3-b3cc-4197fdb9b825] @ 2026-09-15T12:35:54.505764+00:00
+-> DEPENDS_ON [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-09-15T07:19:14.607499+00:00
+-> DEPENDS_ON [node:a9f7fb44-12c9-41bd-af50-f88e09935a7e] @ 2026-09-15T10:02:33.837748+00:00
+-> DEPENDS_ON [node:ab43353e-e0e8-49d5-88d5-8333b9f6912d] @ 2026-09-15T07:25:16.838467+00:00
+-> DEPENDS_ON [node:b4f0a546-3c1a-47d5-8c8f-46473a5b6335] @ 2026-09-15T12:28:26.195611+00:00
+-> DEPENDS_ON [node:c129f201-ae3c-45c8-89d7-a170bbaf5fad] @ 2026-09-15T07:14:00.307205+00:00
+-> DEPENDS_ON [node:c4994962-59cf-45f9-ba2c-e5cdde8b1c20] @ 2026-09-15T07:19:58.855132+00:00
+-> DEPENDS_ON [node:efb7b997-2492-44a4-8403-769ab04739d6] @ 2026-09-15T12:35:47.841846+00:00
+-> DEPENDS_ON [node:f7035c1b-b3dd-49da-b761-cbe871f12abb] @ 2026-09-15T09:11:02.744312+00:00
+
+Support multiple calendars in the calendar card, each added via the household's Google account (existing, bidirectional, unchanged) or a read-only .ics file/feed, with tabs to switch between them and a per-calendar flag controlling whether it appears in the aggregated main-view tab.
+---
+[event:dfaa45be-4042-4047-bd5f-8b8180fa73af]
+node_id: 0ba26a6c-e82e-497d-a7da-42a4c5013729
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.630997+00:00
+
+Goal used to scope the plan review.
+---
+[event:26add816-4971-4e0f-9450-869c06db4cb3]
+node_id: 0ba26a6c-e82e-497d-a7da-42a4c5013729
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:10:16.408381+00:00
+
+Third plan-review pass against the goal; plan.md confirmed current, both prior findings verified fixed.
+---
+[event:add73150-2c4e-4ae9-a8cd-e6fe5638774f]
+node_id: 0ba26a6c-e82e-497d-a7da-42a4c5013729
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:33:39.601269+00:00
+
+gw-review PR#45: ran npm run check (lint, lint:tokens, tokens:check, test, build) myself on change/k7-multi-calendar — 270/270 tests pass, build succeeds, token contract clean; goal's acceptance criteria met in built code.
+---
+[node:3a242abd-4f61-42d0-9bae-06847948b755]
+type: slice
+tier: short-term
+path: /change/k7-multi-calendar
+created_at: 2026-09-15T07:14:00.307205+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:08825c88-7072-4a40-ae83-c54fe30fec3d] @ 2026-09-15T09:05:54.961115+00:00
+-> SCOPED_TO [node:0ba26a6c-e82e-497d-a7da-42a4c5013729] @ 2026-09-15T07:14:00.307205+00:00
+-> SCOPED_TO [node:0f3e6ce1-ad37-48d7-91be-9ed69d8ae950] @ 2026-09-15T10:32:35.376649+00:00
+-> SCOPED_TO [node:156c9e97-0f19-4ba6-92be-e61465e34c1f] @ 2026-09-15T07:22:57.865159+00:00
+-> SCOPED_TO [node:1a47e9ff-095d-49dc-9a9f-fdc17fd76c6b] @ 2026-09-15T12:23:29.385161+00:00
+-> SCOPED_TO [node:33cd6c5b-8802-415f-9b36-81f2f68cbc92] @ 2026-09-15T08:33:47.970335+00:00
+-> SCOPED_TO [node:3885f57e-c98b-4f16-814c-5b9b3d880198] @ 2026-09-15T07:30:11.508942+00:00
+-> SCOPED_TO [node:49b47c86-54b4-4824-b3e1-2ddbe79a82b6] @ 2026-09-15T07:14:16.880102+00:00
+-> SCOPED_TO [node:53a1b84b-bb63-4ea4-b6b1-c739e8aa1170] @ 2026-09-15T07:30:24.783670+00:00
+-> SCOPED_TO [node:5ac606c5-2f54-4a59-9ea6-16320cc0ab19] @ 2026-09-15T10:32:44.607434+00:00
+-> SCOPED_TO [node:6cc420b8-f974-44f2-86db-b1ca47d3d06a] @ 2026-09-15T07:23:09.545552+00:00
+-> SCOPED_TO [node:6e173c60-5243-48f4-9d43-3635c3e272b9] @ 2026-09-15T07:25:27.227165+00:00
+-> SCOPED_TO [node:834d4089-c726-4399-90c2-c540e2f8b6a4] @ 2026-09-15T08:33:36.699206+00:00
+-> SCOPED_TO [node:855ab1c4-b0b1-4050-8183-66a45b16042c] @ 2026-09-15T08:48:42.141442+00:00
+-> SCOPED_TO [node:9c025bd5-ade9-49ac-a405-17152a775327] @ 2026-09-15T11:09:51.444607+00:00
+-> SCOPED_TO [node:a019c0e9-f208-45a3-b3cc-4197fdb9b825] @ 2026-09-15T12:35:54.505764+00:00
+-> SCOPED_TO [node:a9f7fb44-12c9-41bd-af50-f88e09935a7e] @ 2026-09-15T10:02:33.837748+00:00
+-> SCOPED_TO [node:ab43353e-e0e8-49d5-88d5-8333b9f6912d] @ 2026-09-15T07:25:16.838467+00:00
+-> SCOPED_TO [node:b4f0a546-3c1a-47d5-8c8f-46473a5b6335] @ 2026-09-15T12:28:26.195611+00:00
+-> SCOPED_TO [node:c4994962-59cf-45f9-ba2c-e5cdde8b1c20] @ 2026-09-15T07:19:58.855132+00:00
+-> SCOPED_TO [node:efb7b997-2492-44a4-8403-769ab04739d6] @ 2026-09-15T12:35:47.841846+00:00
+-> SCOPED_TO [node:f7035c1b-b3dd-49da-b761-cbe871f12abb] @ 2026-09-15T09:11:02.744312+00:00
+
+change scope: k7-multi-calendar
+---
+[event:772a98ba-62b2-45c8-a9be-7c3f678de5f5]
+node_id: 3a242abd-4f61-42d0-9bae-06847948b755
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T07:14:00.313639+00:00
+
+create_change k7-multi-calendar
+---
+[node:49b47c86-54b4-4824-b3e1-2ddbe79a82b6]
+type: decision
+tier: mid-term
+path: /artifact/decided-2026-09-15-reconciling-with-the
+created_at: 2026-09-15T07:14:16.880102+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550] @ 2026-09-15T07:14:16.880102+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T07:14:16.880102+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T07:14:16.880102+00:00
+-> DEPENDS_ON [node:c129f201-ae3c-45c8-89d7-a170bbaf5fad] @ 2026-09-15T07:14:16.880102+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-15T07:14:16.880102+00:00
+
+Decided 2026-09-15, reconciling with the lifetime decision that rejected .ics feeds (node c129f201: "a public .ics feed was rejected because it is read-only" -- made when .ics was being considered as the household's PRIMARY calendar, which needs bidirectional add/edit/delete): this is not a reversal of that decision, it is a narrower addition alongside it. The household's own Google Calendar keeps its existing bidirectional OAuth2 treatment untouched -- nothing about k7-multi-calendar changes it. Additional calendars (the motivating case: one .ics feed per kid's school schedule) are read-only by design, matching what .ics feeds actually are (no standard write-back protocol) and matching that school schedules were never going to be edited from K7 anyway. If a future need arises for K7 to edit an .ics-sourced calendar, that is a materially different, much larger feature (K7 would need to become the calendar's own host/mirror, not just a reader) and is explicitly out of scope here.
+---
+[event:f912d0c5-47b2-4058-b910-fd9f3e10fbfc]
+node_id: 49b47c86-54b4-4824-b3e1-2ddbe79a82b6
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T07:30:42.976981+00:00
+
+read-only ics scope, shapes the source-derived editability decision
+---
+[event:d17bad80-1498-4ad7-8e2d-b8c96960dd63]
+node_id: 49b47c86-54b4-4824-b3e1-2ddbe79a82b6
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.637421+00:00
+
+Read-only .ics decision checked against plan's non-goals; consistent.
+---
+[event:fca7fdfd-4e9e-4a5d-a194-32d690a25b09]
+node_id: 49b47c86-54b4-4824-b3e1-2ddbe79a82b6
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:33:39.604382+00:00
+
+gw-review PR#45: ics sources are read-only in built code (no write path exists); Google's existing bidirectional treatment untouched.
+---
+[node:a7e45cb9-b530-4d56-a7aa-f446de485af0]
+type: entity
+tier: short-term
+path: /entity/calendar
+created_at: 2026-09-15T07:19:14.607499+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-15T07:19:14.607499+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T07:19:14.607499+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-15T07:19:14.607499+00:00
+
+Calendar — One configured calendar source shown in the calendar card: either the household's Google account (read-write, unchanged) or a read-only .ics file/feed. Carries its own name and a flag for whether it appears in the aggregated main-view tab — every Calendar always gets its own dedicated tab regardless of that flag. Not a CalendarEvent, which is one entry belonging to a Calendar, not the source itself.
+---
+[event:ce30049a-a015-4464-9845-6955fcc5930f]
+node_id: a7e45cb9-b530-4d56-a7aa-f446de485af0
+type: entity_proposed
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T07:19:14.607499+00:00
+
+proposed via agent surface: elicited: user asked for "tabs, so that we can add multiple calendars via ics file, and scroll thru them. Config should tell if given calendar is showed in main view or not" — motivating example: one .ics calendar per kid's school schedule (3 kids), not all shown on the main view by default
+---
+[event:6237db6e-d4da-4b1b-bca8-5b7d0f39a8b6]
+node_id: a7e45cb9-b530-4d56-a7aa-f446de485af0
+type: entity_confirmed
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-09-15T07:19:22.678048+00:00
+
+Human ruling (mt3o, 2026-09-15, /gw-domain): approved the Calendar entity proposal as presented.
+---
+[event:7bc36801-8dc9-4e4b-a479-034160b9447a]
+node_id: a7e45cb9-b530-4d56-a7aa-f446de485af0
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T07:20:09.462173+00:00
+
+human explicitly approved the Calendar entity proposal ("Ok i approve") and it was confirmed via the GUI API
+---
+[node:c4994962-59cf-45f9-ba2c-e5cdde8b1c20]
+type: concept
+tier: mid-term
+path: /artifact/calendarevent-s-current-definition-an
+created_at: 2026-09-15T07:19:58.855132+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550] @ 2026-09-15T07:19:58.855132+00:00
+-> DEPENDS_ON [node:49b47c86-54b4-4824-b3e1-2ddbe79a82b6] @ 2026-09-15T07:19:58.855132+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T07:19:58.855132+00:00
+-> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-09-15T07:19:58.855132+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-15T07:19:58.855132+00:00
+
+CalendarEvent's current definition ("An entry in the household Google calendar... that difference is what forces OAuth2 rather than a public .ics") is too narrow now that the Calendar entity exists (k7-multi-calendar, 2026-09-15, human-approved): it assumes a single, always-editable, Google-only source. Proposed broadened wording, approved by the human but not written into the entity itself (per this project's domain-editing discipline -- an entity's definition is never silently overwritten): "An entry belonging to a Calendar. Whether it can be added/edited/deleted depends on its Calendar's source -- the household's Google calendar is read-write, an .ics-sourced Calendar is read-only." Whether to actually update the stored definition text is the human's own action in the memory GUI's Domain tab; this artifact and the CONTRADICTED event on CalendarEvent exist so the correction is visible at every future recall regardless of whether the text itself changes.
+---
+[event:f02d53bf-0535-4062-b11a-d7287efe0068]
+node_id: c4994962-59cf-45f9-ba2c-e5cdde8b1c20
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T07:30:42.982141+00:00
+
+the disputed CalendarEvent definition correction the plan builds on but does not resolve
+---
+[event:e96b9ece-86d1-4a27-8274-8542c8d89233]
+node_id: c4994962-59cf-45f9-ba2c-e5cdde8b1c20
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.642733+00:00
+
+CalendarEvent broadened-definition concept checked against plan's domain-naming section and non-goals; dispute is carried forward openly, not silently resolved, though the plan's own domain prose already uses the broadened wording without flagging that explicitly.
+---
+[event:4018af18-86c2-4c33-b36c-1015bb85c79b]
+node_id: c4994962-59cf-45f9-ba2c-e5cdde8b1c20
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:10:16.403614+00:00
+
+Verified plan's non-goals correctly leave the disputed CalendarEvent definition to human action in the memory GUI; consistent with prior review pass.
+---
+[node:156c9e97-0f19-4ba6-92be-e61465e34c1f]
+type: issue
+tier: mid-term
+path: /artifact/the-calendar-card-has-never-had-a-real-b
+created_at: 2026-09-15T07:22:57.865159+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550] @ 2026-09-15T07:22:57.865159+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T07:22:57.865159+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T07:22:57.865159+00:00
+-> DEPENDS_ON [node:c129f201-ae3c-45c8-89d7-a170bbaf5fad] @ 2026-09-15T07:22:57.865159+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-15T07:22:57.865159+00:00
+
+The calendar card has never had a real backend: K7Calendar.svelte fetches /api/calendar/week, which does not exist server-side at all (no route, no Google client file, no OAuth2 code anywhere in src/server) -- confirmed by grep across the whole server tree returning nothing. The card has always shown obviously-labelled mock events (usingMockData=true, state='idle', meta="dane przykladowe"), exactly as its own code comments say. "Google Calendar is integrated bidirectionally" (node c129f201) is a settled architectural DECISION, not a shipped fact -- k7-multi-calendar's .ics work does not need to avoid disturbing a working OAuth2 integration, because none exists to disturb. Building real Google OAuth2 is a separate, much larger, still-untouched piece of work (consent flow, token storage, Calendar API client) and stays out of scope here; the multi-calendar config shape should have a slot for a "google" source type so a future change can wire it in without another schema rework, but that source continues to behave exactly as it does today (mocked) until that happens.
+---
+[event:1978a48c-f9fd-44ac-b0c8-794702fb794f]
+node_id: 156c9e97-0f19-4ba6-92be-e61465e34c1f
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T07:30:42.969992+00:00
+
+the no-real-backend finding directly shapes phases 2-3's scope
+---
+[node:6cc420b8-f974-44f2-86db-b1ca47d3d06a]
+type: concept
+tier: short-term
+path: /artifact/node-ical-v0-27-x-1-1m-downloads-mont
+created_at: 2026-09-15T07:23:09.545552+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T07:23:09.545552+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T07:23:09.545552+00:00
+-> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-09-15T07:23:09.545552+00:00
+
+node-ical (v0.27.x, ~1.1M downloads/month, depends on rrule-temporal for RRULE/recurring-event expansion) is the candidate library for parsing .ics feeds in k7-multi-calendar, matching this project's precedent of picking a mature, actively-maintained parser for a new upstream format rather than hand-rolling one (rss-parser for comic-of-the-day's RSS/Atom). Recurring events (RRULE) matter here specifically because the motivating use case -- a school schedule -- is exactly the kind of feed built almost entirely from weekly-recurring events. No existing ics/ical dependency exists in package.json today. The design system has no existing tabs UI pattern anywhere (checked DESIGN.md and the component kit) -- this is genuinely new surface, unlike the fullscreen button which could reuse the shell header's existing ghost-button/bracket-glyph recipe directly.
+---
+[event:ce66528f-9c5e-4a97-b522-4b5b856e41fe]
+node_id: 6cc420b8-f974-44f2-86db-b1ca47d3d06a
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T07:30:42.975134+00:00
+
+node-ical library choice and no-existing-tabs-pattern finding both directly shape phases 2 and 4
+---
+[event:7143a041-611b-47c7-8203-17f9e735ccc2]
+node_id: 6cc420b8-f974-44f2-86db-b1ca47d3d06a
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.638643+00:00
+
+node-ical library choice confirmed absent from package.json today, matching plan's Phase 2 new-dependency claim.
+---
+[node:ab43353e-e0e8-49d5-88d5-8333b9f6912d]
+type: decision
+tier: mid-term
+path: /artifact/decided-2026-09-15-k7-multi-calendar-s
+created_at: 2026-09-15T07:25:16.838467+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:156c9e97-0f19-4ba6-92be-e61465e34c1f] @ 2026-09-15T07:25:16.838467+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T07:25:16.838467+00:00
+-> DEPENDS_ON [node:ac006a24-2763-40e7-8423-2b851793efcf] @ 2026-09-15T07:25:16.838467+00:00
+-> DEPENDS_ON [node:c129f201-ae3c-45c8-89d7-a170bbaf5fad] @ 2026-09-15T07:25:16.838467+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-15T07:25:16.838467+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-15T07:25:16.838467+00:00
+
+Decided 2026-09-15: k7-multi-calendar's Google Calendar work is bounded to the refresh-token exchange and a Calendar API read client, not a full OAuth2 web consent flow. The initial authorization (obtaining the refresh token) is a one-time, manual, out-of-band step the human performs themselves (via Google Cloud Console + OAuth playground or equivalent) and pastes into .env.local -- identical in shape to how the Cloudflare API token is handled for k7-lan-tls, and matching that GOOGLE_OAUTH_REFRESH_TOKEN is already a reserved config slot (src/server/config.ts, .env.schema) with no consent-flow code anywhere. K7's backend only needs: (1) a small token-refresh helper (POST to oauth2.googleapis.com/token with refresh_token+client_id+client_secret, standard OAuth2 refresh_token grant), (2) a Calendar API client (GET calendar/v3/calendars/{calendarId}/events, mapped to CalendarEvent[]), structurally similar to the existing open-meteo.ts fetcher. Needs two new config slots this change adds: GOOGLE_OAUTH_CLIENT_ID and GOOGLE_OAUTH_CLIENT_SECRET (obtained by the human from Google Cloud Console, same secret-handling discipline as every other credential in this project). This keeps the change bounded to one plan rather than requiring an epic split via /gw-slice.
+---
+[event:aa6d0853-9a9e-4dea-a106-982ba442b7f9]
+node_id: ab43353e-e0e8-49d5-88d5-8333b9f6912d
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T07:30:42.976185+00:00
+
+bounds phase 3's scope to refresh-token exchange + API client only
+---
+[event:d0572f25-3631-4edb-b203-200782cc50be]
+node_id: ab43353e-e0e8-49d5-88d5-8333b9f6912d
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.638028+00:00
+
+Google OAuth2 scope-boundary decision checked against plan Phase 3; consistent, no consent-flow UI added.
+---
+[event:8978265e-bd6f-4676-94eb-8f89b743b6d2]
+node_id: ab43353e-e0e8-49d5-88d5-8333b9f6912d
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T11:09:57.895832+00:00
+
+Phase 3 built exactly the bounded refresh-token+API-client scope this decision scoped, no consent-flow UI
+---
+[event:c871ed10-5e29-4ae0-8aa8-7514fbe3c3cc]
+node_id: ab43353e-e0e8-49d5-88d5-8333b9f6912d
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:33:39.603842+00:00
+
+gw-review PR#45: google-calendar.ts scope matches — token-refresh helper + read-only events.list client, no consent-flow UI, two new secret config slots registered in secretValues().
+---
+[node:6e173c60-5243-48f4-9d43-3635c3e272b9]
+type: decision
+tier: short-term
+path: /artifact/decided-2026-09-15-each-ics-calendar-i
+created_at: 2026-09-15T07:25:27.227165+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T07:25:27.227165+00:00
+-> DEPENDS_ON [node:6cc420b8-f974-44f2-86db-b1ca47d3d06a] @ 2026-09-15T07:25:27.227165+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-15T07:25:27.227165+00:00
+
+Decided 2026-09-15: each .ics calendar is configured by a live URL the backend fetches periodically (same pattern as comic-of-the-day's rssUrl), not a static local file -- matches this project's existing external-content convention and means a school's schedule changes are picked up automatically rather than going stale until someone re-uploads a file. No file-upload/multipart infrastructure exists anywhere in this codebase and none is being added for this.
+---
+[event:739357e3-8c62-4bd0-af43-01a02f9654f4]
+node_id: 6e173c60-5243-48f4-9d43-3635c3e272b9
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T07:30:42.977740+00:00
+
+url-based source config shape in phase 1's schema
+---
+[event:1a076cfe-2280-4d94-b8be-ad96e5cd5438]
+node_id: 6e173c60-5243-48f4-9d43-3635c3e272b9
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.644373+00:00
+
+URL-based .ics source decision checked against .env.schema/no multipart infra; consistent.
+---
+[event:64ae8afd-cee5-4575-a442-43067b96520b]
+node_id: 6e173c60-5243-48f4-9d43-3635c3e272b9
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:33:39.604936+00:00
+
+gw-review PR#45: layout.schema.yaml's ics source is url-based, no file upload added.
+---
+[node:3885f57e-c98b-4f16-814c-5b9b3d880198]
+type: decision
+tier: short-term
+path: /artifact/plan-decision-for-k7-multi-calendar-the
+created_at: 2026-09-15T07:30:11.508942+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T07:30:11.508942+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T07:30:11.508942+00:00
+-> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-09-15T07:30:11.508942+00:00
+-> DEPENDS_ON [node:c4994962-59cf-45f9-ba2c-e5cdde8b1c20] @ 2026-09-15T07:30:11.508942+00:00
+
+Plan decision for k7-multi-calendar: the calendar card's `editable` config field is removed rather than kept alongside the new multi-calendar shape. Editability was never independently meaningful -- it's intrinsic to a Calendar's source (Google is read-write, .ics is read-only, per the CalendarEvent definition correction c4994962) -- so keeping it as a separate configurable field would let a layout author set it inconsistently with what's actually true. It becomes derived (source.mode === 'google') rather than configured.
+---
+[event:a1aa86ab-3dcc-47d7-a45f-7ffb66cd225e]
+node_id: 3885f57e-c98b-4f16-814c-5b9b3d880198
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.642188+00:00
+
+editable-field-removal decision checked against current layout.schema.yaml params.calendar; confirmed editable exists today and blast radius is exactly the one file the plan migrates.
+---
+[node:53a1b84b-bb63-4ea4-b6b1-c739e8aa1170]
+type: decision
+tier: mid-term
+path: /artifact/plan-decision-for-k7-multi-calendar-eac
+created_at: 2026-09-15T07:30:24.783670+00:00
+needs_review: true
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-15T07:30:24.783670+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T07:30:24.783670+00:00
+-> DEPENDS_ON [node:8f453152-4703-4c6e-8a7c-4ae5ca69b54e] @ 2026-09-15T07:30:24.783670+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T07:30:24.783670+00:00
+-> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-09-15T07:30:24.783670+00:00
+
+Plan decision for k7-multi-calendar: each configured Calendar is fetched independently (its own HTTP/API request, its own freshness-cache key and entry), rather than one combined request/cache-row for the whole card. This is a new pattern for this codebase -- every existing multi-source card (weather, comics) has exactly one upstream per card. Chosen so one dead .ics feed (a school's system down) doesn't blank the whole calendar card or block other calendars' events from showing; each source fails independently and falls back to its own last-good cache or, for Google with no credentials configured, the existing mock-event fallback. Structured configuration (the calendars array, each with a nested source object) is passed from main.ts's createWidget to the k7-calendar custom element as a single JSON.stringify'd attribute, parsed back out in K7Calendar.svelte -- a new technique for this codebase (existing complex-param cards like timer flatten to a comma-joined string, insufficient for genuinely nested per-item objects).
+---
+[event:1b1beb08-cbf3-4d5f-8eb6-ef9943312810]
+node_id: 53a1b84b-bb63-4ea4-b6b1-c739e8aa1170
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.639297+00:00
+
+Per-calendar independent fetch decision checked against K7Calendar.svelte's real current fetch effect; reuse claim holds.
+---
+[event:b53f65bd-e51e-4dba-b237-161f7d4bd637]
+node_id: 53a1b84b-bb63-4ea4-b6b1-c739e8aa1170
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:10:16.405582+00:00
+
+Found this plan-boundary capture says JSON.stringify/parse of nested config to a custom-element attribute is 'a new technique for this codebase' -- but plan.md (after the Finding-2 fix) now correctly cites main.ts's case 'chat'/'menu' as existing precedent for exactly this technique. The capture is now stale relative to the corrected plan text; verified against src/client/main.ts lines 340-398.
+---
+[event:f8941573-1de8-4825-8677-b1ec4cd70ef6]
+node_id: 53a1b84b-bb63-4ea4-b6b1-c739e8aa1170
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-15T09:11:02.744312+00:00
+
+contradicted at capture of f7035c1b-b3dd-49da-b761-cbe871f12abb
+---
+[event:0eccbd4d-7fd3-40c2-9667-cf7ddc750947]
+node_id: 53a1b84b-bb63-4ea4-b6b1-c739e8aa1170
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:33:39.609974+00:00
+
+gw-review PR#45: per-calendar independent fetch/cache-key decision is disputed only on the 'new technique' framing (superseded by node f7035c1b), not on the core decision, which is faithfully built (one fetch per Calendar, own freshness cache key). Surfaced to Part 2, not re-litigated here.
+---
+[node:834d4089-c726-4399-90c2-c540e2f8b6a4]
+type: decision
+tier: short-term
+path: /artifact/wireframe-decision-for-k7-multi-calendar
+created_at: 2026-09-15T08:33:36.699206+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T08:33:36.699206+00:00
+-> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-09-15T08:33:36.699206+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-15T08:33:36.699206+00:00
+
+Wireframe decision for k7-multi-calendar's tab strip: touch handling is native overflow-x scroll on the strip itself, with the strip's own touchstart/touchmove handlers calling stopPropagation() so a horizontal tab-scroll gesture can never also register as a page-swipe on the ancestor Pager -- reusing the interference-avoidance reasoning K7Carousel.svelte's own docstring already establishes for the identical class of problem (a nested touch surface competing with the page-level pager), not its discrete slide-snap math (tabs are independently-tappable variable-width buttons, not full-width slides to snap between).
+---
+[event:441e783e-0e10-4771-a584-993d173faf72]
+node_id: 834d4089-c726-4399-90c2-c540e2f8b6a4
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.641622+00:00
+
+Tab-strip touch-handling decision verified against real Carousel/carousel.ts source: stopPropagation() reuse is accurate, slide-snap math correctly NOT claimed as reused.
+---
+[event:ced1b611-c095-4923-8e4b-e7e4c8719022]
+node_id: 834d4089-c726-4399-90c2-c540e2f8b6a4
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:33:39.602730+00:00
+
+gw-review PR#45: tab strip's ontouchstart/move/end stopPropagation matches this decision; visual inspection of code only.
+---
+[node:33cd6c5b-8802-415f-9b36-81f2f68cbc92]
+type: decision
+tier: mid-term
+path: /artifact/wireframe-decision-for-k7-multi-calendar
+created_at: 2026-09-15T08:33:47.970335+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T08:33:47.970335+00:00
+-> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-09-15T08:33:47.970335+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-15T08:33:47.970335+00:00
+
+Wireframe decision for k7-multi-calendar's per-calendar colour ticks: colours are computed dynamically (evenly-spaced hue around the wheel, avoiding the reserved semantic hues -- warn/fail/amber-ink/signal -- same "hue separation has to be earned" reasoning as WARNNOTAMBER's own hue-27/45/72 spacing) rather than drawn from a small fixed set of named tokens, because the number of calendars a household configures is arbitrary and unknown at theme-build time -- a fixed palette would either run out (too many calendars) or be needlessly coarse (too few, when finer even spacing would look more distinct). The math runs in JavaScript, not CSS -- this project bans Safari-15-incompatible CSS colour functions (oklch()/color-mix() in OUTPUT css) but that constraint is about what ships in .css files, not about doing colour math in TS and writing the RESULT out as a plain hex string via an inline custom-property value. This is a deliberate, reasoned exception to "components read only var(--*) tokens" (TOKENCONTRACT), not a violation of it -- the value is still derived programmatically using this project's own colour-space reasoning, just computed per-request based on runtime cardinality (calendars.length) instead of baked into the static build-time token sheet. Left open for implementation: exact lightness/chroma tuning to clear the 3:1 border-contrast floor across all three luminance modes (light/dark/night) needs real contrast-checking during implementation, not guessed at here.
+---
+[event:86efed55-00d8-4643-8b52-16b252589e73]
+node_id: 33cd6c5b-8802-415f-9b36-81f2f68cbc92
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.641064+00:00
+
+Per-calendar colour-tick decision cross-checked against deck.json and WARNNOTAMBER reasoning; consistent, contrast-tuning honestly flagged as open implementation work.
+---
+[event:1f109c6a-f9f5-4683-b39f-95e93e636cdf]
+node_id: 33cd6c5b-8802-415f-9b36-81f2f68cbc92
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:33:39.595569+00:00
+
+gw-review PR#45: independently recomputed the calendar-tick HSL contrast against surface-sunken for light/dark/night across all usable hues — worst case light 4.51:1, dark 3.98:1, night 3.71:1, all clear the 3:1 floor, matching the decision's own claimed numbers and test/calendar-main-view.test.ts's assertions.
+---
+[node:855ab1c4-b0b1-4050-8183-66a45b16042c]
+type: decision
+tier: mid-term
+path: /artifact/wireframe-decision-for-k7-multi-calendar
+created_at: 2026-09-15T08:48:42.141442+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:4a749051-6bc6-4807-bc52-47748e2bb914] @ 2026-09-15T08:48:42.141442+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T08:48:42.141442+00:00
+-> DEPENDS_ON [node:8f453152-4703-4c6e-8a7c-4ae5ca69b54e] @ 2026-09-15T08:48:42.141442+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T08:48:42.141442+00:00
+-> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-09-15T08:48:42.141442+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-15T08:48:42.141442+00:00
+
+Wireframe decision for k7-multi-calendar's degraded state: on a per-calendar fetch failure, fall back to that calendar's own last-good freshness-cache entry (reusing the existing createFreshnessService pattern exactly, no new backend mechanism) -- served with its age, per the no-placeholder-as-real rule. When that calendar has never successfully loaded at all (no cache entry exists), render a synthetic all-day CalendarEvent-shaped object per day (title "blad wczytywania"/"loading error", allDay:true) in that calendar's own bucket only -- reuses the existing event-rendering markup rather than a new error-banner component, and stays scoped to that one calendar's bucket so merging into the GLOWNY/main tab doesn't flood the whole week when only one of several calendars is broken. Per-calendar problem state surfaces on that calendar's own tab as a trailing glyph marker reusing Card.svelte's EXISTING state-glyph vocabulary exactly ([!] stale-from-cache, [X] no-cache-ever) -- no new iconography. The card's single footer badge (state/meta) reflects the worst state across all configured calendars. A stale-but-cached event is NOT visually distinguished from a fresh one within the event list itself (no per-event dimming) -- the tab marker and footer meta are the signal; dimming individual events in a merged multi-source view was judged as adding noise rather than clarity.
+---
+[event:2c65db63-40d2-413b-b825-308cf63ca544]
+node_id: 855ab1c4-b0b1-4050-8183-66a45b16042c
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:01:47.640490+00:00
+
+Degraded-state wireframe decision cross-checked against deck.json states block; Phase 4 text matches verbatim in substance.
+---
+[event:b576cf7f-02a0-4016-b9ae-3ad52074d0fa]
+node_id: 855ab1c4-b0b1-4050-8183-66a45b16042c
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:33:39.602086+00:00
+
+gw-review PR#45: read K7Calendar.svelte/calendar.ts/server route — degraded-stale ([!]+last-good cache) and degraded-no-cache ([X]+synthetic error week) states match this decision exactly; no new evidence beyond code inspection.
+---
+[node:08825c88-7072-4a40-ae83-c54fe30fec3d]
+type: decision
+tier: short-term
+path: /artifact/k7-multi-calendar-plan-md-correction-2n
+created_at: 2026-09-15T09:05:54.961115+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:38aab816-158d-4ec6-846b-7b193de37e0a] @ 2026-09-15T09:05:54.961115+00:00
+-> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-09-15T09:05:54.961115+00:00
+
+k7-multi-calendar plan.md correction (2nd /gw-plan-review pass): src/server/db/schema.ts:120 hand-writes its own separate Upstream enum literal array (text('upstream', { enum: [...] })), not derived from src/server/domain/types.ts's Upstream union. Phase 1's original file list only named domain/types.ts for the 'ics' addition — missing schema.ts would have broken typecheck the moment Phase 2 calls fetchThrough({upstream: 'ics', ...}), since UpstreamCacheRepository.put's Drizzle adapter call type-checks against schema.ts's narrower literal array. Fixed by adding src/server/db/schema.ts to Phase 1's Modified file list and explaining the duplication in the prose (one-line fix, no migration needed since it's a literal array not a DB constraint). Also fixed a non-blocking citation in Phase 4: the JSON.stringify/parse round-trip precedent for calendars attribute should cite main.ts's case 'chat'/case 'menu' (nested-object round trip), not timer's presetsMinutes.join(',') (flat-list comma-join) — chat/menu are the closer precedent for calendar's nested source object.
+---
+[event:f1e05ebd-08ed-47f4-8b32-250718e74761]
+node_id: 08825c88-7072-4a40-ae83-c54fe30fec3d
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:05:58.670559+00:00
+
+applied both plan-review findings to plan.md: added schema.ts to Phase 1 file list, fixed Phase 4 citation to chat/menu precedent
+---
+[event:9693b0e1-be4b-4b4c-9e28-14438d35762c]
+node_id: 08825c88-7072-4a40-ae83-c54fe30fec3d
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:11:06.393299+00:00
+
+third plan-review pass independently verified both fixes landed correctly against the real codebase
+---
+[event:361aa753-7cf7-429e-81fb-4b45ae7c2cd4]
+node_id: 08825c88-7072-4a40-ae83-c54fe30fec3d
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T10:02:38.550840+00:00
+
+Phase 1 applied the schema.ts fix this node documents
+---
+[event:b6ea30f5-fe03-426a-85f5-090234c09a7f]
+node_id: 08825c88-7072-4a40-ae83-c54fe30fec3d
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T10:02:42.546112+00:00
+
+Phase 1 applied the schema.ts fix this node documents
+---
+[node:38aab816-158d-4ec6-846b-7b193de37e0a]
+type: facet_value
+tier: lifetime
+path: /facet/planning
+created_at: 2026-09-15T09:05:54.961115+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+planning
+---
+[node:956d5165-5c27-4183-a5e2-c077d213f32a]
+type: facet_value
+tier: lifetime
+path: /facet/calendar
+created_at: 2026-09-15T09:05:54.961115+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+calendar
+---
+[node:f7035c1b-b3dd-49da-b761-cbe871f12abb]
+type: concept
+tier: short-term
+path: /artifact/correction-to-node-53a1b84b-bb63-4ea4-b
+created_at: 2026-09-15T09:11:02.744312+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:38aab816-158d-4ec6-846b-7b193de37e0a] @ 2026-09-15T09:11:02.744312+00:00
+-> CONTRADICTS [node:53a1b84b-bb63-4ea4-b6b1-c739e8aa1170] @ 2026-09-15T09:11:02.744312+00:00
+-> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-09-15T09:11:02.744312+00:00
+
+Correction to [node:53a1b84b-bb63-4ea4-b6b1-c739e8aa1170]: that node describes JSON.stringify/parse-to-custom-element-attribute (for passing the `calendars` config into K7Calendar.svelte) as "a new pattern"/technique for this codebase. This is inaccurate — main.ts's `case 'menu'` already does exactly this (JSON.stringify of a nested `{cardId, label, icon?}[]` array into a custom-element attribute, main.ts L387-397), confirmed during k7-multi-calendar's third /gw-plan-review pass. The stringify/parse technique is established precedent, not new. This is a superseding note on that one claim only; 53a1b84b's core decision (per-calendar independent fetch, its own cache key) is unaffected and still stands.
+---
+[event:29d84a0c-70df-49f6-bc41-8e21258b325e]
+node_id: f7035c1b-b3dd-49da-b761-cbe871f12abb
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T09:11:06.388337+00:00
+
+third plan-review pass confirmed the chat/menu JSON.stringify precedent already exists in main.ts
+---
+[node:a9f7fb44-12c9-41bd-af50-f88e09935a7e]
+type: decision
+tier: short-term
+path: /artifact/k7-multi-calendar-phase-1-implementation
+created_at: 2026-09-15T10:02:33.837748+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T10:02:33.837748+00:00
+-> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-09-15T10:02:33.837748+00:00
+
+k7-multi-calendar Phase 1 implementation decision: `Calendar`/`CalendarSource` types live in `src/server/domain/types.ts` only, not duplicated into the client's `calendar.ts` in this phase. Reasoning: domain/types.ts already houses Upstream (the cross-cutting enum the calendar upstream fetchers key off), and Phase 2/3's ics-calendar.ts/google-calendar.ts need CalendarSource server-side to route fetch-by-mode; there is no existing precedent anywhere in this codebase for client importing server types (checked: no `from '.../server` import in src/client/), so a client-side Calendar/CalendarSource declaration, if needed, is deferred to Phase 4 (which already modifies calendar.ts to add CalendarEvent.calendarId) rather than introduced speculatively now. CalendarEvent itself stays client-only per existing precedent; server upstream modules (open-meteo.ts, etc.) define their own local response shapes rather than importing from domain/types.ts, so Phase 2/3's ics/google fetchers will follow that same convention for their CalendarEvent-shaped output.
+---
+[node:0f3e6ce1-ad37-48d7-91be-9ed69d8ae950]
+type: constraint
+tier: short-term
+path: /artifact/k7-multi-calendar-phase-2-implementation
+created_at: 2026-09-15T10:32:35.376649+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T10:32:35.376649+00:00
+-> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-09-15T10:32:35.376649+00:00
+
+k7-multi-calendar Phase 2 implementation findings (node-ical v0.27.2, verified against the installed library, not assumed): (1) node-ical's parseICS() is all-or-nothing per malformed RRULE field — an invalid FREQ or BYDAY value throws for the WHOLE file, not just that event; there is no per-event isolation at the library's own parse boundary. This means "one malformed event doesn't blank the feed" can only be guaranteed for malformed data that survives node-ical's own parse (e.g. an unparseable DTSTART value, which node-ical hands back as the literal string rather than a Date/throwing) — NOT for a structurally-invalid RRULE, which would take down the entire feed regardless of this module's own resilience. (2) node-ical parses a VALUE=DATE (all-day) field as LOCAL midnight of that calendar date, not UTC midnight (verified: this sandbox's TZ is Europe/Warsaw, and a DTSTART;VALUE=DATE:20260910 parsed to 2026-09-09T22:00:00.000Z, i.e. local midnight of the 10th) — so recovering the literal date string requires reading it back with LOCAL getters (getFullYear/getMonth/getDate), not UTC getters; this is symmetric regardless of what TZ the server process itself runs under, since both write and read sides use "local" consistently. Implemented in src/server/upstream/ics-calendar.ts's formatEventDate(). (3) icsCacheKey(calendarId) keys by the app-configured Calendar.id, not the feed URL — matches the plan's [node:53a1b84b] per-calendar-cache reasoning.
+---
+[event:d9f72c88-b601-4bda-9948-efe9f82713bb]
+node_id: 0f3e6ce1-ad37-48d7-91be-9ed69d8ae950
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T10:32:48.428704+00:00
+
+Phase 2 implementation of ics-calendar.ts
+---
+[node:5ac606c5-2f54-4a59-9ea6-16320cc0ab19]
+type: issue
+tier: short-term
+path: /artifact/plan-gap-found-during-k7-multi-calendar
+created_at: 2026-09-15T10:32:44.607434+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:38aab816-158d-4ec6-846b-7b193de37e0a] @ 2026-09-15T10:32:44.607434+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T10:32:44.607434+00:00
+-> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-09-15T10:32:44.607434+00:00
+
+Plan gap found during k7-multi-calendar Phase 2 (not blocking Phase 2 itself, flagging for Phase 4): no phase in plan.md lists src/server/index.ts as a file to modify, yet /api/calendar/week has never existed as a real route (confirmed in research.md's [node:156c9e97] finding) and none of Phases 2/3/4/5 currently wire ics-calendar.ts or google-calendar.ts's fetchers into an actual HTTP route via fetchThrough, the way index.ts already does for /api/comic and the weather route. Phase 4's stated file list (K7Calendar.svelte, calendar.ts, main.ts) has nowhere to route a real per-calendar fetch to. This needs an explicit addition to Phase 4 (or a new Phase 4 bullet) adding a real /api/calendar/week route in src/server/index.ts that dispatches to fetchIcsCalendar or fetchGoogleCalendar by source.mode, wrapped in fetchThrough with the appropriate cache key (icsCacheKey/google-calendar equivalent) — otherwise Phase 4's frontend work has no real backend to call and the feature silently stays mocked end-to-end.
+---
+[event:6e330376-9392-4e36-9c6e-ddc74b089e71]
+node_id: 5ac606c5-2f54-4a59-9ea6-16320cc0ab19
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T10:32:48.434254+00:00
+
+flagged the missing index.ts route wiring for Phase 4 to pick up
+---
+[event:2617adfb-11a0-4110-88df-5b3e20f9fc03]
+node_id: 5ac606c5-2f54-4a59-9ea6-16320cc0ab19
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:23:34.052010+00:00
+
+Phase 4 added the /api/calendar/week route flagged missing during Phase 2
+---
+[node:9c025bd5-ade9-49ac-a405-17152a775327]
+type: decision
+tier: short-term
+path: /artifact/k7-multi-calendar-phase-3-implementation
+created_at: 2026-09-15T11:09:51.444607+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T11:09:51.444607+00:00
+-> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-09-15T11:09:51.444607+00:00
+
+k7-multi-calendar Phase 3 implementation decisions for src/server/upstream/google-calendar.ts: (1) Consolidated the server-side CalendarEvent shape into domain/types.ts (moved out of ics-calendar.ts, which originally declared it locally as IcsCalendarEvent) since Phase 3 needs the identical shape — this is the first case in the codebase of two upstream modules (ics-calendar.ts, google-calendar.ts) producing the same domain concept, unlike every other upstream which is the sole source of its own shape. (2) hasGoogleCalendarCredentials(creds) is a plain boundary type-guard the caller uses to decide whether to invoke this module at all — absent credentials never reaches requestAccessToken/fetchEvents, which both assume valid creds (trust internal invariants, validate only at the boundary). This is how "absent credentials falls back to the client's existing mock display" gets implemented: the future route simply skips calling this module and lets the request fail the same way it does today (no route at all), rather than this module manufacturing a fallback. (3) Access-token caching is closure-scoped per createGoogleCalendarClient() instance, not a bare module-level global — functionally equivalent given this project's own precedent (kilo.ts's createKiloGatewayClient) of constructing upstream clients once at boot and reusing them for the process lifetime, but closure-scoping makes it trivially testable (each test constructs its own client) without cross-test cache pollution. Token refreshed 60s before its stated expiry (EXPIRY_SAFETY_MARGIN_SECONDS) so an in-flight request never starts with a token that expires mid-call. (4) Google's events.list is queried with singleEvents=true&orderBy=startTime, which makes Google itself expand recurring events into instances server-side — unlike the .ics path (Phase 2), there is no client-side RRULE expansion needed for the Google source. Cancelled instances (status: 'cancelled') are dropped in mapGoogleEvent, not shown as events.
+---
+[event:e2f3d356-ec7f-44bc-9175-72dd1ceb71f7]
+node_id: 9c025bd5-ade9-49ac-a405-17152a775327
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T11:09:57.891107+00:00
+
+Phase 3 implementation of google-calendar.ts
+---
+[node:1a47e9ff-095d-49dc-9a9f-fdc17fd76c6b]
+type: decision
+tier: short-term
+path: /artifact/k7-multi-calendar-phase-4-implementation
+created_at: 2026-09-15T12:23:29.385161+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-09-15T12:23:29.385161+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T12:23:29.385161+00:00
+
+k7-multi-calendar Phase 4 implementation decisions: (1) Per-calendar fetch failures are distinguished into 3 client-side states via a new `code: 'not-configured'` field on the route's 503 body (a deliberate small addition beyond the existing {error, detail} shape, needed for genuine client branching, not just human display): 'not-configured' (Google calendar with no server credentials — falls back to the existing obviously-mocked demo events, state=idle, same treatment this card has always given "no real backend") vs 'no-cache' (fetchThrough itself threw, nothing cached at all — synthetic all-day "blad wczytywania" placeholder scoped to that calendar's own day bucket, state=fail/[X] on its tab) vs 'stale' (fetchThrough returned aged.stale=true — last-good cached events shown as-is, not dimmed, state=warn/[!] on its tab). Card's own footer badge takes the worst status across all configured calendars. (2) The colour-tick is genuinely per-mode: calendarTickColor(index, total, mode) takes an explicit 'light'|'dark'|'night' mode rather than reading the DOM itself, keeping calendar.ts DOM-free/testable; K7Calendar.svelte reads document.documentElement.dataset.mode via a MutationObserver (first use of this pattern in the codebase — no existing precedent for a shadow-DOM component reacting live to an external light-DOM attribute change) so tick colours update if the household toggles theme mid-session, not just at initial render. (3) The reserved hue bands ([0,50) for amber/warn/fail, [145,180) for signal/teal) and the per-mode saturation/lightness (S=0.55; L=0.28 light, 0.62 dark, 0.58 night) were derived by computing real HSL hues from retro-scifi.yaml's actual hex values and numerically verifying WCAG contrast against the real --surface-sunken hex per mode across the whole allowed hue range (worst case 3.7-4.4:1, all clearing the 3:1 CONTRASTFLOORS non-text floor with margin) — not guessed, and colour is built via a from-scratch hslToHex() arithmetic conversion rather than the hsl() function syntax, since check-token-contract.py's "no rgb()/hsl() literals" rule is a pure lexical scan with no exception for runtime-computed values (confirmed by reading the actual regex, not assumed) — the same reasoning already applied to hex literals during /gw-plan-review now had to be re-verified for hsl() specifically since it's a different literal pattern. (4) --calendar-tick-color needed a new entry in test/theme.test.ts's RUNTIME allowlist (the existing carve-out for component-local custom properties like --pull-offset) — the theme-token-completeness test does not distinguish "theme token" from "JS-computed local custom property" and needed the same treatment already established for pull-refresh.ts's drag state.
+---
+[event:fd371471-dbe3-437b-b029-d6d84928b776]
+node_id: 1a47e9ff-095d-49dc-9a9f-fdc17fd76c6b
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:23:34.046984+00:00
+
+Phase 4 implementation: tabs, merge logic, colour-tick, route wiring
+---
+[event:3b945c0a-74c5-4be2-8860-3999122ce12c]
+node_id: 1a47e9ff-095d-49dc-9a9f-fdc17fd76c6b
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:28:31.346742+00:00
+
+Phase 5 real-browser testing confirmed Phase 4's tab/status/tick logic works end-to-end
+---
+[node:b4f0a546-3c1a-47d5-8c8f-46473a5b6335]
+type: decision
+tier: short-term
+path: /artifact/k7-multi-calendar-phase-5-complete-layo
+created_at: 2026-09-15T12:28:26.195611+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T12:28:26.195611+00:00
+-> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-09-15T12:28:26.195611+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T12:28:26.195611+00:00
+
+k7-multi-calendar Phase 5 complete: layout.yaml's kalendarz card migrated to the calendars array (one Google entry, showInMain:true, editable field removed), changelog.yaml entry added. Real-browser verification (transient playwright-core against real system Chrome, per this project's established precedent — installed and uninstalled, never committed) against a scratch 3-calendar layout confirmed all scenarios: (1) tab strip renders correctly with 4 tabs (GŁÓWNY + 3), active-tab brackets move correctly on click, no custom drag/snap logic needed beyond stopPropagation (native overflow-x scroll does the work, as the deck specified); (2) a real public .ics feed (Google's published US-holidays calendar, freely available) was fetched, parsed, and rendered correctly — verified Labor Day 2026-09-07 renders as a bare all-day date, and confirmed a genuinely empty week (Sept 14-21 2026, no US holidays that week) is NOT a bug, just real data; (3) Google-not-configured correctly falls back to the 4 mock events with meta="dane przykladowe"/badge="[--]" (idle), not the error-day treatment; (4) a deliberately-unreachable .ics URL correctly produces 7 synthetic all-day "blad wczytywania" placeholders scoped to that calendar's own tab, with badge="[X]" (fail) and meta="brak danych"; (5) confirmed the card's footer badge/meta aggregate worst-case across ALL configured calendars regardless of showInMain (the deck's own region label literally says "worst-case aggregation") — a calendar excluded from the merged main tab (showInMain:false) still drags the whole card's badge to fail if it's broken, which is the deck's explicit intended design, not a defect; (6) single-calendar regression case confirmed pixel-identical to pre-multi-calendar behavior: no .tabs element renders at all, mock-fallback meta/badge unchanged. No implementation bugs found during real-browser testing this time (unlike k7-card-fullscreen, which found 2 real bugs only via real-browser testing) — Phase 1-4's own typecheck/lint/test discipline plus the numeric contrast pre-verification caught everything static analysis could reasonably be expected to catch.
+---
+[event:25310c7e-c66f-4825-855e-e6fabe4ae9e2]
+node_id: b4f0a546-3c1a-47d5-8c8f-46473a5b6335
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:28:31.345765+00:00
+
+ran real-browser verification against a real public .ics feed and all degraded-state scenarios, all confirmed working
+---
+[node:efb7b997-2492-44a4-8403-769ab04739d6]
+type: issue
+tier: short-term
+path: /artifact/pre-existing-issue-found-during-k7-multi
+created_at: 2026-09-15T12:35:47.841846+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-09-15T12:35:47.841846+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T12:35:47.841846+00:00
+
+Pre-existing issue found during k7-multi-calendar's /gw-review (not introduced by this change, confirmed via git show main:src/client/lib/K7Calendar.svelte): K7Calendar.svelte's `let days = weekDays(weekStart)` is a plain non-reactive binding, not `$derived`. On a kiosk running for months, after the first week rolls over the rendered day-column dates/DOW labels freeze while `weekStart` (used for event bucket grouping) keeps advancing — event buckets eventually get labeled with the wrong dates. Fix: `let days = $derived(weekDays(weekStart))`. Cheap, low-risk, one-line — candidate for a small /gw-fix change.
+---
+[event:f1576f70-53e5-494b-b12f-1afbdd4051f8]
+node_id: efb7b997-2492-44a4-8403-769ab04739d6
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:35:58.490477+00:00
+
+pre-existing bug found and filed during /gw-review
+---
+[node:a019c0e9-f208-45a3-b3cc-4197fdb9b825]
+type: issue
+tier: short-term
+path: /artifact/recall-quality-gap-found-during-k7-multi
+created_at: 2026-09-15T12:35:54.505764+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:38aab816-158d-4ec6-846b-7b193de37e0a] @ 2026-09-15T12:35:54.505764+00:00
+-> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-09-15T12:35:54.505764+00:00
+
+Recall-quality gap found during k7-multi-calendar's /gw-review: a settled constraint node [node:09f65864] ("a date captured once at component init stops being today at the first midnight... anything that means now must be recomputed on a timer rather than closed over at construction") did NOT surface in this change's goal-scoped recall_context, even though it directly names the exact failure mode this same change's own K7Calendar.svelte pre-existing bug exhibits (see [node:efb7b997], the days/weekStart reactivity issue). It only appeared via the broader consolidation_candidates() scan. This is a process/retrieval gap worth a human look — a constraint this directly on-point for calendar work should rank in a "calendar" or "frontend" scoped recall, and its absence meant the implementer had no practical way to catch the bug even though the graph already held the answer.
+---
+[event:6297c7a7-3ed5-43e7-90be-cb2b7e1ea840]
+node_id: a019c0e9-f208-45a3-b3cc-4197fdb9b825
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:35:58.495342+00:00
+
+recall-gap noted during /gw-review
 ---
 [node:1278c939-a77d-4729-b4d4-367b92aebefa]
 type: slice

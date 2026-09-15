@@ -113,6 +113,10 @@ describe('the generator emits every token the components use', () => {
       // Set by lib/pull-refresh.ts on every touchmove — drag state, not a theme token.
       '--pull-offset',
       '--pull-progress',
+      // Set per-event by K7Calendar.svelte from calendarTickColor() — computed
+      // per-request (the number of configured calendars is arbitrary and
+      // unknown at theme-build time), not a fixed theme token.
+      '--calendar-tick-color',
     ])
     const used = new Set(
       [...sources.matchAll(/var\((--[a-z0-9-]+)/g)].map((m) => m[1] as string).filter((t) => !RUNTIME.has(t)),

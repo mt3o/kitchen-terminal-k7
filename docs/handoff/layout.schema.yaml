@@ -230,19 +230,50 @@ $defs:
 
   params.calendar:
     type: object
-    required: [calendarId]
+    description: >
+      Karta obsługuje wiele skonfigurowanych kalendarzy naraz — każdy jako
+      osobny wpis w `calendars`. Gdy skonfigurowany jest więcej niż jeden,
+      karta pokazuje pasek zakładek do przełączania między nimi; zakładka
+      GŁÓWNY łączy wydarzenia z kalendarzy oznaczonych `showInMain: true`.
+    required: [calendars]
     properties:
-      calendarId:
-        type: string
-        description: ID kalendarza Google (email kalendarza lub "primary").
+      calendars:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          required: [id, name, source]
+          properties:
+            id:
+              type: string
+              description: Unikalny identyfikator tego kalendarza w obrębie karty.
+            name:
+              type: string
+              description: Etykieta zakładki.
+            showInMain:
+              type: boolean
+              default: false
+              description: Czy wydarzenia z tego kalendarza mają się pojawiać w zakładce GŁÓWNY.
+            source:
+              type: object
+              required: [mode]
+              oneOf:
+                - required: [mode, calendarId]
+                  properties:
+                    mode: { const: google }
+                    calendarId:
+                      type: string
+                      description: ID kalendarza Google (email kalendarza lub "primary").
+                - required: [mode, url]
+                  properties:
+                    mode: { const: ics }
+                    url:
+                      type: string
+                      description: Adres URL pliku/feedu .ics (tylko do odczytu).
       view:
         type: string
         enum: [week, day]
         default: week
-      editable:
-        type: boolean
-        default: true
-        description: Czy karta pozwala dodawać/edytować/usuwać wydarzenia, czy tylko wyświetla.
 
   params.chat:
     type: object

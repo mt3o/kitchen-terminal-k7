@@ -283,9 +283,9 @@ function createWidget(card: Card): HTMLElement {
     }
     case 'calendar': {
       const el = document.createElement('k7-calendar')
-      attr(el, 'calendarId', params.calendarId)
+      const calendars = Array.isArray(params.calendars) ? params.calendars : []
+      attr(el, 'calendars', JSON.stringify(calendars))
       attr(el, 'view', params.view)
-      attr(el, 'editable', params.editable)
       return el
     }
     case 'timer': {

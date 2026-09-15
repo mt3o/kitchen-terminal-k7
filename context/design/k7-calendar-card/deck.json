@@ -1,0 +1,54 @@
+{
+  "v": 1,
+  "surface": "k7-calendar-card",
+  "target": "src/client/lib/K7Calendar.svelte",
+  "binding": "system-bound",
+  "screens": [
+    {
+      "id": "calendar-tabs",
+      "status": "agreed",
+      "agreed_by": [{ "change": "k7-multi-calendar", "on": "2026-09-15" }],
+      "implements": "src/client/lib/K7Calendar.svelte",
+      "wireframe": {
+        "cols": 12,
+        "rows": 8,
+        "regions": [
+          { "label": "card-head (existing, unchanged)", "x": 0, "y": 0, "w": 12, "h": 1 },
+          { "label": "tab strip (new)", "x": 0, "y": 1, "w": 12, "h": 1, "accent": true },
+          { "label": "week grid (existing, unchanged structure)", "x": 0, "y": 2, "w": 12, "h": 5 },
+          { "label": "card-foot meta/badge (existing, worst-case aggregation)", "x": 0, "y": 7, "w": 12, "h": 1 }
+        ]
+      },
+      "components": {
+        "card shell, header, fullscreen button": "existing:Card.svelte",
+        "tab strip": "GAP:ruled:834d4089 — new pattern composed entirely from existing tokens (ghost buttons, bracket-glyph active marker per node 9b0e63ee), not a new design-system primitive; native overflow-x scroll + stopPropagation() on touch, per node 834d4089",
+        "each tab": "existing:ghost-button recipe (Card.svelte's own fullscreen-btn CSS), active tab wrapped in brackets per the [ + ]/[ MOTYW: JASNY ] convention",
+        "tab problem-state glyph": "existing:Card.svelte GLYPH map ([!]/[X]), reused verbatim — see node 855ab1c4",
+        "week grid, day rows, event cards": "existing:K7Calendar.svelte (unchanged)",
+        "per-event colour tick": "GAP:ruled:33cd6c5b — dynamically computed per-calendar hue (JS math, not CSS colour functions), not a fixed token set; exact lightness/chroma tuning deferred to implementation",
+        "synthetic full-day error event": "existing:K7Calendar.svelte's own event markup, reused for a CalendarEvent-shaped error placeholder — see node 855ab1c4"
+      },
+      "states": {
+        "single-calendar (today, regression baseline)": "No tab strip renders at all when calendars.length === 1 — pixel-identical to the current card, zero visual change.",
+        "multi-calendar, main tab (GŁÓWNY)": "Merged view of every Calendar with showInMain:true; per-event colour tick by source calendar.",
+        "multi-calendar, one calendar's own tab": "Only that Calendar's events, regardless of its showInMain value — same mechanics as the main tab, single source.",
+        "empty": "Falls out of the existing per-day '—' handling — an empty week is just seven empty days. No new design.",
+        "loading": "Each calendar's tab updates progressively as its own fetch resolves (per-calendar independent fetch, already in plan.md) — no spinner, matching this project's stated aversion to spinners that might never resolve. No new design.",
+        "degraded — stale, cache available": "That calendar's own tab gets a trailing [!] glyph (Card.svelte's existing GLYPH vocabulary); events shown are last-good from cache, not visually dimmed; card footer badge reflects worst-case state across all configured calendars.",
+        "degraded — no cache ever": "That calendar's tab gets [X]; every day in that calendar's own bucket shows a synthetic all-day 'błąd wczytywania' event, scoped to that calendar only so one broken source doesn't flood the merged main view."
+      },
+      "behavior": [
+        "Tapping a tab switches which CalendarEvents feed the week grid.",
+        "GŁÓWNY merges every Calendar with showInMain:true; any other tab shows only that one Calendar.",
+        "Tab strip scrolls horizontally (native overflow-x) when it doesn't fit; touch events on the strip call stopPropagation() so a tab-scroll can never also register as a page swipe.",
+        "Tab labels truncate with an ellipsis at a fixed max-width, never wrap; full name available via the title attribute (hover-only — not a reliable touch affordance on the real device, so the truncated label must stay recognizable on its own)."
+      ],
+      "cites": [
+        "node:a827e6ec", "node:dffe0843", "node:9b0e63ee", "node:61c0030d",
+        "node:6d6046fc", "node:4a749051", "node:834d4089", "node:33cd6c5b",
+        "node:855ab1c4"
+      ],
+      "prototype": null
+    }
+  ]
+}
