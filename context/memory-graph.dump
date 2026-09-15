@@ -9525,7 +9525,7 @@ created_at: 2026-09-15T07:14:00.307205+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:08825c88-7072-4a40-ae83-c54fe30fec3d] @ 2026-09-15T09:05:54.961115+00:00
 -> DEPENDS_ON [node:0f3e6ce1-ad37-48d7-91be-9ed69d8ae950] @ 2026-09-15T10:32:35.376649+00:00
 -> DEPENDS_ON [node:156c9e97-0f19-4ba6-92be-e61465e34c1f] @ 2026-09-15T07:22:57.865159+00:00
@@ -9541,6 +9541,7 @@ archived: false
 -> DEPENDS_ON [node:6cc420b8-f974-44f2-86db-b1ca47d3d06a] @ 2026-09-15T07:23:09.545552+00:00
 -> DEPENDS_ON [node:6e173c60-5243-48f4-9d43-3635c3e272b9] @ 2026-09-15T07:25:27.227165+00:00
 -> DEPENDS_ON [node:834d4089-c726-4399-90c2-c540e2f8b6a4] @ 2026-09-15T08:33:36.699206+00:00
+-> DEPENDS_ON [node:83eb4a6b-df5e-48a8-9d53-392ceaf2d7aa] @ 2026-09-15T12:40:25.062808+00:00
 -> DEPENDS_ON [node:855ab1c4-b0b1-4050-8183-66a45b16042c] @ 2026-09-15T08:48:42.141442+00:00
 -> DEPENDS_ON [node:9c025bd5-ade9-49ac-a405-17152a775327] @ 2026-09-15T11:09:51.444607+00:00
 -> DEPENDS_ON [node:a019c0e9-f208-45a3-b3cc-4197fdb9b825] @ 2026-09-15T12:35:54.505764+00:00
@@ -9585,6 +9586,16 @@ created_at: 2026-09-15T12:33:39.601269+00:00
 
 gw-review PR#45: ran npm run check (lint, lint:tokens, tokens:check, test, build) myself on change/k7-multi-calendar — 270/270 tests pass, build succeeds, token contract clean; goal's acceptance criteria met in built code.
 ---
+[event:fb60a29a-a7df-4141-b448-64d2a510c33d]
+node_id: 0ba26a6c-e82e-497d-a7da-42a4c5013729
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.581026+00:00
+
+10x lifecycle sweep
+---
 [node:3a242abd-4f61-42d0-9bae-06847948b755]
 type: slice
 tier: short-term
@@ -9607,6 +9618,7 @@ archived: false
 -> SCOPED_TO [node:6cc420b8-f974-44f2-86db-b1ca47d3d06a] @ 2026-09-15T07:23:09.545552+00:00
 -> SCOPED_TO [node:6e173c60-5243-48f4-9d43-3635c3e272b9] @ 2026-09-15T07:25:27.227165+00:00
 -> SCOPED_TO [node:834d4089-c726-4399-90c2-c540e2f8b6a4] @ 2026-09-15T08:33:36.699206+00:00
+-> SCOPED_TO [node:83eb4a6b-df5e-48a8-9d53-392ceaf2d7aa] @ 2026-09-15T12:40:25.062808+00:00
 -> SCOPED_TO [node:855ab1c4-b0b1-4050-8183-66a45b16042c] @ 2026-09-15T08:48:42.141442+00:00
 -> SCOPED_TO [node:9c025bd5-ade9-49ac-a405-17152a775327] @ 2026-09-15T11:09:51.444607+00:00
 -> SCOPED_TO [node:a019c0e9-f208-45a3-b3cc-4197fdb9b825] @ 2026-09-15T12:35:54.505764+00:00
@@ -9629,6 +9641,26 @@ created_at: 2026-09-15T07:14:00.313639+00:00
 
 create_change k7-multi-calendar
 ---
+[event:fda8c1a0-1317-47e6-85cc-0c8a9098dcd9]
+node_id: 3a242abd-4f61-42d0-9bae-06847948b755
+type: slice_deactivated
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.574981+00:00
+
+merge: deactivate k7-multi-calendar
+---
+[event:36aa2676-f705-4ca6-bf4e-3413a81aeda9]
+node_id: 3a242abd-4f61-42d0-9bae-06847948b755
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:29.921864+00:00
+
+activate k7-multi-calendar
+---
 [node:49b47c86-54b4-4824-b3e1-2ddbe79a82b6]
 type: decision
 tier: mid-term
@@ -9637,7 +9669,7 @@ created_at: 2026-09-15T07:14:16.880102+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> ABOUT [node:3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550] @ 2026-09-15T07:14:16.880102+00:00
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T07:14:16.880102+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T07:14:16.880102+00:00
@@ -9675,6 +9707,16 @@ source: agent-surface
 created_at: 2026-09-15T12:33:39.604382+00:00
 
 gw-review PR#45: ics sources are read-only in built code (no write path exists); Google's existing bidirectional treatment untouched.
+---
+[event:942acb0e-a01a-40f3-a59c-7e88b7d4920d]
+node_id: 49b47c86-54b4-4824-b3e1-2ddbe79a82b6
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.581026+00:00
+
+10x lifecycle sweep
 ---
 [node:a7e45cb9-b530-4d56-a7aa-f446de485af0]
 type: entity
@@ -9729,7 +9771,7 @@ created_at: 2026-09-15T07:19:58.855132+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> ABOUT [node:3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550] @ 2026-09-15T07:19:58.855132+00:00
 -> DEPENDS_ON [node:49b47c86-54b4-4824-b3e1-2ddbe79a82b6] @ 2026-09-15T07:19:58.855132+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T07:19:58.855132+00:00
@@ -9768,6 +9810,16 @@ created_at: 2026-09-15T09:10:16.403614+00:00
 
 Verified plan's non-goals correctly leave the disputed CalendarEvent definition to human action in the memory GUI; consistent with prior review pass.
 ---
+[event:290fbcaf-4be6-48f9-9657-018935749a93]
+node_id: c4994962-59cf-45f9-ba2c-e5cdde8b1c20
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.581026+00:00
+
+10x lifecycle sweep
+---
 [node:156c9e97-0f19-4ba6-92be-e61465e34c1f]
 type: issue
 tier: mid-term
@@ -9776,7 +9828,7 @@ created_at: 2026-09-15T07:22:57.865159+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> ABOUT [node:3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550] @ 2026-09-15T07:22:57.865159+00:00
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T07:22:57.865159+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T07:22:57.865159+00:00
@@ -9795,6 +9847,16 @@ created_at: 2026-09-15T07:30:42.969992+00:00
 
 the no-real-backend finding directly shapes phases 2-3's scope
 ---
+[event:aa5014f2-54a4-40b1-a9a6-c9123bd5e6df]
+node_id: 156c9e97-0f19-4ba6-92be-e61465e34c1f
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.581026+00:00
+
+10x lifecycle sweep
+---
 [node:6cc420b8-f974-44f2-86db-b1ca47d3d06a]
 type: concept
 tier: short-term
@@ -9803,7 +9865,7 @@ created_at: 2026-09-15T07:23:09.545552+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T07:23:09.545552+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T07:23:09.545552+00:00
 -> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-09-15T07:23:09.545552+00:00
@@ -9830,6 +9892,16 @@ created_at: 2026-09-15T09:01:47.638643+00:00
 
 node-ical library choice confirmed absent from package.json today, matching plan's Phase 2 new-dependency claim.
 ---
+[event:f7594e02-9920-45c9-a96d-be9450234789]
+node_id: 6cc420b8-f974-44f2-86db-b1ca47d3d06a
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.581026+00:00
+
+10x lifecycle sweep
+---
 [node:ab43353e-e0e8-49d5-88d5-8333b9f6912d]
 type: decision
 tier: mid-term
@@ -9838,7 +9910,7 @@ created_at: 2026-09-15T07:25:16.838467+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:156c9e97-0f19-4ba6-92be-e61465e34c1f] @ 2026-09-15T07:25:16.838467+00:00
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T07:25:16.838467+00:00
 -> DEPENDS_ON [node:ac006a24-2763-40e7-8423-2b851793efcf] @ 2026-09-15T07:25:16.838467+00:00
@@ -9888,6 +9960,16 @@ created_at: 2026-09-15T12:33:39.603842+00:00
 
 gw-review PR#45: google-calendar.ts scope matches — token-refresh helper + read-only events.list client, no consent-flow UI, two new secret config slots registered in secretValues().
 ---
+[event:f03026b2-4198-4453-8f62-2e5148d48d55]
+node_id: ab43353e-e0e8-49d5-88d5-8333b9f6912d
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.581026+00:00
+
+10x lifecycle sweep
+---
 [node:6e173c60-5243-48f4-9d43-3635c3e272b9]
 type: decision
 tier: short-term
@@ -9896,7 +9978,7 @@ created_at: 2026-09-15T07:25:27.227165+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T07:25:27.227165+00:00
 -> DEPENDS_ON [node:6cc420b8-f974-44f2-86db-b1ca47d3d06a] @ 2026-09-15T07:25:27.227165+00:00
 -> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-15T07:25:27.227165+00:00
@@ -9933,6 +10015,16 @@ created_at: 2026-09-15T12:33:39.604936+00:00
 
 gw-review PR#45: layout.schema.yaml's ics source is url-based, no file upload added.
 ---
+[event:c2566fcc-75f6-4b31-8d8b-4c3b3b32b9d1]
+node_id: 6e173c60-5243-48f4-9d43-3635c3e272b9
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.581026+00:00
+
+10x lifecycle sweep
+---
 [node:3885f57e-c98b-4f16-814c-5b9b3d880198]
 type: decision
 tier: short-term
@@ -9941,7 +10033,7 @@ created_at: 2026-09-15T07:30:11.508942+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T07:30:11.508942+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T07:30:11.508942+00:00
 -> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-09-15T07:30:11.508942+00:00
@@ -9959,6 +10051,16 @@ created_at: 2026-09-15T09:01:47.642188+00:00
 
 editable-field-removal decision checked against current layout.schema.yaml params.calendar; confirmed editable exists today and blast radius is exactly the one file the plan migrates.
 ---
+[event:0b7020cb-0b83-4715-8b13-87d36debecfd]
+node_id: 3885f57e-c98b-4f16-814c-5b9b3d880198
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.581026+00:00
+
+10x lifecycle sweep
+---
 [node:53a1b84b-bb63-4ea4-b6b1-c739e8aa1170]
 type: decision
 tier: mid-term
@@ -9967,7 +10069,7 @@ created_at: 2026-09-15T07:30:24.783670+00:00
 needs_review: true
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-15T07:30:24.783670+00:00
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T07:30:24.783670+00:00
 -> DEPENDS_ON [node:8f453152-4703-4c6e-8a7c-4ae5ca69b54e] @ 2026-09-15T07:30:24.783670+00:00
@@ -10016,6 +10118,16 @@ created_at: 2026-09-15T12:33:39.609974+00:00
 
 gw-review PR#45: per-calendar independent fetch/cache-key decision is disputed only on the 'new technique' framing (superseded by node f7035c1b), not on the core decision, which is faithfully built (one fetch per Calendar, own freshness cache key). Surfaced to Part 2, not re-litigated here.
 ---
+[event:2a9cc5ad-1f55-4340-a5f4-57129fada3ee]
+node_id: 53a1b84b-bb63-4ea4-b6b1-c739e8aa1170
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.581026+00:00
+
+10x lifecycle sweep
+---
 [node:834d4089-c726-4399-90c2-c540e2f8b6a4]
 type: decision
 tier: short-term
@@ -10024,7 +10136,7 @@ created_at: 2026-09-15T08:33:36.699206+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T08:33:36.699206+00:00
 -> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-09-15T08:33:36.699206+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-15T08:33:36.699206+00:00
@@ -10051,6 +10163,16 @@ created_at: 2026-09-15T12:33:39.602730+00:00
 
 gw-review PR#45: tab strip's ontouchstart/move/end stopPropagation matches this decision; visual inspection of code only.
 ---
+[event:2e0686cd-b663-4316-bcaa-bccb31011210]
+node_id: 834d4089-c726-4399-90c2-c540e2f8b6a4
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.581026+00:00
+
+10x lifecycle sweep
+---
 [node:33cd6c5b-8802-415f-9b36-81f2f68cbc92]
 type: decision
 tier: mid-term
@@ -10059,7 +10181,7 @@ created_at: 2026-09-15T08:33:47.970335+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T08:33:47.970335+00:00
 -> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-09-15T08:33:47.970335+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-15T08:33:47.970335+00:00
@@ -10086,6 +10208,16 @@ created_at: 2026-09-15T12:33:39.595569+00:00
 
 gw-review PR#45: independently recomputed the calendar-tick HSL contrast against surface-sunken for light/dark/night across all usable hues — worst case light 4.51:1, dark 3.98:1, night 3.71:1, all clear the 3:1 floor, matching the decision's own claimed numbers and test/calendar-main-view.test.ts's assertions.
 ---
+[event:d86bd585-c080-4bfd-ba78-39a3c576bb91]
+node_id: 33cd6c5b-8802-415f-9b36-81f2f68cbc92
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.581026+00:00
+
+10x lifecycle sweep
+---
 [node:855ab1c4-b0b1-4050-8183-66a45b16042c]
 type: decision
 tier: mid-term
@@ -10094,7 +10226,7 @@ created_at: 2026-09-15T08:48:42.141442+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:4a749051-6bc6-4807-bc52-47748e2bb914] @ 2026-09-15T08:48:42.141442+00:00
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T08:48:42.141442+00:00
 -> DEPENDS_ON [node:8f453152-4703-4c6e-8a7c-4ae5ca69b54e] @ 2026-09-15T08:48:42.141442+00:00
@@ -10124,6 +10256,16 @@ created_at: 2026-09-15T12:33:39.602086+00:00
 
 gw-review PR#45: read K7Calendar.svelte/calendar.ts/server route — degraded-stale ([!]+last-good cache) and degraded-no-cache ([X]+synthetic error week) states match this decision exactly; no new evidence beyond code inspection.
 ---
+[event:bcb98127-b093-4ed6-96bc-01083ae27ba2]
+node_id: 855ab1c4-b0b1-4050-8183-66a45b16042c
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.581026+00:00
+
+10x lifecycle sweep
+---
 [node:08825c88-7072-4a40-ae83-c54fe30fec3d]
 type: decision
 tier: short-term
@@ -10132,7 +10274,7 @@ created_at: 2026-09-15T09:05:54.961115+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:38aab816-158d-4ec6-846b-7b193de37e0a] @ 2026-09-15T09:05:54.961115+00:00
 -> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-09-15T09:05:54.961115+00:00
 
@@ -10178,6 +10320,16 @@ created_at: 2026-09-15T10:02:42.546112+00:00
 
 Phase 1 applied the schema.ts fix this node documents
 ---
+[event:31b77201-07b2-4200-a08b-ba045b3b305b]
+node_id: 08825c88-7072-4a40-ae83-c54fe30fec3d
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.581026+00:00
+
+10x lifecycle sweep
+---
 [node:38aab816-158d-4ec6-846b-7b193de37e0a]
 type: facet_value
 tier: lifetime
@@ -10210,7 +10362,7 @@ created_at: 2026-09-15T09:11:02.744312+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:38aab816-158d-4ec6-846b-7b193de37e0a] @ 2026-09-15T09:11:02.744312+00:00
 -> CONTRADICTS [node:53a1b84b-bb63-4ea4-b6b1-c739e8aa1170] @ 2026-09-15T09:11:02.744312+00:00
 -> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-09-15T09:11:02.744312+00:00
@@ -10227,6 +10379,16 @@ created_at: 2026-09-15T09:11:06.388337+00:00
 
 third plan-review pass confirmed the chat/menu JSON.stringify precedent already exists in main.ts
 ---
+[event:b246e244-1c12-4493-847f-abb03d954f89]
+node_id: f7035c1b-b3dd-49da-b761-cbe871f12abb
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.581026+00:00
+
+10x lifecycle sweep
+---
 [node:a9f7fb44-12c9-41bd-af50-f88e09935a7e]
 type: decision
 tier: short-term
@@ -10235,11 +10397,21 @@ created_at: 2026-09-15T10:02:33.837748+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T10:02:33.837748+00:00
 -> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-09-15T10:02:33.837748+00:00
 
 k7-multi-calendar Phase 1 implementation decision: `Calendar`/`CalendarSource` types live in `src/server/domain/types.ts` only, not duplicated into the client's `calendar.ts` in this phase. Reasoning: domain/types.ts already houses Upstream (the cross-cutting enum the calendar upstream fetchers key off), and Phase 2/3's ics-calendar.ts/google-calendar.ts need CalendarSource server-side to route fetch-by-mode; there is no existing precedent anywhere in this codebase for client importing server types (checked: no `from '.../server` import in src/client/), so a client-side Calendar/CalendarSource declaration, if needed, is deferred to Phase 4 (which already modifies calendar.ts to add CalendarEvent.calendarId) rather than introduced speculatively now. CalendarEvent itself stays client-only per existing precedent; server upstream modules (open-meteo.ts, etc.) define their own local response shapes rather than importing from domain/types.ts, so Phase 2/3's ics/google fetchers will follow that same convention for their CalendarEvent-shaped output.
+---
+[event:c2aa463c-274b-48d8-874b-6b875eb9f557]
+node_id: a9f7fb44-12c9-41bd-af50-f88e09935a7e
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.581026+00:00
+
+10x lifecycle sweep
 ---
 [node:0f3e6ce1-ad37-48d7-91be-9ed69d8ae950]
 type: constraint
@@ -10249,7 +10421,7 @@ created_at: 2026-09-15T10:32:35.376649+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T10:32:35.376649+00:00
 -> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-09-15T10:32:35.376649+00:00
 
@@ -10265,6 +10437,16 @@ created_at: 2026-09-15T10:32:48.428704+00:00
 
 Phase 2 implementation of ics-calendar.ts
 ---
+[event:bdc83ddf-df5c-4e89-b610-6a41cf03e5e0]
+node_id: 0f3e6ce1-ad37-48d7-91be-9ed69d8ae950
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.581026+00:00
+
+10x lifecycle sweep
+---
 [node:5ac606c5-2f54-4a59-9ea6-16320cc0ab19]
 type: issue
 tier: short-term
@@ -10273,7 +10455,7 @@ created_at: 2026-09-15T10:32:44.607434+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:38aab816-158d-4ec6-846b-7b193de37e0a] @ 2026-09-15T10:32:44.607434+00:00
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T10:32:44.607434+00:00
 -> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-09-15T10:32:44.607434+00:00
@@ -10300,6 +10482,16 @@ created_at: 2026-09-15T12:23:34.052010+00:00
 
 Phase 4 added the /api/calendar/week route flagged missing during Phase 2
 ---
+[event:5bc19e44-0c54-447a-8876-1d8aa052afea]
+node_id: 5ac606c5-2f54-4a59-9ea6-16320cc0ab19
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.581026+00:00
+
+10x lifecycle sweep
+---
 [node:9c025bd5-ade9-49ac-a405-17152a775327]
 type: decision
 tier: short-term
@@ -10308,7 +10500,7 @@ created_at: 2026-09-15T11:09:51.444607+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T11:09:51.444607+00:00
 -> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-09-15T11:09:51.444607+00:00
 
@@ -10324,6 +10516,16 @@ created_at: 2026-09-15T11:09:57.891107+00:00
 
 Phase 3 implementation of google-calendar.ts
 ---
+[event:2214f231-5857-4de9-8979-82352044c60b]
+node_id: 9c025bd5-ade9-49ac-a405-17152a775327
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.581026+00:00
+
+10x lifecycle sweep
+---
 [node:1a47e9ff-095d-49dc-9a9f-fdc17fd76c6b]
 type: decision
 tier: short-term
@@ -10332,7 +10534,7 @@ created_at: 2026-09-15T12:23:29.385161+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-09-15T12:23:29.385161+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T12:23:29.385161+00:00
 
@@ -10358,6 +10560,16 @@ created_at: 2026-09-15T12:28:31.346742+00:00
 
 Phase 5 real-browser testing confirmed Phase 4's tab/status/tick logic works end-to-end
 ---
+[event:9bccac63-3bbd-493c-8706-7135ace6bf07]
+node_id: 1a47e9ff-095d-49dc-9a9f-fdc17fd76c6b
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.581026+00:00
+
+10x lifecycle sweep
+---
 [node:b4f0a546-3c1a-47d5-8c8f-46473a5b6335]
 type: decision
 tier: short-term
@@ -10366,7 +10578,7 @@ created_at: 2026-09-15T12:28:26.195611+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T12:28:26.195611+00:00
 -> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-09-15T12:28:26.195611+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T12:28:26.195611+00:00
@@ -10383,6 +10595,16 @@ created_at: 2026-09-15T12:28:31.345765+00:00
 
 ran real-browser verification against a real public .ics feed and all degraded-state scenarios, all confirmed working
 ---
+[event:e68b3130-c596-46f9-b9bb-f9b26e109f6e]
+node_id: b4f0a546-3c1a-47d5-8c8f-46473a5b6335
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.581026+00:00
+
+10x lifecycle sweep
+---
 [node:efb7b997-2492-44a4-8403-769ab04739d6]
 type: issue
 tier: short-term
@@ -10391,7 +10613,7 @@ created_at: 2026-09-15T12:35:47.841846+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-09-15T12:35:47.841846+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T12:35:47.841846+00:00
 
@@ -10407,6 +10629,16 @@ created_at: 2026-09-15T12:35:58.490477+00:00
 
 pre-existing bug found and filed during /gw-review
 ---
+[event:2c846be4-a71f-408f-9828-19f2c2a9689d]
+node_id: efb7b997-2492-44a4-8403-769ab04739d6
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.581026+00:00
+
+10x lifecycle sweep
+---
 [node:a019c0e9-f208-45a3-b3cc-4197fdb9b825]
 type: issue
 tier: short-term
@@ -10415,7 +10647,7 @@ created_at: 2026-09-15T12:35:54.505764+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:38aab816-158d-4ec6-846b-7b193de37e0a] @ 2026-09-15T12:35:54.505764+00:00
 -> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-09-15T12:35:54.505764+00:00
 
@@ -10431,65 +10663,58 @@ created_at: 2026-09-15T12:35:58.495342+00:00
 
 recall-gap noted during /gw-review
 ---
-[node:1278c939-a77d-4729-b4d4-367b92aebefa]
-type: slice
-tier: short-term
-path: /change/k7-unsplash-carousel
-created_at: 2026-09-15T11:14:08.682820+00:00
+[event:91703636-4436-411c-a9a3-1d819fd94736]
+node_id: a019c0e9-f208-45a3-b3cc-4197fdb9b825
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.581026+00:00
+
+10x lifecycle sweep
+---
+[node:83eb4a6b-df5e-48a8-9d53-392ceaf2d7aa]
+type: concept
+tier: mid-term
+path: /artifact/k7-multi-calendar-merged-as-pr-45-mt3
+created_at: 2026-09-15T12:40:25.062808+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
--> SCOPED_TO [node:3a984ba5-4d77-4885-82f7-48a9c96c514a] @ 2026-09-15T11:14:26.422827+00:00
--> SCOPED_TO [node:54b7c36e-0b6d-41c1-8fd6-be9737d57867] @ 2026-09-15T11:14:08.682820+00:00
--> SCOPED_TO [node:6bd4cda3-a960-4aef-99f2-340e4903e625] @ 2026-09-15T11:14:24.243650+00:00
+archived: true
+-> DEPENDS_ON [node:156c9e97-0f19-4ba6-92be-e61465e34c1f] @ 2026-09-15T12:40:25.062808+00:00
+-> DEPENDS_ON [node:33cd6c5b-8802-415f-9b36-81f2f68cbc92] @ 2026-09-15T12:40:25.062808+00:00
+-> ABOUT [node:3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550] @ 2026-09-15T12:40:25.062808+00:00
+-> DEPENDS_ON [node:49b47c86-54b4-4824-b3e1-2ddbe79a82b6] @ 2026-09-15T12:40:25.062808+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T12:40:25.062808+00:00
+-> DEPENDS_ON [node:53a1b84b-bb63-4ea4-b6b1-c739e8aa1170] @ 2026-09-15T12:40:25.062808+00:00
+-> DEPENDS_ON [node:6cc420b8-f974-44f2-86db-b1ca47d3d06a] @ 2026-09-15T12:40:25.062808+00:00
+-> DEPENDS_ON [node:6e173c60-5243-48f4-9d43-3635c3e272b9] @ 2026-09-15T12:40:25.062808+00:00
+-> DEPENDS_ON [node:834d4089-c726-4399-90c2-c540e2f8b6a4] @ 2026-09-15T12:40:25.062808+00:00
+-> DEPENDS_ON [node:855ab1c4-b0b1-4050-8183-66a45b16042c] @ 2026-09-15T12:40:25.062808+00:00
+-> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-09-15T12:40:25.062808+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T12:40:25.062808+00:00
+-> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-09-15T12:40:25.062808+00:00
+-> DEPENDS_ON [node:ab43353e-e0e8-49d5-88d5-8333b9f6912d] @ 2026-09-15T12:40:25.062808+00:00
 
-change scope: k7-unsplash-carousel
+k7-multi-calendar (merged as PR #45, mt3o/kitchen-terminal-k7, commit 74bc85b on main): the calendar card now supports any number of configured calendars — the household's existing Google account plus any number of read-only .ics feeds (motivating case: a kid's school schedule) — each fetched independently through a new GET /api/calendar/week route so one dead feed never blanks the others. A tab strip (built against an agreed wireframe deck, context/design/k7-calendar-card/deck.json) appears once there is more than one calendar; a GŁÓWNY tab merges every calendar flagged showInMain, any other tab shows just that one calendar regardless of its own flag. A single configured calendar (today's real household setup) renders pixel-identical to the pre-multi-calendar card. Google OAuth2 was deliberately bounded to a refresh-token exchange + read-only events.list — no consent-flow UI exists or was built. Three degraded states are distinguished per calendar: not-configured (Google, no credentials — falls back to the pre-existing mock-event display), stale (cache available, [!] glyph), no-cache (synthetic all-day error placeholders, [X] glyph) — the card's footer badge/meta aggregate worst-case across ALL configured calendars regardless of showInMain, by deliberate design. Real-browser verified against a real public .ics feed (Google's published US-holidays calendar) before merge; the colour-tick hue/contrast was verified numerically against the real theme tokens, not guessed. One pre-existing (not introduced by this change) reactivity bug was found during review and filed separately, not fixed here: K7Calendar.svelte's day-column labels freeze after the first week rollover on a long-running kiosk.
 ---
-[event:25e7cb30-2e5a-4722-b312-e44ed57b24b2]
-node_id: 1278c939-a77d-4729-b4d4-367b92aebefa
-type: slice_activated
-weight: 0.0
+[event:e0f8b7f5-6bb3-40ee-a8cc-8abede4172fa]
+node_id: 83eb4a6b-df5e-48a8-9d53-392ceaf2d7aa
+type: confirmation_added
+weight: 1.0
 polarity: 1
 source: agent-surface
-created_at: 2026-09-15T11:14:08.691380+00:00
+created_at: 2026-09-15T12:40:36.248645+00:00
 
-create_change k7-unsplash-carousel
+change-summary captured at archive boundary, merged as PR #45
 ---
-[node:54b7c36e-0b6d-41c1-8fd6-be9737d57867]
-type: goal
-tier: short-term
-path: /goal/k7-unsplash-carousel
-created_at: 2026-09-15T11:14:08.682820+00:00
-needs_review: false
-retrieval_weight: 1.0
-trust_weight: 1.0
-archived: false
--> DEPENDS_ON [node:3a984ba5-4d77-4885-82f7-48a9c96c514a] @ 2026-09-15T11:14:26.422827+00:00
--> DEPENDS_ON [node:6bd4cda3-a960-4aef-99f2-340e4903e625] @ 2026-09-15T11:14:24.243650+00:00
+[event:b809d8ca-e885-43fc-b606-f68f5efadd85]
+node_id: 83eb4a6b-df5e-48a8-9d53-392ceaf2d7aa
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-09-15T12:41:17.581026+00:00
 
-Add an unsplash-carousel card that rotates photos fetched server-side from the Unsplash API, with the access key kept off the client and attribution on every photo.
----
-[node:6bd4cda3-a960-4aef-99f2-340e4903e625]
-type: decision
-tier: mid-term
-path: /artifact/unsplash-photos-are-their-own-card-type
-created_at: 2026-09-15T11:14:24.243650+00:00
-needs_review: false
-retrieval_weight: 1.0
-trust_weight: 1.0
-archived: false
-
-Unsplash photos are their own card type (unsplash-carousel, K7Unsplash.svelte) rather than a carousel of image slides: the slides are only known after a server-side API call, and each photo needs linked photographer and Unsplash attribution that the generic image card has no place for. It reuses carousel.ts swipe/advance logic so behaviour matches K7Carousel.
----
-[node:3a984ba5-4d77-4885-82f7-48a9c96c514a]
-type: constraint
-tier: mid-term
-path: /artifact/unsplash-api-guidelines-bind-the-unsplas
-created_at: 2026-09-15T11:14:26.422827+00:00
-needs_review: false
-retrieval_weight: 1.0
-trust_weight: 1.0
-archived: false
-
-Unsplash API guidelines bind the unsplash-carousel card: images are hotlinked from urls.raw keeping ixid, attribution links carry utm_source and utm_medium=referral, and download_location is pinged on each live fetch only when it points at https://api.unsplash.com/ because that request carries the access key. The demo tier allows 50 requests per hour, which is why the route caches a whole random set for 6 hours by default.
+10x lifecycle sweep
