@@ -3604,6 +3604,16 @@ created_at: 2026-09-15T13:11:36.533230+00:00
 
 surfaced in Part 2 memory-review queue as the only disputed/stale node touched by recall; unrelated to this SSRF diff (CalendarEvent domain entity dispute), left for human review.
 ---
+[event:34eb0f26-e8ff-45ab-9d26-5a3b604555f2]
+node_id: 3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T13:36:39.467447+00:00
+
+Store-wide staleness queue check at review time — this disputed CalendarEvent entity is unrelated to PR #51's diff, no new evidence either way, left for the human queue.
+---
 [node:7b73e502-b1fb-4587-96bd-f005b1ead665]
 type: entity
 tier: short-term
@@ -10780,13 +10790,16 @@ trust_weight: 1.0
 archived: false
 -> DEPENDS_ON [node:09f00361-0da0-427d-9f9a-494a1feb01d1] @ 2026-09-15T13:05:08.415368+00:00
 -> DEPENDS_ON [node:11eb5df1-7022-487f-9eb4-addbd53cadea] @ 2026-09-15T12:57:03.955270+00:00
+-> DEPENDS_ON [node:26461b4d-d2d5-4495-9ff4-6d067fbcb6ec] @ 2026-09-15T13:38:12.533560+00:00
 -> DEPENDS_ON [node:3d0c550e-ed0f-4340-bca1-b0b0ccab0462] @ 2026-09-15T12:58:16.315805+00:00
 -> DEPENDS_ON [node:3fbd6715-ab1c-4515-aa6c-6daf97354ffe] @ 2026-09-15T13:11:51.426845+00:00
 -> DEPENDS_ON [node:447637ba-6aa5-4f22-9e2c-306dc4ede3e2] @ 2026-09-15T13:11:59.819780+00:00
 -> DEPENDS_ON [node:5786ab1c-0b77-47f6-b106-71b194355c7a] @ 2026-09-15T12:53:23.002143+00:00
 -> DEPENDS_ON [node:5e50c7e3-1caf-4a51-808f-ecc07cd24889] @ 2026-09-15T13:28:44.291256+00:00
+-> DEPENDS_ON [node:7e7988fc-a9b7-4fda-acb0-7e8fe6693c74] @ 2026-09-15T13:36:22.106659+00:00
 -> DEPENDS_ON [node:87702f1f-1848-4624-9b52-e03c40aef76d] @ 2026-09-15T12:53:39.376790+00:00
 -> DEPENDS_ON [node:92c62be9-95e4-40db-94f2-fe8465110bf5] @ 2026-09-15T13:13:02.941322+00:00
+-> DEPENDS_ON [node:b5225b5c-799b-4a52-b7aa-1e19c9466b79] @ 2026-09-15T13:36:27.462586+00:00
 -> DEPENDS_ON [node:bb5beeed-3cc4-468a-b4c3-a6575cb25f41] @ 2026-09-15T12:48:47.622097+00:00
 -> DEPENDS_ON [node:fb0cacd3-4114-4733-965a-b12a5a19d2e3] @ 2026-09-15T12:53:30.812224+00:00
 
@@ -10814,13 +10827,16 @@ archived: false
 -> SCOPED_TO [node:09f00361-0da0-427d-9f9a-494a1feb01d1] @ 2026-09-15T13:05:08.415368+00:00
 -> SCOPED_TO [node:11eb5df1-7022-487f-9eb4-addbd53cadea] @ 2026-09-15T12:57:03.955270+00:00
 -> SCOPED_TO [node:25df1729-dc32-4525-ae98-d7691fac18fc] @ 2026-09-15T12:48:38.205400+00:00
+-> SCOPED_TO [node:26461b4d-d2d5-4495-9ff4-6d067fbcb6ec] @ 2026-09-15T13:38:12.533560+00:00
 -> SCOPED_TO [node:3d0c550e-ed0f-4340-bca1-b0b0ccab0462] @ 2026-09-15T12:58:16.315805+00:00
 -> SCOPED_TO [node:3fbd6715-ab1c-4515-aa6c-6daf97354ffe] @ 2026-09-15T13:11:51.426845+00:00
 -> SCOPED_TO [node:447637ba-6aa5-4f22-9e2c-306dc4ede3e2] @ 2026-09-15T13:11:59.819780+00:00
 -> SCOPED_TO [node:5786ab1c-0b77-47f6-b106-71b194355c7a] @ 2026-09-15T12:53:23.002143+00:00
 -> SCOPED_TO [node:5e50c7e3-1caf-4a51-808f-ecc07cd24889] @ 2026-09-15T13:28:44.291256+00:00
+-> SCOPED_TO [node:7e7988fc-a9b7-4fda-acb0-7e8fe6693c74] @ 2026-09-15T13:36:22.106659+00:00
 -> SCOPED_TO [node:87702f1f-1848-4624-9b52-e03c40aef76d] @ 2026-09-15T12:53:39.376790+00:00
 -> SCOPED_TO [node:92c62be9-95e4-40db-94f2-fe8465110bf5] @ 2026-09-15T13:13:02.941322+00:00
+-> SCOPED_TO [node:b5225b5c-799b-4a52-b7aa-1e19c9466b79] @ 2026-09-15T13:36:27.462586+00:00
 -> SCOPED_TO [node:bb5beeed-3cc4-468a-b4c3-a6575cb25f41] @ 2026-09-15T12:48:47.622097+00:00
 -> SCOPED_TO [node:fb0cacd3-4114-4733-965a-b12a5a19d2e3] @ 2026-09-15T12:53:30.812224+00:00
 
@@ -10946,6 +10962,16 @@ created_at: 2026-09-15T13:11:36.532627+00:00
 
 gw-review Part 1: the generalizing lesson (every request-supplied URL is an SSRF vector) still holds and this PR does not introduce a new unguarded route.
 ---
+[event:57561f3b-8d72-45b1-b895-6b1efb50b172]
+node_id: 87702f1f-1848-4624-9b52-e03c40aef76d
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T13:36:39.466591+00:00
+
+Used this generalizing constraint to check whether any other src/server/index.ts route takes a client-controlled URL unguarded — grepped all fetchWithTimeout callers; only comic-rss.ts and recipes/import.ts do, matching this constraint's own scope note.
+---
 [node:11eb5df1-7022-487f-9eb4-addbd53cadea]
 type: decision
 tier: mid-term
@@ -11051,6 +11077,16 @@ created_at: 2026-09-15T13:11:36.532021+00:00
 
 found one non-exploitable gap during adversarial testing: isPrivateIPv6's IPv4-mapped detection checks h5===0xffff, but the 'IPv4-translated' form with an extra zero hextet (::ffff:0:127.0.0.1, which URL() normalizes to canonical [::ffff:0:7f00:1] rather than rejecting) lands ffff at h4, so it is classified as NOT private. Empirically verified via a real Node fetch() against a 127.0.0.1-bound listener that this literal does NOT actually route to loopback on this runtime (fetch failed, no connection) -- so not currently exploitable, but the guard's own comment claims to cover 'every IPv6 equivalent... mapped or not', which is very slightly overstated. Flagged as a non-blocking hardening suggestion, not a blocker.
 ---
+[event:a2cb3db5-ce03-47e0-bb52-474b37ab9482]
+node_id: 09f00361-0da0-427d-9f9a-494a1feb01d1
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T13:36:39.465660+00:00
+
+Recalled round-2 bypass history to know which payload classes were already closed vs. what round 3/4 newly targets (DNS-resolution, not literal-address bypasses).
+---
 [node:20a64ff9-0eb6-486a-aaa0-3682eb713714]
 type: facet_value
 tier: lifetime
@@ -11080,6 +11116,16 @@ archived: false
 
 PR #49 (change/k7-calendar-ssrf-fix-v2) review outcome: rewrote isPrivateAddress around a real IPv6 expander (::- compression, zone ids, both canonical-hex and legacy-dotted embedded-IPv4 forms), added bracket-stripping and trailing-dot normalization, added 0.0.0.0/8, and gave fetchWithTimeout an opt-in redirect param (default 'follow', unchanged for trusted callers) consumed by comic-rss.ts and recipes/import.ts as redirect:'error'. Adversarial review (direct isPrivateAddress/isFetchableUrl fuzzing via node --experimental-strip-types, URL()-parsed attacker-path fuzzing, and live socket connection tests against a real 127.0.0.1 listener) confirmed all 5 originally-reported bypasses are closed, and confirmed end-to-end that a redirect:'error' TypeError is caught by both fetchComic and importRecipeFromUrl and surfaces as a handled 502/503, not an unhandled rejection. npm run check: 301/301 tests, 0 typecheck errors, build succeeds. One non-blocking gap found: the 'IPv4-translated' form with an extra zero hextet (::ffff:0:127.0.0.1, which URL() normalizes to [::ffff:0:7f00:1] rather than rejecting) is misclassified as public because isPrivateIPv6's mapped-check looks for 0xffff at a fixed hextet position (h5) — but empirically this literal does not actually route to loopback via Node's fetch on this runtime, so it is not currently exploitable. Verdict: Approve.
 ---
+[event:5e0ab47c-ac74-40b6-91b0-11656553e379]
+node_id: 3fbd6715-ab1c-4515-aa6c-6daf97354ffe
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T13:36:39.468165+00:00
+
+Referenced round-2 review's own adversarial-testing methodology (live socket tests, not just static reading) as the bar this round-4 review also held itself to.
+---
 [node:3957f716-9c74-4f75-8355-94ac8649c521]
 type: facet_value
 tier: lifetime
@@ -11108,6 +11154,16 @@ archived: false
 -> HAS_FACET [node:d40736ae-86f3-4437-b0dd-4f36ae159f42] @ 2026-09-15T13:11:59.819780+00:00
 
 Lesson from reviewing k7-calendar-ssrf-fix's third round: when a private/local-address guard's comment claims to cover "every equivalent form" of an address family, verify that claim against the real runtime's socket behavior, not just against the specific bypass forms a bug report named. isPrivateIPv6's IPv4-mapped detection checks for 0xffff at a fixed hextet position (h5), which correctly catches the canonical mapped form (::ffff:a.b.c.d) but misses a distinct, differently-shaped literal (::ffff:0:a.b.c.d, with an extra zero hextet) that WHATWG URL still parses and normalizes rather than rejecting. It happened to be a non-issue here only because Node's fetch/OS stack does not actually route that literal to the embedded IPv4 address — verified empirically with a live listener, not assumed. A network-guard review is incomplete if it only re-derives the parser logic by reading; the check that matters is whether an address the guard doesn't recognize can actually be connected to.
+---
+[event:189af4a7-9df5-4e5e-a9ec-c2ef942faa54]
+node_id: 447637ba-6aa5-4f22-9e2c-306dc4ede3e2
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T13:36:39.464903+00:00
+
+gw-review round 4: applied this lesson's own discipline — did not just re-derive resolvePinned's logic by reading, tested whether undici's connector could actually be made to connect somewhere the guard didn't vet (it could not).
 ---
 [node:92c62be9-95e4-40db-94f2-fe8465110bf5]
 type: concept
@@ -11158,3 +11214,70 @@ source: agent-surface
 created_at: 2026-09-15T13:28:48.302249+00:00
 
 implemented and empirically verified DNS-pinning against the exact peer-reported attack payloads
+---
+[event:8281a5c7-3bbc-49fe-b4f3-b2ca0b7665e9]
+node_id: 5e50c7e3-1caf-4a51-808f-ecc07cd24889
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T13:36:39.459853+00:00
+
+gw-review round 4: reran resolvePinned edge cases and the exact round-3 bypass payloads (localtest.me, 127.0.0.1.nip.io) live through fetchComic/importRecipeFromUrl with no fetcher injected, against a real TCP canary — 0 hits, matching this decision's claim.
+---
+[node:7e7988fc-a9b7-4fda-acb0-7e8fe6693c74]
+type: concept
+tier: mid-term
+path: /artifact/gw-review-verdict-for-pr-51-change-k7
+created_at: 2026-09-15T13:36:22.106659+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:447637ba-6aa5-4f22-9e2c-306dc4ede3e2] @ 2026-09-15T13:36:22.106659+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T13:36:22.106659+00:00
+-> DEPENDS_ON [node:5e50c7e3-1caf-4a51-808f-ecc07cd24889] @ 2026-09-15T13:36:22.106659+00:00
+-> DEPENDS_ON [node:87702f1f-1848-4624-9b52-e03c40aef76d] @ 2026-09-15T13:36:22.106659+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-15T13:36:22.106659+00:00
+
+gw-review verdict for PR #51 (change/k7-calendar-ssrf-fix-v3, round 4 of the SSRF-hardening effort): Approve. Adversarially verified rather than trusting the PR description or the fixture-based dns-pin.test.ts: (1) resolvePinned() tested directly against zero-address answers, errored/rejected lookups, IPv6-only public and private answers, and mixed public+private answers with the private address NOT first (including a cloud-metadata-style 169.254.169.254 leading a public address) — all correctly rejected/accepted per case. (2) The exact round-3 bypass payloads (127.0.0.1.nip.io, localtest.me) were fired at fetchComic and importRecipeFromUrl through the real, unmocked production path (no fetcher/lookupAll injected) against a live TCP canary on the vetted port — zero canary hits, both rejected as UnsafeAddressError. (3) The TOCTOU concern was tested structurally, not just read: built a dispatcher via pinnedLookup pointing at a local canary, then fetched a URL whose hostname was a real public domain (example.com) through that dispatcher — the canary received the connection, proving undici's connector never independently re-resolves the hostname and consults only the injected lookup, so no DNS-rebinding race window exists between check and connect. (4) Read undici's own connect.js: TLS servername/SNI is derived from the real hostname (util.getServerName(host)) independent of the lookup override, so pinning the connect address does not weaken certificate validation. (5) dispatcher.close() was verified to run via the try/finally on both the timeout/abort path and a non-2xx-response path (both tested live against real listeners), so no dispatcher leak. (6) Confirmed the fetcher/lookupAll escape hatch is unreachable from any real request — src/server/index.ts builds ComicQuery and calls importRecipeFromUrl by naming only rssUrl/itemSelector/filterKeywords and url respectively, never spreading req.query/req.body. (7) Confirmed isFetchableUrl (comic route) / assertImportable (import.ts) — the scheme+literal-address guard — runs before resolvePinned in both call sites, so file:// and other exotic schemes never reach DNS resolution. (8) Confirmed undici was ALREADY a transitive dependency before this PR (main's package-lock: top-level node_modules/undici resolved to 7.29.1 via cheerio, with jsdom's own nested 8.10.2 copy); this PR's new direct ^8.10.2 dependency flips top-level resolution to 8.10.2 (standard npm dedup, cheerio's incompatible 7.29.1 pushed to a nested copy) — verified via require.resolve from src/server/security/ that dns-pin.ts/freshness.ts's bare `from 'undici'` imports actually resolve to 8.10.2, matching package.json's pin. (9) npm run check: 312/312 tests, 0 typecheck errors, build succeeds — reproduced independently. npm audit: identical 5 pre-existing findings (none undici-related) on both main and this branch. No blocking findings. Minor non-blocking notes: no changelog.yaml entry, consistent with all three prior SSRF-hardening rounds (PR #47, #49, this one) being treated as backend-only hardening with no user-visible behavior change; fetchComic does not independently re-check scheme if called outside its one route, matching this codebase's established route-level-guard pattern (network.ts's own doc comment).
+---
+[node:b5225b5c-799b-4a52-b7aa-1e19c9466b79]
+type: constraint
+tier: mid-term
+path: /artifact/lesson-for-reviewing-any-future-dns-pinn
+created_at: 2026-09-15T13:36:27.462586+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:447637ba-6aa5-4f22-9e2c-306dc4ede3e2] @ 2026-09-15T13:36:27.462586+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-15T13:36:27.462586+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-15T13:36:27.462586+00:00
+
+Lesson for reviewing any future DNS-pinning / rebinding-guard fix: verifying that the *check* rejects private DNS answers is not sufficient — the review must also prove the actual network connector never performs its own, unvetted re-resolution of the hostname. The reliable test: build the guard's dispatcher pinned to a decoy address (a local canary), then issue a fetch whose URL hostname is a real, different, publicly-resolvable domain through that dispatcher. If the decoy receives the connection, the connector is provably using only the injected/pinned lookup and not re-resolving the real hostname — closing the TOCTOU/rebinding race structurally rather than by inspection. Applied during k7-calendar-ssrf-fix round 4's review (PR #51, dns-pin.ts's resolvePinned/pinnedLookup + undici Agent): pinned a dispatcher to a local canary and fetched through it against hostname example.com; the canary, not example.com's real server, received the connection.
+---
+[node:26461b4d-d2d5-4495-9ff4-6d067fbcb6ec]
+type: concept
+tier: mid-term
+path: /artifact/k7-calendar-ssrf-fix-round-3-dns-pinnin
+created_at: 2026-09-15T13:38:12.533560+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T13:38:12.533560+00:00
+-> DEPENDS_ON [node:5e50c7e3-1caf-4a51-808f-ecc07cd24889] @ 2026-09-15T13:38:12.533560+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-15T13:38:12.533560+00:00
+
+k7-calendar-ssrf-fix round 3 (DNS-pinning), merged as PR #51 (commit bcf7ec4 on main): closed the DNS-resolution SSRF the peer found live in round 2. Adversarially reviewed with real proof, not inference: fired the exact bypass payloads at the real production code path (no test injection) against a live canary, structurally proved no TOCTOU window exists (a canary-pinned dispatcher fetching a real public domain caused the canary itself to receive the connection, proving undici's connector never independently re-resolves once pinned), confirmed TLS SNI still keys off the real hostname (reading undici's own connector source), and confirmed dispatcher cleanup fires on both timeout and non-2xx paths. This closes the SSRF class across all three routes touched in this whole thread: /api/calendar/week (resolved from trusted layout.yaml, no client URL at all), /api/comic, and recipe import (both DNS-pinned). Four independent review rounds total across this SSRF thread (PRs #47, #49, #51 reviews), each finding something real the previous round missed — a genuine demonstration of why this project's standing "fresh-session independent review" discipline matters for security-sensitive code specifically.
+---
+[event:e467b63e-0ad9-46ef-857c-9164370e7006]
+node_id: 26461b4d-d2d5-4495-9ff4-6d067fbcb6ec
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T13:38:16.892618+00:00
+
+merged as PR #51 after adversarial review with structural TOCTOU proof and live canary testing
