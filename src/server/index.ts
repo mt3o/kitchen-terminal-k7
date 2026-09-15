@@ -26,6 +26,7 @@ import { asciiArtCacheKey, createAsciiArtGenerator } from './upstream/ascii-art.
 import { comicCacheKey, fetchComic } from './upstream/comic-rss.ts'
 import { icsCacheKey, fetchIcsCalendar } from './upstream/ics-calendar.ts'
 import { createGoogleCalendarClient, googleCalendarCacheKey, hasGoogleCalendarCredentials } from './upstream/google-calendar.ts'
+import { fetchUnsplashPhotos, unsplashCacheKey, UNSPLASH_MAX_COUNT, type UnsplashOrientation } from './upstream/unsplash.ts'
 import { createKiloGatewayClient, createModelCatalog } from './upstream/kilo.ts'
 import { createConversationService } from './ai/conversation-service.ts'
 import { registerChatRoutes } from './routes/chat.ts'
@@ -392,6 +393,52 @@ app.get('/api/calendar/week', async (req, reply) => {
   }
 
   return reply.code(400).send({ error: 'mode must be "ics" or "google"' })
+})
+
+app.get('/api/unsplash', async (req, reply) => {
+  const q = req.query as { query?: string; collections?: string; orientation?: string; count?: string; widthPx?: string; cacheDurationHours?: string }
+  const accessKey = config.unsplashAccessKey
+  if (!accessKey) return reply.code(503).send({ error: 'unsplash unavailable', detail: 'Unsplash access key is not configured' })
+  const orientations: readonly string[] = ['landscape', 'portrait', 'squarish']
+  if (q.orientation && !orientations.includes(q.orientation)) {
+    return reply.code(400).send({ error: 'orientation must be landscape, portrait or squarish' })
+  }
+  const count = Number(q.count ?? 10)
+  if (!Number.isInteger(count) || count < 1 || count > UNSPLASH_MAX_COUNT) {
+    return reply.code(400).send({ error: `count must be an integer between 1 and ${UNSPLASH_MAX_COUNT}` })
+  }
+  const widthPx = Number(q.widthPx ?? 1080)
+  if (!Number.isInteger(widthPx) || widthPx < 100 || widthPx > 4000) {
+    return reply.code(400).send({ error: 'widthPx must be an integer between 100 and 4000' })
+  }
+  // Longer default than the comic's: the demo tier allows 50 requests an hour,
+  // and a new set of photos every few hours is plenty for a wall display.
+  const cacheDurationHours = Number(q.cacheDurationHours ?? 6)
+  const freshForSeconds = (Number.isFinite(cacheDurationHours) && cacheDurationHours > 0 ? cacheDurationHours : 6) * 3600
+  const query = {
+    query: q.query?.trim() || undefined,
+    collections: q.collections?.trim() || undefined,
+    orientation: (q.orientation || undefined) as UnsplashOrientation | undefined,
+    count,
+    widthPx,
+  }
+
+  try {
+    return await fetchThrough({
+      key: unsplashCacheKey(query),
+      upstream: 'unsplash',
+      freshForSeconds,
+      fetcher: () => fetchUnsplashPhotos(query, { accessKey, appName: config.unsplashAppName }),
+      onFallback: (error, ageSeconds) => {
+        req.log.warn({ err: error, ageSeconds }, 'unsplash unreachable, serving last good photos')
+      },
+    })
+  } catch (error) {
+    return reply.code(503).send({
+      error: 'unsplash photos unavailable and nothing cached',
+      detail: error instanceof Error ? error.message : undefined,
+    })
+  }
 })
 
 // The shopping list is the first card wired end to end — a thin cut through

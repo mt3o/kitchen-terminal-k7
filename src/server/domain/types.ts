@@ -62,7 +62,7 @@ export interface AiCall {
   createdAt: Date
 }
 
-export type Upstream = 'open-meteo' | 'google-calendar' | 'kilo-gateway' | 'rss' | 'ics'
+export type Upstream = 'open-meteo' | 'google-calendar' | 'kilo-gateway' | 'rss' | 'ics' | 'unsplash'
 
 export type CalendarSource =
   | { mode: 'google'; calendarId: string }

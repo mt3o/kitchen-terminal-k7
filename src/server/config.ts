@@ -32,6 +32,16 @@ export interface Config {
   googleOauthRefreshToken: string | undefined
   googleOauthClientId: string | undefined
   googleOauthClientSecret: string | undefined
+  /** Absent means the unsplash-carousel card answers 503 and shows its fail state. */
+  unsplashAccessKey: string | undefined
+  /**
+   * Not used by anything yet: the carousel only reads public photos, which the
+   * access key alone authorises. Loaded anyway so the scrubber knows the value
+   * the moment it sits in the environment, not the day someone starts using it.
+   */
+  unsplashSecretKey: string | undefined
+  /** `utm_source` on attribution links, as Unsplash's API guidelines require. */
+  unsplashAppName: string
   /**
    * The name the kiosk answers to. Governs the Host-header allowlist and, when a
    * Cloudflare token is also present, the certificate. Unset means the kiosk is
@@ -68,6 +78,9 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     googleOauthRefreshToken: env.GOOGLE_OAUTH_REFRESH_TOKEN || undefined,
     googleOauthClientId: env.GOOGLE_OAUTH_CLIENT_ID || undefined,
     googleOauthClientSecret: env.GOOGLE_OAUTH_CLIENT_SECRET || undefined,
+    unsplashAccessKey: env.UNSPLASH_ACCESS_KEY || undefined,
+    unsplashSecretKey: env.UNSPLASH_SECRET_KEY || undefined,
+    unsplashAppName: env.UNSPLASH_APP_NAME || 'kitchen_terminal_k7',
     hostname: env.K7_HOSTNAME || undefined,
     cloudflareApiToken: env.CLOUDFLARE_API_TOKEN || undefined,
     acmeEmail: env.K7_ACME_EMAIL || undefined,
@@ -93,6 +106,8 @@ export function secretValues(config: Config): readonly (string | undefined)[] {
     // an error report, and it is the newest thing here, so it is the one most
     // likely to be forgotten.
     config.cloudflareApiToken,
+    config.unsplashAccessKey,
+    config.unsplashSecretKey,
   ]
 }
 
@@ -109,6 +124,7 @@ export function describeConfig(config: Config): string {
     `kilo_key=${present(config.kiloGatewayKey)}`,
     `google_refresh=${present(config.googleOauthRefreshToken)}`,
     `google_oauth_client=${present(config.googleOauthClientId)}/${present(config.googleOauthClientSecret)}`,
+    `unsplash=${present(config.unsplashAccessKey)}`,
     `tls=${config.hostname ? `${config.hostname}${config.acmeProduction ? '' : ' (staging)'}` : 'off'}`,
     `cloudflare=${present(config.cloudflareApiToken)}`,
   ].join(' ')

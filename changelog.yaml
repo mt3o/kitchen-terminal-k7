@@ -15,6 +15,11 @@ entries:
       - "Kalendarz z problemem (nieaktualne dane lub brak połączenia) dostaje odpowiedni znacznik na swojej zakładce zamiast pustej karty."
       - "Przy jednym skonfigurowanym kalendarzu karta wygląda dokładnie tak jak wcześniej — pasek zakładek pojawia się dopiero od dwóch kalendarzy."
   - date: "2026-09-15"
+    title: "Nowa karta: zdjęcia z Unsplash"
+    items:
+      - "Karuzela zdjęć na stronie SYSTEM pobiera teraz zdjęcia kotów prosto z Unsplash i co kilka godzin losuje nowy zestaw, zamiast pokazywać w kółko te same pięć."
+      - "Pod każdym zdjęciem jest jego autor i link do Unsplash."
+  - date: "2026-09-15"
     title: "Karuzela zdjęć: więcej zdjęć kotów"
     items:
       - "Karuzela zdjęć na stronie SYSTEM ma teraz pięć zdjęć zamiast dwóch."

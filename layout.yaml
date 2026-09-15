@@ -196,37 +196,14 @@ pages:
           label: "Punktomat Login QR code"
           caption: "zeskanuj, aby się zalogować"
 
-      # An "image carousel" is not its own card type — it is the existing
-      # carousel with `type: image` slides, same recursion every other
-      # container card type uses. Placeholder cat photos from Unsplash until
-      # real photos/artwork replace them.
+      # Photos from the Unsplash API, fetched server-side with UNSPLASH_ACCESS_KEY.
+      # Replaces the carousel of five hand-picked Unsplash cat URLs: a fresh
+      # random set every cacheDurationHours, attribution included.
       - id: karuzela-zdjecia
-        type: carousel
+        type: unsplash-carousel
         params:
+          query: "cat"
+          orientation: landscape
+          count: 15
           autoAdvanceSeconds: 20
-          slides:
-            - id: zdjecie-1
-              type: image
-              params:
-                url: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=800&h=600&fit=crop&auto=format"
-                caption: "kot 1"
-            - id: zdjecie-2
-              type: image
-              params:
-                url: "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=800&h=600&fit=crop&auto=format"
-                caption: "kot 2"
-            - id: zdjecie-3
-              type: image
-              params:
-                url: "https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=800&h=600&fit=crop&auto=format"
-                caption: "kot 3"
-            - id: zdjecie-4
-              type: image
-              params:
-                url: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=800&h=600&fit=crop&auto=format"
-                caption: "kot 4"
-            - id: zdjecie-5
-              type: image
-              params:
-                url: "https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=800&h=600&fit=crop&auto=format"
-                caption: "kot 5"
+          cacheDurationHours: 6

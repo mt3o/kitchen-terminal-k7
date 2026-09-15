@@ -68,11 +68,11 @@ export type FreshnessService = ReturnType<typeof createFreshnessService>
  * refreshes on a timer, those pile up. Falling back to a stale copy after a few
  * seconds is strictly better than a card that never resolves.
  */
-export async function fetchWithTimeout(url: string, timeoutMs = 8000): Promise<Response> {
+export async function fetchWithTimeout(url: string, timeoutMs = 8000, headers?: Record<string, string>): Promise<Response> {
   const controller = new AbortController()
   const timer = setTimeout(() => controller.abort(), timeoutMs)
   try {
-    const res = await fetch(url, { signal: controller.signal })
+    const res = await fetch(url, { signal: controller.signal, headers })
     if (!res.ok) throw new Error(`upstream responded ${res.status}`)
     return res
   } finally {

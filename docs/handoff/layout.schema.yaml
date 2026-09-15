@@ -150,7 +150,7 @@ $defs:
         description: Unikalny identyfikator karty w layoucie (np. "pogoda-1").
       type:
         type: string
-        enum: [weather, calendar, chat, recipes, shopping-list, timer, comic-of-the-day, ascii-art-of-the-day, image, carousel, grid, slideshow, clock, menu, audiometer]
+        enum: [weather, calendar, chat, recipes, shopping-list, timer, comic-of-the-day, ascii-art-of-the-day, image, carousel, grid, slideshow, clock, menu, audiometer, unsplash-carousel]
       span:
         type: object
         description: Ile kolumn/wierszy siatki zajmuje karta.
@@ -191,6 +191,8 @@ $defs:
         then: { properties: { params: { $ref: "#/$defs/params.image" } } }
       - if: { properties: { type: { const: carousel } } }
         then: { properties: { params: { $ref: "#/$defs/params.carousel" } } }
+      - if: { properties: { type: { const: unsplash-carousel } } }
+        then: { properties: { params: { $ref: "#/$defs/params.unsplashCarousel" } } }
       - if: { properties: { type: { const: grid } } }
         then: { properties: { params: { $ref: "#/$defs/params.grid" } } }
       - if: { properties: { type: { const: slideshow } } }
@@ -469,6 +471,61 @@ $defs:
         description: >
           Opcjonalna etykieta karty. Domyślnie "OBRAZ" — nadpisz, gdy ten
           konkretny obraz zasługuje na własną nazwę (np. kod QR logowania).
+
+  params.unsplashCarousel:
+    type: object
+    description: >
+      Karuzela zdjęć pobieranych z API Unsplash po stronie serwera (klucz
+      UNSPLASH_ACCESS_KEY nigdy nie trafia do przeglądarki). W odróżnieniu od
+      `carousel` ze slajdami `image` zdjęć nie wpisuje się do layoutu — serwer
+      losuje zestaw wg tematu lub kolekcji i trzyma go w cache. Każde zdjęcie
+      pokazuje autora i Unsplash z linkami, czego wymagają wytyczne API Unsplash.
+      Bez `query` i `collections` — losowe zdjęcia z całego Unsplash.
+    properties:
+      query:
+        type: string
+        description: Temat zdjęć (np. "kitchen", "cats"). Ignorowany, gdy podano `collections`.
+      collections:
+        type: array
+        items: { type: string }
+        description: Identyfikatory kolekcji Unsplash.
+      orientation:
+        type: string
+        enum: [landscape, portrait, squarish]
+      count:
+        type: integer
+        minimum: 1
+        maximum: 30
+        default: 10
+        description: Ile zdjęć w zestawie (limit API to 30 na zapytanie).
+      widthPx:
+        type: integer
+        minimum: 100
+        maximum: 4000
+        default: 1080
+        description: Szerokość, do której CDN Unsplash skaluje zdjęcia.
+      cacheDurationHours:
+        type: number
+        default: 6
+        description: >
+          Co ile godzin serwer pobiera nowy zestaw. Tryb demo API pozwala na
+          50 zapytań na godzinę — nie schodź tu do minut.
+      autoAdvanceSeconds:
+        type: integer
+        minimum: 0
+        default: 20
+        description: "0 = tylko ręcznie (swipe/strzałki)."
+      transition:
+        type: string
+        enum: [slide, fade]
+        default: fade
+      showIndicators:
+        type: boolean
+        default: true
+        description: Kropki pozycji; ukrywane automatycznie przy więcej niż 12 zdjęciach.
+      label:
+        type: string
+        description: Opcjonalna etykieta karty. Domyślnie "FOTO.UNSPLASH".
 
   params.carousel:
     type: object
