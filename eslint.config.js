@@ -20,6 +20,8 @@ const browserGlobals = {
   HTMLSlotElement: 'readonly',
   ShadowRoot: 'readonly',
   TouchEvent: 'readonly',
+  URLSearchParams: 'readonly',
+  MutationObserver: 'readonly',
   customElements: 'readonly',
   CustomEvent: 'readonly',
   AbortController: 'readonly',

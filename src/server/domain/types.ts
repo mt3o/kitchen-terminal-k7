@@ -62,7 +62,38 @@ export interface AiCall {
   createdAt: Date
 }
 
-export type Upstream = 'open-meteo' | 'google-calendar' | 'kilo-gateway' | 'rss'
+export type Upstream = 'open-meteo' | 'google-calendar' | 'kilo-gateway' | 'rss' | 'ics'
+
+export type CalendarSource =
+  | { mode: 'google'; calendarId: string }
+  | { mode: 'ics'; url: string }
+
+/** A configured calendar source for the calendar card — one tab, one fetch. */
+export interface Calendar {
+  id: string
+  name: string
+  showInMain: boolean
+  source: CalendarSource
+}
+
+/**
+ * One entry from any calendar source, mapped to a shared shape here because
+ * both `upstream/ics-calendar.ts` and `upstream/google-calendar.ts` produce
+ * it — the first case in this codebase of two upstreams feeding the same
+ * domain concept, unlike every other upstream (weather, comic, models),
+ * which is the only source of its own shape. Matches the client's own
+ * `CalendarEvent` (`client/lib/calendar.ts`) field-for-field; kept as a
+ * separate declaration rather than a cross-boundary import, per Phase 1's
+ * decision that no client code imports server types today.
+ */
+export interface CalendarEvent {
+  id: string
+  title: string
+  /** ISO 8601 — either a timestamp or a bare `YYYY-MM-DD` for an all-day event. */
+  start: string
+  end: string
+  allDay?: boolean
+}
 
 /**
  * An upstream response, always carrying its own age.

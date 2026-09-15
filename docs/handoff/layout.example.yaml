@@ -72,9 +72,12 @@ cards:
     span: { cols: 1, rows: 1 }
     refreshIntervalSeconds: 300
     params:
-      calendarId: "primary"
+      calendars:
+        - id: google-primary
+          name: "Google"
+          showInMain: true
+          source: { mode: google, calendarId: "primary" }
       view: week
-      editable: true
 
   - id: karuzela-1
     type: carousel

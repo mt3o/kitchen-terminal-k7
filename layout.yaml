@@ -71,9 +71,12 @@ pages:
       - id: kalendarz
         type: calendar
         params:
-          calendarId: primary
+          calendars:
+            - id: google-primary
+              name: "Google"
+              showInMain: true
+              source: { mode: google, calendarId: primary }
           view: week
-          editable: true
 
       - id: czat
         type: chat

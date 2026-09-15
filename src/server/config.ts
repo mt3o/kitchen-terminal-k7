@@ -30,6 +30,8 @@ export interface Config {
   glitchtipDsn: string | undefined
   kiloGatewayKey: string | undefined
   googleOauthRefreshToken: string | undefined
+  googleOauthClientId: string | undefined
+  googleOauthClientSecret: string | undefined
   /**
    * The name the kiosk answers to. Governs the Host-header allowlist and, when a
    * Cloudflare token is also present, the certificate. Unset means the kiosk is
@@ -64,6 +66,8 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     glitchtipDsn: env.GLITCHTIP_DSN || undefined,
     kiloGatewayKey: env.KILO_GATEWAY_KEY || undefined,
     googleOauthRefreshToken: env.GOOGLE_OAUTH_REFRESH_TOKEN || undefined,
+    googleOauthClientId: env.GOOGLE_OAUTH_CLIENT_ID || undefined,
+    googleOauthClientSecret: env.GOOGLE_OAUTH_CLIENT_SECRET || undefined,
     hostname: env.K7_HOSTNAME || undefined,
     cloudflareApiToken: env.CLOUDFLARE_API_TOKEN || undefined,
     acmeEmail: env.K7_ACME_EMAIL || undefined,
@@ -82,6 +86,8 @@ export function secretValues(config: Config): readonly (string | undefined)[] {
   return [
     config.kiloGatewayKey,
     config.googleOauthRefreshToken,
+    config.googleOauthClientId,
+    config.googleOauthClientSecret,
     config.glitchtipDsn,
     // The Cloudflare token can edit DNS for a whole zone. It has no business in
     // an error report, and it is the newest thing here, so it is the one most
@@ -102,6 +108,7 @@ export function describeConfig(config: Config): string {
     `glitchtip=${present(config.glitchtipDsn)}`,
     `kilo_key=${present(config.kiloGatewayKey)}`,
     `google_refresh=${present(config.googleOauthRefreshToken)}`,
+    `google_oauth_client=${present(config.googleOauthClientId)}/${present(config.googleOauthClientSecret)}`,
     `tls=${config.hostname ? `${config.hostname}${config.acmeProduction ? '' : ' (staging)'}` : 'off'}`,
     `cloudflare=${present(config.cloudflareApiToken)}`,
   ].join(' ')
