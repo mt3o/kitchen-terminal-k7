@@ -10,6 +10,8 @@ import fastifyStatic from '@fastify/static'
 import { parse } from 'yaml'
 
 import { normaliseLayout, type Layout, type NormalisedLayout } from '../shared/layout.ts'
+import { findConfiguredCalendar } from './calendar-lookup.ts'
+import type { Calendar } from './domain/types.ts'
 import { parseChangelog } from '../shared/changelog.ts'
 import { createRepositories, openDatabase } from './adapters/drizzle/index.ts'
 import { describeConfig, loadConfig, secretValues } from './config.ts'
@@ -17,7 +19,7 @@ import { runMigrations } from './db/migrate.ts'
 import { initObservability, Sentry } from './observability.ts'
 import { importRecipeFromUrl, RecipeImportError } from './recipes/import.ts'
 import { generateTokensCss, type Theme } from './theme/generate.ts'
-import { isAllowedHost, isPrivateAddress } from './security/network.ts'
+import { isAllowedHost, isFetchableUrl, isPrivateAddress } from './security/network.ts'
 import { createCloudflareDns } from './tls/cloudflare.ts'
 import { ensureCertificate } from './tls/certificate.ts'
 import { createFreshnessService } from './upstream/freshness.ts'
@@ -295,6 +297,20 @@ app.get('/api/ascii-art', async (req, reply) => {
 app.get('/api/comic', async (req, reply) => {
   const q = req.query as { rssUrl?: string; itemSelector?: string; filterKeywords?: string; cacheDurationHours?: string }
   if (!q.rssUrl || q.rssUrl.trim() === '') return reply.code(400).send({ error: 'rssUrl is required' })
+  // Same guard as recipe import: rssUrl travels through the client (echoed
+  // from layout.yaml in the normal flow, per this route's own established
+  // pattern), but the server must not trust it as-is — a LAN client could
+  // send a different rssUrl entirely, directing this fetch at a local or
+  // private address instead of the household's actual feed.
+  let parsedRssUrl: URL
+  try {
+    parsedRssUrl = new URL(q.rssUrl)
+  } catch {
+    return reply.code(400).send({ error: 'rssUrl is not a valid URL' })
+  }
+  if (!isFetchableUrl(parsedRssUrl)) {
+    return reply.code(400).send({ error: 'refusing to fetch a local, private, or non-http(s) rssUrl' })
+  }
   const filterKeywords = q.filterKeywords ? q.filterKeywords.split(',').map((k) => k.trim()).filter(Boolean) : []
   const cacheDurationHours = Number(q.cacheDurationHours ?? 24)
   const freshForSeconds = (Number.isFinite(cacheDurationHours) && cacheDurationHours > 0 ? cacheDurationHours : 24) * 3600
@@ -334,26 +350,35 @@ function currentWeekWindow(now: Date = new Date()): { from: Date; to: Date } {
  * One calendar per request, called once per configured `Calendar`
  * (`[node:53a1b84b]`) — never the whole card at once, so one dead .ics feed
  * or a not-yet-configured Google account cannot blank the others. `id` is
- * the app-configured `Calendar.id`, used only for cache-keying; `mode` plus
- * its one companion field (`url` for `ics`, `calendarId` for `google`)
- * decide which upstream answers.
+ * the only client-supplied value; everything else (which source mode, which
+ * URL/calendarId) is resolved from `layout.yaml` via
+ * {@link findConfiguredCalendar} (`calendar-lookup.ts`) — never trusted from
+ * the request itself, see that function's own doc comment.
  */
 app.get('/api/calendar/week', async (req, reply) => {
-  const q = req.query as { id?: string; mode?: string; url?: string; calendarId?: string }
+  const q = req.query as { id?: string }
   if (!q.id || q.id.trim() === '') return reply.code(400).send({ error: 'id is required' })
+
+  let calendar: Calendar | undefined
+  try {
+    calendar = findConfiguredCalendar(await loadLayout(), q.id)
+  } catch (error) {
+    return reply.code(500).send({ error: 'layout unavailable', detail: error instanceof Error ? error.message : undefined })
+  }
+  if (!calendar) return reply.code(404).send({ error: `no configured calendar with id ${JSON.stringify(q.id)}` })
+  const calendarId = calendar.id
   const { from, to } = currentWeekWindow()
 
-  if (q.mode === 'ics') {
-    if (!q.url || q.url.trim() === '') return reply.code(400).send({ error: 'url is required for mode=ics' })
-    const url = q.url
+  if (calendar.source.mode === 'ics') {
+    const url = calendar.source.url
     try {
       return await fetchThrough({
-        key: icsCacheKey(q.id),
+        key: icsCacheKey(calendarId),
         upstream: 'ics',
         freshForSeconds: 3600,
         fetcher: () => fetchIcsCalendar({ url, from, to }),
         onFallback: (error, ageSeconds) => {
-          req.log.warn({ err: error, ageSeconds, calendarId: q.id }, '.ics calendar unreachable, serving last good')
+          req.log.warn({ err: error, ageSeconds, calendarId }, '.ics calendar unreachable, serving last good')
         },
       })
     } catch (error) {
@@ -364,35 +389,31 @@ app.get('/api/calendar/week', async (req, reply) => {
     }
   }
 
-  if (q.mode === 'google') {
-    if (!googleCalendarClient) {
-      // Structural, not transient — never going to succeed until the
-      // household configures credentials. A distinct `code` (not just prose
-      // in `detail`) is what lets the client show its existing mock
-      // fallback instead of the "no cache ever" error state, the same
-      // distinction /api/ascii-art's absent-key case makes informally.
-      return reply.code(503).send({ error: 'google calendar not configured', code: 'not-configured' })
-    }
-    const calendarId = q.calendarId?.trim() || 'primary'
-    try {
-      return await fetchThrough({
-        key: googleCalendarCacheKey(q.id),
-        upstream: 'google-calendar',
-        freshForSeconds: 900,
-        fetcher: () => googleCalendarClient.fetchEvents({ calendarId, from, to }),
-        onFallback: (error, ageSeconds) => {
-          req.log.warn({ err: error, ageSeconds, calendarId: q.id }, 'google calendar unreachable, serving last good')
-        },
-      })
-    } catch (error) {
-      return reply.code(503).send({
-        error: 'calendar unavailable and nothing cached',
-        detail: error instanceof Error ? error.message : undefined,
-      })
-    }
+  if (!googleCalendarClient) {
+    // Structural, not transient — never going to succeed until the
+    // household configures credentials. A distinct `code` (not just prose
+    // in `detail`) is what lets the client show its existing mock
+    // fallback instead of the "no cache ever" error state, the same
+    // distinction /api/ascii-art's absent-key case makes informally.
+    return reply.code(503).send({ error: 'google calendar not configured', code: 'not-configured' })
   }
-
-  return reply.code(400).send({ error: 'mode must be "ics" or "google"' })
+  const googleId = calendar.source.calendarId
+  try {
+    return await fetchThrough({
+      key: googleCalendarCacheKey(calendarId),
+      upstream: 'google-calendar',
+      freshForSeconds: 900,
+      fetcher: () => googleCalendarClient.fetchEvents({ calendarId: googleId, from, to }),
+      onFallback: (error, ageSeconds) => {
+        req.log.warn({ err: error, ageSeconds, calendarId }, 'google calendar unreachable, serving last good')
+      },
+    })
+  } catch (error) {
+    return reply.code(503).send({
+      error: 'calendar unavailable and nothing cached',
+      detail: error instanceof Error ? error.message : undefined,
+    })
+  }
 })
 
 app.get('/api/unsplash', async (req, reply) => {

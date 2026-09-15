@@ -680,6 +680,16 @@ created_at: 2026-09-15T12:33:39.609387+00:00
 
 gw-review PR#45: GOOGLE_OAUTH_CLIENT_ID/SECRET added to config.ts's secretValues() scrubber list alongside the existing refresh token, same change that introduces them.
 ---
+[event:42d464a6-2c5e-4b94-8b3b-3fd3d1f7c6cc]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:54:15.904138+00:00
+
+secrets-server-side-only constraint checked against the diff; not touched, still honored
+---
 [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa]
 type: facet_value
 tier: lifetime
@@ -1731,6 +1741,16 @@ source: agent-surface
 created_at: 2026-09-15T06:45:54.396679+00:00
 
 Reviewed for scope creep — ConversationService/chat endpoint untouched by this change.
+---
+[event:38969ce0-1796-49a1-8d9e-a336589c3b90]
+node_id: 4730c1bc-b791-4a0d-a94c-1bd4f8307102
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:54:16.028375+00:00
+
+ConversationService/chat decoupling constraint recalled; not relevant to this diff, no violation
 ---
 [node:68b03a85-d372-45c5-80a4-549ebf826798]
 type: facet_value
@@ -3553,6 +3573,16 @@ source: agent-surface
 created_at: 2026-09-15T12:33:39.610544+00:00
 
 gw-review PR#45: disputed CalendarEvent entity definition is a known, already-flagged non-goal of this change (human action in memory GUI); code correctly treats CalendarEvent per the broadened c4994962 wording without needing the entity text itself updated.
+---
+[event:a61e9b4a-a1f5-417d-af33-825e56b7ca7d]
+node_id: 3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:54:16.151187+00:00
+
+disputed CalendarEvent entity surfaced by stale_nodes() during Part 2; not adjudicated here, carried to the human queue
 ---
 [node:7b73e502-b1fb-4587-96bd-f005b1ead665]
 type: entity
@@ -10718,3 +10748,182 @@ source: lifecycle-cli
 created_at: 2026-09-15T12:41:17.581026+00:00
 
 10x lifecycle sweep
+---
+[node:25df1729-dc32-4525-ae98-d7691fac18fc]
+type: goal
+tier: short-term
+path: /goal/k7-calendar-ssrf-fix
+created_at: 2026-09-15T12:48:38.205400+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:11eb5df1-7022-487f-9eb4-addbd53cadea] @ 2026-09-15T12:57:03.955270+00:00
+-> DEPENDS_ON [node:5786ab1c-0b77-47f6-b106-71b194355c7a] @ 2026-09-15T12:53:23.002143+00:00
+-> DEPENDS_ON [node:87702f1f-1848-4624-9b52-e03c40aef76d] @ 2026-09-15T12:53:39.376790+00:00
+-> DEPENDS_ON [node:bb5beeed-3cc4-468a-b4c3-a6575cb25f41] @ 2026-09-15T12:48:47.622097+00:00
+-> DEPENDS_ON [node:fb0cacd3-4114-4733-965a-b12a5a19d2e3] @ 2026-09-15T12:53:30.812224+00:00
+
+Fix an SSRF vulnerability in /api/calendar/week (trusted client-supplied url/mode/calendarId, fetched server-side with no validation), found live during k7-multi-calendar's deploy. Also fix the pre-existing K7Calendar.svelte day-label reactivity bug flagged by both this project's own review and the deploy check.
+---
+[event:dba2ac50-0c79-4078-a468-83b7392f59b2]
+node_id: 25df1729-dc32-4525-ae98-d7691fac18fc
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:54:15.771874+00:00
+
+gw-review recall for PR #47
+---
+[node:e4b8c4b9-c1d0-497d-87f6-69e4d6459348]
+type: slice
+tier: short-term
+path: /change/k7-calendar-ssrf-fix
+created_at: 2026-09-15T12:48:38.205400+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:11eb5df1-7022-487f-9eb4-addbd53cadea] @ 2026-09-15T12:57:03.955270+00:00
+-> SCOPED_TO [node:25df1729-dc32-4525-ae98-d7691fac18fc] @ 2026-09-15T12:48:38.205400+00:00
+-> SCOPED_TO [node:5786ab1c-0b77-47f6-b106-71b194355c7a] @ 2026-09-15T12:53:23.002143+00:00
+-> SCOPED_TO [node:87702f1f-1848-4624-9b52-e03c40aef76d] @ 2026-09-15T12:53:39.376790+00:00
+-> SCOPED_TO [node:bb5beeed-3cc4-468a-b4c3-a6575cb25f41] @ 2026-09-15T12:48:47.622097+00:00
+-> SCOPED_TO [node:fb0cacd3-4114-4733-965a-b12a5a19d2e3] @ 2026-09-15T12:53:30.812224+00:00
+
+change scope: k7-calendar-ssrf-fix
+---
+[event:8e9cdb5a-93fc-4f88-b0c7-226c52215d38]
+node_id: e4b8c4b9-c1d0-497d-87f6-69e4d6459348
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:48:38.211059+00:00
+
+create_change k7-calendar-ssrf-fix
+---
+[node:bb5beeed-3cc4-468a-b4c3-a6575cb25f41]
+type: decision
+tier: mid-term
+path: /artifact/ssrf-fix-for-api-calendar-week-found-l
+created_at: 2026-09-15T12:48:47.622097+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T12:48:47.622097+00:00
+-> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-09-15T12:48:47.622097+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-15T12:48:47.622097+00:00
+
+SSRF fix for /api/calendar/week (found live during k7-multi-calendar's home-server deploy, by the peer session running there): the route originally trusted client-supplied `mode`/`url`/`calendarId` query params and fetched `url` server-side with zero validation — a LAN client could direct K7's own server to fetch an arbitrary address (127.0.0.1, a docker bridge IP, another LAN host's admin panel like Portainer). Fix: the route now takes only `id` from the client and resolves the actual source (mode + url/calendarId) from layout.yaml server-side, via a new pure findConfiguredCalendar() in src/server/calendar-lookup.ts (extracted to its own module rather than left inline in index.ts, since index.ts boots the whole server as an import side effect and isn't unit-testable in isolation). The lookup searches recursively through grid cells and carousel slides, not just top-level page cards, since a calendar card could legitimately be nested per the layout schema's recursive-container shape — fixing only the top-level case would have just relocated the vulnerability to nested calendars. layout.yaml is trusted (only the household edits it); a request never is. Client-side, K7Calendar.svelte's calendarQuery() was simplified to send only `?id=`, dropping the now-unnecessary mode/url/calendarId params entirely.
+---
+[event:af26bb45-468f-42d0-bffb-d7efef811f47]
+node_id: bb5beeed-3cc4-468a-b4c3-a6575cb25f41
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:48:55.373256+00:00
+
+implemented and tested the SSRF fix + reactivity fix
+---
+[event:118eac0d-a2b7-4efc-bd84-0764d6a48bb3]
+node_id: bb5beeed-3cc4-468a-b4c3-a6575cb25f41
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:54:09.619539+00:00
+
+gw-review: traced every path reaching fetchIcsCalendar/googleCalendarClient.fetchEvents in src/server/index.ts to only findConfiguredCalendar()-resolved values; ran npm run check (284 tests incl. 6 calendar-lookup tests, typecheck, build) green.
+---
+[event:86672028-9267-46cf-9e5d-fe6dcbac6b3c]
+node_id: bb5beeed-3cc4-468a-b4c3-a6575cb25f41
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:57:08.793153+00:00
+
+independent gw-review traced every fetch path and confirmed the calendar SSRF is genuinely closed
+---
+[node:5786ab1c-0b77-47f6-b106-71b194355c7a]
+type: concept
+tier: mid-term
+path: /artifact/change-summary-gw-review-verdict-for-k
+created_at: 2026-09-15T12:53:23.002143+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-09-15T12:53:23.002143+00:00
+-> DEPENDS_ON [node:bb5beeed-3cc4-468a-b4c3-a6575cb25f41] @ 2026-09-15T12:53:23.002143+00:00
+-> HAS_FACET [node:d40736ae-86f3-4437-b0dd-4f36ae159f42] @ 2026-09-15T12:53:23.002143+00:00
+
+Change summary / gw-review verdict for k7-calendar-ssrf-fix: Approve. The fix genuinely closes the /api/calendar/week SSRF — the route now reads only `id` from req.query (src/server/index.ts), resolves mode+url/calendarId exclusively from layout.yaml via findConfiguredCalendar() (src/server/calendar-lookup.ts), and the two fetch call sites (fetchIcsCalendar, googleCalendarClient.fetchEvents) receive only values traced back to that lookup — no remaining client-controlled query/body/header reaches either fetch. findConfiguredCalendar's recursive search over grid cells + carousel slides was verified correct against the actual runtime Card/Layout/NormalisedLayout types in src/shared/layout.ts and against src/client/main.ts's buildNestedChild (cells/slides keys match exactly). The schema (docs/handoff/layout.schema.yaml) also allows a card inside sidebar.content, which findConfiguredCalendar does not search — but this is not a gap introduced by this PR: sidebar is not represented at all in the narrower runtime Layout/Card/NormalisedLayout types (src/shared/layout.ts) or in normaliseLayout(), so a sidebar-nested calendar could not reach the route regardless; findConfiguredCalendar simply fails closed (404) rather than reintroducing the vuln. test/calendar-lookup.test.ts's 6 tests exercise the lookup's recursive-search correctness and its fail-closed behavior on an unconfigured id well, though they are unit tests of findConfiguredCalendar only — there is no route-level (fastify .inject) regression test proving the live endpoint now ignores mode/url/calendarId if a client still sends them; this is a reasonable call given index.ts boots the whole server as an import side effect (per the module's own doc comment) and is not the pattern used for other still-inline routes, but chat.ts's registerChatRoutes extraction + chat-routes.test.ts shows the project does have a precedent for the stronger route-level test where a route is worth extracting. Also fixed: K7Calendar.svelte's stale day-label reactivity bug (days := weekDays(weekStart) -> $derived(weekDays(weekStart))), a genuine unrelated fix, user-facing.
+---
+[node:d40736ae-86f3-4437-b0dd-4f36ae159f42]
+type: facet_value
+tier: lifetime
+path: /facet/review
+created_at: 2026-09-15T12:53:23.002143+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+review
+---
+[node:fb0cacd3-4114-4733-965a-b12a5a19d2e3]
+type: issue
+tier: mid-term
+path: /artifact/found-during-k7-calendar-ssrf-fix-s-revi
+created_at: 2026-09-15T12:53:30.812224+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:bb5beeed-3cc4-468a-b4c3-a6575cb25f41] @ 2026-09-15T12:53:30.812224+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-15T12:53:30.812224+00:00
+
+Found during k7-calendar-ssrf-fix's review, out of scope for that PR: /api/comic (src/server/index.ts ~line 297) has the same class of SSRF /api/calendar/week just had. It reads a client-supplied `rssUrl` query param directly and passes it unvalidated into fetchComic() -> fetchWithTimeout(query.rssUrl, ...) (src/server/upstream/comic-rss.ts, fetchComic ~line 70) — no scheme check, no isPrivateAddress() guard, unlike src/server/recipes/import.ts's assertImportable() which already does exactly this validation for recipe URL imports. A LAN client can therefore direct K7's server to fetch an arbitrary internal address via GET /api/comic?rssUrl=http://127.0.0.1:PORT/.... Needs its own fix: either resolve rssUrl server-side from layout.yaml's configured comic-of-the-day card (matching the calendar fix's pattern) or, if rssUrl must stay client-configurable per the layout schema's design, apply the same host/scheme guard recipes/import.ts already has (isPrivateAddress in src/server/security/network.ts).
+---
+[node:87702f1f-1848-4624-9b52-e03c40aef76d]
+type: constraint
+tier: mid-term
+path: /artifact/lesson-from-k7-calendar-ssrf-fix-s-revie
+created_at: 2026-09-15T12:53:39.376790+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:bb5beeed-3cc4-468a-b4c3-a6575cb25f41] @ 2026-09-15T12:53:39.376790+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-15T12:53:39.376790+00:00
+
+Lesson from k7-calendar-ssrf-fix's review, for every future route added to src/server/index.ts: any req.query/req.body field that is, or is used to build, a URL fetched server-side is an SSRF vector by default and must be closed one of two ways — (a) resolved server-side from layout.yaml (trusted, household-edited only) rather than accepted from the request, the pattern this change established via findConfiguredCalendar()/calendar-lookup.ts, or (b) validated with the existing isPrivateAddress()/scheme-allowlist guard in src/server/security/network.ts before any fetch, the pattern src/server/recipes/import.ts's assertImportable() already uses. Neither guard is applied uniformly today — a grep for req.query at review time found /api/comic's rssUrl still unguarded (see the paired issue node) — so this constraint is not yet enforced by any lint/test and should be checked by hand on every new or touched route until it is.
+---
+[node:11eb5df1-7022-487f-9eb4-addbd53cadea]
+type: decision
+tier: mid-term
+path: /artifact/extended-k7-calendar-ssrf-fix-beyond-the
+created_at: 2026-09-15T12:57:03.955270+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T12:57:03.955270+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-15T12:57:03.955270+00:00
+
+Extended k7-calendar-ssrf-fix beyond the original PR scope: /gw-review flagged that /api/comic's rssUrl query param has the identical SSRF vulnerability (client-supplied URL fetched server-side with zero validation) — live and unpatched at review time, captured by the reviewer as [node:fb0cacd3] issue + [node:87702f1f] generalizing constraint. Fixed in the same PR rather than deferred: extracted the guard logic (scheme allowlist + isPrivateAddress check) that recipes/import.ts's assertImportable already had into a new shared isFetchableUrl(url: URL): boolean in src/server/security/network.ts, refactored recipes/import.ts to use it (behavior-preserving, no test depended on the old two-branch error message), and applied it to /api/comic's rssUrl before fetching. New test/network-fetchable-url.test.ts covers the shared guard directly. Deliberately did NOT apply this guard to the .ics calendar fetch (now resolved from layout.yaml, trusted config — a household member pointing an .ics calendar at an internal address is a legitimate choice, not an attack, unlike a value arriving in a request).
+---
+[event:3898ec8a-bc23-4944-b197-8eee6a513100]
+node_id: 11eb5df1-7022-487f-9eb4-addbd53cadea
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:57:08.788178+00:00
+
+fixed the comic-rss SSRF the review flagged, in this same PR

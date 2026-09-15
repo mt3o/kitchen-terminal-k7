@@ -9,6 +9,11 @@
 # Newest entry first.
 entries:
   - date: "2026-09-15"
+    title: "Poprawka: daty w kalendarzu mogły nie odświeżać się po zmianie tygodnia"
+    items:
+      - "Nagłówki dni w karcie kalendarza były ustawiane tylko raz przy starcie karty; na urządzeniu działającym bez przeładowania przez dłuższy czas mogły przestać zgadzać się z faktyczną datą po zmianie tygodnia. Teraz aktualizują się razem z resztą karty."
+      - "Wzmocniono też zabezpieczenia zapytań do zewnętrznych adresów kalendarza i komiksu dnia po stronie serwera."
+  - date: "2026-09-15"
     title: "Kalendarz: wiele kalendarzy z zakładkami"
     items:
       - "Karta kalendarza obsługuje teraz kilka kalendarzy naraz — Google oraz dowolną liczbę zewnętrznych kalendarzy .ics (np. plan lekcji dziecka). Każdy dostaje własną zakładkę; zakładka GŁÓWNY łączy tylko te kalendarze, które mają włączoną opcję \"pokazuj na głównym widoku\"."

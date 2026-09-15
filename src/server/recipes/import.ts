@@ -7,7 +7,7 @@
  * /api/recipes persists what the household confirms. A card must not present
  * placeholder data as real, and neither may it persist a guess as reviewed.
  */
-import { isPrivateAddress } from '../security/network.ts'
+import { isFetchableUrl } from '../security/network.ts'
 import { fetchWithTimeout } from '../upstream/freshness.ts'
 import { extractFallback, extractJsonLd, type ExtractedRecipe } from './extract.ts'
 
@@ -24,22 +24,10 @@ export class RecipeImportError extends Error {
   }
 }
 
-/**
- * Only http/https, and only a public-looking host.
- *
- * This is a genuine but partial guard, disclosed as such in the plan: a
- * literal private IP is caught, a hostname that *resolves* to one is not,
- * because that needs a DNS lookup this function does not perform. Full
- * DNS-rebinding protection for outbound fetches is out of this change's
- * scope — see plan.md's Risks section.
- */
+/** `isFetchableUrl` (`security/network.ts`), narrowed to this module's own error type. */
 function assertImportable(url: URL): void {
-  if (url.protocol !== 'http:' && url.protocol !== 'https:') {
-    throw new RecipeImportError(`unsupported URL scheme ${url.protocol}`, 'invalid-url')
-  }
-  const host = url.hostname.toLowerCase()
-  if (host === 'localhost' || isPrivateAddress(host)) {
-    throw new RecipeImportError('refusing to import from a local or private address', 'invalid-url')
+  if (!isFetchableUrl(url)) {
+    throw new RecipeImportError('refusing to import from a local, private, or non-http(s) address', 'invalid-url')
   }
 }
 
