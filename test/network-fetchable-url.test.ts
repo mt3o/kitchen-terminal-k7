@@ -38,4 +38,45 @@ describe('isFetchableUrl', () => {
   it('rejects link-local addresses', () => {
     assert.equal(isFetchableUrl(new URL('http://169.254.169.254/latest/meta-data/')), false) // cloud metadata endpoint shape
   })
+
+  // Every case below is a real bypass found live, 2026-09-15, by the peer
+  // session running on the actual home server, tested offline against the
+  // shipped function before this fix — not hypothetical.
+  describe('bracketed IPv6 literals (what URL#hostname actually produces)', () => {
+    it('rejects IPv6 loopback [::1]', () => {
+      assert.equal(isFetchableUrl(new URL('http://[::1]/')), false)
+    })
+
+    it('rejects an IPv4-mapped IPv6 loopback', () => {
+      assert.equal(isFetchableUrl(new URL('http://[::ffff:127.0.0.1]/')), false)
+    })
+
+    it('rejects an IPv4-mapped IPv6 RFC1918 address', () => {
+      assert.equal(isFetchableUrl(new URL('http://[::ffff:192.168.1.1]/')), false)
+    })
+
+    it('rejects an IPv6 unique-local (fc00::/7) address', () => {
+      assert.equal(isFetchableUrl(new URL('http://[fd00::1]/')), false)
+    })
+
+    it('rejects an IPv6 link-local (fe80::/10) address', () => {
+      assert.equal(isFetchableUrl(new URL('http://[fe80::1]/')), false)
+    })
+
+    it('rejects the unspecified IPv6 address ::', () => {
+      assert.equal(isFetchableUrl(new URL('http://[::]/')), false)
+    })
+
+    it('accepts a genuinely public IPv6 address', () => {
+      assert.equal(isFetchableUrl(new URL('http://[2001:db8::1]/')), true)
+    })
+  })
+
+  it('rejects 0.0.0.0, which reaches local listeners on Linux', () => {
+    assert.equal(isFetchableUrl(new URL('http://0.0.0.0:9443/')), false)
+  })
+
+  it('rejects a trailing-dot localhost (the same DNS name, RFC 1035 root notation)', () => {
+    assert.equal(isFetchableUrl(new URL('http://localhost./')), false)
+  })
 })

@@ -10758,6 +10758,7 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> DEPENDS_ON [node:09f00361-0da0-427d-9f9a-494a1feb01d1] @ 2026-09-15T13:05:08.415368+00:00
 -> DEPENDS_ON [node:11eb5df1-7022-487f-9eb4-addbd53cadea] @ 2026-09-15T12:57:03.955270+00:00
 -> DEPENDS_ON [node:3d0c550e-ed0f-4340-bca1-b0b0ccab0462] @ 2026-09-15T12:58:16.315805+00:00
 -> DEPENDS_ON [node:5786ab1c-0b77-47f6-b106-71b194355c7a] @ 2026-09-15T12:53:23.002143+00:00
@@ -10786,6 +10787,7 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> SCOPED_TO [node:09f00361-0da0-427d-9f9a-494a1feb01d1] @ 2026-09-15T13:05:08.415368+00:00
 -> SCOPED_TO [node:11eb5df1-7022-487f-9eb4-addbd53cadea] @ 2026-09-15T12:57:03.955270+00:00
 -> SCOPED_TO [node:25df1729-dc32-4525-ae98-d7691fac18fc] @ 2026-09-15T12:48:38.205400+00:00
 -> SCOPED_TO [node:3d0c550e-ed0f-4340-bca1-b0b0ccab0462] @ 2026-09-15T12:58:16.315805+00:00
@@ -10955,3 +10957,28 @@ source: agent-surface
 created_at: 2026-09-15T12:58:19.770920+00:00
 
 merged as PR #47, npm run check independently re-verified green
+---
+[node:09f00361-0da0-427d-9f9a-494a1feb01d1]
+type: constraint
+tier: mid-term
+path: /artifact/follow-up-to-k7-calendar-ssrf-fix-the-p
+created_at: 2026-09-15T13:05:08.415368+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:11eb5df1-7022-487f-9eb4-addbd53cadea] @ 2026-09-15T13:05:08.415368+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T13:05:08.415368+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-15T13:05:08.415368+00:00
+
+Follow-up to k7-calendar-ssrf-fix: the peer session tested the shipped isFetchableUrl offline against the live deploy and found real bypasses, all confirmed and fixed: (1) URL#hostname wraps any IPv6 literal in brackets ([::1]), which the guard never stripped, so EVERY IPv6-literal bypass (loopback, ULA fc00::/7, link-local fe80::/10, IPv4-mapped) got through. (2) WHATWG URL always canonicalizes IPv6 to compressed all-hex form (::ffff:7f00:1, never ::ffff:127.0.0.1), which the old string-prefix-based IPv4-mapped check never matched. (3) 0.0.0.0/8 was not covered at all (reaches local listeners on Linux). (4) A trailing-dot hostname (localhost., valid DNS root notation) bypassed the exact-string localhost check. (5) fetch()'s default redirect:'follow' meant a public URL that 302s to an internal address bypassed even a perfect hostname check entirely — same exposure on both /api/comic's rssUrl and recipe import. Fix: isPrivateAddress rewritten with a real IPv6 expander (::-compression, zone ids, both canonical-hex and legacy-dotted embedded-IPv4 forms) instead of prefix regexes, bracket-stripping and trailing-dot normalization added, 0.0.0.0/8 added; fetchWithTimeout gained an opt-in redirect parameter (default 'follow', unchanged for every existing trusted-URL caller) and both client-influenced-URL call sites (comic-rss.ts, recipes/import.ts) now pass redirect:'error'. Mid-fix, a first pass at the IPv6 expander broke isPrivateAddress's OWN existing legacy-dotted-form test (test/tls.test.ts's '::ffff:192.168.1.2 should be private') by only handling the canonical hex form and not the legacy dotted form Node itself reports for req.ip on a dual-stack socket — caught immediately by npm run check, fixed before commit. Lesson: this file needs both IPv4-embedded notations handled, not just the one the immediate bug report showed.
+---
+[event:bc7f2364-d159-43a2-8dda-030ea9ce6b54]
+node_id: 09f00361-0da0-427d-9f9a-494a1feb01d1
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T13:05:12.311199+00:00
+
+implemented, verified against all reported bypasses, tests pass

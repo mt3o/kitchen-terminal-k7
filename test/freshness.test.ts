@@ -5,11 +5,11 @@
  * and every test below is a way of getting that wrong.
  */
 import assert from 'node:assert/strict'
-import { beforeEach, describe, it } from 'node:test'
+import { afterEach, beforeEach, describe, it } from 'node:test'
 
 import { createRepositories, openDatabase } from '../src/server/adapters/drizzle/index.ts'
 import { runMigrations } from '../src/server/db/migrate.ts'
-import { createFreshnessService } from '../src/server/upstream/freshness.ts'
+import { createFreshnessService, fetchWithTimeout } from '../src/server/upstream/freshness.ts'
 import type { Repositories } from '../src/server/ports/repositories.ts'
 
 let repos: Repositories
@@ -112,5 +112,33 @@ describe('fetchThrough', () => {
     await fetchThrough({ key: 'weather:warsaw:metric', upstream: 'open-meteo', freshForSeconds: 900, fetcher: async () => ({ t: 'C' }), now })
     const imperial = await fetchThrough({ key: 'weather:warsaw:imperial', upstream: 'open-meteo', freshForSeconds: 900, fetcher: async () => ({ t: 'F' }), now })
     assert.deepEqual(imperial.data, { t: 'F' }, 'units collided on one cache row')
+  })
+})
+
+describe('fetchWithTimeout redirect handling', () => {
+  const realFetch = globalThis.fetch
+
+  afterEach(() => {
+    globalThis.fetch = realFetch
+  })
+
+  it('defaults to following redirects, unchanged for every existing caller', async () => {
+    let seenRedirect: string | undefined
+    globalThis.fetch = (async (_url: string, init?: RequestInit) => {
+      seenRedirect = init?.redirect
+      return { ok: true, status: 200, text: async () => 'ok' }
+    }) as unknown as typeof fetch
+    await fetchWithTimeout('https://example.com/x')
+    assert.equal(seenRedirect, 'follow')
+  })
+
+  it('passes redirect: "error" through when a caller opts in — a client-influenced URL must not be silently redirected', async () => {
+    let seenRedirect: string | undefined
+    globalThis.fetch = (async (_url: string, init?: RequestInit) => {
+      seenRedirect = init?.redirect
+      return { ok: true, status: 200, text: async () => 'ok' }
+    }) as unknown as typeof fetch
+    await fetchWithTimeout('https://example.com/x', undefined, undefined, 'error')
+    assert.equal(seenRedirect, 'error')
   })
 })

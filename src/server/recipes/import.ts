@@ -45,7 +45,10 @@ export async function importRecipeFromUrl(rawUrl: string, options: ImportRecipeO
   }
   assertImportable(url)
 
-  const fetcher = options.fetcher ?? ((u: string) => fetchWithTimeout(u, 10_000))
+  // 'error' rather than the default 'follow': assertImportable only checked
+  // the URL the household typed in, not wherever a 3xx response from it
+  // might then point — same reasoning as fetchComic's own redirect: 'error'.
+  const fetcher = options.fetcher ?? ((u: string) => fetchWithTimeout(u, 10_000, undefined, 'error'))
   let html: string
   try {
     const res = await fetcher(url.toString())
