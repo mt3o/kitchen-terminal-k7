@@ -8,6 +8,10 @@
 #
 # Newest entry first.
 entries:
+  - date: "2026-09-15"
+    title: "Kalendarz: przycisk pełnego ekranu"
+    items:
+      - "Karta kalendarza ma teraz przycisk [ + ] w nagłówku, który powiększa ją na cały ekran; [ x ] zamyka. Jeśli w tym momencie leci pokaz slajdów, zatrzymuje się na czas przeglądania kalendarza i wraca tam, gdzie był, po zamknięciu."
   - date: "2026-09-10"
     title: "Panel dostępny pod adresem bez numeru portu"
     items:

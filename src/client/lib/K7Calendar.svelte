@@ -132,7 +132,7 @@
   })
 </script>
 
-<Card label="LOG.WYDARZENIA" {meta} state={cardState}>
+<Card label="LOG.WYDARZENIA" {meta} state={cardState} fullscreen>
   <div class="week" class:day-view={dayView} role="grid" aria-label="wydarzenia tygodnia">
     {#each displayDays as day, i (day.getTime())}
       {@const isToday = isSameDay(day, today)}
