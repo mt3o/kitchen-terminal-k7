@@ -10,7 +10,8 @@
   An "image carousel" needs no dedicated component: the existing carousel
   card (K7Carousel.svelte) already renders arbitrary nested cards one at a
   time, so a carousel whose slides are all `type: image` cards already is
-  one — see layout.yaml's `karuzela-zdjecia` for a worked example.
+  one. Photos that should rotate on their own, rather than be listed in the
+  layout, are the unsplash-carousel card instead (K7Unsplash.svelte).
 -->
 <svelte:options customElement={{ tag: 'k7-image' }} />
 

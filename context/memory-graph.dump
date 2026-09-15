@@ -9005,3 +9005,66 @@ archived: false
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-15T06:45:11.881469+00:00
 
 k7-card-fullscreen's plan.md (Phase 1, "Extended test") committed to unit-testing SlideshowController.suspend()/resume()'s bookkeeping ("suspending while mode==='active' and resuming reschedules idle detection fresh; suspending while mode==='fullscreen' and resuming restarts the interval") but the shipped test/slideshow.test.ts contains no such tests — only shouldExitOnInteraction gained coverage. suspend()/resume() are part of slideshow.ts's impure DOM/timer-wiring half (real setTimeout/setInterval closures), which this project's own established convention already exempts from unit testing (the file's own header comment says so) — so the plan's "reducer/state level" framing for this specific test was not actually achievable without a bigger refactor (injectable fake timers), and the gap is arguably the right call, not a bug. But nothing in change.md's Outcome or the diff calls out that this specific promised test was dropped in favor of the Phase 3 real-browser scenarios (3/4/5) that do exercise the same behavior manually. Generalizable lesson: when a plan's "Extended test" section promises unit coverage for behavior that turns out to live in a module's already-declared-impure half, either the plan should be corrected before implementation closes, or the change's Outcome should explicitly note the substitution (automated → manual) so a reviewer isn't left to discover the gap by diffing plan.md against the test files.
+---
+[node:1278c939-a77d-4729-b4d4-367b92aebefa]
+type: slice
+tier: short-term
+path: /change/k7-unsplash-carousel
+created_at: 2026-09-15T11:14:08.682820+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:3a984ba5-4d77-4885-82f7-48a9c96c514a] @ 2026-09-15T11:14:26.422827+00:00
+-> SCOPED_TO [node:54b7c36e-0b6d-41c1-8fd6-be9737d57867] @ 2026-09-15T11:14:08.682820+00:00
+-> SCOPED_TO [node:6bd4cda3-a960-4aef-99f2-340e4903e625] @ 2026-09-15T11:14:24.243650+00:00
+
+change scope: k7-unsplash-carousel
+---
+[event:25e7cb30-2e5a-4722-b312-e44ed57b24b2]
+node_id: 1278c939-a77d-4729-b4d4-367b92aebefa
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T11:14:08.691380+00:00
+
+create_change k7-unsplash-carousel
+---
+[node:54b7c36e-0b6d-41c1-8fd6-be9737d57867]
+type: goal
+tier: short-term
+path: /goal/k7-unsplash-carousel
+created_at: 2026-09-15T11:14:08.682820+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:3a984ba5-4d77-4885-82f7-48a9c96c514a] @ 2026-09-15T11:14:26.422827+00:00
+-> DEPENDS_ON [node:6bd4cda3-a960-4aef-99f2-340e4903e625] @ 2026-09-15T11:14:24.243650+00:00
+
+Add an unsplash-carousel card that rotates photos fetched server-side from the Unsplash API, with the access key kept off the client and attribution on every photo.
+---
+[node:6bd4cda3-a960-4aef-99f2-340e4903e625]
+type: decision
+tier: mid-term
+path: /artifact/unsplash-photos-are-their-own-card-type
+created_at: 2026-09-15T11:14:24.243650+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+Unsplash photos are their own card type (unsplash-carousel, K7Unsplash.svelte) rather than a carousel of image slides: the slides are only known after a server-side API call, and each photo needs linked photographer and Unsplash attribution that the generic image card has no place for. It reuses carousel.ts swipe/advance logic so behaviour matches K7Carousel.
+---
+[node:3a984ba5-4d77-4885-82f7-48a9c96c514a]
+type: constraint
+tier: mid-term
+path: /artifact/unsplash-api-guidelines-bind-the-unsplas
+created_at: 2026-09-15T11:14:26.422827+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+Unsplash API guidelines bind the unsplash-carousel card: images are hotlinked from urls.raw keeping ixid, attribution links carry utm_source and utm_medium=referral, and download_location is pinged on each live fetch only when it points at https://api.unsplash.com/ because that request carries the access key. The demo tier allows 50 requests per hour, which is why the route caches a whole random set for 6 hours by default.

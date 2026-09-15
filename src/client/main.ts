@@ -18,6 +18,7 @@ import './lib/K7Menu.svelte'
 import './lib/K7Recipes.svelte'
 import './lib/K7ShoppingList.svelte'
 import './lib/K7Timer.svelte'
+import './lib/K7Unsplash.svelte'
 import './lib/K7Weather.svelte'
 
 import { domReconnectUi, reconnectLoop } from './lib/reconnect.ts'
@@ -47,6 +48,7 @@ const LABELS: Record<CardType, string> = {
   clock: 'ZEGAR',
   menu: 'MENU',
   audiometer: 'AUDIOMETR',
+  'unsplash-carousel': 'FOTO.UNSPLASH',
 }
 
 const deck = document.getElementById('deck')
@@ -335,6 +337,22 @@ function createWidget(card: Card): HTMLElement {
       attr(el, 'caption', params.caption)
       attr(el, 'linkUrl', params.linkUrl)
       attr(el, 'maxWidthPx', params.maxWidthPx)
+      return el
+    }
+    case 'unsplash-carousel': {
+      const el = document.createElement('k7-unsplash')
+      el.setAttribute('label', LABELS['unsplash-carousel'])
+      attr(el, 'label', params.label)
+      attr(el, 'query', params.query)
+      const collections = params.collections
+      attr(el, 'collections', Array.isArray(collections) ? collections.join(',') : collections)
+      attr(el, 'orientation', params.orientation)
+      attr(el, 'count', params.count)
+      attr(el, 'widthPx', params.widthPx)
+      attr(el, 'cacheDurationHours', params.cacheDurationHours)
+      attr(el, 'autoAdvanceSeconds', params.autoAdvanceSeconds)
+      attr(el, 'transition', params.transition)
+      attr(el, 'showIndicators', params.showIndicators)
       return el
     }
     case 'chat': {

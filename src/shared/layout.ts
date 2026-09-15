@@ -15,7 +15,7 @@ export interface Card {
 export type CardType =
   | 'weather' | 'calendar' | 'chat' | 'recipes' | 'shopping-list' | 'timer'
   | 'comic-of-the-day' | 'ascii-art-of-the-day' | 'image' | 'carousel' | 'grid'
-  | 'slideshow' | 'clock' | 'menu' | 'audiometer'
+  | 'slideshow' | 'clock' | 'menu' | 'audiometer' | 'unsplash-carousel'
 
 export interface GridSettings {
   columns: number
