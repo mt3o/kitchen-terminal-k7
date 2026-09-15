@@ -68,7 +68,10 @@ function extractViaSelector(html: string, selector: string): string | undefined 
 }
 
 export async function fetchComic(query: ComicQuery): Promise<ComicResult> {
-  const res = await fetchWithTimeout(query.rssUrl, query.timeoutMs)
+  // 'error' rather than the default 'follow': rssUrl arrived in a request
+  // (the /api/comic route's own SSRF guard only checked the URL the client
+  // sent, not wherever a 3xx response from it might then point).
+  const res = await fetchWithTimeout(query.rssUrl, query.timeoutMs, undefined, 'error')
   const xml = await res.text()
   const parser = new Parser<Record<string, never>, ComicItem>(PARSER_OPTIONS)
   const feed = await parser.parseString(xml)

@@ -68,11 +68,26 @@ export type FreshnessService = ReturnType<typeof createFreshnessService>
  * refreshes on a timer, those pile up. Falling back to a stale copy after a few
  * seconds is strictly better than a card that never resolves.
  */
-export async function fetchWithTimeout(url: string, timeoutMs = 8000, headers?: Record<string, string>): Promise<Response> {
+/**
+ * `redirect` defaults to `'follow'` — every existing caller fetches a fixed
+ * or `layout.yaml`-trusted URL, where a redirect is just how the upstream
+ * happens to work. A caller fetching a URL that arrived in the *request*
+ * (comic's `rssUrl`, an imported recipe's source page) passes `'error'`
+ * instead: a scheme/private-address check on the URL the client supplied
+ * says nothing about where a 3xx response then points, so a public URL that
+ * redirects to an internal one would otherwise slip the same SSRF guard
+ * straight past it. Found live, 2026-09-15, alongside the guard itself.
+ */
+export async function fetchWithTimeout(
+  url: string,
+  timeoutMs = 8000,
+  headers?: Record<string, string>,
+  redirect: RequestRedirect = 'follow',
+): Promise<Response> {
   const controller = new AbortController()
   const timer = setTimeout(() => controller.abort(), timeoutMs)
   try {
-    const res = await fetch(url, { signal: controller.signal, headers })
+    const res = await fetch(url, { signal: controller.signal, headers, redirect })
     if (!res.ok) throw new Error(`upstream responded ${res.status}`)
     return res
   } finally {
