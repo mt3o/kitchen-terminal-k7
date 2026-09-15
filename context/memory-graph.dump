@@ -300,6 +300,16 @@ created_at: 2026-09-14T20:41:41.026616+00:00
 
 Spot-checked plan introduces no Safari-15-incompatible CSS/JS; unchanged from prior pass.
 ---
+[event:06739f8e-1688-435c-a40a-3a01baf8634a]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.379481+00:00
+
+Ran npm run check on change/k7-card-fullscreen (lint:tokens' check-token-contract.py, tokens:check, 240 unit tests, typecheck, vite build) — all green. Manually confirmed Element.getRootNode()/ShadowRoot (new to this codebase) are old, well-supported DOM APIs, safe under the Safari 15 / iPadOS 15 floor.
+---
 [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99]
 type: facet_value
 tier: lifetime
@@ -378,6 +388,16 @@ source: agent-surface
 created_at: 2026-09-14T20:41:41.028078+00:00
 
 Re-checked no new per-frame cost (reuses existing transform/opacity-only promotion); unchanged.
+---
+[event:d0a5fabf-d22c-4afc-8270-3e9c912480c9]
+node_id: 716987ce-f933-41b5-8c4e-590c09dc33bf
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.395386+00:00
+
+Reviewed app.css's fullscreen promotion/veil rules — reused existing transform/opacity-based promotion, no new box-shadow/filter/width/height animation introduced.
 ---
 [node:e12ca220-5f82-4226-a2eb-9964701f03c4]
 type: facet_value
@@ -600,6 +620,16 @@ created_at: 2026-09-10T04:37:13.913843+00:00
 
 plan-review: secrets constraint respected — reuses the existing server-side kiloClient, no new secret path
 ---
+[event:18ed6448-60b8-4a72-9742-bd055c1e03aa]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.396024+00:00
+
+Reviewed the diff for secret handling — none; pure client-side DOM/CSS/store work, not applicable.
+---
 [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa]
 type: facet_value
 tier: lifetime
@@ -768,6 +798,16 @@ created_at: 2026-09-14T20:41:41.027258+00:00
 
 Spot-checked new button/CSS uses only var(--*) tokens; unchanged from prior pass.
 ---
+[event:7b453eae-fc74-4f29-b13c-71390d817091]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.385072+00:00
+
+lint:tokens passed (no hex/rgb literals) on the full diff including the new fullscreen-lock.ts/Card.svelte/app.css code.
+---
 [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a]
 type: constraint
 tier: lifetime
@@ -929,6 +969,16 @@ source: agent-surface
 created_at: 2026-09-14T20:34:38.114809+00:00
 
 Radius-zero / no-box-shadow constraint checked — plan reuses existing promotion CSS (no shadow), no new violation.
+---
+[event:167c2fe0-4383-41bc-ab00-1cb7cb12dc17]
+node_id: 61c0030d-8bea-45cc-888b-113297483487
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.384400+00:00
+
+lint:tokens passed (border-radius must be a token); Card.svelte's new .fullscreen-btn CSS uses var(--radius), no box-shadow anywhere in the diff.
 ---
 [node:6d6046fc-9f71-4b88-8cfa-381a0fe1bd32]
 type: constraint
@@ -1136,6 +1186,16 @@ source: agent-surface
 created_at: 2026-09-15T06:02:29.516469+00:00
 
 button implemented as a ghost control (transparent bg, bordered), never solid-amber
+---
+[event:bb954e60-7aed-4485-9dba-e8c84bc436f4]
+node_id: a827e6ec-aec4-40a7-b922-c689d71066a3
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.385772+00:00
+
+Verified Card.svelte's new fullscreen button is ghost-styled (transparent background, bordered) via existing ghost tokens, not solid amber — ONESOLID budget respected.
 ---
 [node:ff852de4-c6d2-4da3-906b-de637255e484]
 type: constraint
@@ -1381,6 +1441,16 @@ source: agent-surface
 created_at: 2026-09-10T04:37:13.908982+00:00
 
 plan-review: CONVSERVICE respected trivially — the transcribe route never touches ConversationService/streamTurn at all, it's a fully separate route
+---
+[event:863d2406-dfc6-4ca2-8600-727feeebf9f7]
+node_id: 4730c1bc-b791-4a0d-a94c-1bd4f8307102
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.396679+00:00
+
+Reviewed for scope creep — ConversationService/chat endpoint untouched by this change.
 ---
 [node:68b03a85-d372-45c5-80a4-549ebf826798]
 type: facet_value
@@ -7290,6 +7360,16 @@ created_at: 2026-09-14T21:02:48.621627+00:00
 
 Fifth-pass review: cross-referenced in plan.md's risk section (impact_of target), content still accurate, no drift.
 ---
+[event:80d57c67-adb8-498a-97f9-9ec8ee241189]
+node_id: ca0c4f4f-2eae-448f-a6bc-a8e70594e292
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.398614+00:00
+
+Reviewed — in-place CSS promotion (position:fixed on the host, no reparenting) preserved by the extraction.
+---
 [node:7e27848a-5129-4fed-bb31-c050fd57fc92]
 type: decision
 tier: short-term
@@ -7443,6 +7523,16 @@ created_at: 2026-09-14T21:02:48.617103+00:00
 
 Verified pager.ts's actual suspend()/resume() implementation (a plain suspended flag, no internal trigger of its own) against the plan's claim that the pager's correct trigger is 'is anything fullscreen at all' (promotedElId) as opposed to the Slideshow's own manualElId-keyed trigger -- confirmed accurate. Also used to reason about the new render()-lifecycle finding: a lock wired to a destroyed Pager instance would silently stop suspending the live one.
 ---
+[event:308631bf-e1b5-457d-b1c0-3b0f28277e24]
+node_id: c4b43952-3bbc-4917-87a7-9afbbebf1fd8
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.397958+00:00
+
+Reviewed — Pager.suspend()/resume() reused unchanged by fullscreen-lock.ts's applyPromotion().
+---
 [node:63dfc17a-f531-4874-af0c-fd483d358a78]
 type: decision
 tier: short-term
@@ -7527,6 +7617,16 @@ source: agent-surface
 created_at: 2026-09-10T06:05:47.236514+00:00
 
 Constraint captured, then dogfooded immediately by adding this change's own changelog.yaml entry
+---
+[event:6d82cbd3-e64e-4d5c-b894-64cda686dc90]
+node_id: 1b5ac370-7e9f-4d4e-a56c-cde37a7d92ad
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.394770+00:00
+
+Verified changelog.yaml gained a 2026-09-15 dated entry describing the fullscreen button, in the same change that ships it.
 ---
 [node:c7fd59cf-268c-473e-acb1-559187232e85]
 type: goal
@@ -7736,6 +7836,7 @@ archived: false
 -> DEPENDS_ON [node:009b7439-07c7-402f-ad22-664beda93a4d] @ 2026-09-14T19:47:35.142389+00:00
 -> DEPENDS_ON [node:0bc7e618-9b95-4977-9fe1-f3a48759276f] @ 2026-09-14T19:44:44.698806+00:00
 -> DEPENDS_ON [node:120b8fee-0b13-4f45-b299-02891df32e02] @ 2026-09-15T06:34:12.888497+00:00
+-> DEPENDS_ON [node:1ce02bd6-a25f-413b-a295-530946cee550] @ 2026-09-15T06:45:11.881469+00:00
 -> DEPENDS_ON [node:240ae1c0-1cd0-40c2-974e-e5df93897bc9] @ 2026-09-14T19:44:44.698806+00:00
 -> DEPENDS_ON [node:2588c22e-bc07-4cef-a0ea-891b28f59170] @ 2026-09-14T21:04:38.803062+00:00
 -> DEPENDS_ON [node:2733b7b2-97ad-4840-ba69-7af4ffad4381] @ 2026-09-14T20:28:30.201301+00:00
@@ -7748,6 +7849,7 @@ archived: false
 -> DEPENDS_ON [node:7b9b6efa-6b19-4291-9b90-8bbb56ebdf53] @ 2026-09-14T19:47:52.710087+00:00
 -> DEPENDS_ON [node:8aadcb3b-5ceb-4569-bee7-a74acdef0cba] @ 2026-09-14T20:57:29.815032+00:00
 -> DEPENDS_ON [node:8b93ca6f-62d3-4471-9a21-33e4a8ec2de4] @ 2026-09-14T20:23:32.096864+00:00
+-> DEPENDS_ON [node:8e36721f-e4b5-4ee3-a1dd-5601323e4c47] @ 2026-09-15T06:40:46.717311+00:00
 -> DEPENDS_ON [node:a827e6ec-aec4-40a7-b922-c689d71066a3] @ 2026-09-14T19:44:44.698806+00:00
 -> DEPENDS_ON [node:aa09008b-c36e-4f46-a05c-cc52efccc95a] @ 2026-09-14T20:52:06.070267+00:00
 -> DEPENDS_ON [node:c53157eb-64a3-41b1-be47-d357431a54dc] @ 2026-09-15T05:57:19.895790+00:00
@@ -7768,6 +7870,7 @@ trust_weight: 1.0
 archived: false
 -> SCOPED_TO [node:009b7439-07c7-402f-ad22-664beda93a4d] @ 2026-09-14T19:47:35.142389+00:00
 -> SCOPED_TO [node:120b8fee-0b13-4f45-b299-02891df32e02] @ 2026-09-15T06:34:12.888497+00:00
+-> SCOPED_TO [node:1ce02bd6-a25f-413b-a295-530946cee550] @ 2026-09-15T06:45:11.881469+00:00
 -> SCOPED_TO [node:2588c22e-bc07-4cef-a0ea-891b28f59170] @ 2026-09-14T21:04:38.803062+00:00
 -> SCOPED_TO [node:2733b7b2-97ad-4840-ba69-7af4ffad4381] @ 2026-09-14T20:28:30.201301+00:00
 -> SCOPED_TO [node:2b7b465d-27c4-410b-8cfe-f1c9ffc38ebc] @ 2026-09-15T06:33:57.045571+00:00
@@ -7778,6 +7881,7 @@ archived: false
 -> SCOPED_TO [node:7b9b6efa-6b19-4291-9b90-8bbb56ebdf53] @ 2026-09-14T19:47:52.710087+00:00
 -> SCOPED_TO [node:8aadcb3b-5ceb-4569-bee7-a74acdef0cba] @ 2026-09-14T20:57:29.815032+00:00
 -> SCOPED_TO [node:8b93ca6f-62d3-4471-9a21-33e4a8ec2de4] @ 2026-09-14T20:23:32.096864+00:00
+-> SCOPED_TO [node:8e36721f-e4b5-4ee3-a1dd-5601323e4c47] @ 2026-09-15T06:40:46.717311+00:00
 -> SCOPED_TO [node:aa09008b-c36e-4f46-a05c-cc52efccc95a] @ 2026-09-14T20:52:06.070267+00:00
 -> SCOPED_TO [node:c53157eb-64a3-41b1-be47-d357431a54dc] @ 2026-09-15T05:57:19.895790+00:00
 -> SCOPED_TO [node:ce2dbda2-1e9b-4f80-8757-871c05d6e031] @ 2026-09-14T20:23:47.593120+00:00
@@ -7873,6 +7977,16 @@ created_at: 2026-09-15T05:57:32.896100+00:00
 
 Phase 1 implemented and verified: derived promotedElId mechanism, class/transform/pager ownership moved into fullscreen-lock.ts exactly as described
 ---
+[event:5372ece1-ec76-4fb3-9268-89208042583b]
+node_id: 009b7439-07c7-402f-ad22-664beda93a4d
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.397341+00:00
+
+Reviewed as the mechanism being generalized/extracted into fullscreen-lock.ts; extraction preserves its behavior.
+---
 [node:dd4d0966-8c77-4e9d-a6af-7f8cd54c0a39]
 type: constraint
 tier: mid-term
@@ -7940,6 +8054,16 @@ created_at: 2026-09-14T21:02:48.621019+00:00
 
 Fifth-pass review: native Fullscreen API rejection still respected by plan.md's non-goals, no drift.
 ---
+[event:24b47e90-e0b9-4bb0-8cc4-9293e5e44ab1]
+node_id: dd4d0966-8c77-4e9d-a6af-7f8cd54c0a39
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.386425+00:00
+
+Confirmed no Element.requestFullscreen usage anywhere in the diff — CSS-class promotion only, per fullscreen-lock.ts.
+---
 [node:7b9b6efa-6b19-4291-9b90-8bbb56ebdf53]
 type: issue
 tier: short-term
@@ -8006,6 +8130,16 @@ source: agent-surface
 created_at: 2026-09-14T21:02:48.623874+00:00
 
 Fifth-pass review: original manual-vs-Slideshow conflict issue, now resolved by ce2dbda2 and covered by Phase 3's five scenarios; still correctly referenced as resolved context, no drift.
+---
+[event:49054854-94bc-4047-a198-ef54dadea95e]
+node_id: 7b9b6efa-6b19-4291-9b90-8bbb56ebdf53
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.399329+00:00
+
+Reviewed — this open issue (manual-fullscreen-vs-Slideshow conflict for the calendar card, which is in both) is resolved by this change's shipped fullscreen-lock.ts coordination; left for a human to mark resolved.
 ---
 [node:8b93ca6f-62d3-4471-9a21-33e4a8ec2de4]
 type: decision
@@ -8093,6 +8227,16 @@ created_at: 2026-09-15T06:34:26.586986+00:00
 
 K7Calendar wired with fullscreen prop, verified live in real Chrome across all 5 coordination scenarios
 ---
+[event:abc57091-e285-4bef-b198-8b8d1b1eb6e4]
+node_id: 8b93ca6f-62d3-4471-9a21-33e4a8ec2de4
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.392290+00:00
+
+Verified Card.svelte gained an opt-in `fullscreen?: boolean` prop and K7Calendar.svelte adopts it as a one-line `<Card ... fullscreen>` addition.
+---
 [node:5ab29a2b-dbe9-45e5-977e-3d21bc2359b6]
 type: decision
 tier: short-term
@@ -8168,6 +8312,16 @@ source: agent-surface
 created_at: 2026-09-15T06:02:29.517120+00:00
 
 the promotedElIdStore Svelte store bridge implemented and consumed from Card.svelte via $derived
+---
+[event:8cd8fa54-ecfe-422c-b008-efc22ce3faa0]
+node_id: 5ab29a2b-dbe9-45e5-977e-3d21bc2359b6
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.387855+00:00
+
+Verified promotedElIdStore/manualElIdStore Svelte stores bridge fullscreen-lock.ts to Card.svelte and main.ts as designed.
 ---
 [node:ce2dbda2-1e9b-4f80-8757-871c05d6e031]
 type: decision
@@ -8266,6 +8420,16 @@ created_at: 2026-09-15T06:34:26.591921+00:00
 
 all coordination scenarios (3,4,5) verified passing in a real browser with real timers
 ---
+[event:aa2ced83-9e77-46b7-aa1f-6ba70278d49f]
+node_id: ce2dbda2-1e9b-4f80-8757-871c05d6e031
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.388535+00:00
+
+Verified fullscreen-lock.ts's dispatch() suspends/resumes the Slideshow controller on manualElId transitions and promotedElId falls back to slideshowElId on release, matching the coordination rule.
+---
 [node:2733b7b2-97ad-4840-ba69-7af4ffad4381]
 type: decision
 tier: short-term
@@ -8334,6 +8498,16 @@ source: agent-surface
 created_at: 2026-09-14T21:02:48.620451+00:00
 
 Fifth-pass review: original fullscreen-lock.ts extraction decision, consistent with plan.md's current (superseding) pure-state model, no drift.
+---
+[event:b6beb7ed-ce98-4b80-a21f-ab98d9dd5549]
+node_id: 2733b7b2-97ad-4840-ba69-7af4ffad4381
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.387189+00:00
+
+Verified fullscreen-lock.ts matches the extraction design: pure reducer + derived promotedElId, impure DOM wiring calling through one module.
 ---
 [node:2dde1947-bc76-4c7b-ba32-3f1463151d2b]
 type: decision
@@ -8411,6 +8585,16 @@ created_at: 2026-09-15T06:34:26.593875+00:00
 
 host-based class targeting and rotate() extraction verified working end-to-end
 ---
+[event:0dfe8ab4-86be-462c-822c-e6ee19504a3e]
+node_id: 2dde1947-bc76-4c7b-ba32-3f1463151d2b
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.389171+00:00
+
+Verified Card.svelte addresses the custom-element host via getRootNode().host.id (never .card), and slideshow.ts's rotate() calls rotateSlideshow() through the shared module instead of direct classList.
+---
 [node:5797a5fc-de97-4da3-b270-379f94ba2050]
 type: decision
 tier: short-term
@@ -8467,6 +8651,16 @@ source: agent-surface
 created_at: 2026-09-15T05:57:32.902043+00:00
 
 onInteraction guard implemented via shouldExitOnInteraction, unit tested
+---
+[event:d38e868e-d154-4082-8259-10b25a0d52d1]
+node_id: 5797a5fc-de97-4da3-b270-379f94ba2050
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.389801+00:00
+
+Verified slideshow.ts's onInteraction reads isManualFullscreenActive() and shouldExitOnInteraction() no-ops when manual owns the slot; covered by new unit tests in test/slideshow.test.ts.
 ---
 [node:aa09008b-c36e-4f46-a05c-cc52efccc95a]
 type: decision
@@ -8525,6 +8719,16 @@ created_at: 2026-09-15T06:34:26.592623+00:00
 
 touchstart/mousedown acquire ordering and suspend/resume verified against real Chrome touch and mouse event dispatch
 ---
+[event:40842856-1ab3-406c-b01a-a9df0bdf01e3]
+node_id: aa09008b-c36e-4f46-a05c-cc52efccc95a
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.390394+00:00
+
+Verified Card.svelte acquires on ontouchstart/onmousedown at the button with event.preventDefault() guarded to event.type==='touchstart', and slideshow.ts's SlideshowController exposes suspend()/resume() wired from fullscreen-lock.ts.
+---
 [node:8aadcb3b-5ceb-4569-bee7-a74acdef0cba]
 type: decision
 tier: short-term
@@ -8571,6 +8775,16 @@ created_at: 2026-09-15T06:34:26.593299+00:00
 
 manualElId-keyed suspend/resume trigger verified correct via scenario 3 and 4 passing
 ---
+[event:997b6dc9-4635-4d25-809f-18fbd4b375b3]
+node_id: 8aadcb3b-5ceb-4569-bee7-a74acdef0cba
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.391013+00:00
+
+Verified fullscreen-lock.ts's dispatch() keys slideshow.suspend()/resume() off prevManual/state.manualElId transitions specifically, not the derived promotedElId — matches the fifth-review correction exactly.
+---
 [node:2588c22e-bc07-4cef-a0ea-891b28f59170]
 type: decision
 tier: short-term
@@ -8596,6 +8810,16 @@ source: agent-surface
 created_at: 2026-09-15T05:57:32.904046+00:00
 
 fullscreen-lock.ts implemented as a module-level singleton with configure() called from render(), resetting pure state on every call
+---
+[event:415d9f37-c9ea-4ca3-b6e9-f7bcc0f9e19c]
+node_id: 2588c22e-bc07-4cef-a0ea-891b28f59170
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.391660+00:00
+
+Verified main.ts's render() calls fullscreenLock.configure({track, pager, slideshow}) at the end of every render, and configure() resets pure state to {null,null}.
 ---
 [node:c53157eb-64a3-41b1-be47-d357431a54dc]
 type: decision
@@ -8649,6 +8873,16 @@ created_at: 2026-09-15T06:02:29.517761+00:00
 
 the state/$state collision fix just captured this phase
 ---
+[event:7f82f837-2b03-41fd-a31c-01d29ce0bb1d]
+node_id: e2a8256c-256c-40d0-a46b-c45b06230f86
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.394136+00:00
+
+Verified Card.svelte destructures the `state` prop into a local `cardStatus` binding to avoid the $state rune collision.
+---
 [node:2b7b465d-27c4-410b-8cfe-f1c9ffc38ebc]
 type: constraint
 tier: mid-term
@@ -8674,6 +8908,16 @@ source: agent-surface
 created_at: 2026-09-15T06:34:26.594424+00:00
 
 the onclick-race bug fixed this phase
+---
+[event:a5a0e274-76c7-4add-b9ca-4492560af100]
+node_id: 2b7b465d-27c4-410b-8cfe-f1c9ffc38ebc
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.392871+00:00
+
+Verified Card.svelte replaced the reactive onclick binding with stable onPointerDown/onActivate handlers plus a suppressClick flag — traced through double-tap and undefined-hostId edge cases, internally consistent, no remaining race.
 ---
 [node:120b8fee-0b13-4f45-b299-02891df32e02]
 type: constraint
@@ -8702,3 +8946,62 @@ source: agent-surface
 created_at: 2026-09-15T06:34:26.594990+00:00
 
 the manual-vs-slideshow ownership distinction bug fixed this phase
+---
+[event:c8a4377c-6fea-4894-b2d6-566f913dbeab]
+node_id: 120b8fee-0b13-4f45-b299-02891df32e02
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T06:45:54.393509+00:00
+
+Verified Card.svelte gates acquire-vs-defer-to-click on isManuallyMine (manualElIdStore === hostId), not the generic isFullscreen — matches the documented fix.
+---
+[node:8e36721f-e4b5-4ee3-a1dd-5601323e4c47]
+type: concept
+tier: mid-term
+path: /artifact/change-summary-k7-card-fullscreen-added
+created_at: 2026-09-15T06:40:46.717311+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> CONSOLIDATES [node:009b7439-07c7-402f-ad22-664beda93a4d] @ 2026-09-15T06:40:46.717311+00:00
+-> DEPENDS_ON [node:120b8fee-0b13-4f45-b299-02891df32e02] @ 2026-09-15T06:40:46.717311+00:00
+-> DEPENDS_ON [node:2588c22e-bc07-4cef-a0ea-891b28f59170] @ 2026-09-15T06:40:46.717311+00:00
+-> DEPENDS_ON [node:2b7b465d-27c4-410b-8cfe-f1c9ffc38ebc] @ 2026-09-15T06:40:46.717311+00:00
+-> DEPENDS_ON [node:2dde1947-bc76-4c7b-ba32-3f1463151d2b] @ 2026-09-15T06:40:46.717311+00:00
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-15T06:40:46.717311+00:00
+-> DEPENDS_ON [node:5797a5fc-de97-4da3-b270-379f94ba2050] @ 2026-09-15T06:40:46.717311+00:00
+-> DEPENDS_ON [node:5ab29a2b-dbe9-45e5-977e-3d21bc2359b6] @ 2026-09-15T06:40:46.717311+00:00
+-> DEPENDS_ON [node:8aadcb3b-5ceb-4569-bee7-a74acdef0cba] @ 2026-09-15T06:40:46.717311+00:00
+-> DEPENDS_ON [node:8b93ca6f-62d3-4471-9a21-33e4a8ec2de4] @ 2026-09-15T06:40:46.717311+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T06:40:46.717311+00:00
+-> DEPENDS_ON [node:aa09008b-c36e-4f46-a05c-cc52efccc95a] @ 2026-09-15T06:40:46.717311+00:00
+-> DEPENDS_ON [node:ce2dbda2-1e9b-4f80-8757-871c05d6e031] @ 2026-09-15T06:40:46.717311+00:00
+-> ABOUT [node:d2844438-9992-4e20-bfb5-fa615a906574] @ 2026-09-15T06:40:46.717311+00:00
+-> DEPENDS_ON [node:dd4d0966-8c77-4e9d-a6af-7f8cd54c0a39] @ 2026-09-15T06:40:46.717311+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-15T06:40:46.717311+00:00
+
+Change summary: k7-card-fullscreen added a reusable fullscreen affordance for K7 dashboard cards, shipped as an opt-in `fullscreen` prop on the shared Card.svelte shell (Calendar the first consumer), sharing its promotion mechanism with the existing Slideshow through a new module, fullscreen-lock.ts, rather than the native browser Fullscreen API (unreliable on this project's iPadOS 15 Safari baseline). Ownership between a card's manual button and the Slideshow's own idle-driven rotation is modeled as a pure reducer over {manualElId, slideshowElId} with a single derived promoted element -- manual always wins while held, and releasing falls through to whatever the Slideshow still has, which is how "closing manual fullscreen hands back to an already-fullscreen Slideshow, still rotating" falls out with no explicit branch. slideshow.ts gained its own suspend()/resume() pair (mirroring Pager's) so a manual session genuinely pauses the Slideshow's timers rather than just masking their visible effect.
+
+Five independent /gw-plan-review passes found and fixed six real design gaps before any code was written: CSS promotion must target the custom-element host, not the shell's own shadow-DOM-local element (Shadow DOM style encapsulation rules this out entirely); the extraction must cover the Slideshow's rotate() as well as enter/exit; the button must acquire on touchstart/mousedown (not click) to win the race against the Slideshow's own window-level exit-on-interaction listener; the suspend/resume trigger must key off manualElId's own transitions, not the derived promotedElId (which doesn't cross null in the two scenarios that matter most); and the whole module must be re-pointed on every main.ts render() call, not constructed once at boot, since render() already tears down and rebuilds the Pager and Slideshow controller on every reconnect recovery and pull-to-refresh.
+
+Two more bugs surfaced only through real-browser testing during implementation (headless Chrome via a transiently-installed, never-committed playwright-core), invisible to any static check: a reactively-swapped onclick handler that raced its own mousedown and undid its own tap's acquire; and a missing distinction between "is this card fullscreen at all" versus "does manual specifically own it," which let an acquiring tap on a card the Slideshow was already showing wrongly exit the Slideshow instead of taking control of it.
+
+The recurring lesson across all eight findings: this codebase's DOM/event-ordering/lifecycle facts (Shadow DOM style scoping, touchstart-before-click ordering, main.ts's render() teardown-and-rebuild cycle, real touch-to-mouse-event synthesis rules) are load-bearing and easy to get wrong by inspection alone -- five rounds of independent review plus real-browser verification were what actually caught them, not any single pass.
+---
+[node:1ce02bd6-a25f-413b-a295-530946cee550]
+type: issue
+tier: short-term
+path: /artifact/k7-card-fullscreen-s-plan-md-phase-1
+created_at: 2026-09-15T06:45:11.881469+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:8aadcb3b-5ceb-4569-bee7-a74acdef0cba] @ 2026-09-15T06:45:11.881469+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T06:45:11.881469+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-15T06:45:11.881469+00:00
+
+k7-card-fullscreen's plan.md (Phase 1, "Extended test") committed to unit-testing SlideshowController.suspend()/resume()'s bookkeeping ("suspending while mode==='active' and resuming reschedules idle detection fresh; suspending while mode==='fullscreen' and resuming restarts the interval") but the shipped test/slideshow.test.ts contains no such tests — only shouldExitOnInteraction gained coverage. suspend()/resume() are part of slideshow.ts's impure DOM/timer-wiring half (real setTimeout/setInterval closures), which this project's own established convention already exempts from unit testing (the file's own header comment says so) — so the plan's "reducer/state level" framing for this specific test was not actually achievable without a bigger refactor (injectable fake timers), and the gap is arguably the right call, not a bug. But nothing in change.md's Outcome or the diff calls out that this specific promised test was dropped in favor of the Phase 3 real-browser scenarios (3/4/5) that do exercise the same behavior manually. Generalizable lesson: when a plan's "Extended test" section promises unit coverage for behavior that turns out to live in a module's already-declared-impure half, either the plan should be corrected before implementation closes, or the change's Outcome should explicitly note the substitution (automated → manual) so a reviewer isn't left to discover the gap by diffing plan.md against the test files.

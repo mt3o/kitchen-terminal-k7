@@ -31,3 +31,14 @@ design-level gaps before implementation started (see `plan.md`'s Risk
 section) — the two found here were implementation-level (DOM event timing),
 a different layer than what planning review could have caught by reading
 code alone.
+
+## Deviation from plan.md, flagged at `/gw-review` (`[node:1ce02bd6]`)
+
+Phase 1's "Extended test" section promised unit coverage for
+`SlideshowController.suspend()`/`resume()`'s bookkeeping (active-mode
+reschedule vs. fullscreen-mode interval-restart). That coverage was never
+written — `suspend()`/`resume()` live in `slideshow.ts`'s already-declared
+impure DOM/timer half, which this project's own convention exempts from unit
+testing. Phase 3's real-browser scenarios 3–5 exercise the same behavior
+with real dwell timers instead. Functionally covered; noted here so a future
+reader diffing `plan.md` against the shipped tests isn't surprised.
