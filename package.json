@@ -38,6 +38,7 @@
     "jsdom": "^30.0.1",
     "node-ical": "^0.27.2",
     "rss-parser": "^3.13.0",
+    "undici": "^8.10.2",
     "yaml": "^2.8.1"
   },
   "devDependencies": {

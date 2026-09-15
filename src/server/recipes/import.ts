@@ -7,6 +7,7 @@
  * /api/recipes persists what the household confirms. A card must not present
  * placeholder data as real, and neither may it persist a guess as reviewed.
  */
+import { resolvePinned, type PinnedResolution } from '../security/dns-pin.ts'
 import { isFetchableUrl } from '../security/network.ts'
 import { fetchWithTimeout } from '../upstream/freshness.ts'
 import { extractFallback, extractJsonLd, type ExtractedRecipe } from './extract.ts'
@@ -45,19 +46,51 @@ export async function importRecipeFromUrl(rawUrl: string, options: ImportRecipeO
   }
   assertImportable(url)
 
-  // 'error' rather than the default 'follow': assertImportable only checked
-  // the URL the household typed in, not wherever a 3xx response from it
-  // might then point — same reasoning as fetchComic's own redirect: 'error'.
-  const fetcher = options.fetcher ?? ((u: string) => fetchWithTimeout(u, 10_000, undefined, 'error'))
   let html: string
-  try {
-    const res = await fetcher(url.toString())
-    html = await res.text()
-  } catch (error) {
-    throw new RecipeImportError(
-      `could not fetch the page: ${error instanceof Error ? error.message : 'unknown error'}`,
-      'fetch-failed',
-    )
+  if (options.fetcher) {
+    // Test injection — no real network, so no DNS resolution happens at all.
+    try {
+      const res = await options.fetcher(url.toString())
+      html = await res.text()
+    } catch (error) {
+      throw new RecipeImportError(
+        `could not fetch the page: ${error instanceof Error ? error.message : 'unknown error'}`,
+        'fetch-failed',
+      )
+    }
+  } else {
+    // assertImportable only checked the literal address in the URL — a
+    // hostname that *resolves* to one is not caught by that (the
+    // household's own LAN A records, localtest.me, 127.0.0.1.nip.io — found
+    // live, 2026-09-15, against the deployed server via a real canary
+    // listener). resolvePinned closes that: one DNS lookup, reject if any
+    // answer is private, then connect only to the vetted address — never
+    // re-resolving, so a later DNS answer can't swap the target after the
+    // check (DNS rebinding). 'error' rather than the default 'follow' for
+    // the same reason a plain hostname check isn't enough on its own: a
+    // public URL could still 3xx to an internal one.
+    let pinned: PinnedResolution
+    try {
+      pinned = await resolvePinned(url.hostname)
+    } catch (error) {
+      throw new RecipeImportError(
+        `refusing to import: ${error instanceof Error ? error.message : 'unresolvable or unsafe host'}`,
+        'invalid-url',
+      )
+    }
+    try {
+      const res = await fetchWithTimeout(url.toString(), 10_000, undefined, 'error', pinned.dispatcher)
+      // Read the body before closing: the dispatcher owns the connection
+      // the response streams over.
+      html = await res.text()
+    } catch (error) {
+      throw new RecipeImportError(
+        `could not fetch the page: ${error instanceof Error ? error.message : 'unknown error'}`,
+        'fetch-failed',
+      )
+    } finally {
+      pinned.close()
+    }
   }
 
   const recipe = extractJsonLd(html, url.toString()) ?? extractFallback(html, url.toString())

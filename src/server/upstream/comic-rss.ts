@@ -7,6 +7,7 @@
 import * as cheerio from 'cheerio'
 import Parser from 'rss-parser'
 
+import { resolvePinned, type LookupAllFn } from '../security/dns-pin.ts'
 import { fetchWithTimeout } from './freshness.ts'
 
 export interface ComicQuery {
@@ -19,6 +20,18 @@ export interface ComicQuery {
   itemSelector?: string
   filterKeywords?: string[]
   timeoutMs?: number
+  /**
+   * Test injection, matching recipe import's own `fetcher` escape hatch —
+   * bypasses DNS-pinning and the dispatcher-based fetch entirely, straight
+   * to a fake response. Needed because a DNS-pinned fetch goes through
+   * undici's own `fetch` (`freshness.ts`'s own doc comment explains why),
+   * which a `globalThis.fetch` stub cannot intercept — feed-parsing tests
+   * have nothing to do with DNS safety and shouldn't need real dispatcher
+   * machinery at all. Never part of the cache key.
+   */
+  fetcher?: (url: string) => Promise<{ text(): Promise<string> }>
+  /** Only relevant without `fetcher` — a fixture DNS answer for exercising the real DNS-pinned path's own accept/reject behaviour. Defaults to real `node:dns` resolution. */
+  lookupAll?: LookupAllFn
 }
 
 export interface ComicResult {
@@ -68,11 +81,33 @@ function extractViaSelector(html: string, selector: string): string | undefined 
 }
 
 export async function fetchComic(query: ComicQuery): Promise<ComicResult> {
-  // 'error' rather than the default 'follow': rssUrl arrived in a request
-  // (the /api/comic route's own SSRF guard only checked the URL the client
-  // sent, not wherever a 3xx response from it might then point).
-  const res = await fetchWithTimeout(query.rssUrl, query.timeoutMs, undefined, 'error')
-  const xml = await res.text()
+  let xml: string
+  if (query.fetcher) {
+    // Test injection — no real network, no DNS resolution.
+    const res = await query.fetcher(query.rssUrl)
+    xml = await res.text()
+  } else {
+    // rssUrl arrived in a request — the route's own isFetchableUrl only
+    // checks a literal address, not a hostname that *resolves* to one (the
+    // household's own LAN A records, localtest.me, 127.0.0.1.nip.io — found
+    // live, 2026-09-15, against the deployed server via a real canary
+    // listener). resolvePinned closes that: one DNS lookup, reject if any
+    // answer is private, then connect only to the vetted address — never
+    // re-resolving, so a later DNS answer can't swap the target after the
+    // check (DNS rebinding). 'error' rather than the default 'follow' for
+    // the same reason: a public URL could still 3xx to an internal one.
+    const { dispatcher, close } = await resolvePinned(new URL(query.rssUrl).hostname, query.lookupAll)
+    try {
+      const res = await fetchWithTimeout(query.rssUrl, query.timeoutMs, undefined, 'error', dispatcher)
+      // Read the body before closing: the dispatcher owns the connection
+      // the response body streams over, and closing it too early would cut
+      // that stream off mid-read rather than just freeing an idle
+      // connection.
+      xml = await res.text()
+    } finally {
+      close()
+    }
+  }
   const parser = new Parser<Record<string, never>, ComicItem>(PARSER_OPTIONS)
   const feed = await parser.parseString(xml)
 

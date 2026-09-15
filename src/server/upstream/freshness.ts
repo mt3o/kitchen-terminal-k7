@@ -11,6 +11,8 @@
  * Age is therefore computed from the stored timestamp on every read and is never
  * reset by a cache hit. `Aged<T>` has no variant without it.
  */
+import { fetch as undiciFetch, type Dispatcher } from 'undici'
+
 import type { Aged, Upstream } from '../domain/types.ts'
 import type { UpstreamCacheRepository } from '../ports/repositories.ts'
 
@@ -67,8 +69,7 @@ export type FreshnessService = ReturnType<typeof createFreshnessService>
  * holds the request open until Node's default timeout — and on a kiosk that
  * refreshes on a timer, those pile up. Falling back to a stale copy after a few
  * seconds is strictly better than a card that never resolves.
- */
-/**
+ *
  * `redirect` defaults to `'follow'` — every existing caller fetches a fixed
  * or `layout.yaml`-trusted URL, where a redirect is just how the upstream
  * happens to work. A caller fetching a URL that arrived in the *request*
@@ -77,17 +78,34 @@ export type FreshnessService = ReturnType<typeof createFreshnessService>
  * says nothing about where a 3xx response then points, so a public URL that
  * redirects to an internal one would otherwise slip the same SSRF guard
  * straight past it. Found live, 2026-09-15, alongside the guard itself.
+ *
+ * `dispatcher`, when given (recipe import's DNS-pinned resolution,
+ * `security/dns-pin.ts`), is passed through to **undici's own** `fetch`
+ * rather than Node's global one: Node's global `fetch` is built on its own
+ * internal, version-pinned copy of undici, and a `Dispatcher` built from the
+ * separately-installed `undici` package is not interchangeable with it —
+ * confirmed live (`InvalidArgumentError: invalid onRequestStart method`)
+ * before landing this. Every other caller is untouched: no `dispatcher`
+ * means the global `fetch`, exactly as before, so existing tests that stub
+ * `globalThis.fetch` keep working.
  */
 export async function fetchWithTimeout(
   url: string,
   timeoutMs = 8000,
   headers?: Record<string, string>,
   redirect: RequestRedirect = 'follow',
+  dispatcher?: Dispatcher,
 ): Promise<Response> {
   const controller = new AbortController()
   const timer = setTimeout(() => controller.abort(), timeoutMs)
   try {
-    const res = await fetch(url, { signal: controller.signal, headers, redirect })
+    // undici's own Response type isn't structurally identical to lib.dom's
+    // (a newer iterator-disposal method TypeScript now expects) — a real
+    // Response either way, calling the same methods every caller already
+    // uses (.ok/.status/.text()/.json()), so the cast is narrow and safe.
+    const res = dispatcher
+      ? ((await undiciFetch(url, { signal: controller.signal, headers, redirect, dispatcher })) as unknown as Response)
+      : await fetch(url, { signal: controller.signal, headers, redirect })
     if (!res.ok) throw new Error(`upstream responded ${res.status}`)
     return res
   } finally {
