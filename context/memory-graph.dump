@@ -690,6 +690,16 @@ created_at: 2026-09-15T12:54:15.904138+00:00
 
 secrets-server-side-only constraint checked against the diff; not touched, still honored
 ---
+[event:b3d6e6b8-b2e7-4398-b524-d43ac187e607]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T13:11:36.531422+00:00
+
+unrelated to this diff but checked no secret handling paths were touched by network.ts changes.
+---
 [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa]
 type: facet_value
 tier: lifetime
@@ -3583,6 +3593,16 @@ source: agent-surface
 created_at: 2026-09-15T12:54:16.151187+00:00
 
 disputed CalendarEvent entity surfaced by stale_nodes() during Part 2; not adjudicated here, carried to the human queue
+---
+[event:c949cd82-fcec-4b11-bd63-9e7a58513927]
+node_id: 3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T13:11:36.533230+00:00
+
+surfaced in Part 2 memory-review queue as the only disputed/stale node touched by recall; unrelated to this SSRF diff (CalendarEvent domain entity dispute), left for human review.
 ---
 [node:7b73e502-b1fb-4587-96bd-f005b1ead665]
 type: entity
@@ -10761,8 +10781,11 @@ archived: false
 -> DEPENDS_ON [node:09f00361-0da0-427d-9f9a-494a1feb01d1] @ 2026-09-15T13:05:08.415368+00:00
 -> DEPENDS_ON [node:11eb5df1-7022-487f-9eb4-addbd53cadea] @ 2026-09-15T12:57:03.955270+00:00
 -> DEPENDS_ON [node:3d0c550e-ed0f-4340-bca1-b0b0ccab0462] @ 2026-09-15T12:58:16.315805+00:00
+-> DEPENDS_ON [node:3fbd6715-ab1c-4515-aa6c-6daf97354ffe] @ 2026-09-15T13:11:51.426845+00:00
+-> DEPENDS_ON [node:447637ba-6aa5-4f22-9e2c-306dc4ede3e2] @ 2026-09-15T13:11:59.819780+00:00
 -> DEPENDS_ON [node:5786ab1c-0b77-47f6-b106-71b194355c7a] @ 2026-09-15T12:53:23.002143+00:00
 -> DEPENDS_ON [node:87702f1f-1848-4624-9b52-e03c40aef76d] @ 2026-09-15T12:53:39.376790+00:00
+-> DEPENDS_ON [node:92c62be9-95e4-40db-94f2-fe8465110bf5] @ 2026-09-15T13:13:02.941322+00:00
 -> DEPENDS_ON [node:bb5beeed-3cc4-468a-b4c3-a6575cb25f41] @ 2026-09-15T12:48:47.622097+00:00
 -> DEPENDS_ON [node:fb0cacd3-4114-4733-965a-b12a5a19d2e3] @ 2026-09-15T12:53:30.812224+00:00
 
@@ -10791,8 +10814,11 @@ archived: false
 -> SCOPED_TO [node:11eb5df1-7022-487f-9eb4-addbd53cadea] @ 2026-09-15T12:57:03.955270+00:00
 -> SCOPED_TO [node:25df1729-dc32-4525-ae98-d7691fac18fc] @ 2026-09-15T12:48:38.205400+00:00
 -> SCOPED_TO [node:3d0c550e-ed0f-4340-bca1-b0b0ccab0462] @ 2026-09-15T12:58:16.315805+00:00
+-> SCOPED_TO [node:3fbd6715-ab1c-4515-aa6c-6daf97354ffe] @ 2026-09-15T13:11:51.426845+00:00
+-> SCOPED_TO [node:447637ba-6aa5-4f22-9e2c-306dc4ede3e2] @ 2026-09-15T13:11:59.819780+00:00
 -> SCOPED_TO [node:5786ab1c-0b77-47f6-b106-71b194355c7a] @ 2026-09-15T12:53:23.002143+00:00
 -> SCOPED_TO [node:87702f1f-1848-4624-9b52-e03c40aef76d] @ 2026-09-15T12:53:39.376790+00:00
+-> SCOPED_TO [node:92c62be9-95e4-40db-94f2-fe8465110bf5] @ 2026-09-15T13:13:02.941322+00:00
 -> SCOPED_TO [node:bb5beeed-3cc4-468a-b4c3-a6575cb25f41] @ 2026-09-15T12:48:47.622097+00:00
 -> SCOPED_TO [node:fb0cacd3-4114-4733-965a-b12a5a19d2e3] @ 2026-09-15T12:53:30.812224+00:00
 
@@ -10908,6 +10934,16 @@ archived: false
 
 Lesson from k7-calendar-ssrf-fix's review, for every future route added to src/server/index.ts: any req.query/req.body field that is, or is used to build, a URL fetched server-side is an SSRF vector by default and must be closed one of two ways — (a) resolved server-side from layout.yaml (trusted, household-edited only) rather than accepted from the request, the pattern this change established via findConfiguredCalendar()/calendar-lookup.ts, or (b) validated with the existing isPrivateAddress()/scheme-allowlist guard in src/server/security/network.ts before any fetch, the pattern src/server/recipes/import.ts's assertImportable() already uses. Neither guard is applied uniformly today — a grep for req.query at review time found /api/comic's rssUrl still unguarded (see the paired issue node) — so this constraint is not yet enforced by any lint/test and should be checked by hand on every new or touched route until it is.
 ---
+[event:ca142d1d-a47a-49ee-b00b-3dd53249317e]
+node_id: 87702f1f-1848-4624-9b52-e03c40aef76d
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T13:11:36.532627+00:00
+
+gw-review Part 1: the generalizing lesson (every request-supplied URL is an SSRF vector) still holds and this PR does not introduce a new unguarded route.
+---
 [node:11eb5df1-7022-487f-9eb4-addbd53cadea]
 type: decision
 tier: mid-term
@@ -10931,6 +10967,16 @@ source: agent-surface
 created_at: 2026-09-15T12:57:08.788178+00:00
 
 fixed the comic-rss SSRF the review flagged, in this same PR
+---
+[event:b959144a-ef2d-4b06-a3fd-9110b4185d4e]
+node_id: 11eb5df1-7022-487f-9eb4-addbd53cadea
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T13:11:36.530795+00:00
+
+reviewed the decision to extract isFetchableUrl and deliberately exclude the layout.yaml-trusted .ics calendar path from the guard; confirmed this PR's scope (comic-rss.ts, recipes/import.ts) matches that decision and did not regress it.
 ---
 [node:3d0c550e-ed0f-4340-bca1-b0b0ccab0462]
 type: concept
@@ -10982,3 +11028,106 @@ source: agent-surface
 created_at: 2026-09-15T13:05:12.311199+00:00
 
 implemented, verified against all reported bypasses, tests pass
+---
+[event:42471efc-40b2-4777-83f3-09a5e947c118]
+node_id: 09f00361-0da0-427d-9f9a-494a1feb01d1
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T13:11:36.525316+00:00
+
+gw-review of PR #49: ran adversarial Node script importing isPrivateAddress/isFetchableUrl directly against the real code, plus URL()-parsed attacker-path fuzzing, plus live socket connection tests. All 5 originally-reported bypasses (bracketed IPv6, canonical-hex IPv4-mapped, 0.0.0.0/8, trailing-dot localhost, redirect-following) verified closed. Also traced fetchComic/importRecipeFromUrl error handling end-to-end with a real 302 redirect server: redirect:'error' correctly rejects with TypeError, caught by both callers, surfaces as 502/503 not an unhandled rejection.
+---
+[event:b1a064c3-ebd2-45a6-a50b-945e087735b6]
+node_id: 09f00361-0da0-427d-9f9a-494a1feb01d1
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T13:11:36.532021+00:00
+
+found one non-exploitable gap during adversarial testing: isPrivateIPv6's IPv4-mapped detection checks h5===0xffff, but the 'IPv4-translated' form with an extra zero hextet (::ffff:0:127.0.0.1, which URL() normalizes to canonical [::ffff:0:7f00:1] rather than rejecting) lands ffff at h4, so it is classified as NOT private. Empirically verified via a real Node fetch() against a 127.0.0.1-bound listener that this literal does NOT actually route to loopback on this runtime (fetch failed, no connection) -- so not currently exploitable, but the guard's own comment claims to cover 'every IPv6 equivalent... mapped or not', which is very slightly overstated. Flagged as a non-blocking hardening suggestion, not a blocker.
+---
+[node:20a64ff9-0eb6-486a-aaa0-3682eb713714]
+type: facet_value
+tier: lifetime
+path: /facet/ssrf
+created_at: 2026-09-15T13:11:51.426845+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+ssrf
+---
+[node:3fbd6715-ab1c-4515-aa6c-6daf97354ffe]
+type: concept
+tier: mid-term
+path: /artifact/pr-49-change-k7-calendar-ssrf-fix-v2
+created_at: 2026-09-15T13:11:51.426845+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:09f00361-0da0-427d-9f9a-494a1feb01d1] @ 2026-09-15T13:11:51.426845+00:00
+-> DEPENDS_ON [node:11eb5df1-7022-487f-9eb4-addbd53cadea] @ 2026-09-15T13:11:51.426845+00:00
+-> HAS_FACET [node:20a64ff9-0eb6-486a-aaa0-3682eb713714] @ 2026-09-15T13:11:51.426845+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-15T13:11:51.426845+00:00
+-> HAS_FACET [node:d40736ae-86f3-4437-b0dd-4f36ae159f42] @ 2026-09-15T13:11:51.426845+00:00
+
+PR #49 (change/k7-calendar-ssrf-fix-v2) review outcome: rewrote isPrivateAddress around a real IPv6 expander (::- compression, zone ids, both canonical-hex and legacy-dotted embedded-IPv4 forms), added bracket-stripping and trailing-dot normalization, added 0.0.0.0/8, and gave fetchWithTimeout an opt-in redirect param (default 'follow', unchanged for trusted callers) consumed by comic-rss.ts and recipes/import.ts as redirect:'error'. Adversarial review (direct isPrivateAddress/isFetchableUrl fuzzing via node --experimental-strip-types, URL()-parsed attacker-path fuzzing, and live socket connection tests against a real 127.0.0.1 listener) confirmed all 5 originally-reported bypasses are closed, and confirmed end-to-end that a redirect:'error' TypeError is caught by both fetchComic and importRecipeFromUrl and surfaces as a handled 502/503, not an unhandled rejection. npm run check: 301/301 tests, 0 typecheck errors, build succeeds. One non-blocking gap found: the 'IPv4-translated' form with an extra zero hextet (::ffff:0:127.0.0.1, which URL() normalizes to [::ffff:0:7f00:1] rather than rejecting) is misclassified as public because isPrivateIPv6's mapped-check looks for 0xffff at a fixed hextet position (h5) — but empirically this literal does not actually route to loopback via Node's fetch on this runtime, so it is not currently exploitable. Verdict: Approve.
+---
+[node:3957f716-9c74-4f75-8355-94ac8649c521]
+type: facet_value
+tier: lifetime
+path: /facet/testing
+created_at: 2026-09-15T13:11:59.819780+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+testing
+---
+[node:447637ba-6aa5-4f22-9e2c-306dc4ede3e2]
+type: constraint
+tier: mid-term
+path: /artifact/lesson-from-reviewing-k7-calendar-ssrf-f
+created_at: 2026-09-15T13:11:59.819780+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:09f00361-0da0-427d-9f9a-494a1feb01d1] @ 2026-09-15T13:11:59.819780+00:00
+-> HAS_FACET [node:20a64ff9-0eb6-486a-aaa0-3682eb713714] @ 2026-09-15T13:11:59.819780+00:00
+-> HAS_FACET [node:3957f716-9c74-4f75-8355-94ac8649c521] @ 2026-09-15T13:11:59.819780+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-15T13:11:59.819780+00:00
+-> HAS_FACET [node:d40736ae-86f3-4437-b0dd-4f36ae159f42] @ 2026-09-15T13:11:59.819780+00:00
+
+Lesson from reviewing k7-calendar-ssrf-fix's third round: when a private/local-address guard's comment claims to cover "every equivalent form" of an address family, verify that claim against the real runtime's socket behavior, not just against the specific bypass forms a bug report named. isPrivateIPv6's IPv4-mapped detection checks for 0xffff at a fixed hextet position (h5), which correctly catches the canonical mapped form (::ffff:a.b.c.d) but misses a distinct, differently-shaped literal (::ffff:0:a.b.c.d, with an extra zero hextet) that WHATWG URL still parses and normalizes rather than rejecting. It happened to be a non-issue here only because Node's fetch/OS stack does not actually route that literal to the embedded IPv4 address — verified empirically with a live listener, not assumed. A network-guard review is incomplete if it only re-derives the parser logic by reading; the check that matters is whether an address the guard doesn't recognize can actually be connected to.
+---
+[node:92c62be9-95e4-40db-94f2-fe8465110bf5]
+type: concept
+tier: mid-term
+path: /artifact/k7-calendar-ssrf-fix-round-2-merged-as
+created_at: 2026-09-15T13:13:02.941322+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:09f00361-0da0-427d-9f9a-494a1feb01d1] @ 2026-09-15T13:13:02.941322+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T13:13:02.941322+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-15T13:13:02.941322+00:00
+
+k7-calendar-ssrf-fix round 2, merged as PR #49 (commit b62a9a2 on main): closed the real bypasses the peer session found in the round-1 isFetchableUrl guard (bracketed IPv6 never stripped, canonical-hex IPv4-mapped form never recognized, 0.0.0.0/8 uncovered, trailing-dot localhost., redirect-following bypass affecting both /api/comic and recipe import). Adversarially reviewed with live-socket tests (a real 127.0.0.1 listener, a real 302-redirect server) before merge, not just static reading — confirmed the fix actually blocks connections rather than just returning the right boolean in isolation. One non-blocking, empirically-verified-inert edge case remains (::ffff:0:127.0.0.1, an unusual four-group IPv4-translated form) — captured separately as [node:447637ba] for future network-guard reviews.
+---
+[event:9010a383-138c-4a76-8b5a-31eeaddf88e7]
+node_id: 92c62be9-95e4-40db-94f2-fe8465110bf5
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T13:13:06.300181+00:00
+
+merged as PR #49 after adversarial review with live-socket verification
