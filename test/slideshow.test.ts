@@ -5,6 +5,7 @@ import {
   INITIAL_SLIDESHOW_STATE,
   extractSlideshow,
   isForbiddenNestedSlideshow,
+  shouldExitOnInteraction,
   slideshowReducer,
   type SlideshowConfig,
 } from '../src/client/lib/slideshow.ts'
@@ -149,5 +150,20 @@ describe('slideshowReducer', () => {
 
   it('interaction while already active is a no-op', () => {
     assert.deepEqual(slideshowReducer(INITIAL_SLIDESHOW_STATE, { type: 'interaction' }, config), INITIAL_SLIDESHOW_STATE)
+  })
+})
+
+describe('shouldExitOnInteraction', () => {
+  it('never exits while a card\'s own manual fullscreen owns the slot, regardless of mode or exitOnInteraction', () => {
+    assert.equal(shouldExitOnInteraction('fullscreen', true, true), false)
+    assert.equal(shouldExitOnInteraction('fullscreen', false, true), false)
+    assert.equal(shouldExitOnInteraction('active', true, true), false)
+  })
+
+  it('matches today\'s existing mode/exitOnInteraction-only behavior whenever nothing manual owns the slot', () => {
+    assert.equal(shouldExitOnInteraction('fullscreen', true, false), true)
+    assert.equal(shouldExitOnInteraction('fullscreen', false, false), false)
+    assert.equal(shouldExitOnInteraction('active', true, false), false)
+    assert.equal(shouldExitOnInteraction('active', false, false), false)
   })
 })

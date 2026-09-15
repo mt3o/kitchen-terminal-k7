@@ -26,6 +26,7 @@ import { createThemeToggleUi } from './lib/theme-toggle.ts'
 import { createPullToRefresh } from './lib/pull-refresh.ts'
 import { createPager, type Pager } from './lib/pager.ts'
 import { createSlideshowController, extractSlideshow, isForbiddenNestedSlideshow, type SlideshowController } from './lib/slideshow.ts'
+import { configure as configureFullscreenLock } from './lib/fullscreen-lock.ts'
 
 import type { Card, CardType, NormalisedLayout } from '../shared/layout.ts'
 
@@ -167,13 +168,21 @@ function render(rawLayout: NormalisedLayout): void {
   pager = createPager(deck, layout.pages.map((p) => ({ id: p.id, label: p.label })))
   if (previousPage !== undefined) pager.go(previousPage)
 
-  // Started only now that every card is in the DOM (`document.getElementById`
-  // for each `cardIds` entry must resolve) and the pager exists (the
-  // controller suspends it while fullscreen, per the pager/slideshow event
-  // collision this depends on — see slideshow.ts).
+  // Started only now that every card is in the DOM — `document.getElementById`
+  // for each `cardIds` entry must resolve. (Already destroyed at the top of
+  // this function, alongside the previous pager/deck.)
   if (slideshowConfig) {
-    slideshowController = createSlideshowController(slideshowConfig, { track, pager })
+    slideshowController = createSlideshowController(slideshowConfig)
   }
+
+  // Re-pointed at this render's fresh track/pager/slideshowController every
+  // time — not just once at boot — because this whole function tears down
+  // and rebuilds all three on every call (initial boot, every reconnect
+  // recovery, every pull-to-refresh). A one-time init would leave
+  // fullscreen-lock.ts holding detached/destroyed references after the very
+  // first reconnect. Resets its own pure state too, since the DOM it
+  // described no longer exists.
+  configureFullscreenLock({ track, pager, slideshow: slideshowController })
 }
 
 /**
