@@ -10791,6 +10791,7 @@ archived: false
 -> DEPENDS_ON [node:09f00361-0da0-427d-9f9a-494a1feb01d1] @ 2026-09-15T13:05:08.415368+00:00
 -> DEPENDS_ON [node:11eb5df1-7022-487f-9eb4-addbd53cadea] @ 2026-09-15T12:57:03.955270+00:00
 -> DEPENDS_ON [node:26461b4d-d2d5-4495-9ff4-6d067fbcb6ec] @ 2026-09-15T13:38:12.533560+00:00
+-> DEPENDS_ON [node:269dbb14-0ecb-4e92-95d2-b29a27ca69c0] @ 2026-09-15T13:40:38.774623+00:00
 -> DEPENDS_ON [node:3d0c550e-ed0f-4340-bca1-b0b0ccab0462] @ 2026-09-15T12:58:16.315805+00:00
 -> DEPENDS_ON [node:3fbd6715-ab1c-4515-aa6c-6daf97354ffe] @ 2026-09-15T13:11:51.426845+00:00
 -> DEPENDS_ON [node:447637ba-6aa5-4f22-9e2c-306dc4ede3e2] @ 2026-09-15T13:11:59.819780+00:00
@@ -10828,6 +10829,7 @@ archived: false
 -> SCOPED_TO [node:11eb5df1-7022-487f-9eb4-addbd53cadea] @ 2026-09-15T12:57:03.955270+00:00
 -> SCOPED_TO [node:25df1729-dc32-4525-ae98-d7691fac18fc] @ 2026-09-15T12:48:38.205400+00:00
 -> SCOPED_TO [node:26461b4d-d2d5-4495-9ff4-6d067fbcb6ec] @ 2026-09-15T13:38:12.533560+00:00
+-> SCOPED_TO [node:269dbb14-0ecb-4e92-95d2-b29a27ca69c0] @ 2026-09-15T13:40:38.774623+00:00
 -> SCOPED_TO [node:3d0c550e-ed0f-4340-bca1-b0b0ccab0462] @ 2026-09-15T12:58:16.315805+00:00
 -> SCOPED_TO [node:3fbd6715-ab1c-4515-aa6c-6daf97354ffe] @ 2026-09-15T13:11:51.426845+00:00
 -> SCOPED_TO [node:447637ba-6aa5-4f22-9e2c-306dc4ede3e2] @ 2026-09-15T13:11:59.819780+00:00
@@ -11281,3 +11283,62 @@ source: agent-surface
 created_at: 2026-09-15T13:38:16.892618+00:00
 
 merged as PR #51 after adversarial review with structural TOCTOU proof and live canary testing
+---
+[event:73f2f96b-4a5a-4b81-bebb-8af6257a5e81]
+node_id: 26461b4d-d2d5-4495-9ff4-6d067fbcb6ec
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T13:40:43.198691+00:00
+
+live re-probe against deployed server confirmed all three routes correctly refuse every bypass payload, including a mixed-DNS-answer test
+---
+[node:3f8b10ec-c3ab-49fd-950d-82b19eea4424]
+type: slice
+tier: short-term
+path: /change/k7-mobile-responsive
+created_at: 2026-09-15T13:39:29.109335+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:ac7165c9-3d52-47bd-817b-da698678783c] @ 2026-09-15T13:39:29.109335+00:00
+
+change scope: k7-mobile-responsive
+---
+[event:09c88e39-30ac-47a2-bd87-50cc1ed0bcea]
+node_id: 3f8b10ec-c3ab-49fd-950d-82b19eea4424
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T13:39:29.114918+00:00
+
+create_change k7-mobile-responsive
+---
+[node:ac7165c9-3d52-47bd-817b-da698678783c]
+type: goal
+tier: short-term
+path: /goal/k7-mobile-responsive
+created_at: 2026-09-15T13:39:29.109335+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+Make the Kitchen Terminal K7 dashboard usable at phone width, not just the iPad-landscape target it was designed for. Real problems seen live on a phone: the header title wraps to two lines and squeezes the header controls; individual cards (MINUTNIK/timer, ASCII.DNIA) get their content cut off vertically instead of fitting or scrolling; the tablet-oriented fixed-height grid doesn't reflow well to a narrow, short portrait viewport.
+---
+[node:269dbb14-0ecb-4e92-95d2-b29a27ca69c0]
+type: issue
+tier: mid-term
+path: /artifact/ssrf-fix-k7-calendar-ssrf-fix-confirme
+created_at: 2026-09-15T13:40:38.774623+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T13:40:38.774623+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-15T13:40:38.774623+00:00
+
+SSRF fix (k7-calendar-ssrf-fix) confirmed closed by live re-probe against the deployed server (peer session, commit bcf7ec4): all bypass payloads across all three routes (calendar, comic, recipe import) correctly refused, including a mixed-DNS-answer test via a temporary /etc/hosts entry (restored byte-identical afterward) and confirmation that a real HTTPS feed still works through the pinned dispatcher (SNI/cert validation intact). Three minor, non-blocking follow-ups found during this live probe, not yet fixed: (1) REGRESSION (fails safe, not a security issue): bracketed IPv6 literal URLs (e.g. http://[2606:4700::1111]/, http://[::ffff:0:127.0.0.1]/) are now broken — resolvePinned receives url.hostname WITH brackets and passes it straight to dns.lookup(), which cannot resolve a bracketed literal as a hostname; needs bracket-stripping before lookup, or a direct-vet path for IP literals that skips DNS lookup entirely. (2) Minor information leak: the resolved private IP appears in the client-facing error detail (e.g. "resolves to a private or local address (192.168.0.10)"), giving a signed-in-but-untrusted tunnel user a hint about internal LAN topology; should be a generic client message with the real IP kept server-log-only. (3) Inconsistency: comic returns 503 (upstream unavailable) for a refused/unsafe URL while recipe import returns 400 (invalid-url) for the same class of rejection — 400 is more semantically correct for both, and worth confirming a refusal is never miscounted as a transient upstream failure by fetchThrough's stale-cache-fallback logic.
