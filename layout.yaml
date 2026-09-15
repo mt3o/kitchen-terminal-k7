@@ -212,3 +212,18 @@ pages:
               params:
                 url: "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=800&h=600&fit=crop&auto=format"
                 caption: "kot 2"
+            - id: zdjecie-3
+              type: image
+              params:
+                url: "https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=800&h=600&fit=crop&auto=format"
+                caption: "kot 3"
+            - id: zdjecie-4
+              type: image
+              params:
+                url: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=800&h=600&fit=crop&auto=format"
+                caption: "kot 4"
+            - id: zdjecie-5
+              type: image
+              params:
+                url: "https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=800&h=600&fit=crop&auto=format"
+                caption: "kot 5"

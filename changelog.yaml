@@ -8,6 +8,10 @@
 #
 # Newest entry first.
 entries:
+  - date: "2026-09-15"
+    title: "Karuzela zdjęć: więcej zdjęć kotów"
+    items:
+      - "Karuzela zdjęć na stronie SYSTEM ma teraz pięć zdjęć zamiast dwóch."
   - date: "2026-09-10"
     title: "Panel dostępny pod adresem bez numeru portu"
     items:
