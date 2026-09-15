@@ -47,6 +47,25 @@ export function isPrivateAddress(address: string): boolean {
 }
 
 /**
+ * The other direction: not who may reach the kiosk, but where the kiosk's
+ * own server may be sent to fetch on a client's say-so — `rssUrl` on
+ * `/api/comic`, an imported recipe's source page, anywhere a route takes a
+ * URL from the request rather than from `layout.yaml`. Only http/https, and
+ * only a public-looking host: a literal private/loopback address is caught,
+ * a hostname that *resolves* to one is not, since that needs a DNS lookup
+ * this function does not perform — full DNS-rebinding protection for
+ * outbound fetches is a deliberate, disclosed gap, not an oversight (see
+ * `recipes/import.ts`'s original `assertImportable`, which this generalizes).
+ * A URL a household member typed into `layout.yaml` is not this function's
+ * concern — that file is trusted config, not request input.
+ */
+export function isFetchableUrl(url: URL): boolean {
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') return false
+  const host = url.hostname.toLowerCase()
+  return host !== 'localhost' && !isPrivateAddress(host)
+}
+
+/**
  * A `Host` header is acceptable if its name is one we answer to. The port is
  * ignored — it is not a security boundary and varies with how the kiosk is
  * reached — and an IP literal is accepted only when it is private, so

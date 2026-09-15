@@ -19,7 +19,7 @@ import { runMigrations } from './db/migrate.ts'
 import { initObservability, Sentry } from './observability.ts'
 import { importRecipeFromUrl, RecipeImportError } from './recipes/import.ts'
 import { generateTokensCss, type Theme } from './theme/generate.ts'
-import { isAllowedHost, isPrivateAddress } from './security/network.ts'
+import { isAllowedHost, isFetchableUrl, isPrivateAddress } from './security/network.ts'
 import { createCloudflareDns } from './tls/cloudflare.ts'
 import { ensureCertificate } from './tls/certificate.ts'
 import { createFreshnessService } from './upstream/freshness.ts'
@@ -297,6 +297,20 @@ app.get('/api/ascii-art', async (req, reply) => {
 app.get('/api/comic', async (req, reply) => {
   const q = req.query as { rssUrl?: string; itemSelector?: string; filterKeywords?: string; cacheDurationHours?: string }
   if (!q.rssUrl || q.rssUrl.trim() === '') return reply.code(400).send({ error: 'rssUrl is required' })
+  // Same guard as recipe import: rssUrl travels through the client (echoed
+  // from layout.yaml in the normal flow, per this route's own established
+  // pattern), but the server must not trust it as-is — a LAN client could
+  // send a different rssUrl entirely, directing this fetch at a local or
+  // private address instead of the household's actual feed.
+  let parsedRssUrl: URL
+  try {
+    parsedRssUrl = new URL(q.rssUrl)
+  } catch {
+    return reply.code(400).send({ error: 'rssUrl is not a valid URL' })
+  }
+  if (!isFetchableUrl(parsedRssUrl)) {
+    return reply.code(400).send({ error: 'refusing to fetch a local, private, or non-http(s) rssUrl' })
+  }
   const filterKeywords = q.filterKeywords ? q.filterKeywords.split(',').map((k) => k.trim()).filter(Boolean) : []
   const cacheDurationHours = Number(q.cacheDurationHours ?? 24)
   const freshForSeconds = (Number.isFinite(cacheDurationHours) && cacheDurationHours > 0 ? cacheDurationHours : 24) * 3600
