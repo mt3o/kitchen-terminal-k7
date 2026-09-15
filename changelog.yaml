@@ -9,6 +9,13 @@
 # Newest entry first.
 entries:
   - date: "2026-09-15"
+    title: "Panel działa poprawnie na ekranie telefonu"
+    items:
+      - "Wcześniej na wąskim ekranie (telefon) nagłówek się zawijał i zasłaniał przyciski, a treść kart (minutnik, ascii dnia, pogoda, zegar) była ucinana na dole ekranu. Teraz każda karta mieści się w całości, bez przewijania strony."
+      - "Strony z większą liczbą kart (np. SYSTEM) zachowują dwie kolumny również na telefonie — jedna kolumna dawała zbyt mało miejsca na czytelną treść."
+      - "Karty z własnym formularzem (lista zakupów, minutnik z własnym czasem, import przepisów) przewijają się w całości, gdy nie mieszczą się na raz — przycisk dodawania/startu już nie znika za krawędzią karty."
+      - "Zbyt długie etykiety i opisy w nagłówku karty są teraz skracane wielokropkiem zamiast być po prostu ucinane bez śladu."
+  - date: "2026-09-15"
     title: "Poprawka: daty w kalendarzu mogły nie odświeżać się po zmianie tygodnia"
     items:
       - "Nagłówki dni w karcie kalendarza były ustawiane tylko raz przy starcie karty; na urządzeniu działającym bez przeładowania przez dłuższy czas mogły przestać zgadzać się z faktyczną datą po zmianie tygodnia. Teraz aktualizują się razem z resztą karty."

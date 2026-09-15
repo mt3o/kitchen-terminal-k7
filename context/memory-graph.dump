@@ -330,6 +330,46 @@ created_at: 2026-09-15T09:01:47.649401+00:00
 
 Safari 15 floor checked against Phase 4's JS-computed-hex approach; no post-15.0 CSS feature relied on.
 ---
+[event:bc37a3f4-4c1c-4989-bb31-70d7668eaace]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T13:46:37.457441+00:00
+
+Safari 15 floor re-verified against app.css and generate.ts, still binding for any mobile CSS fix
+---
+[event:97297468-6302-4510-97bf-eda2ec385489]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T14:43:35.079397+00:00
+
+Safari 15 floor ruled out @container queries as a sizing mechanism
+---
+[event:e123d78c-003e-4765-af04-440bcbe73208]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T14:53:06.789256+00:00
+
+Checked Safari 15 floor against the plan's explicit avoidance of container queries and dvh/:has()/etc; consistent.
+---
+[event:b3fb9257-fb49-41a2-bf7c-886b45b20058]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T15:00:03.586527+00:00
+
+gw-plan-review pass 3: Safari 15 floor re-checked against Phase 2's explicit rejection of container-query-based sizing and clamp()/vw scaling — still respected, no new evidence.
+---
 [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99]
 type: facet_value
 tier: lifetime
@@ -467,6 +507,26 @@ source: gui
 created_at: 2026-09-08T10:11:44.677456+00:00
 
 tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
+[event:f93b4ee6-f9a8-4b86-9693-9f59985caeb4]
+node_id: 7108856c-d3d5-4701-bb69-11087256a081
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T14:53:06.788679+00:00
+
+Settled lifetime constraint on glance-tier viewing distances, directly touching Phase 2's --glance-sm swap; plan does not cite or address it.
+---
+[event:0acd2af5-6dd8-4821-9ba5-88540c7bccd9]
+node_id: 7108856c-d3d5-4701-bb69-11087256a081
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T15:00:03.583856+00:00
+
+gw-plan-review pass 3: confirmed plan.md now explicitly addresses why this lifetime doorway-distance (3m/1m/0.4m) glanceability-floor constraint does not transfer to the Timer --glance-sm phone-width swap — its premise is a wall-mounted kiosk read at a distance, while a phone is handheld and read at arm's length. Reasonable, non-silent treatment of a settled constraint that touches the same token scale.
 ---
 [node:4c740d82-541d-4c70-9970-793467c4f26e]
 type: facet_value
@@ -937,6 +997,36 @@ source: agent-surface
 created_at: 2026-09-15T12:33:39.606098+00:00
 
 gw-review PR#45: calendarTickColor's JS-computed inline custom property is the plan's deliberate, documented exception to token-only CSS, not a violation — reviewed the reasoning, matches TOKENCONTRACT's own carve-out logic.
+---
+[event:9cafd84d-4e90-4f79-9563-268449f25e09]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T13:46:37.459130+00:00
+
+token-only CSS architecture re-verified, still binding for any mobile fix
+---
+[event:3d165b7e-bb5c-4f24-8e39-1958390edbee]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T14:53:06.788108+00:00
+
+Spot-checked plan/deck citation for Phase 3 header-wrap; this node is actually the unrelated theming-architecture constraint, a citation mismatch.
+---
+[event:d78fc546-fde3-4cd5-b7ce-fecb67fdf478]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T15:00:03.583199+00:00
+
+gw-plan-review pass 3: confirmed this node is the unrelated theming-architectural-rule constraint (var(--*)-only CSS, no hex/rgb/px literals) that pass 1 found mis-cited in place of 538d1960 for the header-wrap decision. Verified via grep that no reference to 79662ce5 remains anywhere in plan.md or deck.json — the citation-swap fix landed cleanly.
 ---
 [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a]
 type: constraint
@@ -2642,6 +2732,26 @@ created_at: 2026-09-08T10:12:08.088072+00:00
 
 /gw-resolve promotion pass 2026-09-08: presented as a promotion candidate and deliberately left at mid-term - an open issue should close and go dormant, not be pinned into every future recall
 ---
+[event:0db6d14f-23d0-4928-8db7-52c5f564a155]
+node_id: f42da1a9-633f-4fe2-81e4-47bd34b836f4
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T13:46:37.460811+00:00
+
+the v1-vs-v2 theme schema adoption question is now directly in this change's path if server-driven breakpoints are wanted
+---
+[event:ff450e55-26ea-47af-9f31-1d05db9e580a]
+node_id: f42da1a9-633f-4fe2-81e4-47bd34b836f4
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T14:53:06.790939+00:00
+
+v1/v2 theme schema adoption issue; confirmed plan correctly treats as blocking the breakpoint non-goal.
+---
 [node:ee768ade-394d-475c-92fb-e5c5b28e0efc]
 type: issue
 tier: mid-term
@@ -3965,7 +4075,7 @@ type: constraint
 tier: lifetime
 path: /artifact/the-sidebar-s-collapse-behaviour-is-deci
 created_at: 2026-09-08T13:42:46.308554+00:00
-needs_review: false
+needs_review: true
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
@@ -3984,6 +4094,26 @@ source: gui
 created_at: 2026-09-08T15:40:58.522217+00:00
 
 tier -> lifetime: /gw-resolve 2026-09-08: human ruled 11 of 13 to lifetime, holding SLICEORDER (epic-scoped) and TS7GA (pending its correction) at mid-term — SIDEBARCOLLAPSE
+---
+[event:c6156bcc-bea4-4cb3-87ab-3c51bcaf3e23]
+node_id: f1d7ef56-555a-4a33-90fa-8762fee9914f
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-15T13:46:37.459891+00:00
+
+the phone-collapsible sidebar rule is real design intent but unimplementable today since the sidebar itself has no runtime representation at all (src/shared/layout.ts has no sidebar field) -- not a code drift, a not-yet-built gap; captured as node:015d07b2
+---
+[event:07c637e1-7b62-49d6-8f03-16a8fe438399]
+node_id: f1d7ef56-555a-4a33-90fa-8762fee9914f
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T14:53:06.792065+00:00
+
+Disputed sidebar phone-collapse constraint; plan doesn't touch sidebar so takes no implicit side, no new finding needed.
 ---
 [node:73716ffb-625f-4745-9032-65658cd2e691]
 type: slice
@@ -5456,6 +5586,26 @@ archived: false
 -> ABOUT [node:e1da2600-04f7-4243-bb85-f79692e086ae] @ 2026-09-09T06:05:35.048737+00:00
 
 A page's own grid is a plain nested grid, never CSS subgrid. Subgrid is Safari 16 and past this project's floor, and the token-contract check fails a build that ships it - but the deeper point is that subgrid solves a different problem. It exists so a child's tracks can align with its parent's, and across independently paged screenfuls they must not: each page sizes its own rows from its own card count. Asking for a subgrid here is almost always asking for a nested grid, and the two are worth telling apart before the floor makes the decision for you.
+---
+[event:94629272-a47f-456c-92e3-e3d2d7ed1d20]
+node_id: e156fb5f-8f05-400a-812b-e0552df1def3
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T13:46:37.458396+00:00
+
+verified 'each page sizes its own rows from its own card count' is the current intent, but only honored for desktop column count, not phone reflow
+---
+[event:a3a1b061-db87-4c18-90ba-3578217e0945]
+node_id: e156fb5f-8f05-400a-812b-e0552df1def3
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T14:43:35.080115+00:00
+
+no-subgrid constraint reaffirmed while choosing the grid-auto-rows mechanism
 ---
 [node:0eb267d9-a394-4dc0-84c6-e18825cccfd6]
 type: decision
@@ -11303,7 +11453,18 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> SCOPED_TO [node:015d07b2-9ade-4321-9f00-7cb21ec0ef29] @ 2026-09-15T13:46:28.171203+00:00
+-> SCOPED_TO [node:0cadf65f-e79e-4a26-9008-bb68e44cfb42] @ 2026-09-15T14:44:56.889588+00:00
+-> SCOPED_TO [node:1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea] @ 2026-09-15T14:42:15.974385+00:00
+-> SCOPED_TO [node:3218cf7b-eb04-46dc-a6a6-1bd89155936d] @ 2026-09-15T13:45:57.548601+00:00
+-> SCOPED_TO [node:3ea28fac-3a03-48dc-a228-894731fa5541] @ 2026-09-15T13:45:48.575402+00:00
+-> SCOPED_TO [node:538d1960-cb76-4fb7-be15-d72ae9f34b45] @ 2026-09-15T14:42:49.124904+00:00
+-> SCOPED_TO [node:611bc3d8-caa1-4e81-82ab-d955bbcbba4f] @ 2026-09-15T13:46:08.727077+00:00
+-> SCOPED_TO [node:97d0c4ba-55ce-407d-8ecd-14a6a1269357] @ 2026-09-15T13:46:19.358223+00:00
 -> SCOPED_TO [node:ac7165c9-3d52-47bd-817b-da698678783c] @ 2026-09-15T13:39:29.109335+00:00
+-> SCOPED_TO [node:c77c25d1-e7f0-4e2d-894c-b0d4a7744b2b] @ 2026-09-15T14:42:31.088660+00:00
+-> SCOPED_TO [node:d8ef0463-6746-4a43-b4d9-1699db3f1fca] @ 2026-09-15T14:42:39.908359+00:00
+-> SCOPED_TO [node:e37a024b-cfe5-4d42-8bc9-d0bb0bd07ba1] @ 2026-09-15T14:54:57.844174+00:00
 
 change scope: k7-mobile-responsive
 ---
@@ -11326,8 +11487,29 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> DEPENDS_ON [node:015d07b2-9ade-4321-9f00-7cb21ec0ef29] @ 2026-09-15T13:46:28.171203+00:00
+-> DEPENDS_ON [node:0cadf65f-e79e-4a26-9008-bb68e44cfb42] @ 2026-09-15T14:44:56.889588+00:00
+-> DEPENDS_ON [node:1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea] @ 2026-09-15T14:42:15.974385+00:00
+-> DEPENDS_ON [node:3218cf7b-eb04-46dc-a6a6-1bd89155936d] @ 2026-09-15T13:45:57.548601+00:00
+-> DEPENDS_ON [node:3ea28fac-3a03-48dc-a228-894731fa5541] @ 2026-09-15T13:45:48.575402+00:00
+-> DEPENDS_ON [node:538d1960-cb76-4fb7-be15-d72ae9f34b45] @ 2026-09-15T14:42:49.124904+00:00
+-> DEPENDS_ON [node:611bc3d8-caa1-4e81-82ab-d955bbcbba4f] @ 2026-09-15T13:46:08.727077+00:00
+-> DEPENDS_ON [node:97d0c4ba-55ce-407d-8ecd-14a6a1269357] @ 2026-09-15T13:46:19.358223+00:00
+-> DEPENDS_ON [node:c77c25d1-e7f0-4e2d-894c-b0d4a7744b2b] @ 2026-09-15T14:42:31.088660+00:00
+-> DEPENDS_ON [node:d8ef0463-6746-4a43-b4d9-1699db3f1fca] @ 2026-09-15T14:42:39.908359+00:00
+-> DEPENDS_ON [node:e37a024b-cfe5-4d42-8bc9-d0bb0bd07ba1] @ 2026-09-15T14:54:57.844174+00:00
 
 Make the Kitchen Terminal K7 dashboard usable at phone width, not just the iPad-landscape target it was designed for. Real problems seen live on a phone: the header title wraps to two lines and squeezes the header controls; individual cards (MINUTNIK/timer, ASCII.DNIA) get their content cut off vertically instead of fitting or scrolling; the tablet-oriented fixed-height grid doesn't reflow well to a narrow, short portrait viewport.
+---
+[event:f0b1ca64-e45b-4804-b063-3b7f70a0a1c1]
+node_id: ac7165c9-3d52-47bd-817b-da698678783c
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T15:00:03.588393+00:00
+
+gw-plan-review pass 3 (confirmatory): found one residual factual-accuracy defect the pass-1 fix did not fully close — plan.md line 55 ('every page in layout.yaml (5 pages, page card counts 4-6)') and line 134's Phase 4 heading ('across all 5 pages') still say 5 pages, while layout.yaml actually has 4 pages (glowna, dom, kuchnia, system; card counts 4/4/5/6, matching the stated 4-6 range) and line 65 was correctly fixed to say 4. Two-line mechanical fix needed before this routes cleanly to /gw-implement.
 ---
 [node:269dbb14-0ecb-4e92-95d2-b29a27ca69c0]
 type: issue
@@ -11342,3 +11524,403 @@ archived: false
 -> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-15T13:40:38.774623+00:00
 
 SSRF fix (k7-calendar-ssrf-fix) confirmed closed by live re-probe against the deployed server (peer session, commit bcf7ec4): all bypass payloads across all three routes (calendar, comic, recipe import) correctly refused, including a mixed-DNS-answer test via a temporary /etc/hosts entry (restored byte-identical afterward) and confirmation that a real HTTPS feed still works through the pinned dispatcher (SNI/cert validation intact). Three minor, non-blocking follow-ups found during this live probe, not yet fixed: (1) REGRESSION (fails safe, not a security issue): bracketed IPv6 literal URLs (e.g. http://[2606:4700::1111]/, http://[::ffff:0:127.0.0.1]/) are now broken — resolvePinned receives url.hostname WITH brackets and passes it straight to dns.lookup(), which cannot resolve a bracketed literal as a hostname; needs bracket-stripping before lookup, or a direct-vet path for IP literals that skips DNS lookup entirely. (2) Minor information leak: the resolved private IP appears in the client-facing error detail (e.g. "resolves to a private or local address (192.168.0.10)"), giving a signed-in-but-untrusted tunnel user a hint about internal LAN topology; should be a generic client message with the real IP kept server-log-only. (3) Inconsistency: comic returns 503 (upstream unavailable) for a refused/unsafe URL while recipe import returns 400 (invalid-url) for the same class of rejection — 400 is more semantically correct for both, and worth confirming a refusal is never miscounted as a transient upstream failure by fetchThrough's stale-cache-fallback logic.
+---
+[node:1afc718d-b700-4331-8d2f-a8eb21690d24]
+type: facet_value
+tier: lifetime
+path: /facet/design
+created_at: 2026-09-15T13:45:48.575402+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+design
+---
+[node:3ea28fac-3a03-48dc-a228-894731fa5541]
+type: issue
+tier: mid-term
+path: /artifact/root-cause-of-card-content-overflow-at-p
+created_at: 2026-09-15T13:45:48.575402+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:1afc718d-b700-4331-8d2f-a8eb21690d24] @ 2026-09-15T13:45:48.575402+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T13:45:48.575402+00:00
+
+Root cause of card content overflow at phone width (k7-mobile-responsive): main.ts's render() computes --deck-rows ONCE from the layout's declared DESKTOP column count (rows = ceil(cardCount / columns)), sets it as an inline custom property on .page, and never recomputes it. app.css's only phone media query (@media max-width:767px, line 228) overrides ONLY grid-template-columns to force 1 column — it never touches grid-template-rows, which still declares the desktop row count. Concretely: a 4-card page with columns:2 computes rows=2 (correct for 2x2 desktop grid); at phone width CSS forces 1 column but grid-template-rows still only declares 2 explicit 1fr rows, so cards 3-4 fall into browser-generated implicit auto-sized rows past the explicit template, and since .page has a fixed height inside .deck{overflow:hidden}, any total height beyond the 2-explicit-row allocation is silently clipped. The column-count reflow (CSS) and row-count math (JS inline custom property) are two separate mechanisms that have drifted out of sync — only the column axis has a phone-width rule. Compounding: app.css's .page rule sets --card-min-h:0 (overriding the design system's 240px floor), deliberately for row-stability during data loading — this removes any safety net against the row-mismatch crushing a card to near-zero height.
+---
+[event:75e07300-eb85-4e1b-8195-a2adabd7548a]
+node_id: 3ea28fac-3a03-48dc-a228-894731fa5541
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T14:43:35.073672+00:00
+
+wireframed the fix mechanism for the grid row/column desync
+---
+[event:ae07cd6a-46c7-4876-a1ac-64428fcc1eff]
+node_id: 3ea28fac-3a03-48dc-a228-894731fa5541
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T14:53:06.786980+00:00
+
+Root-cause framing confirmed against src/client/app.css .page rule and main.ts's --deck-rows computation.
+---
+[event:6b71a142-6803-4a78-b527-be3af5ac97d8]
+node_id: 3ea28fac-3a03-48dc-a228-894731fa5541
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T15:00:03.585071+00:00
+
+gw-plan-review pass 3: re-confirmed Phase 1's grid-row root-cause description (main.ts computing --deck-rows once from desktop column count, phone media query only overriding columns) matches this node exactly; the grid-auto-rows: minmax(0,1fr) fix in d8ef0463 addresses it.
+---
+[node:3218cf7b-eb04-46dc-a6a6-1bd89155936d]
+type: constraint
+tier: mid-term
+path: /artifact/architectural-tension-for-k7-mobile-resp
+created_at: 2026-09-15T13:45:57.548601+00:00
+needs_review: true
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:1afc718d-b700-4331-8d2f-a8eb21690d24] @ 2026-09-15T13:45:57.548601+00:00
+-> DEPENDS_ON [node:3ea28fac-3a03-48dc-a228-894731fa5541] @ 2026-09-15T13:45:57.548601+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T13:45:57.548601+00:00
+
+Architectural tension for k7-mobile-responsive: app.css states as an explicit design invariant that "nothing scrolls, ever" at the page/deck level (body{overflow:hidden}, .deck{overflow:hidden}, comment: "the deck is sized to fit rather than allowed to overflow... on the wall nobody is there to scroll anyway"). This was a deliberate choice for the wall-kiosk use case. A phone user IS there to scroll, unlike the wall kiosk — so a phone-width fix will likely need to either override this at the deck level for narrow viewports (allow vertical scroll), or work around it entirely per-card (every card's own content must be guaranteed to fit its grid cell exactly, with zero overflow, no exceptions). This is a genuine architectural decision point, not something to resolve by silently violating the stated invariant — needs an explicit call during planning/wireframing.
+---
+[event:f74fd4a5-5165-459d-84fa-c4f012b0bdf7]
+node_id: 3218cf7b-eb04-46dc-a6a6-1bd89155936d
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-15T14:42:15.974385+00:00
+
+contradicted at capture of 1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea
+---
+[event:c6afe75a-abbe-426b-bd25-ce6c48696dfd]
+node_id: 3218cf7b-eb04-46dc-a6a6-1bd89155936d
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T14:53:06.789816+00:00
+
+Disputed scroll-policy tension node; confirmed it is properly superseded/resolved by 1580e5d3 per the graph's own clarifying note, no new action needed.
+---
+[node:611bc3d8-caa1-4e81-82ab-d955bbcbba4f]
+type: issue
+tier: mid-term
+path: /artifact/fresh-gap-found-during-k7-mobile-respons
+created_at: 2026-09-15T13:46:08.727077+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:1afc718d-b700-4331-8d2f-a8eb21690d24] @ 2026-09-15T13:46:08.727077+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T13:46:08.727077+00:00
+-> DEPENDS_ON [node:f42da1a9-633f-4fe2-81e4-47bd34b836f4] @ 2026-09-15T13:46:08.727077+00:00
+
+Fresh gap found during k7-mobile-responsive research (no existing node covered this): the actually-running theme file (design-system/themes/retro-scifi.yaml) already carries a v2-shaped layout: block (targetViewportPx, sidebarWidthPx, breakpointTabletPx:768, breakpointDesktopPx:1024) matching theme.schema.v2.yaml's definition, but src/server/theme/generate.ts's Theme interface only reads/emits sidebarWidthPx and targetViewportPx — breakpointTabletPx/breakpointDesktopPx are silently dropped, never reaching the generated tokens.css. Design-system/DESIGN.md section 6 documents a full 3-tier breakpoint table as normative prose (>=1024px iPad landscape 2-col, 768-1023px iPad portrait 1-col collapsible sidebar, <768px phone 1-col always-collapsible sidebar) tied to the (unbuilt) sidebar contract, but nothing enforces it in code. The ONLY actual CSS breakpoint shipped today is one hardcoded literal in app.css (@media max-width:767px, forces 1 column) — not driven by the theme's own breakpointTabletPx value at all, just a bare coincidentally-matching number. If the mobile-responsive fix wants server-driven breakpoint numbers instead of a second hardcoded literal, generate.ts needs to actually read and emit these two fields — small, real, and blocked on the still-unsettled v1-vs-v2 theme schema adoption question ([node:012f356c] decision, [node:f42da1a9] issue).
+---
+[event:638e4569-4419-478a-b431-d64e1df5368e]
+node_id: 611bc3d8-caa1-4e81-82ab-d955bbcbba4f
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T14:53:06.790382+00:00
+
+Breakpoint-fields-dropped issue; confirmed plan's non-goals correctly defers this.
+---
+[event:3aced5e7-eb27-46af-a400-b6e8df989cc7]
+node_id: 611bc3d8-caa1-4e81-82ab-d955bbcbba4f
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T15:00:03.587111+00:00
+
+gw-plan-review pass 3: re-confirmed the non-goals section correctly leaves the dropped breakpointTabletPx/breakpointDesktopPx theme-schema wiring out of scope, citing this issue node.
+---
+[node:97d0c4ba-55ce-407d-8ecd-14a6a1269357]
+type: issue
+tier: short-term
+path: /artifact/concrete-per-card-finding-for-k7-mobile
+created_at: 2026-09-15T13:46:19.358223+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:3ea28fac-3a03-48dc-a228-894731fa5541] @ 2026-09-15T13:46:19.358223+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T13:46:19.358223+00:00
+
+Concrete per-card finding for k7-mobile-responsive: K7Timer.svelte's IDLE state (.idle-wrap/.presets) already has the overflow-safe flex pattern applied (flex:1 1 auto; min-height:0; overflow-y:auto — explicit code comment says "same fix as K7ShoppingList.svelte's .list", an established precedent in this codebase). But the RUNNING/PAUSED/FINISHED state (.readout, font-size 72px/--glance-md) has NO overflow or min-height:0 rule at all — if the card's allotted height drops below one line of 72px text (which the grid-row bug, [node:3ea28fac], can cause), that text is clipped by Card.svelte's shared .card{overflow:hidden} with zero scroll affordance. This is a real asymmetry within one component: the fix pattern was applied to one state and not the other. Separately, K7AsciiArt.svelte's .art (<pre>, overflow:auto) DOES have a scroll affordance already, but its natural content height (up to maxHeightLines, default 24 lines of monospace) can still push the WHOLE PAGE past .deck{overflow:hidden} before the per-card overflow:auto ever gets a chance to activate, AND iOS Safari's overlay scrollbars give no persistent visible affordance, so a technically-scrollable card can still look "cut off" in a static view. Cards reported as rendering fine (K7Recipes, K7ShoppingList) already use the identical flex:1 1 auto/min-height:0/overflow-y:auto chain MINUTNIK's idle view copied; K7Comic degrades gracefully via max-height:100% on its image; K7Weather's content is short enough not to need any overflow rule.
+---
+[event:a8e22613-2d48-408f-a1d6-9632a6fcfa8a]
+node_id: 97d0c4ba-55ce-407d-8ecd-14a6a1269357
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T14:43:35.078574+00:00
+
+wireframed fixes for Timer readout and ascii-art overflow
+---
+[event:73546063-affc-4d26-9373-740edfa55a3c]
+node_id: 97d0c4ba-55ce-407d-8ecd-14a6a1269357
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T14:53:06.786423+00:00
+
+Basis for the blocking finding: read Card.svelte/K7AsciiArt.svelte and built a real-browser test showing Phase 2's .art fix as written does not actually fix this issue's reported symptom.
+---
+[event:192a27cb-894c-490b-b8a7-a4f74f675cfb]
+node_id: 97d0c4ba-55ce-407d-8ecd-14a6a1269357
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T15:00:03.576062+00:00
+
+gw-plan-review pass 3: re-verified the corrected K7AsciiArt .wrap fix against this node's own overflow-safe-pattern framing via a real headless-Chrome repro (playwright-core + system google-chrome) that reproduced Card.svelte's .card-body (no display:flex) plus the new .wrap (display:flex;flex-direction:column;height:100%;min-height:0) wrapping .art. Confirmed: .art shrinks to its 81px cell share (vs 828px natural content height), overflow activates (scrollHeight>clientHeight), cell stays clipped-free. Ran a negative control without .wrap that reproduced the original no-op bug exactly (art clientHeight==scrollHeight==828, no overflow), validating the test methodology.
+---
+[node:015d07b2-9ade-4321-9f00-7cb21ec0ef29]
+type: decision
+tier: short-term
+path: /artifact/non-goal-clarification-for-k7-mobile-res
+created_at: 2026-09-15T13:46:28.171203+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:1afc718d-b700-4331-8d2f-a8eb21690d24] @ 2026-09-15T13:46:28.171203+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T13:46:28.171203+00:00
+
+Non-goal clarification for k7-mobile-responsive: the sidebar's phone-collapsible behavior ([node:f1d7ef56] constraint, [node:7e1fbadd] entity) is real documented design intent (also in docs/handoff/layout.schema.yaml's sidebar $def and design-system/DESIGN.md §6) but the sidebar is entirely unbuilt in the runtime — src/shared/layout.ts's Layout/NormalisedLayout types have no sidebar field, main.ts never renders one, independently confirmed by a prior /gw-review finding ([node:5786ab1c]) that a sidebar-nested card "could not reach the route regardless" since "sidebar is not represented at all in the narrower runtime types." The phone screenshots that motivated this change show no sidebar at all, consistent with it not existing. This change's goal (make the EXISTING dashboard usable at phone width) does not ask for building the sidebar — explicitly out of scope unless the plan decides otherwise.
+---
+[event:c3804f78-f5b6-478f-84ce-d92646311e15]
+node_id: 015d07b2-9ade-4321-9f00-7cb21ec0ef29
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T14:53:06.791493+00:00
+
+Sidebar-out-of-scope decision; confirmed consistent with runtime code (no sidebar type in src/shared/layout.ts).
+---
+[event:ae99d395-7fd9-43c9-85ec-4332857124d1]
+node_id: 015d07b2-9ade-4321-9f00-7cb21ec0ef29
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T15:00:03.587782+00:00
+
+gw-plan-review pass 3: re-confirmed the sidebar-phone-collapsible non-goal citation is accurate (sidebar has no runtime representation at all in this codebase).
+---
+[node:1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea]
+type: decision
+tier: mid-term
+path: /artifact/k7-mobile-responsive-wireframe-ruling-z
+created_at: 2026-09-15T14:42:15.974385+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:1afc718d-b700-4331-8d2f-a8eb21690d24] @ 2026-09-15T14:42:15.974385+00:00
+-> CONTRADICTS [node:3218cf7b-eb04-46dc-a6a6-1bd89155936d] @ 2026-09-15T14:42:15.974385+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T14:42:15.974385+00:00
+
+k7-mobile-responsive wireframe ruling: zero page/deck-level scroll is preserved even on phone width (user's explicit choice, overriding the alternative of allowing page scroll on narrow viewports) — every card must fit its grid cell exactly, using internal per-card scrolling as the only escape hatch where meaningful (matching Timer's idle-state preset list pattern), never a page-level scroll. This is a deliberate continuation of the existing "nothing scrolls, ever" wall-kiosk invariant rather than a phone-specific exception to it.
+---
+[event:ac515978-1eaf-4a99-96f1-eba3c7605894]
+node_id: 1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T14:53:06.785847+00:00
+
+Checked every phase against the zero-page-scroll ruling; Phase 1 verified compliant by real-browser test, Phases 2-3 rely on per-card scroll/shrink only.
+---
+[event:42c275e5-dfb0-4600-8a52-3bf8f39e94e7]
+node_id: 1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T15:00:03.584498+00:00
+
+gw-plan-review pass 3: confirmed plan.md's scroll-policy section correctly cites and applies this decision (zero page/deck-level scroll preserved on phone, internal per-card scroll only), and that it correctly resolves the disputed 3218cf7b architectural-tension node rather than silently picking a side.
+---
+[node:c77c25d1-e7f0-4e2d-894c-b0d4a7744b2b]
+type: concept
+tier: short-term
+path: /artifact/clarifying-note-the-contradicts-edge-fr
+created_at: 2026-09-15T14:42:31.088660+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T14:42:31.088660+00:00
+
+Clarifying note: the CONTRADICTS edge from [node:1580e5d3] (zero-scroll ruling) to [node:3218cf7b] (the scroll-policy tension) is a loose fit — 3218cf7b described an open architectural fork ("needs an explicit decision, not a silent violation"), and 1580e5d3 is that decision, resolving the fork rather than reversing a settled claim. Noted for whoever reviews the resulting needs_review flag at /gw-resolve, so it reads as "this open question was settled" rather than "a prior fact was found wrong."
+---
+[node:d8ef0463-6746-4a43-b4d9-1699db3f1fca]
+type: decision
+tier: mid-term
+path: /artifact/k7-mobile-responsive-wireframe-the-grid
+created_at: 2026-09-15T14:42:39.908359+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea] @ 2026-09-15T14:42:39.908359+00:00
+-> DEPENDS_ON [node:3ea28fac-3a03-48dc-a228-894731fa5541] @ 2026-09-15T14:42:39.908359+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T14:42:39.908359+00:00
+
+k7-mobile-responsive wireframe: the grid-row fix mechanism (screen "page grid reflow at phone width") is CSS-native and JS-free, but not "content-sized rows" as first proposed (which would overflow the fixed-height deck given zero-scroll). Correct mechanism: below the tablet/phone breakpoint, do NOT set an explicit grid-template-rows count from JS at all — use grid-auto-rows: minmax(0, 1fr) with no explicit row template. Since each card occupies its own row at 1 column, CSS Grid creates exactly as many implicit rows as there are cards and distributes the fixed available height (.page's 100%) equally among them, shrinkable — matching the same equal-share-and-shrinkable semantics the desktop grid-template-rows: repeat(N, minmax(0,1fr)) already uses, just with the row count derived implicitly from the actual number of grid children instead of a JS-precomputed number that can desync from the effective column count. No resize/orientationchange listener needed either way.
+---
+[event:d459d873-971c-4c9b-9e9e-ae17c407aa98]
+node_id: d8ef0463-6746-4a43-b4d9-1699db3f1fca
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T14:53:06.780428+00:00
+
+Verified Phase 1's grid-auto-rows/grid-template-rows:none mechanism empirically via a real headless-Chrome test; confirmed it matches this decision exactly.
+---
+[event:89613688-9f7e-4b67-b07b-0e0447c62ca0]
+node_id: d8ef0463-6746-4a43-b4d9-1699db3f1fca
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T15:00:03.585872+00:00
+
+gw-plan-review pass 3: confirmed Phase 1's plan text matches this decision's grid-auto-rows: minmax(0,1fr) mechanism verbatim.
+---
+[node:538d1960-cb76-4fb7-be15-d72ae9f34b45]
+type: decision
+tier: mid-term
+path: /artifact/k7-mobile-responsive-wireframe-timer-s
+created_at: 2026-09-15T14:42:49.124904+00:00
+needs_review: true
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:97d0c4ba-55ce-407d-8ecd-14a6a1269357] @ 2026-09-15T14:42:49.124904+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T14:42:49.124904+00:00
+
+k7-mobile-responsive wireframe: Timer's big countdown readout (.readout, 72px --glance-md, mm:ss text, no list to scroll) drops to a smaller glance-scale token (--glance-sm) at the phone breakpoint, matching the existing SIATKA nested-card density-reduction precedent (a fixed viewport-width media query swap, not clamp()/vw-based smooth scaling) rather than introducing a new sizing pattern for this codebase. Explicitly not container-query-based (Safari 15 floor rules that out). The shell header wrap fix is a direct, uncontested application of DESIGN.md section 6.1's already-documented "rows wrap before they crush" rule (flex-wrap: wrap on .shell-head) — never applied to this specific header before now. The ascii-art .art element's fix is purely mechanical: add flex:1 1 auto; min-height:0 so it actually participates in Card's flex column and its existing overflow:auto can activate, matching the same pattern already used by K7ShoppingList/K7Recipes/Timer's own idle-state list.
+---
+[event:30184cf9-4dad-4bb6-88c8-8019cd9a7db8]
+node_id: 538d1960-cb76-4fb7-be15-d72ae9f34b45
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T14:53:06.787557+00:00
+
+Found the plan/deck's [node:79662ce5] citation for shell-header-wrap is wrong; the actual graph content for that decision lives on this node instead.
+---
+[event:a2df7af2-ed13-43d5-829c-3633f68099f9]
+node_id: 538d1960-cb76-4fb7-be15-d72ae9f34b45
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T15:00:03.581683+00:00
+
+gw-plan-review pass 3: confirmed this is the correct citation for the header-wrap/DESIGN.md-6.1 and Timer --glance-sm decisions (plan.md and deck.json now both cite 538d1960, not the unrelated 79662ce5 theming-rule node — grepped, zero remaining 79662ce5 references). However, this decision node's own stored text still asserts the overstated claim ('matching the existing SIATKA nested-card density-reduction precedent... a fixed viewport-width media query swap') that pass 1 found factually wrong (SIATKA's --glance-sm is an unconditional shadow-DOM cascade, not a viewport media query). plan.md's prose was corrected to state this honestly as 'the first viewport-width typography swap in this codebase', but the underlying node content was not amended, so this node will keep surfacing the disproven precedent claim to future recalls.
+---
+[event:5475dfe5-bb9b-4b8f-9293-dbcc0d3e0703]
+node_id: 538d1960-cb76-4fb7-be15-d72ae9f34b45
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-15T15:00:03.582447+00:00
+
+Node's SIATKA-precedent sentence for the Timer --glance-sm phone-width swap is factually wrong per pass-1's real-browser/code finding: SIATKA's K7Grid.svelte --glance-sm override is an unconditional shadow-DOM cascade for nested cells, not a @media-width swap — there is no exact prior-art precedent for this change; it's the first viewport-width typography swap in this codebase. plan.md and deck.json were corrected to state this honestly; this graph node was not. Flagging for human review/amendment so future recalls don't re-serve the disproven precedent claim.
+---
+[node:0cadf65f-e79e-4a26-9008-bb68e44cfb42]
+type: decision
+tier: mid-term
+path: /artifact/k7-mobile-responsive-plan-4-phases-eac
+created_at: 2026-09-15T14:44:56.889588+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:538d1960-cb76-4fb7-be15-d72ae9f34b45] @ 2026-09-15T14:44:56.889588+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T14:44:56.889588+00:00
+-> DEPENDS_ON [node:d8ef0463-6746-4a43-b4d9-1699db3f1fca] @ 2026-09-15T14:44:56.889588+00:00
+
+k7-mobile-responsive plan: 4 phases, each independently verifiable in a real browser at 375x667 (iPhone 6s/SE floor). Phase 1 (grid row/column reflow, the root-cause fix) must land first and be verified correct before Phases 2-3's per-card fixes are meaningful, since a broken row count would mask whether the per-card overflow handling actually works. Explicit non-goals: the DESIGN.md-documented 768-1023px tablet-portrait tier (never implemented in code, not evidenced by the reported problem), server-driven breakpoint numbers (blocked on unsettled v1/v2 theme schema adoption), the Sidebar (unbuilt), and a full audit of every card type (scoped to the two cards actually reported broken, with Phase 4 explicitly instructed to capture-not-silently-expand if more cards turn out broken once the row math is fixed).
+---
+[event:cd0a75d5-358e-48c3-ab54-771a53db1226]
+node_id: 0cadf65f-e79e-4a26-9008-bb68e44cfb42
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T14:45:00.643415+00:00
+
+plan written, 4 phases
+---
+[event:40309ba6-ed78-4875-a5d4-d7fbde306198]
+node_id: 0cadf65f-e79e-4a26-9008-bb68e44cfb42
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T14:53:06.792617+00:00
+
+4-phase structure decision; confirmed plan.md matches.
+---
+[node:e37a024b-cfe5-4d42-8bc9-d0bb0bd07ba1]
+type: decision
+tier: mid-term
+path: /artifact/k7-mobile-responsive-plan-correction-fro
+created_at: 2026-09-15T14:54:57.844174+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:0cadf65f-e79e-4a26-9008-bb68e44cfb42] @ 2026-09-15T14:54:57.844174+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T14:54:57.844174+00:00
+
+k7-mobile-responsive plan correction from /gw-plan-review (verdict: request changes): Phase 2's ascii-art fix was a genuine functional no-op, verified via a real headless-Chrome test built by the reviewer — Card.svelte's .card-body is not itself display:flex, so .art's own flex:1 1 auto/min-height:0 properties had nothing to act on; .art stayed at full natural content height (420px vs a 148px test cell) and its overflow:auto never activated. Fixed: wrap the ascii-art card-body content in a new <div class="wrap"> (display:flex; flex-direction:column; height:100%; min-height:0), matching K7ShoppingList's .wrap / Timer's .idle-wrap exactly — the established precedent's load-bearing third piece the plan first missed. Also fixed: a citation mismatch (header-wrap decision was citing the unrelated token-architecture constraint 79662ce5 instead of 538d1960, which actually holds the DESIGN.md 6.1 content), the Timer --glance-sm precedent claim was overstated (SIATKA's own --glance-sm override is an unconditional shadow-DOM cascade, not a viewport-width media query swap — this is genuinely the first such swap in this codebase, now stated honestly rather than claimed as precedented), an unaddressed settled constraint (the doorway-distance glanceability floor, node 7108856c, now explicitly noted as inapplicable to a handheld phone rather than silently ignored), and a factual slip (layout.yaml has 4 pages, plan said 5).
+---
+[event:2169f43a-a8cc-4b38-a9d7-3c2eee5e3da3]
+node_id: e37a024b-cfe5-4d42-8bc9-d0bb0bd07ba1
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T14:55:01.705902+00:00
+
+applied the plan-review correction to plan.md and deck.json
+---
+[event:9c4954b2-b694-4dec-9ea3-2065daaa25e3]
+node_id: e37a024b-cfe5-4d42-8bc9-d0bb0bd07ba1
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T15:00:46.120523+00:00
+
+fixed the two remaining 5-pages instances the confirmatory review found

@@ -51,6 +51,13 @@ body {
   gap: var(--space-3);
 }
 
+/* DESIGN.md 6.1: "rows wrap before they crush" — the shell-status group
+   (changelog button + status text + cursor) drops to its own row rather
+   than squeezing the title into a multi-line column beside it. */
+.shell-head {
+  flex-wrap: wrap;
+}
+
 .shell-foot {
   /* A one-line status strip inherits the body's 1.45 paragraph leading by
      default, which reads as taller than the single short line actually
@@ -224,9 +231,38 @@ body {
 
 /* The iPad Air 2 in landscape is the design target: 1024x768. Below that is the
    phone-over-LAN case, not a desktop scaled down. @container is Safari 16, so
-   this is a media query on purpose. */
+   this is a media query on purpose.
+
+   grid-template-columns is deliberately left alone here — the base `.page`
+   rule's `repeat(var(--deck-cols, 3), minmax(0, 1fr))` keeps applying, so a
+   phone gets the SAME column count layout.yaml configured for desktop/tablet
+   (every page in this project is authored with columns: 2). An earlier phone
+   pass forced a blanket single column; on a 6-card page (SYSTEM) that meant 6
+   stacked rows in a ~460px budget — 67px each — leaving no room for even a
+   single line of glance-tier text (--glance-sm alone needs ~50px) once head/
+   foot chrome is counted, so the reading was silently clipped, not just
+   squeezed. Keeping 2 columns halves the row count for exactly the pages
+   dense enough to need it; a page authored with fewer cards just gets two
+   comfortably-tall columns instead of one very tall one — never worse.
+
+   grid-template-rows is reset to `none` and grid-auto-rows takes over: with
+   the column count fixed (2, from --deck-cols) and auto-placement filling
+   row by row, the row count falls out of the number of grid children divided
+   across those columns — a fact CSS Grid already knows and JS does not need
+   to recompute. Before this, `.page`'s grid-template-rows kept whatever
+   --deck-rows main.ts's render() had computed for the DESKTOP column
+   count, so a card beyond that row count fell into an implicit row and
+   .page > *'s own `overflow: hidden` clipped it. grid-auto-rows:
+   minmax(0, 1fr) keeps the same equal-share, shrinkable semantics the
+   desktop grid-template-rows already uses — only the row *count* is now
+   derived from the actual grid children instead of a number that can
+   drift out of sync with the column count, which is what broke this the
+   first time. No resize/orientationchange listener needed either way. */
 @media (max-width: 767px) {
-  .page { grid-template-columns: minmax(0, 1fr); }
+  .page {
+    grid-template-rows: none;
+    grid-auto-rows: minmax(0, 1fr);
+  }
 }
 
 /* --- reconnect scrim --------------------------------------------------------

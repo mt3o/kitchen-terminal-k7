@@ -1,0 +1,107 @@
+{
+  "v": 1,
+  "surface": "k7-shell-mobile",
+  "target": "src/client/app.css",
+  "binding": "system-bound",
+  "screens": [
+    {
+      "id": "page-grid-reflow",
+      "status": "agreed",
+      "agreed_by": [{ "change": "k7-mobile-responsive", "on": "2026-09-15" }],
+      "implements": "src/client/main.ts (render()), src/client/app.css (.page)",
+      "wireframe": {
+        "cols": 12,
+        "rows": 8,
+        "regions": [
+          { "label": "Page (DashboardGrid) — 2 cols desktop / 1 col phone", "x": 0, "y": 0, "w": 12, "h": 8, "accent": true }
+        ]
+      },
+      "components": {
+        "grid rows below the breakpoint": "GAP:ruled:d8ef0463 — no explicit grid-template-rows from JS below the tablet/phone breakpoint; grid-auto-rows: minmax(0, 1fr) with no explicit row template lets CSS Grid derive the row count from the actual number of cards (each alone in its column at 1-col width) and distribute available height equally, shrinkable — zero JS resize listener needed",
+          "grid columns": "existing:the current @media(max-width:767px) column-count override, unchanged"
+        },
+      "states": {
+        "desktop/tablet, N columns": "unchanged — explicit --deck-cols/--deck-rows from layout.yaml's declared column count, as today",
+        "phone, 1 column, fewer cards than fit naturally": "each card gets more than an equal 1/N share is needed for — no visible change from today's single-card case",
+        "phone, 1 column, more cards than fit naturally": "each card is squeezed to its 1/N share of the fixed viewport height; per-card internal scrolling (where the card provides it) is the only escape hatch — no page-level scroll, per [node:1580e5d3]"
+      },
+      "behavior": [
+        "Column count still comes from the existing hardcoded 767px media query (unchanged this pass — server-driven breakpoints from the theme's own breakpointTabletPx/breakpointDesktopPx are a separate, blocked-on-v1/v2-schema-adoption follow-up, [node:611bc3d8]).",
+        "Row count is never JS-computed below the breakpoint — it falls out of the number of grid children automatically, so it cannot drift out of sync with the column count again."
+      ],
+      "cites": ["node:3ea28fac", "node:1580e5d3", "node:d8ef0463", "node:e156fb5f", "node:0bc7e618"],
+      "prototype": null
+    },
+    {
+      "id": "shell-header-wrap",
+      "status": "agreed",
+      "agreed_by": [{ "change": "k7-mobile-responsive", "on": "2026-09-15" }],
+      "implements": "src/client/index.html (.shell-head), src/client/app.css",
+      "wireframe": {
+        "cols": 12,
+        "rows": 2,
+        "regions": [
+          { "label": "title (hud-label)", "x": 0, "y": 0, "w": 6, "h": 1 },
+          { "label": "status group (shell-status: changelog button, status text, cursor) — drops to its own row when tight", "x": 0, "y": 1, "w": 12, "h": 1, "accent": true }
+        ]
+      },
+      "components": {
+        "header row": "GAP:ruled:538d1960 — flex-wrap: wrap added to .shell-head, a direct application of DESIGN.md section 6.1's already-documented 'rows wrap before they crush' rule, never applied to this specific header before now"
+      },
+      "states": {
+        "desktop/tablet, everything fits one row": "unchanged from today",
+        "phone, tight width": "the whole shell-status group (button + status text + cursor) drops to its own row below the title; the title itself stays single-line since it no longer competes for width on the same row"
+      },
+      "behavior": ["No JS involved — pure flex-wrap. If shell-status's own three children still don't fit one line at 375px, the same treatment applies one level down (verify live before considering this screen done)."],
+      "cites": ["node:538d1960"],
+      "prototype": null
+    },
+    {
+      "id": "timer-readout-squeeze",
+      "status": "agreed",
+      "agreed_by": [{ "change": "k7-mobile-responsive", "on": "2026-09-15" }],
+      "implements": "src/client/lib/K7Timer.svelte (.readout)",
+      "wireframe": {
+        "cols": 12,
+        "rows": 4,
+        "regions": [
+          { "label": "readout (mm:ss, centered)", "x": 0, "y": 0, "w": 12, "h": 4, "accent": true }
+        ]
+      },
+      "components": {
+        "readout text": "GAP:ruled:538d1960 — font-size drops from --glance-md to --glance-sm at the phone breakpoint via a viewport-width media query; not container-query-based (Safari 15 floor), not clamp()/vw-based. Corrected at /gw-plan-review: this is the first viewport-width typography swap in this codebase, not a copy of SIATKA's own --glance-sm override (that one is an unconditional shadow-DOM cascade for nested cells, unrelated to breakpoints)"
+      },
+      "states": {
+        "running/paused": "--glance-sm at phone width, otherwise unchanged",
+        "finished": "same sizing rule, color still var(--warn) via the existing .readout.finished class",
+        "idle (preset picker)": "already correct — flex:1 1 auto; min-height:0; overflow-y:auto on .presets, unaffected by this screen"
+      },
+      "behavior": ["No scroll affordance for the readout — a single centered number has nothing meaningful to scroll to. Shrinking is the only correct response to a squeezed cell."],
+      "cites": ["node:97d0c4ba", "node:538d1960"],
+      "prototype": null
+    },
+    {
+      "id": "ascii-art-overflow",
+      "status": "agreed",
+      "agreed_by": [{ "change": "k7-mobile-responsive", "on": "2026-09-15" }],
+      "implements": "src/client/lib/K7AsciiArt.svelte (.art)",
+      "wireframe": {
+        "cols": 12,
+        "rows": 6,
+        "regions": [
+          { "label": "art (<pre>, monospace, internally scrollable)", "x": 0, "y": 0, "w": 12, "h": 6, "accent": true }
+        ]
+      },
+      "components": {
+        "art block": "GAP:ruled:97d0c4ba — corrected at /gw-plan-review, verified via a real headless-Chrome test: flex:1 1 auto; min-height:0 on .art alone is a no-op, since Card.svelte's .card-body is not itself display:flex. Fix: wrap the card-body content in a new <div class=\"wrap\"> (display:flex; flex-direction:column; height:100%; min-height:0), matching K7ShoppingList's .wrap / Timer's .idle-wrap exactly — .art's own flex:1 1 auto; min-height:0 then does something, and its existing overflow:auto activates"
+      },
+      "states": {
+        "content fits its cell": "unchanged from today",
+        "content taller than its cell (many cards on the page, or a long generation)": "internal scroll, same as Timer's idle preset list — no page-level scroll"
+      },
+      "behavior": ["Purely mechanical CSS fix — no new visual design, no new token."],
+      "cites": ["node:97d0c4ba"],
+      "prototype": null
+    }
+  ]
+}

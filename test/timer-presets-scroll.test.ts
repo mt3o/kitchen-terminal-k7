@@ -8,12 +8,23 @@
  * doesn't fit — reproduced on a real iPad, where the third preset row is cut
  * off mid-button.
  *
- * K7ShoppingList.svelte already establishes the fix for exactly this
- * situation: its scrollable region is `flex: 1 1 auto; min-height: 0;
- * overflow-y: auto` (see layout.yaml's comment on the zakupy card: "sharing
- * a column with another card gives it four visible rows and a scrollbar").
- * `.presets` needs the same three declarations so the overflow is reachable
- * by scroll instead of invisibly cut off.
+ * The scroll lives on `.idle-wrap` (the outer flex column), not on
+ * `.presets` alone: k7-mobile-responsive's 2-column phone pass found that
+ * `.custom`'s own natural height (label, two number fields, START button)
+ * can exceed what's left after `.presets` shrinks to nothing, and `.custom`
+ * itself had no shrink/scroll escape hatch — the START button spilled past
+ * the card boundary as an unreadable clipped blob.
+ *
+ * `.presets` deliberately does NOT shrink (`flex: 0 0 auto`, no
+ * `min-height: 0`) — a real-browser desktop-width check caught that letting
+ * it shrink while it has no overflow-clipping of its own let overflowing
+ * button rows spill visually past its shrunk box and collide with
+ * `.custom`'s text below it (flex-wrap children are not clipped by a
+ * shrunk parent unless that parent sets its own `overflow`). Rendering
+ * `.presets` at natural size and letting `.idle-wrap`'s `overflow-y: auto`
+ * reveal the excess via scroll — rather than fighting the flex algorithm
+ * for space — keeps both the presets and the custom-duration form reachable
+ * with no overlap, same as K7ShoppingList.svelte's `.wrap`.
  */
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
@@ -26,18 +37,27 @@ function ruleBody(css: string, selector: string): string {
   return match[1]
 }
 
-describe('K7Timer.svelte .presets scrolls instead of clipping', () => {
+describe('K7Timer.svelte scrolls instead of clipping', () => {
   const src = readFileSync('src/client/lib/K7Timer.svelte', 'utf8')
   const styleMatch = /<style>([\s\S]*?)<\/style>/.exec(src)
   assert.ok(styleMatch, 'K7Timer.svelte has no <style> block')
   const css = styleMatch[1]
-  const rule = ruleBody(css, '.presets')
+  const presetsRule = ruleBody(css, '.presets')
+  const wrapRule = ruleBody(css, '.idle-wrap')
 
-  it('is allowed to shrink below its content size', () => {
-    assert.match(rule, /min-height:\s*0/, '.presets must set min-height: 0 to shrink inside the flex column')
+  it('.presets renders at its natural size rather than shrinking and spilling into .custom', () => {
+    assert.doesNotMatch(
+      presetsRule,
+      /flex:\s*1/,
+      '.presets must not be flex-shrinkable (flex: 1 ...) — a shrunk box with no overflow clipping of its own lets overflowing button rows visually spill into .custom below it',
+    )
   })
 
-  it('scrolls its own overflow rather than relying on the card to clip it', () => {
-    assert.match(rule, /overflow-y:\s*auto/, '.presets must set overflow-y: auto so extra preset rows are reachable')
+  it('.idle-wrap scrolls its own overflow rather than relying on the card to clip it', () => {
+    assert.match(
+      wrapRule,
+      /overflow-y:\s*auto/,
+      '.idle-wrap must set overflow-y: auto so both presets and the custom-duration form are reachable',
+    )
   })
 })

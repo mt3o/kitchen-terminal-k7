@@ -266,18 +266,31 @@
 </Card>
 
 <style>
+  /* The scroll lives on .wrap, not on .list alone: found during
+     k7-mobile-responsive's 2-column phone pass that .add's own natural
+     height (two input rows plus the DODAJ button) can exceed what's left
+     after .list shrinks to nothing on a squeezed card, and .add itself had
+     no shrink/scroll escape hatch — the button spilled past the card's
+     boundary, half-clipped by Card.svelte's overflow:hidden. Scrolling the
+     whole wrapper means the add-form is always reachable by scrolling, same
+     as an item further down the list would be. */
   .wrap {
     display: flex;
     flex-direction: column;
     height: 100%;
     min-height: 0;
     gap: var(--space-3);
+    overflow-y: auto;
   }
 
+  /* Natural size, NOT flex:1 1 auto/min-height:0: a real-browser
+     desktop-width check caught that letting .list shrink while it has no
+     overflow-clipping of its own let its overflowing rows spill visually
+     past its shrunk box and collide with .add's text below it. Rendering
+     .list at its natural height and letting .wrap's overflow-y:auto reveal
+     the excess via scroll avoids the overlap entirely. */
   .list {
-    flex: 1 1 auto;
-    min-height: 0;
-    overflow-y: auto;
+    flex: 0 0 auto;
     display: flex;
     flex-direction: column;
   }

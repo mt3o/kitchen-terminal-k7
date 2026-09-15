@@ -293,18 +293,28 @@
 </Card>
 
 <style>
+  /* The scroll lives on .wrap, not on .list alone — same fix as
+     K7ShoppingList.svelte's .wrap and K7Timer.svelte's .idle-wrap
+     (k7-mobile-responsive): .import's own natural height (URL field, two
+     buttons) had no shrink/scroll escape hatch once .list gave up all its
+     slack, and the RECZNIE button spilled past the card boundary. */
   .wrap {
     display: flex;
     flex-direction: column;
     height: 100%;
     min-height: 0;
     gap: var(--space-3);
+    overflow-y: auto;
   }
 
+  /* Natural size, NOT flex:1 1 auto/min-height:0: a real-browser
+     desktop-width check caught that letting .list shrink while it has no
+     overflow-clipping of its own let its overflowing rows spill visually
+     past its shrunk box and collide with .import's text below it. Rendering
+     .list at its natural height and letting .wrap's overflow-y:auto reveal
+     the excess via scroll avoids the overlap entirely. */
   .list {
-    flex: 1 1 auto;
-    min-height: 0;
-    overflow-y: auto;
+    flex: 0 0 auto;
     display: flex;
     flex-direction: column;
   }

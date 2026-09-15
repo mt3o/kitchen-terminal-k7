@@ -329,4 +329,14 @@
       transition-duration: 0ms;
     }
   }
+
+  /* Found during k7-mobile-responsive's 2-column phone pass: prev/dots/next
+     plus the "KARUZELA" label all competing for a half-width card's header
+     row clipped the next-slide button entirely. The dots are redundant with
+     the arrows' own disabled-at-the-ends state, so they are what gives —
+     never the buttons themselves, which carry the touch-target floor
+     (DESIGN.md §6) and are not negotiable. */
+  @media (max-width: 767px) {
+    .dots { display: none; }
+  }
 </style>
