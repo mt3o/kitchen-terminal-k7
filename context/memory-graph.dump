@@ -10759,6 +10759,7 @@ retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> DEPENDS_ON [node:11eb5df1-7022-487f-9eb4-addbd53cadea] @ 2026-09-15T12:57:03.955270+00:00
+-> DEPENDS_ON [node:3d0c550e-ed0f-4340-bca1-b0b0ccab0462] @ 2026-09-15T12:58:16.315805+00:00
 -> DEPENDS_ON [node:5786ab1c-0b77-47f6-b106-71b194355c7a] @ 2026-09-15T12:53:23.002143+00:00
 -> DEPENDS_ON [node:87702f1f-1848-4624-9b52-e03c40aef76d] @ 2026-09-15T12:53:39.376790+00:00
 -> DEPENDS_ON [node:bb5beeed-3cc4-468a-b4c3-a6575cb25f41] @ 2026-09-15T12:48:47.622097+00:00
@@ -10787,6 +10788,7 @@ trust_weight: 1.0
 archived: false
 -> SCOPED_TO [node:11eb5df1-7022-487f-9eb4-addbd53cadea] @ 2026-09-15T12:57:03.955270+00:00
 -> SCOPED_TO [node:25df1729-dc32-4525-ae98-d7691fac18fc] @ 2026-09-15T12:48:38.205400+00:00
+-> SCOPED_TO [node:3d0c550e-ed0f-4340-bca1-b0b0ccab0462] @ 2026-09-15T12:58:16.315805+00:00
 -> SCOPED_TO [node:5786ab1c-0b77-47f6-b106-71b194355c7a] @ 2026-09-15T12:53:23.002143+00:00
 -> SCOPED_TO [node:87702f1f-1848-4624-9b52-e03c40aef76d] @ 2026-09-15T12:53:39.376790+00:00
 -> SCOPED_TO [node:bb5beeed-3cc4-468a-b4c3-a6575cb25f41] @ 2026-09-15T12:48:47.622097+00:00
@@ -10927,3 +10929,29 @@ source: agent-surface
 created_at: 2026-09-15T12:57:08.788178+00:00
 
 fixed the comic-rss SSRF the review flagged, in this same PR
+---
+[node:3d0c550e-ed0f-4340-bca1-b0b0ccab0462]
+type: concept
+tier: mid-term
+path: /artifact/k7-calendar-ssrf-fix-merged-as-pr-47
+created_at: 2026-09-15T12:58:16.315805+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:11eb5df1-7022-487f-9eb4-addbd53cadea] @ 2026-09-15T12:58:16.315805+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T12:58:16.315805+00:00
+-> DEPENDS_ON [node:bb5beeed-3cc4-468a-b4c3-a6575cb25f41] @ 2026-09-15T12:58:16.315805+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-15T12:58:16.315805+00:00
+
+k7-calendar-ssrf-fix (merged as PR #47, mt3o/kitchen-terminal-k7, commit 13b20a3 on main): fixed a real, live SSRF vulnerability in /api/calendar/week — it trusted client-supplied mode/url/calendarId and fetched url server-side with zero validation, found during k7-multi-calendar's own deployment by the peer session on the home server. The route now takes only id; the real source is resolved server-side from layout.yaml via a new pure findConfiguredCalendar() (src/server/calendar-lookup.ts), searched recursively through grid cells and carousel slides. During /gw-review, the same vulnerability class was found still live in /api/comic's rssUrl and fixed in the same PR: a shared isFetchableUrl() guard (scheme allowlist + private-address check) was extracted into src/server/security/network.ts from recipes/import.ts's pre-existing assertImportable, and applied to both call sites. Also fixed K7Calendar.svelte's pre-existing days/weekStart reactivity bug, flagged independently by this project's own review and the deploy check. Two independent adversarial reviews (one from a fresh /gw-review agent, one implicitly from the peer session's own deploy-time scrutiny) both found real issues that got fixed before this shipped.
+---
+[event:eb8a3efc-afad-4609-b1c7-c310f1c45f17]
+node_id: 3d0c550e-ed0f-4340-bca1-b0b0ccab0462
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T12:58:19.770920+00:00
+
+merged as PR #47, npm run check independently re-verified green

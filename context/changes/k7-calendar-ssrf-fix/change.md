@@ -1,6 +1,6 @@
 # k7-calendar-ssrf-fix
 
-status: open
+status: implemented
 created: 2026-09-15
 memory_goal: 25df1729-dc32-4525-ae98-d7691fac18fc
 
