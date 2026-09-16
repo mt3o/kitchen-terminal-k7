@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
 
-import { ageLabel, describeWeather, isSevere } from '../src/client/lib/wmo.ts'
+import { ageLabel, describeWeather, isSevere, weatherArt, WMO } from '../src/client/lib/wmo.ts'
 
 describe('WMO codes', () => {
   it('names the codes Open-Meteo actually returns', () => {
@@ -20,6 +20,32 @@ describe('WMO codes', () => {
   it('flags the conditions that change plans', () => {
     assert.equal(isSevere(95), true)
     assert.equal(isSevere(0), false)
+  })
+})
+
+describe('weatherArt', () => {
+  it('draws every code that has a label — the two tables cannot drift apart', () => {
+    const missing = Object.keys(WMO).filter((code) => weatherArt(Number(code)) === undefined)
+    assert.deepEqual(missing, [])
+  })
+
+  it('has no drawing for a code Open-Meteo does not document', () => {
+    assert.equal(weatherArt(42), undefined)
+  })
+
+  it('stays plain ASCII, which is all the kiosk font is guaranteed to have', () => {
+    for (const code of Object.keys(WMO)) {
+      const art = weatherArt(Number(code)) ?? ''
+      assert.ok(/^[\x20-\x7E\n]*$/.test(art), `code ${code} draws a non-ASCII glyph`)
+    }
+  })
+
+  it('keeps each drawing small enough for a card corner', () => {
+    for (const code of Object.keys(WMO)) {
+      const lines = (weatherArt(Number(code)) ?? '').split('\n')
+      assert.ok(lines.length <= 5, `code ${code} is ${lines.length} lines tall`)
+      assert.ok(Math.max(...lines.map((l) => l.length)) <= 12, `code ${code} is too wide`)
+    }
   })
 })
 

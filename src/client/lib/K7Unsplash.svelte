@@ -180,7 +180,7 @@
   }
 </script>
 
-<Card label={label} meta={meta} state={cardState}>
+<Card label={label} meta={meta} state={cardState} fullscreen>
   <div class="wrap">
     {#if failed && !aged}
       <p class="msg">[!] brak zdjęć z unsplash</p>

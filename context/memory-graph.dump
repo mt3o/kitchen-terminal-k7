@@ -11342,3 +11342,66 @@ archived: false
 -> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-15T13:40:38.774623+00:00
 
 SSRF fix (k7-calendar-ssrf-fix) confirmed closed by live re-probe against the deployed server (peer session, commit bcf7ec4): all bypass payloads across all three routes (calendar, comic, recipe import) correctly refused, including a mixed-DNS-answer test via a temporary /etc/hosts entry (restored byte-identical afterward) and confirmation that a real HTTPS feed still works through the pinned dispatcher (SNI/cert validation intact). Three minor, non-blocking follow-ups found during this live probe, not yet fixed: (1) REGRESSION (fails safe, not a security issue): bracketed IPv6 literal URLs (e.g. http://[2606:4700::1111]/, http://[::ffff:0:127.0.0.1]/) are now broken — resolvePinned receives url.hostname WITH brackets and passes it straight to dns.lookup(), which cannot resolve a bracketed literal as a hostname; needs bracket-stripping before lookup, or a direct-vet path for IP literals that skips DNS lookup entirely. (2) Minor information leak: the resolved private IP appears in the client-facing error detail (e.g. "resolves to a private or local address (192.168.0.10)"), giving a signed-in-but-untrusted tunnel user a hint about internal LAN topology; should be a generic client message with the real IP kept server-log-only. (3) Inconsistency: comic returns 503 (upstream unavailable) for a refused/unsafe URL while recipe import returns 400 (invalid-url) for the same class of rejection — 400 is more semantically correct for both, and worth confirming a refusal is never miscounted as a transient upstream failure by fetchThrough's stale-cache-fallback logic.
+---
+[node:4fe91a3e-a41c-4e98-8874-e13a581b9da5]
+type: goal
+tier: short-term
+path: /goal/k7-fullscreen-and-weather-art
+created_at: 2026-09-16T06:38:25.000059+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:7373545d-976e-4034-9195-242cea1a17a6] @ 2026-09-16T06:40:27.250208+00:00
+-> DEPENDS_ON [node:73ea1c48-80f3-4da9-a2a4-4f00a7f74147] @ 2026-09-16T06:40:24.752459+00:00
+
+Make the image and unsplash-carousel cards fullscreen-able like the calendar, and give the weather card ASCII art of the current conditions.
+---
+[node:5b3230fa-d724-430a-9ccb-70b3bf637f8d]
+type: slice
+tier: short-term
+path: /change/k7-fullscreen-and-weather-art
+created_at: 2026-09-16T06:38:25.000059+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:4fe91a3e-a41c-4e98-8874-e13a581b9da5] @ 2026-09-16T06:38:25.000059+00:00
+-> SCOPED_TO [node:7373545d-976e-4034-9195-242cea1a17a6] @ 2026-09-16T06:40:27.250208+00:00
+-> SCOPED_TO [node:73ea1c48-80f3-4da9-a2a4-4f00a7f74147] @ 2026-09-16T06:40:24.752459+00:00
+
+change scope: k7-fullscreen-and-weather-art
+---
+[event:1043f939-0fab-4f78-bc97-62d328282837]
+node_id: 5b3230fa-d724-430a-9ccb-70b3bf637f8d
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-16T06:38:25.001404+00:00
+
+create_change k7-fullscreen-and-weather-art
+---
+[node:73ea1c48-80f3-4da9-a2a4-4f00a7f74147]
+type: decision
+tier: mid-term
+path: /artifact/the-weather-card-s-ascii-art-is-a-fixed
+created_at: 2026-09-16T06:40:24.752459+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+The weather card's ASCII art is a fixed nine-drawing table in wmo.ts keyed by WMO code, not AI-generated like ascii-art-of-the-day: the weather picture must be the same every time for a given code and must render with no upstream, so it is data beside the label table, with a test asserting the two tables cover the same codes.
+---
+[node:7373545d-976e-4034-9195-242cea1a17a6]
+type: decision
+tier: mid-term
+path: /artifact/fullscreen-is-opt-in-per-component-by-pa
+created_at: 2026-09-16T06:40:27.250208+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+Fullscreen is opt-in per component by passing Card's fullscreen prop, not a layout param: image and unsplash-carousel now set it like the calendar does, because whether a card is worth walking up to is a property of the card type, not of where it sits in the layout.

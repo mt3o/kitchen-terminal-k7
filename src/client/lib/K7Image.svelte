@@ -45,7 +45,7 @@
   let resolvedAlt = $derived(altText || caption || 'obraz')
 </script>
 
-<Card label={label} state={cardState}>
+<Card label={label} state={cardState} fullscreen>
   <div class="wrap">
     {#if state === 'fail'}
       <p class="msg">[!] nie udało się wczytać obrazu</p>
