@@ -227,6 +227,13 @@ $defs:
       showAlerts:
         type: boolean
         default: true
+      showArt:
+        type: boolean
+        default: true
+        description: >
+          Rysunek ASCII aktualnej pogody obok temperatury (słońce, chmura,
+          deszcz, śnieg, mgła, burza). Kody bez rysunku pokazują samą
+          temperaturę i opis.
 
   params.calendar:
     type: object

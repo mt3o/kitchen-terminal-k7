@@ -263,6 +263,7 @@ function createWidget(card: Card): HTMLElement {
       attr(el, 'lon', loc.lon)
       attr(el, 'units', params.units)
       attr(el, 'refresh', card.refreshIntervalSeconds)
+      attr(el, 'showArt', params.showArt)
       return el
     }
     case 'audiometer': {
