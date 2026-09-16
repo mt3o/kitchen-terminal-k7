@@ -196,7 +196,7 @@ pages:
           label: "Punktomat Login QR code"
           caption: "zeskanuj, aby się zalogować"
 
-      # Photos from the Unsplash API, fetched server-side with UNSPLASH_ACCESS_KEY.
+      # Photos from the Unsplash API, fetched server-side with K7_UNSPLASH_ACCESS_KEY.
       # Replaces the carousel of five hand-picked Unsplash cat URLs: a fresh
       # random set every cacheDurationHours, attribution included.
       - id: karuzela-zdjecia

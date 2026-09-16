@@ -476,7 +476,7 @@ $defs:
     type: object
     description: >
       Karuzela zdjęć pobieranych z API Unsplash po stronie serwera (klucz
-      UNSPLASH_ACCESS_KEY nigdy nie trafia do przeglądarki). W odróżnieniu od
+      K7_UNSPLASH_ACCESS_KEY nigdy nie trafia do przeglądarki). W odróżnieniu od
       `carousel` ze slajdami `image` zdjęć nie wpisuje się do layoutu — serwer
       losuje zestaw wg tematu lub kolekcji i trzyma go w cache. Każde zdjęcie
       pokazuje autora i Unsplash z linkami, czego wymagają wytyczne API Unsplash.
