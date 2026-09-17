@@ -1,8 +1,9 @@
 # k7-layout-reorg
 
-status: implemented
+status: in-review
 created: 2026-09-17
 memory_goal: 1c386aee-50dd-4adf-af38-d38bf9ec0c4f
+pr: https://github.com/mt3o/kitchen-terminal-k7/pull/57
 
 ## Goal
 Reorganize `layout.yaml`'s pages around how the household actually uses the
