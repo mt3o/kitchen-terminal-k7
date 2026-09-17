@@ -88,23 +88,39 @@
 </script>
 
 <Card label={label} meta={meta} state={cardState as 'ok' | 'warn' | 'fail' | 'idle'}>
-  {#if failed && !aged}
-    {#if fallbackArt}
-      <pre class="art fallback">{fallbackArt}</pre>
+  <div class="wrap">
+    {#if failed && !aged}
+      {#if fallbackArt}
+        <pre class="art fallback">{fallbackArt}</pre>
+      {:else}
+        <p class="msg">brak ascii-art</p>
+      {/if}
+    {:else if !aged}
+      <p class="msg">generowanie</p>
     {:else}
-      <p class="msg">brak ascii-art</p>
+      <pre class="art" class:muted={!isColorized}>{aged.data.art}</pre>
+      {#if aged.stale}
+        <p class="stale">[!] dane sprzed {Math.round(aged.ageSeconds / 3600)}h</p>
+      {/if}
     {/if}
-  {:else if !aged}
-    <p class="msg">generowanie</p>
-  {:else}
-    <pre class="art" class:muted={!isColorized}>{aged.data.art}</pre>
-    {#if aged.stale}
-      <p class="stale">[!] dane sprzed {Math.round(aged.ageSeconds / 3600)}h</p>
-    {/if}
-  {/if}
+  </div>
 </Card>
 
 <style>
+  /* Card.svelte's .card-body is a flex ITEM of .card, not itself
+     display:flex for its own children — .art's flex:1 1 auto/min-height:0
+     below do nothing without this wrapper actually establishing the flex
+     column context they need. Same pattern as K7ShoppingList's .wrap /
+     K7Timer's .idle-wrap; found missing here (and verified as a genuine
+     no-op, not just a style nit) at /gw-plan-review. */
+  .wrap {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    gap: var(--space-2);
+  }
+
   .msg { margin: 0; color: var(--fg-muted); }
 
   .art {
@@ -115,9 +131,11 @@
     color: var(--fg);
     white-space: pre;
     overflow: auto;
+    flex: 1 1 auto;
+    min-height: 0;
   }
   .art.muted { color: var(--fg-muted); }
   .art.fallback { color: var(--fg-muted); }
 
-  .stale { margin: var(--space-2) 0 0; color: var(--warn); font-size: var(--text-sm); }
+  .stale { margin: var(--space-2) 0 0; color: var(--warn); font-size: var(--text-sm); flex: 0 0 auto; }
 </style>

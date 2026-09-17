@@ -187,6 +187,37 @@
     padding-bottom: var(--space-2);
   }
 
+  /* Found during k7-mobile-responsive's real-browser verification: on a
+     page with several cards (SYSTEM's 6), the cell a card gets can be
+     smaller than this shell's OWN fixed chrome (padding + head + foot +
+     gaps) even before any card-specific content is considered — no
+     per-card content fix can address that, since the excess isn't
+     content, it's this shared shell. Padding and inter-row gaps shrink at
+     the phone breakpoint; control-height-driven elements (buttons) are
+     untouched — DESIGN.md's touch-target floor is not negotiable, visual
+     breathing room is. */
+  /* Found in the same verification pass as the chrome reduction above, once
+     SYSTEM's cards went from full-width to a 2-column half-width phone
+     layout: `.card-head` is `justify-content: space-between` with no
+     `min-width: 0` on its children, so a long label plus a meta string (e.g.
+     "2 min temu") that together exceed the now-narrower row don't shrink —
+     flex items default to `min-width: auto`, refusing to shrink below their
+     own content width — and the overflow is silently clipped by `.card`'s
+     own `overflow: hidden` with no ellipsis to show it happened. Truncating
+     keeps the head row at one line (the height budget this whole change is
+     fighting for) while at least showing that something was cut. */
+  @media (max-width: 767px) {
+    .card { gap: var(--space-1); padding: var(--space-2); }
+    .card-head { padding-bottom: var(--space-1); }
+    .card-head-right { min-width: 0; }
+    .hud-label, .meta {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
   /* Groups actions/meta with the fullscreen button so `.card-head` still
      only ever has two flex children for `justify-content: space-between` to
      pack apart — a third top-level child would float in the middle of the
@@ -216,6 +247,13 @@
     border: var(--border-w) solid var(--border);
     border-radius: var(--radius);
     cursor: pointer;
+    /* Its own label is literally "[ + ]" / "[ x ]" — plain text with spaces
+       in it, so once .card-head-right's phone-width min-width: 0 let this
+       button shrink below its natural size, the browser wrapped it onto
+       three lines at the spaces instead of just staying one line and
+       letting the label/meta beside it lose the truncation contest. */
+    flex-shrink: 0;
+    white-space: nowrap;
   }
   .fullscreen-btn:hover { background: var(--ghost-hover); color: var(--fg); }
   .fullscreen-btn:active { background: var(--ghost-active); }
