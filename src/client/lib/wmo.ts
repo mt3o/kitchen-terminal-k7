@@ -40,6 +40,65 @@ export const WMO: Readonly<Record<number, string>> = {
   99: 'burza z silnym gradem',
 }
 
+/**
+ * ASCII art for a WMO code, for the weather card.
+ *
+ * Deliberately not one picture per code: 28 codes share nine drawings, because
+ * the drawing answers "what is falling out of the sky" at three metres and the
+ * intensity is what the label under it is for. A code with no drawing gets
+ * none — an invented picture is the same kind of lie as an invented number.
+ *
+ * Plain ASCII, not box-drawing characters or emoji: this renders in the UI
+ * monospace face, and a glyph that face lacks is a blank square on the wall.
+ * Kept beside the labels so a code added to one table is visibly missing from
+ * the other — test/wmo.test.ts asserts exactly that.
+ */
+const CLEAR = ['  \\   /', '   .-.', '--(   )--', "   `-'", '  /   \\']
+const PARTLY = [' \\  /', '_ .-.', ' (   ).', '(___(__)']
+const CLOUDY = ['   .--.', ' .-(    ).', '(___.__)__)']
+const FOG = ['_ - _ - _ -', ' _ - _ - _', '_ - _ - _ -']
+const DRIZZLE = ['   .--.', ' .-(    ).', '(___.__)__)', '  .  .  .']
+const RAIN = ['   .--.', ' .-(    ).', '(___.__)__)', " ' ' ' ' '"]
+const SLEET = ['   .--.', ' .-(    ).', '(___.__)__)', " ' * ' * '"]
+const SNOW = ['   .--.', ' .-(    ).', '(___.__)__)', '  *  *  *']
+const STORM = ['   .--.', ' .-(    ).', '(___.__)__)', '  /_  /_']
+
+const ART: Readonly<Record<number, readonly string[]>> = {
+  0: CLEAR,
+  1: CLEAR,
+  2: PARTLY,
+  3: CLOUDY,
+  45: FOG,
+  48: FOG,
+  51: DRIZZLE,
+  53: DRIZZLE,
+  55: DRIZZLE,
+  56: SLEET,
+  57: SLEET,
+  61: RAIN,
+  63: RAIN,
+  65: RAIN,
+  66: SLEET,
+  67: SLEET,
+  71: SNOW,
+  73: SNOW,
+  75: SNOW,
+  77: SNOW,
+  80: RAIN,
+  81: RAIN,
+  82: RAIN,
+  85: SNOW,
+  86: SNOW,
+  95: STORM,
+  96: STORM,
+  99: STORM,
+}
+
+/** The drawing for a code, as one newline-joined block, or undefined if there is none. */
+export function weatherArt(code: number): string | undefined {
+  return ART[code]?.join('\n')
+}
+
 /** Unknown codes are reported as unknown rather than guessed at. */
 export function describeWeather(code: number): string {
   return WMO[code] ?? `kod ${code}`

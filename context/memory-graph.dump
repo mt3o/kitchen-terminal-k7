@@ -370,6 +370,16 @@ created_at: 2026-09-15T15:00:03.586527+00:00
 
 gw-plan-review pass 3: Safari 15 floor re-checked against Phase 2's explicit rejection of container-query-based sizing and clamp()/vw scaling — still respected, no new evidence.
 ---
+[event:cce53b27-58cc-4e81-a178-2b9161b85663]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T15:42:41.850889+00:00
+
+verified new CSS (white-space:nowrap, text-overflow:ellipsis, overflow-y:auto) against the Safari 15.0 floor via lint:tokens and real Chrome verification
+---
 [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99]
 type: facet_value
 tier: lifetime
@@ -11455,15 +11465,23 @@ trust_weight: 1.0
 archived: false
 -> SCOPED_TO [node:015d07b2-9ade-4321-9f00-7cb21ec0ef29] @ 2026-09-15T13:46:28.171203+00:00
 -> SCOPED_TO [node:0cadf65f-e79e-4a26-9008-bb68e44cfb42] @ 2026-09-15T14:44:56.889588+00:00
+-> SCOPED_TO [node:14679772-a89b-4f80-9679-1572e5cd68b8] @ 2026-09-15T15:42:14.349101+00:00
 -> SCOPED_TO [node:1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea] @ 2026-09-15T14:42:15.974385+00:00
+-> SCOPED_TO [node:25827824-ea3d-4245-8597-3b9841ef3725] @ 2026-09-15T15:42:25.125702+00:00
+-> SCOPED_TO [node:2ee73f47-a258-479c-acf0-5e1a6fbf46b4] @ 2026-09-15T15:02:59.081203+00:00
 -> SCOPED_TO [node:3218cf7b-eb04-46dc-a6a6-1bd89155936d] @ 2026-09-15T13:45:57.548601+00:00
 -> SCOPED_TO [node:3ea28fac-3a03-48dc-a228-894731fa5541] @ 2026-09-15T13:45:48.575402+00:00
+-> SCOPED_TO [node:409630ca-1b54-40e4-a0b1-610b76be65fd] @ 2026-09-15T15:02:25.755876+00:00
 -> SCOPED_TO [node:538d1960-cb76-4fb7-be15-d72ae9f34b45] @ 2026-09-15T14:42:49.124904+00:00
 -> SCOPED_TO [node:611bc3d8-caa1-4e81-82ab-d955bbcbba4f] @ 2026-09-15T13:46:08.727077+00:00
+-> SCOPED_TO [node:6b6857da-39e1-4d5c-9c0b-8fe2b3836111] @ 2026-09-15T15:01:30.316077+00:00
 -> SCOPED_TO [node:97d0c4ba-55ce-407d-8ecd-14a6a1269357] @ 2026-09-15T13:46:19.358223+00:00
 -> SCOPED_TO [node:ac7165c9-3d52-47bd-817b-da698678783c] @ 2026-09-15T13:39:29.109335+00:00
+-> SCOPED_TO [node:c5e8c11c-643e-4b93-be3d-61f93ac70500] @ 2026-09-15T15:42:32.346070+00:00
 -> SCOPED_TO [node:c77c25d1-e7f0-4e2d-894c-b0d4a7744b2b] @ 2026-09-15T14:42:31.088660+00:00
 -> SCOPED_TO [node:d8ef0463-6746-4a43-b4d9-1699db3f1fca] @ 2026-09-15T14:42:39.908359+00:00
+-> SCOPED_TO [node:db145886-1644-4fb9-bfe1-796c6efbeca7] @ 2026-09-15T15:41:56.863133+00:00
+-> SCOPED_TO [node:e24899db-3191-464e-a7c6-12cdef56aa6f] @ 2026-09-15T15:42:04.999864+00:00
 -> SCOPED_TO [node:e37a024b-cfe5-4d42-8bc9-d0bb0bd07ba1] @ 2026-09-15T14:54:57.844174+00:00
 
 change scope: k7-mobile-responsive
@@ -11489,14 +11507,22 @@ trust_weight: 1.0
 archived: false
 -> DEPENDS_ON [node:015d07b2-9ade-4321-9f00-7cb21ec0ef29] @ 2026-09-15T13:46:28.171203+00:00
 -> DEPENDS_ON [node:0cadf65f-e79e-4a26-9008-bb68e44cfb42] @ 2026-09-15T14:44:56.889588+00:00
+-> DEPENDS_ON [node:14679772-a89b-4f80-9679-1572e5cd68b8] @ 2026-09-15T15:42:14.349101+00:00
 -> DEPENDS_ON [node:1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea] @ 2026-09-15T14:42:15.974385+00:00
+-> DEPENDS_ON [node:25827824-ea3d-4245-8597-3b9841ef3725] @ 2026-09-15T15:42:25.125702+00:00
+-> DEPENDS_ON [node:2ee73f47-a258-479c-acf0-5e1a6fbf46b4] @ 2026-09-15T15:02:59.081203+00:00
 -> DEPENDS_ON [node:3218cf7b-eb04-46dc-a6a6-1bd89155936d] @ 2026-09-15T13:45:57.548601+00:00
 -> DEPENDS_ON [node:3ea28fac-3a03-48dc-a228-894731fa5541] @ 2026-09-15T13:45:48.575402+00:00
+-> DEPENDS_ON [node:409630ca-1b54-40e4-a0b1-610b76be65fd] @ 2026-09-15T15:02:25.755876+00:00
 -> DEPENDS_ON [node:538d1960-cb76-4fb7-be15-d72ae9f34b45] @ 2026-09-15T14:42:49.124904+00:00
 -> DEPENDS_ON [node:611bc3d8-caa1-4e81-82ab-d955bbcbba4f] @ 2026-09-15T13:46:08.727077+00:00
+-> DEPENDS_ON [node:6b6857da-39e1-4d5c-9c0b-8fe2b3836111] @ 2026-09-15T15:01:30.316077+00:00
 -> DEPENDS_ON [node:97d0c4ba-55ce-407d-8ecd-14a6a1269357] @ 2026-09-15T13:46:19.358223+00:00
+-> DEPENDS_ON [node:c5e8c11c-643e-4b93-be3d-61f93ac70500] @ 2026-09-15T15:42:32.346070+00:00
 -> DEPENDS_ON [node:c77c25d1-e7f0-4e2d-894c-b0d4a7744b2b] @ 2026-09-15T14:42:31.088660+00:00
 -> DEPENDS_ON [node:d8ef0463-6746-4a43-b4d9-1699db3f1fca] @ 2026-09-15T14:42:39.908359+00:00
+-> DEPENDS_ON [node:db145886-1644-4fb9-bfe1-796c6efbeca7] @ 2026-09-15T15:41:56.863133+00:00
+-> DEPENDS_ON [node:e24899db-3191-464e-a7c6-12cdef56aa6f] @ 2026-09-15T15:42:04.999864+00:00
 -> DEPENDS_ON [node:e37a024b-cfe5-4d42-8bc9-d0bb0bd07ba1] @ 2026-09-15T14:54:57.844174+00:00
 
 Make the Kitchen Terminal K7 dashboard usable at phone width, not just the iPad-landscape target it was designed for. Real problems seen live on a phone: the header title wraps to two lines and squeezes the header controls; individual cards (MINUTNIK/timer, ASCII.DNIA) get their content cut off vertically instead of fitting or scrolling; the tablet-oriented fixed-height grid doesn't reflow well to a narrow, short portrait viewport.
@@ -11695,6 +11721,16 @@ created_at: 2026-09-15T15:00:03.576062+00:00
 
 gw-plan-review pass 3: re-verified the corrected K7AsciiArt .wrap fix against this node's own overflow-safe-pattern framing via a real headless-Chrome repro (playwright-core + system google-chrome) that reproduced Card.svelte's .card-body (no display:flex) plus the new .wrap (display:flex;flex-direction:column;height:100%;min-height:0) wrapping .art. Confirmed: .art shrinks to its 81px cell share (vs 828px natural content height), overflow activates (scrollHeight>clientHeight), cell stays clipped-free. Ran a negative control without .wrap that reproduced the original no-op bug exactly (art clientHeight==scrollHeight==828, no overflow), validating the test methodology.
 ---
+[event:ae6975d7-2a0c-4843-82fb-169d7d376c56]
+node_id: 97d0c4ba-55ce-407d-8ecd-14a6a1269357
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T15:42:41.849381+00:00
+
+per-card overflow audit issue directly motivated this session's chrome-shrink, wrap-scroll, and truncation fixes
+---
 [node:015d07b2-9ade-4321-9f00-7cb21ec0ef29]
 type: decision
 tier: short-term
@@ -11764,6 +11800,16 @@ created_at: 2026-09-15T15:00:03.584498+00:00
 
 gw-plan-review pass 3: confirmed plan.md's scroll-policy section correctly cites and applies this decision (zero page/deck-level scroll preserved on phone, internal per-card scroll only), and that it correctly resolves the disputed 3218cf7b architectural-tension node rather than silently picking a side.
 ---
+[event:7c1e023e-c349-4408-9c66-576854b853f9]
+node_id: 1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T15:42:41.848505+00:00
+
+zero-scroll ruling actively re-verified via real-browser screenshots across all 4 pages after the 2-column reversal and per-card retrofits
+---
 [node:c77c25d1-e7f0-4e2d-894c-b0d4a7744b2b]
 type: concept
 tier: short-term
@@ -11812,6 +11858,16 @@ created_at: 2026-09-15T15:00:03.585872+00:00
 
 gw-plan-review pass 3: confirmed Phase 1's plan text matches this decision's grid-auto-rows: minmax(0,1fr) mechanism verbatim.
 ---
+[event:271000cc-7bdf-49b3-a664-ad347e1eefa6]
+node_id: d8ef0463-6746-4a43-b4d9-1699db3f1fca
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T15:42:41.843563+00:00
+
+row-derivation mechanism unchanged when reversing the 1-column-at-phone rule
+---
 [node:538d1960-cb76-4fb7-be15-d72ae9f34b45]
 type: decision
 tier: mid-term
@@ -11855,6 +11911,16 @@ source: agent-surface
 created_at: 2026-09-15T15:00:03.582447+00:00
 
 Node's SIATKA-precedent sentence for the Timer --glance-sm phone-width swap is factually wrong per pass-1's real-browser/code finding: SIATKA's K7Grid.svelte --glance-sm override is an unconditional shadow-DOM cascade for nested cells, not a @media-width swap — there is no exact prior-art precedent for this change; it's the first viewport-width typography swap in this codebase. plan.md and deck.json were corrected to state this honestly; this graph node was not. Flagging for human review/amendment so future recalls don't re-serve the disproven precedent claim.
+---
+[event:79401059-b0e1-49bf-a36d-641a6324f3d3]
+node_id: 538d1960-cb76-4fb7-be15-d72ae9f34b45
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T15:42:41.850052+00:00
+
+Timer glance-sm and shell-head decisions remained in force through the scope expansion
 ---
 [node:0cadf65f-e79e-4a26-9008-bb68e44cfb42]
 type: decision
@@ -11924,3 +11990,177 @@ source: agent-surface
 created_at: 2026-09-15T15:00:46.120523+00:00
 
 fixed the two remaining 5-pages instances the confirmatory review found
+---
+[node:6b6857da-39e1-4d5c-9c0b-8fe2b3836111]
+type: decision
+tier: short-term
+path: /artifact/k7-mobile-responsive-phase-1-implemented
+created_at: 2026-09-15T15:01:30.316077+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T15:01:30.316077+00:00
+-> DEPENDS_ON [node:d8ef0463-6746-4a43-b4d9-1699db3f1fca] @ 2026-09-15T15:01:30.316077+00:00
+
+k7-mobile-responsive Phase 1 implemented: app.css's @media(max-width:767px) block now also sets grid-template-rows:none and grid-auto-rows:minmax(0,1fr) on .page, alongside the existing column-count override. No JS change — main.ts's render() still computes --deck-cols/--deck-rows exactly as before for desktop/tablet; the phone media query simply overrides both grid-template properties the same way it already overrode grid-template-columns.
+---
+[event:681df3e8-5b0a-4bfa-a307-b0696bdda28d]
+node_id: 6b6857da-39e1-4d5c-9c0b-8fe2b3836111
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T15:01:34.391446+00:00
+
+Phase 1 implementation of the grid row/column fix
+---
+[node:409630ca-1b54-40e4-a0b1-610b76be65fd]
+type: decision
+tier: short-term
+path: /artifact/k7-mobile-responsive-phase-2-implemented
+created_at: 2026-09-15T15:02:25.755876+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:538d1960-cb76-4fb7-be15-d72ae9f34b45] @ 2026-09-15T15:02:25.755876+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T15:02:25.755876+00:00
+
+k7-mobile-responsive Phase 2 implemented: K7Timer.svelte's .readout gets a phone-width media query dropping font-size from --glance-md to --glance-sm, with an inline comment noting the doorway-distance floor's premise doesn't transfer to a handheld phone. K7AsciiArt.svelte's card-body content is now wrapped in a new .wrap div (display:flex; flex-direction:column; height:100%; min-height:0), matching K7ShoppingList's .wrap / Timer's .idle-wrap exactly; .art keeps flex:1 1 auto; min-height:0 (now actually effective) and .stale gets flex:0 0 auto to stay its natural size below .art. 312/312 tests still pass — no existing test references K7AsciiArt.svelte's markup structure.
+---
+[event:100264a5-dd78-484c-b001-66a11a23310f]
+node_id: 409630ca-1b54-40e4-a0b1-610b76be65fd
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T15:02:29.712094+00:00
+
+npm run test confirmed 312/312 pass with the new .wrap markup, no test breakage
+---
+[node:2ee73f47-a258-479c-acf0-5e1a6fbf46b4]
+type: decision
+tier: short-term
+path: /artifact/k7-mobile-responsive-phase-3-implemented
+created_at: 2026-09-15T15:02:59.081203+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:538d1960-cb76-4fb7-be15-d72ae9f34b45] @ 2026-09-15T15:02:59.081203+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T15:02:59.081203+00:00
+
+k7-mobile-responsive Phase 3 implemented: app.css's .shell-head gained flex-wrap:wrap (split out from the shared .shell-head,.shell-foot rule since .shell-foot was not reported broken and stays unscoped from this fix). Direct application of DESIGN.md 6.1's "rows wrap before they crush" rule.
+---
+[event:8dd7a7a2-8d6d-4c3f-a960-0649196fdea7]
+node_id: 2ee73f47-a258-479c-acf0-5e1a6fbf46b4
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-15T15:03:02.774785+00:00
+
+Phase 3 implementation of header flex-wrap
+---
+[node:622597fb-68a0-4e83-8aa7-26c6f2a69a5b]
+type: facet_value
+tier: lifetime
+path: /facet/layout
+created_at: 2026-09-15T15:41:56.863133+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+layout
+---
+[node:a2faed56-f852-4bfd-ac27-c49c30586aaf]
+type: facet_value
+tier: lifetime
+path: /facet/css
+created_at: 2026-09-15T15:41:56.863133+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+css
+---
+[node:db145886-1644-4fb9-bfe1-796c6efbeca7]
+type: decision
+tier: mid-term
+path: /artifact/phone-width-layout-keeps-the-page-s-conf
+created_at: 2026-09-15T15:41:56.863133+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea] @ 2026-09-15T15:41:56.863133+00:00
+-> HAS_FACET [node:622597fb-68a0-4e83-8aa7-26c6f2a69a5b] @ 2026-09-15T15:41:56.863133+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-09-15T15:41:56.863133+00:00
+-> DEPENDS_ON [node:d8ef0463-6746-4a43-b4d9-1699db3f1fca] @ 2026-09-15T15:41:56.863133+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-15T15:41:56.863133+00:00
+
+Phone-width layout keeps the page's configured column count (2, for every page in this project) instead of collapsing to 1 column. Reversed the earlier single-column-at-phone rule after real-browser verification of the SYSTEM page (6 cards) showed each card getting only 67px — not enough for even one line of glance-tier text (--glance-sm ~48px) plus minimal head/foot chrome, so the clock and weather readouts were silently clipped, not just squeezed. Keeping 2 columns halves the row count for exactly the pages dense enough to need it. Mechanism: the phone media query no longer overrides grid-template-columns at all, relying on .page's base rule (repeat(var(--deck-cols,3), ...)) which every page already sets to 2 — it still overrides grid-template-rows/grid-auto-rows for row-count derivation, unchanged from the original fix this decision builds on.
+---
+[node:e24899db-3191-464e-a7c6-12cdef56aa6f]
+type: constraint
+tier: mid-term
+path: /artifact/card-shell-chrome-padding-inter-row-ga
+created_at: 2026-09-15T15:42:04.999864+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea] @ 2026-09-15T15:42:04.999864+00:00
+-> DEPENDS_ON [node:97d0c4ba-55ce-407d-8ecd-14a6a1269357] @ 2026-09-15T15:42:04.999864+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-09-15T15:42:04.999864+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-15T15:42:04.999864+00:00
+
+Card shell chrome (padding, inter-row gap, head-row padding-bottom) shrinks at the phone breakpoint in BOTH shell components — Card.svelte and K7Card.svelte. K7Card.svelte is a separate, independently-duplicated component (backs the generic k7-card custom element used for the clock card and unimplemented-placeholder case) that does NOT import Card.svelte, so a fix to one never reaches the other — verified by a real-browser re-test where the clock card alone stayed at the old, larger height after the first fix landed only in Card.svelte. K7Card.svelte's .card-body was also missing min-height:0 (present in Card.svelte's version), fixed at the same time as a separate pre-existing discrepancy. Only non-height chrome shrinks; button/control min-height (the touch-target floor, DESIGN.md §6) is never touched.
+---
+[node:14679772-a89b-4f80-9679-1572e5cd68b8]
+type: constraint
+tier: mid-term
+path: /artifact/a-card-shell-pattern-found-broken-during
+created_at: 2026-09-15T15:42:14.349101+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:97d0c4ba-55ce-407d-8ecd-14a6a1269357] @ 2026-09-15T15:42:14.349101+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-09-15T15:42:14.349101+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-15T15:42:14.349101+00:00
+
+A card-shell pattern found broken during k7-mobile-responsive's phone-width pass: when a card's body is "scrollable list + a rigid trailing form" (K7ShoppingList's list+add, K7Timer's presets+custom, K7Recipes' list+import), giving the inner list its own overflow-y:auto and flex:1 1 auto/min-height:0 (so it shrinks and scrolls to make room for the form) works ONLY as long as the list has no more content than fits — once squeezed hard enough that the list's own overflowing rows exceed its shrunk box, they visually spill past it and collide with the form's text below, because flex-wrap/flex-column children are never clipped by a shrunk parent unless that parent sets its own overflow. Found via real-browser verification at desktop width (1024x768), not phone — the bug is about squeeze ratio, not viewport size. The correct pattern: overflow-y:auto goes on the OUTER wrapper (.wrap/.idle-wrap) only; the inner list stays flex:0 0 auto (natural size, non-shrinking, no min-height:0) so it never has anything of its own to spill — the outer wrapper's scroll reveals the full stack (list + form) when it doesn't fit, with zero overlap.
+---
+[node:25827824-ea3d-4245-8597-3b9841ef3725]
+type: constraint
+tier: mid-term
+path: /artifact/card-head-row-text-hud-label-meta-nee
+created_at: 2026-09-15T15:42:25.125702+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:97d0c4ba-55ce-407d-8ecd-14a6a1269357] @ 2026-09-15T15:42:25.125702+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-09-15T15:42:25.125702+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-15T15:42:25.125702+00:00
+
+Card head-row text (hud-label, meta) needs explicit min-width:0 + overflow:hidden/text-overflow:ellipsis/white-space:nowrap at the phone breakpoint: flex children default to min-width:auto, refusing to shrink below their own content width, so a label plus a meta string that together exceed a squeezed (or, after the 2-column phone decision, half-width) card silently overflow past Card.svelte's own overflow:hidden with no ellipsis to show it happened. A related trap found immediately after adding min-width:0 to Card.svelte's .card-head-right: its .fullscreen-btn renders literal text "[ + ]"/"[ x ]" (spaces included) with no white-space:nowrap, so once the container was allowed to shrink, the browser wrapped the button's own label onto three lines at the spaces instead of just staying one line. Any button/label whose text contains spaces needs white-space:nowrap (and usually flex-shrink:0, to keep priority over less-critical sibling text) before its container is given min-width:0 — the two changes are not safe to make independently.
+---
+[node:c5e8c11c-643e-4b93-be3d-61f93ac70500]
+type: decision
+tier: mid-term
+path: /artifact/at-the-phone-breakpoint-when-a-row-of-c
+created_at: 2026-09-15T15:42:32.346070+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:97d0c4ba-55ce-407d-8ecd-14a6a1269357] @ 2026-09-15T15:42:32.346070+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-09-15T15:42:32.346070+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-15T15:42:32.346070+00:00
+
+At the phone breakpoint, when a row of controls doesn't fit a half-width card, decorative or redundant elements are dropped before any control's touch-target size is reduced — DESIGN.md's touch-target floor (min-height) is never negotiable, but horizontal padding and non-essential decoration are. Two applications: K7Carousel.svelte hides its dot indicators at phone width (redundant with the prev/next arrows' own disabled-at-the-ends state) rather than shrinking the arrow buttons, after prev+dots+next didn't fit beside the "KARUZELA" label. K7Chat.svelte's composer buttons (mic, wyslij) get reduced horizontal padding only (--control-pad-x's 16px a side down to --space-2) at phone width, keeping min-height untouched, after full padding on both buttons left no room for the message input in a half-width card.

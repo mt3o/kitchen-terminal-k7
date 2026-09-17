@@ -11,7 +11,7 @@
 
 <script lang="ts">
   import Card from './Card.svelte'
-  import { ageLabel, describeWeather, isSevere } from './wmo.ts'
+  import { ageLabel, describeWeather, isSevere, weatherArt } from './wmo.ts'
 
   interface Props {
     lat?: string
@@ -20,9 +20,20 @@
     label?: string
     /** Seconds between refreshes. The upstream updates about every 15 min. */
     refresh?: string
+    /** "false" hides the ASCII drawing of the current conditions. */
+    showArt?: string
   }
 
-  let { lat = '52.2297', lon = '21.0122', units = 'metric', label = 'SYS.POGODA', refresh = '900' }: Props = $props()
+  let {
+    lat = '52.2297',
+    lon = '21.0122',
+    units = 'metric',
+    label = 'SYS.POGODA',
+    refresh = '900',
+    showArt = 'true',
+  }: Props = $props()
+
+  let artEnabled = $derived(showArt.trim().toLowerCase() !== 'false')
 
   interface Aged {
     ageSeconds: number
@@ -42,6 +53,7 @@
     failed ? 'fail' : !aged ? 'idle' : aged.stale || isSevere(aged.data.now.weatherCode) ? 'warn' : 'ok',
   )
   let meta = $derived(aged ? ageLabel(aged.ageSeconds) : '')
+  let art = $derived(aged ? weatherArt(aged.data.now.weatherCode) : undefined)
 
   async function load(signal: AbortSignal): Promise<void> {
     try {
@@ -80,8 +92,17 @@
   {:else if !aged}
     <p class="msg">odczyt</p>
   {:else}
-    <p class="glance">{round(aged.data.now.temperature)}<span class="unit">{aged.data.units.temperature}</span></p>
-    <p class="cond">{describeWeather(aged.data.now.weatherCode)}</p>
+    <div class="now">
+      {#if artEnabled && art}
+        <!-- Decorative: the temperature and the label beside it already say
+             everything this draws, so a screen reader gets nothing new here. -->
+        <pre class="art" aria-hidden="true">{art}</pre>
+      {/if}
+      <div class="readout">
+        <p class="glance">{round(aged.data.now.temperature)}<span class="unit">{aged.data.units.temperature}</span></p>
+        <p class="cond">{describeWeather(aged.data.now.weatherCode)}</p>
+      </div>
+    </div>
     <dl class="detail">
       <div><dt>odczuwalna</dt><dd>{round(aged.data.now.apparentTemperature)}{aged.data.units.temperature}</dd></div>
       <div><dt>wilgotnosc</dt><dd>{round(aged.data.now.humidity)}%</dd></div>
@@ -115,6 +136,25 @@
   }
 
   .msg { margin: 0; color: var(--fg-muted); }
+
+  /* The drawing sits beside the figure, not above it: the temperature stays on
+     the card's first line, where it is read from the doorway. Wraps below on a
+     cell too narrow to hold both. */
+  .now {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .art {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    line-height: 1.1;
+    white-space: pre;
+    color: var(--fg-muted);
+  }
 
   /* Glance tier: this is the figure read from the doorway at three metres. */
   .glance {

@@ -4,7 +4,7 @@
 
   Its own card type rather than a `carousel` of `image` slides, for the reason
   comic-of-the-day is its own type: the slides are not known when the layout is
-  written — the server fetches them (GET /api/unsplash, key server-side) — and
+  written — the server fetches them (GET /api/unsplash, K7_UNSPLASH_ACCESS_KEY server-side) — and
   third-party photos come with attribution that is part of the contract, which
   a generic image slide has no place for. Every visible photo credits its
   photographer and Unsplash, both linked, as Unsplash's API guidelines require.
@@ -180,7 +180,7 @@
   }
 </script>
 
-<Card label={label} meta={meta} state={cardState}>
+<Card label={label} meta={meta} state={cardState} fullscreen>
   <div class="wrap">
     {#if failed && !aged}
       <p class="msg">[!] brak zdjęć z unsplash</p>
