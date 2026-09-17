@@ -13,23 +13,24 @@
         "cols": 12,
         "rows": 8,
         "regions": [
-          { "label": "Page (DashboardGrid) — 2 cols desktop / 1 col phone", "x": 0, "y": 0, "w": 12, "h": 8, "accent": true }
+          { "label": "Page (DashboardGrid) — keeps its configured column count (2, every layout.yaml page) at phone width too; superseded from an earlier 1-col-phone draft, see components/behavior", "x": 0, "y": 0, "w": 12, "h": 8, "accent": true }
         ]
       },
       "components": {
-        "grid rows below the breakpoint": "GAP:ruled:d8ef0463 — no explicit grid-template-rows from JS below the tablet/phone breakpoint; grid-auto-rows: minmax(0, 1fr) with no explicit row template lets CSS Grid derive the row count from the actual number of cards (each alone in its column at 1-col width) and distribute available height equally, shrinkable — zero JS resize listener needed",
-          "grid columns": "existing:the current @media(max-width:767px) column-count override, unchanged"
+        "grid rows below the breakpoint": "GAP:ruled:d8ef0463 — no explicit grid-template-rows from JS below the tablet/phone breakpoint; grid-auto-rows: minmax(0, 1fr) with no explicit row template lets CSS Grid derive the row count from the actual number of cards, distributed across the fixed column count, shrinkable — zero JS resize listener needed",
+          "grid columns": "GAP:ruled:db145886 — superseded from an earlier @media(max-width:767px) column-count-forced-to-1 override: the phone media query no longer overrides grid-template-columns at all, so the base rule's repeat(var(--deck-cols,3), ...) applies at phone width too, same as desktop/tablet"
         },
       "states": {
         "desktop/tablet, N columns": "unchanged — explicit --deck-cols/--deck-rows from layout.yaml's declared column count, as today",
-        "phone, 1 column, fewer cards than fit naturally": "each card gets more than an equal 1/N share is needed for — no visible change from today's single-card case",
-        "phone, 1 column, more cards than fit naturally": "each card is squeezed to its 1/N share of the fixed viewport height; per-card internal scrolling (where the card provides it) is the only escape hatch — no page-level scroll, per [node:1580e5d3]"
+        "phone, N columns, fewer cards than fit naturally": "each card gets more height than an equal 1/rows share needs — no visible change from today's single-card-per-row case",
+        "phone, N columns, more cards than fit naturally": "each card is squeezed to its 1/rows share of the fixed viewport height; per-card internal scrolling (where the card provides it) is the only escape hatch — no page-level scroll, per [node:1580e5d3]. A dense page (e.g. SYSTEM, 6 cards) forcing 1 column instead of its configured 2 was found to squeeze cards below what even one line of glance-tier text needs — [node:db145886] reversed that for exactly this state."
       },
       "behavior": [
-        "Column count still comes from the existing hardcoded 767px media query (unchanged this pass — server-driven breakpoints from the theme's own breakpointTabletPx/breakpointDesktopPx are a separate, blocked-on-v1/v2-schema-adoption follow-up, [node:611bc3d8]).",
-        "Row count is never JS-computed below the breakpoint — it falls out of the number of grid children automatically, so it cannot drift out of sync with the column count again."
+        "Column count comes from the same --deck-cols the desktop/tablet grid already uses (layout.yaml's declared column count) — the phone media query no longer overrides it, reversing an earlier single-column-at-phone draft once a dense page (SYSTEM, 6 cards) was found to clip glance-tier text outright even after every other phone-width squeeze fix. [node:db145886]",
+        "Row count is never JS-computed below the breakpoint — it falls out of the number of grid children divided across the (now phone-preserved) column count automatically, so it cannot drift out of sync with the column count again.",
+        "Server-driven breakpoints from the theme's own breakpointTabletPx/breakpointDesktopPx remain a separate, blocked-on-v1/v2-schema-adoption follow-up, [node:611bc3d8] — the hardcoded 767px literal is unchanged."
       ],
-      "cites": ["node:3ea28fac", "node:1580e5d3", "node:d8ef0463", "node:e156fb5f", "node:0bc7e618"],
+      "cites": ["node:3ea28fac", "node:1580e5d3", "node:d8ef0463", "node:db145886", "node:e156fb5f", "node:0bc7e618"],
       "prototype": null
     },
     {

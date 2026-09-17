@@ -221,7 +221,13 @@ findings).
   viewport-size one. `[node:14679772]`
 - **`K7Weather.svelte`** re-verified against the real production build (its
   original fix, in Phase 2's era, was only checked against the broken
-  theme-less dev setup) — confirmed still correct, no change needed.
+  theme-less dev setup) — the `.wrap` pattern itself was already the right
+  shape, but had never actually landed against a real theme; re-applying it
+  against the production build confirmed the same `display:flex;
+  flex-direction:column; height:100%; min-height:0; overflow-y:auto` wrapper
+  used by `K7AsciiArt.svelte`. Corrected here from an earlier draft of this
+  phase, which claimed "no change needed" — caught by `/gw-review`: the file
+  *is* modified in this change, not merely re-verified unchanged.
 - Not touched this phase, checked and found already correct: `K7AsciiArt.svelte`,
   `K7Timer.svelte`'s `.readout`, `K7Audiometer.svelte`, `K7Menu.svelte`.
 
@@ -229,8 +235,8 @@ findings).
 `src/client/app.css`, `src/client/lib/K7Carousel.svelte`,
 `src/client/lib/K7Chat.svelte`, `src/client/lib/K7ShoppingList.svelte`,
 `src/client/lib/K7Timer.svelte`, `src/client/lib/K7Recipes.svelte`,
-`test/timer-presets-scroll.test.ts` (updated to match the corrected
-architecture), `changelog.yaml`.
+`src/client/lib/K7Weather.svelte`, `test/timer-presets-scroll.test.ts`
+(updated to match the corrected architecture), `changelog.yaml`.
 
 **Verify:** `npm run check` (typecheck + lint + lint:tokens + full test
 suite) green; real-browser verification at 375×667 across all 4

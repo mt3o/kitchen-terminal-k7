@@ -11472,6 +11472,7 @@ archived: false
 -> SCOPED_TO [node:3218cf7b-eb04-46dc-a6a6-1bd89155936d] @ 2026-09-15T13:45:57.548601+00:00
 -> SCOPED_TO [node:3ea28fac-3a03-48dc-a228-894731fa5541] @ 2026-09-15T13:45:48.575402+00:00
 -> SCOPED_TO [node:409630ca-1b54-40e4-a0b1-610b76be65fd] @ 2026-09-15T15:02:25.755876+00:00
+-> SCOPED_TO [node:4b94d744-3404-4999-a3b5-98900807ece0] @ 2026-09-17T07:35:04.864664+00:00
 -> SCOPED_TO [node:538d1960-cb76-4fb7-be15-d72ae9f34b45] @ 2026-09-15T14:42:49.124904+00:00
 -> SCOPED_TO [node:611bc3d8-caa1-4e81-82ab-d955bbcbba4f] @ 2026-09-15T13:46:08.727077+00:00
 -> SCOPED_TO [node:6b6857da-39e1-4d5c-9c0b-8fe2b3836111] @ 2026-09-15T15:01:30.316077+00:00
@@ -11483,6 +11484,7 @@ archived: false
 -> SCOPED_TO [node:db145886-1644-4fb9-bfe1-796c6efbeca7] @ 2026-09-15T15:41:56.863133+00:00
 -> SCOPED_TO [node:e24899db-3191-464e-a7c6-12cdef56aa6f] @ 2026-09-15T15:42:04.999864+00:00
 -> SCOPED_TO [node:e37a024b-cfe5-4d42-8bc9-d0bb0bd07ba1] @ 2026-09-15T14:54:57.844174+00:00
+-> SCOPED_TO [node:f7db89bf-2d21-4fd3-8b14-3d8eea6377f3] @ 2026-09-17T07:31:29.447560+00:00
 
 change scope: k7-mobile-responsive
 ---
@@ -11514,6 +11516,7 @@ archived: false
 -> DEPENDS_ON [node:3218cf7b-eb04-46dc-a6a6-1bd89155936d] @ 2026-09-15T13:45:57.548601+00:00
 -> DEPENDS_ON [node:3ea28fac-3a03-48dc-a228-894731fa5541] @ 2026-09-15T13:45:48.575402+00:00
 -> DEPENDS_ON [node:409630ca-1b54-40e4-a0b1-610b76be65fd] @ 2026-09-15T15:02:25.755876+00:00
+-> DEPENDS_ON [node:4b94d744-3404-4999-a3b5-98900807ece0] @ 2026-09-17T07:35:04.864664+00:00
 -> DEPENDS_ON [node:538d1960-cb76-4fb7-be15-d72ae9f34b45] @ 2026-09-15T14:42:49.124904+00:00
 -> DEPENDS_ON [node:611bc3d8-caa1-4e81-82ab-d955bbcbba4f] @ 2026-09-15T13:46:08.727077+00:00
 -> DEPENDS_ON [node:6b6857da-39e1-4d5c-9c0b-8fe2b3836111] @ 2026-09-15T15:01:30.316077+00:00
@@ -11524,6 +11527,7 @@ archived: false
 -> DEPENDS_ON [node:db145886-1644-4fb9-bfe1-796c6efbeca7] @ 2026-09-15T15:41:56.863133+00:00
 -> DEPENDS_ON [node:e24899db-3191-464e-a7c6-12cdef56aa6f] @ 2026-09-15T15:42:04.999864+00:00
 -> DEPENDS_ON [node:e37a024b-cfe5-4d42-8bc9-d0bb0bd07ba1] @ 2026-09-15T14:54:57.844174+00:00
+-> DEPENDS_ON [node:f7db89bf-2d21-4fd3-8b14-3d8eea6377f3] @ 2026-09-17T07:31:29.447560+00:00
 
 Make the Kitchen Terminal K7 dashboard usable at phone width, not just the iPad-landscape target it was designed for. Real problems seen live on a phone: the header title wraps to two lines and squeezes the header controls; individual cards (MINUTNIK/timer, ASCII.DNIA) get their content cut off vertically instead of fitting or scrolling; the tablet-oriented fixed-height grid doesn't reflow well to a narrow, short portrait viewport.
 ---
@@ -11641,6 +11645,16 @@ source: agent-surface
 created_at: 2026-09-15T14:53:06.789816+00:00
 
 Disputed scroll-policy tension node; confirmed it is properly superseded/resolved by 1580e5d3 per the graph's own clarifying note, no new action needed.
+---
+[event:2b180d1b-1a48-4274-b3c8-edd065891dbc]
+node_id: 3218cf7b-eb04-46dc-a6a6-1bd89155936d
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-17T07:32:08.945373+00:00
+
+gw-review Part 2: the zero-scroll-vs-phone-scroll tension this node names was settled by node:1580e5d3's human ruling and honored throughout the implementation; still awaits human resolution of the dispute itself in the GUI
 ---
 [node:611bc3d8-caa1-4e81-82ab-d955bbcbba4f]
 type: issue
@@ -11922,6 +11936,16 @@ created_at: 2026-09-15T15:42:41.850052+00:00
 
 Timer glance-sm and shell-head decisions remained in force through the scope expansion
 ---
+[event:0a0991c3-db0c-4904-b791-d443db47519e]
+node_id: 538d1960-cb76-4fb7-be15-d72ae9f34b45
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-17T07:32:08.940224+00:00
+
+gw-review Part 2: disputed node from this change's earlier plan phase, re-assessed at PR gate, no new evidence changes its status
+---
 [node:0cadf65f-e79e-4a26-9008-bb68e44cfb42]
 type: decision
 tier: mid-term
@@ -12164,3 +12188,42 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-15T15:42:32.346070+00:00
 
 At the phone breakpoint, when a row of controls doesn't fit a half-width card, decorative or redundant elements are dropped before any control's touch-target size is reduced — DESIGN.md's touch-target floor (min-height) is never negotiable, but horizontal padding and non-essential decoration are. Two applications: K7Carousel.svelte hides its dot indicators at phone width (redundant with the prev/next arrows' own disabled-at-the-ends state) rather than shrinking the arrow buttons, after prev+dots+next didn't fit beside the "KARUZELA" label. K7Chat.svelte's composer buttons (mic, wyslij) get reduced horizontal padding only (--control-pad-x's 16px a side down to --space-2) at phone width, keeping min-height untouched, after full padding on both buttons left no room for the message input in a half-width card.
+---
+[node:f7db89bf-2d21-4fd3-8b14-3d8eea6377f3]
+type: concept
+tier: mid-term
+path: /artifact/k7-mobile-responsive-made-the-kitchen-t
+created_at: 2026-09-17T07:31:29.447560+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> CONSOLIDATES [node:14679772-a89b-4f80-9679-1572e5cd68b8] @ 2026-09-17T07:31:29.447560+00:00
+-> DEPENDS_ON [node:1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea] @ 2026-09-17T07:31:29.447560+00:00
+-> CONSOLIDATES [node:25827824-ea3d-4245-8597-3b9841ef3725] @ 2026-09-17T07:31:29.447560+00:00
+-> DEPENDS_ON [node:3ea28fac-3a03-48dc-a228-894731fa5541] @ 2026-09-17T07:31:29.447560+00:00
+-> DEPENDS_ON [node:538d1960-cb76-4fb7-be15-d72ae9f34b45] @ 2026-09-17T07:31:29.447560+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-17T07:31:29.447560+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-09-17T07:31:29.447560+00:00
+-> CONSOLIDATES [node:c5e8c11c-643e-4b93-be3d-61f93ac70500] @ 2026-09-17T07:31:29.447560+00:00
+-> DEPENDS_ON [node:d8ef0463-6746-4a43-b4d9-1699db3f1fca] @ 2026-09-17T07:31:29.447560+00:00
+-> CONSOLIDATES [node:db145886-1644-4fb9-bfe1-796c6efbeca7] @ 2026-09-17T07:31:29.447560+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-17T07:31:29.447560+00:00
+-> CONSOLIDATES [node:e24899db-3191-464e-a7c6-12cdef56aa6f] @ 2026-09-17T07:31:29.447560+00:00
+
+k7-mobile-responsive: made the Kitchen Terminal K7 dashboard usable at phone width. Started as a 4-phase fix for a grid row/column math desync (JS computed desktop row count, phone media query only overrode columns) that clipped Timer and ascii-art content. Real-browser verification against the actual production build (not a split dev server, whose vite proxy silently drops /theme.css and masks every design-token-dependent bug) revealed the problem was much larger — nearly every card overflowed at phone width. Per explicit human ruling, the change expanded in-place (Phase 5) rather than shipping a partial fix: reversed the blanket single-column-at-phone rule to keep pages' configured 2-column grid (a dense 6-card page in 1 column left cards too short for even glance-tier text); shrank Card.svelte's and K7Card.svelte's shell chrome at the phone breakpoint (two separate components, since K7Card.svelte doesn't import Card.svelte); added head-row text truncation and fixed a fullscreen-button text-wrapping bug it exposed; dropped decorative carousel dots and trimmed chat-composer padding (never touch-target height) at phone width; and fixed a scrollable-list-plus-rigid-form pattern across three cards (shopping list, timer, recipes) where the trailing form had no shrink/scroll escape hatch — including a self-caught regression where a naive fix let a shrunk, un-clipped list visually spill into the form below it, found only via desktop-width verification. Outcome: all 4 layout.yaml pages verified overflow-free and zero-scroll at 375x667, desktop/tablet render confirmed unchanged at 1024x768, full check suite green (316 tests after merging concurrent origin/main work).
+---
+[node:4b94d744-3404-4999-a3b5-98900807ece0]
+type: constraint
+tier: mid-term
+path: /artifact/gw-review-lesson-for-k7-mobile-responsiv
+created_at: 2026-09-17T07:35:04.864664+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-17T07:35:04.864664+00:00
+-> DEPENDS_ON [node:db145886-1644-4fb9-bfe1-796c6efbeca7] @ 2026-09-17T07:35:04.864664+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-17T07:35:04.864664+00:00
+
+gw-review lesson for k7-mobile-responsive: after a mid-implementation scope expansion (a "Phase 5" documenting a reversed earlier decision), both plan.md's own file-modified list AND any design deck screens describing the superseded mechanism must be updated in the same pass — an independent fresh-session code review caught two drifts a self-review missed: (1) plan.md claimed K7Weather.svelte needed "no change" when it was in fact modified with the same .wrap pattern as K7AsciiArt.svelte; (2) context/design/<surface>/deck.json's page-grid-reflow screen still described the original 1-column-at-phone mechanism (wireframe label, states, behavior, cites) after Phase 5 reversed it to keep 2 columns at phone width. General lesson: a scope-reversing decision made mid-implementation is easy to record in the new plan text while forgetting the OLDER artifacts (deck.json, earlier phase's own "Modified:" list) that assumed the mechanism being reversed — check both when closing out a phase that reverses an earlier one.
