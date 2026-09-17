@@ -1,9 +1,10 @@
 # k7-mobile-responsive
 
-status: implemented
+status: in-review
 created: 2026-09-15
 memory_goal: ac7165c9-3d52-47bd-817b-da698678783c
 design_surface: k7-shell-mobile
+pr: https://github.com/mt3o/kitchen-terminal-k7/pull/56
 
 ## Goal
 Make the Kitchen Terminal K7 dashboard usable at phone width, not just the
