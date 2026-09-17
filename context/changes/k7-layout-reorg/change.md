@@ -29,6 +29,12 @@ were content in themselves rather than layout tools.
 - `punktomat` (PUNKTOMAT), new: the QR login code plus the cat-photo
   carousel — a "just for fun" page.
 - `komiks` (KOMIKS), new: the daily comic, alone.
+- `kalendarz` (KALENDARZ), new: a second calendar card instance
+  (`kalendarz-pelny`), same week view as `glowna`'s but alone on a
+  full-width page — added after review feedback, since the doorway-glance
+  instance stays compact by design and this one is for actually reading a
+  week's event titles. A deliberate, on-demand-style duplicate, not the
+  always-visible-clutter kind the rest of this change removed.
 - Dropped entirely: the nested `grid` card (a whole page slot spent on
   nesting a single clock) and the old `menu-kuchnia` card (a whole page slot
   spent on an audio/timer switcher) — the user's own framing was "use

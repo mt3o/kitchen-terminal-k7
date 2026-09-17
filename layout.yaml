@@ -85,6 +85,25 @@ pages:
           transition: fade
           exitOnInteraction: true
 
+  # A second, full-width look at the calendar — the same week view GLOWNA
+  # shows in passing, but with the whole page's width for event titles
+  # instead of a shared half of a 2x2 grid. Deliberately a second calendar
+  # card instance rather than moving the one off GLOWNA: the doorway glance
+  # still wants it there, this page is for actually reading the week.
+  - id: kalendarz
+    label: KALENDARZ
+    grid: { columns: 1 }
+    cards:
+      - id: kalendarz-pelny
+        type: calendar
+        params:
+          calendars:
+            - id: google-primary
+              name: "Google"
+              showInMain: true
+              source: { mode: google, calendarId: primary }
+          view: week
+
   # Kitchen tools: the timer and the noise meter. Neither needs to be seen
   # from the doorway, both get reached for while actually cooking — grouped
   # by when they're used, not by a leftover "kuchnia" theme label.

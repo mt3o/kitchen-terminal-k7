@@ -12279,6 +12279,7 @@ trust_weight: 1.0
 archived: false
 -> DEPENDS_ON [node:5ecc8573-bb1f-4dce-9f3f-cafdf76c457d] @ 2026-09-17T10:39:08.087629+00:00
 -> DEPENDS_ON [node:830a2e75-7532-4e3d-9775-04471d3bd90c] @ 2026-09-17T10:39:29.113099+00:00
+-> DEPENDS_ON [node:abe7f451-d4fc-4a30-9ca2-e085b94509a6] @ 2026-09-17T11:01:12.660026+00:00
 -> DEPENDS_ON [node:c5b7c66f-05b7-432b-886b-79fceedd490a] @ 2026-09-17T10:39:19.073385+00:00
 
 Reorganize layout.yaml's pages around how the household actually uses the wall display (by use-case: doorway glance-info, kitchen tools, recipes, shopping, fun/decorative, comic) instead of the prior rough-theme grouping (dom/kuchnia/system) that split duplicated cards (two clocks, two timers) across pages and spent whole page slots on grid/menu as if they were content in themselves.
@@ -12295,6 +12296,7 @@ archived: false
 -> SCOPED_TO [node:1c386aee-50dd-4adf-af38-d38bf9ec0c4f] @ 2026-09-17T10:37:00.983638+00:00
 -> SCOPED_TO [node:5ecc8573-bb1f-4dce-9f3f-cafdf76c457d] @ 2026-09-17T10:39:08.087629+00:00
 -> SCOPED_TO [node:830a2e75-7532-4e3d-9775-04471d3bd90c] @ 2026-09-17T10:39:29.113099+00:00
+-> SCOPED_TO [node:abe7f451-d4fc-4a30-9ca2-e085b94509a6] @ 2026-09-17T11:01:12.660026+00:00
 -> SCOPED_TO [node:c5b7c66f-05b7-432b-886b-79fceedd490a] @ 2026-09-17T10:39:19.073385+00:00
 
 change scope: k7-layout-reorg
@@ -12356,3 +12358,17 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-17T10:39:29.113099+00:00
 
 main.ts's desktop grid row-count computation (--deck-rows) counted every declared card on a page, including ones a same-page `menu` card hides at first paint — found when a new 3-card page (recipes, chat, menu; chat starts hidden) computed 2 rows from 3 declared cards, leaving an empty second row the full height of the visible content above it. Fixed with a menuHiddenIds() helper in main.ts that scans same-page menu cards' items/defaultActive (mirroring the menu widget's own default-active resolution exactly, so the two can never disagree) and excludes non-active targets from the row math. General lesson: any layout math that counts "declared cards" on a page must account for cards a menu (or any other same-page visibility toggle) hides by default, or it silently reserves dead space sized to the hidden content.
+---
+[node:abe7f451-d4fc-4a30-9ca2-e085b94509a6]
+type: decision
+tier: mid-term
+path: /artifact/added-a-second-calendar-card-instance-k
+created_at: 2026-09-17T11:01:12.660026+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:5ecc8573-bb1f-4dce-9f3f-cafdf76c457d] @ 2026-09-17T11:01:12.660026+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-17T11:01:12.660026+00:00
+
+Added a second calendar card instance (kalendarz-pelny) on its own full-width page, alongside the existing compact calendar card that stays on glowna's doorway-glance 2x2 grid. This is a deliberate exception to the "no duplicate cards across pages" cleanup the rest of k7-layout-reorg did: the two instances serve different purposes (quick glance vs. actually reading a week's event titles without a shared-cell squeeze), not redundant always-visible clutter. General distinction worth keeping: a duplicate card is a problem when both instances serve the identical purpose in the identical way (the clock/weather/timer duplicates this change removed); it's a legitimate design choice when the instances differ in fidelity/detail for different moments of use.
