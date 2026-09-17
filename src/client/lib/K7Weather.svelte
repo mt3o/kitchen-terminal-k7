@@ -86,6 +86,7 @@
 </script>
 
 <Card label={label} meta={meta} state={cardState as 'ok' | 'warn' | 'fail' | 'idle'}>
+  <div class="wrap">
   {#if failed && !aged}
     <p class="msg">brak danych pogodowych</p>
   {:else if !aged}
@@ -117,9 +118,23 @@
       <p class="stale">[!] dane sprzed {ageLabel(aged.ageSeconds)}</p>
     {/if}
   {/if}
+  </div>
 </Card>
 
 <style>
+  /* Found during k7-mobile-responsive's real-browser verification: the same
+     missing-wrapper bug as K7AsciiArt.svelte had (Card.svelte's .card-body
+     is not itself display:flex, so a squeezed cell — 6 cards on one page —
+     let this card's own content spill past its boundary with no scroll
+     affordance). Same fix, same established .wrap pattern. */
+  .wrap {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
   .msg { margin: 0; color: var(--fg-muted); }
 
   /* The drawing sits beside the figure, not above it: the temperature stays on

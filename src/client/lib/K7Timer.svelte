@@ -222,27 +222,38 @@
 </Card>
 
 <style>
+  /* The scroll lives on .idle-wrap, not on .presets alone: found during
+     k7-mobile-responsive's 2-column phone pass that .custom's own natural
+     height (label row, two number fields, START button) can exceed what's
+     left after .presets shrinks to nothing on a squeezed card, and .custom
+     itself had no shrink/scroll escape hatch — the START button spilled
+     past the card's boundary as an unreadable clipped blob. Scrolling the
+     whole wrapper keeps the custom-duration form reachable by scrolling,
+     same as K7ShoppingList.svelte's .wrap. */
   .idle-wrap {
     display: flex;
     flex-direction: column;
     height: 100%;
     min-height: 0;
     gap: var(--space-3);
+    overflow-y: auto;
   }
 
-  /* The card's row height is fixed by the page grid regardless of content
-     (.page's rows are minmax(0, 1fr) by design), so when the presets list
-     wraps into more rows than the card is tall enough for, it must scroll
-     rather than let Card.svelte's overflow:hidden clip a row mid-button —
-     same fix as K7ShoppingList.svelte's .list. */
+  /* Natural size, NOT flex:1 1 auto/min-height:0: found (real-browser,
+     desktop width) that letting .presets shrink below its own content
+     while it has no overflow-clipping of its own made its overflowing
+     button rows spill visually past its shrunk box and collide with
+     .custom's text below it, instead of staying contained — flex-wrap
+     children are not clipped by a shrunk parent unless that parent sets its
+     own overflow. Rendering .presets at its natural height and letting
+     .idle-wrap's overflow-y:auto reveal the excess via scroll (rather than
+     fighting the flex algorithm for space) avoids the overlap entirely. */
   .presets {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
     align-content: flex-start;
-    flex: 1 1 auto;
-    min-height: 0;
-    overflow-y: auto;
+    flex: 0 0 auto;
   }
 
   .custom {
@@ -297,7 +308,10 @@
   }
 
   /* Glance tier: read from the doorway, mm:ss with tabular numerals so the
-     digits don't shuffle width every second. */
+     digits don't shuffle width every second. The doorway-distance floor
+     this size is built around is a wall-kiosk premise that doesn't
+     transfer to a phone read at arm's length, so dropping to --glance-sm
+     below the phone breakpoint is a deliberate exception, not a violation. */
   .readout {
     display: flex;
     align-items: center;
@@ -307,6 +321,10 @@
     font-variant-numeric: tabular-nums;
     letter-spacing: var(--tracking-glance);
     color: var(--fg);
+  }
+
+  @media (max-width: 767px) {
+    .readout { font-size: var(--glance-sm); }
   }
 
   /* Finished state borrows warn's colour so the readout itself, not only the

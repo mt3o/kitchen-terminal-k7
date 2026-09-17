@@ -77,7 +77,25 @@
     padding-bottom: var(--space-2);
   }
 
-  .card-body { flex: 1 1 auto; }
+  /* Same shell-chrome reduction as Card.svelte's own (k7-mobile-responsive)
+     — this is a separate component (the clock/generic-placeholder card),
+     not an importer of Card.svelte, so the fix has to land here too. */
+  /* Same head-row truncation as Card.svelte's own (k7-mobile-responsive,
+     2-column phone layout): a long label plus meta text can exceed a
+     half-width card and get silently clipped by .card's overflow:hidden
+     with no ellipsis to show it. */
+  @media (max-width: 767px) {
+    .card { gap: var(--space-1); padding: var(--space-2); }
+    .card-head { padding-bottom: var(--space-1); }
+    .hud-label, .meta {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .card-body { flex: 1 1 auto; min-height: 0; }
   .card-foot { display: flex; justify-content: flex-end; }
 
   .hud-label {

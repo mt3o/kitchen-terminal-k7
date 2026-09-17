@@ -626,6 +626,19 @@
     .mic.recording { animation: none; }
   }
 
+  /* Found during k7-mobile-responsive's 2-column phone pass: the mic and
+     wyslij buttons' full --control-pad-x (16px a side) left the input field
+     almost no room in a half-width card — mic+send alone summed past the
+     available width, and the send button's own label got clipped. Only
+     horizontal padding gives here; min-height (the touch-target floor,
+     DESIGN.md §6) is untouched. */
+  @media (max-width: 767px) {
+    .composer button {
+      padding-left: var(--space-2);
+      padding-right: var(--space-2);
+    }
+  }
+
   button:focus,
   .input:focus,
   .model-picker:focus {
