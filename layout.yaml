@@ -12,7 +12,19 @@ grid:
 #
 # Cards get a whole page rather than being squeezed into one: adding a card
 # should cost a page, not shrink the cards already on the wall.
+#
+# Reorganized 2026-09-17 around how the household actually uses the wall
+# (previously grouped by rough theme — "dom", "kuchnia", "system" — rather
+# than by use: the glance-at-a-distance essentials (time/weather/calendar)
+# were split across two pages, two timers duplicated the same card on two
+# pages, and `grid`/`menu` were each spent on a whole page slot for
+# themselves — a nested single-clock grid and a bare audio/timer switcher —
+# rather than used as the layout tools they are.
 pages:
+  # The one page read from the doorway: what time is it, what's the
+  # weather, what's on the calendar today — plus the ascii-art-of-the-day
+  # for warmth, since a wall display that is only ever utilitarian is a
+  # worse one to live with.
   - id: glowna
     label: GLOWNA
     grid: { columns: 2 }
@@ -33,41 +45,6 @@ pages:
           units: metric
           forecastDays: 5
 
-      - id: zakupy
-        type: shopping-list
-        # A shopping list is read top to bottom and grows; sharing a column with
-        # another card gives it four visible rows and a scrollbar. 0 = the whole
-        # column, whatever the page's row count turns out to be.
-        span: { rows: 0 }
-        params:
-          dataSource: { mode: local }
-          groupByCategory: true
-
-      - id: minutnik
-        type: timer
-        params:
-          presetsMinutes: [1, 3, 5, 10, 15, 20, 30, 45, 60]
-
-      # A slideshow entry is declared inside `cards` like any other card (the
-      # schema's own KONTRAKT note explains why) but renders nothing in its
-      # own slot — `span` is ignored on it — and instead takes over the whole
-      # screen after a long silence. At most one is allowed per layout, and
-      # `cardIds` may point anywhere: this one rotates across three different
-      # pages to actually exercise that. `wakeOnPresence` is deliberately
-      # left unset — camera-based wake is out of scope for this change.
-      - id: pokaz-domowy
-        type: slideshow
-        params:
-          idleTriggerSeconds: 1800
-          intervalSeconds: 15
-          cardIds: [zegar, pogoda, kalendarz, audiometr]
-          transition: fade
-          exitOnInteraction: true
-
-  - id: dom
-    label: DOM
-    grid: { columns: 2 }
-    cards:
       - id: kalendarz
         type: calendar
         params:
@@ -77,51 +54,6 @@ pages:
               showInMain: true
               source: { mode: google, calendarId: primary }
           view: week
-
-      - id: czat
-        type: chat
-        params:
-          defaultModel: "kilo-auto/free"
-          voiceInput: true
-
-      - id: przepisy
-        type: recipes
-        params:
-          maxVisible: 6
-          allowUrlImport: true
-
-      - id: komiks
-        type: comic-of-the-day
-        params:
-          # Official Simon's Cat feed. Their own site (simonscat.com) has no
-          # RSS; this Tumblr is the one official channel that still exposes
-          # one — images arrive embedded in <description>, not enclosure/
-          # media:content, which is exactly the firstImgSrc fallback path.
-          rssUrl: "https://simonscat.tumblr.com/rss"
-          cacheDurationHours: 24
-          creditText: "Simon's Cat (simonscat.com)"
-          linkToSource: true
-          fallbackImageUrl: "https://64.media.tumblr.com/37a909135529ac75eed7f7eeed78a07e/0af04ab99beb43a3-ff/s500x750/19ada50379943b435bb91b46d9a1505bfd0fc332.jpg"
-
-  - id: kuchnia
-    label: KUCHNIA
-    grid: { columns: 2 }
-    cards:
-      - id: audiometr
-        type: audiometer
-        params:
-          historyDurationSeconds: 180
-          sampleIntervalMs: 500
-          unit: percent
-          showCurrentLevel: true
-          showHistogram: true
-          smoothingFactor: 0.3
-          warningThreshold: 75
-
-      - id: minutnik-kuchnia
-        type: timer
-        params:
-          presetsMinutes: [1, 2, 3, 5, 8, 10, 15, 20]
 
       - id: ascii
         type: ascii-art-of-the-day
@@ -137,54 +69,112 @@ pages:
             ( o.o )
             > ^ <
 
-      - id: menu-kuchnia
-        type: menu
+      # A slideshow entry is declared inside `cards` like any other card (the
+      # schema's own KONTRAKT note explains why) but renders nothing in its
+      # own slot — `span` is ignored on it — and instead takes over the whole
+      # screen after a long silence. At most one is allowed per layout, and
+      # `cardIds` may point anywhere: this one rotates across two different
+      # pages to actually exercise that. `wakeOnPresence` is deliberately
+      # left unset — camera-based wake is out of scope for this change.
+      - id: pokaz-domowy
+        type: slideshow
         params:
-          items:
-            - { cardId: audiometr, label: AUDIO }
-            - { cardId: minutnik-kuchnia, label: CZAS }
+          idleTriggerSeconds: 1800
+          intervalSeconds: 15
+          cardIds: [zegar, pogoda, kalendarz, audiometr]
+          transition: fade
+          exitOnInteraction: true
 
-  - id: system
-    label: SYSTEM
+  # A second, full-width look at the calendar — the same week view GLOWNA
+  # shows in passing, but with the whole page's width for event titles
+  # instead of a shared half of a 2x2 grid. Deliberately a second calendar
+  # card instance rather than moving the one off GLOWNA: the doorway glance
+  # still wants it there, this page is for actually reading the week.
+  - id: kalendarz
+    label: KALENDARZ
+    grid: { columns: 1 }
+    cards:
+      - id: kalendarz-pelny
+        type: calendar
+        params:
+          calendars:
+            - id: google-primary
+              name: "Google"
+              showInMain: true
+              source: { mode: google, calendarId: primary }
+          view: week
+
+  # Kitchen tools: the timer and the noise meter. Neither needs to be seen
+  # from the doorway, both get reached for while actually cooking — grouped
+  # by when they're used, not by a leftover "kuchnia" theme label.
+  - id: narzedzia
+    label: NARZĘDZIA
     grid: { columns: 2 }
     cards:
-      - id: zegar-system
-        type: clock
+      - id: minutnik
+        type: timer
         params:
-          format: "24h"
-          showDate: true
-          showSeconds: true
-          locale: "pl-PL"
+          presetsMinutes: [1, 3, 5, 10, 15, 20, 30, 45, 60]
 
-      - id: pogoda-system
-        type: weather
-        refreshIntervalSeconds: 1800
+      - id: audiometr
+        type: audiometer
         params:
-          location: { lat: 52.2297, lon: 21.0122, label: "Warszawa" }
-          units: metric
-          forecastDays: 5
+          historyDurationSeconds: 180
+          sampleIntervalMs: 500
+          unit: percent
+          showCurrentLevel: true
+          showHistogram: true
+          smoothingFactor: 0.3
+          warningThreshold: 75
 
-      - id: karuzela
-        type: carousel
+  # Recipes are the primary reason to open this page; chat is a second tab
+  # away for "what can I make with what I have" — a menu earning its slot as
+  # a tab switcher between two related cards, rather than being the page's
+  # own reason to exist.
+  - id: przepisy
+    label: PRZEPISY
+    grid: { columns: 2 }
+    cards:
+      - id: przepisy
+        type: recipes
         params:
-          slides:
-            - id: karuzela-zegar
-              type: clock
-              params: { format: "24h", showDate: false }
-            - id: karuzela-pogoda
-              type: weather
-              params:
-                location: { lat: 52.2297, lon: 21.0122 }
+          maxVisible: 6
+          allowUrlImport: true
 
-      - id: grid-wskazniki
-        type: grid
+      - id: czat
+        type: chat
         params:
-          columns: 2
-          cells:
-            - id: wskaznik-zegar
-              type: clock
-              params: { format: "24h", showDate: false }
+          defaultModel: "kilo-auto/free"
+          voiceInput: true
 
+      - id: menu-przepisy
+        type: menu
+        params:
+          orientation: horizontal
+          style: tabs
+          defaultActive: przepisy
+          items:
+            - { cardId: przepisy, label: PRZEPISY }
+            - { cardId: czat, label: CZAT }
+
+  # A shopping list is read top to bottom and grows; on its own page it gets
+  # the whole page height rather than sharing a column and a scrollbar.
+  - id: zakupy
+    label: ZAKUPY
+    grid: { columns: 1 }
+    cards:
+      - id: zakupy
+        type: shopping-list
+        params:
+          dataSource: { mode: local }
+          groupByCategory: true
+
+  # The just-for-fun page: the Punktomat login QR (a practical, frequently
+  # scanned thing) alongside a rotating carousel of cat photos.
+  - id: punktomat
+    label: PUNKTOMAT
+    grid: { columns: 2 }
+    cards:
       # No daily rotation, no feed — just a picture, until the layout itself
       # is edited. Served from public/ rather than an external host: a login
       # QR code is exactly the kind of image that should not depend on a
@@ -197,8 +187,7 @@ pages:
           caption: "zeskanuj, aby się zalogować"
 
       # Photos from the Unsplash API, fetched server-side with K7_UNSPLASH_ACCESS_KEY.
-      # Replaces the carousel of five hand-picked Unsplash cat URLs: a fresh
-      # random set every cacheDurationHours, attribution included.
+      # A fresh random set every cacheDurationHours, attribution included.
       - id: karuzela-zdjecia
         type: unsplash-carousel
         params:
@@ -207,3 +196,22 @@ pages:
           count: 15
           autoAdvanceSeconds: 20
           cacheDurationHours: 6
+
+  # The daily comic gets its own page rather than sharing with recipes/chat
+  # or the fun page — one thing to check, once a day.
+  - id: komiks
+    label: KOMIKS
+    grid: { columns: 1 }
+    cards:
+      - id: komiks
+        type: comic-of-the-day
+        params:
+          # Official Simon's Cat feed. Their own site (simonscat.com) has no
+          # RSS; this Tumblr is the one official channel that still exposes
+          # one — images arrive embedded in <description>, not enclosure/
+          # media:content, which is exactly the firstImgSrc fallback path.
+          rssUrl: "https://simonscat.tumblr.com/rss"
+          cacheDurationHours: 24
+          creditText: "Simon's Cat (simonscat.com)"
+          linkToSource: true
+          fallbackImageUrl: "https://64.media.tumblr.com/37a909135529ac75eed7f7eeed78a07e/0af04ab99beb43a3-ff/s500x750/19ada50379943b435bb91b46d9a1505bfd0fc332.jpg"

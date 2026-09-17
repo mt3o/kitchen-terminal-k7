@@ -3490,6 +3490,16 @@ created_at: 2026-09-10T04:56:38.042741+00:00
 
 CardGrid entity definition matched exactly what the grid card type needed to be
 ---
+[event:3a9296ed-716d-4522-a30b-310079feb6d6]
+node_id: d8f13deb-0013-41b1-9f8c-a57918a3b130
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-17T10:39:39.882688+00:00
+
+CardGrid entity's disambiguation from DashboardGrid clarified which 'grid' the household's instruction meant to de-emphasize
+---
 [node:d2844438-9992-4e20-bfb5-fa615a906574]
 type: entity
 tier: short-term
@@ -3543,6 +3553,16 @@ source: agent-surface
 created_at: 2026-09-14T19:48:57.295959+00:00
 
 the Slideshow is the existing precedent this change's mechanism should follow, and the source of the new conflict issue captured this session
+---
+[event:73aa8aad-326d-4a2f-b152-3432433c91cd]
+node_id: d2844438-9992-4e20-bfb5-fa615a906574
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-17T10:39:39.883416+00:00
+
+confirmed Slideshow's cross-page, no-visual-slot behavior before leaving pokaz-domowy's cardIds unchanged across the reorg
 ---
 [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f]
 type: entity
@@ -5581,6 +5601,16 @@ source: agent-surface
 created_at: 2026-09-14T18:46:49.261497+00:00
 
 gw-resolve 2026-09-14 domain-ratification pass: human confirmed ("confirm all four").
+---
+[event:dad08c74-bb08-4245-9ad0-2d8590ebe41d]
+node_id: e1da2600-04f7-4243-bb85-f79692e086ae
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-17T10:39:39.877752+00:00
+
+Page entity's own 'a card costs a page, not shrinking existing ones' principle directly shaped the reorg's per-page grouping
 ---
 [node:e156fb5f-8f05-400a-812b-e0552df1def3]
 type: constraint
@@ -11824,6 +11854,16 @@ created_at: 2026-09-15T15:42:41.848505+00:00
 
 zero-scroll ruling actively re-verified via real-browser screenshots across all 4 pages after the 2-column reversal and per-card retrofits
 ---
+[event:0beced7a-5668-4b6c-a5aa-d389c766ea5a]
+node_id: 1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-17T10:39:39.883999+00:00
+
+re-verified zero-page-scroll holds across all 6 reorganized pages via real-browser screenshots at both 1024x768 and 375x667
+---
 [node:c77c25d1-e7f0-4e2d-894c-b0d4a7744b2b]
 type: concept
 tier: short-term
@@ -12227,3 +12267,108 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-17T07:35:04.864664+00:00
 
 gw-review lesson for k7-mobile-responsive: after a mid-implementation scope expansion (a "Phase 5" documenting a reversed earlier decision), both plan.md's own file-modified list AND any design deck screens describing the superseded mechanism must be updated in the same pass — an independent fresh-session code review caught two drifts a self-review missed: (1) plan.md claimed K7Weather.svelte needed "no change" when it was in fact modified with the same .wrap pattern as K7AsciiArt.svelte; (2) context/design/<surface>/deck.json's page-grid-reflow screen still described the original 1-column-at-phone mechanism (wireframe label, states, behavior, cites) after Phase 5 reversed it to keep 2 columns at phone width. General lesson: a scope-reversing decision made mid-implementation is easy to record in the new plan text while forgetting the OLDER artifacts (deck.json, earlier phase's own "Modified:" list) that assumed the mechanism being reversed — check both when closing out a phase that reverses an earlier one.
+---
+[node:1c386aee-50dd-4adf-af38-d38bf9ec0c4f]
+type: goal
+tier: short-term
+path: /goal/k7-layout-reorg
+created_at: 2026-09-17T10:37:00.983638+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:5ecc8573-bb1f-4dce-9f3f-cafdf76c457d] @ 2026-09-17T10:39:08.087629+00:00
+-> DEPENDS_ON [node:830a2e75-7532-4e3d-9775-04471d3bd90c] @ 2026-09-17T10:39:29.113099+00:00
+-> DEPENDS_ON [node:abe7f451-d4fc-4a30-9ca2-e085b94509a6] @ 2026-09-17T11:01:12.660026+00:00
+-> DEPENDS_ON [node:c5b7c66f-05b7-432b-886b-79fceedd490a] @ 2026-09-17T10:39:19.073385+00:00
+
+Reorganize layout.yaml's pages around how the household actually uses the wall display (by use-case: doorway glance-info, kitchen tools, recipes, shopping, fun/decorative, comic) instead of the prior rough-theme grouping (dom/kuchnia/system) that split duplicated cards (two clocks, two timers) across pages and spent whole page slots on grid/menu as if they were content in themselves.
+---
+[node:fe3435fc-cafe-4cb3-abd8-5de19948c47d]
+type: slice
+tier: short-term
+path: /change/k7-layout-reorg
+created_at: 2026-09-17T10:37:00.983638+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:1c386aee-50dd-4adf-af38-d38bf9ec0c4f] @ 2026-09-17T10:37:00.983638+00:00
+-> SCOPED_TO [node:5ecc8573-bb1f-4dce-9f3f-cafdf76c457d] @ 2026-09-17T10:39:08.087629+00:00
+-> SCOPED_TO [node:830a2e75-7532-4e3d-9775-04471d3bd90c] @ 2026-09-17T10:39:29.113099+00:00
+-> SCOPED_TO [node:abe7f451-d4fc-4a30-9ca2-e085b94509a6] @ 2026-09-17T11:01:12.660026+00:00
+-> SCOPED_TO [node:c5b7c66f-05b7-432b-886b-79fceedd490a] @ 2026-09-17T10:39:19.073385+00:00
+
+change scope: k7-layout-reorg
+---
+[event:966969bf-7a7f-493f-aadd-9c635733ce31]
+node_id: fe3435fc-cafe-4cb3-abd8-5de19948c47d
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-17T10:37:00.989246+00:00
+
+create_change k7-layout-reorg
+---
+[node:5ecc8573-bb1f-4dce-9f3f-cafdf76c457d]
+type: decision
+tier: mid-term
+path: /artifact/layout-yaml-s-pages-are-grouped-by-use-c
+created_at: 2026-09-17T10:39:08.087629+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea] @ 2026-09-17T10:39:08.087629+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-17T10:39:08.087629+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-17T10:39:08.087629+00:00
+-> ABOUT [node:e1da2600-04f7-4243-bb85-f79692e086ae] @ 2026-09-17T10:39:08.087629+00:00
+
+layout.yaml's pages are grouped by use-case (when/where a card is actually reached for) rather than by a rough theme label — reversing the prior dom/kuchnia/system grouping, which had no captured rationale of its own. glowna: doorway-glance essentials (clock, weather, calendar) plus ascii-art-of-the-day for warmth. narzedzia: kitchen tools (timer, audiometer) reached for while cooking, not read from the doorway. przepisy: recipes, with chat as a secondary tab. zakupy and komiks: each alone on their own page since they're read top-to-bottom and benefit from the full page rather than sharing a column. punktomat: QR login code plus a cat-photo carousel, a "just for fun" page. Duplicate cards that existed only because two thematic pages both wanted a clock/weather/timer (glowna+system, glowna+kuchnia) were consolidated to one instance each.
+---
+[node:c5b7c66f-05b7-432b-886b-79fceedd490a]
+type: constraint
+tier: mid-term
+path: /artifact/cardgrid-and-menu-card-types-are-layout
+created_at: 2026-09-17T10:39:19.073385+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:11dcab1d-7177-4bb1-9965-15c8a285b9c2] @ 2026-09-17T10:39:19.073385+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-17T10:39:19.073385+00:00
+-> ABOUT [node:d8f13deb-0013-41b1-9f8c-a57918a3b130] @ 2026-09-17T10:39:19.073385+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-17T10:39:19.073385+00:00
+
+CardGrid and Menu card types are layout-composition tools, not content — a whole page slot should never be spent on one just to display it. Removed layout.yaml's nested single-clock CardGrid (grid-wskazniki) and the audio/timer Menu (menu-kuchnia) entirely rather than relocating them, since direct card placement covered the same need better once pages were regrouped by use-case. The one legitimate use kept: a Menu as a tab switcher between two related, substantial cards on one page (przepisy/czat) where the alternative — two full separate pages, or cramming both into one page permanently visible — was worse than the tab. Household framing that motivated this: "use menu and grid as layout building helpers, not end goals."
+---
+[node:830a2e75-7532-4e3d-9775-04471d3bd90c]
+type: issue
+tier: mid-term
+path: /artifact/main-ts-s-desktop-grid-row-count-computa
+created_at: 2026-09-17T10:39:29.113099+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-17T10:39:29.113099+00:00
+-> DEPENDS_ON [node:c5b7c66f-05b7-432b-886b-79fceedd490a] @ 2026-09-17T10:39:29.113099+00:00
+-> ABOUT [node:d8f13deb-0013-41b1-9f8c-a57918a3b130] @ 2026-09-17T10:39:29.113099+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-17T10:39:29.113099+00:00
+
+main.ts's desktop grid row-count computation (--deck-rows) counted every declared card on a page, including ones a same-page `menu` card hides at first paint — found when a new 3-card page (recipes, chat, menu; chat starts hidden) computed 2 rows from 3 declared cards, leaving an empty second row the full height of the visible content above it. Fixed with a menuHiddenIds() helper in main.ts that scans same-page menu cards' items/defaultActive (mirroring the menu widget's own default-active resolution exactly, so the two can never disagree) and excludes non-active targets from the row math. General lesson: any layout math that counts "declared cards" on a page must account for cards a menu (or any other same-page visibility toggle) hides by default, or it silently reserves dead space sized to the hidden content.
+---
+[node:abe7f451-d4fc-4a30-9ca2-e085b94509a6]
+type: decision
+tier: mid-term
+path: /artifact/added-a-second-calendar-card-instance-k
+created_at: 2026-09-17T11:01:12.660026+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:5ecc8573-bb1f-4dce-9f3f-cafdf76c457d] @ 2026-09-17T11:01:12.660026+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-17T11:01:12.660026+00:00
+
+Added a second calendar card instance (kalendarz-pelny) on its own full-width page, alongside the existing compact calendar card that stays on glowna's doorway-glance 2x2 grid. This is a deliberate exception to the "no duplicate cards across pages" cleanup the rest of k7-layout-reorg did: the two instances serve different purposes (quick glance vs. actually reading a week's event titles without a shared-cell squeeze), not redundant always-visible clutter. General distinction worth keeping: a duplicate card is a problem when both instances serve the identical purpose in the identical way (the clock/weather/timer duplicates this change removed); it's a legitimate design choice when the instances differ in fidelity/detail for different moments of use.

@@ -29,7 +29,7 @@ import { createPager, type Pager } from './lib/pager.ts'
 import { createSlideshowController, extractSlideshow, isForbiddenNestedSlideshow, type SlideshowController } from './lib/slideshow.ts'
 import { configure as configureFullscreenLock } from './lib/fullscreen-lock.ts'
 
-import type { Card, CardType, NormalisedLayout } from '../shared/layout.ts'
+import type { Card, CardType, NormalisedLayout, Page } from '../shared/layout.ts'
 
 /** Polish HUD labels, keyed by card type. Labels uppercase, data lowercase. */
 const LABELS: Record<CardType, string> = {
@@ -85,6 +85,37 @@ function clockFace(card: Card, el: HTMLElement): void {
   window.setInterval(tick, params.showSeconds ? 1000 : 15_000)
 }
 
+/**
+ * Card ids a same-page `menu` hides at first paint — every item except the
+ * one that starts active (`defaultActive`, else the first item). Mirrors the
+ * `case 'menu':` widget's own item-parsing exactly (valid cardId+label
+ * pairs only) so this can never disagree with what the menu actually does
+ * once it mounts.
+ *
+ * Exists so the row-count math below doesn't reserve a whole grid row for
+ * content nobody sees until they click a tab — found on `przepisy`, a
+ * 3-card page (recipes, chat, menu) where chat starts hidden: without this,
+ * the page still computed rows from all 3 declared cards (ceil(3/2) = 2),
+ * leaving an empty second row the size of the visible content above it.
+ */
+function menuHiddenIds(page: Page): Set<string> {
+  const hidden = new Set<string>()
+  for (const card of page.cards) {
+    if (card.type !== 'menu') continue
+    const items = Array.isArray(card.params?.items)
+      ? (card.params.items as { cardId: string; label: string }[]).filter(
+          (it) => it && typeof it.cardId === 'string' && typeof it.label === 'string',
+        )
+      : []
+    const defaultActive = typeof card.params?.defaultActive === 'string' ? card.params.defaultActive : ''
+    const active = defaultActive || items[0]?.cardId || ''
+    for (const item of items) {
+      if (item.cardId !== active) hidden.add(item.cardId)
+    }
+  }
+  return hidden
+}
+
 function render(rawLayout: NormalisedLayout): void {
   if (!deck) return
   // Idempotent: boot() runs again after a reconnect, and appending a second set
@@ -117,10 +148,14 @@ function render(rawLayout: NormalisedLayout): void {
     //
     // A full-column card takes a column to itself, so the rest share what is
     // left — that is what decides the row count, not the raw card total.
-    const fullColumn = page.cards.filter((c) => c.span?.rows === 0).length
-    const rest = page.cards.length - fullColumn
+    // Cards a same-page menu hides at first paint don't occupy a slot either
+    // (menuHiddenIds above) — the row count reflects what is actually shown.
+    const hiddenIds = menuHiddenIds(page)
+    const visibleCards = page.cards.filter((c) => !hiddenIds.has(c.id))
+    const fullColumn = visibleCards.filter((c) => c.span?.rows === 0).length
+    const rest = visibleCards.length - fullColumn
     const restColumns = Math.max(1, columns - fullColumn)
-    const rows = Math.max(1, fullColumn > 0 ? Math.ceil(rest / restColumns) : Math.ceil(page.cards.length / columns))
+    const rows = Math.max(1, fullColumn > 0 ? Math.ceil(rest / restColumns) : Math.ceil(visibleCards.length / columns))
     el.style.setProperty('--deck-rows', String(rows))
     const gap = page.grid?.gap ?? layout.grid.gap
     if (gap) el.style.setProperty('--card-gap', gap)
