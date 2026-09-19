@@ -8,6 +8,7 @@
  * the scrubber is built from. Two lists would drift and the second one would be
  * the one nobody updated.
  */
+import { join } from 'node:path'
 
 export interface Config {
   port: number
@@ -54,6 +55,12 @@ export interface Config {
   certDir: string
   /** Voice-input audio + transcript backups (k7-transcript-archive). */
   transcriptArchiveDir: string
+  /**
+   * One Markdown file per recipe. Outside the deployed checkout by default,
+   * because deploy.sh resets that checkout hard and the collection is the
+   * household's own, hand-edited data with its own backup and sync.
+   */
+  recipesDir: string
 }
 
 function readPort(raw: string | undefined, fallback: number): number {
@@ -64,6 +71,12 @@ function readPort(raw: string | undefined, fallback: number): number {
     throw new Error(`K7_PORT must be an integer between 1 and 65535, got ${JSON.stringify(raw)}`)
   }
   return n
+}
+
+/** XDG data home when there is one; `./data` only when the process has no home at all. */
+function defaultRecipesDir(env: NodeJS.ProcessEnv): string {
+  const dataHome = env.XDG_DATA_HOME || (env.HOME ? join(env.HOME, '.local/share') : undefined)
+  return dataHome ? join(dataHome, 'kitchen-terminal-k7', 'przepisy') : './data/przepisy'
 }
 
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
@@ -87,6 +100,9 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     acmeProduction: env.K7_ACME_PRODUCTION === 'true',
     certDir: env.K7_CERT_DIR ?? './data/certs',
     transcriptArchiveDir: env.K7_TRANSCRIPT_ARCHIVE_DIR ?? './data/transcripts',
+    // `||`, not `??`: the schema declares the key empty, and an empty path
+    // would quietly mean the current directory — the deployed checkout.
+    recipesDir: env.K7_RECIPES_DIR || defaultRecipesDir(env),
   }
 }
 
@@ -120,6 +136,7 @@ export function describeConfig(config: Config): string {
     `port=${config.port}`,
     `trust_proxy=${config.trustProxy ?? 'off'}`,
     `db=${config.databasePath}`,
+    `recipes=${config.recipesDir}`,
     `glitchtip=${present(config.glitchtipDsn)}`,
     `kilo_key=${present(config.kiloGatewayKey)}`,
     `google_refresh=${present(config.googleOauthRefreshToken)}`,

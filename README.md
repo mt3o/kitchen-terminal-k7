@@ -125,6 +125,41 @@ Point `theme:` at a different file under `design-system/themes/` (currently
 `retro-scifi.yaml` and `daylight-lab.yaml`) to swap the entire visual design —
 see below.
 
+## Where the recipes live
+
+The recipe collection (the `recipes` card) is a directory of Markdown files,
+one per recipe, **outside the deployed checkout** — `deploy.sh` resets that
+checkout hard, and the recipes are household data to back up and sync on
+their own. The directory is `K7_RECIPES_DIR`, defaulting to
+`~/.local/share/kitchen-terminal-k7/przepisy`; the server prints the resolved
+path in its boot line (`recipes=...`). Files can be edited by hand while the
+server runs — every request re-reads the directory:
+
+```markdown
+---
+title: Szakszuka
+tags: [śniadanie, jajka]
+---
+
+## Składniki
+
+- 4 jajka
+- 400 g pomidorów
+
+## Kroki
+
+1. Podsmaż cebulę, dodaj pomidory i duś 10 minut.
+2. Wbij jajka i gotuj pod przykryciem 5 minut.
+```
+
+The file name is the recipe's id. Frontmatter is optional (the title falls
+back to the first `#` heading, then the file name); `Skladniki`/`Ingredients`
+and `Kroki`/`Przygotowanie`/`Steps` headings, `*` bullets and `1)` numbering
+are all read. A file that can't be parsed is skipped with a warning, never
+fatal. On first start, recipes still in the SQLite `recipes` table are copied
+here once; a `.migrated-from-sqlite` marker records that, so deleting every
+file does not bring them back.
+
 ## Design system and the token contract
 
 Components read **only** CSS custom properties (`var(--*)`) generated from the

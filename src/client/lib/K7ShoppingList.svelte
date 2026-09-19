@@ -16,6 +16,7 @@
 
 <script lang="ts">
   import Card from './Card.svelte'
+  import { SHOPPING_LIST_CHANGED } from './k7-events.ts'
 
   interface ShoppingListItem {
     id: string
@@ -200,6 +201,14 @@
     void showChecked
     void load()
     return () => controller?.abort()
+  })
+
+  // Items added elsewhere (the chat's /zakupy) — reloaded from the server,
+  // never appended from the event, so the list only ever shows what landed.
+  $effect(() => {
+    const onChanged = (): void => void load()
+    window.addEventListener(SHOPPING_LIST_CHANGED, onChanged)
+    return () => window.removeEventListener(SHOPPING_LIST_CHANGED, onChanged)
   })
 </script>
 

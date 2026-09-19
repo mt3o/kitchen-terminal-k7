@@ -140,6 +140,17 @@ export function createRepositories(db: Db): Repositories {
         .returning()
       return toConversation(row!)
     },
+    async update(id, patch) {
+      // updatedAt is deliberately left alone: it orders the archive by last
+      // turn (see addMessage), and a rename is not a turn.
+      if (patch.title === undefined && patch.model === undefined) return conversations.get(id)
+      const [row] = await db
+        .update(schema.conversations)
+        .set(patch)
+        .where(eq(schema.conversations.id, id))
+        .returning()
+      return row ? toConversation(row) : undefined
+    },
     async delete(id) {
       const rows = await db.delete(schema.conversations).where(eq(schema.conversations.id, id)).returning()
       return rows.length > 0

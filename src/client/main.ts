@@ -28,6 +28,7 @@ import { createPullToRefresh } from './lib/pull-refresh.ts'
 import { createPager, type Pager } from './lib/pager.ts'
 import { createSlideshowController, extractSlideshow, isForbiddenNestedSlideshow, type SlideshowController } from './lib/slideshow.ts'
 import { configure as configureFullscreenLock } from './lib/fullscreen-lock.ts'
+import { MENU_SELECT, REVEAL, type MenuSelectDetail } from './lib/k7-events.ts'
 
 import type { Card, CardType, NormalisedLayout, Page } from '../shared/layout.ts'
 
@@ -53,6 +54,12 @@ const LABELS: Record<CardType, string> = {
 
 const deck = document.getElementById('deck')
 let pager: Pager | undefined
+/**
+ * Where the chat's /pogoda asks about: the first weather card's location, so
+ * the chat and the wall agree on whose weather it is. Recomputed by every
+ * render(), read by createWidget's `chat` case.
+ */
+let weatherLocation: { lat?: unknown; lon?: unknown; units?: unknown } | undefined
 let slideshowController: SlideshowController | undefined
 const status = document.getElementById('status')
 const foot = document.getElementById('foot')
@@ -131,6 +138,12 @@ function render(rawLayout: NormalisedLayout): void {
   // it always has.
   const { layout, config: slideshowConfig, warnings: slideshowWarnings } = extractSlideshow(rawLayout)
   for (const warning of slideshowWarnings) console.warn(`layout: ${warning}`)
+
+  const weatherCard = layout.pages.flatMap((p) => p.cards).find((c) => c.type === 'weather')
+  const weatherParams = (weatherCard?.params ?? {}) as { location?: { lat?: unknown; lon?: unknown }; units?: unknown }
+  weatherLocation = weatherCard
+    ? { lat: weatherParams.location?.lat, lon: weatherParams.location?.lon, units: weatherParams.units }
+    : undefined
 
   const track = document.createElement('div')
   track.className = 'pager-track'
@@ -221,6 +234,28 @@ function render(rawLayout: NormalisedLayout): void {
   // described no longer exists.
   configureFullscreenLock({ track, pager, slideshow: slideshowController })
 }
+
+/**
+ * A card asking to be brought on screen (lib/k7-events.ts) — the recipes
+ * card, say, after the chat hands it a /przepis draft while it sits behind a
+ * menu tab or on another page. Pages there, then asks every menu to select
+ * it; only the menu that owns the id acts, through its own k7-menu-change
+ * path, so show/hide still has exactly one implementation.
+ *
+ * Registered once for the document's lifetime, not per render(): it reads
+ * the current pager and DOM at event time, so a re-render needs no rewiring.
+ */
+document.addEventListener(REVEAL, (e) => {
+  const card = e.target
+  if (!(card instanceof HTMLElement) || !card.id) return
+  const page = card.closest('.page')
+  const pages = page?.parentElement ? [...page.parentElement.children] : []
+  const index = page ? pages.indexOf(page) : -1
+  if (pager && index >= 0 && pager.current() !== index) pager.go(index)
+  for (const menu of document.querySelectorAll('k7-menu')) {
+    menu.dispatchEvent(new CustomEvent<MenuSelectDetail>(MENU_SELECT, { detail: { cardId: card.id } }))
+  }
+})
 
 /**
  * The shell is cached so the wall keeps painting across a backend restart. Data
@@ -401,6 +436,9 @@ function createWidget(card: Card): HTMLElement {
       attr(el, 'contextWindowMarginPercent', params.contextWindowMarginPercent)
       attr(el, 'compactingThresholdPercent', params.compactingThresholdPercent)
       attr(el, 'voiceInput', params.voiceInput)
+      attr(el, 'weatherLat', weatherLocation?.lat)
+      attr(el, 'weatherLon', weatherLocation?.lon)
+      attr(el, 'weatherUnits', weatherLocation?.units)
       return el
     }
     case 'recipes': {

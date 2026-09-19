@@ -19,6 +19,7 @@
 
 <script lang="ts">
   import Card from './Card.svelte'
+  import { TIMER_START, type TimerStartDetail } from './k7-events.ts'
 
   interface Props {
     /** Comma-separated whole minutes, e.g. "5,10,15,30". Custom-element attrs are strings. */
@@ -142,6 +143,26 @@
     remainingSeconds = 0
     deadline = 0
   }
+
+  // A countdown asked for by another card — the chat's /minutnik, or a
+  // duration tapped in a recipe (lib/k7-events.ts). A running or paused
+  // countdown is never replaced from afar: the pasta already on the stove
+  // matters more than the one just asked about. With several timer cards, an
+  // idle one takes the request over a busy one's refusal.
+  $effect(() => {
+    const onStart = (e: Event): void => {
+      const request = (e as CustomEvent<TimerStartDetail>).detail
+      if (request.result === 'started') return
+      if (phase === 'running' || phase === 'paused') {
+        request.result = 'busy'
+        return
+      }
+      beginCountdown(request.seconds)
+      request.result = 'started'
+    }
+    window.addEventListener(TIMER_START, onStart)
+    return () => window.removeEventListener(TIMER_START, onStart)
+  })
 
   $effect(() => {
     if (phase !== 'running') return

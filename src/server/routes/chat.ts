@@ -13,6 +13,7 @@
 import type { FastifyInstance } from 'fastify'
 
 import type { ConversationService } from '../ai/conversation-service.ts'
+import { RecipeDraftError, type RecipeDrafter, type RecipeDraftErrorReason } from '../ai/recipe-drafter.ts'
 import type { KiloGatewayClient, ModelCatalog } from '../upstream/kilo.ts'
 import type { AiCallRepository, ConversationRepository } from '../ports/repositories.ts'
 
@@ -20,6 +21,16 @@ import type { AiCallRepository, ConversationRepository } from '../ports/reposito
 const DEFAULT_MARGIN_PERCENT = 20
 const DEFAULT_COMPACTING_THRESHOLD_PERCENT = 80
 const DEFAULT_COST_HISTORY_DAYS = 30
+
+/** An archive row is one line on a half-width card; the rest of a long first message adds nothing there. */
+const MAX_TITLE_LENGTH = 80
+
+const RECIPE_DRAFT_STATUS: Record<RecipeDraftErrorReason, number> = {
+  'no-such-conversation': 404,
+  'no-assistant-message': 422,
+  'not-a-recipe': 422,
+  'extraction-failed': 502,
+}
 
 /**
  * The gateway's transcription response carries no `Content-Length` promise
@@ -34,6 +45,7 @@ export interface ChatRouteDeps {
   aiCalls: AiCallRepository
   modelCatalog: ModelCatalog
   conversationService: ConversationService
+  recipeDrafter: RecipeDrafter
   /** Only `transcribeAudio` is used here — kept narrow so a fake in tests doesn't need the whole client. */
   kiloGateway: Pick<KiloGatewayClient, 'transcribeAudio'>
   /** Wraps Sentry.captureException so this module never imports observability directly. */
@@ -47,8 +59,18 @@ export interface ChatRouteDeps {
 }
 
 function clampPercent(raw: unknown, fallback: number): number {
+  // Number(undefined) is NaN but Number('') and Number(null) are 0 — an
+  // absent query parameter must mean "the default", not "reserve nothing".
+  if (raw === undefined || raw === null || raw === '') return fallback
   const n = Number(raw)
   return Number.isFinite(n) && n >= 0 && n <= 100 ? n : fallback
+}
+
+/** Whitespace collapsed, capped with an ellipsis; blank means "no title". */
+function cleanTitle(raw: string): string | null {
+  const title = raw.replace(/\s+/g, ' ').trim()
+  if (title === '') return null
+  return title.length > MAX_TITLE_LENGTH ? `${title.slice(0, MAX_TITLE_LENGTH - 1).trimEnd()}…` : title
 }
 
 export async function registerChatRoutes(app: FastifyInstance, deps: ChatRouteDeps): Promise<void> {
@@ -78,9 +100,95 @@ export async function registerChatRoutes(app: FastifyInstance, deps: ChatRouteDe
     }
     const conversation = await deps.conversations.create({
       model: body.model,
-      title: typeof body.title === 'string' && body.title.trim() !== '' ? body.title.trim() : null,
+      title: typeof body.title === 'string' ? cleanTitle(body.title) : null,
     })
     return reply.code(201).send(conversation)
+  })
+
+  /** One thread's own record — the card resuming the thread it last had open needs its model and title. */
+  app.get('/api/chat/conversations/:id', async (req, reply) => {
+    const { id } = req.params as { id: string }
+    const conversation = await deps.conversations.get(id)
+    return conversation ?? reply.code(404).send({ error: 'no such conversation' })
+  })
+
+  /** Rename a thread (`/tytul`), or switch the model its next turns use (`/model`, the picker). */
+  app.patch('/api/chat/conversations/:id', async (req, reply) => {
+    const { id } = req.params as { id: string }
+    const body = (req.body ?? {}) as { title?: unknown; model?: unknown }
+    const patch: { title?: string | null; model?: string } = {}
+    if (body.title === null) patch.title = null
+    else if (typeof body.title === 'string') patch.title = cleanTitle(body.title)
+    else if (body.title !== undefined) return reply.code(400).send({ error: 'title must be a string or null' })
+    if (typeof body.model === 'string' && body.model.trim() !== '') patch.model = body.model.trim()
+    else if (body.model !== undefined) return reply.code(400).send({ error: 'model must be a non-empty string' })
+    if (patch.title === undefined && patch.model === undefined) {
+      return reply.code(400).send({ error: 'nothing to update: send title and/or model' })
+    }
+    const updated = await deps.conversations.update(id, patch)
+    return updated ?? reply.code(404).send({ error: 'no such conversation' })
+  })
+
+  /** Removes the thread and its messages; its ai_calls rows survive (set null — see schema.ts). */
+  app.delete('/api/chat/conversations/:id', async (req, reply) => {
+    const { id } = req.params as { id: string }
+    const deleted = await deps.conversations.delete(id)
+    return deleted ? reply.code(204).send() : reply.code(404).send({ error: 'no such conversation' })
+  })
+
+  /**
+   * The `/context` command's data: how much of the model's window the thread
+   * uses, what is reserved for the reply, and where compacting kicks in. A
+   * thread that does not exist yet is a valid question (an empty window);
+   * a named thread that does not exist is a 404, not an empty answer.
+   */
+  app.get('/api/chat/context', async (req, reply) => {
+    const q = req.query as {
+      model?: string
+      conversationId?: string
+      contextWindowMarginPercent?: string
+      compactingThresholdPercent?: string
+    }
+    let model = q.model?.trim() || undefined
+    if (q.conversationId) {
+      const conversation = await deps.conversations.get(q.conversationId)
+      if (!conversation) return reply.code(404).send({ error: 'no such conversation' })
+      model = model ?? conversation.model
+    }
+    if (!model) return reply.code(400).send({ error: 'model or conversationId is required' })
+    return deps.conversationService.describeContext({
+      conversationId: q.conversationId || undefined,
+      model,
+      budget: {
+        contextWindowMarginPercent: clampPercent(q.contextWindowMarginPercent, DEFAULT_MARGIN_PERCENT),
+        compactingThresholdPercent: clampPercent(q.compactingThresholdPercent, DEFAULT_COMPACTING_THRESHOLD_PERCENT),
+      },
+    })
+  })
+
+  /**
+   * `/przepis`: an unsaved recipe draft extracted from an assistant message.
+   * Returns the same shape POST /api/recipes/import does, for the same
+   * review-before-save form — nothing here writes a Recipe.
+   */
+  app.post('/api/chat/conversations/:id/recipe-draft', async (req, reply) => {
+    const { id } = req.params as { id: string }
+    const body = (req.body ?? {}) as { messageId?: unknown }
+    const controller = new AbortController()
+    req.raw.on('close', () => controller.abort())
+    try {
+      return await deps.recipeDrafter.draftFromConversation(
+        { conversationId: id, messageId: typeof body.messageId === 'string' ? body.messageId : undefined },
+        controller.signal,
+      )
+    } catch (err) {
+      if (err instanceof RecipeDraftError) {
+        return reply.code(RECIPE_DRAFT_STATUS[err.reason]).send({ error: err.message, reason: err.reason })
+      }
+      // Message content never reaches `extra` — same rule as the SSE route.
+      deps.reportError(err, { route: '/api/chat/conversations/:id/recipe-draft' })
+      return reply.code(500).send({ error: 'internal error' })
+    }
   })
 
   app.get('/api/chat/conversations/:id/messages', async (req, reply) => {

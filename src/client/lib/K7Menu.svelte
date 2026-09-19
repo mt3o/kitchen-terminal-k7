@@ -26,6 +26,7 @@
 
 <script lang="ts">
   import Card from './Card.svelte'
+  import { MENU_SELECT, type MenuSelectDetail } from './k7-events.ts'
 
   interface MenuItem {
     cardId: string
@@ -71,6 +72,18 @@
     active = cardId
     dispatchChange(active)
   }
+
+  // main.ts asking every menu to surface a card another card revealed
+  // (lib/k7-events.ts) — only the menu that owns that card id acts on it.
+  $effect(() => {
+    const host = $host()
+    const onSelect = (e: Event): void => {
+      const { cardId } = (e as CustomEvent<MenuSelectDetail>).detail
+      if (parsedItems.some((item) => item.cardId === cardId)) select(cardId)
+    }
+    host.addEventListener(MENU_SELECT, onSelect)
+    return () => host.removeEventListener(MENU_SELECT, onSelect)
+  })
 
   $effect(() => {
     // Applies once, as soon as the item list is known — main.ts has exactly
