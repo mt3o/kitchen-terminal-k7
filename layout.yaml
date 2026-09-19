@@ -53,6 +53,13 @@ pages:
               name: "Google"
               showInMain: true
               source: { mode: google, calendarId: primary }
+            # A public Google calendar — no reason to keep this one out of a
+            # public repo, unlike the household's own calendars added via the
+            # gitignored layout.local.yaml (see layout.local.yaml.example).
+            - id: swieta
+              name: "Święta"
+              showInMain: true
+              source: { mode: google, calendarId: "pl.polish#holiday@group.v.calendar.google.com" }
           view: week
 
       - id: ascii
@@ -102,6 +109,10 @@ pages:
               name: "Google"
               showInMain: true
               source: { mode: google, calendarId: primary }
+            - id: swieta
+              name: "Święta"
+              showInMain: true
+              source: { mode: google, calendarId: "pl.polish#holiday@group.v.calendar.google.com" }
           view: week
 
   # Kitchen tools: the timer and the noise meter. Neither needs to be seen
