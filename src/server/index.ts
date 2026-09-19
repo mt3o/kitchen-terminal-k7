@@ -14,6 +14,7 @@ import { findConfiguredCalendar } from './calendar-lookup.ts'
 import type { Calendar } from './domain/types.ts'
 import { parseChangelog } from '../shared/changelog.ts'
 import { createRepositories, openDatabase } from './adapters/drizzle/index.ts'
+import { createFileRecipeRepository, InvalidRecipeIdError, migrateRecipesToFiles } from './adapters/files/recipes.ts'
 import { describeConfig, loadConfig, secretValues } from './config.ts'
 import { runMigrations } from './db/migrate.ts'
 import { initObservability, Sentry } from './observability.ts'
@@ -31,6 +32,7 @@ import { createGoogleCalendarClient, googleCalendarCacheKey, hasGoogleCalendarCr
 import { fetchUnsplashPhotos, unsplashCacheKey, UNSPLASH_MAX_COUNT, type UnsplashOrientation } from './upstream/unsplash.ts'
 import { createKiloGatewayClient, createModelCatalog } from './upstream/kilo.ts'
 import { createConversationService } from './ai/conversation-service.ts'
+import { createRecipeDrafter } from './ai/recipe-drafter.ts'
 import { registerChatRoutes } from './routes/chat.ts'
 import { archiveTranscription, pruneTranscriptArchive } from './ai/transcript-archive.ts'
 
@@ -58,6 +60,12 @@ const fetchThrough = createFreshnessService(repos.upstreamCache)
 const kiloClient = createKiloGatewayClient({ apiKey: config.kiloGatewayKey })
 const modelCatalog = createModelCatalog(fetchThrough, kiloClient)
 const conversationService = createConversationService({
+  conversations: repos.conversations,
+  aiCalls: repos.aiCalls,
+  modelCatalog,
+  gateway: kiloClient,
+})
+const recipeDrafter = createRecipeDrafter({
   conversations: repos.conversations,
   aiCalls: repos.aiCalls,
   modelCatalog,
@@ -495,6 +503,23 @@ app.delete('/api/shopping-list/:id', async (req, reply) => {
   return deleted ? reply.code(204).send() : reply.code(404).send({ error: 'no such item' })
 })
 
+// Recipes are files in config.recipesDir, outside the deployed checkout —
+// household data, hand-editable, not something a `git reset --hard` deploy
+// may touch. SQLite's `recipes` table is now only the one-time migration
+// source (and a way back, should the file store ever need reverting).
+const recipes = createFileRecipeRepository(config.recipesDir, {
+  onInvalid: (file, err) => app.log.warn({ file, err, dir: config.recipesDir }, 'skipping unreadable recipe file'),
+})
+try {
+  const migration = await migrateRecipesToFiles(repos.recipes, config.recipesDir)
+  if (migration) app.log.info({ ...migration, dir: config.recipesDir }, 'copied SQLite recipes to the recipe directory')
+} catch (err) {
+  // Not fatal: the kiosk stays up with whatever the directory already holds,
+  // and without the marker written the copy is simply retried next boot.
+  Sentry.captureException(err, { extra: { task: 'recipe-migration' } })
+  app.log.error({ err, dir: config.recipesDir }, 'recipe migration failed')
+}
+
 // Recipes: import is a review step, not a save. POST /api/recipes/import only
 // extracts and returns what it found — nothing is written to SQLite until the
 // household confirms it through POST /api/recipes, which is the same shape a
@@ -503,7 +528,7 @@ app.delete('/api/shopping-list/:id', async (req, reply) => {
 app.get('/api/recipes', async (req) => {
   const q = req.query as { tag?: string; limit?: string }
   const limit = q.limit ? Number(q.limit) : undefined
-  return repos.recipes.list({
+  return recipes.list({
     tag: q.tag,
     limit: Number.isFinite(limit) ? limit : undefined,
   })
@@ -511,7 +536,7 @@ app.get('/api/recipes', async (req) => {
 
 app.get('/api/recipes/:id', async (req, reply) => {
   const { id } = req.params as { id: string }
-  const recipe = await repos.recipes.get(id)
+  const recipe = await recipes.get(id)
   return recipe ?? reply.code(404).send({ error: 'no such recipe' })
 })
 
@@ -551,20 +576,27 @@ app.post('/api/recipes', async (req, reply) => {
   if (!isStringArray(body.ingredients) || !isStringArray(body.steps) || !isStringArray(body.tags)) {
     return reply.code(400).send({ error: 'ingredients, steps and tags must be string arrays' })
   }
-  const recipe = await repos.recipes.save({
-    id: typeof body.id === 'string' ? body.id : '',
-    title: body.title.trim(),
-    sourceUrl: typeof body.sourceUrl === 'string' ? body.sourceUrl : null,
-    ingredients: body.ingredients,
-    steps: body.steps,
-    tags: body.tags,
-  })
-  return reply.code(201).send(recipe)
+  try {
+    const recipe = await recipes.save({
+      id: typeof body.id === 'string' ? body.id : '',
+      title: body.title.trim(),
+      sourceUrl: typeof body.sourceUrl === 'string' ? body.sourceUrl : null,
+      ingredients: body.ingredients,
+      steps: body.steps,
+      tags: body.tags,
+    })
+    return reply.code(201).send(recipe)
+  } catch (error) {
+    // An id is a file name now; one that would leave the directory is the
+    // client's mistake, not a server fault.
+    if (error instanceof InvalidRecipeIdError) return reply.code(400).send({ error: error.message })
+    throw error
+  }
 })
 
 app.delete('/api/recipes/:id', async (req, reply) => {
   const { id } = req.params as { id: string }
-  const deleted = await repos.recipes.delete(id)
+  const deleted = await recipes.delete(id)
   return deleted ? reply.code(204).send() : reply.code(404).send({ error: 'no such recipe' })
 })
 
@@ -575,6 +607,7 @@ await registerChatRoutes(app, {
   aiCalls: repos.aiCalls,
   modelCatalog,
   conversationService,
+  recipeDrafter,
   kiloGateway: kiloClient,
   reportError: (err, extra) => Sentry.captureException(err, { extra }),
   archiveTranscription: (entry) => archiveTranscription(config.transcriptArchiveDir, entry),

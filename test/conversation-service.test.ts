@@ -304,3 +304,41 @@ describe('ConversationService — errors', () => {
     assert.deepEqual(history.map((m) => m.role), ['user'])
   })
 })
+
+describe('ConversationService — describeContext', () => {
+  const budget = { contextWindowMarginPercent: 20, compactingThresholdPercent: 80 }
+
+  it('uses the same budget math as a turn and counts the working window', async () => {
+    const { service } = buildService({ models: { 'anthropic/claude-sonnet-5': { contextLength: 10_000 } } })
+    await seedMessages(conversation.id, 3, 100)
+    const report = await service.describeContext({ conversationId: conversation.id, model: conversation.model, budget })
+    assert.equal(report.contextLength, 10_000)
+    assert.equal(report.reservedForResponseTokens, 2_000)
+    assert.equal(report.historyBudgetTokens, 8_000)
+    assert.equal(report.compactingTriggerTokens, 6_400)
+    assert.equal(report.windowTokens, 300)
+    assert.equal(report.windowMessages, 3)
+    assert.equal(report.totalMessages, 3)
+    assert.equal(report.compacted, false)
+  })
+
+  it('starts the window at the latest compaction summary', async () => {
+    const { service } = buildService({})
+    await seedMessages(conversation.id, 4, 50)
+    await repos.conversations.addMessage({ conversationId: conversation.id, role: 'system', content: '[COMPACT] streszczenie' })
+    await repos.conversations.addMessage({ conversationId: conversation.id, role: 'user', content: 'dalej' })
+    const report = await service.describeContext({ conversationId: conversation.id, model: conversation.model, budget })
+    assert.equal(report.compacted, true)
+    assert.equal(report.windowMessages, 2)
+    assert.equal(report.totalMessages, 6)
+    assert.equal(report.windowTokens, estimateTokens('[COMPACT] streszczenie') + estimateTokens('dalej'))
+  })
+
+  it('says so when the model is not in the catalogue and a fallback length is assumed', async () => {
+    const { service } = buildService({})
+    const report = await service.describeContext({ model: 'nieznany/model', budget })
+    assert.equal(report.contextLengthKnown, false)
+    assert.equal(report.contextLength, 8000)
+    assert.equal(report.windowTokens, 0)
+  })
+})

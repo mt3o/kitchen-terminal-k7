@@ -8,6 +8,14 @@
   found, nothing is written to SQLite until the household edits/approves it
   through POST /api/recipes here. A card must not present placeholder data as
   real, and this card must not persist a guess as if it had been reviewed.
+
+  The chat card's /przepis lands in the same review form: it broadcasts a
+  draft (lib/k7-events.ts), this card opens it and asks main.ts to bring it
+  on screen. A draft from a model gets no shortcut past review.
+
+  Tapping a title opens the recipe itself — ingredients, steps (durations in
+  them start the timer card), and EDYTUJ, which reuses the review form with
+  the recipe's id so ZAPISZ overwrites that file rather than adding a copy.
 -->
 <svelte:options customElement={{
   tag: 'k7-recipes',
@@ -20,6 +28,9 @@
 
 <script lang="ts">
   import Card from './Card.svelte'
+  import { formatDuration, linkDurations } from './chat-commands.ts'
+  import { RECIPE_DRAFT, requestReveal, requestTimerStart, type RecipeDraft, type RecipeDraftDetail } from './k7-events.ts'
+  import { escapeHtml } from './markdown.ts'
 
   interface Recipe {
     id: string
@@ -49,8 +60,10 @@
   let failed = $state(false)
   let pendingIds = $state<Set<string>>(new Set())
 
-  type Mode = 'list' | 'review'
+  type Mode = 'list' | 'review' | 'detail'
   let mode = $state<Mode>('list')
+  let detail = $state<Recipe | undefined>(undefined)
+  let timerNote = $state('')
   let importUrl = $state('')
   let importing = $state(false)
   let importError = $state('')
@@ -58,6 +71,9 @@
   // Review-state fields, pre-filled from the extraction and freely editable —
   // this is the actual review step, not a confirmation dialog over read-only text.
   let reviewSourceUrl = $state<string | null>(null)
+  /** Empty for a new recipe; an existing one's id when EDYTUJ opened the form. */
+  let reviewId = $state('')
+  let reviewFromChat = $state(false)
   let reviewTitle = $state('')
   let reviewIngredients = $state('')
   let reviewSteps = $state('')
@@ -108,7 +124,8 @@
     // eslint-disable-next-line svelte/prefer-svelte-reactivity
     pendingIds = new Set(pendingIds).add(recipe.id)
     try {
-      const res = await fetch(`/api/recipes/${recipe.id}`, { method: 'DELETE' })
+      // Ids are file names now, and a hand-made file may be `Pierogi ruskie`.
+      const res = await fetch(`/api/recipes/${encodeURIComponent(recipe.id)}`, { method: 'DELETE' })
       if (!res.ok && res.status !== 404) throw new Error(`delete ${res.status}`)
       items = items.filter((i) => i.id !== recipe.id)
       failed = false
@@ -122,13 +139,9 @@
     }
   }
 
-  function openReview(recipe: {
-    sourceUrl: string | null
-    title: string
-    ingredients: string[]
-    steps: string[]
-    tags: string[]
-  }): void {
+  function openReview(recipe: RecipeDraft, options: { id?: string; fromChat?: boolean } = {}): void {
+    reviewId = options.id ?? ''
+    reviewFromChat = options.fromChat ?? false
     reviewSourceUrl = recipe.sourceUrl
     reviewTitle = recipe.title
     reviewIngredients = recipe.ingredients.join('\n')
@@ -180,6 +193,7 @@
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
+          ...(reviewId ? { id: reviewId } : {}),
           title,
           sourceUrl: reviewSourceUrl,
           ingredients: linesOf(reviewIngredients),
@@ -188,7 +202,13 @@
         }),
       })
       if (!res.ok) throw new Error(`save ${res.status}`)
-      mode = 'list'
+      const saved = (await res.json()) as Recipe
+      if (reviewId) {
+        detail = saved
+        mode = 'detail'
+      } else {
+        mode = 'list'
+      }
       await load()
     } catch {
       saveError = 'nie udalo sie zapisac przepisu'
@@ -200,9 +220,52 @@
   function cancelReview(): void {
     // Nothing was ever persisted — an extraction that is not confirmed here
     // simply never reaches the database.
-    mode = 'list'
+    mode = reviewId && detail ? 'detail' : 'list'
     saveError = ''
   }
+
+  function openDetail(recipe: Recipe): void {
+    detail = recipe
+    timerNote = ''
+    mode = 'detail'
+  }
+
+  function editDetail(): void {
+    if (detail) openReview(detail, { id: detail.id })
+  }
+
+  /** Delegated from the steps list: the duration buttons are generated HTML, not Svelte nodes. */
+  function onStepsClick(e: MouseEvent): void {
+    const button = (e.target as HTMLElement).closest('button.dur')
+    const seconds = Number(button?.getAttribute('data-seconds'))
+    if (!button || !Number.isFinite(seconds) || seconds <= 0) return
+    const result = requestTimerStart(seconds)
+    timerNote =
+      result === 'started'
+        ? `[OK] minutnik: ${formatDuration(seconds)}`
+        : result === 'busy'
+          ? '[!] minutnik juz odlicza — zatrzymaj go najpierw'
+          : '[!] brak minutnika w ukladzie'
+  }
+
+  // The chat's /przepis. Refused while a review is already open: a draft
+  // must never silently replace edits the household is in the middle of.
+  $effect(() => {
+    const host = $host()
+    const onDraft = (e: Event): void => {
+      const request = (e as CustomEvent<RecipeDraftDetail>).detail
+      if (request.result === 'opened') return
+      if (mode === 'review') {
+        request.result = 'busy'
+        return
+      }
+      openReview(request.draft, { fromChat: true })
+      request.result = 'opened'
+      requestReveal(host)
+    }
+    window.addEventListener(RECIPE_DRAFT, onDraft)
+    return () => window.removeEventListener(RECIPE_DRAFT, onDraft)
+  })
 
   $effect(() => {
     void limit
@@ -217,6 +280,8 @@
     <form class="review" onsubmit={(e) => { e.preventDefault(); void saveReview() }}>
       {#if reviewSourceUrl}
         <p class="review-source">zrodlo: {reviewSourceUrl}</p>
+      {:else if reviewFromChat}
+        <p class="review-source">zrodlo: czat ai // sprawdz przed zapisem</p>
       {/if}
       <label class="field">
         <span class="field-label">tytul</span>
@@ -240,6 +305,40 @@
         <button type="submit" class="btn-solid" disabled={saving || reviewTitle.trim() === ''}>ZAPISZ</button>
       </div>
     </form>
+  {:else if mode === 'detail' && detail}
+    <div class="detail">
+      <p class="detail-title">{detail.title}</p>
+      {#if detail.tags.length > 0}<p class="chips">{detail.tags.join(', ')}</p>{/if}
+      {#if detail.sourceUrl}<p class="review-source">zrodlo: {detail.sourceUrl}</p>{/if}
+      <p class="field-label">skladniki</p>
+      {#if detail.ingredients.length > 0}
+        <ul class="detail-list">
+          {#each detail.ingredients as item, i (i)}<li>{item}</li>{/each}
+        </ul>
+      {:else}
+        <p class="empty">brak</p>
+      {/if}
+      <p class="field-label">kroki</p>
+      {#if detail.steps.length > 0}
+        <!-- The click lands on generated <button class="dur"> elements, which are
+             keyboard-operable on their own; the list only delegates. -->
+        <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
+        <ol class="detail-list" onclick={onStepsClick}>
+          {#each detail.steps as step, i (i)}
+            <!-- escapeHtml runs before linkDurations adds its own tags (see chat-commands.ts). -->
+            <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+            <li>{@html linkDurations(escapeHtml(step))}</li>
+          {/each}
+        </ol>
+      {:else}
+        <p class="empty">brak</p>
+      {/if}
+      {#if timerNote}<p class="note">{timerNote}</p>{/if}
+      <div class="review-actions">
+        <button type="button" class="btn-ghost" onclick={() => { mode = 'list' }}>WSTECZ</button>
+        <button type="button" class="btn-ghost" onclick={editDetail}>EDYTUJ</button>
+      </div>
+    </div>
   {:else}
     <div class="wrap">
       <div class="list" role="list">
@@ -250,12 +349,12 @@
         {:else}
           {#each items as recipe (recipe.id)}
             <div class="row-wrap">
-              <div class="row">
+              <button type="button" class="row" onclick={() => openDetail(recipe)}>
                 <span class="title">{recipe.title}</span>
                 {#if recipe.tags.length > 0}
                   <span class="chips">{recipe.tags.join(', ')}</span>
                 {/if}
-              </div>
+              </button>
               <button
                 type="button"
                 class="row-delete"
@@ -337,12 +436,28 @@
   .row {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     justify-content: center;
     gap: var(--space-1);
     flex: 1 1 auto;
     min-width: 0;
     min-height: var(--control-h-sm);
     padding: var(--space-2) var(--space-2);
+    background: transparent;
+    border: none;
+    color: var(--fg);
+    font-family: var(--font-ui);
+    text-align: left;
+    cursor: pointer;
+  }
+  .row:hover { background: var(--ghost-hover); }
+  .row:active { background: var(--ghost-active); }
+  .row:focus {
+    outline: var(--focus-w) solid var(--focus);
+    outline-offset: calc(var(--focus-offset) * -1);
+  }
+  @supports selector(:focus-visible) {
+    .row:focus:not(:focus-visible) { outline: none; }
   }
 
   .title {
@@ -516,6 +631,55 @@
     outline: var(--focus-w) solid var(--focus);
     outline-offset: var(--focus-offset);
   }
+
+  .detail {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    gap: var(--space-2);
+    overflow-y: auto;
+  }
+
+  .detail-title {
+    margin: 0;
+    color: var(--fg);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-medium);
+    overflow-wrap: anywhere;
+  }
+
+  .detail-list {
+    margin: 0;
+    padding-left: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    font-size: var(--text-base);
+    overflow-wrap: anywhere;
+  }
+
+  .note {
+    margin: 0;
+    color: var(--fg-muted);
+    font-size: var(--text-sm);
+  }
+
+  /* Durations inside a step, generated by linkDurations — a text-rank button
+     (DESIGN.md §8): dashed underline, no fill, raises contrast on hover. */
+  .detail-list :global(button.dur) {
+    padding: 0 var(--space-1);
+    background: transparent;
+    border: none;
+    border-bottom: var(--border-w) dashed var(--border-strong);
+    border-radius: var(--radius);
+    color: var(--fg);
+    font-family: var(--font-ui);
+    font-size: inherit;
+    cursor: pointer;
+  }
+  .detail-list :global(button.dur:hover) { background: var(--ghost-hover); }
+  .detail-list :global(button.dur:active) { background: var(--ghost-active); }
 
   .review-actions {
     display: flex;

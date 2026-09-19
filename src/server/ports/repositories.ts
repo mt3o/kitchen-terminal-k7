@@ -38,6 +38,8 @@ export interface ConversationRepository {
   list(limit?: number): Promise<Conversation[]>
   get(id: string): Promise<Conversation | undefined>
   create(conversation: New<Conversation>): Promise<Conversation>
+  /** Rename, or switch the model the thread's next turns use. Undefined when no such thread. */
+  update(id: string, patch: Partial<Pick<Conversation, 'title' | 'model'>>): Promise<Conversation | undefined>
   /** Deleting a thread must not erase what it cost — see AiCallRepository. */
   delete(id: string): Promise<boolean>
   /** Ordered oldest-first: the rolling window trims from the front. */

@@ -65,8 +65,40 @@ export interface ConversationServiceDeps {
   compactingModel?: string
 }
 
+/**
+ * What a turn in this conversation would be working with right now — the
+ * `/context` harness command's data. Every number comes from the same
+ * {@link resolveBudget}/{@link selectWorkingWindow} pair `streamTurn` uses,
+ * so the report can never describe a budget the next turn does not apply.
+ */
+export interface ContextReport {
+  model: string
+  /** False when the catalogue had no entry and a fallback length was assumed. */
+  contextLengthKnown: boolean
+  contextLength: number
+  /** `contextWindowMarginPercent` of the window, kept free for the reply. */
+  reservedForResponseTokens: number
+  historyBudgetTokens: number
+  /** Past this, the next turn compacts the head of the window first. */
+  compactingTriggerTokens: number
+  /** Estimated (length/4, see tokens.ts) — the same estimate that decides compacting. */
+  windowTokens: number
+  windowMessages: number
+  totalMessages: number
+  /** The window starts at a compaction summary rather than the thread's first message. */
+  compacted: boolean
+}
+
+export interface ContextQuery {
+  /** Absent for a thread that has not been created yet — an empty window. */
+  conversationId?: string
+  model: string
+  budget: BudgetConfig
+}
+
 export interface ConversationService {
   streamTurn(input: ChatTurnInput, signal?: AbortSignal): AsyncGenerator<ChatEvent>
+  describeContext(query: ContextQuery): Promise<ContextReport>
 }
 
 function toChatMessage(m: Message): ChatMessage {
@@ -108,6 +140,16 @@ function dropOldestUntilWithinBudget(working: Message[], historyBudgetTokens: nu
 
 export function createConversationService(deps: ConversationServiceDeps): ConversationService {
   const compactingModel = deps.compactingModel ?? DEFAULT_COMPACTING_MODEL
+
+  async function resolveBudget(model: string, budget: BudgetConfig) {
+    const gatewayModel = await deps.modelCatalog.get(model)
+    const contextLength =
+      gatewayModel && gatewayModel.contextLength > 0 ? gatewayModel.contextLength : FALLBACK_CONTEXT_LENGTH
+    const contextLengthKnown = gatewayModel !== undefined && gatewayModel.contextLength > 0
+    const historyBudgetTokens = Math.floor(contextLength * (1 - budget.contextWindowMarginPercent / 100))
+    const compactingTriggerTokens = Math.floor(historyBudgetTokens * (budget.compactingThresholdPercent / 100))
+    return { gatewayModel, contextLengthKnown, contextLength, historyBudgetTokens, compactingTriggerTokens }
+  }
 
   async function maybeCompact(
     working: Message[],
@@ -174,11 +216,7 @@ export function createConversationService(deps: ConversationServiceDeps): Conver
     // later must not lose what the person actually typed.
     await deps.conversations.addMessage({ conversationId, role: 'user', content: userContent })
 
-    const gatewayModel = await deps.modelCatalog.get(model)
-    const contextLength =
-      gatewayModel && gatewayModel.contextLength > 0 ? gatewayModel.contextLength : FALLBACK_CONTEXT_LENGTH
-    const historyBudgetTokens = Math.floor(contextLength * (1 - budget.contextWindowMarginPercent / 100))
-    const compactingTriggerTokens = Math.floor(historyBudgetTokens * (budget.compactingThresholdPercent / 100))
+    const { gatewayModel, historyBudgetTokens, compactingTriggerTokens } = await resolveBudget(model, budget)
 
     const history = await deps.conversations.messages(conversationId)
     let working = selectWorkingWindow(history)
@@ -236,5 +274,26 @@ export function createConversationService(deps: ConversationServiceDeps): Conver
     }
   }
 
-  return { streamTurn }
+  async function describeContext(query: ContextQuery): Promise<ContextReport> {
+    const { contextLengthKnown, contextLength, historyBudgetTokens, compactingTriggerTokens } = await resolveBudget(
+      query.model,
+      query.budget,
+    )
+    const history = query.conversationId ? await deps.conversations.messages(query.conversationId) : []
+    const working = selectWorkingWindow(history)
+    return {
+      model: query.model,
+      contextLengthKnown,
+      contextLength,
+      reservedForResponseTokens: contextLength - historyBudgetTokens,
+      historyBudgetTokens,
+      compactingTriggerTokens,
+      windowTokens: windowTokens(working),
+      windowMessages: working.length,
+      totalMessages: history.length,
+      compacted: working[0] !== undefined && isCompactSummary(working[0]),
+    }
+  }
+
+  return { streamTurn, describeContext }
 }

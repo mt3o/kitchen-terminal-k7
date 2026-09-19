@@ -47,7 +47,7 @@ export interface Message {
   createdAt: Date
 }
 
-export type AiCallPurpose = 'chat' | 'compacting' | 'ascii-art' | 'transcription'
+export type AiCallPurpose = 'chat' | 'compacting' | 'ascii-art' | 'transcription' | 'recipe-extraction'
 
 /** One billable request to the gateway. */
 export interface AiCall {
