@@ -19,6 +19,11 @@ entries:
       - "Nowe polecenia: /porcje 4 (przelicz przepis), /lodowka jajka, szpinak (co z tego ugotować), /pogoda (wskazówki na dziś z prognozy), /context (ile okna kontekstu jest zajęte i ile zostaje na odpowiedź), /model (zmiana modelu w trakcie rozmowy), /koszt (wydatki dziś i z 30 dni), /pomoc. Nad polem wiadomości jest rząd przycisków z poleceniami — nie trzeba szukać ukośnika na klawiaturze."
       - "BAZA.PRZEPISY: stuknięcie tytułu otwiera przepis — składniki, kroki i przycisk EDYTUJ."
       - "Przepisy są teraz zwykłymi plikami Markdown w osobnym katalogu na serwerze, poza instalacją aplikacji — aktualizacja panelu ich nie rusza, a można je edytować i kopiować ręcznie. Dotychczasowe przepisy zostały przeniesione automatycznie."
+  - date: "2026-09-19"
+    title: "Nowe kalendarze: święta, wschód słońca, prywatny kalendarz"
+    items:
+      - "Karta KALENDARZ (na GŁÓWNEJ i na pełnoekranowej stronie KALENDARZ) pokazuje teraz dodatkowe zakładki: Święta (polskie święta i dni wolne) oraz — jeśli skonfigurowane lokalnie — inne prywatne kalendarze domownika."
+      - "Prywatne kalendarze (np. osobisty adres kalendarza) konfiguruje się teraz w osobnym, niewysyłanym do repozytorium pliku (\"layout.local.yaml\"), żeby nie trafiały do publicznego repo GitHub."
   - date: "2026-09-17"
     title: "Nowy układ stron — pogrupowane wg sposobu użycia"
     items:

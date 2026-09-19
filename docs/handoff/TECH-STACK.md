@@ -18,7 +18,13 @@
 
 ## Biblioteki własne i zewnętrzne
 
-- **config-layers** (github.com/mt3o/config-layers) — Twoja biblioteka, warstwowa konfiguracja
+- **config-layers** (github.com/mt3o/config-layers, npm `config-layers`) — Twoja
+  biblioteka, warstwowa konfiguracja. **Wpięta 2026-09-19** — `layout.yaml`
+  (tracked, publiczny) scalany z gitignorowanym `layout.local.yaml` w
+  `src/server/index.ts`'s `loadLayout`, żeby prywatne dane (np. Google
+  `calendarId` domownika) nie trafiały do repo bez konieczności trzymania
+  ich jako zmienne środowiskowe — patrz `layout.local.yaml.example` i
+  `HANDOFF.md`
 - **@mt3o/middleware-pipe** (github.com/mt3o/middlewares) — Twoja biblioteka, kompozycja
   middleware ze statyczną walidacją (Zod). **Opublikowana na npm 2026-09-08, wersja 1.0.0,
   publiczna** — nazwa z zakresem, bo bezprzedrostkowy `middleware-pipe` był zajęty
