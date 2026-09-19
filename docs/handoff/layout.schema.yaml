@@ -2,6 +2,14 @@
 # Format: JSON Schema (draft 2020-12), zapisany jako YAML.
 # Waliduje plik layoutu (np. layout.yaml) opisujący, jakie karty/panele
 # są wyświetlane, w jakiej kolejności i z jakimi parametrami.
+#
+# layout.yaml jest publiczny/commitowalny. Prywatne dane (np. czyjś adres
+# e-mail jako Google `calendarId`) idą do gitignorowanego `layout.local.yaml`
+# zamiast tutaj — scalane przez config-layers w `src/server/index.ts`'s
+# `loadLayout`. Ten plik nie ma osobnego schematu (jego jedyny obsługiwany
+# klucz dziś to `calendarAdditions`, dopisujący kalendarze do
+# `params.calendar.calendars` konkretnej karty po jej `id`) — wzorzec i
+# komentarz z wyjaśnieniem: `layout.local.yaml.example`.
 
 $schema: "https://json-schema.org/draft/2020-12/schema"
 $id: "https://kitchen-terminal-k7.local/schema/layout.schema.yaml"

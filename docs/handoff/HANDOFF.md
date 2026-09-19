@@ -75,6 +75,14 @@ odtwarzać kontekstu od zera.
   publicznego `.ics` (to tylko odczyt)
 - Refresh token Google i klucz Kilo Gateway — nigdy nie trafiają do frontendu/iPada,
   tylko backend
+- **`layout.local.yaml`** (gitignored, wzorzec w `layout.local.yaml.example`) —
+  lokalne dodatki do `layout.yaml`, scalane przez `config-layers`
+  (`src/server/index.ts`'s `loadLayout`) tak, żeby `layout.yaml` mógł zostać
+  publiczny/commitowalny, a prywatne dane (np. Google `calendarId` będący
+  czyimś adresem e-mail) nie trafiały do repo. Na razie jeden klucz obsłużony:
+  `calendarAdditions` (dopisuje kalendarze do `params.calendars` konkretnej
+  karty po jej `id`) — patrz `src/server/layout-local-overrides.ts`. Decyzja
+  2026-09-19.
 
 ## Co dalej
 

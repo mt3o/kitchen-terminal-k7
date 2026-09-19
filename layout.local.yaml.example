@@ -1,0 +1,24 @@
+# Template for layout.local.yaml — copy this file to layout.local.yaml (it is
+# gitignored; this .example file is the tracked one) and fill in your own
+# values. Never commit layout.local.yaml itself.
+#
+# Merged onto layout.yaml via config-layers (src/server/index.ts's
+# loadLayout()) — a deep merge, so this file only needs to state what it
+# adds or changes, not repeat layout.yaml's structure.
+#
+# Right now the only supported key is `calendarAdditions`: extra `Calendar`
+# entries (docs/handoff/layout.schema.yaml's `params.calendar.calendars`
+# item shape) appended to a `type: calendar` card's own `calendars` list,
+# keyed by that card's `id` in layout.yaml. Use this for calendar ids you
+# don't want in the (public) tracked layout.yaml — a personal Gmail address
+# used as a calendarId, for instance.
+
+calendarAdditions:
+  # Matches a card id from layout.yaml, e.g. the `kalendarz` card on GLOWNA.
+  kalendarz:
+    - id: przyklad
+      name: "Przykład"
+      showInMain: false
+      source:
+        mode: google
+        calendarId: "twoj.adres@gmail.com"
