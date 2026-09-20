@@ -8,6 +8,12 @@
 #
 # Newest entry first.
 entries:
+  - date: "2026-09-20"
+    title: "PRZEPISY: szersza kolumna treści, pionowe zakładki, pełny ekran"
+    items:
+      - "Strona PRZEPISY: kolumna z przepisami/czatem jest teraz dwa razy szersza niż kolumna z zakładkami MENU, zamiast równego podziału na pół."
+      - "Zakładki PRZEPISY/CZAT w MENU ułożone są teraz pionowo, jedna pod drugą."
+      - "BAZA.PRZEPISY i CZAT.AI mają teraz przycisk pełnego ekranu w nagłówku karty, tak jak kalendarz i zdjęcia."
   - date: "2026-09-19"
     title: "Czat AI: archiwum rozmów, polecenia i zapisywanie przepisów"
     items:
