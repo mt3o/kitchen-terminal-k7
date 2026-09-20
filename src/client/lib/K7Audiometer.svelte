@@ -219,7 +219,7 @@
   const fmt = (v: number): string => (unitMode === 'db' ? `${Math.round(v)} dB` : `${Math.round(v)}%`)
 </script>
 
-<Card label="AUDIOMETR" state={cardState}>
+<Card label="AUDIOMETR" state={cardState} fullscreen>
   {#if cardPhase === 'idle'}
     <div class="prompt">
       <p class="msg">mikrofon wylaczony</p>

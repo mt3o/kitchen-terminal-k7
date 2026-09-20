@@ -275,7 +275,7 @@
   })
 </script>
 
-<Card label="BAZA.PRZEPISY" {meta} state={mode === 'list' ? cardState : 'idle'}>
+<Card label="BAZA.PRZEPISY" {meta} state={mode === 'list' ? cardState : 'idle'} fullscreen>
   {#if mode === 'review'}
     <form class="review" onsubmit={(e) => { e.preventDefault(); void saveReview() }}>
       {#if reviewSourceUrl}
