@@ -27,6 +27,11 @@ harness:
 - **Harness commands** — `/zakupy`, `/minutnik N`, `/porcje N`, `/lodowka`,
   `/pogoda`, `/context`, `/model`, `/koszt`, `/tytul`, `/archiwum`, `/pomoc`,
   with a tappable command-chip row (typing `/` on the iPad keyboard is fiddly).
+- **Round two (2026-09-20)** — `/plan` (a meal plan from the calendar week,
+  the forecast and the household's own recipe base), `/zamiennik`,
+  `/przelicz` (a local kitchen-measure table first, the model only for what
+  it lacks), `/ponow`, and `/menu`: every argument-taking command as a form
+  with labelled fields and quick picks, driven by a declarative spec.
 
 ## Asked and answered (2026-09-18)
 - "Maintained outside the docker image": K7 is not containerised (git

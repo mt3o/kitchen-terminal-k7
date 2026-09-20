@@ -17,6 +17,16 @@ import {
   portionsPrompt,
   titleFrom,
   weatherPrompt,
+  COMMAND_FORMS,
+  convertMeasure,
+  formFor,
+  initialFormValues,
+  missingFields,
+  parseMeasure,
+  calendarWeekEnd,
+  planDays,
+  planPrompt,
+  parsePlanDays,
   type ContextReport,
   type WeatherSnapshot,
 } from '../src/client/lib/chat-commands.ts'
@@ -58,7 +68,7 @@ describe('parseInput', () => {
 
 describe('matchCommands / helpText', () => {
   it('filters the chip row by prefix, aliases included', () => {
-    assert.deepEqual(matchCommands('/po').map((c) => c.name), ['porcje', 'pogoda', 'pomoc'])
+    assert.deepEqual(matchCommands('/po').map((c) => c.name), ['porcje', 'pogoda', 'ponow', 'pomoc'])
     assert.deepEqual(matchCommands('/now').map((c) => c.name), ['clear'])
     assert.equal(matchCommands('zwykly tekst').length, COMMANDS.length)
   })
@@ -194,5 +204,171 @@ describe('/context readout', () => {
     const text = formatContextReport({ ...report, windowTokens: 0, windowMessages: 0, totalMessages: 0, contextLengthKnown: false })
     assert.ok(text.includes('okno: puste (nowa rozmowa)'))
     assert.ok(text.includes('zalozone'))
+  })
+})
+
+describe('/przelicz — the local measure table', () => {
+  const cases: [string, string | undefined][] = [
+    // Volume → weight, for an ingredient the table knows.
+    ['2 szklanki mąki', '> 2 szklanki mąki ≈ 300 g'],
+    ['1 szklanka cukru', '> 1 szklanka cukru ≈ 215 g'],
+    ['pół szklanki mleka', '> 0,5 szklanki mleka ≈ 130 g'],
+    ['1/2 szklanki ryżu', '> 0,5 szklanki ryżu ≈ 115 g'],
+    ['1,5 łyżki miodu', '> 1,5 łyżki miodu ≈ 32 g'],
+    ['1 łyżeczka soli', '> 1 łyżeczka soli ≈ 6 g'],
+    // Pure volume needs no ingredient at all.
+    ['2 szklanki', '> 2 szklanki = 500 ml'],
+    ['3 łyżki', '> 3 łyżki = 45 ml'],
+    // Weight → the measure a recipe would ask for.
+    ['300 g mąki', '> 300 g mąki ≈ 2 szklanki'],
+    ['30 dag ryżu', '> 30 dag ryżu ≈ 1,25 szklanki'],
+    ['20 g masła', '> 20 g masła ≈ 1 łyżka'],
+    ['2 kg', '> 2 kg = 2000 g'],
+    // Nothing honest to say → the caller asks the model instead.
+    ['2 szklanki komosy ryżowej', undefined],
+    ['3 pęczki natki', undefined],
+    ['300 g', undefined],
+    ['dużo mąki', undefined],
+    ['', undefined],
+  ]
+  for (const [input, expected] of cases) {
+    it(`${JSON.stringify(input)}`, () => {
+      const result = convertMeasure(input)
+      if (expected === undefined) assert.equal(result, undefined)
+      else assert.ok(result?.startsWith(expected), `got: ${result}`)
+    })
+  }
+
+  it('names the density it assumed, so the number can be argued with', () => {
+    assert.ok(convertMeasure('2 szklanki mąki')?.includes('mąka pszenna ≈ 60 g/100 ml'))
+  })
+
+  it('tells inflected ingredients apart without matching longer words', () => {
+    assert.ok(convertMeasure('1 szklanka mąki ziemniaczanej')?.includes('mąka ziemniaczana'))
+    assert.ok(convertMeasure('1 szklanka mąki')?.includes('mąka pszenna'))
+    assert.equal(convertMeasure('1 szklanka makaronu'), undefined, 'makaron is not mąka')
+  })
+
+  it('parses the unit and leaves the rest as the ingredient', () => {
+    assert.deepEqual(parseMeasure('2 szklanki mąki pszennej'), {
+      amount: 2,
+      ml: 250,
+      unitLabel: 'szklanki',
+      ingredient: 'mąki pszennej',
+    })
+    assert.equal(parseMeasure('2 kubki mąki'), undefined, 'an unknown unit is not guessed at')
+  })
+})
+
+describe('/plan', () => {
+  const monday = new Date(2026, 8, 21, 9, 0) // 21.09.2026, a Monday
+
+  const events = [
+    { title: 'trening', start: new Date(2026, 8, 21, 17, 30).toISOString() },
+    { title: 'zebranie', start: new Date(2026, 8, 23, 19, 0).toISOString() },
+    { title: 'Święto', start: '2026-09-22', allDay: true },
+  ]
+
+  it('buckets events into local days, labelling all-day entries', () => {
+    const days = planDays(monday, 3, events)
+    assert.equal(days.length, 3)
+    assert.deepEqual(days[0]?.entries, ['17:30 trening'])
+    assert.deepEqual(days[1]?.entries, ['całodzienne: Święto'])
+    assert.deepEqual(days[2]?.entries, ['19:00 zebranie'])
+  })
+
+  it('asks with the calendar, the recipe base and the forecast', () => {
+    const prompt = planPrompt({
+      days: planDays(monday, 4, events),
+      recipes: ['Szakszuka', 'Żurek'],
+      weather: {
+        ageSeconds: 60,
+        stale: false,
+        data: {
+          units: { temperature: '°C', windSpeed: 'km/h' },
+          now: { temperature: 17, apparentTemperature: 15, humidity: 70, windSpeed: 10, weatherCode: 3 },
+          daily: [
+            { date: '2026-09-21', weatherCode: 61, temperatureMax: 19, temperatureMin: 11 },
+            { date: '2026-09-22', weatherCode: 0, temperatureMax: 22, temperatureMin: 12 },
+          ],
+        },
+      },
+    })
+    assert.ok(prompt.includes('Zaplanuj obiady na 4 dni'), prompt)
+    assert.ok(prompt.includes('17:30 trening'), prompt)
+    assert.ok(prompt.includes('czw 24.09: nic zaplanowanego'), prompt)
+    assert.ok(prompt.includes('Przepisy w mojej bazie: Szakszuka; Żurek.'), prompt)
+    assert.ok(prompt.includes('11°C–19°C'), prompt)
+    assert.ok(prompt.includes('Najpierw sięgaj po przepisy z mojej bazy'), prompt)
+  })
+
+  it('omits a section it has no data for rather than implying an empty week', () => {
+    const prompt = planPrompt({ days: planDays(monday, 3, []), recipes: [], calendarUnavailable: true })
+    assert.ok(!prompt.includes('Kalendarz:'), prompt)
+    assert.ok(!prompt.includes('Przepisy w mojej bazie'), prompt)
+    assert.ok(!prompt.includes('Pogoda:'), prompt)
+    assert.ok(!prompt.includes('bazy'), 'no base means no instruction to prefer it')
+  })
+
+  it('marks days past the fetched week as unknown, not as free', () => {
+    const prompt = planPrompt({
+      days: planDays(monday, 4, events),
+      recipes: [],
+      calendarUntil: new Date(2026, 8, 23),
+    })
+    assert.ok(prompt.includes('wt 22.09: całodzienne: Święto'), prompt)
+    assert.ok(prompt.includes('śr 23.09: brak danych z kalendarza'), prompt)
+    assert.ok(prompt.includes('czw 24.09: brak danych z kalendarza'), prompt)
+  })
+
+  it('knows where calendar data stops: Monday of next week', () => {
+    assert.equal(calendarWeekEnd(new Date(2026, 8, 21, 23, 0)).getTime(), new Date(2026, 8, 28).getTime(), 'Monday')
+    assert.equal(calendarWeekEnd(new Date(2026, 8, 27, 1, 0)).getTime(), new Date(2026, 8, 28).getTime(), 'Sunday')
+  })
+
+  it('clamps the day count to something a week-shaped plan can carry', () => {
+    assert.equal(parsePlanDays('3'), 3)
+    assert.equal(parsePlanDays(''), 7)
+    assert.equal(parsePlanDays('0'), 7)
+    assert.equal(parsePlanDays('30'), 7)
+  })
+})
+
+describe('/menu forms', () => {
+  it('covers every command that takes arguments, and only those', () => {
+    const withArgs = COMMANDS.filter((c) => c.args).map((c) => c.name).sort()
+    const formed = COMMAND_FORMS.map((f) => f.command).sort()
+    assert.deepEqual(formed, withArgs)
+  })
+
+  it('every form names a real command and its fields build its argument string', () => {
+    for (const form of COMMAND_FORMS) {
+      assert.ok(findCommand(form.command), form.command)
+      assert.ok(form.fields.length > 0, form.command)
+    }
+    const convert = formFor('przelicz')!
+    assert.equal(convert.build({ ilosc: '2', jednostka: 'szklanka', skladnik: 'mąki' }), '2 szklanka mąki')
+    assert.equal(convert.build({ ilosc: '300', jednostka: 'g', skladnik: '' }), '300 g')
+    assert.equal(formFor('plan')!.build({ dni: '5' }), '5')
+  })
+
+  it('starts from the declared defaults and reports what is still missing', () => {
+    const form = formFor('przelicz')!
+    const values = initialFormValues(form)
+    assert.equal(values.jednostka, 'szklanka')
+    assert.equal(values.ilosc, '1')
+    assert.deepEqual(missingFields(form, values), [], 'skladnik is optional')
+    assert.deepEqual(
+      missingFields(form, { ...values, ilosc: '  ' }).map((f) => f.name),
+      ['ilosc'],
+    )
+  })
+
+  it('a required-argument command is never runnable with an empty form', () => {
+    for (const form of COMMAND_FORMS) {
+      const command = findCommand(form.command)!
+      if (!command.argsRequired) continue
+      assert.ok(missingFields(form, initialFormValues(form)).length > 0 || form.build(initialFormValues(form)) !== '', form.command)
+    }
   })
 })

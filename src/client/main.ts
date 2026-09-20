@@ -60,6 +60,13 @@ let pager: Pager | undefined
  * render(), read by createWidget's `chat` case.
  */
 let weatherLocation: { lat?: unknown; lon?: unknown; units?: unknown } | undefined
+/**
+ * The calendars the wall already shows, for the chat's /plan. Same shape the
+ * calendar card gets, trimmed to what a prompt needs: the server resolves
+ * every id back to its configured source itself (calendar-lookup.ts), so
+ * nothing about where the events come from travels through the chat.
+ */
+let chatCalendars: { id: string; name?: string }[] = []
 let slideshowController: SlideshowController | undefined
 const status = document.getElementById('status')
 const foot = document.getElementById('foot')
@@ -138,6 +145,14 @@ function render(rawLayout: NormalisedLayout): void {
   // it always has.
   const { layout, config: slideshowConfig, warnings: slideshowWarnings } = extractSlideshow(rawLayout)
   for (const warning of slideshowWarnings) console.warn(`layout: ${warning}`)
+
+  const calendarCard = layout.pages.flatMap((p) => p.cards).find((c) => c.type === 'calendar')
+  const declaredCalendars = (calendarCard?.params?.calendars ?? []) as { id?: unknown; name?: unknown }[]
+  chatCalendars = Array.isArray(declaredCalendars)
+    ? declaredCalendars
+        .filter((c) => typeof c?.id === 'string')
+        .map((c) => ({ id: c.id as string, ...(typeof c.name === 'string' ? { name: c.name } : {}) }))
+    : []
 
   const weatherCard = layout.pages.flatMap((p) => p.cards).find((c) => c.type === 'weather')
   const weatherParams = (weatherCard?.params ?? {}) as { location?: { lat?: unknown; lon?: unknown }; units?: unknown }
@@ -436,6 +451,7 @@ function createWidget(card: Card): HTMLElement {
       attr(el, 'contextWindowMarginPercent', params.contextWindowMarginPercent)
       attr(el, 'compactingThresholdPercent', params.compactingThresholdPercent)
       attr(el, 'voiceInput', params.voiceInput)
+      if (chatCalendars.length > 0) attr(el, 'calendars', JSON.stringify(chatCalendars))
       attr(el, 'weatherLat', weatherLocation?.lat)
       attr(el, 'weatherLon', weatherLocation?.lon)
       attr(el, 'weatherUnits', weatherLocation?.units)

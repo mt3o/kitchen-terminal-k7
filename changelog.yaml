@@ -8,6 +8,14 @@
 #
 # Newest entry first.
 entries:
+  - date: "2026-09-20"
+    title: "Czat AI: MENU z formularzami, jadłospis, zamienniki i przeliczanie miar"
+    items:
+      - "Przycisk MENU w nagłówku czatu (albo /menu) pokazuje wszystkie polecenia jako listę, a te z danymi do wypełnienia otwierają mały formularz z podpisanymi polami — nie trzeba pamiętać składni ani szukać ukośnika na klawiaturze iPada. Formularz podpowiada gotowe wartości: czasy minutnika, liczby porcji, listę modeli i składniki z ostatniego przepisu."
+      - "/plan układa jadłospis na wybraną liczbę dni na podstawie tego, co panel już wie: wydarzeń z kalendarza (w dni z wydarzeniami po 15:00 proponuje szybkie dania), prognozy pogody i przepisów z Twojej bazy. Dni spoza pobranego tygodnia są oznaczone jako \"brak danych z kalendarza\" zamiast udawać, że są wolne."
+      - "/zamiennik masło — czym zastąpić składnik, z proporcjami i uwagą, jak zmieni się smak."
+      - "/przelicz 2 szklanki mąki — odpowiada natychmiast, bez pytania AI, z tabeli miar kuchennych (szklanki, łyżki, łyżeczki, gramy, dekagramy); działa w obie strony, np. \"300 g mąki\" to około 2 szklanki. Podaje, jaką gęstość przyjął, więc wynik można podważyć. Gdy składnika nie ma w tabeli, pyta AI."
+      - "/ponow zadaje ostatnie pytanie jeszcze raz — opcjonalnie od razu innym modelem (/ponow sonnet)."
   - date: "2026-09-19"
     title: "Czat AI: archiwum rozmów, polecenia i zapisywanie przepisów"
     items:

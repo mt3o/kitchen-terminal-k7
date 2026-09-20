@@ -65,6 +65,28 @@ entities are the ABOUT targets below.
    the picker, /model). Safe because the per-turn budget is recomputed from
    the current model's context length every turn."
 
+7. type: decision — ABOUT Recipe
+   "/przelicz answers from a local density table first (chat-commands.ts,
+   g per 100 ml for ~25 kitchen staples) and only falls back to a gateway
+   call for what the table lacks — the same exact-then-heuristic shape recipe
+   import uses. Every answer names the density it assumed, because the
+   numbers are approximations a household may disagree with. Stem matching
+   allows a longer inflected ending for longer stems (2 chars up to 4-letter
+   stems, 4 beyond) so 'mąki' matches mąka without 'makaron' doing so."
+8. type: decision — ABOUT Card, Conversation
+   "/menu renders each argument-taking command as a form from a declarative
+   spec (COMMAND_FORMS: fields + build()), with quick picks filled from live
+   state (models, the thread's last recipe ingredients, timer presets). The
+   spec is pure and tested; the card only renders it. Rationale: on a wall
+   iPad, typing '/' and remembering argument syntax is the real barrier to
+   the harness being used at all."
+9. type: constraint — ABOUT Calendar
+   "/plan states where its calendar knowledge stops: /api/calendar/week
+   serves the current Monday-to-Monday week only, so days past it are
+   labelled 'brak danych z kalendarza' rather than 'nic zaplanowanego'.
+   An unseen day and a free day are different claims, and the plan would
+   otherwise schedule a big dinner on an evening that is already taken."
+
 ## Pending: events (append_events on replay)
 - NOTED: clampPercent treated JSON null ('' too) as 0 → a NaN margin from the
   client meant a 0% response reserve; now falls back to the default.
