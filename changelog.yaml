@@ -9,6 +9,11 @@
 # Newest entry first.
 entries:
   - date: "2026-09-20"
+    title: "Minutnik i audiometr przeniesione na PRZEPISY"
+    items:
+      - "Strona NARZĘDZIA zniknęła — minutnik i audiometr są teraz kolejnymi zakładkami w MENU na stronie PRZEPISY, obok PRZEPISY i CZAT."
+      - "Obie karty mają teraz też przycisk pełnego ekranu w nagłówku."
+  - date: "2026-09-20"
     title: "PRZEPISY: szersza kolumna treści, pionowe zakładki, pełny ekran"
     items:
       - "Strona PRZEPISY: kolumna z przepisami/czatem jest teraz dwa razy szersza niż kolumna z zakładkami MENU, zamiast równego podziału na pół."
