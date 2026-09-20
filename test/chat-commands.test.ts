@@ -18,6 +18,8 @@ import {
   titleFrom,
   weatherPrompt,
   COMMAND_FORMS,
+  COMMAND_GROUPS,
+  commandsInGroup,
   convertMeasure,
   formFor,
   initialFormValues,
@@ -26,6 +28,7 @@ import {
   calendarWeekEnd,
   planDays,
   planPrompt,
+  previewCommand,
   parsePlanDays,
   type ContextReport,
   type WeatherSnapshot,
@@ -369,6 +372,54 @@ describe('/menu forms', () => {
       const command = findCommand(form.command)!
       if (!command.argsRequired) continue
       assert.ok(missingFields(form, initialFormValues(form)).length > 0 || form.build(initialFormValues(form)) !== '', form.command)
+    }
+  })
+})
+
+describe('the /menu wizard', () => {
+  it('puts every command in exactly one group, and every group in the picker', () => {
+    const grouped = COMMAND_GROUPS.flatMap((g) => commandsInGroup(g.id))
+    assert.equal(grouped.length, COMMANDS.length, 'no command is unreachable from step 1')
+    assert.equal(new Set(grouped.map((c) => c.name)).size, COMMANDS.length, 'and none is listed twice')
+    for (const group of COMMAND_GROUPS) assert.ok(commandsInGroup(group.id).length > 0, `${group.id} is empty`)
+  })
+
+  it('describes every command in step 2 — a button with no explanation is a button nobody presses', () => {
+    for (const c of COMMANDS) {
+      assert.ok(c.details.length > 30, `${c.name}: details too thin`)
+      assert.ok(c.summary.length > 0 && c.summary.length <= 60, `${c.name}: summary should fit a button`)
+      assert.ok(!c.details.includes('  '), `${c.name}: stray double space`)
+    }
+  })
+
+  it('explains what filling a field in changes, wherever that is not obvious', () => {
+    for (const form of COMMAND_FORMS) {
+      for (const field of form.fields) {
+        if (field.optional) {
+          assert.ok(field.help, `${form.command}.${field.name}: an optional field must say what leaving it empty does`)
+        }
+      }
+    }
+  })
+
+  it('previews exactly what would have been typed', () => {
+    const convert = findCommand('przelicz')!
+    assert.equal(previewCommand(convert, '2 szklanka mąki'), '/przelicz 2 szklanka mąki')
+    assert.equal(previewCommand(findCommand('koszt')!, ''), '/koszt')
+    assert.equal(previewCommand(convert, '  '), '/przelicz', 'a half-filled form previews the bare command')
+  })
+
+  it('round-trips: the preview of a built form parses back to the same command and args', () => {
+    for (const form of COMMAND_FORMS) {
+      const command = findCommand(form.command)!
+      const values = initialFormValues(form)
+      const args = form.build(values)
+      const parsed = parseInput(previewCommand(command, args))
+      assert.equal(parsed.kind, 'command', form.command)
+      if (parsed.kind === 'command') {
+        assert.equal(parsed.command.name, form.command)
+        assert.equal(parsed.args, args.trim())
+      }
     }
   })
 })

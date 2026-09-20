@@ -51,11 +51,11 @@
   import { renderMarkdown } from './markdown.ts'
   import {
     calendarWeekEnd,
-    COMMANDS,
+    COMMAND_GROUPS,
+    commandsInGroup,
     convertMeasure,
     convertPrompt,
     formFor,
-    findCommand,
     formatContextReport,
     formatDuration,
     fridgePrompt,
@@ -70,6 +70,7 @@
     parsePlanDays,
     parseServings,
     planDays,
+    previewCommand,
     planPrompt,
     portionsPrompt,
     substitutePrompt,
@@ -306,6 +307,8 @@
   type View = 'chat' | 'archive' | 'menu' | 'form'
   let view = $state<View>('chat')
   let openForm = $state<CommandForm | undefined>(undefined)
+  /** The command step 2 is filling in — also set for commands that take no arguments. */
+  let openCommand = $state<ChatCommand | undefined>(undefined)
   let formValues = $state<Record<string, string>>({})
   /** Quick picks for the open form's fields, keyed by field name. */
   let formChips = $state<Record<string, string[]>>({})
@@ -1053,19 +1056,29 @@
 
   function openCommandMenu(): void {
     openForm = undefined
+    openCommand = undefined
     formError = ''
     view = 'menu'
   }
 
+  /**
+   * Step 2 of the wizard. A command that takes no arguments still gets this
+   * step — with its description and a single URUCHOM — rather than firing on
+   * the first tap: the step is where the household reads what the thing does,
+   * and /clear taking effect from a stray tap on a wall panel is exactly the
+   * surprise this avoids.
+   */
   async function openCommandForm(command: ChatCommand): Promise<void> {
     const form = formFor(command.name)
+    openCommand = command
+    openForm = form
     if (!form) {
-      // No arguments to fill in — the menu is just a launcher for these.
-      view = 'chat'
-      await runCommand(command, '')
+      formValues = {}
+      formChips = {}
+      formError = ''
+      view = 'form'
       return
     }
-    openForm = form
     formValues = initialFormValues(form)
     formChips = {}
     formError = ''
@@ -1096,23 +1109,36 @@
 
   function closeForm(): void {
     openForm = undefined
+    openCommand = undefined
     formError = ''
     view = 'menu'
   }
 
+  /** What step 2 will run, exactly as it could have been typed. */
+  let formPreview = $derived.by(() => {
+    if (!openCommand) return ''
+    return previewCommand(openCommand, openForm ? openForm.build(formValues) : '')
+  })
+
   async function runOpenForm(): Promise<void> {
+    const command = openCommand
+    if (!command || busy) return
     const form = openForm
-    if (!form || busy) return
-    const missing = missingFields(form, formValues)
-    if (missing.length > 0) {
-      formError = `uzupelnij: ${missing.map((f) => f.label).join(', ')}`
-      return
+    if (form) {
+      const missing = missingFields(form, formValues)
+      if (missing.length > 0) {
+        formError = `uzupelnij: ${missing.map((f) => f.label).join(', ')}`
+        return
+      }
     }
-    const command = findCommand(form.command)
-    if (!command) return
-    const args = form.build(formValues)
+    const args = form ? form.build(formValues) : ''
+    const echo = previewCommand(command, args)
     openForm = undefined
+    openCommand = undefined
     view = 'chat'
+    // Echoed into the log: it records what ran, and it is the syntax to type
+    // next time — the wizard should make itself unnecessary.
+    addLocal(`> ${echo}`)
     await runCommand(command, args)
   }
 
@@ -1250,19 +1276,25 @@
 
   <div class="wrap">
     {#if view === 'menu'}
-      <div class="archive" role="list">
-        {#each COMMANDS as c (c.name)}
-          {#if c.name !== 'menu'}
-            <div class="arch-row" role="listitem">
-              <button type="button" class="arch-open" disabled={busy} onclick={() => void openCommandForm(c)}>
-                <span class="arch-title">/{c.name}{#if c.args} <span class="arch-args">{c.args}</span>{/if}</span>
-                <span class="arch-meta">{c.summary}</span>
-              </button>
-            </div>
-          {/if}
+      <div class="wizard">
+        <p class="wizard-step">krok 1 z 2 // wybierz polecenie</p>
+        {#each COMMAND_GROUPS as group (group.id)}
+          <p class="group-label">{group.label}</p>
+          <div class="cmd-grid">
+            {#each commandsInGroup(group.id) as c (c.name)}
+              {#if c.name !== 'menu'}
+                <button type="button" class="cmd-button" disabled={busy} onclick={() => void openCommandForm(c)}>
+                  <span class="cmd-name">
+                    /{c.name}{#if c.args}<span class="cmd-args"> {c.args}</span>{/if}
+                  </span>
+                  <span class="cmd-summary">{c.summary}</span>
+                </button>
+              {/if}
+            {/each}
+          </div>
         {/each}
       </div>
-    {:else if view === 'form' && openForm}
+    {:else if view === 'form' && openCommand}
       <form
         class="cmd-form"
         onsubmit={(e) => {
@@ -1270,8 +1302,12 @@
           void runOpenForm()
         }}
       >
-        <p class="form-head">/{openForm.command} // {openForm.intro}</p>
-        {#each openForm.fields as field (field.name)}
+        <p class="wizard-step">krok 2 z 2 // /{openCommand.name}</p>
+        <p class="cmd-details">{openCommand.details}</p>
+        {#if openForm}
+          <p class="form-head">{openForm.intro}</p>
+        {/if}
+        {#each openForm?.fields ?? [] as field (field.name)}
           <label class="field">
             <span class="field-label">{field.label}{#if field.optional} (opcjonalnie){/if}</span>
             {#if field.kind === 'select'}
@@ -1297,6 +1333,7 @@
                 oninput={(e) => setField(field.name, e.currentTarget.value)}
               />
             {/if}
+            {#if field.help}<span class="field-help">{field.help}</span>{/if}
           </label>
           {#if (formChips[field.name] ?? []).length > 0}
             <div
@@ -1314,8 +1351,9 @@
           {/if}
         {/each}
         {#if formError}<p class="stale">[!] {formError}</p>{/if}
+        <p class="preview" aria-label="polecenie do uruchomienia">{formPreview}</p>
         <div class="review-actions">
-          <button type="button" class="btn-ghost btn-sm" onclick={closeForm}>ANULUJ</button>
+          <button type="button" class="btn-ghost btn-sm" onclick={closeForm}>WSTECZ</button>
           <button type="submit" class="btn-solid btn-sm" disabled={busy}>URUCHOM</button>
         </div>
       </form>
@@ -1669,6 +1707,103 @@
   }
 
   .arch-args { color: var(--fg-muted); }
+
+  .wizard {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    gap: var(--space-2);
+    overflow-y: auto;
+  }
+
+  /* Where you are in the wizard. Lowercase data, uppercase labels — the
+     card's own voice (DESIGN.md §13), not a progress widget. */
+  .wizard-step,
+  .group-label {
+    margin: 0;
+    color: var(--fg-muted);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+  }
+
+  .wizard-step { text-transform: none; }
+
+  .group-label {
+    padding-top: var(--space-2);
+    border-top: var(--border-w) solid var(--border);
+  }
+
+  /* One column on a half-width card, two once there is room for them —
+     each button still holds a name and a full line of description. */
+  .cmd-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+
+  @media (min-width: 560px) {
+    .cmd-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .cmd-button {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
+    min-height: var(--control-h);
+    padding: var(--space-2) var(--space-3);
+    background: transparent;
+    color: var(--fg);
+    border: var(--border-w) solid var(--border-strong);
+    border-radius: var(--radius);
+    font-family: var(--font-ui);
+    text-align: left;
+    cursor: pointer;
+  }
+  .cmd-button:hover { background: var(--ghost-hover); }
+  .cmd-button:active { background: var(--ghost-active); }
+  .cmd-button:disabled { color: var(--fg-disabled); border-color: var(--border); cursor: not-allowed; }
+
+  .cmd-name {
+    font-size: var(--text-base);
+    font-weight: var(--weight-medium);
+  }
+
+  .cmd-args { color: var(--fg-muted); font-weight: normal; }
+
+  .cmd-summary {
+    color: var(--fg-muted);
+    font-size: var(--text-sm);
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .cmd-details {
+    margin: 0;
+    font-size: var(--text-sm);
+    overflow-wrap: anywhere;
+  }
+
+  .field-help {
+    color: var(--fg-muted);
+    font-size: var(--text-xs);
+  }
+
+  /* What is about to run, spelled the way it could have been typed — the
+     wizard teaching its own shortcut. */
+  .preview {
+    margin: 0;
+    padding: var(--space-2);
+    background: var(--surface-sunken);
+    border: var(--border-w) solid var(--border);
+    border-radius: var(--radius);
+    color: var(--fg);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    overflow-wrap: anywhere;
+  }
 
   .cmd-form {
     display: flex;

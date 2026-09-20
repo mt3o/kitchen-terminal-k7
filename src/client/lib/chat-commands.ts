@@ -21,29 +21,195 @@ export interface ChatCommand {
   args?: string
   /** Tapping the chip inserts `/name ` for typing instead of running it. */
   argsRequired?: boolean
+  /** One line: the chip's tooltip and the wizard's button subtitle. */
   summary: string
+  /** Which wizard section it belongs to. */
+  group: CommandGroupId
+  /**
+   * What running it actually does, for the wizard's second step — including
+   * what it will NOT do (nothing is saved, a running timer is not replaced).
+   * Two sentences at most: it is read standing up, in a kitchen.
+   */
+  details: string
 }
 
-export const COMMANDS: readonly ChatCommand[] = [
-  { name: 'menu', aliases: ['gui'], summary: 'polecenia jako formularze — bez pisania ukosnika' },
-  { name: 'clear', aliases: ['nowa', 'wyczysc', 'new'], summary: 'nowa rozmowa; obecna zostaje w archiwum' },
-  { name: 'przepis', aliases: ['recipe'], summary: 'ostatnia odpowiedz jako przepis — do przegladu w BAZA.PRZEPISY' },
-  { name: 'zakupy', aliases: ['shopping'], summary: 'skladniki z ostatniego przepisu na liste zakupow' },
-  { name: 'minutnik', aliases: ['timer'], args: 'czas', argsRequired: true, summary: 'uruchom minutnik: 10, 7:30, 90s, 1h 15min' },
-  { name: 'porcje', aliases: ['servings'], args: 'N', argsRequired: true, summary: 'przelicz ostatni przepis na N porcji' },
-  { name: 'lodowka', aliases: ['fridge'], args: 'produkty', argsRequired: true, summary: 'co ugotowac z tego, co jest w lodowce' },
-  { name: 'pogoda', aliases: ['weather'], args: '[pytanie]', summary: 'wskazowki na dzis na podstawie prognozy' },
-  { name: 'plan', aliases: ['jadlospis'], args: '[dni]', summary: 'jadlospis z kalendarza, pogody i bazy przepisow' },
-  { name: 'zamiennik', aliases: ['zamien', 'substitute'], args: 'skladnik', argsRequired: true, summary: 'czym zastapic skladnik' },
-  { name: 'przelicz', aliases: ['convert'], args: 'ilosc', argsRequired: true, summary: 'szklanki i lyzki na gramy, i odwrotnie' },
-  { name: 'ponow', aliases: ['retry'], args: '[model]', summary: 'to samo pytanie jeszcze raz, np. innym modelem' },
-  { name: 'context', aliases: ['kontekst'], summary: 'zajetosc okna kontekstu i rezerwa na odpowiedz' },
-  { name: 'model', aliases: [], args: '[nazwa]', summary: 'pokaz lub zmien model tej rozmowy' },
-  { name: 'koszt', aliases: ['cost'], summary: 'wydatki na AI: dzis i 30 dni' },
-  { name: 'tytul', aliases: ['title'], args: 'nazwa', argsRequired: true, summary: 'zmien nazwe rozmowy w archiwum' },
-  { name: 'archiwum', aliases: ['historia', 'history'], summary: 'poprzednie rozmowy' },
-  { name: 'pomoc', aliases: ['help', '?'], summary: 'ta lista' },
+export type CommandGroupId = 'gotowanie' | 'rozmowa' | 'system'
+
+export interface CommandGroup {
+  id: CommandGroupId
+  label: string
+}
+
+/** Wizard sections, in the order the first step shows them. */
+export const COMMAND_GROUPS: readonly CommandGroup[] = [
+  { id: 'gotowanie', label: 'GOTOWANIE' },
+  { id: 'rozmowa', label: 'ROZMOWA' },
+  { id: 'system', label: 'SYSTEM' },
 ]
+
+export const COMMANDS: readonly ChatCommand[] = [
+  {
+    name: 'menu',
+    aliases: ['gui'],
+    group: 'system',
+    summary: 'polecenia krok po kroku, bez pisania ukosnika',
+    details: 'Otwiera te liste. Wybierasz polecenie, potem wypelniasz jego pola — skladnia nie jest do niczego potrzebna.',
+  },
+  {
+    name: 'przepis',
+    aliases: ['recipe'],
+    group: 'gotowanie',
+    summary: 'ostatnia odpowiedz jako przepis',
+    details:
+      'Bierze ostatnia odpowiedz AI i otwiera ja jako przepis do przegladu w karcie BAZA.PRZEPISY. ' +
+      'Nic nie zapisuje sie samo — zapisujesz tam przyciskiem ZAPISZ.',
+  },
+  {
+    name: 'zakupy',
+    aliases: ['shopping'],
+    group: 'gotowanie',
+    summary: 'skladniki z przepisu na liste zakupow',
+    details:
+      'Wyciaga skladniki z ostatniego przepisu w rozmowie i pokazuje je do odznaczenia. ' +
+      'To, co juz jest na liscie, zaznacza jako posiadane; reszta trafia na LISTA.ZAKUPY dopiero po DODAJ.',
+  },
+  {
+    name: 'minutnik',
+    aliases: ['timer'],
+    group: 'gotowanie',
+    args: 'czas',
+    argsRequired: true,
+    summary: 'uruchom minutnik',
+    details: 'Uruchamia karte MINUTNIK. Odliczania, ktore juz trwa, nie przerwie — najpierw je zatrzymaj.',
+  },
+  {
+    name: 'porcje',
+    aliases: ['servings'],
+    group: 'gotowanie',
+    args: 'N',
+    argsRequired: true,
+    summary: 'przelicz przepis na inna liczbe porcji',
+    details: 'Prosi AI o przeliczenie ostatniego przepisu z rozmowy: nowe ilosci skladnikow i to, co zmienia sie w czasie albo naczyniu.',
+  },
+  {
+    name: 'lodowka',
+    aliases: ['fridge'],
+    group: 'gotowanie',
+    args: 'produkty',
+    argsRequired: true,
+    summary: 'co ugotowac z tego, co masz',
+    details: 'Podajesz, co masz pod reka; AI proponuje 3 dania, mowi czego brakuje i ile zajmie. Podstawy (sol, olej, maka) zaklada sam.',
+  },
+  {
+    name: 'plan',
+    aliases: ['jadlospis'],
+    group: 'gotowanie',
+    args: '[dni]',
+    summary: 'jadlospis z kalendarza, pogody i bazy przepisow',
+    details:
+      'Zbiera wydarzenia z kalendarza na ten tydzien, prognoze i tytuly z Twojej bazy przepisow, potem prosi o jadlospis. ' +
+      'W dni z wydarzeniami po 15:00 proponuje dania do 30 minut.',
+  },
+  {
+    name: 'zamiennik',
+    aliases: ['zamien', 'substitute'],
+    group: 'gotowanie',
+    args: 'skladnik',
+    argsRequired: true,
+    summary: 'czym zastapic skladnik',
+    details: 'Pyta o 2-3 zamienniki z proporcjami i o to, jak zmieni sie smak albo konsystencja. Uwzglednia przepis z tej rozmowy.',
+  },
+  {
+    name: 'przelicz',
+    aliases: ['convert'],
+    group: 'gotowanie',
+    args: 'ilosc',
+    argsRequired: true,
+    summary: 'szklanki i lyzki na gramy, i odwrotnie',
+    details:
+      'Liczy od razu z tabeli miar kuchennych, bez pytania AI (szklanka 250 ml, lyzka 15 ml, lyzeczka 5 ml). ' +
+      'Podaje, jaka gestosc przyjal. Skladnik spoza tabeli przelicza AI.',
+  },
+  {
+    name: 'pogoda',
+    aliases: ['weather'],
+    group: 'gotowanie',
+    args: '[pytanie]',
+    summary: 'wskazowki na dzis z prognozy',
+    details: 'Bierze prognoze dla lokalizacji z karty pogody i prosi o praktyczne wskazowki: ubranie, pranie, wietrzenie i co ugotowac.',
+  },
+  {
+    name: 'clear',
+    aliases: ['nowa', 'wyczysc', 'new'],
+    group: 'rozmowa',
+    summary: 'zacznij nowa rozmowe',
+    details: 'Zaczyna rozmowe od zera. Obecna nie znika — zostaje w archiwum i mozesz do niej wrocic.',
+  },
+  {
+    name: 'ponow',
+    aliases: ['retry'],
+    group: 'rozmowa',
+    args: '[model]',
+    summary: 'to samo pytanie jeszcze raz',
+    details: 'Wysyla ostatnie pytanie ponownie, bez przepisywania go. Mozesz przy okazji zapytac inny model.',
+  },
+  {
+    name: 'model',
+    aliases: [],
+    group: 'rozmowa',
+    args: '[nazwa]',
+    summary: 'zmien model tej rozmowy',
+    details: 'Kontekst rozmowy zostaje — kolejne odpowiedzi pisze wybrany model. Bez podanej nazwy wypisuje dostepne modele.',
+  },
+  {
+    name: 'tytul',
+    aliases: ['title'],
+    group: 'rozmowa',
+    args: 'nazwa',
+    argsRequired: true,
+    summary: 'nazwij te rozmowe',
+    details: 'Nazwa, pod ktora rozmowa bedzie widoczna w archiwum. Bez niej archiwum pokazuje pierwsza wiadomosc.',
+  },
+  {
+    name: 'archiwum',
+    aliases: ['historia', 'history'],
+    group: 'rozmowa',
+    summary: 'poprzednie rozmowy',
+    details: 'Lista zapisanych rozmow — mozesz je otworzyc, przemianowac albo usunac.',
+  },
+  {
+    name: 'context',
+    aliases: ['kontekst'],
+    group: 'system',
+    summary: 'ile okna kontekstu zajmuje rozmowa',
+    details: 'Pokazuje zajetosc okna modelu, rezerwe na odpowiedz i prog, od ktorego historia jest streszczana.',
+  },
+  {
+    name: 'koszt',
+    aliases: ['cost'],
+    group: 'system',
+    summary: 'wydatki na AI',
+    details: 'Szacunek z cennika bramki: dzis i przez ostatnie 30 dni, razem z liczba wywolan.',
+  },
+  {
+    name: 'pomoc',
+    aliases: ['help', '?'],
+    group: 'system',
+    summary: 'lista polecen w oknie rozmowy',
+    details: 'Wypisuje wszystkie polecenia z ich skladnia, do szybkiego podejrzenia bez otwierania tej listy.',
+  },
+]
+
+/** The wizard's first step: commands of one group, in declaration order. */
+export function commandsInGroup(group: CommandGroupId): readonly ChatCommand[] {
+  return COMMANDS.filter((c) => c.group === group)
+}
+
+/** Exactly what would have been typed — shown in the wizard so the syntax is learnable. */
+export function previewCommand(command: ChatCommand, args: string): string {
+  const trimmed = args.trim()
+  return trimmed ? `/${command.name} ${trimmed}` : `/${command.name}`
+}
 
 /** Lowercase, Polish diacritics folded — `/Lodówka` and `/lodowka` are one command. */
 export function foldName(name: string): string {
@@ -624,6 +790,8 @@ export interface FormField {
   name: string
   label: string
   kind: FormFieldKind
+  /** One line under the field: what to put in it, or what leaving it empty means. */
+  help?: string
   placeholder?: string
   min?: number
   max?: number
@@ -658,42 +826,86 @@ export const COMMAND_FORMS: readonly CommandForm[] = [
     command: 'minutnik',
     intro: 'ile ma odliczyc minutnik',
     fields: [
-      { name: 'czas', label: 'czas', kind: 'text', placeholder: '10, 7:30, 1h 15min', suggest: 'timerPresets' },
+      {
+        name: 'czas',
+        label: 'czas',
+        kind: 'text',
+        placeholder: '10, 7:30, 1h 15min',
+        help: 'sama liczba to minuty; mozna tez 7:30, 90s albo 1h 15min',
+        suggest: 'timerPresets',
+      },
     ],
     build: (v) => value(v, 'czas'),
   },
   {
     command: 'porcje',
     intro: 'na ile porcji przeliczyc ostatni przepis',
-    fields: [{ name: 'porcje', label: 'porcje', kind: 'number', min: 1, max: 50, initial: '4', suggest: 'servings' }],
+    fields: [
+      {
+        name: 'porcje',
+        label: 'porcje',
+        kind: 'number',
+        min: 1,
+        max: 50,
+        initial: '4',
+        help: 'na ile osob ma wystarczyc ostatni przepis z rozmowy',
+        suggest: 'servings',
+      },
+    ],
     build: (v) => value(v, 'porcje'),
   },
   {
     command: 'lodowka',
     intro: 'co masz pod reka',
-    fields: [{ name: 'produkty', label: 'produkty (po przecinku)', kind: 'text', placeholder: 'jajka, szpinak, feta' }],
+    fields: [
+      {
+        name: 'produkty',
+        label: 'produkty',
+        kind: 'text',
+        placeholder: 'jajka, szpinak, feta',
+        help: 'po przecinku; podstaw (sol, olej, maka, cebula) nie musisz wypisywac',
+      },
+    ],
     build: (v) => value(v, 'produkty'),
   },
   {
     command: 'przelicz',
     intro: 'miara kuchenna na gramy — i odwrotnie',
     fields: [
-      { name: 'ilosc', label: 'ilosc', kind: 'text', initial: '1', placeholder: '1, 1,5, 1/2' },
+      { name: 'ilosc', label: 'ilosc', kind: 'text', initial: '1', placeholder: '1, 1,5, 1/2', help: 'liczba, ulamek albo polowa' },
       {
         name: 'jednostka',
         label: 'jednostka',
         kind: 'select',
         initial: 'szklanka',
+        help: 'z czego przeliczamy',
         options: MEASURE_UNITS.map((u) => ({ value: u, label: u })),
       },
-      { name: 'skladnik', label: 'skladnik', kind: 'text', optional: true, placeholder: 'maki pszennej', suggest: 'ingredients' },
+      {
+        name: 'skladnik',
+        label: 'skladnik',
+        kind: 'text',
+        optional: true,
+        placeholder: 'maki pszennej',
+        help: 'bez niego przeliczy sama objetosc albo wage',
+        suggest: 'ingredients',
+      },
     ],
     build: (v) => [value(v, 'ilosc'), value(v, 'jednostka'), value(v, 'skladnik')].filter(Boolean).join(' '),
   },
   {
     command: 'zamiennik',
     intro: 'czego brakuje',
-    fields: [{ name: 'skladnik', label: 'skladnik', kind: 'text', placeholder: 'maslo', suggest: 'ingredients' }],
+    fields: [
+      {
+        name: 'skladnik',
+        label: 'skladnik',
+        kind: 'text',
+        placeholder: 'maslo',
+        help: 'czego brakuje albo czego chcesz uniknac',
+        suggest: 'ingredients',
+      },
+    ],
     build: (v) => value(v, 'skladnik'),
   },
   {
@@ -705,6 +917,7 @@ export const COMMAND_FORMS: readonly CommandForm[] = [
         label: 'na ile dni',
         kind: 'select',
         initial: '7',
+        help: 'kalendarz znamy do konca tego tygodnia — dalsze dni AI planuje bez niego',
         options: [3, 5, 7, 10, 14].map((d) => ({ value: String(d), label: `${d} dni` })),
       },
     ],
@@ -713,25 +926,36 @@ export const COMMAND_FORMS: readonly CommandForm[] = [
   {
     command: 'pogoda',
     intro: 'wskazowki na dzis; pytanie mozesz zostawic puste',
-    fields: [{ name: 'pytanie', label: 'pytanie', kind: 'text', optional: true, placeholder: 'czy grillowac?' }],
+    fields: [
+      {
+        name: 'pytanie',
+        label: 'pytanie',
+        kind: 'text',
+        optional: true,
+        placeholder: 'czy grillowac?',
+        help: 'puste pole = wskazowki na dzis: ubranie, pranie, wietrzenie, obiad',
+      },
+    ],
     build: (v) => value(v, 'pytanie'),
   },
   {
     command: 'ponow',
     intro: 'zapytaj jeszcze raz; mozesz wybrac inny model',
-    fields: [{ name: 'model', label: 'model', kind: 'select', optional: true, suggest: 'models' }],
+    fields: [
+      { name: 'model', label: 'model', kind: 'select', optional: true, help: 'bez zmiany pyta ten sam model', suggest: 'models' },
+    ],
     build: (v) => value(v, 'model'),
   },
   {
     command: 'model',
     intro: 'model tej rozmowy',
-    fields: [{ name: 'model', label: 'model', kind: 'select', suggest: 'models' }],
+    fields: [{ name: 'model', label: 'model', kind: 'select', help: 'lista z bramki Kilo', suggest: 'models' }],
     build: (v) => value(v, 'model'),
   },
   {
     command: 'tytul',
     intro: 'nazwa rozmowy w archiwum',
-    fields: [{ name: 'tytul', label: 'tytul', kind: 'text', suggest: 'title' }],
+    fields: [{ name: 'tytul', label: 'tytul', kind: 'text', help: 'krotka nazwa widoczna w archiwum', suggest: 'title' }],
     build: (v) => value(v, 'tytul'),
   },
 ]
