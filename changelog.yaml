@@ -9,6 +9,13 @@
 # Newest entry first.
 entries:
   - date: "2026-09-20"
+    title: "Kalendarz Google: podłączenie konta z przeglądarki"
+    items:
+      - "Nowy panel pod adresem `/admin` pozwala podłączyć konto Google przez okno zgody Google, zamiast wklejania tokenu do pliku `.env.local` na serwerze."
+      - "Panel jest chroniony tokenem administratora (`K7_ADMIN_TOKEN`) — bez niego adresy panelu w ogóle nie istnieją. Token wkleja się raz, w przeglądarce laptopa; na iPadzie w kuchni nic się nie zmienia."
+      - "Token odświeżania zapisywany jest w bazie, zaszyfrowany kluczem `K7_SECRET_KEY`, i ma pierwszeństwo przed zmienną środowiskową."
+      - "Panel pokazuje, które konto jest podłączone i pozwala je rozłączyć (z cofnięciem dostępu po stronie Google)."
+  - date: "2026-09-20"
     title: "Czat AI: MENU z formularzami, jadłospis, zamienniki i przeliczanie miar"
     items:
       - "Przycisk MENU w nagłówku czatu (albo /menu) prowadzi przez polecenia w dwóch krokach. Krok 1: przyciski z nazwą i opisem, pogrupowane na GOTOWANIE, ROZMOWA i SYSTEM. Krok 2: co polecenie właściwie robi (i czego nie zrobi — np. nie nadpisze trwającego minutnika), a pod spodem podpisane pola do wypełnienia, każde z krótką podpowiedzią. Nie trzeba pamiętać składni ani szukać ukośnika na klawiaturze iPada."

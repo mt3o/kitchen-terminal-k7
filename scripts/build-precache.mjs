@@ -16,7 +16,13 @@ const DIST = resolve(import.meta.dirname, '../dist/client')
 /** Everything the shell needs to paint with no network. */
 const INCLUDE = /\.(html|css|js|woff2?|svg|png|webmanifest)$/i
 /** The manifest cannot list itself, and the worker is fetched by the browser. */
-const EXCLUDE = new Set(['precache.json', 'sw.js'])
+const EXCLUDE = new Set(['precache.json', 'sw.js', 'admin.html'])
+/**
+ * The admin panel is a laptop page, opened by hand a handful of times a year.
+ * Precaching it would spend the iPad's storage and the shell's cache revision
+ * on a screen that device never shows.
+ */
+const EXCLUDE_PREFIX = /^assets\/admin-/
 
 async function walk(dir) {
   const out = []
@@ -30,7 +36,7 @@ async function walk(dir) {
 
 const files = (await walk(DIST))
   .map((f) => relative(DIST, f))
-  .filter((f) => INCLUDE.test(f) && !EXCLUDE.has(f))
+  .filter((f) => INCLUDE.test(f) && !EXCLUDE.has(f) && !EXCLUDE_PREFIX.test(f))
   .sort()
 
 // The revision is a hash of the file list plus each file's own hash, so a change

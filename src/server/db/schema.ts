@@ -11,7 +11,7 @@
  * TEXT ISO string sorts correctly but costs a parse on every read.
  */
 import { sql } from 'drizzle-orm'
-import { index, integer, real, sqliteTable, text } from 'drizzle-orm/sqlite-core'
+import { blob, index, integer, real, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 
 const now = sql`(unixepoch() * 1000)`
 
@@ -129,3 +129,34 @@ export type ShoppingListItemRow = typeof shoppingListItems.$inferSelect
 export type ConversationRow = typeof conversations.$inferSelect
 export type MessageRow = typeof messages.$inferSelect
 export type AiCallRow = typeof aiCalls.$inferSelect
+
+/**
+ * An OAuth credential the household granted through the browser, rather than
+ * one pasted into `.env.local` by hand.
+ *
+ * One row per provider — this is not a general secrets cabinet, and should not
+ * grow into one without a decision saying so. The refresh token is never stored
+ * in the clear: `ciphertext`/`iv`/`auth_tag` are AES-256-GCM, keyed from
+ * `K7_SECRET_KEY` (see `crypto/secret-box.ts`). That protects a database file
+ * that leaks on its own — a backup, a copy handed over for debugging — and not
+ * an attacker with shell access on the host, who can read the key from the same
+ * `.env.local` where today's plaintext token already lives.
+ *
+ * `scope` and `account_email` exist for the admin view to say *what* is
+ * connected without decrypting anything.
+ */
+export const oauthCredentials = sqliteTable('oauth_credentials', {
+  provider: text('provider', { enum: ['google'] }).primaryKey(),
+  ciphertext: blob('ciphertext', { mode: 'buffer' }).notNull(),
+  /** Fresh per write. Reusing an IV with the same key breaks GCM outright. */
+  iv: blob('iv', { mode: 'buffer' }).notNull(),
+  authTag: blob('auth_tag', { mode: 'buffer' }).notNull(),
+  /** What Google actually granted, which is not necessarily what was asked. */
+  scope: text('scope').notNull(),
+  /** Display only: "connected as …". Null when Google did not tell us. */
+  accountEmail: text('account_email'),
+  createdAt: integer('created_at', { mode: 'timestamp_ms' }).notNull().default(now),
+  updatedAt: integer('updated_at', { mode: 'timestamp_ms' }).notNull().default(now),
+})
+
+export type OauthCredentialRow = typeof oauthCredentials.$inferSelect

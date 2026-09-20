@@ -33,6 +33,20 @@ export interface Config {
   googleOauthRefreshToken: string | undefined
   googleOauthClientId: string | undefined
   googleOauthClientSecret: string | undefined
+  /**
+   * Guards the admin routes, including the Google consent flow. Absent means
+   * those routes answer 404 — a default deployment exposes no
+   * credential-granting surface at all, which is the same "absent is a
+   * supported way to run" rule the Google credentials themselves follow.
+   */
+  adminToken: string | undefined
+  /**
+   * 32 bytes, base64. Keys the encryption of credentials stored in the
+   * database. Absent means the browser consent flow is off: storing a refresh
+   * token in the clear would be a worse posture than the env var it replaces,
+   * so it is refused rather than downgraded.
+   */
+  secretKey: string | undefined
   /** Absent means the unsplash-carousel card answers 503 and shows its fail state. */
   unsplashAccessKey: string | undefined
   /**
@@ -91,6 +105,8 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     googleOauthRefreshToken: env.GOOGLE_OAUTH_REFRESH_TOKEN || undefined,
     googleOauthClientId: env.GOOGLE_OAUTH_CLIENT_ID || undefined,
     googleOauthClientSecret: env.GOOGLE_OAUTH_CLIENT_SECRET || undefined,
+    adminToken: env.K7_ADMIN_TOKEN || undefined,
+    secretKey: env.K7_SECRET_KEY || undefined,
     unsplashAccessKey: env.K7_UNSPLASH_ACCESS_KEY || undefined,
     unsplashSecretKey: env.K7_UNSPLASH_SECRET_KEY || undefined,
     unsplashAppName: env.K7_UNSPLASH_APP_NAME || 'kitchen_terminal_k7',
@@ -117,6 +133,10 @@ export function secretValues(config: Config): readonly (string | undefined)[] {
     config.googleOauthRefreshToken,
     config.googleOauthClientId,
     config.googleOauthClientSecret,
+    // The admin token opens the consent flow and the secret key decrypts every
+    // credential in the database. Neither has any business in an error report.
+    config.adminToken,
+    config.secretKey,
     config.glitchtipDsn,
     // The Cloudflare token can edit DNS for a whole zone. It has no business in
     // an error report, and it is the newest thing here, so it is the one most
@@ -138,6 +158,8 @@ export function describeConfig(config: Config): string {
     `db=${config.databasePath}`,
     `recipes=${config.recipesDir}`,
     `glitchtip=${present(config.glitchtipDsn)}`,
+    `admin=${present(config.adminToken)}`,
+    `secret_key=${present(config.secretKey)}`,
     `kilo_key=${present(config.kiloGatewayKey)}`,
     `google_refresh=${present(config.googleOauthRefreshToken)}`,
     `google_oauth_client=${present(config.googleOauthClientId)}/${present(config.googleOauthClientSecret)}`,

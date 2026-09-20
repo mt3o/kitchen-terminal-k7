@@ -30,7 +30,12 @@ import { fetchWeather, weatherCacheKey } from './upstream/open-meteo.ts'
 import { asciiArtCacheKey, createAsciiArtGenerator } from './upstream/ascii-art.ts'
 import { comicCacheKey, fetchComic } from './upstream/comic-rss.ts'
 import { icsCacheKey, fetchIcsCalendar } from './upstream/ics-calendar.ts'
-import { createGoogleCalendarClient, googleCalendarCacheKey, hasGoogleCalendarCredentials } from './upstream/google-calendar.ts'
+import { googleCalendarCacheKey } from './upstream/google-calendar.ts'
+import { parseSecretKey } from './crypto/secret-box.ts'
+import { createCredentialStore } from './oauth/credential-store.ts'
+import { createGoogleConnection } from './oauth/google-connection.ts'
+import { buildRedirectUri, createStateStore } from './oauth/google-consent.ts'
+import { registerAdminGoogleRoutes } from './routes/admin-google.ts'
 import { fetchUnsplashPhotos, unsplashCacheKey, UNSPLASH_MAX_COUNT, type UnsplashOrientation } from './upstream/unsplash.ts'
 import { createKiloGatewayClient, createModelCatalog } from './upstream/kilo.ts'
 import { createConversationService } from './ai/conversation-service.ts'
@@ -79,17 +84,26 @@ const generateAndRecordAsciiArt = config.kiloGatewayKey
   ? createAsciiArtGenerator(repos.aiCalls, kiloClient, modelCatalog)
   : undefined
 
-// Absent is a supported way to run — see hasGoogleCalendarCredentials's own
-// doc comment: a Google-sourced Calendar with no credentials configured
-// falls back to the client's existing mock events, same as it always has.
-const googleCalendarCreds = {
-  clientId: config.googleOauthClientId,
-  clientSecret: config.googleOauthClientSecret,
-  refreshToken: config.googleOauthRefreshToken,
-}
-const googleCalendarClient = hasGoogleCalendarCredentials(googleCalendarCreds)
-  ? createGoogleCalendarClient(googleCalendarCreds)
-  : undefined
+// Absent is a supported way to run — a Google-sourced Calendar with no
+// credentials configured falls back to the client's existing mock events, same
+// as it always has. What changed is *where* the refresh token may come from:
+// the database row a browser consent wrote wins over the environment variable,
+// so the client can no longer be decided once at boot. See
+// oauth/resolve-google-credentials.ts for why the database has to win.
+//
+// The encryption key is parsed here, at boot, because a malformed key must fail
+// loudly now rather than at the first write. Absent means the browser consent
+// flow is simply off; the env-var path is untouched by that.
+const secretKey = parseSecretKey(config.secretKey)
+const credentialStore = secretKey ? createCredentialStore(db, secretKey) : undefined
+const googleConnection = createGoogleConnection(
+  {
+    clientId: config.googleOauthClientId,
+    clientSecret: config.googleOauthClientSecret,
+    refreshToken: config.googleOauthRefreshToken,
+  },
+  credentialStore,
+)
 
 /**
  * TLS is all-or-nothing and decided before Fastify exists, because the server's
@@ -434,6 +448,7 @@ app.get('/api/calendar/week', async (req, reply) => {
     }
   }
 
+  const googleCalendarClient = await googleConnection.client()
   if (!googleCalendarClient) {
     // Structural, not transient — never going to succeed until the
     // household configures credentials. A distinct `code` (not just prose
@@ -637,6 +652,27 @@ app.delete('/api/recipes/:id', async (req, reply) => {
   return deleted ? reply.code(204).send() : reply.code(404).send({ error: 'no such recipe' })
 })
 
+// Connecting the household's Google account from a browser (k7-google-oauth-connect).
+// Registered only when both an admin token and an encryption key exist: without
+// the first there is nothing guarding a credential-granting surface, and without
+// the second the credential could only be stored in the clear. Either missing
+// means these routes do not exist at all — see routes/admin-google.ts.
+if (config.adminToken && credentialStore) {
+  await registerAdminGoogleRoutes(app, {
+    adminToken: config.adminToken,
+    clientId: config.googleOauthClientId,
+    clientSecret: config.googleOauthClientSecret,
+    // From configuration, never from the request's Host header.
+    redirectUri: config.hostname
+      ? buildRedirectUri(config.hostname, config.port, tls ? 'https' : 'http')
+      : undefined,
+    store: credentialStore,
+    connection: googleConnection,
+    states: createStateStore(),
+    reportError: (err, extra) => Sentry.captureException(err, { extra }),
+  })
+}
+
 // AI chat (Faza 4): model catalogue, conversation CRUD, the SSE turn endpoint
 // and the cost-history view — see routes/chat.ts.
 await registerChatRoutes(app, {
@@ -674,6 +710,14 @@ app.setErrorHandler((err, req, reply) => {
 })
 
 await app.register(fastifyStatic, { root: resolve(ROOT, 'dist/client'), index: ['index.html'] })
+
+// The admin panel, served only when it is actually enabled. When it is not, the
+// path falls through to the not-found handler below and answers with the kiosk
+// shell like any other unknown path — the same "it does not exist" the API
+// routes give, rather than a page advertising a feature that is switched off.
+if (config.adminToken && credentialStore) {
+  app.get('/admin', (_req, reply) => reply.sendFile('admin.html'))
+}
 
 // The kiosk is a single-page shell added to the home screen; any unknown path is
 // still the shell rather than a 404 the user cannot navigate away from.
