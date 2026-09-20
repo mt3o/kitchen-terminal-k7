@@ -1235,7 +1235,7 @@
   })
 </script>
 
-<Card label="CZAT.AI" {meta} state={cardState}>
+<Card label="CZAT.AI" {meta} state={cardState} fullscreen>
   {#snippet actions()}
     <div class="head-actions">
       {#if view === 'chat'}

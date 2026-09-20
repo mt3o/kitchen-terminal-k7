@@ -183,7 +183,7 @@
   })
 </script>
 
-<Card label="MINUTNIK" state={cardState}>
+<Card label="MINUTNIK" state={cardState} fullscreen>
   {#if phase === 'idle'}
     <div class="idle-wrap">
       <div class="presets">

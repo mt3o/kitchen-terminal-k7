@@ -16,6 +16,17 @@ entries:
       - "/zamiennik masło — czym zastąpić składnik, z proporcjami i uwagą, jak zmieni się smak."
       - "/przelicz 2 szklanki mąki — odpowiada natychmiast, bez pytania AI, z tabeli miar kuchennych (szklanki, łyżki, łyżeczki, gramy, dekagramy); działa w obie strony, np. \"300 g mąki\" to około 2 szklanki. Podaje, jaką gęstość przyjął, więc wynik można podważyć. Gdy składnika nie ma w tabeli, pyta AI."
       - "/ponow zadaje ostatnie pytanie jeszcze raz — opcjonalnie od razu innym modelem (/ponow sonnet)."
+  - date: "2026-09-20"
+    title: "Minutnik i audiometr przeniesione na PRZEPISY"
+    items:
+      - "Strona NARZĘDZIA zniknęła — minutnik i audiometr są teraz kolejnymi zakładkami w MENU na stronie PRZEPISY, obok PRZEPISY i CZAT."
+      - "Obie karty mają teraz też przycisk pełnego ekranu w nagłówku."
+  - date: "2026-09-20"
+    title: "PRZEPISY: szersza kolumna treści, pionowe zakładki, pełny ekran"
+    items:
+      - "Strona PRZEPISY: kolumna z przepisami/czatem jest teraz dwa razy szersza niż kolumna z zakładkami MENU, zamiast równego podziału na pół."
+      - "Zakładki PRZEPISY/CZAT w MENU ułożone są teraz pionowo, jedna pod drugą."
+      - "BAZA.PRZEPISY i CZAT.AI mają teraz przycisk pełnego ekranu w nagłówku karty, tak jak kalendarz i zdjęcia."
   - date: "2026-09-19"
     title: "Czat AI: archiwum rozmów, polecenia i zapisywanie przepisów"
     items:

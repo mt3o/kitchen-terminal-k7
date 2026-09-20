@@ -83,12 +83,24 @@ pages:
       # `cardIds` may point anywhere: this one rotates across two different
       # pages to actually exercise that. `wakeOnPresence` is deliberately
       # left unset — camera-based wake is out of scope for this change.
+      #
+      # `audiometr` was dropped from this list when it moved behind
+      # `menu-przepisy` (below): app.css's `.page [hidden] { display: none
+      # !important }` beats `.k7-fullscreen-active`'s `position: fixed
+      # !important`, and the menu leaves every non-active card `hidden` —
+      # promoting a hidden card to "fullscreen" would just paint nothing for
+      # its whole turn. `enterSlideshow`/`rotateSlideshow` in
+      # fullscreen-lock.ts don't know about menu-owned visibility at all
+      # (only the `k7-reveal`/`k7-menu-select` path does, and the Slideshow
+      # never dispatches it) — teaching them to would be a bigger change than
+      # this one warrants, so any *other* menu-hidden card must stay out of
+      # `cardIds` too until that's fixed.
       - id: pokaz-domowy
         type: slideshow
         params:
           idleTriggerSeconds: 1800
           intervalSeconds: 15
-          cardIds: [zegar, pogoda, kalendarz, audiometr]
+          cardIds: [zegar, pogoda, kalendarz]
           transition: fade
           exitOnInteraction: true
 
@@ -115,20 +127,44 @@ pages:
               source: { mode: google, calendarId: "pl.polish#holiday@group.v.calendar.google.com" }
           view: week
 
-  # Kitchen tools: the timer and the noise meter. Neither needs to be seen
-  # from the doorway, both get reached for while actually cooking — grouped
-  # by when they're used, not by a leftover "kuchnia" theme label.
-  - id: narzedzia
-    label: NARZĘDZIA
-    grid: { columns: 2 }
+  # Recipes are the primary reason to open this page; chat, the timer and the
+  # noise meter are further tabs away — one menu-switched page for everything
+  # reached for while actually cooking, rather than a whole extra page (the
+  # former NARZĘDZIA) just for the last two. None of these four need to be
+  # seen from the doorway, which is what set them apart from GŁÓWNA/KALENDARZ.
+  # 3 columns rather than 2: the content card (whichever tab is active) spans
+  # 2 of them, the menu keeps the 3rd — a 2:1 split instead of an even half
+  # for a tab strip that only ever needs to fit short labels. Works within
+  # the grid's own equal-track model (no per-column width support exists —
+  # see layout.schema.yaml `grid`) by spending `span.cols` rather than sizing
+  # a track directly.
+  - id: przepisy
+    label: PRZEPISY
+    grid: { columns: 3 }
     cards:
+      - id: przepisy
+        type: recipes
+        span: { cols: 2 }
+        params:
+          maxVisible: 6
+          allowUrlImport: true
+
+      - id: czat
+        type: chat
+        span: { cols: 2 }
+        params:
+          defaultModel: "kilo-auto/free"
+          voiceInput: true
+
       - id: minutnik
         type: timer
+        span: { cols: 2 }
         params:
           presetsMinutes: [1, 3, 5, 10, 15, 20, 30, 45, 60]
 
       - id: audiometr
         type: audiometer
+        span: { cols: 2 }
         params:
           historyDurationSeconds: 180
           sampleIntervalMs: 500
@@ -138,35 +174,20 @@ pages:
           smoothingFactor: 0.3
           warningThreshold: 75
 
-  # Recipes are the primary reason to open this page; chat is a second tab
-  # away for "what can I make with what I have" — a menu earning its slot as
-  # a tab switcher between two related cards, rather than being the page's
-  # own reason to exist.
-  - id: przepisy
-    label: PRZEPISY
-    grid: { columns: 2 }
-    cards:
-      - id: przepisy
-        type: recipes
-        params:
-          maxVisible: 6
-          allowUrlImport: true
-
-      - id: czat
-        type: chat
-        params:
-          defaultModel: "kilo-auto/free"
-          voiceInput: true
-
       - id: menu-przepisy
         type: menu
         params:
-          orientation: horizontal
+          # Vertical fits the narrow 1-of-3 column it now owns better than
+          # horizontal did in the old even split, and scales to 4 items
+          # without wrapping into a second row the way horizontal would.
+          orientation: vertical
           style: tabs
           defaultActive: przepisy
           items:
             - { cardId: przepisy, label: PRZEPISY }
             - { cardId: czat, label: CZAT }
+            - { cardId: minutnik, label: MINUTNIK }
+            - { cardId: audiometr, label: AUDIOMETR }
 
   # A shopping list is read top to bottom and grows; on its own page it gets
   # the whole page height rather than sharing a column and a scrollbar.
