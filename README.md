@@ -160,6 +160,18 @@ fatal. On first start, recipes still in the SQLite `recipes` table are copied
 here once; a `.migrated-from-sqlite` marker records that, so deleting every
 file does not bring them back.
 
+## Connecting a real Google Calendar
+
+A `calendar` card with `source.mode: google` needs three secrets in
+`.env.local` on the server machine — `GOOGLE_OAUTH_CLIENT_ID`,
+`GOOGLE_OAUTH_CLIENT_SECRET` and `GOOGLE_OAUTH_REFRESH_TOKEN`. There is no
+consent-flow UI in this app: the refresh token is minted once by hand and
+pasted in. Leaving all three unset is a supported way to run — the card falls
+back to mock events rather than erroring.
+
+Step-by-step (Cloud Console project, OAuth client, minting the token, the
+`calendarId` for the card): **`docs/google-calendar-oauth.md`**.
+
 ## Design system and the token contract
 
 Components read **only** CSS custom properties (`var(--*)`) generated from the
@@ -221,6 +233,7 @@ Full detail: `context/foundation/git-workflow.md`.
 
 | Doc | Contents |
 |---|---|
+| `docs/google-calendar-oauth.md` | how to obtain the Google Calendar OAuth2 refresh token and point a card at a calendar |
 | `docs/handoff/HANDOFF.md` | context, decision log, deferred ideas (Polish) — read first for background |
 | `docs/handoff/PLAN.md` | phased build plan |
 | `docs/handoff/TECH-STACK.md` | stack choices and open caveats (Polish) |

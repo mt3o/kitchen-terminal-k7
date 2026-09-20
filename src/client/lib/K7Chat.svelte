@@ -24,6 +24,10 @@
     model, never persisted — `k7` in the log, not `ai`.
   - Other cards are reached only through lib/k7-events.ts broadcasts: the
     timer, the recipes card's review form, the shopping list.
+  - `/menu` is the same commands as a form per command (COMMAND_FORMS):
+    labelled fields and quick picks drawn from live state — the model list,
+    the last recipe's ingredients, timer presets. On a wall display that is
+    the discoverable path; remembering `/przelicz 2 szklanki mąki` is not.
 -->
 <svelte:options
   customElement={{
@@ -34,6 +38,7 @@
       contextWindowMarginPercent: { type: 'String', reflect: true },
       compactingThresholdPercent: { type: 'String', reflect: true },
       voiceInput: { type: 'String', reflect: true },
+      calendars: { type: 'String', reflect: true },
       weatherLat: { type: 'String', reflect: true },
       weatherLon: { type: 'String', reflect: true },
       weatherUnits: { type: 'String', reflect: true },
@@ -45,20 +50,37 @@
   import Card from './Card.svelte'
   import { renderMarkdown } from './markdown.ts'
   import {
+    calendarWeekEnd,
+    COMMAND_GROUPS,
+    commandsInGroup,
+    convertMeasure,
+    convertPrompt,
+    formFor,
     formatContextReport,
     formatDuration,
     fridgePrompt,
     helpText,
+    initialFormValues,
     linkDurations,
     matchCommands,
+    missingFields,
     parseDuration,
     parseInput,
+    parseMeasure,
+    parsePlanDays,
     parseServings,
+    planDays,
+    previewCommand,
+    planPrompt,
     portionsPrompt,
+    substitutePrompt,
     titleFrom,
     weatherPrompt,
     type ChatCommand,
+    type CommandForm,
     type ContextReport,
+    type FormField,
+    type PlanEvent,
     type WeatherSnapshot,
   } from './chat-commands.ts'
   import { announceShoppingListChanged, offerRecipeDraft, requestTimerStart, type RecipeDraft } from './k7-events.ts'
@@ -106,6 +128,8 @@
     contextWindowMarginPercent?: string
     compactingThresholdPercent?: string
     voiceInput?: string
+    /** JSON `[{id,name}]` — the calendar card's own calendars, passed by main.ts, so /plan reads the week the wall shows. */
+    calendars?: string
     /** The first weather card's location, passed by main.ts, so /pogoda asks about the same place the wall shows. */
     weatherLat?: string
     weatherLon?: string
@@ -118,6 +142,7 @@
     contextWindowMarginPercent = '20',
     compactingThresholdPercent = '80',
     voiceInput = 'false',
+    calendars = '',
     weatherLat = '',
     weatherLon = '',
     weatherUnits = '',
@@ -269,6 +294,7 @@
   // svelte-ignore state_referenced_locally
   let selectedModel = $state(defaultModel)
   let conversationId = $state<string | undefined>(undefined)
+  let conversationTitle = $state<string | undefined>(undefined)
   let messages = $state<ChatMessageView[]>([])
   let input = $state('')
   let streaming = $state(false)
@@ -278,8 +304,16 @@
   let errorText = $state('')
   let costToday = $state<number | undefined>(undefined)
 
-  type View = 'chat' | 'archive'
+  type View = 'chat' | 'archive' | 'menu' | 'form'
   let view = $state<View>('chat')
+  let openForm = $state<CommandForm | undefined>(undefined)
+  /** The command step 2 is filling in — also set for commands that take no arguments. */
+  let openCommand = $state<ChatCommand | undefined>(undefined)
+  let formValues = $state<Record<string, string>>({})
+  /** Quick picks for the open form's fields, keyed by field name. */
+  let formChips = $state<Record<string, string[]>>({})
+  /** Ingredient names seen in this thread's recipes — what /zamiennik and /przelicz offer. */
+  let knownIngredients = $state<string[]>([])
   let archive = $state<ConversationSummary[]>([])
   let archiveLoading = $state(false)
   let archiveFailed = $state(false)
@@ -378,8 +412,9 @@
       signal,
     })
     if (!res.ok) throw new Error(`conversation create ${res.status}`)
-    const created = (await res.json()) as { id: string }
+    const created = (await res.json()) as { id: string; title: string | null }
     conversationId = created.id
+    conversationTitle = created.title ?? undefined
     rememberConversation(created.id)
     return created.id
   }
@@ -405,10 +440,11 @@
         return
       }
       if (!convRes.ok || !msgRes.ok) throw new Error(`conversation ${convRes.status}/${msgRes.status}`)
-      const conversation = (await convRes.json()) as { id: string; model: string }
+      const conversation = (await convRes.json()) as { id: string; model: string; title: string | null }
       const history = (await msgRes.json()) as { id: string; role: 'user' | 'assistant' | 'system'; content: string }[]
       controller?.abort()
       conversationId = conversation.id
+      conversationTitle = conversation.title ?? undefined
       ensureModelOption(conversation.model)
       selectedModel = conversation.model
       messages = history.map(viewOf)
@@ -431,6 +467,7 @@
     streaming = false
     const had = conversationId !== undefined
     conversationId = undefined
+    conversationTitle = undefined
     messages = []
     failed = false
     errorText = ''
@@ -687,6 +724,7 @@
     const line = addLocal('> wyodrebniam przepis z ostatniej odpowiedzi...')
     const draft = await draftRecipe(line)
     if (!draft) return
+    rememberIngredients(draft.ingredients)
     const result = offerRecipeDraft(draft)
     updateLocal(line, {
       content:
@@ -704,6 +742,7 @@
     const line = addLocal('> wyodrebniam skladniki z ostatniej odpowiedzi...')
     const draft = await draftRecipe(line)
     if (!draft) return
+    rememberIngredients(draft.ingredients)
     if (draft.ingredients.length === 0) {
       updateLocal(line, { content: '[!] brak skladnikow w ostatniej odpowiedzi' })
       return
@@ -775,7 +814,8 @@
     updateLocal(lineId, { pick: { ...line.pick, phase: 'done', note: '[--] anulowano' } })
   }
 
-  async function commandWeather(question: string): Promise<void> {
+  /** The weather the wall shows: main.ts passes the weather card's own location. */
+  async function fetchWeather(): Promise<WeatherSnapshot | undefined> {
     const params = [
       weatherLat ? `lat=${encodeURIComponent(weatherLat)}` : '',
       weatherLon ? `lon=${encodeURIComponent(weatherLon)}` : '',
@@ -783,19 +823,124 @@
     ]
       .filter(Boolean)
       .join('&')
-    working = true
-    let weather: WeatherSnapshot
     try {
       const res = await fetch(`/api/weather${params ? `?${params}` : ''}`)
-      if (!res.ok) throw new Error(`weather ${res.status}`)
-      weather = (await res.json()) as WeatherSnapshot
+      if (!res.ok) return undefined
+      return (await res.json()) as WeatherSnapshot
     } catch {
+      return undefined
+    }
+  }
+
+  async function commandWeather(question: string): Promise<void> {
+    working = true
+    const weather = await fetchWeather()
+    working = false
+    if (!weather) {
       addLocal('[!] brak danych pogodowych')
       return
-    } finally {
-      working = false
     }
     await send(weatherPrompt(weather, question), question ? `pogoda: ${titleFrom(question, 50)}` : 'pogoda: wskazowki na dzis')
+  }
+
+  interface ConfiguredCalendar {
+    id: string
+    name?: string
+  }
+
+  function parseCalendars(): ConfiguredCalendar[] {
+    try {
+      const parsed = JSON.parse(calendars || '[]') as unknown
+      if (!Array.isArray(parsed)) return []
+      return parsed.filter((c): c is ConfiguredCalendar => typeof (c as ConfiguredCalendar)?.id === 'string')
+    } catch {
+      return []
+    }
+  }
+
+  async function loadPlanEvents(): Promise<{ events: PlanEvent[]; unavailable: boolean }> {
+    const configured = parseCalendars()
+    if (configured.length === 0) return { events: [], unavailable: true }
+    const results = await Promise.all(
+      configured.map(async (cal) => {
+        try {
+          const res = await fetch(`/api/calendar/week?id=${encodeURIComponent(cal.id)}`)
+          if (!res.ok) return undefined
+          return ((await res.json()) as { data?: PlanEvent[] }).data ?? []
+        } catch {
+          return undefined
+        }
+      }),
+    )
+    const readable = results.filter((r): r is PlanEvent[] => r !== undefined)
+    // Every source failing is "we could not look", which the prompt must not
+    // present as an empty week.
+    return { events: readable.flat(), unavailable: readable.length === 0 }
+  }
+
+  async function loadRecipeTitles(): Promise<string[]> {
+    try {
+      const res = await fetch('/api/recipes?limit=40')
+      if (!res.ok) return []
+      return ((await res.json()) as { title: string }[]).map((r) => r.title)
+    } catch {
+      return []
+    }
+  }
+
+  /**
+   * /plan asks with what the wall already knows: this week's calendar, the
+   * forecast, and the household's own recipe base. Each part is optional and
+   * a part that could not be read is left out rather than guessed at.
+   */
+  async function commandPlan(args: string): Promise<void> {
+    const days = parsePlanDays(args)
+    const line = addLocal('> zbieram kalendarz, pogode i baze przepisow...')
+    const [calendar, recipes, weather] = await Promise.all([loadPlanEvents(), loadRecipeTitles(), fetchWeather()])
+    const now = new Date()
+    const calendarUntil = calendarWeekEnd(now)
+    const sources = [
+      calendar.unavailable ? 'kalendarz: brak' : `kalendarz: ${calendar.events.length} wydarzen`,
+      recipes.length > 0 ? `baza: ${recipes.length} przepisow` : 'baza: pusta',
+      weather ? 'pogoda: jest' : 'pogoda: brak',
+    ]
+    updateLocal(line, { content: `> plan na ${days} dni // ${sources.join(' // ')}` })
+    await send(
+      planPrompt({
+        days: planDays(now, days, calendar.events),
+        recipes,
+        weather,
+        calendarUnavailable: calendar.unavailable,
+        calendarUntil,
+      }),
+      `jadlospis na ${days} dni`,
+    )
+  }
+
+  /** The measure table answers first; the model is asked only for what it does not hold. */
+  async function commandConvert(args: string): Promise<void> {
+    const local = convertMeasure(args)
+    if (local) {
+      addLocal(local)
+      return
+    }
+    await send(convertPrompt(args), `przelicz: ${titleFrom(args, 50)}`)
+  }
+
+  /** Re-asks the last question verbatim, optionally after switching model. */
+  async function commandRetry(args: string): Promise<void> {
+    const lastUser = [...messages].reverse().find((m) => m.role === 'user')
+    if (!lastUser) {
+      addLocal('[!] nie ma o co zapytac ponownie')
+      return
+    }
+    if (args) {
+      const id = resolveModel(args)
+      if (!id) return
+      if (!(await switchModel(id))) return
+    }
+    addLocal(`> pytam jeszcze raz // ${selectedModel}`)
+    await send(lastUser.content)
   }
 
   async function commandContext(): Promise<void> {
@@ -816,25 +961,28 @@
     }
   }
 
+  /** One model by id, or by a fragment of its id/name when that is unambiguous. */
+  function resolveModel(args: string): string | undefined {
+    const wanted = args.trim().toLowerCase()
+    const exact = models.find((m) => m.id.toLowerCase() === wanted)
+    const matches = exact ? [exact] : models.filter((m) => m.id.toLowerCase().includes(wanted) || m.name.toLowerCase().includes(wanted))
+    if (matches.length === 1) return matches[0]!.id
+    addLocal(
+      matches.length === 0
+        ? `[!] brak modelu „${args}” — /model pokaze liste`
+        : `[!] „${args}” pasuje do kilku:\n${matches.slice(0, 12).map((m) => `  ${m.id}`).join('\n')}`,
+    )
+    return undefined
+  }
+
   async function commandModel(args: string): Promise<void> {
     if (!args) {
       const list = models.map((m) => (m.id === selectedModel ? `* ${m.id}` : `  ${m.id}`)).join('\n')
       addLocal(`> model: ${selectedModel}\n${list}\n/model nazwa — zmien`)
       return
     }
-    const wanted = args.toLowerCase()
-    const exact = models.find((m) => m.id.toLowerCase() === wanted)
-    const matches = exact ? [exact] : models.filter((m) => m.id.toLowerCase().includes(wanted) || m.name.toLowerCase().includes(wanted))
-    if (matches.length !== 1) {
-      addLocal(
-        matches.length === 0
-          ? `[!] brak modelu „${args}” — /model pokaze liste`
-          : `[!] „${args}” pasuje do kilku:\n${matches.slice(0, 12).map((m) => `  ${m.id}`).join('\n')}`,
-      )
-      return
-    }
-    const id = matches[0]!.id
-    if (await switchModel(id)) addLocal(`[OK] model: ${id}${conversationId ? ' // od nastepnej wiadomosci' : ''}`)
+    const id = resolveModel(args)
+    if (id && (await switchModel(id))) addLocal(`[OK] model: ${id}${conversationId ? ' // od nastepnej wiadomosci' : ''}`)
   }
 
   async function commandCost(): Promise<void> {
@@ -867,10 +1015,131 @@
       })
       if (!res.ok) throw new Error(`title ${res.status}`)
       const updated = (await res.json()) as { title: string | null }
+      conversationTitle = updated.title ?? undefined
       addLocal(`[OK] tytul: ${updated.title ?? '(brak)'}`)
     } catch {
       addLocal('[!] nie udalo sie zmienic tytulu')
     }
+  }
+
+  // ------------------------------------------------------------ /menu
+
+  let formError = $state('')
+
+  /** "200 g mąki pszennej" → "mąki pszennej" — what a substitution is about, without the amount. */
+  function ingredientName(line: string): string {
+    const measure = parseMeasure(line)
+    return (measure?.ingredient || line).trim()
+  }
+
+  function rememberIngredients(lines: readonly string[]): void {
+    const names = lines.map(ingredientName).filter(Boolean)
+    if (names.length > 0) knownIngredients = names.slice(0, 12)
+  }
+
+  /**
+   * Quick picks for an ingredient field: what this thread's last recipe used,
+   * falling back to the newest recipe in the base. No chips when there is
+   * nothing real to offer — an empty row beats an invented one.
+   */
+  async function ingredientChips(): Promise<string[]> {
+    if (knownIngredients.length > 0) return knownIngredients
+    try {
+      const res = await fetch('/api/recipes?limit=1')
+      if (!res.ok) return []
+      const [recipe] = (await res.json()) as { ingredients: string[] }[]
+      return (recipe?.ingredients ?? []).map(ingredientName).filter(Boolean).slice(0, 12)
+    } catch {
+      return []
+    }
+  }
+
+  function openCommandMenu(): void {
+    openForm = undefined
+    openCommand = undefined
+    formError = ''
+    view = 'menu'
+  }
+
+  /**
+   * Step 2 of the wizard. A command that takes no arguments still gets this
+   * step — with its description and a single URUCHOM — rather than firing on
+   * the first tap: the step is where the household reads what the thing does,
+   * and /clear taking effect from a stray tap on a wall panel is exactly the
+   * surprise this avoids.
+   */
+  async function openCommandForm(command: ChatCommand): Promise<void> {
+    const form = formFor(command.name)
+    openCommand = command
+    openForm = form
+    if (!form) {
+      formValues = {}
+      formChips = {}
+      formError = ''
+      view = 'form'
+      return
+    }
+    formValues = initialFormValues(form)
+    formChips = {}
+    formError = ''
+    view = 'form'
+    const chips: Record<string, string[]> = {}
+    for (const field of form.fields) {
+      if (field.suggest === 'timerPresets') chips[field.name] = ['5', '10', '15', '20', '30', '45']
+      else if (field.suggest === 'servings') chips[field.name] = ['2', '4', '6', '8']
+      else if (field.suggest === 'title' && conversationTitle) formValues = { ...formValues, [field.name]: conversationTitle }
+      else if (field.suggest === 'ingredients') chips[field.name] = await ingredientChips()
+    }
+    // Only if this form is still the open one: awaiting above gives the
+    // household time to have cancelled or opened another.
+    if (openForm === form) formChips = chips
+  }
+
+  /** A select's options: declared in the form spec, or the live model list. */
+  function fieldOptions(field: FormField): readonly { value: string; label: string }[] {
+    if (field.options) return field.options
+    if (field.suggest === 'models') return models.map((m) => ({ value: m.id, label: m.name }))
+    return []
+  }
+
+  function setField(name: string, next: string): void {
+    formValues = { ...formValues, [name]: next }
+    formError = ''
+  }
+
+  function closeForm(): void {
+    openForm = undefined
+    openCommand = undefined
+    formError = ''
+    view = 'menu'
+  }
+
+  /** What step 2 will run, exactly as it could have been typed. */
+  let formPreview = $derived.by(() => {
+    if (!openCommand) return ''
+    return previewCommand(openCommand, openForm ? openForm.build(formValues) : '')
+  })
+
+  async function runOpenForm(): Promise<void> {
+    const command = openCommand
+    if (!command || busy) return
+    const form = openForm
+    if (form) {
+      const missing = missingFields(form, formValues)
+      if (missing.length > 0) {
+        formError = `uzupelnij: ${missing.map((f) => f.label).join(', ')}`
+        return
+      }
+    }
+    const args = form ? form.build(formValues) : ''
+    const echo = previewCommand(command, args)
+    openForm = undefined
+    openCommand = undefined
+    view = 'chat'
+    // Echoed into the log: it records what ran, and it is the syntax to type
+    // next time — the wizard should make itself unnecessary.
+    addLocal(`> ${echo}`)
+    await runCommand(command, args)
   }
 
   async function runCommand(command: ChatCommand, args: string): Promise<void> {
@@ -881,6 +1150,9 @@
     switch (command.name) {
       case 'clear':
         startNewConversation()
+        return
+      case 'menu':
+        openCommandMenu()
         return
       case 'archiwum':
         await openArchive()
@@ -905,6 +1177,18 @@
         return
       case 'pogoda':
         await commandWeather(args)
+        return
+      case 'zamiennik':
+        await send(substitutePrompt(args), `zamiennik: ${titleFrom(args, 40)}`)
+        return
+      case 'przelicz':
+        await commandConvert(args)
+        return
+      case 'ponow':
+        await commandRetry(args)
+        return
+      case 'plan':
+        await commandPlan(args)
         return
       case 'tytul':
         await commandTitle(args)
@@ -980,17 +1264,100 @@
 <Card label="CZAT.AI" {meta} state={cardState} fullscreen>
   {#snippet actions()}
     <div class="head-actions">
-      {#if view === 'archive'}
-        <button type="button" class="btn-ghost btn-sm" onclick={() => (view = 'chat')}>WROC</button>
-      {:else}
+      {#if view === 'chat'}
+        <button type="button" class="btn-ghost btn-sm" onclick={openCommandMenu}>MENU</button>
         <button type="button" class="btn-ghost btn-sm" onclick={() => void openArchive()} disabled={busy}>ARCHIWUM</button>
+      {:else}
+        <button type="button" class="btn-ghost btn-sm" onclick={() => (view = 'chat')}>WROC</button>
       {/if}
       <button type="button" class="btn-ghost btn-sm" onclick={startNewConversation}>NOWA</button>
     </div>
   {/snippet}
 
   <div class="wrap">
-    {#if view === 'archive'}
+    {#if view === 'menu'}
+      <div class="wizard">
+        <p class="wizard-step">krok 1 z 2 // wybierz polecenie</p>
+        {#each COMMAND_GROUPS as group (group.id)}
+          <p class="group-label">{group.label}</p>
+          <div class="cmd-grid">
+            {#each commandsInGroup(group.id) as c (c.name)}
+              {#if c.name !== 'menu'}
+                <button type="button" class="cmd-button" disabled={busy} onclick={() => void openCommandForm(c)}>
+                  <span class="cmd-name">
+                    /{c.name}{#if c.args}<span class="cmd-args"> {c.args}</span>{/if}
+                  </span>
+                  <span class="cmd-summary">{c.summary}</span>
+                </button>
+              {/if}
+            {/each}
+          </div>
+        {/each}
+      </div>
+    {:else if view === 'form' && openCommand}
+      <form
+        class="cmd-form"
+        onsubmit={(e) => {
+          e.preventDefault()
+          void runOpenForm()
+        }}
+      >
+        <p class="wizard-step">krok 2 z 2 // /{openCommand.name}</p>
+        <p class="cmd-details">{openCommand.details}</p>
+        {#if openForm}
+          <p class="form-head">{openForm.intro}</p>
+        {/if}
+        {#each openForm?.fields ?? [] as field (field.name)}
+          <label class="field">
+            <span class="field-label">{field.label}{#if field.optional} (opcjonalnie){/if}</span>
+            {#if field.kind === 'select'}
+              <select
+                class="field-input"
+                value={formValues[field.name] ?? ''}
+                onchange={(e) => setField(field.name, e.currentTarget.value)}
+              >
+                {#if field.optional}<option value="">— bez zmiany —</option>{/if}
+                {#each fieldOptions(field) as option (option.value)}
+                  <option value={option.value}>{option.label}</option>
+                {/each}
+              </select>
+            {:else}
+              <input
+                class="field-input"
+                type={field.kind === 'number' ? 'number' : 'text'}
+                inputmode={field.kind === 'number' ? 'numeric' : undefined}
+                min={field.min}
+                max={field.max}
+                placeholder={field.placeholder ?? ''}
+                value={formValues[field.name] ?? ''}
+                oninput={(e) => setField(field.name, e.currentTarget.value)}
+              />
+            {/if}
+            {#if field.help}<span class="field-help">{field.help}</span>{/if}
+          </label>
+          {#if (formChips[field.name] ?? []).length > 0}
+            <div
+              class="chips"
+              role="group"
+              aria-label={`podpowiedzi: ${field.label}`}
+              ontouchstart={keepSwipe}
+              ontouchmove={keepSwipe}
+              ontouchend={keepSwipe}
+            >
+              {#each formChips[field.name] ?? [] as suggestion (suggestion)}
+                <button type="button" class="chip" onclick={() => setField(field.name, suggestion)}>{suggestion}</button>
+              {/each}
+            </div>
+          {/if}
+        {/each}
+        {#if formError}<p class="stale">[!] {formError}</p>{/if}
+        <p class="preview" aria-label="polecenie do uruchomienia">{formPreview}</p>
+        <div class="review-actions">
+          <button type="button" class="btn-ghost btn-sm" onclick={closeForm}>WSTECZ</button>
+          <button type="submit" class="btn-solid btn-sm" disabled={busy}>URUCHOM</button>
+        </div>
+      </form>
+    {:else if view === 'archive'}
       <div class="archive" role="list">
         {#if archiveLoading && archive.length === 0}
           <p class="empty">wczytywanie</p>
@@ -1337,6 +1704,159 @@
   .arch-title {
     font-size: var(--text-base);
     overflow-wrap: anywhere;
+  }
+
+  .arch-args { color: var(--fg-muted); }
+
+  .wizard {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    gap: var(--space-2);
+    overflow-y: auto;
+  }
+
+  /* Where you are in the wizard. Lowercase data, uppercase labels — the
+     card's own voice (DESIGN.md §13), not a progress widget. */
+  .wizard-step,
+  .group-label {
+    margin: 0;
+    color: var(--fg-muted);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+  }
+
+  .wizard-step { text-transform: none; }
+
+  .group-label {
+    padding-top: var(--space-2);
+    border-top: var(--border-w) solid var(--border);
+  }
+
+  /* One column on a half-width card, two once there is room for them —
+     each button still holds a name and a full line of description. */
+  .cmd-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+
+  @media (min-width: 560px) {
+    .cmd-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .cmd-button {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
+    min-height: var(--control-h);
+    padding: var(--space-2) var(--space-3);
+    background: transparent;
+    color: var(--fg);
+    border: var(--border-w) solid var(--border-strong);
+    border-radius: var(--radius);
+    font-family: var(--font-ui);
+    text-align: left;
+    cursor: pointer;
+  }
+  .cmd-button:hover { background: var(--ghost-hover); }
+  .cmd-button:active { background: var(--ghost-active); }
+  .cmd-button:disabled { color: var(--fg-disabled); border-color: var(--border); cursor: not-allowed; }
+
+  .cmd-name {
+    font-size: var(--text-base);
+    font-weight: var(--weight-medium);
+  }
+
+  .cmd-args { color: var(--fg-muted); font-weight: normal; }
+
+  .cmd-summary {
+    color: var(--fg-muted);
+    font-size: var(--text-sm);
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .cmd-details {
+    margin: 0;
+    font-size: var(--text-sm);
+    overflow-wrap: anywhere;
+  }
+
+  .field-help {
+    color: var(--fg-muted);
+    font-size: var(--text-xs);
+  }
+
+  /* What is about to run, spelled the way it could have been typed — the
+     wizard teaching its own shortcut. */
+  .preview {
+    margin: 0;
+    padding: var(--space-2);
+    background: var(--surface-sunken);
+    border: var(--border-w) solid var(--border);
+    border-radius: var(--radius);
+    color: var(--fg);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    overflow-wrap: anywhere;
+  }
+
+  .cmd-form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    gap: var(--space-2);
+    overflow-y: auto;
+  }
+
+  .form-head {
+    margin: 0;
+    color: var(--fg-muted);
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-label);
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .field-label {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--fg-muted);
+  }
+
+  .field-input {
+    min-height: var(--control-h);
+    padding: 0 var(--control-pad-x);
+    background: var(--surface-sunken);
+    color: var(--fg);
+    border: var(--border-w) solid var(--border);
+    border-radius: var(--radius);
+    font-family: var(--font-ui);
+    font-size: var(--text-base);
+  }
+
+  .field-input:focus {
+    border-color: var(--border-strong);
+    outline: var(--focus-w) solid var(--focus);
+    outline-offset: var(--focus-offset);
+  }
+
+  .review-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-2);
+    padding-top: var(--space-2);
+    border-top: var(--border-w-strong) solid var(--border-strong);
   }
 
   .arch-meta {
