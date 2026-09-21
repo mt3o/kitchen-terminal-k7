@@ -8,13 +8,14 @@ import { mkdirSync } from 'node:fs'
 import { dirname } from 'node:path'
 
 import Database from 'better-sqlite3'
-import { and, desc, eq, gte, sql } from 'drizzle-orm'
+import { and, desc, eq, gte, lt, sql } from 'drizzle-orm'
 import { drizzle, type BetterSQLite3Database } from 'drizzle-orm/better-sqlite3'
 
 import type {
   AiCall,
   CacheEntry,
   Conversation,
+  IssueLogEntry,
   Message,
   Recipe,
   ShoppingListItem,
@@ -22,6 +23,7 @@ import type {
 import type {
   AiCallRepository,
   ConversationRepository,
+  IssueLogRepository,
   RecipeRepository,
   Repositories,
   ShoppingListRepository,
@@ -64,6 +66,10 @@ const toItem = (r: schema.ShoppingListItemRow): ShoppingListItem => ({ ...r })
 const toConversation = (r: schema.ConversationRow): Conversation => ({ ...r })
 const toMessage = (r: schema.MessageRow): Message => ({ ...r })
 const toAiCall = (r: schema.AiCallRow): AiCall => ({ ...r })
+// `source` is free text in the schema (see schema.ts's own doc comment) but a
+// closed union in the domain type — same "store wider, read narrower" shape
+// upstreamCache's own cast below follows.
+const toIssue = (r: schema.IssueLogRow): IssueLogEntry => ({ ...r } as IssueLogEntry)
 
 export function createRepositories(db: Db): Repositories {
   const recipes: RecipeRepository = {
@@ -201,6 +207,24 @@ export function createRepositories(db: Db): Repositories {
     },
   }
 
+  const issueLog: IssueLogRepository = {
+    async record(entry, createdAt) {
+      const [row] = await db
+        .insert(schema.issueLog)
+        .values({ ...entry, id: randomUUID(), ...(createdAt ? { createdAt } : {}) })
+        .returning()
+      return toIssue(row!)
+    },
+    async listRecent(limit = 50) {
+      const rows = await db.select().from(schema.issueLog).orderBy(desc(schema.issueLog.createdAt)).limit(limit)
+      return rows.map(toIssue)
+    },
+    async prune(olderThan) {
+      const rows = await db.delete(schema.issueLog).where(lt(schema.issueLog.createdAt, olderThan)).returning()
+      return rows.length
+    },
+  }
+
   const upstreamCache: UpstreamCacheRepository = {
     async get(key) {
       const [row] = await db.select().from(schema.upstreamCache).where(eq(schema.upstreamCache.key, key)).limit(1)
@@ -217,5 +241,5 @@ export function createRepositories(db: Db): Repositories {
     },
   }
 
-  return { recipes, shoppingList, conversations, aiCalls, upstreamCache }
+  return { recipes, shoppingList, conversations, aiCalls, upstreamCache, issueLog }
 }

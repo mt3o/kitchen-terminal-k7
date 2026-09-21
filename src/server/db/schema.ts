@@ -124,6 +124,28 @@ export const upstreamCache = sqliteTable('upstream_cache', {
 
 export type UpstreamCacheRow = typeof upstreamCache.$inferSelect
 
+/**
+ * The household-visible issue log — see `IssueLogEntry`'s own doc comment for
+ * why this exists alongside GlitchTip rather than instead of it. `source` is
+ * left as free text rather than the `upstream` enum above: `server` and
+ * `client` are not upstreams, and a new upstream must not need a migration
+ * just to be nameable here.
+ */
+export const issueLog = sqliteTable(
+  'issue_log',
+  {
+    id: text('id').primaryKey(),
+    severity: text('severity', { enum: ['warn', 'error'] }).notNull(),
+    source: text('source').notNull(),
+    message: text('message').notNull(),
+    detail: text('detail'),
+    createdAt: integer('created_at', { mode: 'timestamp_ms' }).notNull().default(now),
+  },
+  (t) => [index('issue_log_created_idx').on(t.createdAt)],
+)
+
+export type IssueLogRow = typeof issueLog.$inferSelect
+
 export type RecipeRow = typeof recipes.$inferSelect
 export type ShoppingListItemRow = typeof shoppingListItems.$inferSelect
 export type ConversationRow = typeof conversations.$inferSelect

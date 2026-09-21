@@ -281,6 +281,7 @@
   .viewport.dragging .slide { transition: none; }
 
   .pic {
+    box-sizing: border-box;
     display: block;
     max-width: 100%;
     max-height: 100%;

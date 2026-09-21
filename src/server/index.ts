@@ -12,13 +12,14 @@ import { parse } from 'yaml'
 import type { Layout, NormalisedLayout } from '../shared/layout.ts'
 import { findConfiguredCalendar } from './calendar-lookup.ts'
 import { layerLayout, type LocalLayout } from './layout-layers.ts'
-import type { Calendar } from './domain/types.ts'
+import type { Calendar, IssueSeverity, IssueSource } from './domain/types.ts'
 import { parseChangelog } from '../shared/changelog.ts'
 import { createRepositories, openDatabase } from './adapters/drizzle/index.ts'
 import { createFileRecipeRepository, InvalidRecipeIdError, migrateRecipesToFiles } from './adapters/files/recipes.ts'
 import { describeConfig, loadConfig, secretValues } from './config.ts'
 import { runMigrations } from './db/migrate.ts'
 import { initObservability, Sentry } from './observability.ts'
+import { createScrubber } from './redact.ts'
 import { importRecipeFromUrl, RecipeImportError } from './recipes/import.ts'
 import { generateTokensCss, type Theme } from './theme/generate.ts'
 import { isAllowedHost, isFetchableUrl, isPrivateAddress } from './security/network.ts'
@@ -59,6 +60,43 @@ const db = openDatabase(config.databasePath)
 runMigrations(db)
 const repos = createRepositories(db)
 const fetchThrough = createFreshnessService(repos.upstreamCache)
+
+const ISSUE_MESSAGE_MAX = 500
+const ISSUE_DETAIL_MAX = 4000
+
+// `GET /api/issues` is unauthenticated like every other route here (the
+// `onRequest` hook below is the only boundary) and its rows are rendered
+// straight into the dashboard — so this table gets the same scrubbing
+// GlitchTip payloads get in `observability.ts`, for the same reason: an
+// upstream error message is exactly the kind of string a stray credential
+// ends up in.
+const scrubIssueText = createScrubber(secretValues(config))
+
+/**
+ * The one place that writes to the household-visible issue log. GlitchTip
+ * (`observability.ts`) and this table are deliberately separate: GlitchTip is
+ * opt-in and read by someone outside the kitchen, this table is always on
+ * (no DSN required) and read from the dashboard itself via `GET /api/issues`.
+ * Every `onFallback` and `Sentry.captureException` call site below funnels
+ * through here rather than writing the row inline, so there is one shape.
+ *
+ * Defined before `app` exists (TLS setup runs before Fastify does and can
+ * fail) so it cannot depend on `app.log` — a write that itself fails goes to
+ * stderr, the one sink guaranteed to exist this early.
+ */
+function logIssue(severity: IssueSeverity, source: IssueSource, message: string, detail?: unknown): void {
+  const detailText = detail === undefined ? null : detail instanceof Error ? (detail.stack ?? detail.message) : String(detail)
+  repos.issueLog
+    .record({
+      severity,
+      source,
+      message: (scrubIssueText(message.slice(0, ISSUE_MESSAGE_MAX)) as string),
+      detail: detailText ? (scrubIssueText(detailText.slice(0, ISSUE_DETAIL_MAX)) as string) : null,
+    })
+    .catch((err: unknown) => {
+      process.stderr.write(`issue log write failed: ${err instanceof Error ? err.message : String(err)}\n`)
+    })
+}
 
 // AI chat (Faza 4) and ascii-art-of-the-day (Faza 5) share one Kilo Gateway
 // client and model catalogue — see routes/chat.ts for why the chat routes
@@ -129,11 +167,13 @@ try {
   // to HTTP keeps the wall alive and loses only the Service Worker, which is
   // strictly better than a blank screen while somebody debugs ACME.
   Sentry.captureException(error)
+  logIssue('error', 'server', 'TLS setup failed, continuing on HTTP', error)
   process.stderr.write(`TLS setup failed, continuing on HTTP: ${error instanceof Error ? error.message : String(error)}\n`)
 }
 
 const req_log_error = (err: unknown): void => {
   Sentry.captureException(err)
+  logIssue('error', 'server', err instanceof Error ? err.message : 'request failed', err)
 }
 
 const app = Fastify({
@@ -224,6 +264,38 @@ app.get('/api/changelog', async (_req, reply) => {
   }
 })
 
+const ISSUE_LOG_LIST_MAX = 200
+
+/**
+ * The household-visible issue log popup's data source — every `onFallback`
+ * and unhandled-error site above, plus whatever the client itself reports
+ * below. Deliberately unauthenticated like every other route here: nothing on
+ * this box is (see the `onRequest` hook), and this table holds no secrets —
+ * `logIssue` never receives raw request bodies or config values.
+ */
+app.get('/api/issues', async (req) => {
+  const q = req.query as { limit?: string }
+  const limit = Number(q.limit ?? 50)
+  const bounded = Number.isFinite(limit) && limit > 0 ? Math.min(Math.trunc(limit), ISSUE_LOG_LIST_MAX) : 50
+  return repos.issueLog.listRecent(bounded)
+})
+
+/**
+ * The client's own crash reporter (`client/lib/issue-log.ts`) posts here —
+ * `window.onerror` / `unhandledrejection`, throttled client-side so a
+ * crash loop cannot flood this table. Body fields are bounded and coerced to
+ * strings before `logIssue` truncates them again, so a hostile or malformed
+ * payload cannot grow the table with oversized rows.
+ */
+app.post('/api/issues/client', async (req, reply) => {
+  const body = req.body as { message?: unknown; detail?: unknown }
+  if (typeof body?.message !== 'string' || body.message.trim() === '') {
+    return reply.code(400).send({ error: 'message is required' })
+  }
+  logIssue('error', 'client', body.message, typeof body.detail === 'string' ? body.detail : undefined)
+  return reply.code(202).send({ ok: true })
+})
+
 // Nothing on this box is authenticated, so the network boundary is the boundary.
 // Two checks, guarding two different attacks — see security/network.ts.
 const allowedHosts = [config.hostname, config.host].filter((h): h is string => Boolean(h))
@@ -272,6 +344,7 @@ app.get('/api/weather', async (req, reply) => {
         // Worth a log line but not an error report: the household internet being
         // down is an expected condition the design already accounts for.
         req.log.warn({ err: error, ageSeconds }, 'open-meteo unreachable, serving last good')
+        logIssue('warn', 'open-meteo', `weather unreachable, serving ${ageSeconds}s-old cache`, error)
       },
     })
   } catch (error) {
@@ -315,6 +388,7 @@ app.get('/api/ascii-art', async (req, reply) => {
       fetcher: () => generateAndRecordAsciiArt(query),
       onFallback: (error, ageSeconds) => {
         req.log.warn({ err: error, ageSeconds }, 'kilo gateway unreachable, serving last good ascii art')
+        logIssue('warn', 'kilo-gateway', `ascii-art-of-the-day fell back to ${ageSeconds}s-old cache`, error)
       },
     })
   } catch (error) {
@@ -357,6 +431,7 @@ app.get('/api/comic', async (req, reply) => {
       fetcher: () => fetchComic(query),
       onFallback: (error, ageSeconds) => {
         req.log.warn({ err: error, ageSeconds }, 'comic feed unreachable, serving last good comic')
+        logIssue('warn', 'rss', `comic-of-the-day fell back to ${ageSeconds}s-old cache`, error)
       },
     })
   } catch (error) {
@@ -412,6 +487,7 @@ app.get('/api/calendar/week', async (req, reply) => {
         fetcher: () => fetchIcsCalendar({ url, from, to }),
         onFallback: (error, ageSeconds) => {
           req.log.warn({ err: error, ageSeconds, calendarId }, '.ics calendar unreachable, serving last good')
+          logIssue('warn', 'ics', `calendar "${calendarId}" fell back to ${ageSeconds}s-old cache`, error)
         },
       })
     } catch (error) {
@@ -440,6 +516,7 @@ app.get('/api/calendar/week', async (req, reply) => {
       fetcher: () => googleCalendarClient.fetchEvents({ calendarId: googleId, from, to }),
       onFallback: (error, ageSeconds) => {
         req.log.warn({ err: error, ageSeconds, calendarId }, 'google calendar unreachable, serving last good')
+        logIssue('warn', 'google-calendar', `calendar "${calendarId}" fell back to ${ageSeconds}s-old cache`, error)
       },
     })
   } catch (error) {
@@ -486,6 +563,7 @@ app.get('/api/unsplash', async (req, reply) => {
       fetcher: () => fetchUnsplashPhotos(query, { accessKey, appName: config.unsplashAppName }),
       onFallback: (error, ageSeconds) => {
         req.log.warn({ err: error, ageSeconds }, 'unsplash unreachable, serving last good photos')
+        logIssue('warn', 'unsplash', `unsplash fell back to ${ageSeconds}s-old cache`, error)
       },
     })
   } catch (error) {
@@ -543,6 +621,7 @@ try {
   // Not fatal: the kiosk stays up with whatever the directory already holds,
   // and without the marker written the copy is simply retried next boot.
   Sentry.captureException(err, { extra: { task: 'recipe-migration' } })
+  logIssue('error', 'server', 'recipe migration to file store failed', err)
   app.log.error({ err, dir: config.recipesDir }, 'recipe migration failed')
 }
 
@@ -643,7 +722,10 @@ if (config.adminToken && credentialStore) {
     store: credentialStore,
     connection: googleConnection,
     states: createStateStore(),
-    reportError: (err, extra) => Sentry.captureException(err, { extra }),
+    reportError: (err, extra) => {
+      Sentry.captureException(err, { extra })
+      logIssue('error', 'server', err instanceof Error ? err.message : 'admin/google-connect error', err)
+    },
   })
 }
 
@@ -656,7 +738,10 @@ await registerChatRoutes(app, {
   conversationService,
   recipeDrafter,
   kiloGateway: kiloClient,
-  reportError: (err, extra) => Sentry.captureException(err, { extra }),
+  reportError: (err, extra) => {
+    Sentry.captureException(err, { extra })
+    logIssue('error', 'server', err instanceof Error ? err.message : 'chat error', err)
+  },
   archiveTranscription: (entry) => archiveTranscription(config.transcriptArchiveDir, entry),
 })
 
@@ -671,14 +756,31 @@ const TRANSCRIPT_ARCHIVE_SWEEP_INTERVAL_MS = 6 * 60 * 60 * 1000
 function sweepTranscriptArchive(): void {
   pruneTranscriptArchive(config.transcriptArchiveDir, TRANSCRIPT_ARCHIVE_MAX_AGE_MS).catch((err: unknown) => {
     Sentry.captureException(err, { extra: { task: 'transcript-archive-sweep' } })
+    logIssue('error', 'server', 'transcript archive sweep failed', err)
   })
 }
 sweepTranscriptArchive()
 setInterval(sweepTranscriptArchive, TRANSCRIPT_ARCHIVE_SWEEP_INTERVAL_MS).unref()
 
+// Same shape as the transcript sweep above: the issue log is meant for "what
+// went wrong this week", not a permanent record — GlitchTip already holds the
+// durable copy for whoever configured a DSN. 30 days comfortably outlives any
+// debugging session a household member would actually run.
+const ISSUE_LOG_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000
+const ISSUE_LOG_SWEEP_INTERVAL_MS = 6 * 60 * 60 * 1000
+
+function sweepIssueLog(): void {
+  repos.issueLog.prune(new Date(Date.now() - ISSUE_LOG_MAX_AGE_MS)).catch((err: unknown) => {
+    process.stderr.write(`issue log sweep failed: ${err instanceof Error ? err.message : String(err)}\n`)
+  })
+}
+sweepIssueLog()
+setInterval(sweepIssueLog, ISSUE_LOG_SWEEP_INTERVAL_MS).unref()
+
 // Every unhandled error reaches GlitchTip through the same scrubber as the rest.
 app.setErrorHandler((err, req, reply) => {
   Sentry.captureException(err, { extra: { url: req.url, method: req.method } })
+  logIssue('error', 'server', `${req.method} ${req.url} failed`, err)
   req.log.error({ err }, 'request failed')
   reply.code(500).send({ error: 'internal error' })
 })
