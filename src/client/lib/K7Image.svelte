@@ -108,6 +108,7 @@
   .msg { margin: 0; color: var(--warn); font-size: var(--text-sm); }
 
   .frame {
+    box-sizing: border-box;
     flex: 1 1 auto;
     min-height: 0;
     width: 100%;
@@ -118,6 +119,7 @@
   }
 
   .pic {
+    box-sizing: border-box;
     display: block;
     max-width: 100%;
     max-height: 100%;

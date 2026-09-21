@@ -57,4 +57,25 @@ describe('K7Calendar.svelte lays days out as a scrollable vertical list', () => 
   it('the empty-day placeholder sits next to the date instead of floating centered in empty space', () => {
     assert.match(ruleBody('.empty'), /text-align:\s*left/, '.empty must left-align, not center, so it reads as part of the date\'s row')
   })
+
+  // Found once the card shell stopped overflowing its grid cell
+  // (k7-card-box-sizing) and its footer badge became visible: `.week` was
+  // `height: 100%` of a .card-body it shares with the 48px .tabs row, so it
+  // overran the body by exactly that row and drew over the badge — and the
+  // bottom of the scrolled week had always been cut off by the cell's clip.
+  it('.week takes the room .tabs leaves rather than 100% of a body it shares', () => {
+    const week = ruleBody('.week')
+    assert.doesNotMatch(week, /(?<![-\w])height:\s*100%/, '.week must not claim the full body height while .tabs sits above it')
+    assert.match(week, /flex:\s*1 1 auto/, '.week must grow into whatever height .tabs leaves')
+    assert.match(week, /min-height:\s*0/, '.week must be able to shrink below its content, so it scrolls instead')
+  })
+
+  it('.tabs and .week share one full-height flex column', () => {
+    const wrap = ruleBody('.wrap')
+    for (const decl of [/display:\s*flex/, /flex-direction:\s*column/, /height:\s*100%/, /min-height:\s*0/]) {
+      assert.match(wrap, decl, `.wrap must declare ${decl.source}`)
+    }
+    const markup = readFileSync('src/client/lib/K7Calendar.svelte', 'utf8')
+    assert.match(markup, /<div class="wrap">\s*\{#if calendarsList\.length > 1\}/, '.tabs must render inside .wrap')
+  })
 })
