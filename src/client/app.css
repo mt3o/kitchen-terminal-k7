@@ -56,17 +56,49 @@ body {
   gap: var(--space-3);
 }
 
-/* DESIGN.md 6.1: "rows wrap before they crush" — the shell-status group
-   (changelog button + status text + cursor) drops to its own row rather
-   than squeezing the title into a multi-line column beside it. */
+/* One row, always: title on the left, status + [ ≡ ] on the right. With
+   the log buttons moved into the menu the right side is short enough to
+   hold, and a header on two rows took a phone's deck a whole line of cards.
+   The title is what gives if the row is still too narrow — it ellipsizes,
+   the status (the one sign the terminal is alive) never does. */
 .shell-head {
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+}
+.shell-head .shell-title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* A phone has no room for the "STATUS: " prefix; the word alone, in its
+   signal/fail ink, still says it. */
+@media (max-width: 479px) {
+  .status-prefix { display: none; }
 }
 
-/* The footer's left side: the card count and, once the server has said which
-   themes exist, the per-tab theme picker (lib/theme-picker.ts). */
-.shell-foot-meta { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
-.theme-picker { display: inline-flex; align-items: center; gap: var(--space-1); }
+/* The header's hamburger panel (lib/shell-menu.ts): the two log buttons and
+   the theme controls, stacked. Fixed and placed under [ ≡ ] by the script;
+   z-index below #changelog's 90 so a log opened from it covers it. */
+.shell-menu {
+  position: fixed;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-2);
+  min-width: calc(var(--space-16) * 3);
+  max-width: calc(100% - 2 * var(--space-4));
+  padding: var(--space-3);
+  background: var(--surface-raised);
+  border: var(--border-w-strong) solid var(--border-strong);
+  /* Framed like a card when the theme frames cards — same as .changelog-panel. */
+  border-image: var(--card-frame);
+  border-radius: var(--radius);
+  font-family: var(--font-ui);
+}
+.shell-menu[hidden] { display: none; }
+.shell-menu .hud-button { justify-content: flex-start; }
+.theme-picker { display: flex; flex-direction: column; align-items: stretch; gap: var(--space-1); }
 .theme-picker[hidden] { display: none; }
 .theme-picker-select {
   min-height: var(--control-h-sm);
@@ -146,10 +178,9 @@ body {
   .hud-button:focus:not(:focus-visible) { outline: none; }
 }
 
-/* flex-wrap: same DESIGN.md 6.1 rule as .shell-head above — two popup buttons
-   plus the status text and cursor is one wrap candidate too many for a phone
-   width to hold on one line without crushing. */
-.shell-status { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+/* The header's right side: status, cursor, menu button. Never wraps or
+   shrinks — .shell-title gives way instead (see .shell-head above). */
+.shell-status { flex: 0 0 auto; display: inline-flex; flex-wrap: nowrap; align-items: center; gap: var(--space-2); white-space: nowrap; }
 
 .hud-label {
   font-size: var(--text-sm);

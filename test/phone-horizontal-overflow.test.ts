@@ -168,6 +168,15 @@ describe('card head: controls wrap onto their own line instead of past the card 
     )
   })
 
+  it('a toolbar wraps, and at phone width takes a row of its own below the title and [ + ]', () => {
+    for (const phone of [false, true]) {
+      assert.equal(valueOf(rules, '.card-head-toolbar', 'flex-wrap', phone), 'wrap', '.card-head-toolbar must wrap')
+      assert.equal(valueOf(rules, '.card-head-toolbar', 'min-width', phone), '0')
+    }
+    assert.equal(valueOf(rules, '.card-head-toolbar', 'flex-basis', true), '100%')
+    assert.equal(valueOf(rules, '.card-head-toolbar', 'order', true), '1')
+  })
+
   it('[ + ] keeps its natural size and stays on one line', () => {
     assert.equal(valueOf(rules, '.fullscreen-btn', 'flex-shrink', true), '0')
     assert.equal(valueOf(rules, '.fullscreen-btn', 'white-space', true), 'nowrap')

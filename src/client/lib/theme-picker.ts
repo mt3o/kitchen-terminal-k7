@@ -1,5 +1,5 @@
 /**
- * The footer's theme picker: look at another theme in this tab only.
+ * The header menu's theme picker: look at another theme in this tab only.
  *
  * `layout.yaml` still decides what the wall shows. The choice made here lives
  * in sessionStorage, so it survives a reload (including the ones recovery and
@@ -42,6 +42,8 @@ export interface ThemePickerOptions {
   fetchCatalogue?: () => Promise<ThemeCatalogue>
   /** Called once the new sheet has loaded — for anything that read the old tokens. */
   onApplied?: () => void
+  /** The theme now on screen: once the catalogue is in, then after every applied change. */
+  onShown?: (theme: ThemeEntry) => void
 }
 
 export interface ThemePickerUi {
@@ -88,11 +90,19 @@ export function createThemePickerUi(options: ThemePickerOptions = {}): ThemePick
   /** A sheet still loading. A newer choice replaces it rather than racing it. */
   let pending: HTMLLinkElement | undefined
 
-  function swapSheet(href: string): void {
+  function announce(id: string): void {
+    const theme = catalogue?.themes.find((t) => t.id === id)
+    if (theme) options.onShown?.(theme)
+  }
+
+  function swapSheet(href: string, id: string): void {
     pending?.remove()
     pending = undefined
     const current = doc.getElementById('theme-sheet') as HTMLLinkElement | null
-    if (current && current.getAttribute('href') === href) return
+    if (current && current.getAttribute('href') === href) {
+      announce(id)
+      return
+    }
     const next = doc.createElement('link')
     next.rel = 'stylesheet'
     next.href = href
@@ -103,6 +113,7 @@ export function createThemePickerUi(options: ThemePickerOptions = {}): ThemePick
       doc.getElementById('theme-sheet')?.remove()
       next.id = 'theme-sheet'
       options.onApplied?.()
+      announce(id)
     }, { once: true })
     // A sheet that will not load leaves the old one in place, which is a
     // theme the household can still read.
@@ -118,7 +129,7 @@ export function createThemePickerUi(options: ThemePickerOptions = {}): ThemePick
     if (!select || !catalogue) return
     const id = select.value
     write(storage, id === catalogue.default ? null : id)
-    swapSheet(themeSheetHref(id, catalogue.default))
+    swapSheet(themeSheetHref(id, catalogue.default), id)
   }
 
   void (options.fetchCatalogue ?? defaultFetchCatalogue)()
@@ -139,11 +150,12 @@ export function createThemePickerUi(options: ThemePickerOptions = {}): ThemePick
         }),
       )
       select.value = selectedThemeId(catalogue, read(storage))
+      announce(select.value)
       if (wrapper) wrapper.hidden = false
       select.addEventListener('change', onChange)
     })
     .catch(() => {
-      // Nothing to offer; the footer simply has no picker this load.
+      // Nothing to offer; the menu simply has no picker this load.
     })
 
   return {
