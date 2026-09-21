@@ -9,6 +9,11 @@
 # Newest entry first.
 entries:
   - date: "2026-09-21"
+    title: "Karty nie są już ucięte u dołu"
+    items:
+      - "Każda karta na każdej stronie była o kilkadziesiąt pikseli wyższa niż jej miejsce na ekranie, więc jej dolna krawędź była ucinana. Teraz karta mieści się dokładnie: widać dolną ramkę i znacznik stanu w prawym dolnym rogu ([OK], [!], [X], [--]), który wcześniej był zawsze ukryty."
+      - "LOG.WYDARZENIA: lista dni kończy się teraz nad znacznikiem stanu, zamiast na niego nachodzić, a ostatnie wydarzenia tygodnia da się przewinąć do końca — wcześniej ich dolna część była ucięta nawet po przewinięciu."
+  - date: "2026-09-21"
     title: "Nowy przycisk DZIENNIK BŁĘDÓW: panel pamięta, co poszło nie tak"
     items:
       - "Przycisk [ ! ] DZIENNIK BŁĘDÓW w nagłówku pokazuje listę zdarzeń: np. \"komiks dnia wrócił do wersji sprzed godziny, bo źródło nie odpowiedziało\", \"kalendarz nie mógł się załadować\" albo błąd, który wystąpił w przeglądarce na iPadzie."

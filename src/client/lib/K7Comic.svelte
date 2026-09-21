@@ -142,8 +142,12 @@
 
   /* Takes whatever vertical room the credit/staleness lines leave (flex: 1,
      not the image itself) so max-height below has a real box to shrink
-     against, with padding as breathing room around the scaled-down image. */
+     against, with padding as breathing room around the scaled-down image.
+     border-box here and on .comic because app.css's global box-sizing rule
+     stops at the shadow boundary: content-box made `width: 100%` plus padding
+     wider than .wrap, and the image's border land outside its 100% clamp. */
   .frame {
+    box-sizing: border-box;
     flex: 1 1 auto;
     min-height: 0;
     width: 100%;
@@ -157,6 +161,7 @@
      enlarge" for a replaced element — the same effect `background-size:
      contain` gives a background image, for a plain <img>. */
   .comic {
+    box-sizing: border-box;
     display: block;
     max-width: 100%;
     max-height: 100%;
