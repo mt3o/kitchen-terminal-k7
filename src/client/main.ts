@@ -23,6 +23,8 @@ import './lib/K7Weather.svelte'
 
 import { domReconnectUi, reconnectLoop } from './lib/reconnect.ts'
 import { createChangelogUi } from './lib/changelog.ts'
+import { createIssueLogUi } from './lib/issue-log.ts'
+import { installErrorReporting } from './lib/error-reporter.ts'
 import { createThemeToggleUi } from './lib/theme-toggle.ts'
 import { createPullToRefresh } from './lib/pull-refresh.ts'
 import { createPager, type Pager } from './lib/pager.ts'
@@ -31,6 +33,11 @@ import { configure as configureFullscreenLock } from './lib/fullscreen-lock.ts'
 import { MENU_SELECT, REVEAL, type MenuSelectDetail } from './lib/k7-events.ts'
 
 import type { Card, CardType, NormalisedLayout, Page } from '../shared/layout.ts'
+
+// Wired before anything else in this module runs, so a crash during boot —
+// a bad layout, a Svelte component throwing on first render — reaches the
+// issue log too, not only whatever happened to be caught locally.
+installErrorReporting()
 
 /** Polish HUD labels, keyed by card type. Labels uppercase, data lowercase. */
 const LABELS: Record<CardType, string> = {
@@ -620,6 +627,7 @@ async function boot(): Promise<void> {
 
 registerServiceWorker()
 createChangelogUi()
+createIssueLogUi()
 createThemeToggleUi()
 const shellHead = document.querySelector<HTMLElement>('.shell-head')
 if (shellHead) {

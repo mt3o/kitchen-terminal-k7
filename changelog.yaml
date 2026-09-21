@@ -8,6 +8,12 @@
 #
 # Newest entry first.
 entries:
+  - date: "2026-09-21"
+    title: "Nowy przycisk DZIENNIK BŁĘDÓW: panel pamięta, co poszło nie tak"
+    items:
+      - "Przycisk [ ! ] DZIENNIK BŁĘDÓW w nagłówku pokazuje listę zdarzeń: np. \"komiks dnia wrócił do wersji sprzed godziny, bo źródło nie odpowiedziało\", \"kalendarz nie mógł się załadować\" albo błąd, który wystąpił w przeglądarce na iPadzie."
+      - "Każdy wpis ma znacznik [!] (zdarzenie obsłużone, np. użyto starszych danych z pamięci) albo [X] (błąd), źródło i czas."
+      - "Działa niezależnie od tego, czy skonfigurowano zewnętrzne raportowanie błędów (GlitchTip) — dziennik jest zawsze włączony i czytany bezpośrednio z panelu."
   - date: "2026-09-20"
     title: "Kalendarz Google: podłączenie konta z przeglądarki"
     items:
