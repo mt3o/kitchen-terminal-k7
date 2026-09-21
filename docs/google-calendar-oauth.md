@@ -144,45 +144,110 @@ the same way; a calendar that cannot be shared is an `.ics` URL with
 
 ## 6. The browser flow (`/admin`)
 
-Two environment variables switch this on. Without either one, `/admin` and its
-API routes answer as though they do not exist — which is the point: a
-deployment that has not opted in has no credential-granting surface on an
-unauthenticated kitchen LAN.
+The panel ships with every deploy but is **off until you switch it on**. Two
+environment variables do that, and without both of them the server registers
+neither `/admin` nor its API routes — a deployment that has not opted in has no
+credential-granting surface on an unauthenticated kitchen LAN.
+
+| Variable | Does |
+|---|---|
+| `K7_ADMIN_TOKEN` | guards every admin route; the same value is pasted into the panel |
+| `K7_SECRET_KEY` | encrypts the stored refresh token (AES-256-GCM); exactly 32 bytes, base64 |
+
+A missing key keeps the flow **off** rather than writing a token to the database
+in the clear.
+
+### Switching it on
+
+Everything below happens on the server machine except step 5.
+
+**1. Create a Web application OAuth client.** The Desktop-app client from §2
+cannot register an `https://` redirect, so the browser flow needs a second
+client: Cloud Console → **Credentials → Create credentials → OAuth client ID →
+Web application**, with this authorised redirect URI:
 
 ```
-K7_ADMIN_TOKEN=...      # openssl rand -base64 32
-K7_SECRET_KEY=...       # openssl rand -base64 32, exactly 32 bytes
+https://<K7_HOSTNAME>:8443/api/admin/google/callback
 ```
 
-`K7_ADMIN_TOKEN` guards every admin route; `K7_SECRET_KEY` encrypts the stored
-refresh token (AES-256-GCM). A missing key means the flow is **off** rather than
-a token written to the database in the clear.
+Include the port whenever the kiosk is not on 443 — Google matches the URI
+byte for byte, and a missing `:8443` fails the consent with
+`redirect_uri_mismatch`. Once the panel is up it prints the exact URI the server
+sends; if in doubt, paste that one.
 
-### Setup
+**2. Read this before swapping the client.** A refresh token is bound to the
+client that issued it. The moment `GOOGLE_OAUTH_CLIENT_ID` and
+`GOOGLE_OAUTH_CLIENT_SECRET` point at the new Web client, the existing
+`GOOGLE_OAUTH_REFRESH_TOKEN` — minted against the Desktop client — stops
+working, and Google answers every refresh with `unauthorized_client`. So:
 
-1. **Create a Web application OAuth client.** The Desktop-app client from §2
-   cannot register an `https://` redirect, so this needs a second client:
-   Cloud Console → Credentials → Create credentials → OAuth client ID → **Web
-   application**. Register exactly:
+- from the restart in step 4 until you finish step 5, every refresh fails:
+  the calendar keeps serving its last cached week, marked stale, and falls to
+  its error state once that runs out — so do the two steps back to back;
+- afterwards the env var is no longer a fallback. Either delete it, or re-mint
+  it against the *Web* client (§3 Option A works: add
+  `https://developers.google.com/oauthplayground` as a second redirect URI on
+  that same client).
 
-   ```
-   https://<K7_HOSTNAME>/api/admin/google/callback
-   ```
+**3. Put the new client and the two variables in `.env.local`.**
 
-   (with the port, if the kiosk does not serve on 443 — `/admin` shows the exact
-   URI the server will send, which is the one to paste). Put this client's id and
-   secret in `GOOGLE_OAUTH_CLIENT_ID` / `GOOGLE_OAUTH_CLIENT_SECRET`.
+```bash
+printf 'K7_ADMIN_TOKEN=%s\nK7_SECRET_KEY=%s\n' "$(openssl rand -base64 32)" "$(openssl rand -base64 32)" >> ~/kitchen-terminal-k7/.env.local
+```
 
-2. **Set the two variables above** in `.env.local` and restart. The boot line
-   reports `admin=set secret_key=set`.
+Then edit `GOOGLE_OAUTH_CLIENT_ID` / `GOOGLE_OAUTH_CLIENT_SECRET` to the Web
+client's values by hand. Keep a copy of `K7_SECRET_KEY` wherever you keep your
+backups — without it a restored database's credential cannot be read (see
+below).
 
-3. **Open `https://<K7_HOSTNAME>/admin` on a laptop**, paste the admin token
-   once (it is kept in that browser's `localStorage`), and press
-   *[ POŁĄCZ KONTO ]*. Consent as the calendar's owner; Google returns to the
-   callback, which stores the token and says which account was connected.
+**4. Restart and check the boot line.**
 
-Do this on a laptop, not on the kitchen iPad — Safari 15 in kiosk mode is not
-where anyone wants to type a Google password.
+```bash
+systemctl --user restart k7
+```
+
+```bash
+journalctl --user -u k7 -n 1 --no-pager | grep -o 'admin=[a-z]*\|secret_key=[a-z]*\|google_refresh=[a-z]*'
+```
+
+You want `admin=set` and `secret_key=set`. A malformed `K7_SECRET_KEY` (not 32
+bytes once decoded) stops the server at boot on purpose, instead of failing
+later at the first write.
+
+**5. Connect, from a laptop.** Open `https://<K7_HOSTNAME>:8443/admin`, paste
+`K7_ADMIN_TOKEN` into the field (the panel keeps it in that browser's
+`localStorage`), and press *[ POŁĄCZ KONTO ]*. Consent as the calendar's owner.
+Google returns you to a page that says *Google: połączono* and names the account;
+back on `/admin` the status reads *POŁĄCZONE — z bazy*.
+
+Use a laptop rather than the kitchen iPad: Safari 15 in kiosk mode is not where
+anyone wants to type a Google password, and the panel is deliberately left out
+of the iPad's offline cache.
+
+### What happens under the hood
+
+```
+laptop  POST /api/admin/google/auth/start   (X-K7-Admin-Token header)
+server  → mints a single-use state, 10 min TTL, kept in memory
+        ← consent URL (calendar.readonly + userinfo.email, offline, prompt=consent)
+laptop  → Google consent screen → "Allow"
+Google  → GET /api/admin/google/callback?code=…&state=…
+server  → consumes the state (a replay or a forged one gets 400)
+        → exchanges the code for a refresh token
+        → asks Google for the account e-mail (display only)
+        → encrypts the token and writes the oauth_credentials row
+        ← "Google: połączono"
+```
+
+Every admin route checks `X-K7-Admin-Token` in constant time — except the
+callback, because Google's redirect cannot carry that header. The `state` is what
+authorises the callback instead: only a request that started at the guarded
+`auth/start` can finish there. The redirect URI is built from `K7_HOSTNAME`,
+never from the incoming `Host` header.
+
+The token pasted into `localStorage` only decides whether the panel draws its
+buttons. Anyone can edit their own `localStorage`; the server-side check is the
+part that protects anything.
 
 ### Precedence, and why
 
@@ -193,8 +258,8 @@ stale environment variable would keep being used. The boot line says which
 source is live (`google_refresh=db|env|unset`), and so does `/admin`.
 
 *[ ROZŁĄCZ ]* deletes the row and asks Google to revoke the token. If
-`GOOGLE_OAUTH_REFRESH_TOKEN` is still set, it takes over again immediately —
-which is what makes the manual path a genuine fallback rather than a leftover.
+`GOOGLE_OAUTH_REFRESH_TOKEN` is still set it takes over again at once — provided
+it was minted against the same client (step 2).
 
 ### What the encryption is and is not
 
@@ -208,15 +273,16 @@ The key is not host-derived on purpose: a machine-id-based key defends the same
 threat but breaks silently on a restore or a hardware change, with a re-auth
 nobody expects as the only way out.
 
-### If a stored credential stops working
+### Telling the states apart
 
-- **`/admin` says the credential cannot be decrypted** — `K7_SECRET_KEY` changed
-  or was lost. The row is deliberately *not* ignored in favour of the
-  environment variable, because that would hide the misconfiguration. Disconnect
-  and connect again, or restore the old key.
-- **The panel 404s with a token you believe is right** — a wrong token and a
-  disabled panel answer identically by design. Check the boot line for
-  `admin=set`.
+| What you see | What it means |
+|---|---|
+| `/admin` shows the **kitchen dashboard**, not the panel | the panel is off — `admin` or `secret_key` is `unset` in the boot line. Unknown paths fall back to the dashboard shell, so a disabled panel looks like any other unknown URL |
+| the panel loads but says *Token odrzucony* | the panel is on; the token in this browser's `localStorage` is wrong. Press *[ ZAPOMNIJ TOKEN ]* and paste it again |
+| *[ POŁĄCZ KONTO ]* is greyed out | client id/secret or `K7_HOSTNAME` is missing — the panel's status line says so |
+| Google shows `redirect_uri_mismatch` | the URI registered in step 1 differs from the one the panel prints — usually the port |
+| status *NIEPOŁĄCZONE* with *nie da się odszyfrować* | `K7_SECRET_KEY` changed or was lost. The row is deliberately *not* skipped in favour of the env var, which would hide the misconfiguration. Restore the old key, or disconnect and connect again |
+| calendar stale, then erroring, right after switching clients | step 2: the env-var token belongs to the old client. Finish step 5 |
 
 ## Failure modes worth knowing
 

@@ -164,15 +164,22 @@ file does not bring them back.
 
 ## Connecting a real Google Calendar
 
-A `calendar` card with `source.mode: google` needs three secrets in
-`.env.local` on the server machine — `GOOGLE_OAUTH_CLIENT_ID`,
-`GOOGLE_OAUTH_CLIENT_SECRET` and `GOOGLE_OAUTH_REFRESH_TOKEN`. There is no
-consent-flow UI in this app: the refresh token is minted once by hand and
-pasted in. Leaving all three unset is a supported way to run — the card falls
-back to mock events rather than erroring.
+A `calendar` card with `source.mode: google` needs an OAuth client
+(`GOOGLE_OAUTH_CLIENT_ID`, `GOOGLE_OAUTH_CLIENT_SECRET`) and a refresh token.
+The token can arrive two ways:
 
-Step-by-step (Cloud Console project, OAuth client, minting the token, the
-`calendarId` for the card): **`docs/google-calendar-oauth.md`**.
+- **From a browser, at `/admin`** — an admin panel runs Google's consent screen
+  and stores the token encrypted in the database. Off by default; switched on by
+  setting `K7_ADMIN_TOKEN` and `K7_SECRET_KEY`. When a stored token exists it
+  wins over the env var.
+- **By hand** — minted once and pasted into `GOOGLE_OAUTH_REFRESH_TOKEN` in
+  `.env.local`.
+
+With neither, the card falls back to mock events rather than erroring — a
+supported way to run.
+
+Both procedures, the order of operations when switching OAuth clients, and how
+to tell the panel's states apart: **`docs/google-calendar-oauth.md`**.
 
 ## Design system and the token contract
 
