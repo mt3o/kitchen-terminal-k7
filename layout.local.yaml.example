@@ -2,28 +2,28 @@
 # gitignored; this .example file is the tracked one) and fill in your own
 # values. Never commit layout.local.yaml itself.
 #
-# Merged onto layout.yaml via config-layers (src/server/index.ts's
-# loadLayout()) — a deep merge, so this file only needs to state what it
-# adds or changes, not repeat layout.yaml's structure.
+# Layered over layout.yaml by config-layers (src/server/layout-layers.ts):
+# this file is a partial layout.yaml — the same keys, the same shape — and
+# only has to state what it adds or changes. Maps merge key by key; a list
+# replaces the tracked one whole, unless a sibling `<key>Strategy: union`
+# (or `concat`) says to extend it instead.
 #
-# Plain top-level keys override layout.yaml's. The useful one is `theme`:
-# try a different theme on one machine without committing it.
+# Use it for anything you don't want in the (public) tracked layout.yaml — a
+# personal Gmail address used as a calendarId, for instance — or to try
+# something on one machine without committing it, like a different theme:
 #
 #   theme: "design-system/themes/steampunk-brass.yaml"
-#
-# The one additive key is `calendarAdditions`: extra `Calendar`
-# entries (docs/handoff/layout.schema.yaml's `params.calendar.calendars`
-# item shape) appended to a `type: calendar` card's own `calendars` list,
-# keyed by that card's `id` in layout.yaml. Use this for calendar ids you
-# don't want in the (public) tracked layout.yaml — a personal Gmail address
-# used as a calendarId, for instance.
 
-calendarAdditions:
-  # Matches a card id from layout.yaml, e.g. the `kalendarz` card on GLOWNA.
-  kalendarz:
-    - id: przyklad
-      name: "Przykład"
-      showInMain: false
-      source:
-        mode: google
-        calendarId: "twoj.adres@gmail.com"
+# Added to layout.yaml's own `calendars` — same key, so a new id is a new tab.
+# Writing an id layout.yaml already has changes just the fields given here.
+calendars:
+  przyklad:
+    name: "Przykład"
+    source:
+      mode: google
+      calendarId: "twoj.adres@gmail.com"
+
+# Leave out to keep layout.yaml's list as it is. With the Strategy line this
+# adds `przyklad` to it; without it, this list would replace it entirely.
+mainCalendars: [przyklad]
+mainCalendarsStrategy: union

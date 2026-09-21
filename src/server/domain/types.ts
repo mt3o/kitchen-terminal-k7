@@ -72,7 +72,6 @@ export type CalendarSource =
 export interface Calendar {
   id: string
   name: string
-  showInMain: boolean
   source: CalendarSource
 }
 

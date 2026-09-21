@@ -8,11 +8,10 @@ import { fileURLToPath } from 'node:url'
 import Fastify from 'fastify'
 import fastifyStatic from '@fastify/static'
 import { parse } from 'yaml'
-import { LayeredConfig } from 'config-layers'
 
-import { normaliseLayout, type Layout, type NormalisedLayout } from '../shared/layout.ts'
+import type { Layout, NormalisedLayout } from '../shared/layout.ts'
 import { findConfiguredCalendar } from './calendar-lookup.ts'
-import { applyCalendarAdditions, type LocalLayoutOverrides } from './layout-local-overrides.ts'
+import { layerLayout, type LocalLayout } from './layout-layers.ts'
 import type { Calendar, IssueSeverity, IssueSource } from './domain/types.ts'
 import { parseChangelog } from '../shared/changelog.ts'
 import { createRepositories, openDatabase } from './adapters/drizzle/index.ts'
@@ -192,13 +191,13 @@ const app = Fastify({
 /**
  * `layout.local.yaml` is optional and gitignored — a household adds private
  * data (a personal Google calendar id, say) here instead of to the tracked
- * `layout.yaml`. A missing file is a household that hasn't created one yet,
- * not an error.
+ * `layout.yaml`, under the same keys. A missing file is a household that
+ * hasn't created one yet, not an error.
  */
-async function loadLocalLayoutOverrides(): Promise<LocalLayoutOverrides> {
+async function loadLocalLayout(): Promise<LocalLayout> {
   try {
     const raw = await readFile(resolve(ROOT, 'layout.local.yaml'), 'utf8')
-    return (parse(raw) as LocalLayoutOverrides | null) ?? {}
+    return (parse(raw) as LocalLayout | null) ?? {}
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code === 'ENOENT') return {}
     throw err
@@ -208,32 +207,7 @@ async function loadLocalLayoutOverrides(): Promise<LocalLayoutOverrides> {
 /** The Layout is read per request: editing layout.yaml should not need a restart. */
 async function loadLayout(): Promise<NormalisedLayout> {
   const raw = await readFile(resolve(ROOT, 'layout.yaml'), 'utf8')
-  const fileLayout = parse(raw) as Layout
-  const localOverrides = await loadLocalLayoutOverrides()
-  // config-layers merges layout.yaml (base) with layout.local.yaml (higher
-  // priority, gitignored) — deep-merged, so the local file only has to state
-  // what it adds or changes. A silent notFoundHandler: this instance is
-  // rebuilt fresh every request, so the library's own "warn once per key"
-  // dedup would otherwise warn on every request for any key layout.local.yaml
-  // simply doesn't set (the common case when no local file exists at all).
-  const layout = LayeredConfig.fromLayers<Layout & LocalLayoutOverrides>(
-    [
-      { name: 'layout.yaml', config: fileLayout },
-      { name: 'layout.local.yaml', config: localOverrides },
-    ],
-    { freeze: false, notFoundHandler: () => undefined },
-  )
-  if (layout.version !== 1) throw new Error(`unsupported layout version ${layout.version}`)
-  if (!layout.theme) throw new Error('layout has no theme')
-  if (!layout.pages?.length && !layout.cards?.length) throw new Error('layout has neither pages nor cards')
-  // Normalised here so the renderer has one shape to handle. Two code paths
-  // through a layout is how the single-page case quietly stops being tested.
-  // `calendarAdditions` is layout.local.yaml's own key, not part of the
-  // layout.yaml contract, so it is applied after normalisation rather than
-  // being handed to normaliseLayout — everything downstream of this point
-  // sees a plain layout.yaml-shaped object with more calendars in it.
-  const normalised = normaliseLayout(layout)
-  return applyCalendarAdditions(normalised, layout.calendarAdditions ?? {})
+  return layerLayout(parse(raw) as Layout, await loadLocalLayout())
 }
 
 /**

@@ -2,8 +2,8 @@
   Calendar. Ships as a custom element (k7-calendar) wrapping the shared
   <Card> shell, same pattern as K7ShoppingList.svelte.
 
-  Supports any number of configured calendars (`params.calendar.calendars`),
-  each fetched independently — one dead .ics feed or an unconfigured Google
+  Supports any number of configured calendars (the layout's top-level
+  `calendars`, passed in by main.ts), each fetched independently — one dead .ics feed or an unconfigured Google
   account never blanks the others. A tab strip only renders once there is
   more than one: with a single calendar this card is pixel-identical to the
   single-calendar layout it has always had (`calendar-tabs` deck,
@@ -23,6 +23,7 @@
     tag: 'k7-calendar',
     props: {
       calendars: { reflect: true },
+      main: { reflect: true },
       view: { reflect: true },
     },
   }}
@@ -47,11 +48,13 @@
   interface Props {
     /** JSON-encoded Calendar[] — custom-element attrs are strings. */
     calendars?: string
+    /** JSON-encoded string[] — ids of the calendars the GŁÓWNY tab merges. */
+    main?: string
     /** "week" | "day" — custom-element attrs are strings. */
     view?: string
   }
 
-  let { calendars: calendarsAttr = '[]', view = 'week' }: Props = $props()
+  let { calendars: calendarsAttr = '[]', main: mainAttr = '[]', view = 'week' }: Props = $props()
 
   function isCalendarShaped(value: unknown): value is Calendar {
     return (
@@ -69,6 +72,15 @@
     try {
       const parsed = JSON.parse(calendarsAttr) as unknown
       return Array.isArray(parsed) ? parsed.filter(isCalendarShaped) : []
+    } catch {
+      return []
+    }
+  })
+
+  let mainIds = $derived.by((): string[] => {
+    try {
+      const parsed = JSON.parse(mainAttr) as unknown
+      return Array.isArray(parsed) ? parsed.filter((id): id is string => typeof id === 'string') : []
     } catch {
       return []
     }
@@ -105,7 +117,7 @@
 
   const DOW = ['PN', 'WT', 'SR', 'CZ', 'PT', 'SB', 'ND']
 
-  let selectedEvents = $derived(selectEventsForTab(calendarsList, eventsByCalendar, selectedTab))
+  let selectedEvents = $derived(selectEventsForTab(calendarsList, mainIds, eventsByCalendar, selectedTab))
   let buckets = $derived(groupByDay(selectedEvents, weekStart))
   let displayBuckets = $derived(
     dayView ? [buckets[days.findIndex((d) => isSameDay(d, today))] ?? []] : buckets,

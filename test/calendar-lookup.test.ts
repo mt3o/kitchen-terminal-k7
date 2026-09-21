@@ -2,79 +2,40 @@
  * `findConfiguredCalendar` is what closes the SSRF hole `/api/calendar/week`
  * had: the route must resolve a calendar's source (URL/calendarId) from
  * `layout.yaml`, never from the request. These tests are the proof that the
- * lookup actually finds a calendar wherever the layout's recursive
- * container shape puts it — a card can nest inside a grid's cells or a
- * carousel's slides — and, just as importantly, that a request for
- * anything not actually configured comes back empty rather than guessed at.
+ * lookup finds a configured calendar and, just as importantly, that a
+ * request for anything not actually configured — including a key that only
+ * exists on every object's prototype — comes back empty rather than guessed at.
  */
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
 
 import { findConfiguredCalendar } from '../src/server/calendar-lookup.ts'
-import type { NormalisedLayout } from '../src/shared/layout.ts'
+import type { LayoutCalendar, NormalisedLayout } from '../src/shared/layout.ts'
 
-const GOOGLE_CAL = { id: 'google-primary', name: 'Google', showInMain: true, source: { mode: 'google' as const, calendarId: 'primary' } }
-const ICS_CAL = { id: 'kid1', name: 'Zosia', showInMain: false, source: { mode: 'ics' as const, url: 'https://example.com/zosia.ics' } }
+const GOOGLE_CAL: LayoutCalendar = { id: 'google-primary', name: 'Google', source: { mode: 'google', calendarId: 'primary' } }
+const ICS_CAL: LayoutCalendar = { id: 'kid1', name: 'Zosia', source: { mode: 'ics', url: 'https://example.com/zosia.ics' } }
 
-function layoutWith(pages: NormalisedLayout['pages']): NormalisedLayout {
-  return { version: 1, theme: 'x', grid: { columns: 2 }, pages }
+function layoutWith(calendars: LayoutCalendar[]): NormalisedLayout {
+  return { version: 1, theme: 'x', grid: { columns: 2 }, pages: [], calendars, mainCalendars: [] }
 }
 
 describe('findConfiguredCalendar', () => {
-  it('finds a calendar entry on a top-level page card', () => {
-    const layout = layoutWith([
-      { id: 'p1', cards: [{ id: 'kalendarz', type: 'calendar', params: { calendars: [GOOGLE_CAL, ICS_CAL] } }] },
-    ])
-    assert.deepEqual(findConfiguredCalendar(layout, 'kid1'), ICS_CAL)
+  it('finds a configured calendar by id', () => {
+    assert.deepEqual(findConfiguredCalendar(layoutWith([GOOGLE_CAL, ICS_CAL]), 'kid1'), ICS_CAL)
   })
 
   it('returns undefined for an id that is not actually configured — never fabricates one', () => {
-    const layout = layoutWith([{ id: 'p1', cards: [{ id: 'kalendarz', type: 'calendar', params: { calendars: [GOOGLE_CAL] } }] }])
-    assert.equal(findConfiguredCalendar(layout, 'someone-elses-calendar'), undefined)
+    assert.equal(findConfiguredCalendar(layoutWith([GOOGLE_CAL]), 'someone-elses-calendar'), undefined)
   })
 
-  it('finds a calendar nested inside a grid cell', () => {
-    const layout = layoutWith([
-      {
-        id: 'p1',
-        cards: [
-          {
-            id: 'siatka',
-            type: 'grid',
-            params: { cells: [{ id: 'kalendarz', type: 'calendar', params: { calendars: [ICS_CAL] } }] },
-          },
-        ],
-      },
-    ])
-    assert.deepEqual(findConfiguredCalendar(layout, 'kid1'), ICS_CAL)
+  it('a prototype key is not a calendar', () => {
+    const layout = layoutWith([GOOGLE_CAL])
+    for (const id of ['__proto__', 'constructor', 'toString', 'hasOwnProperty']) {
+      assert.equal(findConfiguredCalendar(layout, id), undefined, id)
+    }
   })
 
-  it('finds a calendar nested inside a carousel slide', () => {
-    const layout = layoutWith([
-      {
-        id: 'p1',
-        cards: [
-          {
-            id: 'karuzela',
-            type: 'carousel',
-            params: { slides: [{ id: 'kalendarz', type: 'calendar', params: { calendars: [ICS_CAL] } }] },
-          },
-        ],
-      },
-    ])
-    assert.deepEqual(findConfiguredCalendar(layout, 'kid1'), ICS_CAL)
-  })
-
-  it('searches every page, not just the first', () => {
-    const layout = layoutWith([
-      { id: 'p1', cards: [{ id: 'inny', type: 'weather', params: {} }] },
-      { id: 'p2', cards: [{ id: 'kalendarz', type: 'calendar', params: { calendars: [GOOGLE_CAL] } }] },
-    ])
-    assert.deepEqual(findConfiguredCalendar(layout, 'google-primary'), GOOGLE_CAL)
-  })
-
-  it('an empty layout (no calendar card anywhere) never throws, just finds nothing', () => {
-    const layout = layoutWith([{ id: 'p1', cards: [{ id: 'zegar', type: 'clock', params: {} }] }])
-    assert.equal(findConfiguredCalendar(layout, 'google-primary'), undefined)
+  it('a layout with no calendars never throws, just finds nothing', () => {
+    assert.equal(findConfiguredCalendar(layoutWith([]), 'google-primary'), undefined)
   })
 })

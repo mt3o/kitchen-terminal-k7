@@ -16,6 +16,8 @@ const baseLayout: NormalisedLayout = {
   theme: 't.yaml',
   grid: { columns: 2, gap: '12px' },
   pages: [],
+  calendars: [],
+  mainCalendars: [],
 }
 
 function page(id: string, cards: Card[]) {

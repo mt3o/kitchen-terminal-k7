@@ -39,6 +39,26 @@ export interface Page {
   cards: Card[]
 }
 
+/** Where a calendar's events come from: a Google calendar id, or a read-only .ics feed. */
+export type CalendarSource = { mode: 'google'; calendarId: string } | { mode: 'ics'; url: string }
+
+/**
+ * One calendar as the layout file declares it, under `calendars.<id>`. The id
+ * is the key, not a field: a map rather than a list is what lets
+ * layout.local.yaml add a calendar — or change one field of an existing one —
+ * by writing the very same key. config-layers deep-merges objects key by key,
+ * but a list is one unit it can only replace or append to whole.
+ */
+export interface CalendarEntry {
+  name: string
+  source: CalendarSource
+}
+
+/** A calendar after normalisation: its key folded back in as `id`, in declaration order. */
+export interface LayoutCalendar extends CalendarEntry {
+  id: string
+}
+
 /**
  * The whole screen configuration: one versioned document naming a Theme.
  *
@@ -46,6 +66,10 @@ export interface Page {
  * the v1 shape, every existing layout uses it, and a contract that breaks its
  * own documents to gain a feature is not a contract. A layout with `cards`
  * behaves exactly as one page.
+ *
+ * Calendars live here, at the top, not in a calendar card's params: a card
+ * sits inside the `pages`/`cards` lists, which a layered merge cannot reach
+ * into by id. Every calendar card shows all of them.
  */
 export interface Layout {
   version: 1
@@ -53,14 +77,19 @@ export interface Layout {
   grid: GridSettings
   cards?: Card[]
   pages?: Page[]
+  calendars?: Record<string, CalendarEntry>
+  /** Ids from `calendars` whose events the GŁÓWNY tab merges. */
+  mainCalendars?: string[]
 }
 
-/** A Layout after normalisation: always pages, never the bare card list. */
+/** A Layout after normalisation: always pages, never the bare card list; calendars as a list. */
 export interface NormalisedLayout {
   version: 1
   theme: string
   grid: GridSettings
   pages: Page[]
+  calendars: LayoutCalendar[]
+  mainCalendars: string[]
 }
 
 /**
@@ -71,20 +100,14 @@ export interface NormalisedLayout {
  */
 export function normaliseLayout(layout: Layout): NormalisedLayout {
   const grid = layout.grid
-  if (layout.pages?.length) {
-    return {
-      version: layout.version,
-      theme: layout.theme,
-      grid,
-      pages: layout.pages.map((page) => ({ ...page, grid: page.grid ?? grid })),
-    }
-  }
-  return {
-    version: layout.version,
-    theme: layout.theme,
-    grid,
-    pages: [{ id: 'main', grid, cards: layout.cards ?? [] }],
-  }
+  const calendars = Object.entries(layout.calendars ?? {})
+    .filter(([, entry]) => entry !== null && typeof entry === 'object')
+    .map(([id, entry]) => ({ id, name: entry.name, source: entry.source }))
+  const mainCalendars = layout.mainCalendars ?? []
+  const pages = layout.pages?.length
+    ? layout.pages.map((page) => ({ ...page, grid: page.grid ?? grid }))
+    : [{ id: 'main', grid, cards: layout.cards ?? [] }]
+  return { version: layout.version, theme: layout.theme, grid, pages, calendars, mainCalendars }
 }
 
 /** Card types slice 1 renders for real rather than as a placeholder. */
