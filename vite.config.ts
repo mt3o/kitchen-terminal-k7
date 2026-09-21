@@ -19,6 +19,16 @@ export default defineConfig({
     outDir: resolve(import.meta.dirname, 'dist/client'),
     emptyOutDir: true,
     cssTarget: 'safari15',
+    rollupOptions: {
+      // Two entry points, not one: the kiosk shell and the admin panel
+      // (k7-google-oauth-connect). The panel is a laptop page — it is never
+      // installed on the iPad, so it stays out of the app shell and out of the
+      // Service Worker's precache rather than adding weight to a 2GB device.
+      input: {
+        index: resolve(import.meta.dirname, 'src/client/index.html'),
+        admin: resolve(import.meta.dirname, 'src/client/admin.html'),
+      },
+    },
   },
   server: {
     host: true,

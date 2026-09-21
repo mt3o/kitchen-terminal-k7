@@ -1,11 +1,18 @@
 # Getting the Google Calendar OAuth2 refresh token
 
-This project reads Google Calendar with a **long-lived refresh token pasted
-into `.env.local` by hand**. There is no consent-flow UI in the codebase and
-there is not going to be one: the household owns the calendar, the token is
-minted once, and `src/server/upstream/google-calendar.ts` only ever exchanges
-it for short-lived access tokens (`https://oauth2.googleapis.com/token`) and
-calls `events.list`.
+There are two ways to give this project a Google Calendar refresh token.
+
+- **From a browser, at `/admin`** — the admin panel runs the consent flow and
+  stores the result encrypted in the database. Set up once (§6), used by
+  clicking. This is the easier path and the one to prefer.
+- **By hand, into `.env.local`** — §§1–5 below. Needs shell access on the
+  server, and is what the browser flow falls back to. It is also the only path
+  that works before `K7_HOSTNAME` and a certificate exist.
+
+Both end at the same place: a long-lived refresh token that
+`src/server/upstream/google-calendar.ts` exchanges for short-lived access
+tokens (`https://oauth2.googleapis.com/token`) in order to call `events.list`.
+When both are configured, **the database wins** — see §6.
 
 Three variables come out of this procedure, all `@sensitive` in `.env.schema`:
 
@@ -134,6 +141,82 @@ source:
 Calendars owned by *other* people are shared to this account and then listed
 the same way; a calendar that cannot be shared is an `.ics` URL with
 `mode: ics` instead. Neither needs a second OAuth client.
+
+## 6. The browser flow (`/admin`)
+
+Two environment variables switch this on. Without either one, `/admin` and its
+API routes answer as though they do not exist — which is the point: a
+deployment that has not opted in has no credential-granting surface on an
+unauthenticated kitchen LAN.
+
+```
+K7_ADMIN_TOKEN=...      # openssl rand -base64 32
+K7_SECRET_KEY=...       # openssl rand -base64 32, exactly 32 bytes
+```
+
+`K7_ADMIN_TOKEN` guards every admin route; `K7_SECRET_KEY` encrypts the stored
+refresh token (AES-256-GCM). A missing key means the flow is **off** rather than
+a token written to the database in the clear.
+
+### Setup
+
+1. **Create a Web application OAuth client.** The Desktop-app client from §2
+   cannot register an `https://` redirect, so this needs a second client:
+   Cloud Console → Credentials → Create credentials → OAuth client ID → **Web
+   application**. Register exactly:
+
+   ```
+   https://<K7_HOSTNAME>/api/admin/google/callback
+   ```
+
+   (with the port, if the kiosk does not serve on 443 — `/admin` shows the exact
+   URI the server will send, which is the one to paste). Put this client's id and
+   secret in `GOOGLE_OAUTH_CLIENT_ID` / `GOOGLE_OAUTH_CLIENT_SECRET`.
+
+2. **Set the two variables above** in `.env.local` and restart. The boot line
+   reports `admin=set secret_key=set`.
+
+3. **Open `https://<K7_HOSTNAME>/admin` on a laptop**, paste the admin token
+   once (it is kept in that browser's `localStorage`), and press
+   *[ POŁĄCZ KONTO ]*. Consent as the calendar's owner; Google returns to the
+   callback, which stores the token and says which account was connected.
+
+Do this on a laptop, not on the kitchen iPad — Safari 15 in kiosk mode is not
+where anyone wants to type a Google password.
+
+### Precedence, and why
+
+Resolution order is **database row → `GOOGLE_OAUTH_REFRESH_TOKEN` → nothing
+(mock events)**. The database has to win: under the opposite rule, connecting
+through the browser would succeed, report success, and change nothing, because a
+stale environment variable would keep being used. The boot line says which
+source is live (`google_refresh=db|env|unset`), and so does `/admin`.
+
+*[ ROZŁĄCZ ]* deletes the row and asks Google to revoke the token. If
+`GOOGLE_OAUTH_REFRESH_TOKEN` is still set, it takes over again immediately —
+which is what makes the manual path a genuine fallback rather than a leftover.
+
+### What the encryption is and is not
+
+The stored token is encrypted with a key derived from `K7_SECRET_KEY`. That
+protects a database file that leaks **on its own** — a backup copied off the
+box, a `data/` directory handed to someone for debugging. It does **not**
+protect against an attacker with shell access on the host, because the key is in
+`.env.local` on that same host, exactly where the plaintext token lives today.
+
+The key is not host-derived on purpose: a machine-id-based key defends the same
+threat but breaks silently on a restore or a hardware change, with a re-auth
+nobody expects as the only way out.
+
+### If a stored credential stops working
+
+- **`/admin` says the credential cannot be decrypted** — `K7_SECRET_KEY` changed
+  or was lost. The row is deliberately *not* ignored in favour of the
+  environment variable, because that would hide the misconfiguration. Disconnect
+  and connect again, or restore the old key.
+- **The panel 404s with a token you believe is right** — a wrong token and a
+  disabled panel answer identically by design. Check the boot line for
+  `admin=set`.
 
 ## Failure modes worth knowing
 

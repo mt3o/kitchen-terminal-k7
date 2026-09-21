@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="pl" data-mode="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>K7 — panel</title>
+<!-- Deliberately no manifest and no apple-touch icons: this page is opened on a
+     laptop by whoever administers the kiosk, never installed on the wall iPad. -->
+<link rel="stylesheet" href="/theme.css">
+<link rel="stylesheet" href="/admin.css">
+</head>
+<body>
+  <main class="panel">
+    <h1 class="panel-title">PANEL K7</h1>
+
+    <!-- Shown until a token is present. There is no login form here on purpose:
+         a form on an unauthenticated LAN page implies a security boundary that
+         the page itself cannot enforce — the server is the one that checks. -->
+    <section id="locked" class="block" hidden>
+      <h2 class="block-title">BRAK TOKENU</h2>
+      <p class="meta">
+        Ten panel wymaga tokenu administratora (<code>K7_ADMIN_TOKEN</code>).
+        Wklej go poniżej — zostanie zapisany tylko w tej przeglądarce.
+      </p>
+      <p class="row">
+        <input id="token-input" class="field" type="password" autocomplete="off" placeholder="token" aria-label="token administratora">
+        <button type="button" id="token-save" class="button">[ ZAPISZ ]</button>
+      </p>
+    </section>
+
+    <section id="google" class="block" hidden>
+      <h2 class="block-title">GOOGLE CALENDAR</h2>
+      <p id="google-state" class="state">sprawdzanie…</p>
+      <p id="google-detail" class="meta"></p>
+      <p class="row">
+        <button type="button" id="google-connect" class="button">[ POŁĄCZ KONTO ]</button>
+        <button type="button" id="google-disconnect" class="button">[ ROZŁĄCZ ]</button>
+        <button type="button" id="token-forget" class="button">[ ZAPOMNIJ TOKEN ]</button>
+      </p>
+    </section>
+  </main>
+  <script type="module" src="/admin.ts"></script>
+</body>
+</html>
