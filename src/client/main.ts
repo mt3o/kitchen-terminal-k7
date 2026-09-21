@@ -26,6 +26,7 @@ import { createChangelogUi } from './lib/changelog.ts'
 import { createIssueLogUi } from './lib/issue-log.ts'
 import { installErrorReporting } from './lib/error-reporter.ts'
 import { createThemeToggleUi } from './lib/theme-toggle.ts'
+import { createThemePickerUi } from './lib/theme-picker.ts'
 import { createBackdropRotation } from './lib/backdrop.ts'
 import { createPullToRefresh } from './lib/pull-refresh.ts'
 import { createPager, type Pager } from './lib/pager.ts'
@@ -593,7 +594,7 @@ async function boot(): Promise<void> {
     if (foot) {
       const cards = layout.pages.reduce((n, p) => n + p.cards.length, 0)
       const pagesLabel = layout.pages.length > 1 ? ` // ${layout.pages.length} strony` : ''
-      foot.textContent = `> ${cards} kart${pagesLabel} // motyw: ${layout.theme.split('/').pop()}`
+      foot.textContent = `> ${cards} kart${pagesLabel}`
     }
   } catch (err) {
     // The last screen stays on the wall, blurred behind the scrim, while this
@@ -635,7 +636,15 @@ registerServiceWorker()
 createChangelogUi()
 createIssueLogUi()
 createThemeToggleUi()
-createBackdropRotation()
+let backdrop = createBackdropRotation()
+createThemePickerUi({
+  // The rotation counted the old theme's backdrops; start it over on the new one.
+  onApplied: () => {
+    backdrop.destroy()
+    delete document.documentElement.dataset.backdrop
+    backdrop = createBackdropRotation()
+  },
+})
 const shellHead = document.querySelector<HTMLElement>('.shell-head')
 if (shellHead) {
   createPullToRefresh(shellHead, {
