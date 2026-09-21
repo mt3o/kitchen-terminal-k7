@@ -111,7 +111,10 @@ body {
   .hud-button:focus:not(:focus-visible) { outline: none; }
 }
 
-.shell-status { display: inline-flex; align-items: center; gap: var(--space-2); }
+/* flex-wrap: same DESIGN.md 6.1 rule as .shell-head above — two popup buttons
+   plus the status text and cursor is one wrap candidate too many for a phone
+   width to hold on one line without crushing. */
+.shell-status { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
 
 .hud-label {
   font-size: var(--text-sm);
@@ -530,6 +533,97 @@ body {
   padding-left: var(--space-4);
   font-size: var(--text-sm);
   color: var(--fg-muted);
+}
+
+/* --------------------------------------------------------------------------
+ * Issue log popup (lib/issue-log.ts). Same veil-over-panel shape as
+ * #changelog above — deliberately not shared markup/classes, since the two
+ * are independent modules that neither imports the other. z-index sits one
+ * above #changelog's 90: "something is wrong" outranks "what changed" if a
+ * household member somehow triggers both open buttons at once, the same
+ * ranking #reconnect's 100 already applies one level up.
+ * -------------------------------------------------------------------------- */
+#issue-log {
+  position: fixed;
+  inset: 0;
+  z-index: 91;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+}
+#issue-log[hidden] { display: none; }
+
+.issue-log-veil {
+  position: absolute;
+  inset: 0;
+  background: var(--scrim);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.issue-log-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: min(92%, calc(var(--space-16) * 8));
+  max-height: min(80%, calc(var(--space-16) * 10));
+  padding: var(--card-pad);
+  background: var(--surface-raised);
+  border: var(--border-w-strong) solid var(--border-strong);
+  border-radius: var(--radius);
+  color: var(--fg);
+  font-family: var(--font-ui);
+}
+
+.issue-log-head {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  border-bottom: var(--border-w) solid var(--border);
+  padding-bottom: var(--space-2);
+}
+
+.issue-log-title {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-label);
+  color: var(--fg);
+}
+
+.issue-log-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.issue-log-entry { display: flex; flex-direction: column; gap: var(--space-1); }
+.issue-log-meta { margin: 0; }
+
+/* Colour never carries the distinction alone — the [!]/[X] glyph in
+   .issue-log-badge already says warn vs. error, this only reinforces it
+   (DESIGN.md §8's status-badge rule). */
+.issue-log-warn .issue-log-badge { color: var(--warn); }
+.issue-log-error .issue-log-badge { color: var(--fail); }
+
+.issue-log-message {
+  margin: 0;
+  font-size: var(--text-base);
+  color: var(--fg);
+}
+.issue-log-detail {
+  margin: 0;
+  padding-left: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+  white-space: pre-wrap;
 }
 
 /* --------------------------------------------------------------------------

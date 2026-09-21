@@ -135,3 +135,37 @@ describe('AiCall', () => {
     assert.equal(call.conversationId, null)
   })
 })
+
+describe('IssueLogRepository', () => {
+  it('lists newest first', async () => {
+    // Explicit createdAt: the schema's default resolves to whole seconds
+    // (`unixepoch() * 1000`), so two rows inserted in the same test tick can
+    // tie — this asserts the ordering itself, not a race against that.
+    await repos.issueLog.record(
+      { severity: 'warn', source: 'rss', message: 'first', detail: null },
+      new Date('2026-01-01T00:00:00Z'),
+    )
+    await repos.issueLog.record(
+      { severity: 'error', source: 'client', message: 'second', detail: 'stack trace' },
+      new Date('2026-01-02T00:00:00Z'),
+    )
+    const recent = await repos.issueLog.listRecent()
+    assert.deepEqual(recent.map((e) => e.message), ['second', 'first'])
+    assert.equal(recent[0]?.detail, 'stack trace')
+    assert.ok(recent[0]?.createdAt instanceof Date)
+  })
+
+  it('prunes entries older than a cutoff and reports how many', async () => {
+    await repos.issueLog.record(
+      { severity: 'warn', source: 'ics', message: 'stale', detail: null },
+      new Date('2026-01-01T00:00:00Z'),
+    )
+    await repos.issueLog.record(
+      { severity: 'warn', source: 'ics', message: 'fresh', detail: null },
+      new Date('2026-06-01T00:00:00Z'),
+    )
+    const removed = await repos.issueLog.prune(new Date('2026-03-01T00:00:00Z'))
+    assert.equal(removed, 1)
+    assert.deepEqual((await repos.issueLog.listRecent()).map((e) => e.message), ['fresh'])
+  })
+})
