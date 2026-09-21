@@ -1,6 +1,8 @@
 # k7-changelog-per-file
 
-status: implemented
+status: archived
+archived: 2026-09-21
+merged: 2026-09-21, PR #73 (6ac9ba8)
 created: 2026-09-21
 branch: claude/changelog-yaml-refactor-aa780b
 memory_goal: UNAVAILABLE — agentic-memory unreachable this session (MCP server
@@ -55,3 +57,29 @@ A branch cut before this move that adds to `changelog.yaml` gets a
 modify/delete conflict when it merges main. Resolve it by moving the new entry
 into `changelog/` as its own file and deleting `changelog.yaml`. Keeping the
 file fails `npm test`.
+
+## Merged
+
+PR #73, 2026-09-21. Two PRs merged into main while #73 was open, each
+adding a same-day entry to `changelog.yaml`: #70 (theme picker) and #71
+(header menu). Each hit the expected modify/delete conflict. Both entries
+were moved into `changelog/` verbatim, as `2026-09-21-07-…` and
+`2026-09-21-08-…`, so main held 35 entries at merge. No open PR still
+touched `changelog.yaml` after the merge.
+
+## Archive note (degraded mode)
+
+The folder was archived on 2026-09-21 without the memory half. The
+agentic-memory store was unreachable on the dev box (`agentic-memory` and
+`agentic-memory-mcp` are not on PATH). `/gw-review`'s memory gate never ran
+for the same reason. Replay, in order, once the store is reachable:
+
+1. `create_change` with the parameters in `memory-backlog.md`, recording
+   the returned id here as `memory_goal`. (Open a follow-up change for
+   this, since the archive is immutable.)
+2. Capture the queued decision from `memory-backlog.md`, and append its
+   journal events.
+3. Present the review memory gate: the human rules on promoting the
+   decision past short-term.
+4. `uv run python scripts/memory_lifecycle.py deactivate k7-changelog-per-file --sweep`,
+   then sanity-check the sweep output.
