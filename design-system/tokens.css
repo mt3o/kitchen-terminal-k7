@@ -41,6 +41,8 @@
   --card-pad: 20px;
   --card-min-h: 240px;
   --radius: 0px;
+  --shell-head-pad: 0 0 var(--space-2);
+  --shell-head-radius: 0px;
   --border-w: 1px;
   --border-w-strong: 2px;
   --control-h: 56px;
@@ -82,6 +84,8 @@
   --wash-signal: rgba(93, 202, 165, 0.14);
   --wash-fail: rgba(224, 97, 56, 0.14);
   --fg-display: #888780;
+  --card-border: #ba7517;
+  --shell-head-bg: transparent;
   --page-bg: #1a1712;
   --card-bg: #211d16;
   --card-frame: none;
@@ -115,6 +119,8 @@
   --wash-signal: rgba(0, 120, 83, 0.14);
   --wash-fail: rgba(158, 37, 17, 0.14);
   --fg-display: #6a6963;
+  --card-border: #935100;
+  --shell-head-bg: transparent;
   --page-bg: #f4f2ec;
   --card-bg: #faf8f3;
   --card-frame: none;
@@ -148,6 +154,8 @@
   --wash-signal: rgba(62, 153, 121, 0.14);
   --wash-fail: rgba(209, 93, 77, 0.14);
   --fg-display: #7e7a72;
+  --card-border: #95581d;
+  --shell-head-bg: transparent;
   --page-bg: #050301;
   --card-bg: #090703;
   --card-frame: none;

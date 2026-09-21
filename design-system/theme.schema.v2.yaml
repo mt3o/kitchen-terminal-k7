@@ -26,6 +26,9 @@
 #  10. ornament     — page/card background pictures, card frame and divider
 #                     rule as border-images; theme files named via asset().
 #                     The page may rotate through a list of backdrops.
+#  11. colors.cardBorder / header — added for punktomat: a card outline that
+#                     is not the controls' 3:1 frame, and the shell header as
+#                     a band with its own background, padding and scoped ink.
 
 $schema: "https://json-schema.org/draft/2020-12/schema"
 $id: "https://kitchen-terminal-k7.local/schema/theme.schema.v2.yaml"
@@ -112,7 +115,10 @@ properties:
           properties:
             family: { type: string }
             src: { type: string }
-            weight: { type: integer, default: 400 }
+            weight:
+              oneOf: [{ type: integer }, { type: string }]
+              default: 400
+              description: 'A number, or a "400 900" range for a variable face.' 
             style: { type: string, default: normal }
             unicodeRange: { type: string }
       display:
@@ -181,6 +187,13 @@ properties:
         description: >
           Title ink (--fg-display). Must reach 4.5:1 on surface. Defaults to
           textMuted, which is what HUD-label titles always used.
+      cardBorder:
+        $ref: "#/$defs/colorTriple"
+        description: >
+          The card's own outline (--card-border). Defaults to borderStrong.
+          Separate because borderStrong also outlines buttons, active tabs and
+          focused inputs and must reach 3:1; a theme whose cards are set apart
+          by their fill can make this a hairline without weakening controls.
 
   states:
     type: object
@@ -366,6 +379,27 @@ properties:
           A border-image value for the divider under the shell header and each
           card head (--rule). Only the bottom border is set there, so slice and
           width only the bottom edge. Default none.
+
+  header:
+    type: object
+    description: >
+      The shell header as a band. Absent, it is what it always was: no
+      background, a bottom rule, the page's colours, square.
+    properties:
+      background:
+        $ref: "#/$defs/modeValue"
+        description: "Raw CSS background for the band (--shell-head-bg). Also rounds it with --radius."
+      padding:
+        type: string
+        description: "CSS padding (--shell-head-pad). Default: the bottom gap only."
+      colors:
+        type: object
+        description: >
+          Ink on the band, scoped to data-region="header": the same role names
+          as `colors` and `states`, each a colorTriple. Every text role must
+          reach 4.5:1 against every colour stop of `background`
+          (test/theme.test.ts checks this).
+        additionalProperties: { $ref: "#/$defs/colorTriple" }
 
   transparency:
     type: object

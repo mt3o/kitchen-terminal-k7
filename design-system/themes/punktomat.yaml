@@ -1,0 +1,163 @@
+# Kitchen Terminal K7 — theme: "Punktomat"
+#
+# The household's other app, on the kitchen wall. Punktomat's design system
+# (mt3o-dev/Punktomat, src/lib/styles/tokens/) is a cork board: white notes
+# pinned on a woven cork texture, a purple gradient header, Nunito set heavy,
+# gold for rewards, green for done, a cobweb in one corner and a coffee stain
+# in another. This theme carries that language over, token by token:
+#
+#   Punktomat                         here
+#   --color-bg + cork-texture.svg     page: the same texture, tiled (decor/)
+#   --color-surface, 16px, 1.5px      cards: white, cardBorder hairline
+#   --gradient-header                 header: a band, with its own ink
+#   --color-purple / -dark / -tint    accent, accentActive, ghost states
+#   --color-green / orange / danger   signal / warn / danger, darkened to AA
+#   --color-gold                      the header's cursor
+#   Nunito 400-900                    UI and title face, self-hosted
+#   cobweb.svg, "coffee stain.png"    page decoration, opacity baked in
+#
+# Where the two systems disagree, the kiosk's constraints win:
+#   - Type stays on K7's 20px reading scale (Punktomat's is a 14px phone
+#     scale). Nunito's x-height is 0.484 em against Source Code Pro's 0.486,
+#     so DESIGN.md §4.2's distance table holds as written.
+#   - No soft shadows (DESIGN.md §5): the cards are set apart by their white
+#     fill on cork, as they already largely are in Punktomat.
+#   - Punktomat's green (2.9:1), orange (2.9:1) and red (3.8:1) are not text
+#     colours on white; the hues are kept, lightness walked down to AA.
+#   - Punktomat is light-only. Dark is the same board after dark — dark cork,
+#     charcoal notes, lavender for purple — and night the same again, dimmed.
+#
+# Palette ratios are against that mode's `surface`; footer and header text
+# were also measured on rendered pixels (worst background pixel under each
+# string) — see change k7-punktomat-theme.
+
+name: "Punktomat"
+schemaVersion: 2
+
+typography:
+  # Nunito ships its digits at one width, so the clock does not shimmy.
+  fontFamily: "'Nunito', 'Nunito Sans', system-ui, -apple-system, sans-serif"
+  baseSizePx: 20
+  letterSpacingLabelsPx: 1   # Punktomat's uppercase labels: --tracking-wide/-widest
+  scale:
+    read:   { xs: 14, sm: 16, base: 20, lg: 24, xl: 32 }
+    glance: { sm: 48, md: 72, lg: 112 }
+  # Punktomat's body is semibold; its titles are extrabold and black.
+  weights: { regular: 600, medium: 700, bold: 800 }
+  # ASCII art needs character cells, which Nunito does not have. The iPad's
+  # own monospace — nothing to download for a single card.
+  monoFontFamily: "ui-monospace, 'SF Mono', Menlo, 'Courier New', monospace"
+  fontFaces:
+    - { family: "Nunito", weight: "400 900", src: "punktomat/fonts/nunito-latin.woff2",
+        unicodeRange: "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD" }
+    - { family: "Nunito", weight: "400 900", src: "punktomat/fonts/nunito-latin-ext.woff2",
+        unicodeRange: "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF" }
+  # Card titles as Punktomat's --font-heading: black weight, sentence case.
+  # The titles are written in capitals (LOG.WYDARZENIA), so they are lowercased
+  # and the first letter capitalised back — "Log.wydarzenia".
+  display:
+    fontFamily: "'Nunito', system-ui, -apple-system, sans-serif"
+    sizePx: 22
+    weight: 900
+    case: lowercase
+    letterSpacingPx: 0
+
+colors:
+  # --- surfaces: cork board / white notes -----------------------------------
+  background:     { light: "#e1d0b8", dark: "#382c20", night: "#1a140f" }   # cork.svg's effective tone
+  backgroundDeep: { light: "#d3bf9f", dark: "#1f1812", night: "#0b0806" }
+  surface:        { light: "#ffffff", dark: "#2b2622", night: "#15120f" }   # --color-surface
+  surfaceRaised:  { light: "#ffffff", dark: "#35302b", night: "#1c1814" }
+  surfaceSunken:  { light: "#faf6f0", dark: "#221e1b", night: "#0f0c0a" }   # --color-surface-warm
+
+  # --- text -------------------------------------------------------------------
+  textPrimary:  { light: "#2d2a26", dark: "#f3ece2", night: "#b8ad9f" }     # 14.28 / 12.76 / 8.46
+  textMuted:    { light: "#6f6255", dark: "#c4b6a6", night: "#978c7f" }     #  5.91 /  7.55 / 5.66
+  textDisabled: { light: "#b3a898", dark: "#6f655a", night: "#4a433b" }
+
+  # --- structure ----------------------------------------------------------------
+  border:       { light: "#e8e0d5", dark: "#453d35", night: "#2a241f" }     # --color-border, texture
+  borderStrong: { light: "#948270", dark: "#9c8b7a", night: "#766a5d" }     # controls: 3.69 / 4.55 / 3.55
+  cardBorder:   { light: "#e8e0d5", dark: "#453d35", night: "#2a241f" }     # the note's own hairline
+
+  # --- accent: Punktomat purple -----------------------------------------------
+  accent:   { light: "#7c5cbf", dark: "#b49cf0", night: "#9582c8" }         #  5.07 /  6.38 / 5.60
+  accentFg: { light: "#ffffff", dark: "#1f1a2e", night: "#0e0b08" }
+
+  # --- status -------------------------------------------------------------------
+  accentSecondary: { light: "#1f7a47", dark: "#6fd39c", night: "#55a880" }
+  signal:          { light: "#1f7a47", dark: "#6fd39c", night: "#55a880" }  # green, darkened: 5.34 / 8.18 / 6.49
+  warn:   { light: "#b1501f", dark: "#f0a07c", night: "#c4845f" }           # orange: 5.20 / 7.14 / 6.05
+  danger: { light: "#c23b3b", dark: "#f28b82", night: "#cf6f66" }           # --color-danger-dark: 5.27 / 6.27 / 5.44
+  focus:  { light: "#7c5cbf", dark: "#c9b8f0", night: "#a391d4" }
+
+  # --- titles ---------------------------------------------------------------------
+  display: { light: "#2d2a26", dark: "#f3ece2", night: "#b8ad9f" }
+
+states:
+  accentHover:  { light: "#6a4cab", dark: "#c7b4f5", night: "#a794d6" }
+  accentActive: { light: "#5c4b8a", dark: "#9f84e6", night: "#8571b9" }     # --color-purple-dark
+  ghostHover:   { light: "#f6f1ea", dark: "#37312c", night: "#1f1a16" }
+  ghostActive:  { light: "#ece4d8", dark: "#211d1a", night: "#0c0a08" }
+
+shape:
+  borderRadiusPx: 14      # between Punktomat's 10px buttons and 16px cards; K7 has one radius
+  borderWidthPx: 1
+  borderWidthStrongPx: 1.5   # Punktomat's border weight throughout
+  hudBrackets: false
+
+spacing:      { basePx: 4, gridGapPx: 12, cardPaddingPx: 20, cardMinHeightPx: 240 }
+controls:     { heightPx: 56, heightSmallPx: 44, focusRingWidthPx: 3, focusRingOffsetPx: 2 }
+layout:       { targetViewportPx: 1024, sidebarWidthPx: 260, breakpointTabletPx: 768, breakpointDesktopPx: 1024 }
+motion:       { fastMs: 120, baseMs: 200, slowMs: 400, easing: "cubic-bezier(0.2, 0, 0, 1)", blinkPeriodMs: 1200 }
+nightMode:    { enabled: true, trigger: sun, startTime: "22:00", endTime: "06:00" }
+density:      { default: normal, largeScaleFactor: 1.2 }
+
+# The header as Punktomat's gradient band, with its own ink: white title,
+# lavender secondary text, light green / light red status, and Punktomat gold
+# for the cursor. The gradient ends at purple-dark rather than purple — at
+# #7c5cbf the lavender text would fall below 4.5:1 at the right-hand end,
+# which is exactly where the status sits.
+header:
+  padding: "12px 20px"
+  background:
+    light: "linear-gradient(135deg, #3b3560 0%, #5f4d93 100%)"
+    dark:  "linear-gradient(135deg, #3b3560 0%, #5f4d93 100%)"
+    night: "linear-gradient(135deg, #1d1a30 0%, #2e2649 100%)"
+  colors:
+    textPrimary:   { light: "#ffffff", dark: "#ffffff", night: "#d2c9e8" }
+    textMuted:     { light: "#e4dcf8", dark: "#e4dcf8", night: "#aea4cc" }  # 5.35 at the light end
+    display:       { light: "#ffffff", dark: "#ffffff", night: "#d2c9e8" }
+    border:        { light: "#ffffff59", dark: "#ffffff59", night: "#ffffff33" }
+    borderStrong:  { light: "#00000000", dark: "#00000000", night: "#00000000" }  # no rule under a band
+    signal:        { light: "#a3ecc4", dark: "#a3ecc4", night: "#7cc49e" }  # 5.17
+    danger:        { light: "#ffd2cc", dark: "#ffd2cc", night: "#e0958c" }
+    accent:        { light: "#f7d060", dark: "#f7d060", night: "#c9a23a" }  # --color-gold
+    focus:         { light: "#f7d060", dark: "#f7d060", night: "#c9a23a" }
+    surfaceRaised: { light: "#4a3f78", dark: "#4a3f78", night: "#252040" }  # the pull-to-refresh tab
+    ghostHover:    { light: "#ffffff1f", dark: "#ffffff1f", night: "#ffffff14" }
+    ghostActive:   { light: "#ffffff33", dark: "#ffffff33", night: "#ffffff24" }
+
+ornament:
+  # Cork, tiled at Punktomat's 200px; the cobweb top-right under the header;
+  # the coffee stain bottom-left. The band at the bottom is for the footer
+  # text, which sits on the cork: muted ink on bare cork is only 3.9:1.
+  pageOverlay:
+    light: "linear-gradient(to top, rgba(251, 248, 243, 0.95) 0, rgba(251, 248, 243, 0.85) 56px, rgba(251, 248, 243, 0) 112px)"
+    dark:  "linear-gradient(to top, rgba(28, 22, 16, 0.92) 0, rgba(28, 22, 16, 0.8) 56px, rgba(28, 22, 16, 0) 112px)"
+    night: "linear-gradient(to top, rgba(10, 8, 6, 0.9) 0, rgba(10, 8, 6, 0.75) 56px, rgba(10, 8, 6, 0) 112px)"
+  pageBackground:
+    light: >-
+      asset("punktomat/decor/cobweb.svg") right 0 top 72px / 132px 132px no-repeat,
+      asset("punktomat/decor/coffee-stain.png") left -40px bottom 0 / 600px auto no-repeat,
+      asset("punktomat/decor/cork.svg") 0 0 / 200px 200px repeat
+    dark: >-
+      asset("punktomat/decor/cobweb-dark.svg") right 0 top 72px / 132px 132px no-repeat,
+      asset("punktomat/decor/cork-dark.svg") 0 0 / 200px 200px repeat
+    night: 'asset("punktomat/decor/cork-night.svg") 0 0 / 200px 200px repeat'
+
+transparency: { surfaceOpacity: 1, backdropBlurPx: 4 }
+boxShadow: []     # Punktomat's 6 % card shadow is dropped: see the header comment
+effects:
+  blinkingCursor: true
+  scanlines: false

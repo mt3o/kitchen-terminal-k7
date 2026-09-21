@@ -28,6 +28,8 @@ body {
   color: var(--fg);
   font-family: var(--font-ui);
   font-size: var(--text-base);
+  /* 400 in every theme but one that reads better heavier (Nunito at 600). */
+  font-weight: var(--weight-regular);
   line-height: var(--leading-body);
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
@@ -79,9 +81,14 @@ body {
   /* A one-line status bar carries no paragraph, so it does not need the
      body's 1.45 leading either — same tightening .shell-foot already has,
      plus a shorter bottom gap: the row's actual content (a label, one small
-     button, a status word) does not earn the full --space-3 it had. */
+     button, a status word) does not earn the full --space-3 it had.
+     --shell-head-pad is exactly that bottom gap unless the theme draws the
+     header as a band (--shell-head-bg), which then needs room on every side;
+     the band's own ink is scoped to data-region="header" by the theme. */
   line-height: var(--leading-tight);
-  padding-bottom: var(--space-2);
+  padding: var(--shell-head-pad);
+  background: var(--shell-head-bg);
+  border-radius: var(--shell-head-radius);
 }
 
 /* A small bracketed control living in the compact header row — [ i ]/[ x ]

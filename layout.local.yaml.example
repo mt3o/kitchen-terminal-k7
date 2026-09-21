@@ -10,6 +10,7 @@
 # try a different theme on one machine without committing it.
 #
 #   theme: "design-system/themes/steampunk-brass.yaml"
+#   theme: "design-system/themes/punktomat.yaml"
 #
 # The one additive key is `calendarAdditions`: extra `Calendar`
 # entries (docs/handoff/layout.schema.yaml's `params.calendar.calendars`
