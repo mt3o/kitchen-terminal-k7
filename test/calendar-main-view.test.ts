@@ -18,9 +18,11 @@ import {
   type CalendarEvent,
 } from '../src/client/lib/calendar.ts'
 
-const GOOGLE_MAIN: Calendar = { id: 'google-primary', name: 'Google', showInMain: true, source: { mode: 'google', calendarId: 'primary' } }
-const KID1: Calendar = { id: 'kid1', name: 'Zosia', showInMain: false, source: { mode: 'ics', url: 'https://example.com/zosia.ics' } }
-const KID2: Calendar = { id: 'kid2', name: 'Kuba', showInMain: true, source: { mode: 'ics', url: 'https://example.com/kuba.ics' } }
+const GOOGLE_MAIN: Calendar = { id: 'google-primary', name: 'Google', source: { mode: 'google', calendarId: 'primary' } }
+const KID1: Calendar = { id: 'kid1', name: 'Zosia', source: { mode: 'ics', url: 'https://example.com/zosia.ics' } }
+const KID2: Calendar = { id: 'kid2', name: 'Kuba', source: { mode: 'ics', url: 'https://example.com/kuba.ics' } }
+/** The layout's `mainCalendars`: KID1 deliberately left out. */
+const MAIN_IDS = [GOOGLE_MAIN.id, KID2.id]
 
 function ev(id: string, calendarId: string): CalendarEvent {
   return { id, title: id, start: '2026-09-08T10:00:00Z', end: '2026-09-08T11:00:00Z', calendarId }
@@ -28,33 +30,33 @@ function ev(id: string, calendarId: string): CalendarEvent {
 
 describe('selectEventsForTab', () => {
   it('with a single configured calendar, shows its events unconditionally — no tab strip, no choice to make', () => {
-    const only: Calendar = { ...GOOGLE_MAIN, showInMain: false }
-    const events = selectEventsForTab([only], { [only.id]: [ev('a', only.id)] }, 'main')
+    const only = GOOGLE_MAIN
+    const events = selectEventsForTab([only], [], { [only.id]: [ev('a', only.id)] }, 'main')
     assert.deepEqual(events.map((e) => e.id), ['a'])
   })
 
-  it('the main tab merges only the calendars flagged showInMain', () => {
+  it('the main tab merges only the calendars named in mainCalendars', () => {
     const eventsByCalendar = {
       [GOOGLE_MAIN.id]: [ev('g1', GOOGLE_MAIN.id)],
       [KID1.id]: [ev('k1a', KID1.id)],
       [KID2.id]: [ev('k2a', KID2.id)],
     }
-    const events = selectEventsForTab([GOOGLE_MAIN, KID1, KID2], eventsByCalendar, 'main')
+    const events = selectEventsForTab([GOOGLE_MAIN, KID1, KID2], MAIN_IDS, eventsByCalendar, 'main')
     const ids = events.map((e) => e.id).sort()
-    assert.deepEqual(ids, ['g1', 'k2a']) // KID1 (showInMain: false) excluded
+    assert.deepEqual(ids, ['g1', 'k2a']) // KID1 (not in mainCalendars) excluded
   })
 
-  it('a specific calendar tab shows only that calendar, regardless of its own showInMain value', () => {
+  it('a specific calendar tab shows only that calendar, whether or not it is in mainCalendars', () => {
     const eventsByCalendar = {
       [GOOGLE_MAIN.id]: [ev('g1', GOOGLE_MAIN.id)],
       [KID1.id]: [ev('k1a', KID1.id)],
     }
-    const events = selectEventsForTab([GOOGLE_MAIN, KID1], eventsByCalendar, KID1.id)
+    const events = selectEventsForTab([GOOGLE_MAIN, KID1], MAIN_IDS, eventsByCalendar, KID1.id)
     assert.deepEqual(events.map((e) => e.id), ['k1a'])
   })
 
   it('an unknown tab id (or a calendar with no events yet) yields an empty list, not a crash', () => {
-    assert.deepEqual(selectEventsForTab([GOOGLE_MAIN, KID1], {}, KID1.id), [])
+    assert.deepEqual(selectEventsForTab([GOOGLE_MAIN, KID1], MAIN_IDS, {}, KID1.id), [])
   })
 })
 

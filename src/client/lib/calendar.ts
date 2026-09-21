@@ -28,7 +28,6 @@ export type CalendarSource = { mode: 'google'; calendarId: string } | { mode: 'i
 export interface Calendar {
   id: string
   name: string
-  showInMain: boolean
   source: CalendarSource
 }
 
@@ -119,16 +118,17 @@ export function formatRange(event: CalendarEvent): string {
 
 /**
  * Which events feed the day grid for the given tab selection. `'main'`
- * merges every calendar flagged `showInMain`; any other tab shows only that
- * one calendar, regardless of its own `showInMain` value
- * (`[node:53a1b84b]`'s per-calendar-fetch decision; the merge itself is
- * this function). With a single configured calendar there is no tab strip
- * at all (`calendar-tabs` deck, `single-calendar` state) — its own events
- * show unconditionally, since `showInMain` only matters once there is a
- * choice between calendars to make.
+ * merges every calendar whose id is in `mainIds` (the layout's
+ * `mainCalendars`); any other tab shows only that one calendar, whether or
+ * not it is in `mainIds` (`[node:53a1b84b]`'s per-calendar-fetch decision;
+ * the merge itself is this function). With a single configured calendar
+ * there is no tab strip at all (`calendar-tabs` deck, `single-calendar`
+ * state) — its own events show unconditionally, since `mainIds` only
+ * matters once there is a choice between calendars to make.
  */
 export function selectEventsForTab(
   calendars: Calendar[],
+  mainIds: string[],
   eventsByCalendar: Record<string, CalendarEvent[]>,
   selectedTab: string,
 ): CalendarEvent[] {
@@ -137,7 +137,7 @@ export function selectEventsForTab(
     return only ? (eventsByCalendar[only.id] ?? []) : []
   }
   if (selectedTab === 'main') {
-    return calendars.filter((c) => c.showInMain).flatMap((c) => eventsByCalendar[c.id] ?? [])
+    return calendars.filter((c) => mainIds.includes(c.id)).flatMap((c) => eventsByCalendar[c.id] ?? [])
   }
   return eventsByCalendar[selectedTab] ?? []
 }

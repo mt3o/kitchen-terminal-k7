@@ -79,10 +79,15 @@ odtwarzać kontekstu od zera.
   lokalne dodatki do `layout.yaml`, scalane przez `config-layers`
   (`src/server/index.ts`'s `loadLayout`) tak, żeby `layout.yaml` mógł zostać
   publiczny/commitowalny, a prywatne dane (np. Google `calendarId` będący
-  czyimś adresem e-mail) nie trafiały do repo. Na razie jeden klucz obsłużony:
-  `calendarAdditions` (dopisuje kalendarze do `params.calendars` konkretnej
-  karty po jej `id`) — patrz `src/server/layout-local-overrides.ts`. Decyzja
-  2026-09-19.
+  czyimś adresem e-mail) nie trafiały do repo. Decyzja 2026-09-19.
+  **Zmienione 2026-09-21:** plik lokalny to częściowy `layout.yaml` — te same
+  klucze, cały merge robi `config-layers` (`src/server/layout-layers.ts`),
+  bez własnych kluczy typu `calendarAdditions`. Żeby to działało, kalendarze
+  przeniesiono z `params` karty na poziom layoutu: `calendars` (mapa po `id`
+  — obiekty scalają się klucz po kluczu, listy nie) i `mainCalendars` (lista
+  id dla zakładki GŁÓWNY, zamiast `showInMain` przy każdym kalendarzu).
+  Lokalna lista zastępuje śledzoną, chyba że obok stoi
+  `mainCalendarsStrategy: union`.
 
 ## Co dalej
 

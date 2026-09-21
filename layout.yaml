@@ -7,6 +7,25 @@ grid:
   columns: 3
   gap: "12px"
 
+# Every calendar card shows these, one tab each, in this order. Keyed by id —
+# a map, not a list, so the gitignored layout.local.yaml adds a calendar (or
+# changes one field of one below) by writing the same `calendars:` key; see
+# layout.local.yaml.example. Up here rather than in a card's params because a
+# card sits inside the `pages`/`cards` lists, which a layered merge can't
+# reach into by id.
+calendars:
+  google-primary:
+    name: "Google"
+    source: { mode: google, calendarId: primary }
+  # A public Google calendar — no reason to keep this one out of a public
+  # repo, unlike the household's own calendars in layout.local.yaml.
+  swieta:
+    name: "Święta"
+    source: { mode: google, calendarId: "pl.polish#holiday@group.v.calendar.google.com" }
+
+# Which calendars the GŁÓWNY tab merges, by id. The rest get their own tab only.
+mainCalendars: [google-primary, swieta]
+
 # Ordered pages, swiped between. Each carries its own grid — a plain nested
 # grid, not CSS `subgrid`, which is Safari 16 and past this project's floor.
 #
@@ -48,18 +67,6 @@ pages:
       - id: kalendarz
         type: calendar
         params:
-          calendars:
-            - id: google-primary
-              name: "Google"
-              showInMain: true
-              source: { mode: google, calendarId: primary }
-            # A public Google calendar — no reason to keep this one out of a
-            # public repo, unlike the household's own calendars added via the
-            # gitignored layout.local.yaml (see layout.local.yaml.example).
-            - id: swieta
-              name: "Święta"
-              showInMain: true
-              source: { mode: google, calendarId: "pl.polish#holiday@group.v.calendar.google.com" }
           view: week
 
       - id: ascii
@@ -116,15 +123,6 @@ pages:
       - id: kalendarz-pelny
         type: calendar
         params:
-          calendars:
-            - id: google-primary
-              name: "Google"
-              showInMain: true
-              source: { mode: google, calendarId: primary }
-            - id: swieta
-              name: "Święta"
-              showInMain: true
-              source: { mode: google, calendarId: "pl.polish#holiday@group.v.calendar.google.com" }
           view: week
 
   # Recipes are the primary reason to open this page; chat, the timer and the

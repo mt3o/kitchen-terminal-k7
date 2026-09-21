@@ -28,7 +28,7 @@ dist/
 data/
 
 # Local, private additions layered onto layout.yaml via config-layers (see
-# src/server/layout-local-overrides.ts) — e.g. a household member's own
+# src/server/layout-layers.ts) — e.g. a household member's own
 # Google calendar id, which is personal data and must never reach the
 # (public) repo. layout.local.yaml.example documents the shape and is committed.
 layout.local.yaml
