@@ -66,7 +66,9 @@
        surface and no frame image unless the theme supplies them, which is
        exactly the plain card this always was. */
     background: var(--card-bg);
-    border: var(--border-w-strong) solid var(--border-strong);
+    /* --card-border is --border-strong unless the theme sets cards apart by
+       their fill instead (a white note on cork) and wants a hairline here. */
+    border: var(--border-w-strong) solid var(--card-border);
     border-image: var(--card-frame);
     border-radius: var(--radius);
     color: var(--fg);
@@ -118,6 +120,7 @@
     font-weight: var(--display-weight);
     text-transform: var(--display-case);
     letter-spacing: var(--display-tracking);
+    line-height: var(--display-leading);
     color: var(--fg-display);
   }
   .hud-label::first-letter { text-transform: uppercase; }

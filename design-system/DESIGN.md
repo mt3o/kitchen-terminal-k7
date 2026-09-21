@@ -21,6 +21,7 @@ mode and the interaction-state layer are new.
 | `themes/retro-scifi.yaml` | The canonical theme, v2 format. |
 | `themes/daylight-lab.yaml` | A second theme, present to prove the swap actually works. |
 | `themes/steampunk-brass.yaml` | A decorated theme: self-hosted fonts, a script title face, background photographs, brass frames. Its files are in `themes/steampunk-brass/`. |
+| `themes/punktomat.yaml` | The Punktomat design system on the wall: cork board, white notes, purple header band, Nunito. Its files are in `themes/punktomat/`. |
 | `kitchen-terminal-k7-kit.html` | The component kit. Open it; it is the real spec. |
 
 ---
@@ -387,6 +388,13 @@ local clock (`backdropEveryMinutes`, from midnight, so every screen agrees),
 decodes the next before swapping it in, and keeps the current one if the next
 cannot load. The swap is one attribute change and one repaint — never a
 transition, which would repaint the page every frame.
+
+`colors.cardBorder` and `header` (added for `punktomat.yaml`) let a card be
+outlined by a hairline while controls keep their 3:1 frame, and let the shell
+header be a band with its own background and its own ink, scoped to
+`data-region="header"` so everything inside it — title, status, buttons, the
+pull-to-refresh tab — reads against the band. Defaults: the frame colour, and
+no band.
 The rules in §4.1 and §5 (one face, radius 0, no ornament) are this theme's
 design, not the contract's; what the contract still forbids everywhere is a
 component naming a colour, face, radius, border or picture itself, and any

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  
+  <g stroke="#5C3D1E" stroke-width="0.8" fill="none" opacity="0.2">
+    <line x1="0" y1="0" x2="120" y2="20"></line>
+    <line x1="0" y1="0" x2="100" y2="60"></line>
+    <line x1="0" y1="0" x2="70" y2="100"></line>
+    <line x1="0" y1="0" x2="30" y2="120"></line>
+    <line x1="0" y1="0" x2="0" y2="120"></line>
+    <line x1="0" y1="0" x2="120" y2="0"></line>
+    
+    <path d="M 28,0 Q 18,12 14,28 Q 10,20 0,22"></path>
+    
+    <path d="M 58,0 Q 44,18 34,42 Q 22,56 10,62 Q 4,42 0,48"></path>
+    
+    <path d="M 88,0 Q 68,22 52,55 Q 38,78 20,92 Q 8,76 0,78"></path>
+    
+    <path d="M 112,4 Q 90,28 72,62 Q 54,88 34,108 Q 16,106 0,110"></path>
+  </g>
+  
+  <circle cx="52" cy="38" r="3" fill="#3D2510" opacity="0.14"></circle>
+  <line x1="52" y1="38" x2="48" y2="28" stroke="#5C3D1E" stroke-width="0.6" opacity="0.12"></line>
+  <line x1="52" y1="38" x2="58" y2="30" stroke="#5C3D1E" stroke-width="0.6" opacity="0.12"></line>
+</svg>
