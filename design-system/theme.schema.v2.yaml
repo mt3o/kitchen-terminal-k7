@@ -17,6 +17,15 @@
 #                     which breaks the "components read only tokens" contract.
 #   6. nightMode    — when the third mode engages.
 #   7. density      — large-type override as a token-layer mode.
+#
+# Added 2026-09-21 for steampunk-brass, all optional, each defaulting to what
+# an undecorated theme already renders (so every earlier file is unchanged):
+#   8. typography.fontFaces / monoFontFamily — self-hosted woff2, and a real
+#                     monospace for ASCII art when the UI face is not one.
+#   9. typography.display + colors.display — a title face and title ink.
+#  10. ornament     — page/card background pictures, card frame and divider
+#                     rule as border-images; theme files named via asset().
+#                     The page may rotate through a list of backdrops.
 
 $schema: "https://json-schema.org/draft/2020-12/schema"
 $id: "https://kitchen-terminal-k7.local/schema/theme.schema.v2.yaml"
@@ -42,8 +51,9 @@ properties:
       fontFamily:
         type: string
         description: >
-          CSS font-family for the single UI face. One family only — hierarchy
-          comes from weight/size/tracking, never a second display face.
+          CSS font-family for the UI face. Hierarchy comes from weight/size/
+          tracking; the only other face a theme may name is `display`, for
+          titles, and `monoFontFamily`, for text drawn in character cells.
       fontSourceWoff2:
         type: string
         description: >
@@ -85,6 +95,40 @@ properties:
           regular: { type: integer, default: 400 }
           medium: { type: integer, default: 500 }
           bold: { type: integer, default: 600 }
+      monoFontFamily:
+        type: string
+        description: >
+          Emitted as --font-mono: ASCII art, the weather glyph, code. Defaults
+          to var(--font-ui), which is right only when the UI face is monospace.
+      fontFaces:
+        type: array
+        description: >
+          Self-hosted faces, emitted as @font-face. `src` is a woff2 path
+          relative to the theme file; the server serves it from /theme-assets/
+          with a content-hash version. No CDN — the kiosk cannot reach one.
+        items:
+          type: object
+          required: [family, src]
+          properties:
+            family: { type: string }
+            src: { type: string }
+            weight: { type: integer, default: 400 }
+            style: { type: string, default: normal }
+            unicodeRange: { type: string }
+      display:
+        type: object
+        description: >
+          The title face — card titles, the shell's name, dialog headings.
+          Every field defaults to the HUD label's own value (UI face, --text-sm,
+          medium, uppercase, --tracking-label), so omitting the block leaves
+          titles exactly as labels. The first letter of a title is always
+          capitalised, so `case: lowercase` reads as sentence case.
+        properties:
+          fontFamily: { type: string }
+          sizePx: { type: integer }
+          weight: { type: integer }
+          case: { type: string, enum: [none, uppercase, lowercase], default: uppercase }
+          letterSpacingPx: { type: number }
 
   colors:
     type: object
@@ -132,6 +176,11 @@ properties:
       focus:
         $ref: "#/$defs/colorTriple"
         description: "NEW in v2. Focus ring. Must reach 3:1 vs. control AND surface."
+      display:
+        $ref: "#/$defs/colorTriple"
+        description: >
+          Title ink (--fg-display). Must reach 4.5:1 on surface. Defaults to
+          textMuted, which is what HUD-label titles always used.
 
   states:
     type: object
@@ -261,6 +310,63 @@ properties:
                 position: { type: number, minimum: 0, maximum: 100 }
           appliesTo: { type: string, enum: [page, cards, both], default: page }
 
+  ornament:
+    type: object
+    description: >
+      Pictures and decorative borders. Each slot is raw CSS — a string for all
+      modes, or {light, dark, night} with night falling back to dark — and
+      `asset("path")` inside it names a theme file (relative to the theme
+      file), rewritten to its served URL. Only paths named here or in
+      fontFaces are served. Everything is a static layer: painted once,
+      never animated, and cards stay opaque (see transparency).
+    properties:
+      pageBackground:
+        description: >
+          The page's picture layer(s) (--page-bg). A list per mode is a set of
+          backdrops rotated by the local clock (backdropEveryMinutes); modes
+          rotate independently and a shorter list wraps. Backdrop 0 is in the
+          mode blocks, the rest in [data-backdrop="n"] rules that
+          src/client/lib/backdrop.ts selects. pageOverlay goes on top and the
+          mode's `background` colour underneath. Header and footer text sit
+          directly on it — measure AA on every backdrop.
+        oneOf:
+          - type: string
+          - type: array
+            items: { type: string }
+          - type: object
+            properties:
+              light: { oneOf: [{ type: string }, { type: array, items: { type: string } }] }
+              dark: { oneOf: [{ type: string }, { type: array, items: { type: string } }] }
+              night:
+                oneOf: [{ type: string }, { type: array, items: { type: string } }]
+                description: "Falls back to dark."
+      pageOverlay:
+        $ref: "#/$defs/modeValue"
+        description: >
+          Layers painted over every backdrop — e.g. px-stopped bands that keep
+          header and footer text legible whatever picture is showing.
+      backdropEveryMinutes:
+        type: number
+        default: 60
+        description: >
+          How long each backdrop stays, counted from local midnight so every
+          screen shows the same one at the same time. 1440 = one per day.
+      cardBackground:
+        $ref: "#/$defs/modeValue"
+        description: >
+          Background layers for every card; the mode's `surface` colour is
+          appended (--card-bg). Measure text contrast against the picture's
+          darkest/lightest pixels, not only against `surface`.
+      cardFrame:
+        $ref: "#/$defs/modeValue"
+        description: "A border-image value for every card (--card-frame). Default none."
+      rule:
+        $ref: "#/$defs/modeValue"
+        description: >
+          A border-image value for the divider under the shell header and each
+          card head (--rule). Only the bottom border is set there, so slice and
+          width only the bottom edge. Default none.
+
   transparency:
     type: object
     properties:
@@ -309,6 +415,14 @@ properties:
           card headers.
 
 $defs:
+  modeValue:
+    oneOf:
+      - type: string
+      - type: object
+        properties:
+          light: { type: string }
+          dark: { type: string }
+          night: { type: string, description: "Falls back to dark." }
   colorTriple:
     type: object
     required: [light, dark]

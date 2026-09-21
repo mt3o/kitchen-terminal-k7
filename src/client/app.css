@@ -21,7 +21,10 @@ html, body {
 }
 
 body {
-  background: var(--bg);
+  /* The mode's ground colour — plus, when the theme has them, its background
+     pictures layered over it. Static, painted once: the pager slides over it,
+     it never moves itself. */
+  background: var(--page-bg);
   color: var(--fg);
   font-family: var(--font-ui);
   font-size: var(--text-base);
@@ -71,6 +74,8 @@ body {
      header itself, without this. */
   position: relative;
   border-bottom: var(--border-w-strong) solid var(--border-strong);
+  /* The theme's ornamental rule, if it has one; `none` leaves the line above. */
+  border-image: var(--rule);
   /* A one-line status bar carries no paragraph, so it does not need the
      body's 1.45 leading either — same tightening .shell-foot already has,
      plus a shorter bottom gap: the row's actual content (a label, one small
@@ -120,6 +125,23 @@ body {
   letter-spacing: var(--tracking-label);
   color: var(--fg-muted);
 }
+
+/* The terminal's name is a title, not a label: it takes the theme's display
+   face, the same way every card title does (Card.svelte). Unthemed, those
+   tokens are the .hud-label values above, so nothing moves. After .hud-label
+   on purpose: same specificity, so source order decides. */
+.shell-title {
+  font-family: var(--font-display);
+  font-size: var(--display-size);
+  font-weight: var(--display-weight);
+  text-transform: var(--display-case);
+  letter-spacing: var(--display-tracking);
+  color: var(--fg-display);
+}
+.shell-title::first-letter { text-transform: uppercase; }
+/* A model designation stays in capitals whatever case the title is set in —
+   "Terminal K7", not "Terminal k7". */
+.shell-title-code { text-transform: uppercase; }
 
 .meta {
   font-size: var(--text-xs);
@@ -485,6 +507,8 @@ body {
   padding: var(--card-pad);
   background: var(--surface-raised);
   border: var(--border-w-strong) solid var(--border-strong);
+  /* Framed like a card when the theme frames cards. */
+  border-image: var(--card-frame);
   border-radius: var(--radius);
   color: var(--fg);
   font-family: var(--font-ui);
@@ -500,13 +524,19 @@ body {
   padding-bottom: var(--space-2);
 }
 
+/* A dialog heading. Its size, weight and ink are its own; face, case and
+   tracking are the theme's title settings, which unthemed are the UI face,
+   uppercase and --tracking-label it always had. */
 .changelog-title {
   margin: 0;
+  font-family: var(--font-display);
   font-size: var(--text-lg);
   font-weight: var(--weight-bold);
-  letter-spacing: var(--tracking-label);
+  text-transform: var(--display-case);
+  letter-spacing: var(--display-tracking);
   color: var(--fg);
 }
+.changelog-title::first-letter { text-transform: uppercase; }
 
 .changelog-body {
   flex: 1 1 auto;

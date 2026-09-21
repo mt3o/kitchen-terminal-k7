@@ -8,6 +8,13 @@
 #
 # Newest entry first.
 entries:
+  - date: "2026-09-21"
+    title: "Nowy motyw: Steampunk Brass"
+    items:
+      - "Do wyboru jest trzeci motyw, w stylu steampunk: mosiężne ramki z nitami wokół kart, mosiężne listwy pod nagłówkami, tytuły kart pisane kaligraficzną kursywą, tekst w wiktoriańskim kroju szeryfowym, a sztuka ASCII w kroju maszyny do pisania."
+      - "W tle zdjęcia, które zmieniają się co godzinę: w trybie ciemnym i nocnym sześć ujęć mosiężnej maszynerii (mechanizmy zegarów, ściana manometrów, koła parowozu), w trybie jasnym sześć starych papierów i rycin (pergamin, dawne mapy świata, mapa gór). Kolejne zdjęcie wczytuje się, zanim się pojawi, więc zmiana nie miga — a gdy serwer nie odpowiada, zostaje obecne. Karty mają w rogu delikatnie wygrawerowane koło zębate, a w trybie jasnym — fakturę starego papieru."
+      - "Czytelność sprawdzona na prawdziwym obrazie tła, a nie tylko na kolorze: każdy napis w nagłówku, stopce i na kartach ma kontrast co najmniej 4,5:1 we wszystkich trzech trybach i na każdym z teł."
+      - "Włącza się go jedną linią w `layout.yaml`: `theme: \"design-system/themes/steampunk-brass.yaml\"`. Żeby wypróbować go tylko na jednym komputerze, tę samą linię można wpisać do `layout.local.yaml` — zmiana działa po odświeżeniu strony. Obecny motyw zostaje domyślny i wygląda dokładnie tak jak dotąd."
   - date: "2026-09-20"
     title: "Kalendarz Google: podłączenie konta z przeglądarki"
     items:

@@ -10,12 +10,79 @@
  * Output is plain hex and px. No `oklch()`, no `color-mix()`: OKLCH is the design
  * space in which a theme's authors derive values, hex is the delivery format,
  * because both functions are past the Safari 15.0 floor.
+ *
+ * A theme may also carry files — self-hosted fonts, background pictures,
+ * ornament images. The generator never touches the filesystem for them: it
+ * names them by theme-relative path and asks the caller (`assetUrl`) what URL
+ * that path is served at, which keeps this a pure function the tests can run.
  */
 
 export interface ThemeColorTriple {
   light: string
   dark: string
   night?: string
+}
+
+/** A self-hosted face. `src` is relative to the theme file's own directory. */
+export interface ThemeFontFace {
+  family: string
+  src: string
+  weight?: number
+  style?: string
+  unicodeRange?: string
+}
+
+/**
+ * The title face: card titles, the shell's name, dialog headings. Absent, titles
+ * are set exactly like a HUD label — the UI face, uppercase, tracked — so a
+ * theme that says nothing here looks the way every theme looked before it existed.
+ */
+export interface ThemeDisplay {
+  fontFamily?: string
+  sizePx?: number
+  weight?: number
+  /** `text-transform` for titles. The first letter is always capitalised. */
+  case?: 'none' | 'uppercase' | 'lowercase'
+  letterSpacingPx?: number
+}
+
+/** One CSS value for every mode, or one per mode (night falls back to dark). */
+export type ThemeModeValue = string | { light?: string; dark?: string; night?: string }
+
+/** Like ThemeModeValue, but each mode may list several alternatives to rotate through. */
+export type ThemeModeValues =
+  | string
+  | string[]
+  | { light?: string | string[]; dark?: string | string[]; night?: string | string[] }
+
+/**
+ * Pictures and decorative borders. Every slot is raw CSS, because a background
+ * stack or a `border-image` is not worth re-inventing as YAML; `asset("path")`
+ * inside a value stands for a theme file and is rewritten to its served URL.
+ */
+export interface ThemeOrnament {
+  /**
+   * The page's picture layer(s). A list is a set of backdrops the page rotates
+   * through (see backdropEveryMinutes); each mode's list is independent and may
+   * differ in length. The overlay goes on top, the mode's `background` colour
+   * underneath.
+   */
+  pageBackground?: ThemeModeValues
+  /** Layers drawn over every backdrop — the bands that keep header and footer text legible. */
+  pageOverlay?: ThemeModeValue
+  /** How long each backdrop stays, in minutes, counted from local midnight. Default 60. */
+  backdropEveryMinutes?: number
+  /** Background layers for every card. The mode's `surface` colour is appended as the base layer. */
+  cardBackground?: ThemeModeValue
+  /** A `border-image` value for every card's frame. */
+  cardFrame?: ThemeModeValue
+  /** A `border-image` value for the dividers under the shell header and each card head. */
+  rule?: ThemeModeValue
+}
+
+export interface GenerateOptions {
+  /** Theme-relative asset path → the URL it is served at. Defaults to the path itself. */
+  assetUrl?: (path: string) => string
 }
 
 export interface Theme {
@@ -26,8 +93,13 @@ export interface Theme {
     letterSpacingLabelsPx: number
     scale?: { read?: Record<string, number>; glance?: Record<string, number> }
     weights?: Record<string, number>
+    /** For text that must align in columns — ASCII art, code. Defaults to the UI face, which suits a monospace one. */
+    monoFontFamily?: string
+    fontFaces?: ThemeFontFace[]
+    display?: ThemeDisplay
   }
   colors: Record<string, ThemeColorTriple>
+  ornament?: ThemeOrnament
   spacing?: { basePx?: number; gridGapPx?: number; cardPaddingPx?: number; cardMinHeightPx?: number }
   shape: { borderRadiusPx: number; borderWidthPx: number; borderWidthStrongPx?: number }
   motion?: { fastMs?: number; baseMs?: number; slowMs?: number; easing?: string; blinkPeriodMs?: number }
@@ -75,6 +147,60 @@ function pick(triple: ThemeColorTriple | undefined, mode: Mode): string | undefi
   return triple[mode]
 }
 
+function pickValue(value: ThemeModeValue | undefined, mode: Mode): string | undefined {
+  if (value === undefined) return undefined
+  if (typeof value === 'string') return value
+  if (mode === 'night') return value.night ?? value.dark
+  return value[mode]
+}
+
+/** A mode's list of alternatives, always as a list (possibly empty). */
+function pickValues(value: ThemeModeValues | undefined, mode: Mode): string[] {
+  if (value === undefined) return []
+  if (typeof value === 'string' || Array.isArray(value)) return ([] as string[]).concat(value)
+  const picked = mode === 'night' ? (value.night ?? value.dark) : value[mode]
+  return picked === undefined ? [] : ([] as string[]).concat(picked)
+}
+
+const MODES: readonly Mode[] = ['dark', 'light', 'night']
+
+/** How many backdrops the page rotates through: the longest mode's list, at least 1. */
+export function backdropCount(theme: Theme): number {
+  return Math.max(1, ...MODES.map((mode) => pickValues(theme.ornament?.pageBackground, mode).length))
+}
+
+/** `asset("path")` / `asset(path)` — a theme file named inside a raw CSS value. */
+const ASSET_REF = /asset\(\s*["']?([^"')]+?)["']?\s*\)/g
+
+function resolveAssets(css: string, assetUrl: (path: string) => string): string {
+  return css.replace(ASSET_REF, (_m, path: string) => `url("${assetUrl(path.trim())}")`)
+}
+
+function ornamentValues(ornament: ThemeOrnament | undefined): string[] {
+  const out: string[] = []
+  const collect = (value: unknown): void => {
+    if (typeof value === 'string') out.push(value)
+    else if (Array.isArray(value)) value.forEach(collect)
+    else if (value && typeof value === 'object') Object.values(value).forEach(collect)
+  }
+  collect(ornament ?? {})
+  return out
+}
+
+/**
+ * Every file a theme names, theme-relative, deduplicated. This is the complete
+ * list the server is willing to serve for it — nothing else in the theme's
+ * directory is reachable, whatever path a request asks for.
+ */
+export function themeAssetPaths(theme: Theme): string[] {
+  const paths = new Set<string>()
+  for (const face of theme.typography.fontFaces ?? []) paths.add(face.src)
+  for (const css of ornamentValues(theme.ornament)) {
+    for (const m of css.matchAll(ASSET_REF)) paths.add((m[1] as string).trim())
+  }
+  return [...paths]
+}
+
 /** `#rrggbb` → `rgba(...)`. Scrims and washes are the mode's own colours at an
  *  alpha, so a new theme gets its own rather than inheriting amber ones. */
 function rgba(hex: string | undefined, alpha: number): string | undefined {
@@ -88,7 +214,7 @@ function block(selector: string, lines: string[]): string {
   return `${selector} {\n${lines.map((l) => `  ${l}`).join('\n')}\n}`
 }
 
-function modeBlock(theme: Theme, mode: Mode, selector: string): string {
+function modeBlock(theme: Theme, mode: Mode, selector: string, assetUrl: (path: string) => string): string {
   const lines: string[] = []
   for (const [key, token] of COLOR_TOKENS) {
     const value = pick(theme.colors[key], mode)
@@ -115,11 +241,88 @@ function modeBlock(theme: Theme, mode: Mode, selector: string): string {
     if (w) lines.push(`${token}: ${w};`)
   }
 
+  // Title ink. A theme without a display role sets titles in muted text, which
+  // is what a HUD label always was.
+  const display = pick(theme.colors.display, mode) ?? pick(theme.colors.textMuted, mode)
+  if (display) lines.push(`--fg-display: ${display};`)
+
+  // Ornament. Each slot's default reproduces an unornamented theme exactly: the
+  // page and the cards are their flat colours, and there is no frame or rule
+  // image, so the plain borders underneath show as they always have.
+  const ornament = theme.ornament
+  const layered = (value: ThemeModeValue | undefined, base: string | undefined): string | undefined => {
+    const layers = pickValue(value, mode)
+    if (!layers) return base
+    const resolved = resolveAssets(layers.trim(), assetUrl)
+    return base ? `${resolved}, ${base}` : resolved
+  }
+  const pageBg = pageBackground(theme, mode, 0, assetUrl)
+  if (pageBg) lines.push(`--page-bg: ${pageBg};`)
+  const cardBg = layered(ornament?.cardBackground, pick(theme.colors.surface, mode))
+  if (cardBg) lines.push(`--card-bg: ${cardBg};`)
+  const frame = pickValue(ornament?.cardFrame, mode)
+  lines.push(`--card-frame: ${frame ? resolveAssets(frame.trim(), assetUrl) : 'none'};`)
+  const rule = pickValue(ornament?.rule, mode)
+  lines.push(`--rule: ${rule ? resolveAssets(rule.trim(), assetUrl) : 'none'};`)
+
   lines.push(`color-scheme: ${mode === 'light' ? 'light' : 'dark'};`)
   return block(selector, lines)
 }
 
-export function generateTokensCss(theme: Theme): string {
+/**
+ * --page-bg for one mode and one backdrop: overlay, then that backdrop (a mode
+ * with fewer pictures than the longest list wraps round its own), then the
+ * mode's ground colour. With no pictures it is the ground colour alone, which
+ * is what an unornamented theme's page always was.
+ */
+function pageBackground(theme: Theme, mode: Mode, index: number, assetUrl: (path: string) => string): string | undefined {
+  const pictures = pickValues(theme.ornament?.pageBackground, mode)
+  const picture = pictures.length ? pictures[index % pictures.length] : undefined
+  const layers = [pickValue(theme.ornament?.pageOverlay, mode), picture, pick(theme.colors.background, mode)]
+    .map((layer) => layer?.trim())
+    .filter((layer): layer is string => Boolean(layer))
+  return layers.length ? resolveAssets(layers.join(', '), assetUrl) : undefined
+}
+
+/**
+ * One rule per extra backdrop and mode. Backdrop 0 lives in the mode blocks;
+ * the client picks the rest by setting `data-backdrop` on <html>
+ * (lib/backdrop.ts). Attribute selectors rather than :root so the client can
+ * compute a backdrop it has not shown yet on a detached probe, to preload it.
+ * Dark also matches an element with no data-mode, as the dark block does.
+ */
+function backdropBlocks(theme: Theme, assetUrl: (path: string) => string): string[] {
+  const out: string[] = []
+  for (let index = 1; index < backdropCount(theme); index++) {
+    const at = `[data-backdrop="${index}"]`
+    for (const [mode, selector] of [
+      ['dark', `${at}:not([data-mode="light"]):not([data-mode="night"])`],
+      ['light', `[data-mode="light"]${at}`],
+      ['night', `[data-mode="night"]${at}`],
+    ] as const) {
+      const value = pageBackground(theme, mode, index, assetUrl)
+      if (value) out.push(block(selector, [`--page-bg: ${value};`]))
+    }
+  }
+  return out
+}
+
+function fontFaceBlock(face: ThemeFontFace, assetUrl: (path: string) => string): string {
+  const lines = [
+    `font-family: '${face.family.replace(/'/g, '')}';`,
+    `font-style: ${face.style ?? 'normal'};`,
+    `font-weight: ${face.weight ?? 400};`,
+    // swap, not block: on a wall display a title in the fallback face for the
+    // first second after a cold boot is better than no title at all.
+    'font-display: swap;',
+    `src: url("${assetUrl(face.src)}") format("woff2");`,
+  ]
+  if (face.unicodeRange) lines.push(`unicode-range: ${face.unicodeRange};`)
+  return block('@font-face', lines)
+}
+
+export function generateTokensCss(theme: Theme, options: GenerateOptions = {}): string {
+  const assetUrl = options.assetUrl ?? ((path: string) => path)
   const t = theme.typography
   const sp = theme.spacing ?? {}
   const base = sp.basePx ?? 4
@@ -128,8 +331,25 @@ export function generateTokensCss(theme: Theme): string {
 
   const structure: string[] = [
     `--font-ui: ${t.fontFamily};`,
-    `--font-mono: var(--font-ui);`,
+    `--font-mono: ${t.monoFontFamily ?? 'var(--font-ui)'};`,
   ]
+
+  // Titles. Every default here is the HUD label's own value, by reference, so
+  // an undecorated theme's titles are its labels and stay so if those change.
+  const display = t.display ?? {}
+  structure.push(`--font-display: ${display.fontFamily ?? 'var(--font-ui)'};`)
+  structure.push(`--display-size: ${display.sizePx !== undefined ? `${display.sizePx}px` : 'var(--text-sm)'};`)
+  structure.push(`--display-weight: ${display.weight ?? 'var(--weight-medium)'};`)
+  structure.push(`--display-case: ${display.case ?? 'uppercase'};`)
+  // Read by lib/backdrop.ts, not by CSS: how many backdrops there are and how
+  // long each one stays. 1 means there is nothing to rotate.
+  structure.push(`--backdrop-count: ${backdropCount(theme)};`)
+  structure.push(`--backdrop-every: ${theme.ornament?.backdropEveryMinutes ?? 60};`)
+  structure.push(
+    `--display-tracking: ${
+      display.letterSpacingPx !== undefined ? `${(display.letterSpacingPx / t.baseSizePx).toFixed(3)}em` : 'var(--tracking-label)'
+    };`,
+  )
 
   for (const [name, px] of Object.entries(t.scale?.read ?? {})) structure.push(`--text-${name}: ${px}px;`)
   for (const [name, px] of Object.entries(t.scale?.glance ?? {})) structure.push(`--glance-${name}: ${px}px;`)
@@ -175,10 +395,12 @@ export function generateTokensCss(theme: Theme): string {
 
   const parts = [
     `/* Generated from theme "${theme.name}". Do not edit: change the theme file. */`,
+    ...(t.fontFaces ?? []).map((face) => fontFaceBlock(face, assetUrl)),
     block(':root', structure),
-    modeBlock(theme, 'dark', ':root, [data-mode="dark"]'),
-    modeBlock(theme, 'light', '[data-mode="light"]'),
-    modeBlock(theme, 'night', '[data-mode="night"]'),
+    modeBlock(theme, 'dark', ':root, [data-mode="dark"]', assetUrl),
+    modeBlock(theme, 'light', '[data-mode="light"]', assetUrl),
+    modeBlock(theme, 'night', '[data-mode="night"]', assetUrl),
+    ...backdropBlocks(theme, assetUrl),
   ]
 
   const large = theme.density?.largeScaleFactor
@@ -186,6 +408,8 @@ export function generateTokensCss(theme: Theme): string {
     const scaled = Object.entries(t.scale.read).map(
       ([name, px]) => `--text-${name}: ${Math.round(px * large)}px;`,
     )
+    // A title given in px has no `--text-*` to follow, so it is scaled here too.
+    if (display.sizePx !== undefined) scaled.push(`--display-size: ${Math.round(display.sizePx * large)}px;`)
     parts.push(block('[data-density="large"]', scaled))
   }
 

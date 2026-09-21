@@ -24,6 +24,7 @@ import './lib/K7Weather.svelte'
 import { domReconnectUi, reconnectLoop } from './lib/reconnect.ts'
 import { createChangelogUi } from './lib/changelog.ts'
 import { createThemeToggleUi } from './lib/theme-toggle.ts'
+import { createBackdropRotation } from './lib/backdrop.ts'
 import { createPullToRefresh } from './lib/pull-refresh.ts'
 import { createPager, type Pager } from './lib/pager.ts'
 import { createSlideshowController, extractSlideshow, isForbiddenNestedSlideshow, type SlideshowController } from './lib/slideshow.ts'
@@ -621,6 +622,7 @@ async function boot(): Promise<void> {
 registerServiceWorker()
 createChangelogUi()
 createThemeToggleUi()
+createBackdropRotation()
 const shellHead = document.querySelector<HTMLElement>('.shell-head')
 if (shellHead) {
   createPullToRefresh(shellHead, {
