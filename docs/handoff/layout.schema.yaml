@@ -25,6 +25,14 @@ required: [version, theme, grid]
 oneOf:
   - required: [cards]
   - required: [pages]
+# `<klucz>Strategy` to dyrektywa warstw dla `layout.local.yaml` (patrz nagłówek
+# i `src/server/layout-layers.ts`): mówi, jak lista z warstwy lokalnej łączy
+# się z listą z layout.yaml. Dozwolona obok dowolnego klucza na tym poziomie.
+patternProperties:
+  "Strategy$":
+    type: string
+    enum: [concat, union]
+additionalProperties: false
 properties:
   version:
     type: integer
@@ -45,6 +53,7 @@ properties:
     type: object
     description: Ustawienia siatki, w jakiej układane są karty.
     required: [columns]
+    additionalProperties: false
     properties:
       columns:
         type: integer
@@ -102,6 +111,7 @@ $defs:
   calendar:
     type: object
     required: [name, source]
+    additionalProperties: false
     properties:
       name:
         type: string
@@ -111,12 +121,14 @@ $defs:
         required: [mode]
         oneOf:
           - required: [mode, calendarId]
+            additionalProperties: false
             properties:
               mode: { const: google }
               calendarId:
                 type: string
                 description: ID kalendarza Google (email kalendarza lub "primary").
           - required: [mode, url]
+            additionalProperties: false
             properties:
               mode: { const: ics }
               url:
@@ -131,6 +143,7 @@ $defs:
       horyzontalnym (desktop/tablet poziomo), chowalny w układzie pionowym,
       zawsze chowalny na komórce (telefon), niezależnie od orientacji.
     required: [position, content]
+    additionalProperties: false
     properties:
       position:
         type: string
@@ -142,6 +155,7 @@ $defs:
       behavior:
         type: object
         description: Reguła chowania per typ urządzenia/orientacja — nadpisuje domyślne zasady poniżej, jeśli podana.
+        additionalProperties: false
         properties:
           horizontal:
             type: string
@@ -176,6 +190,7 @@ $defs:
   page:
     type: object
     required: [id, cards]
+    additionalProperties: false
     properties:
       id:
         type: string
@@ -186,6 +201,7 @@ $defs:
       grid:
         type: object
         description: Nadpisuje siatkę layoutu tylko dla tej strony.
+        additionalProperties: false
         properties:
           columns: { type: integer, minimum: 1, maximum: 4 }
           gap: { type: string }
@@ -198,6 +214,7 @@ $defs:
   card:
     type: object
     required: [id, type, params]
+    additionalProperties: false
     properties:
       id:
         type: string
@@ -208,6 +225,7 @@ $defs:
       span:
         type: object
         description: Ile kolumn/wierszy siatki zajmuje karta.
+        additionalProperties: false
         properties:
           cols: { type: integer, minimum: 1, default: 1 }
           rows:
@@ -261,10 +279,12 @@ $defs:
   params.weather:
     type: object
     required: [location]
+    additionalProperties: false
     properties:
       location:
         type: object
         required: [lat, lon]
+        additionalProperties: false
         properties:
           lat: { type: number }
           lon: { type: number }
@@ -296,6 +316,7 @@ $defs:
       Gdy jest więcej niż jeden, karta pokazuje pasek zakładek do przełączania
       między nimi; zakładka GŁÓWNY łączy wydarzenia z kalendarzy wymienionych
       w `mainCalendars`.
+    additionalProperties: false
     properties:
       view:
         type: string
@@ -305,6 +326,7 @@ $defs:
   params.chat:
     type: object
     required: [defaultModel]
+    additionalProperties: false
     properties:
       defaultModel:
         type: string
@@ -332,6 +354,7 @@ $defs:
 
   params.recipes:
     type: object
+    additionalProperties: false
     properties:
       maxVisible:
         type: integer
@@ -353,10 +376,12 @@ $defs:
       (decyzje produktowe/design zamknięte, kod jeszcze nie ruszył), więc na razie
       `dataSource.mode: local` jest jedyną działającą opcją — `zakupy-api` czeka na
       to, aż tamten projekt wystawi jakiekolwiek API.
+    additionalProperties: false
     properties:
       dataSource:
         type: object
         description: Skąd karta czyta/zapisuje listę zakupów.
+        additionalProperties: false
         properties:
           mode:
             type: string
@@ -379,6 +404,7 @@ $defs:
 
   params.timer:
     type: object
+    additionalProperties: false
     properties:
       presetsMinutes:
         type: array
@@ -396,6 +422,7 @@ $defs:
       Rozdzielone, bo mają zupełnie inne parametry i inne kwestie prawne
       (cudzy content z atrybucją vs. content generowany na własność).
     required: [rssUrl]
+    additionalProperties: false
     properties:
       rssUrl:
         type: string
@@ -436,6 +463,7 @@ $defs:
       (Kilo Gateway), nie pobierana z zewnątrz. Brak problemów z prawami
       autorskimi, ale wymaga innych parametrów (prompt, model, styl renderu).
     required: [prompt]
+    additionalProperties: false
     properties:
       prompt:
         type: string
@@ -477,6 +505,7 @@ $defs:
       edycję layoutu. Karuzela zdjęć nie potrzebuje osobnego typu karty —
       `carousel` ze slajdami typu `image` już nią jest.
     required: [url]
+    additionalProperties: false
     properties:
       url:
         type: string
@@ -508,6 +537,7 @@ $defs:
       losuje zestaw wg tematu lub kolekcji i trzyma go w cache. Każde zdjęcie
       pokazuje autora i Unsplash z linkami, czego wymagają wytyczne API Unsplash.
       Bez `query` i `collections` — losowe zdjęcia z całego Unsplash.
+    additionalProperties: false
     properties:
       query:
         type: string
@@ -563,6 +593,7 @@ $defs:
       mniej ważnych kart (przepisy, lista zakupów, kot dnia) na jednej pozycji
       siatki zamiast zajmowania osobnych miejsc.
     required: [slides]
+    additionalProperties: false
     properties:
       slides:
         type: array
@@ -607,6 +638,7 @@ $defs:
       naraz, ułożone w mini-grid. Przydatne np. do stłoczenia kilku małych
       wskaźników (temperatura + wilgotność + wiatr) w jednej karcie.
     required: [cells]
+    additionalProperties: false
     properties:
       columns:
         type: integer
@@ -637,6 +669,7 @@ $defs:
       `slideshow` w całym layoucie i nie wolno go zagnieżdżać w `carousel`,
       `grid` ani `sidebar.content`.
     required: [idleTriggerSeconds, cardIds, intervalSeconds]
+    additionalProperties: false
     properties:
       idleTriggerSeconds:
         type: integer
@@ -669,6 +702,7 @@ $defs:
           Wykrycie NIE identyfikuje osoby, tylko sam ruch/obecność w kadrze;
           obraz z kamery przetwarzany jest lokalnie w przeglądarce, nigdy nie
           jest wysyłany ani zapisywany.
+        additionalProperties: false
         properties:
           enabled:
             type: boolean
@@ -698,6 +732,7 @@ $defs:
   params.clock:
     type: object
     description: Komponent daty/godziny — może stać samodzielnie w gridzie/karuzeli, albo w sidebarze.
+    additionalProperties: false
     properties:
       format:
         type: string
@@ -724,6 +759,7 @@ $defs:
       przełączające, która karta jest aktywna w danym slocie. Nie renderuje
       treści kart samodzielnie — tylko sterowanie, do którego `id` jest teraz aktywne.
     required: [items]
+    additionalProperties: false
     properties:
       items:
         type: array
@@ -731,6 +767,7 @@ $defs:
         items:
           type: object
           required: [cardId, label]
+          additionalProperties: false
           properties:
             cardId:
               type: string
@@ -759,6 +796,7 @@ $defs:
       poziom głośności plus histogram z ostatnich `historyDurationSeconds`.
       Wymaga zgody użytkownika na dostęp do mikrofonu przy pierwszym uruchomieniu
       w przeglądarce (raz na iPada, potem pamiętane przez Safari).
+    additionalProperties: false
     properties:
       historyDurationSeconds:
         type: integer
