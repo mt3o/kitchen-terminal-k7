@@ -304,8 +304,12 @@
 
   .stale { margin: var(--space-2) 0 0; color: var(--warn); font-size: var(--text-sm); }
 
+  /* Head controls wrap inside Card.svelte's wrapping head rather than
+     running past a narrow card's edge (test/phone-horizontal-overflow). */
   .nav {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
     align-items: center;
     gap: var(--space-2);
   }
@@ -322,6 +326,15 @@
     background: var(--border);
   }
   .dot.is-current { background: var(--accent); }
+
+  /* K7Carousel's phone rule, for the same reason: up to twelve dots are
+     wider than a half-width card at 375px, so the nav broke into prev /
+     dots / next on three lines with the dots running into the card's edge.
+     They are redundant with the footer's "3/8", so they are what gives —
+     never the buttons, which carry the touch-target floor. */
+  @media (max-width: 767px) {
+    .dots { display: none; }
+  }
 
   .btn-ghost {
     min-height: var(--control-h-sm);

@@ -117,18 +117,29 @@
   .items {
     display: flex;
     gap: var(--space-2);
-    flex-wrap: wrap;
   }
+  /* One line, never `flex-wrap: wrap`: a multi-line flex container sizes
+     each line to its widest item rather than to itself, so in the 1-of-3
+     column PRZEPISY gives this menu at phone width every item came out as
+     wide as "AUDIOMETR" (135px) in a 91px card body and was cut off by the
+     card's `overflow: hidden`. A single-line column stretches its items to
+     its own width. (Wrapping never bought a second column anyway: that
+     needs a definite height, and this list has none.) */
   .orientation-vertical {
     flex-direction: column;
     align-items: stretch;
   }
   .orientation-horizontal {
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
   }
 
+  /* `max-width: 100%` caps a horizontal item, which is sized by its label,
+     at the menu's width — a vertical one is already stretched to it. */
   .item {
+    box-sizing: border-box;
+    max-width: 100%;
     display: flex;
     align-items: center;
     gap: var(--space-2);
@@ -175,6 +186,29 @@
     font-size: var(--text-xs);
     color: inherit;
     opacity: 0.8;
+  }
+
+  /* A label wider than its item breaks inside it — "AUDIOMETR" is ~100px of
+     tracked text-sm, a 1-of-3 column at 390px leaves ~70px — rather than
+     running out of the item and being cut off. Broken, every letter is
+     still there; an ellipsis would hide the word the item is named for.
+     `break-word`, not `anywhere` (Safari 15.4); it needs `min-width: 0` to
+     act inside a flex item. Left-aligned so a two-line label lines up with
+     the one-line ones instead of centring under a button's default. */
+  .icon-tag,
+  .label {
+    min-width: 0;
+    overflow-wrap: break-word;
+    text-align: left;
+  }
+
+  /* Horizontal padding is what gives at phone width, as in K7Chat's head
+     and composer buttons — min-height, the touch-target floor, does not. */
+  @media (max-width: 767px) {
+    .item {
+      padding-left: var(--space-2);
+      padding-right: var(--space-2);
+    }
   }
 
   .style-tabs.orientation-horizontal {

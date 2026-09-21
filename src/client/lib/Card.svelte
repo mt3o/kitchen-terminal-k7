@@ -133,20 +133,25 @@
 
 <article class="card" bind:this={cardEl}>
   <header class="card-head">
-    <span class="hud-label">{label}</span>
-    <div class="card-head-right">
-      {#if actions}{@render actions()}{:else if meta}<span class="meta">{meta}</span>{/if}
-      {#if fullscreen}
-        <button
-          type="button"
-          class="fullscreen-btn"
-          aria-label={isManuallyMine ? 'zamknij' : 'pelny ekran'}
-          ontouchstart={onPointerDown}
-          onmousedown={onPointerDown}
-          onclick={onActivate}
-        >{isManuallyMine ? '[ x ]' : '[ + ]'}</button>
-      {/if}
+    <div class="card-head-title">
+      <span class="hud-label">{label}</span>
+      {#if meta && !actions}<span class="meta">{meta}</span>{/if}
     </div>
+    {#if actions || fullscreen}
+      <div class="card-head-right">
+        {#if actions}{@render actions()}{/if}
+        {#if fullscreen}
+          <button
+            type="button"
+            class="fullscreen-btn"
+            aria-label={isManuallyMine ? 'zamknij' : 'pelny ekran'}
+            ontouchstart={onPointerDown}
+            onmousedown={onPointerDown}
+            onclick={onActivate}
+          >{isManuallyMine ? '[ x ]' : '[ + ]'}</button>
+        {/if}
+      </div>
+    {/if}
   </header>
 
   <div class="card-body">{@render children?.()}</div>
@@ -190,16 +195,32 @@
     overflow: hidden;
   }
 
+  /* Two zones: the title (label, plus meta when the widget has no actions of
+     its own), which is text and may give way, and the controls, which may
+     not. The row wraps (DESIGN.md §6.1, "rows wrap before they crush"): when
+     the controls do not fit beside the title they drop to a line of their
+     own, right-aligned, and wrap there if they still do not fit. Before
+     this the head could not wrap at all, so at phone width `[ + ]` and
+     K7Chat's MENU/ARCHIWUM/NOWA were pushed past the card edge and cut off
+     by `.card`'s `overflow: hidden` (up to 139px on k7-chat at 390x844). */
   .card-head {
     display: flex;
+    flex-wrap: wrap;
     align-items: baseline;
-    justify-content: space-between;
     gap: var(--space-2);
     border-bottom: var(--border-w) solid var(--border);
     /* An ornamental rule replaces the line when the theme has one; `none`
        otherwise, and the plain border above draws as before. */
     border-image: var(--rule);
     padding-bottom: var(--space-2);
+  }
+
+  .card-head-title {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2);
   }
 
   /* Found during k7-mobile-responsive's real-browser verification: on a
@@ -221,10 +242,18 @@
      own `overflow: hidden` with no ellipsis to show it happened. Truncating
      keeps the head row at one line (the height budget this whole change is
      fighting for) while at least showing that something was cut. */
+  /* Title and controls: the title's flex-basis is 0 here, so its text never
+     decides where the row breaks — label and meta truncate instead, and a
+     head that fitted on one line before still does. Only the controls can
+     push the row onto a second line, and only once the title would get less
+     than its floor: three label-sized ems, about three characters and an
+     ellipsis — enough to say which card this is, and small enough that a
+     half-width card at 375px keeps a lone [ + ] beside its title, as it did
+     before the row could wrap. */
   @media (max-width: 767px) {
     .card { gap: var(--space-1); padding: var(--space-2); }
     .card-head { padding-bottom: var(--space-1); }
-    .card-head-right { min-width: 0; }
+    .card-head-title { flex-basis: 0; min-width: calc(3 * var(--text-sm)); }
     .hud-label, .meta {
       min-width: 0;
       overflow: hidden;
@@ -233,14 +262,22 @@
     }
   }
 
-  /* Groups actions/meta with the fullscreen button so `.card-head` still
-     only ever has two flex children for `justify-content: space-between` to
-     pack apart — a third top-level child would float in the middle of the
-     remaining space instead of sitting next to the other header controls. */
+  /* The controls: a widget's own actions, then the fullscreen button. Only
+     controls — meta lives in the title, since it truncates and a control
+     never does. `min-width: 0` lets the group, once it is alone on its line
+     and still too wide, narrow to the card and wrap its controls instead of
+     overflowing; the controls themselves keep their natural size. A widget
+     whose actions are a group of several controls has to let that group
+     wrap too (test/phone-horizontal-overflow.test.ts), or the group is as
+     wide as all of them together. */
   .card-head-right {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
     align-items: center;
     gap: var(--space-2);
+    margin-left: auto;
+    min-width: 0;
   }
 
   /* Same ghost-button recipe as the shell header's `.hud-button` (app.css) —
@@ -263,10 +300,11 @@
     border-radius: var(--radius);
     cursor: pointer;
     /* Its own label is literally "[ + ]" / "[ x ]" — plain text with spaces
-       in it, so once .card-head-right's phone-width min-width: 0 let this
-       button shrink below its natural size, the browser wrapped it onto
-       three lines at the spaces instead of just staying one line and
-       letting the label/meta beside it lose the truncation contest. */
+       in it, so once .card-head-right's min-width: 0 let this button shrink
+       below its natural size, the browser wrapped it onto three lines at the
+       spaces instead of just staying one line and letting the label/meta
+       beside it lose the truncation contest. Not shrinking is only safe
+       because the head row wraps: it moves to another line instead. */
     flex-shrink: 0;
     white-space: nowrap;
   }
