@@ -22,7 +22,8 @@ import { runMigrations } from './db/migrate.ts'
 import { initObservability, Sentry } from './observability.ts'
 import { createScrubber } from './redact.ts'
 import { importRecipeFromUrl, RecipeImportError } from './recipes/import.ts'
-import { generateTokensCss, type Theme } from './theme/generate.ts'
+import { generateTokensCss, themeAssetPaths, type Theme } from './theme/generate.ts'
+import { assetVersion, assetVersions, resolveThemeAsset, themeAssetUrl } from './theme/assets.ts'
 import { isAllowedHost, isFetchableUrl, isPrivateAddress } from './security/network.ts'
 import { createCloudflareDns } from './tls/cloudflare.ts'
 import { ensureCertificate } from './tls/certificate.ts'
@@ -243,22 +244,59 @@ async function loadLayout(): Promise<NormalisedLayout> {
  * never cached by design. It is still generated per request, so editing a theme
  * file needs no restart — the same rule the layout follows.
  */
+/** The theme the layout names, and the directory its files are relative to. */
+async function loadTheme(): Promise<{ theme: Theme; dir: string }> {
+  const layout = await loadLayout()
+  const themePath = resolve(ROOT, layout.theme)
+  return { theme: parse(await readFile(themePath, 'utf8')) as Theme, dir: dirname(themePath) }
+}
+
 app.get('/theme.css', async (_req, reply) => {
   try {
-    const layout = await loadLayout()
-    const themePath = resolve(ROOT, layout.theme)
-    const theme = parse(await readFile(themePath, 'utf8')) as Theme
+    const { theme, dir } = await loadTheme()
+    // Asset URLs carry a content hash, so the pictures and fonts can be cached
+    // hard while this sheet, which names them, stays uncached.
+    const versions = await assetVersions(dir, themeAssetPaths(theme))
+    const css = generateTokensCss(theme, { assetUrl: (path) => themeAssetUrl(path, versions.get(path)) })
     return reply
       .type('text/css; charset=utf-8')
       // No long cache: the whole point is that changing the file changes the
       // design. The service worker holds a copy for the offline case.
       .header('cache-control', 'no-cache')
-      .send(generateTokensCss(theme))
+      .send(css)
   } catch (err) {
     // A stylesheet that 500s leaves an unstyled kiosk, which is worse than an
     // old one; but there is nothing to fall back to here, so say it plainly.
     req_log_error(err)
     return reply.code(500).type('text/css').send(`/* theme unavailable: ${err instanceof Error ? err.message : 'unknown'} */`)
+  }
+})
+
+/**
+ * The active theme's own files — fonts, background pictures, ornaments. Only
+ * paths the theme names are served (see theme/assets.ts); everything else in its
+ * directory, the YAML included, is a 404.
+ */
+app.get<{ Params: { '*': string }; Querystring: { v?: string } }>('/theme-assets/*', async (req, reply) => {
+  try {
+    const { theme, dir } = await loadTheme()
+    const asset = resolveThemeAsset(dir, req.params['*'], themeAssetPaths(theme))
+    if (!asset) return reply.code(404).send({ error: 'not a theme asset' })
+    const bytes = await readFile(asset.file)
+    // Immutable only when the URL's version is these bytes' version. A stale
+    // `?v=` still gets the current file, but not permission to keep it.
+    const current = req.query.v !== undefined && req.query.v === assetVersion(bytes)
+    reply
+      .type(asset.type)
+      .header('cache-control', current ? 'public, max-age=31536000, immutable' : 'no-cache')
+      .header('x-content-type-options', 'nosniff')
+    // An SVG opened directly is a document in this origin. Ornaments need no
+    // script and no network, so they are given neither.
+    if (asset.type === 'image/svg+xml') reply.header('content-security-policy', "default-src 'none'; style-src 'unsafe-inline'")
+    return reply.send(bytes)
+  } catch (err) {
+    req_log_error(err)
+    return reply.code(404).send({ error: 'theme asset unavailable' })
   }
 })
 

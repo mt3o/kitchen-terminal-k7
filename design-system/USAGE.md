@@ -63,3 +63,17 @@ layout.yaml
 `daylight-lab.yaml` is a deliberate stress test: light, rounded, cool blue, no
 HUD frame, no cursor. Swap to it and nothing should still render amber or
 square. Anything that does is a component breaking the token contract.
+
+`steampunk-brass.yaml` is the other direction: it uses every optional slot —
+self-hosted `fontFaces`, a `monoFontFamily`, a script `display` face for
+titles, and `ornament` (page and card background pictures, a brass
+`border-image` frame and rule). Its page background is a list per mode — six
+machinery photos for dark/night, six papers and engraved maps for light —
+rotated hourly by `src/client/lib/backdrop.ts`; `backdropEveryMinutes: 1440`
+makes it a picture of the day. Its files live beside it in
+`themes/steampunk-brass/` and are served from `/theme-assets/`, versioned by
+content hash. Each slot's default is "as before", so a theme that omits them —
+retro, daylight — renders exactly as it did.
+
+To try a theme on one machine without committing, set `theme:` in the
+gitignored `layout.local.yaml`; it overrides `layout.yaml`'s.

@@ -1,0 +1,221 @@
+# Kitchen Terminal K7 — theme: "Steampunk Brass"
+#
+# A gaslit Victorian workshop instead of a phosphor HUD: brass and mahogany in
+# dark mode, a patent-office parchment in light mode, the same brass turned
+# down for night. Point layout.yaml (or layout.local.yaml, to try it on one
+# machine without committing) at this file:
+#
+#   theme: "design-system/themes/steampunk-brass.yaml"
+#
+# Beyond colours and shape, it uses the optional slots the other themes leave
+# empty, each of which defaults to "looks exactly like before":
+#
+#   typography.fontFaces       self-hosted woff2 — the kiosk has no route to a font CDN
+#   typography.monoFontFamily  a real monospace, because the UI face here is not one
+#   typography.display         the title face: a copperplate script for card titles
+#   colors.display             the title ink
+#   ornament                   background pictures and brass border-images
+#
+# Files are named relative to this YAML, under steampunk-brass/, and are served
+# by /theme-assets/ — only the ones named here. Credits and licences:
+# steampunk-brass/CREDITS.md.
+#
+# Palette: OKLCH-derived, AA verified per mode. Ratios are against that mode's
+# `surface`; light mode's cards are a paper photograph, so its foregrounds were
+# also checked against the darkest 0.5% of that photo (lowest: warn 4.85).
+# `warn` sits >= 28 degrees of hue away from the brass `accent` in every mode.
+
+name: "Steampunk Brass"
+schemaVersion: 2
+
+typography:
+  # Old Standard TT: a revival of the late-19th-century "Modern" book face. Its
+  # figures are tabular by default, so a clock set in it does not shimmy every
+  # minute, and its x-height (0.456 em) is within 6 % of Source Code Pro's, so
+  # the reading-distance table in DESIGN.md §4.2 still roughly holds.
+  fontFamily: "'Old Standard TT', Baskerville, Georgia, 'Times New Roman', serif"
+  baseSizePx: 20
+  letterSpacingLabelsPx: 1.5
+  scale:
+    read:   { xs: 14, sm: 16, base: 20, lg: 24, xl: 32 }
+    glance: { sm: 48, md: 72, lg: 112 }
+  # The face ships 400 and 700 only. Medium is stated as 400 rather than left
+  # at 500 for the browser to round — the result is the same, but written down.
+  weights: { regular: 400, medium: 400, bold: 700 }
+  # ASCII art and the weather glyph are drawn in character cells, which a serif
+  # book face does not have. Courier Prime: a typewriter, so the columns line up
+  # and the machine still looks like it belongs in the same century.
+  monoFontFamily: "'Courier Prime', 'Courier New', Courier, monospace"
+
+  fontFaces:
+    - { family: "Old Standard TT", weight: 400, src: "steampunk-brass/fonts/old-standard-tt-400-latin.woff2",
+        unicodeRange: "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD" }
+    - { family: "Old Standard TT", weight: 400, src: "steampunk-brass/fonts/old-standard-tt-400-latin-ext.woff2",
+        unicodeRange: "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF" }
+    - { family: "Old Standard TT", weight: 700, src: "steampunk-brass/fonts/old-standard-tt-700-latin.woff2",
+        unicodeRange: "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD" }
+    - { family: "Old Standard TT", weight: 700, src: "steampunk-brass/fonts/old-standard-tt-700-latin-ext.woff2",
+        unicodeRange: "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF" }
+    - { family: "Courier Prime", weight: 400, src: "steampunk-brass/fonts/courier-prime-400-latin.woff2",
+        unicodeRange: "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD" }
+    - { family: "Courier Prime", weight: 400, src: "steampunk-brass/fonts/courier-prime-400-latin-ext.woff2",
+        unicodeRange: "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF" }
+    - { family: "Petit Formal Script", weight: 400, src: "steampunk-brass/fonts/petit-formal-script-400-latin.woff2",
+        unicodeRange: "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD" }
+    - { family: "Petit Formal Script", weight: 400, src: "steampunk-brass/fonts/petit-formal-script-400-latin-ext.woff2",
+        unicodeRange: "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF" }
+
+  # Titles only — card titles, the shell's name, dialog headings. Petit Formal
+  # Script was picked over Great Vibes, Pinyon Script, Parisienne and Alex Brush
+  # on legibility at 24px: the largest x-height of the five, and the only one
+  # besides Great Vibes whose Polish ł rendered correctly. Script set in capitals
+  # is unreadable, and the titles are written in capitals (LOG.WYDARZENIA), so
+  # they are lowercased here and the first letter capitalised back.
+  display:
+    fontFamily: "'Petit Formal Script', 'Snell Roundhand', 'Apple Chancery', cursive"
+    sizePx: 24
+    weight: 400
+    case: lowercase
+    letterSpacingPx: 0
+
+colors:
+  # --- surfaces: mahogany / patent parchment / banked coals ----------------
+  background:     { light: "#ede2c8", dark: "#140d08", night: "#060302" }
+  backgroundDeep: { light: "#e0d1ae", dark: "#0b0704", night: "#030101" }
+  surface:        { light: "#f1e8d4", dark: "#221710", night: "#0d0805" }
+  surfaceRaised:  { light: "#fbf6ea", dark: "#2e2016", night: "#160e09" }
+  surfaceSunken:  { light: "#e9dec6", dark: "#190f09", night: "#070403" }
+
+  # --- text: sepia ink / gaslit cream ---------------------------------------
+  textPrimary:  { light: "#2a1c10", dark: "#f0e0c0", night: "#b39a70" }   # 13.55 / 13.46 / 7.37
+  textMuted:    { light: "#6a4f33", dark: "#c2a67e", night: "#957d5c" }   #  6.20 /  7.55 / 5.09
+  textDisabled: { light: "#a38f73", dark: "#6f5a44", night: "#46382a" }
+
+  # --- structure -------------------------------------------------------------
+  border:       { light: "#d8c6a2", dark: "#4a3423", night: "#271b12" }   # texture, below 3:1
+  borderStrong: { light: "#8a5a1e", dark: "#b3863f", night: "#85622f" }   #  4.84 /  5.34 / 3.59
+
+  # --- accent: polished brass --------------------------------------------------
+  accent:   { light: "#7a5006", dark: "#dcaa4c", night: "#a67c33" }       #  5.79 /  8.26 / 5.27
+  accentFg: { light: "#fbf6ea", dark: "#1a1009", night: "#060302" }       #  6.77 /  8.82 / 5.43 on accent
+
+  # --- signal: verdigris, the patina copper grows. Good and settled. --------
+  accentSecondary: { light: "#1d6955", dark: "#72c2a6", night: "#4a8c75" }
+  signal:          { light: "#1d6955", dark: "#72c2a6", night: "#4a8c75" }  # 5.38 / 8.33 / 5.03
+
+  # --- status: hot copper and boiler red ---------------------------------------
+  warn:   { light: "#a33f0c", dark: "#ec8a4e", night: "#b56a3d" }         #  5.26 /  6.94 / 4.83
+  danger: { light: "#a1261a", dark: "#f0685a", night: "#cd5f51" }         #  6.14 /  5.70 / 5.08
+  focus:  { light: "#1d6955", dark: "#86d6ba", night: "#579f86" }
+
+  # --- titles: engraved copper on paper, brass on wood ------------------------
+  display: { light: "#7a3c0e", dark: "#dcaa4c", night: "#a67c33" }        #  6.95 /  8.26 / 5.27
+
+states:
+  accentHover:  { light: "#654204", dark: "#f0c46a", night: "#bd9044" }
+  accentActive: { light: "#533602", dark: "#bb8a30", night: "#98712c" }   # accentFg keeps >= 4.63 on every one
+  ghostHover:   { light: "#e8dcc2", dark: "#34251a", night: "#1a110b" }
+  ghostActive:  { light: "#ddcfb0", dark: "#150d07", night: "#050302" }
+
+shape:
+  borderRadiusPx: 3       # a brass plate's eased edge, not an app's rounded card
+  borderWidthPx: 1
+  borderWidthStrongPx: 2  # under the brass frame; shows only where the image does not
+  hudBrackets: false
+
+spacing:
+  basePx: 4
+  gridGapPx: 12
+  cardPaddingPx: 24       # 20 + room for the 22px frame's corner brackets
+  cardMinHeightPx: 240
+
+controls:     { heightPx: 56, heightSmallPx: 44, focusRingWidthPx: 3, focusRingOffsetPx: 2 }
+layout:       { targetViewportPx: 1024, sidebarWidthPx: 260, breakpointTabletPx: 768, breakpointDesktopPx: 1024 }
+motion:       { fastMs: 120, baseMs: 200, slowMs: 400, easing: "cubic-bezier(0.2, 0, 0, 1)", blinkPeriodMs: 1200 }
+nightMode:    { enabled: true, trigger: sun, startTime: "22:00", endTime: "06:00" }
+density:      { default: normal, largeScaleFactor: 1.2 }
+
+# Every picture is a static background layer: painted once, never animated, and
+# the cards stay opaque, so the pager slides one opaque layer over a still one.
+ornament:
+  # The page: a set of backdrops, rotated by the clock — machinery in dark
+  # (and night, under a heavier veil), sepia paper and engraved maps in light.
+  # Every picture was normalised to the same level (dark: 95th-percentile
+  # luminance 0.17; light: re-inked in one sepia ramp) so the rotation changes
+  # the subject, never the contrast. Each mode's list rotates on its own; a
+  # shorter list simply wraps.
+  #
+  # The overlay is two px-stopped bands for the header and footer text, which
+  # sits directly on the picture. Gradients rather than baked into the photos,
+  # so they stay under that text at any aspect ratio `cover` crops to, and on
+  # every backdrop. Measured on the rendered page for every backdrop, text
+  # hidden, worst background pixel under each header/footer string at
+  # 1024x768: every one clears 4.5:1 (see change k7-steampunk-theme).
+  pageOverlay:
+    dark: >-
+      linear-gradient(to bottom, rgba(11, 7, 4, 0.94) 0, rgba(11, 7, 4, 0.7) 64px, rgba(11, 7, 4, 0) 128px),
+      linear-gradient(to top, rgba(11, 7, 4, 0.94) 0, rgba(11, 7, 4, 0.7) 60px, rgba(11, 7, 4, 0) 120px)
+    light: >-
+      linear-gradient(to bottom, rgba(237, 226, 200, 0.97) 0, rgba(237, 226, 200, 0.9) 64px, rgba(237, 226, 200, 0) 128px),
+      linear-gradient(to top, rgba(237, 226, 200, 0.97) 0, rgba(237, 226, 200, 0.9) 60px, rgba(237, 226, 200, 0) 120px)
+    night: >-
+      linear-gradient(to bottom, rgba(6, 3, 2, 0.97) 0, rgba(6, 3, 2, 0.9) 64px, rgba(6, 3, 2, 0.8) 128px),
+      linear-gradient(to top, rgba(6, 3, 2, 0.97) 0, rgba(6, 3, 2, 0.9) 60px, rgba(6, 3, 2, 0.8) 120px)
+
+  pageBackground:
+    dark:   # night has no list of its own, so it rotates through these too
+      - 'asset("steampunk-brass/images/clockwork.jpg") center / cover no-repeat'
+      - 'asset("steampunk-brass/images/gauges.jpg") center / cover no-repeat'
+      - 'asset("steampunk-brass/images/locomotive.jpg") center / cover no-repeat'
+      - 'asset("steampunk-brass/images/gold-gears.jpg") center / cover no-repeat'
+      - 'asset("steampunk-brass/images/brass-gears.jpg") center / cover no-repeat'
+      - 'asset("steampunk-brass/images/lone-gear.jpg") center / cover no-repeat'
+    light:
+      - 'asset("steampunk-brass/images/parchment.jpg") center / cover no-repeat'
+      - 'asset("steampunk-brass/images/map-hemispheres.jpg") center / cover no-repeat'
+      - 'asset("steampunk-brass/images/compass-paper.jpg") center / cover no-repeat'
+      - 'asset("steampunk-brass/images/map-1880.jpg") center / cover no-repeat'
+      - 'asset("steampunk-brass/images/map-mountains.jpg") center / cover no-repeat'
+      - 'asset("steampunk-brass/images/map-old-world.jpg") center / cover no-repeat'
+
+  # A new backdrop every hour, counted from local midnight, so the wall shows
+  # the same picture to everyone at the same time. 1440 = a picture of the day.
+  backdropEveryMinutes: 60
+
+  # The cards: a faint gear engraved in the lower-right corner over a mahogany
+  # sheen (dark) or a sheet of old paper (light). The gear is 16 % brass stroke;
+  # it tints the surface without moving any text ratio below the ones above.
+  cardBackground:
+    dark: >-
+      asset("steampunk-brass/ornaments/gear.svg") right -64px bottom -64px / 240px 240px no-repeat,
+      linear-gradient(to bottom, rgba(255, 226, 170, 0.04), rgba(0, 0, 0, 0.16))
+    light: >-
+      asset("steampunk-brass/ornaments/gear.svg") right -64px bottom -64px / 240px 240px no-repeat,
+      asset("steampunk-brass/images/paper.jpg") center / cover no-repeat
+    night: >-
+      linear-gradient(to bottom, rgba(255, 226, 170, 0.02), rgba(0, 0, 0, 0.2))
+
+  # A riveted brass frame, nine-sliced: 32-unit corner brackets, bars that
+  # stretch. Drawn inside the card's own border box, so the layout does not move.
+  cardFrame:
+    dark:  'asset("steampunk-brass/ornaments/frame.svg") 32 / 22px / 0 stretch'
+    light: 'asset("steampunk-brass/ornaments/frame.svg") 32 / 22px / 0 stretch'
+    night: 'asset("steampunk-brass/ornaments/frame-night.svg") 32 / 22px / 0 stretch'
+
+  # The divider under the header and each card title: a riveted brass strip,
+  # tiled along the bottom edge only, and pushed 5px out so it straddles the
+  # line the plain border used to draw.
+  rule:
+    dark:  'asset("steampunk-brass/ornaments/rule.svg") 0 0 14 0 / 0 0 12px 0 / 0 0 5px 0 round'
+    light: 'asset("steampunk-brass/ornaments/rule.svg") 0 0 14 0 / 0 0 12px 0 / 0 0 5px 0 round'
+    night: 'asset("steampunk-brass/ornaments/rule-night.svg") 0 0 14 0 / 0 0 12px 0 / 0 0 5px 0 round'
+
+transparency:
+  surfaceOpacity: 1
+  backdropBlurPx: 4       # scrim only, never per card
+
+boxShadow: []             # depth is painted into the brass, not composited
+
+effects:
+  blinkingCursor: true
+  scanlines: false

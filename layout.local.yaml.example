@@ -6,7 +6,12 @@
 # loadLayout()) — a deep merge, so this file only needs to state what it
 # adds or changes, not repeat layout.yaml's structure.
 #
-# Right now the only supported key is `calendarAdditions`: extra `Calendar`
+# Plain top-level keys override layout.yaml's. The useful one is `theme`:
+# try a different theme on one machine without committing it.
+#
+#   theme: "design-system/themes/steampunk-brass.yaml"
+#
+# The one additive key is `calendarAdditions`: extra `Calendar`
 # entries (docs/handoff/layout.schema.yaml's `params.calendar.calendars`
 # item shape) appended to a `type: calendar` card's own `calendars` list,
 # keyed by that card's `id` in layout.yaml. Use this for calendar ids you

@@ -20,6 +20,7 @@ mode and the interaction-state layer are new.
 | `theme.schema.v2.yaml` | Proposed superset of the existing `theme.schema.yaml`. |
 | `themes/retro-scifi.yaml` | The canonical theme, v2 format. |
 | `themes/daylight-lab.yaml` | A second theme, present to prove the swap actually works. |
+| `themes/steampunk-brass.yaml` | A decorated theme: self-hosted fonts, a script title face, background photographs, brass frames. Its files are in `themes/steampunk-brass/`. |
 | `kitchen-terminal-k7-kit.html` | The component kit. Open it; it is the real spec. |
 
 ---
@@ -177,9 +178,11 @@ If the three static faces become tiresome to cache, Source Code Variable ships
 the same design as one variable woff2 and Safari has supported variable fonts
 since 11. That is a packaging choice, not a redesign, and it is not made here.
 
-There is **no second display face**. Hierarchy comes from size, weight and
-tracking only. In a data-dense utility interface a decorative face is noise, and
-mixing two monos is worse than using one.
+There is **no second display face** in this theme. Hierarchy comes from size,
+weight and tracking only. In a data-dense utility interface a decorative face is
+noise, and mixing two monos is worse than using one. (The theme *contract* has a
+`display` slot for titles since 2026-09-21 — see §10 — and this theme leaves it
+empty, which is what keeps its titles plain HUD labels.)
 
 ### 4.2 Two tiers, set by viewing distance
 
@@ -368,6 +371,26 @@ zaszywają kolorów/fontów na sztywno."* Concretely:
    `themes/daylight-lab.yaml` exists so this claim is testable, not aspirational.
 4. Lint it. A CI grep for `#[0-9a-fA-F]{3,6}` outside `tokens.css` is enough to
    keep the contract honest, and it belongs in the Faza 0 CI job.
+
+**Optional slots, added 2026-09-21 for `steampunk-brass.yaml`.** A theme may
+also name self-hosted `fontFaces`, a `monoFontFamily`, a `display` face and
+`colors.display` ink for titles, and an `ornament` block — page and card
+background pictures, and `border-image` values for the card frame and the
+divider rule. Every slot's default is the value the components already used
+(titles = HUD labels, `--page-bg` = `--bg`, `--card-bg` = `--surface`, frame and
+rule `none`), so a theme that omits them renders pixel-for-pixel as before;
+retro was checked that way against screenshots. Theme files are served from
+`/theme-assets/` — only the ones the active theme names, with a content-hash
+`?v=` — so a picture change arrives on the next load without a worker update.
+The page background may be a *list* of backdrops: the client picks one from the
+local clock (`backdropEveryMinutes`, from midnight, so every screen agrees),
+decodes the next before swapping it in, and keeps the current one if the next
+cannot load. The swap is one attribute change and one repaint — never a
+transition, which would repaint the page every frame.
+The rules in §4.1 and §5 (one face, radius 0, no ornament) are this theme's
+design, not the contract's; what the contract still forbids everywhere is a
+component naming a colour, face, radius, border or picture itself, and any
+animated or translucent card layer (§9, §11) — ornament is static paint.
 
 `theme.schema.v2.yaml` is a strict superset of the existing schema — every
 current `retro-scifi.yaml` still validates. It adds: a `night` mode alongside

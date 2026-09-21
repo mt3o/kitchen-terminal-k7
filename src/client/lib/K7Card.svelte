@@ -62,8 +62,12 @@
     height: 100%;
     min-height: var(--card-min-h);
     padding: var(--card-pad);
-    background: var(--surface);
+    /* --card-bg and --card-frame are a theme's pictures and brass: a flat
+       surface and no frame image unless the theme supplies them, which is
+       exactly the plain card this always was. */
+    background: var(--card-bg);
     border: var(--border-w-strong) solid var(--border-strong);
+    border-image: var(--card-frame);
     border-radius: var(--radius);
     color: var(--fg);
     font-family: var(--font-ui);
@@ -77,6 +81,9 @@
     justify-content: space-between;
     gap: var(--space-2);
     border-bottom: var(--border-w) solid var(--border);
+    /* An ornamental rule replaces the line when the theme has one; `none`
+       otherwise, and the plain border above draws as before. */
+    border-image: var(--rule);
     padding-bottom: var(--space-2);
   }
 
@@ -101,13 +108,19 @@
   .card-body { flex: 1 1 auto; min-height: 0; }
   .card-foot { display: flex; justify-content: flex-end; }
 
+  /* The card's title. Set in the theme's display face — which, unless a theme
+     names one, is the HUD label exactly: UI face, --text-sm, uppercase, tracked,
+     muted. The first letter is capitalised so a theme that lowercases titles
+     (script is unreadable in capitals) still starts them with a capital. */
   .hud-label {
-    font-size: var(--text-sm);
-    font-weight: var(--weight-medium);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-label);
-    color: var(--fg-muted);
+    font-family: var(--font-display);
+    font-size: var(--display-size);
+    font-weight: var(--display-weight);
+    text-transform: var(--display-case);
+    letter-spacing: var(--display-tracking);
+    color: var(--fg-display);
   }
+  .hud-label::first-letter { text-transform: uppercase; }
 
   .meta {
     font-size: var(--text-xs);
