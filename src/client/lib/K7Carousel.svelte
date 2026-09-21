@@ -253,8 +253,12 @@
     transition: none;
   }
 
+  /* Head controls wrap inside Card.svelte's wrapping head rather than
+     running past a narrow card's edge (test/phone-horizontal-overflow). */
   .nav {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
     align-items: center;
     gap: var(--space-2);
   }

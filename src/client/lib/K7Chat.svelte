@@ -1262,16 +1262,18 @@
 </script>
 
 <Card label="CZAT.AI" {meta} state={cardState} fullscreen>
+  <!-- No wrapper: the buttons sit in Card.svelte's controls group as
+       siblings of its [ + ], so at phone width the four wrap as one flow
+       (MENU ARCHIWUM / NOWA [ + ]). Grouped in a div of their own they
+       wrapped as a block and left [ + ] a line to itself. -->
   {#snippet actions()}
-    <div class="head-actions">
-      {#if view === 'chat'}
-        <button type="button" class="btn-ghost btn-sm" onclick={openCommandMenu}>MENU</button>
-        <button type="button" class="btn-ghost btn-sm" onclick={() => void openArchive()} disabled={busy}>ARCHIWUM</button>
-      {:else}
-        <button type="button" class="btn-ghost btn-sm" onclick={() => (view = 'chat')}>WROC</button>
-      {/if}
-      <button type="button" class="btn-ghost btn-sm" onclick={startNewConversation}>NOWA</button>
-    </div>
+    {#if view === 'chat'}
+      <button type="button" class="btn-ghost btn-sm head-action" onclick={openCommandMenu}>MENU</button>
+      <button type="button" class="btn-ghost btn-sm head-action" onclick={() => void openArchive()} disabled={busy}>ARCHIWUM</button>
+    {:else}
+      <button type="button" class="btn-ghost btn-sm head-action" onclick={() => (view = 'chat')}>WROC</button>
+    {/if}
+    <button type="button" class="btn-ghost btn-sm head-action" onclick={startNewConversation}>NOWA</button>
   {/snippet}
 
   <div class="wrap">
@@ -1512,11 +1514,6 @@
     height: 100%;
     min-height: 0;
     gap: var(--space-3);
-  }
-
-  .head-actions {
-    display: flex;
-    gap: var(--space-2);
   }
 
   .model-picker {
@@ -2012,7 +2009,7 @@
      DESIGN.md §6) is untouched. */
   @media (max-width: 767px) {
     .composer button,
-    .head-actions button {
+    .head-action {
       padding-left: var(--space-2);
       padding-right: var(--space-2);
     }
