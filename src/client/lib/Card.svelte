@@ -17,6 +17,10 @@
     state?: 'ok' | 'warn' | 'fail' | 'idle'
     /** Rendered right of the label row; for a widget's own controls. */
     actions?: Snippet
+    /** A widget's row of several controls. Beside the title where there is
+     *  room; at phone width a row of its own under the title, so [ + ] stays
+     *  up beside the label instead of wrapping in after the toolbar. */
+    toolbar?: Snippet
     children?: Snippet
     /** Opt-in: renders a header button that promotes this card's own
      *  widget to fullscreen via fullscreen-lock.ts, the same mechanism the
@@ -28,7 +32,7 @@
   // `state` turns every `$state(...)` rune in this file into Svelte's
   // store-subscription syntax, and the compiler blames the runes rather than
   // the name (same gotcha K7Calendar.svelte's own `cardState` works around).
-  let { label, meta = '', state: cardStatus = 'idle', actions, children, fullscreen = false }: Props = $props()
+  let { label, meta = '', state: cardStatus = 'idle', actions, toolbar, children, fullscreen = false }: Props = $props()
 
   // Colour never carries state alone: a wall display is read at an angle, in
   // sunlight, by people with colour-vision deficiency, through a greasy
@@ -135,8 +139,9 @@
   <header class="card-head">
     <div class="card-head-title">
       <span class="hud-label">{label}</span>
-      {#if meta && !actions}<span class="meta">{meta}</span>{/if}
+      {#if meta && !actions && !toolbar}<span class="meta">{meta}</span>{/if}
     </div>
+    {#if toolbar}<div class="card-head-toolbar">{@render toolbar()}</div>{/if}
     {#if actions || fullscreen}
       <div class="card-head-right">
         {#if actions}{@render actions()}{/if}
@@ -157,7 +162,7 @@
   <div class="card-body">{@render children?.()}</div>
 
   <footer class="card-foot">
-    {#if meta && actions}<span class="meta">{meta}</span>{/if}
+    {#if meta && (actions || toolbar)}<span class="meta">{meta}</span>{/if}
     <span class="badge badge-{cardStatus}">{glyph}</span>
   </footer>
 </article>
@@ -278,6 +283,26 @@
     gap: var(--space-2);
     margin-left: auto;
     min-width: 0;
+  }
+
+  /* A toolbar sits before the controls group in the DOM, so where both fit
+     beside the title the row reads title … toolbar [ + ]: the toolbar takes
+     the push to the right and the group follows it directly. At phone width
+     it moves to a row of its own under the title (order + a full-row basis),
+     leaving [ + ] beside the label, and wraps there like any group. */
+  .card-head-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: var(--space-2);
+    margin-left: auto;
+    min-width: 0;
+  }
+  .card-head-toolbar + .card-head-right { margin-left: 0; }
+  @media (max-width: 767px) {
+    .card-head-toolbar { order: 1; flex-basis: 100%; }
+    .card-head-toolbar + .card-head-right { margin-left: auto; }
   }
 
   /* Same ghost-button recipe as the shell header's `.hud-button` (app.css) —

@@ -62,7 +62,6 @@
     helpText,
     initialFormValues,
     linkDurations,
-    matchCommands,
     missingFields,
     parseDuration,
     parseInput,
@@ -325,7 +324,6 @@
   let meta = $derived(
     costToday === undefined ? selectedModel : `${selectedModel} | dziś: $${costToday.toFixed(4)}`,
   )
-  let chips = $derived(matchCommands(input))
 
   let inputEl = $state<HTMLInputElement | undefined>(undefined)
 
@@ -1229,18 +1227,7 @@
     submit()
   }
 
-  function onChip(command: ChatCommand): void {
-    if (command.argsRequired) {
-      input = `/${command.name} `
-      inputEl?.focus()
-      return
-    }
-    if (busy) return
-    input = ''
-    void runCommand(command, '')
-  }
-
-  /** A sideways drag on the chip row scrolls the chips; it is not a page swipe (see K7Carousel). */
+  /** A sideways drag on a form's suggestion chips scrolls them; it is not a page swipe (see K7Carousel). */
   const keepSwipe = (e: TouchEvent): void => e.stopPropagation()
 
   $effect(() => {
@@ -1262,11 +1249,10 @@
 </script>
 
 <Card label="CZAT.AI" {meta} state={cardState} fullscreen>
-  <!-- No wrapper: the buttons sit in Card.svelte's controls group as
-       siblings of its [ + ], so at phone width the four wrap as one flow
-       (MENU ARCHIWUM / NOWA [ + ]). Grouped in a div of their own they
-       wrapped as a block and left [ + ] a line to itself. -->
-  {#snippet actions()}
+  <!-- A toolbar, not actions: at phone width Card.svelte gives it a row of
+       its own under the title, so [ + ] stays up beside CZAT.AI rather than
+       wrapping in after NOWA on a line of its own. -->
+  {#snippet toolbar()}
     {#if view === 'chat'}
       <button type="button" class="btn-ghost btn-sm head-action" onclick={openCommandMenu}>MENU</button>
       <button type="button" class="btn-ghost btn-sm head-action" onclick={() => void openArchive()} disabled={busy}>ARCHIWUM</button>
@@ -1462,21 +1448,6 @@
         {#if failed}
           <p class="stale">[!] {errorText || 'wiadomosc nie zostala wyslana'}</p>
         {/if}
-      </div>
-
-      <div
-        class="chips"
-        role="group"
-        aria-label="polecenia"
-        ontouchstart={keepSwipe}
-        ontouchmove={keepSwipe}
-        ontouchend={keepSwipe}
-      >
-        {#each chips as c (c.name)}
-          <button type="button" class="chip" title={c.summary} disabled={busy && !c.argsRequired} onclick={() => onChip(c)}>
-            /{c.name}
-          </button>
-        {/each}
       </div>
 
       <form class="composer" onsubmit={onSubmit}>
@@ -1883,8 +1854,8 @@
     border: var(--border-w) solid var(--fail);
   }
 
-  /* One line of command chips, scrolled sideways rather than wrapped, so it
-     never grows into the log's space on a half-width card. */
+  /* One line of suggestion chips under a form field, scrolled sideways
+     rather than wrapped, so it never grows the form on a half-width card. */
   .chips {
     flex: 0 0 auto;
     display: flex;
@@ -1983,6 +1954,16 @@
     min-height: var(--control-h-sm);
     padding: var(--space-1) var(--space-3);
     font-size: var(--text-sm);
+  }
+
+  /* The card-head row (MENU / ARCHIWUM / NOWA) a step smaller than other
+     .btn-sm: smaller type, tighter sides and a hairline border, so the row
+     reads as quiet chrome next to the card title. The height stays at
+     --control-h-sm — the touch-target floor (DESIGN.md §6) is not what gives. */
+  .head-action {
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--text-xs);
+    border-width: var(--border-w);
   }
 
   /* Recording state: colour never carries this alone — the label itself

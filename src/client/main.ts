@@ -26,7 +26,8 @@ import { createChangelogUi } from './lib/changelog.ts'
 import { createIssueLogUi } from './lib/issue-log.ts'
 import { installErrorReporting } from './lib/error-reporter.ts'
 import { createThemeToggleUi } from './lib/theme-toggle.ts'
-import { createThemePickerUi } from './lib/theme-picker.ts'
+import { createThemePickerUi, SESSION_KEY as THEME_SESSION_KEY } from './lib/theme-picker.ts'
+import { createShellMenuUi } from './lib/shell-menu.ts'
 import { createBackdropRotation } from './lib/backdrop.ts'
 import { createPullToRefresh } from './lib/pull-refresh.ts'
 import { createPager, type Pager } from './lib/pager.ts'
@@ -85,10 +86,14 @@ let chatCalendars: { id: string; name?: string }[] = []
 let layoutCalendars: { calendars: NormalisedLayout['calendars']; main: string[] } = { calendars: [], main: [] }
 let slideshowController: SlideshowController | undefined
 const status = document.getElementById('status')
+const statusText = document.getElementById('status-text')
 const foot = document.getElementById('foot')
+const footTheme = document.getElementById('foot-theme')
+/** Set once the theme picker has named the theme on screen; boot() stops guessing then. */
+let footThemeKnown = false
 
 function setStatus(text: string, ok: boolean): void {
-  if (status) status.textContent = `STATUS: ${text}`
+  if (statusText) statusText.textContent = text
   if (status) status.style.color = ok ? 'var(--signal)' : 'var(--fail)'
 }
 
@@ -596,6 +601,17 @@ async function boot(): Promise<void> {
       const pagesLabel = layout.pages.length > 1 ? ` // ${layout.pages.length} strony` : ''
       foot.textContent = `> ${cards} kart${pagesLabel}`
     }
+    // Until the theme catalogue answers (or if it never does), the layout's own
+    // theme file is the one on screen unless this tab picked another.
+    if (footTheme && !footThemeKnown) {
+      let picked: string | null = null
+      try {
+        picked = sessionStorage.getItem(THEME_SESSION_KEY)
+      } catch {
+        // Storage blocked: no per-tab choice can have been made either.
+      }
+      footTheme.textContent = `// motyw: ${picked ?? layout.theme.split('/').pop()?.replace(/\.ya?ml$/, '')}`
+    }
   } catch (err) {
     // The last screen stays on the wall, blurred behind the scrim, while this
     // runs. Never blank, and never presented as current.
@@ -636,6 +652,7 @@ registerServiceWorker()
 createChangelogUi()
 createIssueLogUi()
 createThemeToggleUi()
+createShellMenuUi()
 let backdrop = createBackdropRotation()
 createThemePickerUi({
   // The rotation counted the old theme's backdrops; start it over on the new one.
@@ -643,6 +660,10 @@ createThemePickerUi({
     backdrop.destroy()
     delete document.documentElement.dataset.backdrop
     backdrop = createBackdropRotation()
+  },
+  onShown: (theme) => {
+    footThemeKnown = true
+    if (footTheme) footTheme.textContent = `// motyw: ${theme.name}`
   },
 })
 const shellHead = document.querySelector<HTMLElement>('.shell-head')
