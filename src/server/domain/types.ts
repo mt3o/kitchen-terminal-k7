@@ -119,3 +119,33 @@ export interface CacheEntry {
   payload: unknown
   fetchedAt: Date
 }
+
+/**
+ * `warn` is a degraded-but-handled condition the design already accounts for
+ * (an upstream unreachable, serving a stale cache). `error` is everything the
+ * design did not expect: an uncaught server exception or a client JS crash.
+ * The household reads the same log either way — the split only changes
+ * whether GlitchTip also hears about it (`observability.ts`'s own call sites
+ * decide that; this type just carries the label along).
+ */
+export type IssueSeverity = 'warn' | 'error'
+
+/** Where the entry came from: an Upstream name, `server` or `client`. */
+export type IssueSource = Upstream | 'server' | 'client'
+
+/**
+ * One row in the household-visible issue log — "comic-of-the-day fell back to
+ * yesterday's image", "the calendar card crashed", that sort of thing. Kept in
+ * SQLite rather than only in GlitchTip because GlitchTip is opt-in (no DSN is
+ * a supported way to run, `observability.ts`) and because "what went wrong
+ * today" is a question the household should be able to ask the dashboard
+ * itself, not an external dashboard nobody in the kitchen has open.
+ */
+export interface IssueLogEntry {
+  id: string
+  severity: IssueSeverity
+  source: IssueSource
+  message: string
+  detail: string | null
+  createdAt: Date
+}

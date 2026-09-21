@@ -11,6 +11,7 @@ import type {
   AiCall,
   CacheEntry,
   Conversation,
+  IssueLogEntry,
   Message,
   Recipe,
   ShoppingListItem,
@@ -61,6 +62,15 @@ export interface UpstreamCacheRepository {
   put(key: string, upstream: Upstream, payload: unknown, fetchedAt?: Date): Promise<CacheEntry>
 }
 
+export interface IssueLogRepository {
+  /** `createdAt` is injectable for the same reason `UpstreamCacheRepository.put`'s `fetchedAt` is — a test asserting "newest first" must not race the wall clock. */
+  record(entry: New<IssueLogEntry>, createdAt?: Date): Promise<IssueLogEntry>
+  /** Newest first — the issue-log popup's row list. */
+  listRecent(limit?: number): Promise<IssueLogEntry[]>
+  /** Keeps a kiosk nobody restarts from growing this table forever. Returns the row count removed. */
+  prune(olderThan: Date): Promise<number>
+}
+
 /** Everything the core needs from storage, in one injectable bundle. */
 export interface Repositories {
   recipes: RecipeRepository
@@ -68,4 +78,5 @@ export interface Repositories {
   conversations: ConversationRepository
   aiCalls: AiCallRepository
   upstreamCache: UpstreamCacheRepository
+  issueLog: IssueLogRepository
 }
