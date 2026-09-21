@@ -7,6 +7,7 @@
   --display-size: var(--text-sm);
   --display-weight: var(--weight-medium);
   --display-case: uppercase;
+  --display-leading: var(--leading-body);
   --backdrop-count: 1;
   --backdrop-every: 60;
   --display-tracking: var(--tracking-label);

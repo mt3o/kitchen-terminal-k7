@@ -135,6 +135,12 @@ properties:
           weight: { type: integer }
           case: { type: string, enum: [none, uppercase, lowercase], default: uppercase }
           letterSpacingPx: { type: number }
+          lineHeight:
+            type: number
+            description: >
+              Card-title leading (--display-leading). Default: the body leading
+              titles always inherited. Set it tight for a large title face, or
+              every card body loses the difference.
 
   colors:
     type: object

@@ -34,6 +34,23 @@ this public repository (2026-09-21).
   (variable, self-hosted), the cork texture, cobweb and coffee stain, with
   dark/night recolours. Credits in `punktomat/CREDITS.md`.
 
+## After merging main (#65: cards fit their cells)
+
+Once cards stopped overflowing their grid cells, a taller card head or a
+taller header band came straight out of the card body — and on GŁÓWNA's 2x2
+grid the weather card's forecast row was the first thing cut (Punktomat 22px
+out of view, steampunk-brass 27px, retro 7px of blank space). Measured, then:
+
+- `typography.display.lineHeight` → `--display-leading` (default: the body
+  leading titles already inherited), set tight in both decorated themes;
+- the Punktomat band's vertical padding 12 → 6px (within 2px of the plain
+  header), card padding 20 → 16px (Punktomat's own `--space-lg`);
+- steampunk-brass card padding 24 → 18px (its frame's corner plates are ~9px
+  thick at 22px, so 18 still clears them).
+
+Result: nothing scrolled out of view in Punktomat; steampunk-brass matches
+retro (7px of blank space below the last line).
+
 ## Deliberate departures from Punktomat
 
 - K7's 20px reading scale, not the 14px phone scale (Nunito's x-height

@@ -299,6 +299,7 @@
     font-weight: var(--display-weight);
     text-transform: var(--display-case);
     letter-spacing: var(--display-tracking);
+    line-height: var(--display-leading);
     color: var(--fg-display);
   }
   .hud-label::first-letter { text-transform: uppercase; }

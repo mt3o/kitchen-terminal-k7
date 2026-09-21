@@ -155,6 +155,7 @@ describe('an undecorated theme is unchanged by the title and ornament slots', ()
     assert.equal(valueOf(generated, '--display-weight'), 'var(--weight-medium)')
     assert.equal(valueOf(generated, '--display-case'), 'uppercase')
     assert.equal(valueOf(generated, '--display-tracking'), 'var(--tracking-label)')
+    assert.equal(valueOf(generated, '--display-leading'), 'var(--leading-body)')
     assert.equal(valueOf(generated, '--font-mono'), 'var(--font-ui)')
   })
 
@@ -272,7 +273,7 @@ describe('punktomat', () => {
   })
 
   it('draws the header as a band with its own ink in every mode', () => {
-    assert.equal(valueOf(css, '--shell-head-pad'), '12px 20px')
+    assert.equal(valueOf(css, '--shell-head-pad'), pk.header?.padding)
     assert.equal(valueOf(css, '--shell-head-radius'), 'var(--radius)')
     for (const [mode, selector] of [
       ['dark', '[data-region="header"] {'],

@@ -77,6 +77,11 @@ typography:
     weight: 400
     case: lowercase
     letterSpacingPx: 0
+    # Tight: at body leading a 24px title costs every card body 8px, and once
+    # cards stopped overflowing their cells (k7 #65) that came out of the
+    # weather card's forecast row on GŁÓWNA. Script ascenders and descenders
+    # overhang a 1.0 line box without being clipped.
+    lineHeight: 1.0
 
 colors:
   # --- surfaces: mahogany / patent parchment / banked coals ----------------
@@ -126,7 +131,7 @@ shape:
 spacing:
   basePx: 4
   gridGapPx: 12
-  cardPaddingPx: 24       # 20 + room for the 22px frame's corner brackets
+  cardPaddingPx: 18       # the frame's bars are ~5.5px and its corner plates ~9px thick at 22px, so 18 clears both
   cardMinHeightPx: 240
 
 controls:     { heightPx: 56, heightSmallPx: 44, focusRingWidthPx: 3, focusRingOffsetPx: 2 }

@@ -45,6 +45,8 @@ export interface ThemeDisplay {
   /** `text-transform` for titles. The first letter is always capitalised. */
   case?: 'none' | 'uppercase' | 'lowercase'
   letterSpacingPx?: number
+  /** Unitless. Default: the body leading a card title always inherited. */
+  lineHeight?: number
 }
 
 /** One CSS value for every mode, or one per mode (night falls back to dark). */
@@ -393,6 +395,10 @@ export function generateTokensCss(theme: Theme, options: GenerateOptions = {}): 
   structure.push(`--display-size: ${display.sizePx !== undefined ? `${display.sizePx}px` : 'var(--text-sm)'};`)
   structure.push(`--display-weight: ${display.weight ?? 'var(--weight-medium)'};`)
   structure.push(`--display-case: ${display.case ?? 'uppercase'};`)
+  // A title set larger than a label at body leading makes every card head
+  // taller, and every card body that much shorter — a theme with a big title
+  // face sets this tight to give that height back.
+  structure.push(`--display-leading: ${display.lineHeight ?? 'var(--leading-body)'};`)
   // Read by lib/backdrop.ts, not by CSS: how many backdrops there are and how
   // long each one stays. 1 means there is nothing to rotate.
   structure.push(`--backdrop-count: ${backdropCount(theme)};`)

@@ -61,6 +61,10 @@ typography:
     weight: 900
     case: lowercase
     letterSpacingPx: 0
+    # Tight, as Punktomat's --font-heading (1.3) is at its own scale: at body
+    # leading a 22px title costs every card body 7px, which the 2x2 GŁÓWNA
+    # page does not have (the weather forecast row is the first thing lost).
+    lineHeight: 1.05
 
 colors:
   # --- surfaces: cork board / white notes -----------------------------------
@@ -106,7 +110,7 @@ shape:
   borderWidthStrongPx: 1.5   # Punktomat's border weight throughout
   hudBrackets: false
 
-spacing:      { basePx: 4, gridGapPx: 12, cardPaddingPx: 20, cardMinHeightPx: 240 }
+spacing:      { basePx: 4, gridGapPx: 12, cardPaddingPx: 16, cardMinHeightPx: 240 }   # 16 = Punktomat's --space-lg, "main card padding"
 controls:     { heightPx: 56, heightSmallPx: 44, focusRingWidthPx: 3, focusRingOffsetPx: 2 }
 layout:       { targetViewportPx: 1024, sidebarWidthPx: 260, breakpointTabletPx: 768, breakpointDesktopPx: 1024 }
 motion:       { fastMs: 120, baseMs: 200, slowMs: 400, easing: "cubic-bezier(0.2, 0, 0, 1)", blinkPeriodMs: 1200 }
@@ -119,7 +123,10 @@ density:      { default: normal, largeScaleFactor: 1.2 }
 # #7c5cbf the lavender text would fall below 4.5:1 at the right-hand end,
 # which is exactly where the status sits.
 header:
-  padding: "12px 20px"
+  # Tight vertically: the band's height comes out of the deck, and with cards
+  # sized to their cells every px of it is a px off each card row. 6px puts
+  # the band within 2px of the plain header's height.
+  padding: "6px 16px"
   background:
     light: "linear-gradient(135deg, #3b3560 0%, #5f4d93 100%)"
     dark:  "linear-gradient(135deg, #3b3560 0%, #5f4d93 100%)"
