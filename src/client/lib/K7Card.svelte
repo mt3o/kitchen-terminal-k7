@@ -52,7 +52,10 @@
   /* Elevation is a border plus a step on the surface ramp — never a shadow.
      A blurred drop shadow under a sharp-cornered amber panel looks like a
      mistake, and it costs a composite on every frame on an A8X. */
+  /* border-box stated here for the same reason as Card.svelte's: app.css's
+     global box-sizing rule does not reach inside this shadow root. */
   .card {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
