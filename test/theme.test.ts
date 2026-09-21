@@ -138,8 +138,16 @@ describe('an undecorated theme is unchanged by the title and ornament slots', ()
       assert.equal(valueOf(generated, '--card-frame', selector), 'none')
       assert.equal(valueOf(generated, '--rule', selector), 'none')
       assert.equal(valueOf(generated, '--fg-display', selector), valueOf(generated, '--fg-muted', selector))
+      assert.equal(valueOf(generated, '--card-border', selector), valueOf(generated, '--border-strong', selector))
+      assert.equal(valueOf(generated, '--shell-head-bg', selector), 'transparent')
     })
   }
+
+  it('draws no header band: bottom gap only, square, no scoped ink', () => {
+    assert.equal(valueOf(generated, '--shell-head-pad'), '0 0 var(--space-2)')
+    assert.equal(valueOf(generated, '--shell-head-radius'), '0px')
+    assert.ok(!generated.includes('data-region'))
+  })
 
   it('titles are HUD labels: the UI face, --text-sm, medium, uppercase, tracked', () => {
     assert.equal(valueOf(generated, '--font-display'), 'var(--font-ui)')
@@ -147,6 +155,7 @@ describe('an undecorated theme is unchanged by the title and ornament slots', ()
     assert.equal(valueOf(generated, '--display-weight'), 'var(--weight-medium)')
     assert.equal(valueOf(generated, '--display-case'), 'uppercase')
     assert.equal(valueOf(generated, '--display-tracking'), 'var(--tracking-label)')
+    assert.equal(valueOf(generated, '--display-leading'), 'var(--leading-body)')
     assert.equal(valueOf(generated, '--font-mono'), 'var(--font-ui)')
   })
 
@@ -193,14 +202,6 @@ describe('steampunk-brass', () => {
     }
   })
 
-  it('ships every file it names, each a type the asset route will serve', () => {
-    const paths = themeAssetPaths(steam)
-    assert.ok(paths.length > 0)
-    for (const path of paths) {
-      assert.ok(resolveThemeAsset('design-system/themes', path, paths), `${path} would be refused`)
-      assert.ok(existsSync(`design-system/themes/${path}`), `${path} is missing`)
-    }
-  })
 
   it('stays inside the Safari 15 floor', () => {
     for (const banned of ['color-mix(', 'oklch(', '@container', ':has(', 'dvh', 'image-set(']) {
@@ -254,6 +255,51 @@ describe('steampunk-brass', () => {
   })
 })
 
+describe('punktomat', () => {
+  const pk = parse(readFileSync('design-system/themes/punktomat.yaml', 'utf8')) as Theme
+  const css = generateTokensCss(pk, { assetUrl: (path) => `/theme-assets/${path}` })
+
+  it('self-hosts Nunito as one variable face per subset', () => {
+    assert.equal(css.match(/@font-face/g)?.length, 2)
+    assert.ok(css.includes('font-weight: 400 900;'))
+    assert.match(valueOf(css, '--font-ui') ?? '', /^'Nunito'/)
+  })
+
+  it('outlines cards with a hairline, but keeps controls at 3:1', () => {
+    for (const mode of ['dark', 'light', 'night'] as const) {
+      const selector = `[data-mode="${mode}"]`
+      assert.notEqual(valueOf(css, '--card-border', selector), valueOf(css, '--border-strong', selector))
+    }
+  })
+
+  it('draws the header as a band with its own ink in every mode', () => {
+    assert.equal(valueOf(css, '--shell-head-pad'), pk.header?.padding)
+    assert.equal(valueOf(css, '--shell-head-radius'), 'var(--radius)')
+    for (const [mode, selector] of [
+      ['dark', '[data-region="header"] {'],
+      ['light', '[data-mode="light"] [data-region="header"] {'],
+      ['night', '[data-mode="night"] [data-region="header"] {'],
+    ] as const) {
+      assert.match(valueOf(css, '--shell-head-bg', `[data-mode="${mode}"]`) ?? '', /^linear-gradient\(/)
+      assert.ok(css.includes(selector), `no header ink for ${mode}`)
+      assert.equal(valueOf(css, '--fg', selector), pk.header?.colors?.textPrimary?.[mode])
+    }
+  })
+})
+
+describe('every theme ships the files it names', () => {
+  for (const file of readdirSync('design-system/themes').filter((f) => f.endsWith('.yaml'))) {
+    it(file, () => {
+      const t = parse(readFileSync(`design-system/themes/${file}`, 'utf8')) as Theme
+      const paths = themeAssetPaths(t)
+      for (const path of paths) {
+        assert.ok(resolveThemeAsset('design-system/themes', path, paths), `${path} would be refused`)
+        assert.ok(existsSync(`design-system/themes/${path}`), `${path} is missing`)
+      }
+    })
+  }
+})
+
 describe('every theme meets WCAG AA in every mode', () => {
   const lin = (c: number): number => {
     const s = c / 255
@@ -289,6 +335,20 @@ describe('every theme meets WCAG AA in every mode', () => {
         const accentFg = pick('accentFg')
         const accent = pick('accent') as string
         if (accentFg) assert.ok(ratio(accentFg, accent) >= 4.5, `accentFg on accent: ${ratio(accentFg, accent).toFixed(2)}`)
+      })
+      it(`${file} ${mode}: header ink reaches 4.5:1 on every stop of its band`, () => {
+        const band = t.header?.background
+        const colors = t.header?.colors
+        if (!band || !colors) return
+        const value = typeof band === 'string' ? band : (mode === 'night' ? (band.night ?? band.dark) : band[mode]) ?? ''
+        const stops = [...value.matchAll(/#[0-9a-f]{6}\b/gi)].map((m) => m[0])
+        assert.ok(stops.length > 0, 'no colour stops found in the header background')
+        for (const key of ['textPrimary', 'textMuted', 'display', 'signal', 'danger']) {
+          const triple = colors[key]
+          const ink = triple && (mode === 'night' ? (triple.night ?? triple.dark) : triple[mode])
+          if (!ink) continue
+          for (const stop of stops) assert.ok(ratio(ink, stop) >= 4.5, `header ${key} ${ink} on ${stop}: ${ratio(ink, stop).toFixed(2)}`)
+        }
       })
       it(`${file} ${mode}: frame and focus reach 3:1 on surface`, () => {
         for (const key of ['borderStrong', 'focus']) {
