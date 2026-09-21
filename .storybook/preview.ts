@@ -25,9 +25,10 @@ const preview: Preview = {
       attributeName: 'data-mode',
     }),
     (story) => {
-      // The app paints --bg on <body>; Storybook's canvas needs the same or the
+      // The app paints --page-bg on <body> (the mode's --bg, plus any pictures
+      // the theme layers over it); Storybook's canvas needs the same or the
       // surface ramp is judged against the wrong ground.
-      document.body.style.background = 'var(--bg)'
+      document.body.style.background = 'var(--page-bg)'
       document.body.style.fontFamily = 'var(--font-ui)'
       return story()
     },

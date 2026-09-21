@@ -122,8 +122,10 @@ than pretending to have data. The full contract for what each card type's
 example in `docs/handoff/layout.example.yaml`.
 
 Point `theme:` at a different file under `design-system/themes/` (currently
-`retro-scifi.yaml` and `daylight-lab.yaml`) to swap the entire visual design —
-see below.
+`retro-scifi.yaml`, `daylight-lab.yaml` and `steampunk-brass.yaml`) to swap the
+entire visual design — see below. To try one on a single machine without
+committing, put the `theme:` line in the gitignored `layout.local.yaml` instead;
+it overrides `layout.yaml`'s, and takes effect on the next page load.
 
 ## Where the recipes live
 
@@ -193,7 +195,10 @@ Read `design-system/USAGE.md` for the full picture; in short:
   against.
 - `design-system/themes/*.yaml` — theme instances (`retro-scifi.yaml` is the
   default; `daylight-lab.yaml` is a deliberate stress test — light, rounded,
-  cool blue, no HUD frame).
+  cool blue, no HUD frame; `steampunk-brass.yaml` is the decorated one —
+  self-hosted fonts, a script title face, background photographs and brass
+  border-images, all from files in `themes/steampunk-brass/`, served by
+  `/theme-assets/` and only those the theme names).
 
 Note: `docs/handoff/theme.schema.yaml` is an earlier/reference copy from the
 handoff docs; the schema the app actually loads against is

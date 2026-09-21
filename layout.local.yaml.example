@@ -9,7 +9,10 @@
 # (or `concat`) says to extend it instead.
 #
 # Use it for anything you don't want in the (public) tracked layout.yaml — a
-# personal Gmail address used as a calendarId, for instance.
+# personal Gmail address used as a calendarId, for instance — or to try
+# something on one machine without committing it, like a different theme:
+#
+#   theme: "design-system/themes/steampunk-brass.yaml"
 
 # Added to layout.yaml's own `calendars` — same key, so a new id is a new tab.
 # Writing an id layout.yaml already has changes just the fields given here.
