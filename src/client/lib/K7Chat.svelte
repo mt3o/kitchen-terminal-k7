@@ -50,7 +50,7 @@
   import Card from './Card.svelte'
   import { renderMarkdown } from './markdown.ts'
   import {
-    calendarWeekEnd,
+    calendarDataEnd,
     COMMAND_GROUPS,
     commandsInGroup,
     convertMeasure,
@@ -896,16 +896,20 @@
     const line = addLocal('> zbieram kalendarz, pogode i baze przepisow...')
     const [calendar, recipes, weather] = await Promise.all([loadPlanEvents(), loadRecipeTitles(), fetchWeather()])
     const now = new Date()
-    const calendarUntil = calendarWeekEnd(now)
+    const calendarUntil = calendarDataEnd(now)
+    const plannedDays = planDays(now, days, calendar.events)
+    // Counted over the planned days only: the fetch spans ninety-odd days,
+    // and that total says nothing about the week being planned.
+    const plannedEventCount = plannedDays.reduce((sum, d) => sum + d.entries.length, 0)
     const sources = [
-      calendar.unavailable ? 'kalendarz: brak' : `kalendarz: ${calendar.events.length} wydarzen`,
+      calendar.unavailable ? 'kalendarz: brak' : `kalendarz: ${plannedEventCount} wydarzen`,
       recipes.length > 0 ? `baza: ${recipes.length} przepisow` : 'baza: pusta',
       weather ? 'pogoda: jest' : 'pogoda: brak',
     ]
     updateLocal(line, { content: `> plan na ${days} dni // ${sources.join(' // ')}` })
     await send(
       planPrompt({
-        days: planDays(now, days, calendar.events),
+        days: plannedDays,
         recipes,
         weather,
         calendarUnavailable: calendar.unavailable,

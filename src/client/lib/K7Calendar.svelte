@@ -2,6 +2,11 @@
   Calendar. Ships as a custom element (k7-calendar) wrapping the shared
   <Card> shell, same pattern as K7ShoppingList.svelte.
 
+  The week view is an agenda: every day from 30 days back to 60 ahead that
+  has something on it, plus today always, scrolled so today sits at the top
+  — the past is one scroll up. It snaps back to today after a spell with no
+  touch, since a wall display is read at a glance, not browsed.
+
   Supports any number of configured calendars (the layout's top-level
   `calendars`, passed in by main.ts), each fetched independently — one dead .ics feed or an unconfigured Google
   account never blanks the others. A tab strip only renders once there is
@@ -32,6 +37,8 @@
 <script lang="ts">
   import Card from './Card.svelte'
   import {
+    agendaRange,
+    agendaRows,
     calendarTickColor,
     formatRange,
     groupByDay,
@@ -39,7 +46,6 @@
     selectEventsForTab,
     startOfWeek,
     syntheticErrorWeek,
-    weekDays,
     type Calendar,
     type CalendarEvent,
     type ThemeLuminanceMode,
@@ -111,17 +117,79 @@
     return () => clearInterval(id)
   })
 
+  // Still week-shaped: the mock and the no-cache placeholder only ever fill
+  // the current week, which is all they need to read as what they are.
   let weekStart = $derived(startOfWeek(today))
-  let days = $derived(weekDays(weekStart))
-  const displayDays = $derived(dayView ? days.filter((d) => isSameDay(d, today)) : days)
+  let days = $derived(agendaRange(today))
 
   const DOW = ['PN', 'WT', 'SR', 'CZ', 'PT', 'SB', 'ND']
+  // The agenda spans three months, so a bare day number no longer says which.
+  const MONTHS = ['sty', 'lut', 'mar', 'kwi', 'maj', 'cze', 'lip', 'sie', 'wrz', 'paz', 'lis', 'gru']
 
   let selectedEvents = $derived(selectEventsForTab(calendarsList, mainIds, eventsByCalendar, selectedTab))
-  let buckets = $derived(groupByDay(selectedEvents, weekStart))
-  let displayBuckets = $derived(
-    dayView ? [buckets[days.findIndex((d) => isSameDay(d, today))] ?? []] : buckets,
-  )
+  let buckets = $derived(groupByDay(selectedEvents, days))
+  let rows = $derived.by(() => {
+    if (!dayView) return agendaRows(days, buckets, today)
+    const i = days.findIndex((d) => isSameDay(d, today))
+    return [{ day: days[i] ?? today, events: buckets[i] ?? [] }]
+  })
+
+  /**
+   * Keeps today's row at the top of the list. Data arrives one calendar at a
+   * time and each one can add past rows above today, so the list re-anchors
+   * on every change — until someone touches it; then it stays where they
+   * left it for `SNAP_BACK_MS` of quiet, and snaps back.
+   */
+  const SNAP_BACK_MS = 120_000
+  let listEl = $state<HTMLElement | undefined>()
+  let userScrolledAt = $state(0)
+  let snapTick = $state(0)
+
+  function markUserScroll(): void {
+    userScrolledAt = Date.now()
+  }
+
+  // Passive listeners, attached here rather than as markup handlers: the list
+  // is not itself interactive (a11y_interactive_supports_focus), and a
+  // passive listener never delays the scroll it is only noticing.
+  $effect(() => {
+    const el = listEl
+    if (!el) return
+    el.addEventListener('touchstart', markUserScroll, { passive: true })
+    el.addEventListener('wheel', markUserScroll, { passive: true })
+    return () => {
+      el.removeEventListener('touchstart', markUserScroll)
+      el.removeEventListener('wheel', markUserScroll)
+    }
+  })
+
+  $effect(() => {
+    // Tab or day changing is a fresh look at the list: re-anchor.
+    void selectedTab
+    void today
+    userScrolledAt = 0
+  })
+
+  $effect(() => {
+    if (userScrolledAt === 0) return
+    const id = setTimeout(() => {
+      userScrolledAt = 0
+      snapTick++
+    }, SNAP_BACK_MS)
+    return () => clearTimeout(id)
+  })
+
+  $effect(() => {
+    void rows
+    void snapTick
+    if (userScrolledAt !== 0 || !listEl) return
+    const el = listEl
+    const todayRow = el.querySelector<HTMLElement>('.col-today')
+    // After layout, so the rows this change added are measured.
+    requestAnimationFrame(() => {
+      el.scrollTop = todayRow ? todayRow.offsetTop : 0
+    })
+  })
 
   /**
    * A handful of clearly fabricated events, dated relative to *this* run so
@@ -283,22 +351,30 @@
         {/each}
       </div>
     {/if}
-    <div class="week" class:day-view={dayView} role="grid" aria-label="wydarzenia tygodnia">
-      {#each displayDays as day, i (day.getTime())}
+    <div
+      class="week"
+      class:day-view={dayView}
+      role="grid"
+      aria-label="wydarzenia"
+      bind:this={listEl}
+    >
+      {#each rows as row (row.day.getTime())}
+        {@const day = row.day}
         {@const isToday = isSameDay(day, today)}
-        <div class="col" class:col-today={isToday} role="row">
+        <div class="col" class:col-today={isToday} class:col-past={!isToday && day.getTime() < today.getTime()} role="row">
           <div class="col-head">
             <span class="date-line">
               <span class="dow">{DOW[(day.getDay() + 6) % 7]}</span>
               <span class="num">{day.getDate()}</span>
             </span>
+            <span class="month">{MONTHS[day.getMonth()]}</span>
             {#if isToday}<span class="today-mark">dzis</span>{/if}
           </div>
           <div class="col-body">
-            {#if (displayBuckets[i] ?? []).length === 0}
+            {#if row.events.length === 0}
               <p class="empty">—</p>
             {:else}
-              {#each displayBuckets[i] ?? [] as event (event.id)}
+              {#each row.events as event (event.id)}
                 {@const tick = tickColorFor(event.calendarId)}
                 <div class="event" style={tick ? `--calendar-tick-color: ${tick}` : undefined}>
                   <span class="time">{formatRange(event)}</span>
@@ -330,6 +406,9 @@
     min-height: 0;
     gap: var(--space-2);
     overflow-y: auto;
+    /* The offsetParent of each row, so a row's offsetTop is its scroll
+       position inside this list — what the scroll-to-today anchor reads. */
+    position: relative;
   }
 
   /* .tabs and .week share the card body, so .week takes what .tabs leaves
@@ -451,6 +530,18 @@
   }
 
   .col-today .num { color: var(--accent); }
+
+  /* Past days sit above today, a scroll away; muted so a glance up at the
+     list never mistakes last week's appointment for the next one. */
+  .col-past .num,
+  .col-past .title { color: var(--fg-muted); }
+
+  .month {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--fg-muted);
+  }
 
   .today-mark {
     font-size: var(--text-xs);

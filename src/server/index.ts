@@ -500,13 +500,19 @@ app.get('/api/comic', async (req, reply) => {
   }
 })
 
-/** Monday 00:00 (local) through the following Monday 00:00 — same first-day-of-week convention as the client's own `startOfWeek` (`calendar.ts`), duplicated here since the server does not import client code. */
-function currentWeekWindow(now: Date = new Date()): { from: Date; to: Date } {
+/**
+ * 30 days before today's local midnight through the midnight after the 60th
+ * day ahead — the calendar card's agenda range. Duplicated from the client's
+ * `agendaRange` (`calendar.ts`: `CALENDAR_PAST_DAYS`/`CALENDAR_FUTURE_DAYS`)
+ * since the server does not import client code; keep the two in step. Days
+ * are stepped with `setDate`, not millisecond arithmetic, so a DST change
+ * inside the window does not shift either edge by an hour.
+ */
+function calendarWindow(now: Date = new Date()): { from: Date; to: Date } {
   const from = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-  const mondayOffset = (from.getDay() + 6) % 7 // 0 = Sunday .. 6 = Saturday
-  from.setDate(from.getDate() - mondayOffset)
-  const to = new Date(from)
-  to.setDate(to.getDate() + 7)
+  from.setDate(from.getDate() - 30)
+  const to = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  to.setDate(to.getDate() + 60 + 1)
   return { from, to }
 }
 
@@ -531,7 +537,7 @@ app.get('/api/calendar/week', async (req, reply) => {
   }
   if (!calendar) return reply.code(404).send({ error: `no configured calendar with id ${JSON.stringify(q.id)}` })
   const calendarId = calendar.id
-  const { from, to } = currentWeekWindow()
+  const { from, to } = calendarWindow()
 
   if (calendar.source.mode === 'ics') {
     const url = calendar.source.url

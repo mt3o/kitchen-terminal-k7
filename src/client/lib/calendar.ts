@@ -62,8 +62,21 @@ export function startOfWeek(date: Date): Date {
 
 /** Seven local midnights starting at `start`, stepped a calendar day at a time (DST-safe). */
 export function weekDays(start: Date): Date[] {
+  return dayRange(start, 7)
+}
+
+/**
+ * How far either side of today the calendar reaches. The server fetches the
+ * same window (`calendarWindow` in `src/server/index.ts`, duplicated there
+ * since the server does not import client code) — keep the two in step.
+ */
+export const CALENDAR_PAST_DAYS = 30
+export const CALENDAR_FUTURE_DAYS = 60
+
+/** `count` consecutive local midnights starting at `start`'s own day, stepped a calendar day at a time (DST-safe). */
+export function dayRange(start: Date, count: number): Date[] {
   const days: Date[] = []
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < count; i++) {
     const d = new Date(start.getFullYear(), start.getMonth(), start.getDate())
     d.setDate(d.getDate() + i)
     days.push(d)
@@ -71,20 +84,27 @@ export function weekDays(start: Date): Date[] {
   return days
 }
 
+/** Every day of the agenda: `CALENDAR_PAST_DAYS` before today through `CALENDAR_FUTURE_DAYS` after it, both inclusive. */
+export function agendaRange(today: Date): Date[] {
+  const start = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+  start.setDate(start.getDate() - CALENDAR_PAST_DAYS)
+  return dayRange(start, CALENDAR_PAST_DAYS + 1 + CALENDAR_FUTURE_DAYS)
+}
+
 export function isSameDay(a: Date, b: Date): boolean {
   return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate()
 }
 
 /**
- * Buckets events into the seven days of the week starting at `start`, each
- * bucket sorted by start time. An event outside the week is dropped rather
- * than smeared into the nearest edge day, and an event whose `end` precedes
- * its `start` is dropped as malformed input rather than rendered inside-out —
- * a display that runs for months will eventually see both from an upstream
- * that never gets fixed.
+ * Buckets events into the given days (the seven days of the week starting
+ * at `start` when passed a single `Date`), each bucket sorted by start time.
+ * An event outside those days is dropped rather than smeared into the
+ * nearest edge day, and an event whose `end` precedes its `start` is dropped
+ * as malformed input rather than rendered inside-out — a display that runs
+ * for months will eventually see both from an upstream that never gets fixed.
  */
-export function groupByDay(events: CalendarEvent[], start: Date): CalendarEvent[][] {
-  const days = weekDays(start)
+export function groupByDay(events: CalendarEvent[], start: Date | Date[]): CalendarEvent[][] {
+  const days = Array.isArray(start) ? start : weekDays(start)
   const buckets: CalendarEvent[][] = days.map(() => [])
 
   for (const event of events) {
@@ -103,6 +123,21 @@ export function groupByDay(events: CalendarEvent[], start: Date): CalendarEvent[
   }
 
   return buckets
+}
+
+/**
+ * The agenda's rows: only the days that have something on them, plus today
+ * always — ninety-one rows of mostly "—" would bury the few that matter,
+ * and today stays as the anchor the list scrolls to even when it is empty.
+ */
+export function agendaRows(
+  days: Date[],
+  buckets: CalendarEvent[][],
+  today: Date,
+): { day: Date; events: CalendarEvent[] }[] {
+  return days
+    .map((day, i) => ({ day, events: buckets[i] ?? [] }))
+    .filter((row) => row.events.length > 0 || isSameDay(row.day, today))
 }
 
 const pad2 = (n: number): string => String(n).padStart(2, '0')
