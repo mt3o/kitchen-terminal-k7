@@ -49,6 +49,15 @@ request `Host` header**, and requires a Web-application OAuth client; the
 existing Desktop client cannot register an `https://` redirect.
 Facets: backend, security, integration.
 
+**f. constraint — a Google refresh token is bound to the OAuth client that
+issued it.** Pointing `GOOGLE_OAUTH_CLIENT_ID` at the Web-application client the
+browser flow needs invalidates a `GOOGLE_OAUTH_REFRESH_TOKEN` minted against the
+Desktop client (`unauthorized_client` on every refresh). So the env var is only a
+fallback if it was minted against the *same* client; the switch-over is restart
+and connect back to back. Found while documenting the rollout (2026-09-21),
+after #62 had claimed the manual path "keeps working throughout".
+Facets: backend, integration. `ABOUT` → `Calendar`. Parent: capture (a).
+
 ## 3. CONTRADICTS edge — record, do not resolve
 
 `[node:ab43353e]` ("Google bounded to refresh-token + API client, no consent-flow

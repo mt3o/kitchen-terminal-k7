@@ -34,6 +34,13 @@ grid:
   columns: 2
   gap: "12px"
 
+calendars:
+  google-primary:
+    name: "Google"
+    source: { mode: google, calendarId: "primary" }
+
+mainCalendars: [google-primary]
+
 cards:
   - id: pogoda-1
     type: grid
@@ -72,11 +79,6 @@ cards:
     span: { cols: 1, rows: 1 }
     refreshIntervalSeconds: 300
     params:
-      calendars:
-        - id: google-primary
-          name: "Google"
-          showInMain: true
-          source: { mode: google, calendarId: "primary" }
       view: week
 
   - id: karuzela-1

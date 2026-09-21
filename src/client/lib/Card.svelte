@@ -161,7 +161,13 @@
   /* Elevation is a border plus a step on the surface ramp — never a shadow. A
      blurred drop shadow under a sharp-cornered amber panel looks like a mistake
      and costs a composite on every frame on an A8X. */
+  /* border-box stated here, not inherited from app.css: that sheet's
+     `*, *::before, *::after` rule stops at the shadow boundary, so inside a
+     widget `height: 100%` plus padding and border came out 2×(padding +
+     border) taller than the grid cell, and `.page > *`'s overflow: hidden
+     cut off the bottom border and the footer badge on every card. */
   .card {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     gap: var(--space-3);

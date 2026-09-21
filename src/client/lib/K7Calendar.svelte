@@ -2,8 +2,8 @@
   Calendar. Ships as a custom element (k7-calendar) wrapping the shared
   <Card> shell, same pattern as K7ShoppingList.svelte.
 
-  Supports any number of configured calendars (`params.calendar.calendars`),
-  each fetched independently — one dead .ics feed or an unconfigured Google
+  Supports any number of configured calendars (the layout's top-level
+  `calendars`, passed in by main.ts), each fetched independently — one dead .ics feed or an unconfigured Google
   account never blanks the others. A tab strip only renders once there is
   more than one: with a single calendar this card is pixel-identical to the
   single-calendar layout it has always had (`calendar-tabs` deck,
@@ -23,6 +23,7 @@
     tag: 'k7-calendar',
     props: {
       calendars: { reflect: true },
+      main: { reflect: true },
       view: { reflect: true },
     },
   }}
@@ -47,11 +48,13 @@
   interface Props {
     /** JSON-encoded Calendar[] — custom-element attrs are strings. */
     calendars?: string
+    /** JSON-encoded string[] — ids of the calendars the GŁÓWNY tab merges. */
+    main?: string
     /** "week" | "day" — custom-element attrs are strings. */
     view?: string
   }
 
-  let { calendars: calendarsAttr = '[]', view = 'week' }: Props = $props()
+  let { calendars: calendarsAttr = '[]', main: mainAttr = '[]', view = 'week' }: Props = $props()
 
   function isCalendarShaped(value: unknown): value is Calendar {
     return (
@@ -69,6 +72,15 @@
     try {
       const parsed = JSON.parse(calendarsAttr) as unknown
       return Array.isArray(parsed) ? parsed.filter(isCalendarShaped) : []
+    } catch {
+      return []
+    }
+  })
+
+  let mainIds = $derived.by((): string[] => {
+    try {
+      const parsed = JSON.parse(mainAttr) as unknown
+      return Array.isArray(parsed) ? parsed.filter((id): id is string => typeof id === 'string') : []
     } catch {
       return []
     }
@@ -105,7 +117,7 @@
 
   const DOW = ['PN', 'WT', 'SR', 'CZ', 'PT', 'SB', 'ND']
 
-  let selectedEvents = $derived(selectEventsForTab(calendarsList, eventsByCalendar, selectedTab))
+  let selectedEvents = $derived(selectEventsForTab(calendarsList, mainIds, eventsByCalendar, selectedTab))
   let buckets = $derived(groupByDay(selectedEvents, weekStart))
   let displayBuckets = $derived(
     dayView ? [buckets[days.findIndex((d) => isSameDay(d, today))] ?? []] : buckets,
@@ -239,63 +251,65 @@
 </script>
 
 <Card label="LOG.WYDARZENIA" {meta} state={cardState} fullscreen>
-  {#if calendarsList.length > 1}
-    <div
-      class="tabs"
-      role="tablist"
-      aria-label="kalendarze"
-      tabindex="-1"
-      ontouchstart={stopTabsPropagation}
-      ontouchmove={stopTabsPropagation}
-      ontouchend={stopTabsPropagation}
-    >
-      <button
-        type="button"
-        class="tab"
-        class:tab-active={selectedTab === 'main'}
-        role="tab"
-        aria-selected={selectedTab === 'main'}
-        onclick={() => (selectedTab = 'main')}
-      >{selectedTab === 'main' ? '[ GŁÓWNY ]' : 'GŁÓWNY'}</button>
-      {#each calendarsList as cal (cal.id)}
+  <div class="wrap">
+    {#if calendarsList.length > 1}
+      <div
+        class="tabs"
+        role="tablist"
+        aria-label="kalendarze"
+        tabindex="-1"
+        ontouchstart={stopTabsPropagation}
+        ontouchmove={stopTabsPropagation}
+        ontouchend={stopTabsPropagation}
+      >
         <button
           type="button"
           class="tab"
-          class:tab-active={selectedTab === cal.id}
+          class:tab-active={selectedTab === 'main'}
           role="tab"
-          aria-selected={selectedTab === cal.id}
-          title={cal.name}
-          onclick={() => (selectedTab = cal.id)}
-        >{selectedTab === cal.id ? `[ ${cal.name} ]` : cal.name}{tabGlyph(cal.id)}</button>
+          aria-selected={selectedTab === 'main'}
+          onclick={() => (selectedTab = 'main')}
+        >{selectedTab === 'main' ? '[ GŁÓWNY ]' : 'GŁÓWNY'}</button>
+        {#each calendarsList as cal (cal.id)}
+          <button
+            type="button"
+            class="tab"
+            class:tab-active={selectedTab === cal.id}
+            role="tab"
+            aria-selected={selectedTab === cal.id}
+            title={cal.name}
+            onclick={() => (selectedTab = cal.id)}
+          >{selectedTab === cal.id ? `[ ${cal.name} ]` : cal.name}{tabGlyph(cal.id)}</button>
+        {/each}
+      </div>
+    {/if}
+    <div class="week" class:day-view={dayView} role="grid" aria-label="wydarzenia tygodnia">
+      {#each displayDays as day, i (day.getTime())}
+        {@const isToday = isSameDay(day, today)}
+        <div class="col" class:col-today={isToday} role="row">
+          <div class="col-head">
+            <span class="date-line">
+              <span class="dow">{DOW[(day.getDay() + 6) % 7]}</span>
+              <span class="num">{day.getDate()}</span>
+            </span>
+            {#if isToday}<span class="today-mark">dzis</span>{/if}
+          </div>
+          <div class="col-body">
+            {#if (displayBuckets[i] ?? []).length === 0}
+              <p class="empty">—</p>
+            {:else}
+              {#each displayBuckets[i] ?? [] as event (event.id)}
+                {@const tick = tickColorFor(event.calendarId)}
+                <div class="event" style={tick ? `--calendar-tick-color: ${tick}` : undefined}>
+                  <span class="time">{formatRange(event)}</span>
+                  <span class="title">{event.title}</span>
+                </div>
+              {/each}
+            {/if}
+          </div>
+        </div>
       {/each}
     </div>
-  {/if}
-  <div class="week" class:day-view={dayView} role="grid" aria-label="wydarzenia tygodnia">
-    {#each displayDays as day, i (day.getTime())}
-      {@const isToday = isSameDay(day, today)}
-      <div class="col" class:col-today={isToday} role="row">
-        <div class="col-head">
-          <span class="date-line">
-            <span class="dow">{DOW[(day.getDay() + 6) % 7]}</span>
-            <span class="num">{day.getDate()}</span>
-          </span>
-          {#if isToday}<span class="today-mark">dzis</span>{/if}
-        </div>
-        <div class="col-body">
-          {#if (displayBuckets[i] ?? []).length === 0}
-            <p class="empty">—</p>
-          {:else}
-            {#each displayBuckets[i] ?? [] as event (event.id)}
-              {@const tick = tickColorFor(event.calendarId)}
-              <div class="event" style={tick ? `--calendar-tick-color: ${tick}` : undefined}>
-                <span class="time">{formatRange(event)}</span>
-                <span class="title">{event.title}</span>
-              </div>
-            {/each}
-          {/if}
-        </div>
-      </div>
-    {/each}
   </div>
 </Card>
 
@@ -312,10 +326,22 @@
   .week {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    flex: 1 1 auto;
     min-height: 0;
     gap: var(--space-2);
     overflow-y: auto;
+  }
+
+  /* .tabs and .week share the card body, so .week takes what .tabs leaves
+     (flex: 1 above) rather than `height: 100%` of the whole body — that
+     overran the body by exactly the tab row, drew the last events over the
+     card's footer badge and left the end of the week below the cell's clip,
+     out of reach even when scrolled. */
+  .wrap {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
   }
 
   .week.day-view { gap: 0; }

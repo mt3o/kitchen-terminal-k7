@@ -16,12 +16,30 @@ entries:
       - "Zielony, pomarańczowy i czerwony z Punktomatu są przyciemnione tak, żeby napisy w tych kolorach dało się przeczytać z metra; każdy napis ma kontrast co najmniej 4,5:1 we wszystkich trybach."
       - "Włącza się go tak samo jak inne motywy: `theme: \"design-system/themes/punktomat.yaml\"` w `layout.yaml` albo w `layout.local.yaml`. Domyślny motyw się nie zmienia."
   - date: "2026-09-21"
+    title: "Kalendarze: jedna lista w layout.yaml, layout.local.yaml z tymi samymi kluczami"
+    items:
+      - "Kalendarze są teraz zdefiniowane raz, na górze `layout.yaml`, w sekcji `calendars` — obie karty kalendarza (GŁÓWNA i KALENDARZ) pokazują te same kalendarze, bez powtarzania listy w każdej karcie."
+      - "Zamiast `showInMain: true` przy każdym kalendarzu jest jedna lista `mainCalendars` z id kalendarzy, które łączy zakładka GŁÓWNY."
+      - "`layout.local.yaml` używa teraz tych samych kluczy co `layout.yaml` (`calendars`, `mainCalendars`) zamiast osobnego `calendarAdditions`. Stary plik trzeba przepisać według `layout.local.yaml.example` — klucz `calendarAdditions` nie jest już czytany."
+      - "Literówka w `mainCalendars` (id, którego nie ma w `calendars`) daje czytelny błąd layoutu zamiast po cichu pustej pozycji w GŁÓWNY."
+  - date: "2026-09-21"
     title: "Nowy motyw: Steampunk Brass"
     items:
       - "Do wyboru jest trzeci motyw, w stylu steampunk: mosiężne ramki z nitami wokół kart, mosiężne listwy pod nagłówkami, tytuły kart pisane kaligraficzną kursywą, tekst w wiktoriańskim kroju szeryfowym, a sztuka ASCII w kroju maszyny do pisania."
       - "W tle zdjęcia, które zmieniają się co godzinę: w trybie ciemnym i nocnym sześć ujęć mosiężnej maszynerii (mechanizmy zegarów, ściana manometrów, koła parowozu), w trybie jasnym sześć starych papierów i rycin (pergamin, dawne mapy świata, mapa gór). Kolejne zdjęcie wczytuje się, zanim się pojawi, więc zmiana nie miga — a gdy serwer nie odpowiada, zostaje obecne. Karty mają w rogu delikatnie wygrawerowane koło zębate, a w trybie jasnym — fakturę starego papieru."
       - "Czytelność sprawdzona na prawdziwym obrazie tła, a nie tylko na kolorze: każdy napis w nagłówku, stopce i na kartach ma kontrast co najmniej 4,5:1 we wszystkich trzech trybach i na każdym z teł."
       - "Włącza się go jedną linią w `layout.yaml`: `theme: \"design-system/themes/steampunk-brass.yaml\"`. Żeby wypróbować go tylko na jednym komputerze, tę samą linię można wpisać do `layout.local.yaml` — zmiana działa po odświeżeniu strony. Obecny motyw zostaje domyślny i wygląda dokładnie tak jak dotąd."
+  - date: "2026-09-21"
+    title: "Karty nie są już ucięte u dołu"
+    items:
+      - "Każda karta na każdej stronie była o kilkadziesiąt pikseli wyższa niż jej miejsce na ekranie, więc jej dolna krawędź była ucinana. Teraz karta mieści się dokładnie: widać dolną ramkę i znacznik stanu w prawym dolnym rogu ([OK], [!], [X], [--]), który wcześniej był zawsze ukryty."
+      - "LOG.WYDARZENIA: lista dni kończy się teraz nad znacznikiem stanu, zamiast na niego nachodzić, a ostatnie wydarzenia tygodnia da się przewinąć do końca — wcześniej ich dolna część była ucięta nawet po przewinięciu."
+  - date: "2026-09-21"
+    title: "Nowy przycisk DZIENNIK BŁĘDÓW: panel pamięta, co poszło nie tak"
+    items:
+      - "Przycisk [ ! ] DZIENNIK BŁĘDÓW w nagłówku pokazuje listę zdarzeń: np. \"komiks dnia wrócił do wersji sprzed godziny, bo źródło nie odpowiedziało\", \"kalendarz nie mógł się załadować\" albo błąd, który wystąpił w przeglądarce na iPadzie."
+      - "Każdy wpis ma znacznik [!] (zdarzenie obsłużone, np. użyto starszych danych z pamięci) albo [X] (błąd), źródło i czas."
+      - "Działa niezależnie od tego, czy skonfigurowano zewnętrzne raportowanie błędów (GlitchTip) — dziennik jest zawsze włączony i czytany bezpośrednio z panelu."
   - date: "2026-09-20"
     title: "Kalendarz Google: podłączenie konta z przeglądarki"
     items:

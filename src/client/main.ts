@@ -23,6 +23,8 @@ import './lib/K7Weather.svelte'
 
 import { domReconnectUi, reconnectLoop } from './lib/reconnect.ts'
 import { createChangelogUi } from './lib/changelog.ts'
+import { createIssueLogUi } from './lib/issue-log.ts'
+import { installErrorReporting } from './lib/error-reporter.ts'
 import { createThemeToggleUi } from './lib/theme-toggle.ts'
 import { createBackdropRotation } from './lib/backdrop.ts'
 import { createPullToRefresh } from './lib/pull-refresh.ts'
@@ -32,6 +34,11 @@ import { configure as configureFullscreenLock } from './lib/fullscreen-lock.ts'
 import { MENU_SELECT, REVEAL, type MenuSelectDetail } from './lib/k7-events.ts'
 
 import type { Card, CardType, NormalisedLayout, Page } from '../shared/layout.ts'
+
+// Wired before anything else in this module runs, so a crash during boot —
+// a bad layout, a Svelte component throwing on first render — reaches the
+// issue log too, not only whatever happened to be caught locally.
+installErrorReporting()
 
 /** Polish HUD labels, keyed by card type. Labels uppercase, data lowercase. */
 const LABELS: Record<CardType, string> = {
@@ -68,6 +75,13 @@ let weatherLocation: { lat?: unknown; lon?: unknown; units?: unknown } | undefin
  * nothing about where the events come from travels through the chat.
  */
 let chatCalendars: { id: string; name?: string }[] = []
+/**
+ * What every calendar card shows: the layout's own top-level calendars, not
+ * per-card params — they sit outside `pages` so layout.local.yaml can layer
+ * onto them by key. Recomputed by every render(), read by createWidget's
+ * `calendar` case.
+ */
+let layoutCalendars: { calendars: NormalisedLayout['calendars']; main: string[] } = { calendars: [], main: [] }
 let slideshowController: SlideshowController | undefined
 const status = document.getElementById('status')
 const foot = document.getElementById('foot')
@@ -147,13 +161,11 @@ function render(rawLayout: NormalisedLayout): void {
   const { layout, config: slideshowConfig, warnings: slideshowWarnings } = extractSlideshow(rawLayout)
   for (const warning of slideshowWarnings) console.warn(`layout: ${warning}`)
 
-  const calendarCard = layout.pages.flatMap((p) => p.cards).find((c) => c.type === 'calendar')
-  const declaredCalendars = (calendarCard?.params?.calendars ?? []) as { id?: unknown; name?: unknown }[]
-  chatCalendars = Array.isArray(declaredCalendars)
-    ? declaredCalendars
-        .filter((c) => typeof c?.id === 'string')
-        .map((c) => ({ id: c.id as string, ...(typeof c.name === 'string' ? { name: c.name } : {}) }))
-    : []
+  // `?? []`: a layout remembered for offline boot from before calendars moved
+  // to the top of the layout has neither field.
+  const calendars = layout.calendars ?? []
+  layoutCalendars = { calendars, main: layout.mainCalendars ?? [] }
+  chatCalendars = calendars.map((c) => ({ id: c.id, ...(typeof c.name === 'string' ? { name: c.name } : {}) }))
 
   const weatherCard = layout.pages.flatMap((p) => p.cards).find((c) => c.type === 'weather')
   const weatherParams = (weatherCard?.params ?? {}) as { location?: { lat?: unknown; lon?: unknown }; units?: unknown }
@@ -370,8 +382,8 @@ function createWidget(card: Card): HTMLElement {
     }
     case 'calendar': {
       const el = document.createElement('k7-calendar')
-      const calendars = Array.isArray(params.calendars) ? params.calendars : []
-      attr(el, 'calendars', JSON.stringify(calendars))
+      attr(el, 'calendars', JSON.stringify(layoutCalendars.calendars))
+      attr(el, 'main', JSON.stringify(layoutCalendars.main))
       attr(el, 'view', params.view)
       return el
     }
@@ -621,6 +633,7 @@ async function boot(): Promise<void> {
 
 registerServiceWorker()
 createChangelogUi()
+createIssueLogUi()
 createThemeToggleUi()
 createBackdropRotation()
 const shellHead = document.querySelector<HTMLElement>('.shell-head')

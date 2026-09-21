@@ -128,7 +128,7 @@
     contextWindowMarginPercent?: string
     compactingThresholdPercent?: string
     voiceInput?: string
-    /** JSON `[{id,name}]` — the calendar card's own calendars, passed by main.ts, so /plan reads the week the wall shows. */
+    /** JSON `[{id,name}]` — the layout's calendars, passed by main.ts, so /plan reads the week the wall shows. */
     calendars?: string
     /** The first weather card's location, passed by main.ts, so /pogoda asks about the same place the wall shows. */
     weatherLat?: string
