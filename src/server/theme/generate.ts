@@ -27,7 +27,8 @@ export interface ThemeColorTriple {
 export interface ThemeFontFace {
   family: string
   src: string
-  weight?: number
+  /** A number, or a "400 900" range for a variable face. */
+  weight?: number | string
   style?: string
   unicodeRange?: string
 }
@@ -44,6 +45,8 @@ export interface ThemeDisplay {
   /** `text-transform` for titles. The first letter is always capitalised. */
   case?: 'none' | 'uppercase' | 'lowercase'
   letterSpacingPx?: number
+  /** Unitless. Default: the body leading a card title always inherited. */
+  lineHeight?: number
 }
 
 /** One CSS value for every mode, or one per mode (night falls back to dark). */
@@ -80,6 +83,20 @@ export interface ThemeOrnament {
   rule?: ThemeModeValue
 }
 
+/**
+ * The shell header as a band of its own: a background, its padding, and the
+ * ink used on it. `colors` takes the same role names as the top-level
+ * `colors`/`states`, and is scoped to the header (data-region="header"), so
+ * everything inside — title, status, buttons, the pull-to-refresh tab — reads
+ * against the band instead of the page. Absent, the header is what it always
+ * was: no background, a bottom rule, the page's own colours.
+ */
+export interface ThemeHeader {
+  background?: ThemeModeValue
+  padding?: string
+  colors?: Record<string, ThemeColorTriple>
+}
+
 export interface GenerateOptions {
   /** Theme-relative asset path → the URL it is served at. Defaults to the path itself. */
   assetUrl?: (path: string) => string
@@ -100,6 +117,7 @@ export interface Theme {
   }
   colors: Record<string, ThemeColorTriple>
   ornament?: ThemeOrnament
+  header?: ThemeHeader
   spacing?: { basePx?: number; gridGapPx?: number; cardPaddingPx?: number; cardMinHeightPx?: number }
   shape: { borderRadiusPx: number; borderWidthPx: number; borderWidthStrongPx?: number }
   motion?: { fastMs?: number; baseMs?: number; slowMs?: number; easing?: string; blinkPeriodMs?: number }
@@ -246,6 +264,16 @@ function modeBlock(theme: Theme, mode: Mode, selector: string, assetUrl: (path: 
   const display = pick(theme.colors.display, mode) ?? pick(theme.colors.textMuted, mode)
   if (display) lines.push(`--fg-display: ${display};`)
 
+  // The card's own outline. Separate from borderStrong because that one also
+  // outlines buttons, active tabs and focused inputs and must reach 3:1; a
+  // theme whose cards are set apart by their fill (a white note on cork) wants
+  // a hairline here without weakening every control. Default: borderStrong.
+  const cardBorder = pick(theme.colors.cardBorder, mode) ?? pick(theme.colors.borderStrong, mode)
+  if (cardBorder) lines.push(`--card-border: ${cardBorder};`)
+
+  // The header band. `transparent` is what the header always had.
+  lines.push(`--shell-head-bg: ${pickValue(theme.header?.background, mode)?.trim() ?? 'transparent'};`)
+
   // Ornament. Each slot's default reproduces an unornamented theme exactly: the
   // page and the cards are their flat colours, and there is no frame or rule
   // image, so the plain borders underneath show as they always have.
@@ -307,6 +335,32 @@ function backdropBlocks(theme: Theme, assetUrl: (path: string) => string): strin
   return out
 }
 
+/**
+ * The header's own ink, scoped to data-region="header". Custom properties set
+ * on the header element win over the ones it would inherit from <html>, so
+ * every component inside it follows without knowing it is in a band. Dark is
+ * the unqualified rule, as the dark mode block is; light and night outrank it.
+ */
+function headerBlocks(theme: Theme): string[] {
+  const colors = theme.header?.colors
+  if (!colors) return []
+  const region = '[data-region="header"]'
+  const out: string[] = []
+  for (const [mode, selector] of [
+    ['dark', region],
+    ['light', `[data-mode="light"] ${region}`],
+    ['night', `[data-mode="night"] ${region}`],
+  ] as const) {
+    const lines: string[] = []
+    for (const [key, token] of [...COLOR_TOKENS, ...STATE_TOKENS, ['display', '--fg-display'] as const]) {
+      const value = pick(colors[key], mode)
+      if (value) lines.push(`${token}: ${value};`)
+    }
+    if (lines.length) out.push(block(selector, lines))
+  }
+  return out
+}
+
 function fontFaceBlock(face: ThemeFontFace, assetUrl: (path: string) => string): string {
   const lines = [
     `font-family: '${face.family.replace(/'/g, '')}';`,
@@ -341,6 +395,10 @@ export function generateTokensCss(theme: Theme, options: GenerateOptions = {}): 
   structure.push(`--display-size: ${display.sizePx !== undefined ? `${display.sizePx}px` : 'var(--text-sm)'};`)
   structure.push(`--display-weight: ${display.weight ?? 'var(--weight-medium)'};`)
   structure.push(`--display-case: ${display.case ?? 'uppercase'};`)
+  // A title set larger than a label at body leading makes every card head
+  // taller, and every card body that much shorter — a theme with a big title
+  // face sets this tight to give that height back.
+  structure.push(`--display-leading: ${display.lineHeight ?? 'var(--leading-body)'};`)
   // Read by lib/backdrop.ts, not by CSS: how many backdrops there are and how
   // long each one stays. 1 means there is nothing to rotate.
   structure.push(`--backdrop-count: ${backdropCount(theme)};`)
@@ -377,6 +435,11 @@ export function generateTokensCss(theme: Theme, options: GenerateOptions = {}): 
   if (sp.cardMinHeightPx) structure.push(`--card-min-h: ${sp.cardMinHeightPx}px;`)
 
   structure.push(`--radius: ${theme.shape.borderRadiusPx}px;`)
+  // The header's padding: only its bottom gap unless the theme draws a band.
+  // Square unless there is a band to round: a radius on a header that is only
+  // a bottom rule would curl the rule's ends.
+  structure.push(`--shell-head-pad: ${theme.header?.padding ?? '0 0 var(--space-2)'};`)
+  structure.push(`--shell-head-radius: ${theme.header?.background ? 'var(--radius)' : '0px'};`)
   structure.push(`--border-w: ${theme.shape.borderWidthPx}px;`)
   structure.push(`--border-w-strong: ${theme.shape.borderWidthStrongPx ?? theme.shape.borderWidthPx}px;`)
 
@@ -401,6 +464,7 @@ export function generateTokensCss(theme: Theme, options: GenerateOptions = {}): 
     modeBlock(theme, 'light', '[data-mode="light"]', assetUrl),
     modeBlock(theme, 'night', '[data-mode="night"]', assetUrl),
     ...backdropBlocks(theme, assetUrl),
+    ...headerBlocks(theme),
   ]
 
   const large = theme.density?.largeScaleFactor

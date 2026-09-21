@@ -17,6 +17,14 @@ entries:
       - "PUNKTOMAT i MINUTNIK: przycisk pełnego ekranu [ + ], strzałki karuzeli zdjęć oraz pauza/reset włączonego minutnika nie są już ucinane. Na telefonie karuzela zdjęć nie pokazuje kropek — numer zdjęcia (np. 3/8) jest w stopce karty."
       - "Na iPadzie trzymanym pionowo to samo dotyczy [ + ] w LOG.WYDARZENIA i w karuzeli zdjęć. Na iPadzie w poziomie wszystko wygląda tak jak dotąd."
   - date: "2026-09-21"
+    title: "Nowy motyw: Punktomat"
+    items:
+      - "Czwarty motyw do wyboru wygląda jak Punktomat: białe karteczki przypięte do korkowej tablicy, fioletowy pasek nagłówka z gradientem, zaokrąglone rogi i krój Nunito. Z Punktomatu przyszła też faktura korka, pajęczyna w rogu i plama po kawie."
+      - "Punktomat ma tylko tryb jasny, więc tryby ciemny i nocny są nowe: ta sama tablica po zmroku — ciemny korek, grafitowe karteczki, lawendowy fiolet — a nocą jeszcze ciemniej."
+      - "Zielony, pomarańczowy i czerwony z Punktomatu są przyciemnione tak, żeby napisy w tych kolorach dało się przeczytać z metra; każdy napis ma kontrast co najmniej 4,5:1 we wszystkich trybach."
+      - "Włącza się go tak samo jak inne motywy: `theme: \"design-system/themes/punktomat.yaml\"` w `layout.yaml` albo w `layout.local.yaml`. Domyślny motyw się nie zmienia."
+      - "Przy okazji motyw Steampunk Brass ma odrobinę ciaśniejsze tytuły i marginesy kart: odkąd karty nie są ucinane u dołu, prognoza na kolejne dni w karcie pogody przestała się w nim mieścić — teraz znów widać ją w całości."
+  - date: "2026-09-21"
     title: "Kalendarze: jedna lista w layout.yaml, layout.local.yaml z tymi samymi kluczami"
     items:
       - "Kalendarze są teraz zdefiniowane raz, na górze `layout.yaml`, w sekcji `calendars` — obie karty kalendarza (GŁÓWNA i KALENDARZ) pokazują te same kalendarze, bez powtarzania listy w każdej karcie."

@@ -75,5 +75,9 @@ makes it a picture of the day. Its files live beside it in
 content hash. Each slot's default is "as before", so a theme that omits them —
 retro, daylight — renders exactly as it did.
 
+`punktomat.yaml` brings the household's other app to the wall: Punktomat's
+cork texture, cobweb and coffee stain, white notes with a hairline
+`cardBorder`, the purple gradient `header` band with its own ink, and Nunito.
+
 To try a theme on one machine without committing, set `theme:` in the
 gitignored `layout.local.yaml`; it overrides `layout.yaml`'s.

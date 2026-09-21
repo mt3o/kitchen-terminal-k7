@@ -13,6 +13,7 @@
 # something on one machine without committing it, like a different theme:
 #
 #   theme: "design-system/themes/steampunk-brass.yaml"
+#   theme: "design-system/themes/punktomat.yaml"
 
 # Added to layout.yaml's own `calendars` — same key, so a new id is a new tab.
 # Writing an id layout.yaml already has changes just the fields given here.
