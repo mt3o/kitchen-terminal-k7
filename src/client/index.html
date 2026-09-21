@@ -17,7 +17,7 @@
      rather than a bundled import so that swapping the theme is a server-side
      fact, and so the sheet is present before first paint. -->
 <link rel="stylesheet" href="/theme.css" id="theme-sheet">
-<!-- A theme picked in the footer for this tab only (lib/theme-picker.ts), put
+<!-- A theme picked in the header menu for this tab only (lib/theme-picker.ts), put
      on before first paint so a reload does not flash the default. Keep the key
      and URL in step with SESSION_KEY and themeSheetHref() there. -->
 <script>
@@ -42,21 +42,25 @@
     <header class="shell-head" data-region="header">
       <span class="hud-label shell-title">TERMINAL <span class="shell-title-code">K7</span></span>
       <span class="shell-status">
-        <button type="button" id="changelog-open" class="hud-button" aria-haspopup="dialog" aria-controls="changelog">[ i ] DZIENNIK ZMIAN</button>
-        <button type="button" id="issue-log-open" class="hud-button" aria-haspopup="dialog" aria-controls="issue-log">[ ! ] DZIENNIK BŁĘDÓW</button>
-        <span class="hud-label" id="status">STATUS: BOOT</span>
+        <span class="hud-label shell-status-line" id="status"><span class="status-prefix">STATUS: </span><span id="status-text">BOOT</span></span>
         <span class="cursor" aria-hidden="true">&#9608;</span>
+        <button type="button" id="shell-menu-open" class="hud-button" aria-label="menu" aria-expanded="false" aria-controls="shell-menu">[ &#8801; ]</button>
       </span>
     </header>
+    <!-- The hamburger's panel (lib/shell-menu.ts). Outside the header on
+         purpose: the header carries pull-to-refresh's touch listeners. -->
+    <div id="shell-menu" class="shell-menu" hidden>
+      <button type="button" id="changelog-open" class="hud-button" aria-haspopup="dialog" aria-controls="changelog" data-closes-menu>[ i ] DZIENNIK ZMIAN</button>
+      <button type="button" id="issue-log-open" class="hud-button" aria-haspopup="dialog" aria-controls="issue-log" data-closes-menu>[ ! ] DZIENNIK BŁĘDÓW</button>
+      <label class="meta theme-picker" hidden>motyw w tej karcie:
+        <select id="theme-picker" class="theme-picker-select" aria-label="Motyw w tej karcie"></select>
+      </label>
+      <button type="button" id="theme-toggle" class="hud-button">[ MOTYW: JASNY ]</button>
+    </div>
     <main id="deck" class="deck" aria-live="polite"></main>
     <footer class="shell-foot">
-      <span class="shell-foot-meta">
-        <span class="meta" id="foot">&gt; ladowanie layoutu</span>
-        <label class="meta theme-picker" hidden>// motyw:
-          <select id="theme-picker" class="theme-picker-select" aria-label="Motyw w tej karcie"></select>
-        </label>
-      </span>
-      <button type="button" id="theme-toggle" class="hud-button">[ MOTYW: JASNY ]</button>
+      <span class="meta" id="foot">&gt; ladowanie layoutu</span>
+      <span class="meta" id="foot-theme"></span>
     </footer>
     <div
       id="reconnect"
