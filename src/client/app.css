@@ -63,6 +63,29 @@ body {
   flex-wrap: wrap;
 }
 
+/* The footer's left side: the card count and, once the server has said which
+   themes exist, the per-tab theme picker (lib/theme-picker.ts). */
+.shell-foot-meta { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.theme-picker { display: inline-flex; align-items: center; gap: var(--space-1); }
+.theme-picker[hidden] { display: none; }
+.theme-picker-select {
+  min-height: var(--control-h-sm);
+  padding: 0 var(--control-pad-x);
+  background: var(--surface);
+  color: var(--fg);
+  border: var(--border-w) solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+}
+.theme-picker-select:focus {
+  outline: var(--focus-w) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+@supports selector(:focus-visible) {
+  .theme-picker-select:focus:not(:focus-visible) { outline: none; }
+}
+
 .shell-foot {
   /* A one-line status strip inherits the body's 1.45 paragraph leading by
      default, which reads as taller than the single short line actually

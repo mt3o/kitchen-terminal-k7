@@ -16,7 +16,20 @@
 <!-- The token sheet, generated from the theme file layout.yaml names. A <link>
      rather than a bundled import so that swapping the theme is a server-side
      fact, and so the sheet is present before first paint. -->
-<link rel="stylesheet" href="/theme.css">
+<link rel="stylesheet" href="/theme.css" id="theme-sheet">
+<!-- A theme picked in the footer for this tab only (lib/theme-picker.ts), put
+     on before first paint so a reload does not flash the default. Keep the key
+     and URL in step with SESSION_KEY and themeSheetHref() there. -->
+<script>
+  try {
+    var k7Theme = sessionStorage.getItem('k7:theme-session')
+    if (k7Theme) {
+      var k7Sheet = document.getElementById('theme-sheet')
+      k7Sheet.onerror = function () { k7Sheet.onerror = null; k7Sheet.href = '/theme.css' }
+      k7Sheet.href = '/theme.css?theme=' + encodeURIComponent(k7Theme)
+    }
+  } catch (e) {}
+</script>
 <!-- iOS ignores the manifest's icons and has no notion of a splash from it
      either: a home-screen launch shows a white flash unless an explicit startup
      image is given per orientation. Letterboxed onto the theme background so the
@@ -37,7 +50,12 @@
     </header>
     <main id="deck" class="deck" aria-live="polite"></main>
     <footer class="shell-foot">
-      <span class="meta" id="foot">&gt; ladowanie layoutu</span>
+      <span class="shell-foot-meta">
+        <span class="meta" id="foot">&gt; ladowanie layoutu</span>
+        <label class="meta theme-picker" hidden>// motyw:
+          <select id="theme-picker" class="theme-picker-select" aria-label="Motyw w tej karcie"></select>
+        </label>
+      </span>
       <button type="button" id="theme-toggle" class="hud-button">[ MOTYW: JASNY ]</button>
     </footer>
     <div

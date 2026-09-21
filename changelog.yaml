@@ -9,6 +9,11 @@
 # Newest entry first.
 entries:
   - date: "2026-09-21"
+    title: "Wybór motywu w stopce"
+    items:
+      - "Nazwa motywu w stopce jest teraz listą do wyboru: można obejrzeć dowolny z motywów (Retro sci-fi HUD, Daylight Lab, Steampunk Brass, Punktomat) bez zmieniania `layout.yaml`."
+      - "Wybór dotyczy tylko tej karty przeglądarki: przetrwa odświeżenie, ale znika po jej zamknięciu. Inne urządzenia i ekran na ścianie dalej pokazują motyw z `layout.yaml`, oznaczony na liście jako (domyślny)."
+  - date: "2026-09-21"
     title: "Telefon: przyciski i zakładki nie wychodzą już poza karty"
     items:
       - "Na wąskim ekranie telefonu część przycisków wychodziła poza prawą krawędź karty i była ucinana. Teraz zostają w karcie: gdy nie mieszczą się obok nazwy karty, przechodzą do linii pod nią."
