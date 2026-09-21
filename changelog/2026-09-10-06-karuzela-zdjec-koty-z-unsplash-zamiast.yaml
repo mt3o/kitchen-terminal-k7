@@ -1,0 +1,6 @@
+date: "2026-09-10"
+title: "Karuzela zdjęć: koty z Unsplash zamiast placeholderów; QR logowania"
+items:
+  - "Karuzela zdjęć na stronie SYSTEM pokazuje teraz zdjęcia kotów zamiast szarych placeholderów."
+  - "Statyczny obraz na stronie SYSTEM to teraz kod QR logowania do Punktomatu, z własną etykietą karty."
+  - "ASCII.DNIA pokazuje teraz statyczny rezerwowy ascii-art kota, gdy generowanie się nie powiedzie (np. brak klucza do bramki AI), zamiast pustej karty."

@@ -1,0 +1,4 @@
+date: "2026-09-10"
+title: "Panel dostępny pod adresem bez numeru portu"
+items:
+  - "Terminal K7 odpowiada teraz pod https://k7.revert-h0m3.co.pl/ bez podawania numeru portu — serwer nginx na tej samej maszynie przyjmuje ruch na standardowych portach 80 i 443 i kieruje go dalej do K7; port 80 przekierowuje na https."

@@ -1,0 +1,7 @@
+date: "2026-09-21"
+title: "Kalendarze: jedna lista w layout.yaml, layout.local.yaml z tymi samymi kluczami"
+items:
+  - "Kalendarze są teraz zdefiniowane raz, na górze `layout.yaml`, w sekcji `calendars` — obie karty kalendarza (GŁÓWNA i KALENDARZ) pokazują te same kalendarze, bez powtarzania listy w każdej karcie."
+  - "Zamiast `showInMain: true` przy każdym kalendarzu jest jedna lista `mainCalendars` z id kalendarzy, które łączy zakładka GŁÓWNY."
+  - "`layout.local.yaml` używa teraz tych samych kluczy co `layout.yaml` (`calendars`, `mainCalendars`) zamiast osobnego `calendarAdditions`. Stary plik trzeba przepisać według `layout.local.yaml.example` — klucz `calendarAdditions` nie jest już czytany."
+  - "Literówka w `mainCalendars` (id, którego nie ma w `calendars`) daje czytelny błąd layoutu zamiast po cichu pustej pozycji w GŁÓWNY."

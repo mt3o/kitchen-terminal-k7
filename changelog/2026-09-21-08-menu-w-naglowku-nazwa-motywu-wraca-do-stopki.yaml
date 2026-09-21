@@ -1,0 +1,8 @@
+date: "2026-09-21"
+title: "Menu w nagłówku, nazwa motywu wraca do stopki"
+items:
+  - "DZIENNIK ZMIAN, DZIENNIK BŁĘDÓW, wybór motywu i przełącznik jasny/ciemny są teraz w menu pod przyciskiem [ ≡ ] w prawym górnym rogu. Menu zamyka się dotknięciem poza nim albo klawiszem Esc."
+  - "Stopka znowu pokazuje nazwę motywu, który jest na ekranie (// motyw: …)."
+  - "Nagłówek mieści się w jednej linii także na telefonie: na wąskim ekranie zamiast „STATUS: ONLINE” widać samo „ONLINE”."
+  - "CZAT.AI: przyciski MENU, ARCHIWUM i NOWA w nagłówku karty są nieco mniejsze. Pasek poleceń nad polem wiadomości zniknął: wszystkie polecenia są dostępne w MENU, a wpisanie /polecenie nadal działa."
+  - "CZAT.AI na telefonie: przycisk pełnego ekranu [ + ] jest teraz w pierwszej linii, obok nazwy karty, a MENU, ARCHIWUM i NOWA mają własny wiersz pod nią."

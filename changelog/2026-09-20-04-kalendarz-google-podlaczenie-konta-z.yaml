@@ -1,0 +1,7 @@
+date: "2026-09-20"
+title: "Kalendarz Google: podłączenie konta z przeglądarki"
+items:
+  - "Nowy panel pod adresem `/admin` pozwala podłączyć konto Google przez okno zgody Google, zamiast wklejania tokenu do pliku `.env.local` na serwerze."
+  - "Panel jest chroniony tokenem administratora (`K7_ADMIN_TOKEN`) — bez niego adresy panelu w ogóle nie istnieją. Token wkleja się raz, w przeglądarce laptopa; na iPadzie w kuchni nic się nie zmienia."
+  - "Token odświeżania zapisywany jest w bazie, zaszyfrowany kluczem `K7_SECRET_KEY`, i ma pierwszeństwo przed zmienną środowiskową."
+  - "Panel pokazuje, które konto jest podłączone i pozwala je rozłączyć (z cofnięciem dostępu po stronie Google)."

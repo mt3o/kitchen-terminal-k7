@@ -1,0 +1,5 @@
+date: "2026-09-15"
+title: "Poprawka: daty w kalendarzu mogły nie odświeżać się po zmianie tygodnia"
+items:
+  - "Nagłówki dni w karcie kalendarza były ustawiane tylko raz przy starcie karty; na urządzeniu działającym bez przeładowania przez dłuższy czas mogły przestać zgadzać się z faktyczną datą po zmianie tygodnia. Teraz aktualizują się razem z resztą karty."
+  - "Wzmocniono też zabezpieczenia zapytań do zewnętrznych adresów kalendarza i komiksu dnia po stronie serwera."

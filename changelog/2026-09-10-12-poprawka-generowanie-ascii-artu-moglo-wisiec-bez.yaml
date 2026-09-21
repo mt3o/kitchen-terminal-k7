@@ -1,0 +1,4 @@
+date: "2026-09-10"
+title: "Poprawka: generowanie ASCII-artu mogło wisieć bez końca"
+items:
+  - "Zapytanie do bramki AI (kilo-auto/free) mogło nigdy nie dostać odpowiedzi ani błędu, blokując kartę ASCII.DNIA (i podsumowania w czacie) w nieskończoność. Teraz ma limit czasu 45s, po którym karta pokazuje ostatni dobry wynik albo rezerwowy ascii-art zamiast wisieć."

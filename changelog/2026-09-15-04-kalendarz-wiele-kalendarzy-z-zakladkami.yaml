@@ -1,0 +1,6 @@
+date: "2026-09-15"
+title: "Kalendarz: wiele kalendarzy z zakładkami"
+items:
+  - "Karta kalendarza obsługuje teraz kilka kalendarzy naraz — Google oraz dowolną liczbę zewnętrznych kalendarzy .ics (np. plan lekcji dziecka). Każdy dostaje własną zakładkę; zakładka GŁÓWNY łączy tylko te kalendarze, które mają włączoną opcję \"pokazuj na głównym widoku\"."
+  - "Kalendarz z problemem (nieaktualne dane lub brak połączenia) dostaje odpowiedni znacznik na swojej zakładce zamiast pustej karty."
+  - "Przy jednym skonfigurowanym kalendarzu karta wygląda dokładnie tak jak wcześniej — pasek zakładek pojawia się dopiero od dwóch kalendarzy."

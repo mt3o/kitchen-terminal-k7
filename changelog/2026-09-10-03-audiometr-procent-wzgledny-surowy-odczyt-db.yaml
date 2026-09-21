@@ -1,0 +1,5 @@
+date: "2026-09-10"
+title: "Audiometr: procent względny, surowy odczyt dB"
+items:
+  - "Procent głośności jest teraz względny do ostatnich 30 sekund, z łagodnym opadaniem szczytu zamiast sztywnej skali."
+  - "Karta pokazuje teraz też surowy (niewygładzony) odczyt w dB obok głównego wskaźnika."
