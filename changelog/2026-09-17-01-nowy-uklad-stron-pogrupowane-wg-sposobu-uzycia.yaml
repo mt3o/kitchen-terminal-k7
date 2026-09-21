@@ -1,0 +1,11 @@
+date: "2026-09-17"
+title: "Nowy układ stron — pogrupowane wg sposobu użycia"
+items:
+  - "GŁÓWNA: zegar, pogoda, kalendarz i ascii-art dnia — jedna strona z tym, co widać od progu."
+  - "Nowa strona KALENDARZ: ten sam tydzień co na GŁÓWNEJ, ale na całą szerokość strony — łatwiej przeczytać tytuły wydarzeń niż w połówce siatki 2x2."
+  - "Nowa strona NARZĘDZIA: minutnik i audiometr razem — do użycia przy gotowaniu, nie od progu."
+  - "Nowa strona PRZEPISY: baza przepisów, a obok w zakładce (przycisk MENU) czat AI — pytanie \"co ugotować z tego, co mam\" jest jedno kliknięcie dalej."
+  - "Nowa strona ZAKUPY: lista zakupów sama na całej stronie, zamiast dzielić kolumnę z inną kartą."
+  - "Nowa strona PUNKTOMAT: kod QR do logowania razem z karuzelą zdjęć kotów — strona \"tak dla zabawy\"."
+  - "Nowa strona KOMIKS: codzienny komiks sam na stronie."
+  - "Usunięto duplikaty (dwa zegary, dwa pogody, dwa minutniki) oraz karty, które tylko zajmowały miejsce bez realnej treści (zagnieżdżona siatka z jednym zegarem, karuzela zegar+pogoda)."

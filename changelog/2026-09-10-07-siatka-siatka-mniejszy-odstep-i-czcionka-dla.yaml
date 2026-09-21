@@ -1,0 +1,4 @@
+date: "2026-09-10"
+title: "Siatka (SIATKA): mniejszy odstęp i czcionka dla zagnieżdżonych kart"
+items:
+  - "Karty zagnieżdżone w karcie typu siatka dostają teraz mniejszy margines wewnętrzny i mniejszą czcionkę, w tym mniejsze cyfry zegara — wcześniej zegar mógł nie mieścić się w swojej komórce."

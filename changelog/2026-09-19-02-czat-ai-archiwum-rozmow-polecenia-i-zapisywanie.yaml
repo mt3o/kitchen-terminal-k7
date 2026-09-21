@@ -1,0 +1,11 @@
+date: "2026-09-19"
+title: "Czat AI: archiwum rozmów, polecenia i zapisywanie przepisów"
+items:
+  - "Przycisk ARCHIWUM w nagłówku czatu pokazuje poprzednie rozmowy — można do nich wrócić, zmienić im nazwę (/tytul) albo je usunąć (× i potwierdzenie USUN?). Po przeładowaniu strony czat wraca do rozmowy, która była otwarta na tym urządzeniu."
+  - "Przycisk NOWA (albo polecenie /clear) zaczyna rozmowę od zera — poprzednia zostaje w archiwum."
+  - "/przepis zamienia ostatnią odpowiedź AI w przepis i otwiera go do sprawdzenia w BAZA.PRZEPISY. Nic nie zapisuje się samo — dopiero ZAPISZ w karcie przepisów."
+  - "/zakupy wyciąga składniki z ostatniego przepisu i pokazuje je z polami do odznaczenia; to, co już jest na liście, jest od razu odznaczone. DODAJ wpisuje resztę na LISTA.ZAKUPY."
+  - "Czasy w odpowiedziach AI i w krokach przepisu („gotuj 12 minut”) można stuknąć, żeby uruchomić minutnik. To samo robi /minutnik 10 (albo 7:30, 90s, 1h 15min). Minutnik, który już odlicza, nie zostanie nadpisany."
+  - "Nowe polecenia: /porcje 4 (przelicz przepis), /lodowka jajka, szpinak (co z tego ugotować), /pogoda (wskazówki na dziś z prognozy), /context (ile okna kontekstu jest zajęte i ile zostaje na odpowiedź), /model (zmiana modelu w trakcie rozmowy), /koszt (wydatki dziś i z 30 dni), /pomoc. Nad polem wiadomości jest rząd przycisków z poleceniami — nie trzeba szukać ukośnika na klawiaturze."
+  - "BAZA.PRZEPISY: stuknięcie tytułu otwiera przepis — składniki, kroki i przycisk EDYTUJ."
+  - "Przepisy są teraz zwykłymi plikami Markdown w osobnym katalogu na serwerze, poza instalacją aplikacji — aktualizacja panelu ich nie rusza, a można je edytować i kopiować ręcznie. Dotychczasowe przepisy zostały przeniesione automatycznie."

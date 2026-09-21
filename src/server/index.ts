@@ -13,7 +13,7 @@ import type { Layout, NormalisedLayout } from '../shared/layout.ts'
 import { findConfiguredCalendar } from './calendar-lookup.ts'
 import { layerLayout, type LocalLayout } from './layout-layers.ts'
 import type { Calendar, IssueSeverity, IssueSource } from './domain/types.ts'
-import { parseChangelog } from '../shared/changelog.ts'
+import { loadChangelog } from './changelog.ts'
 import { createRepositories, openDatabase } from './adapters/drizzle/index.ts'
 import { createFileRecipeRepository, InvalidRecipeIdError, migrateRecipesToFiles } from './adapters/files/recipes.ts'
 import { describeConfig, loadConfig, secretValues } from './config.ts'
@@ -292,11 +292,10 @@ app.get('/api/layout', async (_req, reply) => {
   }
 })
 
-/** Read per request, same reasoning as loadLayout: editing changelog.yaml should not need a restart. */
+/** Read per request, same reasoning as loadLayout: adding a file to changelog/ should not need a restart. */
 app.get('/api/changelog', async (_req, reply) => {
   try {
-    const raw = await readFile(resolve(ROOT, 'changelog.yaml'), 'utf8')
-    return parseChangelog(parse(raw))
+    return await loadChangelog(resolve(ROOT, 'changelog'))
   } catch (err) {
     return reply.code(500).send({ error: err instanceof Error ? err.message : 'changelog unreadable' })
   }

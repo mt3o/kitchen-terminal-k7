@@ -1,0 +1,5 @@
+date: "2026-09-19"
+title: "Nowe kalendarze: święta, wschód słońca, prywatny kalendarz"
+items:
+  - "Karta KALENDARZ (na GŁÓWNEJ i na pełnoekranowej stronie KALENDARZ) pokazuje teraz dodatkowe zakładki: Święta (polskie święta i dni wolne) oraz — jeśli skonfigurowane lokalnie — inne prywatne kalendarze domownika."
+  - "Prywatne kalendarze (np. osobisty adres kalendarza) konfiguruje się teraz w osobnym, niewysyłanym do repozytorium pliku (\"layout.local.yaml\"), żeby nie trafiały do publicznego repo GitHub."

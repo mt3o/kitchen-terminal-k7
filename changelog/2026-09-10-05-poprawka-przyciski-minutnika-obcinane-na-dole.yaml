@@ -1,0 +1,4 @@
+date: "2026-09-10"
+title: "Poprawka: przyciski minutnika obcinane na dole karty"
+items:
+  - "Gdy karta MINUTNIK dostawała mniej miejsca niż potrzebowały wszystkie presety czasu, ostatni rząd przycisków był ucinany w połowie zamiast być dostępny przez przewijanie."

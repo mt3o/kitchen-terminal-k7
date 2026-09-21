@@ -1,0 +1,8 @@
+date: "2026-09-21"
+title: "Telefon: przyciski i zakładki nie wychodzą już poza karty"
+items:
+  - "Na wąskim ekranie telefonu część przycisków wychodziła poza prawą krawędź karty i była ucinana. Teraz zostają w karcie: gdy nie mieszczą się obok nazwy karty, przechodzą do linii pod nią."
+  - "PRZEPISY: zakładki MENU (PRZEPISY, CZAT, MINUTNIK, AUDIOMETR) mieszczą się w swojej wąskiej kolumnie. Dłuższa nazwa łamie się na dwie linie zamiast być ucięta."
+  - "CZAT: przyciski MENU, ARCHIWUM, NOWA i [ + ] są widoczne w całości — na telefonie w dwóch rzędach pod nazwą karty."
+  - "PUNKTOMAT i MINUTNIK: przycisk pełnego ekranu [ + ], strzałki karuzeli zdjęć oraz pauza/reset włączonego minutnika nie są już ucinane. Na telefonie karuzela zdjęć nie pokazuje kropek — numer zdjęcia (np. 3/8) jest w stopce karty."
+  - "Na iPadzie trzymanym pionowo to samo dotyczy [ + ] w LOG.WYDARZENIA i w karuzeli zdjęć. Na iPadzie w poziomie wszystko wygląda tak jak dotąd."

@@ -1,0 +1,6 @@
+date: "2026-09-10"
+title: "Nowa karta: obraz statyczny; niższa stopka"
+items:
+  - "Nowy typ karty `image` — pojedynczy obraz spod URL, bez rotacji."
+  - "Karuzela zdjęć to zwykła karuzela ze slajdami typu image."
+  - "Pasek stopki nieco niższy."

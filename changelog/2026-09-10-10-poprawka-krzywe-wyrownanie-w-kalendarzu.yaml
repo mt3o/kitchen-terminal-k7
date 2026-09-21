@@ -1,0 +1,5 @@
+date: "2026-09-10"
+title: "Poprawka: krzywe wyrównanie w kalendarzu"
+items:
+  - "Kolumna z datą ma teraz stałą szerokość, więc wydarzenia we wszystkich dniach zaczynają się w tym samym miejscu zamiast \"skakać\" w zależności od szerokości etykiety dnia."
+  - "Znak \"—\" przy pustym dniu jest teraz przy dacie, a nie oderwany na środku wiersza."

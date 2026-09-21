@@ -1,0 +1,4 @@
+date: "2026-09-10"
+title: "Poprawka: obraz komiksu/zdjęcia rozlewał się poza kartę na iPadzie"
+items:
+  - "Na Safari (iPad) obrazek w karcie \"komiks dnia\" oraz w karcie \"obraz\" mógł wyrenderować się w naturalnym rozmiarze, nachodząc na nagłówek karty i wiersz pod spodem, zamiast zmieścić się w karcie."

@@ -1,0 +1,5 @@
+date: "2026-09-16"
+title: "Pogoda z rysunkiem; kod QR i zdjęcia na pełny ekran"
+items:
+  - "Karta SYS.POGODA pokazuje obok temperatury rysunek ASCII aktualnej pogody — słońce, chmury, deszcz, śnieg, mgłę albo burzę."
+  - "Karty z kodem QR i ze zdjęciami z Unsplash mają teraz w nagłówku przycisk [ + ], który powiększa je na cały ekran — tak samo jak kalendarz. [ x ] zamyka."
