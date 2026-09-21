@@ -1,0 +1,7 @@
+date: "2026-09-21"
+title: "Kalendarz: 30 dni wstecz i 60 dni naprzód"
+items:
+  - "LOG.WYDARZENIA pokazuje teraz listę wydarzeń od 30 dni wstecz do 60 dni naprzód, a nie tylko bieżący tydzień. Na liście są tylko dni, w które coś się dzieje, oraz zawsze dzisiejszy dzień."
+  - "Lista otwiera się na dzisiejszym dniu; minione dni są nad nim (przewiń w górę) i mają przygaszony kolor. Po dwóch minutach bez dotykania lista sama wraca do dzisiaj."
+  - "Przy każdym dniu widać teraz skrót miesiąca, bo lista obejmuje trzy miesiące."
+  - "Czat AI, polecenie /plan: licznik wydarzeń liczy tylko dni objęte planem."

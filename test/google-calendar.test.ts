@@ -166,4 +166,29 @@ describe('createGoogleCalendarClient', () => {
     assert.equal(events.length, 1)
     assert.equal(events[0]!.title, 'Poranna kawa')
   })
+
+  it('follows nextPageToken so a long window is not cut off after the first page', async () => {
+    const pages: Record<string, unknown> = {
+      first: { items: [{ id: 'a', summary: 'A', start: { date: '2026-09-08' }, end: { date: '2026-09-09' } }], nextPageToken: 'p2' },
+      p2: { items: [{ id: 'b', summary: 'B', start: { date: '2026-11-08' }, end: { date: '2026-11-09' } }] },
+    }
+    const calls: string[] = []
+    globalThis.fetch = (async (url: string) => {
+      calls.push(String(url))
+      const isTokenCall = String(url).includes('oauth2.googleapis.com/token')
+      const token = new URL(String(url)).searchParams.get('pageToken') ?? 'first'
+      return {
+        ok: true,
+        status: 200,
+        text: async () => '',
+        json: async () => (isTokenCall ? { access_token: 'access-1', expires_in: 3600 } : pages[token]),
+      }
+    }) as unknown as typeof fetch
+    const client = createGoogleCalendarClient(CREDS)
+    const events = await client.fetchEvents({ calendarId: 'primary', from: new Date('2026-08-22T00:00:00Z'), to: new Date('2026-11-21T00:00:00Z') })
+    assert.deepEqual(events.map((e) => e.id), ['a', 'b'])
+    const eventCalls = calls.filter((u) => !u.includes('oauth2.googleapis.com/token'))
+    assert.equal(eventCalls.length, 2)
+    assert.equal(new URL(eventCalls[1]!).searchParams.get('pageToken'), 'p2')
+  })
 })

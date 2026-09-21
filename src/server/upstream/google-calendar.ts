@@ -20,6 +20,10 @@ import type { CalendarEvent } from '../domain/types.ts'
 const TOKEN_ENDPOINT = 'https://oauth2.googleapis.com/token'
 const API_BASE = 'https://www.googleapis.com/calendar/v3'
 const DEFAULT_TIMEOUT_MS = 8000
+/** The API's own ceiling for `maxResults`. */
+const PAGE_SIZE = 2500
+/** A backstop against an upstream that never stops handing out page tokens, not a real limit — one page covers the whole window in practice. */
+const MAX_PAGES = 10
 
 /**
  * Refreshed a little before its real expiry so a request in flight never
@@ -63,6 +67,7 @@ interface RawGoogleEvent {
 
 interface RawEventsResponse {
   items?: RawGoogleEvent[]
+  nextPageToken?: string
 }
 
 async function fetchWithAuthAndTimeout(url: string, headers: HeadersInit, timeoutMs: number): Promise<Response> {
@@ -158,20 +163,30 @@ export function createGoogleCalendarClient(
 
   async function fetchEvents(query: GoogleCalendarQuery): Promise<CalendarEvent[]> {
     const token = await getAccessToken()
-    const url = new URL(`${API_BASE}/calendars/${encodeURIComponent(query.calendarId)}/events`)
-    url.searchParams.set('timeMin', query.from.toISOString())
-    url.searchParams.set('timeMax', query.to.toISOString())
-    // Google expands recurring events into instances server-side when this is set —
-    // there is no client-side recurrence math to do here, unlike the .ics path.
-    url.searchParams.set('singleEvents', 'true')
-    url.searchParams.set('orderBy', 'startTime')
-
-    const res = await fetchWithAuthAndTimeout(url.toString(), { authorization: `Bearer ${token}` }, timeoutMs)
-    const json = (await res.json()) as RawEventsResponse
     const events: CalendarEvent[] = []
-    for (const item of json.items ?? []) {
-      const mapped = mapGoogleEvent(item)
-      if (mapped) events.push(mapped)
+    // A 91-day window can outgrow one page (the API's default is 250 items —
+    // a name-day calendar alone is one event a day), so follow nextPageToken
+    // rather than silently dropping the tail of the range.
+    let pageToken: string | undefined
+    for (let page = 0; page < MAX_PAGES; page++) {
+      const url = new URL(`${API_BASE}/calendars/${encodeURIComponent(query.calendarId)}/events`)
+      url.searchParams.set('timeMin', query.from.toISOString())
+      url.searchParams.set('timeMax', query.to.toISOString())
+      // Google expands recurring events into instances server-side when this is set —
+      // there is no client-side recurrence math to do here, unlike the .ics path.
+      url.searchParams.set('singleEvents', 'true')
+      url.searchParams.set('orderBy', 'startTime')
+      url.searchParams.set('maxResults', String(PAGE_SIZE))
+      if (pageToken) url.searchParams.set('pageToken', pageToken)
+
+      const res = await fetchWithAuthAndTimeout(url.toString(), { authorization: `Bearer ${token}` }, timeoutMs)
+      const json = (await res.json()) as RawEventsResponse
+      for (const item of json.items ?? []) {
+        const mapped = mapGoogleEvent(item)
+        if (mapped) events.push(mapped)
+      }
+      pageToken = json.nextPageToken
+      if (!pageToken) break
     }
     return events
   }

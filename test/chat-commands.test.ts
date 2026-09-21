@@ -25,7 +25,7 @@ import {
   initialFormValues,
   missingFields,
   parseMeasure,
-  calendarWeekEnd,
+  calendarDataEnd,
   planDays,
   planPrompt,
   previewCommand,
@@ -313,7 +313,7 @@ describe('/plan', () => {
     assert.ok(!prompt.includes('bazy'), 'no base means no instruction to prefer it')
   })
 
-  it('marks days past the fetched week as unknown, not as free', () => {
+  it('marks days past the fetched range as unknown, not as free', () => {
     const prompt = planPrompt({
       days: planDays(monday, 4, events),
       recipes: [],
@@ -324,9 +324,10 @@ describe('/plan', () => {
     assert.ok(prompt.includes('czw 24.09: brak danych z kalendarza'), prompt)
   })
 
-  it('knows where calendar data stops: Monday of next week', () => {
-    assert.equal(calendarWeekEnd(new Date(2026, 8, 21, 23, 0)).getTime(), new Date(2026, 8, 28).getTime(), 'Monday')
-    assert.equal(calendarWeekEnd(new Date(2026, 8, 27, 1, 0)).getTime(), new Date(2026, 8, 28).getTime(), 'Sunday')
+  it('knows where calendar data stops: the day after today + 60', () => {
+    assert.equal(calendarDataEnd(new Date(2026, 8, 21, 23, 0)).getTime(), new Date(2026, 10, 21).getTime(), 'late evening')
+    // Crosses the October DST change: still local midnight, not 23:00 or 01:00.
+    assert.equal(calendarDataEnd(new Date(2026, 8, 27, 1, 0)).getTime(), new Date(2026, 10, 27).getTime(), 'early morning')
   })
 
   it('clamps the day count to something a week-shaped plan can carry', () => {

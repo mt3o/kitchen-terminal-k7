@@ -12,6 +12,7 @@
  * was actually asked, and a thread reopened from the archive still reads
  * sensibly. Nothing is smuggled into a hidden system prompt.
  */
+import { CALENDAR_FUTURE_DAYS } from './calendar.ts'
 import { ageLabel, describeWeather } from './wmo.ts'
 
 export interface ChatCommand {
@@ -699,15 +700,14 @@ export function planDays(from: Date, days: number, events: readonly PlanEvent[])
 }
 
 /**
- * The first day the calendar cannot answer for: Monday of next week.
- * `/api/calendar/week` serves the current Monday-to-Monday week only (the
- * same first-day convention the calendar card uses), so a longer plan has to
- * know where its calendar knowledge stops.
+ * The first day the calendar cannot answer for: the day after the last one
+ * `/api/calendar/week` fetches (today + `CALENDAR_FUTURE_DAYS`), so a plan
+ * that somehow runs past it says those days are unknown rather than free.
  */
-export function calendarWeekEnd(now: Date): Date {
-  const monday = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-  monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7) + 7)
-  return monday
+export function calendarDataEnd(now: Date): Date {
+  const end = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  end.setDate(end.getDate() + CALENDAR_FUTURE_DAYS + 1)
+  return end
 }
 
 export function parsePlanDays(raw: string, fallback = 7): number {
@@ -723,9 +723,9 @@ export interface PlanInput {
   /** True when the calendar could not be read — say nothing rather than imply a free week. */
   calendarUnavailable?: boolean
   /**
-   * First day the calendar data does NOT cover. /api/calendar/week answers for
-   * the current week only, so a plan that runs past Sunday must say those days
-   * are unknown — an empty day and an unseen day are different claims.
+   * First day the calendar data does NOT cover. A plan that runs past it must
+   * say those days are unknown — an empty day and an unseen day are different
+   * claims.
    */
   calendarUntil?: Date
 }
