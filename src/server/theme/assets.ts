@@ -82,8 +82,14 @@ export async function assetVersions(themeDir: string, paths: readonly string[]):
   return versions
 }
 
-/** The served URL for a theme-relative path. Each segment is encoded; the separators are not. */
-export function themeAssetUrl(path: string, version: string | undefined): string {
+/**
+ * The served URL for a theme-relative path. Each segment is encoded; the
+ * separators are not. `theme` is set only for a session's chosen theme (see
+ * catalogue.ts): the route has to know whose declared files to check against,
+ * and the service worker then keeps each theme's copy under its own URL.
+ */
+export function themeAssetUrl(path: string, version: string | undefined, theme?: string): string {
   const encoded = path.split('/').map(encodeURIComponent).join('/')
-  return `${THEME_ASSET_PREFIX}${encoded}${version ? `?v=${version}` : ''}`
+  const query = [version ? `v=${version}` : '', theme ? `theme=${encodeURIComponent(theme)}` : ''].filter(Boolean).join('&')
+  return `${THEME_ASSET_PREFIX}${encoded}${query ? `?${query}` : ''}`
 }

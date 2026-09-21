@@ -23,6 +23,7 @@ import { createScrubber } from './redact.ts'
 import { importRecipeFromUrl, RecipeImportError } from './recipes/import.ts'
 import { generateTokensCss, themeAssetPaths, type Theme } from './theme/generate.ts'
 import { assetVersion, assetVersions, resolveThemeAsset, themeAssetUrl } from './theme/assets.ts'
+import { listThemes, pickThemePath, themeId, THEMES_DIR } from './theme/catalogue.ts'
 import { isAllowedHost, isFetchableUrl, isPrivateAddress } from './security/network.ts'
 import { createCloudflareDns } from './tls/cloudflare.ts'
 import { ensureCertificate } from './tls/certificate.ts'
@@ -218,20 +219,38 @@ async function loadLayout(): Promise<NormalisedLayout> {
  * never cached by design. It is still generated per request, so editing a theme
  * file needs no restart — the same rule the layout follows.
  */
-/** The theme the layout names, and the directory its files are relative to. */
-async function loadTheme(): Promise<{ theme: Theme; dir: string }> {
+/**
+ * The theme to render, and the directory its files are relative to: the one
+ * the layout names, unless the request asks for another from the catalogue for
+ * this session only (`?theme=<id>`, see theme/catalogue.ts). `override` is the
+ * id actually honoured, so asset URLs can carry it on.
+ */
+async function loadTheme(requested?: string): Promise<{ theme: Theme; dir: string; override?: string }> {
   const layout = await loadLayout()
-  const themePath = resolve(ROOT, layout.theme)
-  return { theme: parse(await readFile(themePath, 'utf8')) as Theme, dir: dirname(themePath) }
+  const catalogue = requested ? await listThemes(resolve(ROOT, THEMES_DIR)) : []
+  const themePath = pickThemePath(ROOT, layout.theme, requested, catalogue)
+  const override = requested && catalogue.some((t) => t.id === requested) ? requested : undefined
+  return { theme: parse(await readFile(themePath, 'utf8')) as Theme, dir: dirname(themePath), override }
 }
 
-app.get('/theme.css', async (_req, reply) => {
+/** What the footer's theme picker offers, and which entry is the layout's own. */
+app.get('/api/themes', async (_req, reply) => {
   try {
-    const { theme, dir } = await loadTheme()
+    const layout = await loadLayout()
+    return { default: themeId(layout.theme), themes: await listThemes(resolve(ROOT, THEMES_DIR)) }
+  } catch (err) {
+    req_log_error(err)
+    return reply.code(500).send({ error: 'themes unavailable' })
+  }
+})
+
+app.get<{ Querystring: { theme?: string } }>('/theme.css', async (req, reply) => {
+  try {
+    const { theme, dir, override } = await loadTheme(req.query.theme)
     // Asset URLs carry a content hash, so the pictures and fonts can be cached
     // hard while this sheet, which names them, stays uncached.
     const versions = await assetVersions(dir, themeAssetPaths(theme))
-    const css = generateTokensCss(theme, { assetUrl: (path) => themeAssetUrl(path, versions.get(path)) })
+    const css = generateTokensCss(theme, { assetUrl: (path) => themeAssetUrl(path, versions.get(path), override) })
     return reply
       .type('text/css; charset=utf-8')
       // No long cache: the whole point is that changing the file changes the
@@ -251,9 +270,9 @@ app.get('/theme.css', async (_req, reply) => {
  * paths the theme names are served (see theme/assets.ts); everything else in its
  * directory, the YAML included, is a 404.
  */
-app.get<{ Params: { '*': string }; Querystring: { v?: string } }>('/theme-assets/*', async (req, reply) => {
+app.get<{ Params: { '*': string }; Querystring: { v?: string; theme?: string } }>('/theme-assets/*', async (req, reply) => {
   try {
-    const { theme, dir } = await loadTheme()
+    const { theme, dir } = await loadTheme(req.query.theme)
     const asset = resolveThemeAsset(dir, req.params['*'], themeAssetPaths(theme))
     if (!asset) return reply.code(404).send({ error: 'not a theme asset' })
     const bytes = await readFile(asset.file)
