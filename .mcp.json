@@ -2,10 +2,13 @@
   "mcpServers": {
     "agentic-memory": {
       "type": "stdio",
-      "command": "agentic-memory-mcp",
-      "args": [],
+      "command": "sh",
+      "args": [
+        "-c",
+        "cd \"$CLAUDE_PROJECT_DIR\" && PATH=\"$HOME/.local/bin:$PATH\" exec agentic-memory-mcp"
+      ],
       "env": {
-        "MEMORY_DB_PATH": "/home/mt3o/Documents/Terminal-K7/context/memory-graph.db"
+        "MEMORY_DB_PATH": "context/memory-graph.db"
       }
     }
   }
