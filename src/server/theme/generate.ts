@@ -194,7 +194,8 @@ function resolveAssets(css: string, assetUrl: (path: string) => string): string 
   return css.replace(ASSET_REF, (_m, path: string) => `url("${assetUrl(path.trim())}")`)
 }
 
-function ornamentValues(ornament: ThemeOrnament | undefined): string[] {
+/** Every raw CSS string inside a slot, however it is nested (string, list, per-mode map). */
+function ornamentValues(ornament: unknown): string[] {
   const out: string[] = []
   const collect = (value: unknown): void => {
     if (typeof value === 'string') out.push(value)
@@ -213,7 +214,7 @@ function ornamentValues(ornament: ThemeOrnament | undefined): string[] {
 export function themeAssetPaths(theme: Theme): string[] {
   const paths = new Set<string>()
   for (const face of theme.typography.fontFaces ?? []) paths.add(face.src)
-  for (const css of ornamentValues(theme.ornament)) {
+  for (const css of [...ornamentValues(theme.ornament), ...ornamentValues(theme.header?.background)]) {
     for (const m of css.matchAll(ASSET_REF)) paths.add((m[1] as string).trim())
   }
   return [...paths]
@@ -271,8 +272,11 @@ function modeBlock(theme: Theme, mode: Mode, selector: string, assetUrl: (path: 
   const cardBorder = pick(theme.colors.cardBorder, mode) ?? pick(theme.colors.borderStrong, mode)
   if (cardBorder) lines.push(`--card-border: ${cardBorder};`)
 
-  // The header band. `transparent` is what the header always had.
-  lines.push(`--shell-head-bg: ${pickValue(theme.header?.background, mode)?.trim() ?? 'transparent'};`)
+  // The header band. `transparent` is what the header always had. It goes
+  // through asset() like the ornament slots: a band is a background, and a
+  // theme that wants a watermark on it should not have to hard-code a URL.
+  const band = pickValue(theme.header?.background, mode)?.trim()
+  lines.push(`--shell-head-bg: ${band ? resolveAssets(band, assetUrl) : 'transparent'};`)
 
   // Ornament. Each slot's default reproduces an unornamented theme exactly: the
   // page and the cards are their flat colours, and there is no frame or rule

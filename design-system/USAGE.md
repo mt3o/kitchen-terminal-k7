@@ -79,5 +79,11 @@ retro, daylight — renders exactly as it did.
 cork texture, cobweb and coffee stain, white notes with a hairline
 `cardBorder`, the purple gradient `header` band with its own ink, and Nunito.
 
+`hellforge.yaml` is the Diablo-ish one: iron plates on a forge, blood
+running off every divider, a pentagram branded on each card and a sigil on the
+header band. It is the first theme that needed no new token at all — proof the
+slots built for the other two generalise.
+
 To try a theme on one machine without committing, set `theme:` in the
 gitignored `layout.local.yaml`; it overrides `layout.yaml`'s.
+
