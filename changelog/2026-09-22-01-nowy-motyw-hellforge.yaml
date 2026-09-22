@@ -1,0 +1,8 @@
+date: "2026-09-22"
+title: "Nowy motyw: Hellforge (piekielny)"
+items:
+  - "Piąty motyw do wyboru, w klimacie Diablo: karty wyglądają jak żelazne płyty z pazurzastymi narożnikami i rozżarzonym nitem, spod każdego tytułu ścieka krew, a w rogu każdej karty wypalony jest pentagram. Na pasku nagłówka — rogaty sigil."
+  - "W tle zdjęcia zmieniające się co godzinę: w trybie ciemnym i nocnym żyły lawy, płynąca magma, żar, deszcz iskier, wulkan nocą i czarna skała; w trybie jasnym cztery osmalone pergaminy (motyw jasny to „spalony kodeks\" — bo w południe ekranu w czerni po prostu nie widać)."
+  - "Tytuły kart pisane krojem uncjalnym (jak w menu gry), tekst szeryfowym Spectral z cyframi o stałej szerokości, więc zegar nie skacze."
+  - "Czytelność sprawdzona na tym, co faktycznie narysowane pod literami: każdy napis w nagłówku, stopce i na kartach ma kontrast co najmniej 4,5:1 we wszystkich trzech trybach i na każdym z teł."
+  - "Włącza się jak inne motywy: `theme: \"design-system/themes/hellforge.yaml\"` w `layout.yaml` albo `layout.local.yaml`, albo z menu w nagłówku (tylko dla tej karty przeglądarki). Domyślny motyw się nie zmienia."

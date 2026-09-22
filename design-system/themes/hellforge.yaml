@@ -1,0 +1,218 @@
+# Kitchen Terminal K7 — theme: "Hellforge"
+#
+# The kitchen wall as the Burning Hells: the dashboard asked for a Diablo-ish
+# theme, so the cards are iron plates bolted over a forge, the dividers bleed,
+# a pentagram is branded into every card and a horned sigil watches from the
+# corner of the room.
+#
+#   hellfire orange   accent — the ink of this theme, as amber is retro's
+#   ash / bone        text on iron
+#   blood crimson     the header band, the dividers, danger
+#   verdigris jade    signal: good and settled (a healing draught, not fire)
+#   molten amber      warn — 28 degrees of hue off the accent, so it reads
+#
+# Dark is the theme's home. Light is the other half of the fiction: a scorched
+# Horadric codex — burnt vellum, rubric red, iron-gall ink — because a kitchen
+# at 14:00 in full sun cannot be read off near-black, and a wall display that
+# is only ever legible at night is a worse one to live with. Night is the
+# forge banked: the same board with the fires damped.
+#
+# Everything here is theme data. No component changed for this theme: the
+# slots it fills (fontFaces, display, header, cardBorder, ornament) were built
+# for steampunk-brass and punktomat, and this is the first theme that needed
+# none of its own — which is the theming contract doing its job.
+#
+# Ratios are against that mode's `surface`; header and footer ink was also
+# measured on rendered pixels, per backdrop (see change k7-hellforge-theme).
+
+name: "Hellforge"
+schemaVersion: 2
+
+typography:
+  # Spectral: a serif with tabular figures by default, so the clock does not
+  # shimmy, and Latin Extended for Polish. Its x-height (0.45 em) sits a
+  # little under Source Code Pro's 0.486, which DESIGN.md §4.2's distance
+  # table has margin for at the 20px body size.
+  fontFamily: "'Spectral', 'Iowan Old Style', Georgia, serif"
+  baseSizePx: 20
+  letterSpacingLabelsPx: 2
+  scale:
+    read:   { xs: 14, sm: 16, base: 20, lg: 24, xl: 32 }
+    glance: { sm: 48, md: 72, lg: 112 }
+  weights: { regular: 400, medium: 500, bold: 600 }
+  # ASCII art needs character cells; the iPad's own monospace, nothing to ship.
+  monoFontFamily: "ui-monospace, 'SF Mono', Menlo, 'Courier New', monospace"
+  fontFaces:
+    - { family: "Spectral", weight: 400, src: "hellforge/fonts/spectral-400-latin.woff2",
+        unicodeRange: "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD" }
+    - { family: "Spectral", weight: 400, src: "hellforge/fonts/spectral-400-latin-ext.woff2",
+        unicodeRange: "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF" }
+    - { family: "Spectral", weight: 500, src: "hellforge/fonts/spectral-500-latin.woff2",
+        unicodeRange: "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD" }
+    - { family: "Spectral", weight: 500, src: "hellforge/fonts/spectral-500-latin-ext.woff2",
+        unicodeRange: "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF" }
+    - { family: "Spectral", weight: 600, src: "hellforge/fonts/spectral-600-latin.woff2",
+        unicodeRange: "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD" }
+    - { family: "Spectral", weight: 600, src: "hellforge/fonts/spectral-600-latin-ext.woff2",
+        unicodeRange: "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF" }
+    - { family: "Uncial Antiqua", weight: 400, src: "hellforge/fonts/uncial-antiqua-400-latin.woff2",
+        unicodeRange: "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD" }
+    - { family: "Uncial Antiqua", weight: 400, src: "hellforge/fonts/uncial-antiqua-400-latin-ext.woff2",
+        unicodeRange: "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF" }
+
+  # Titles in Uncial Antiqua: the closest open face to the angular uncial the
+  # games cut their menus in. Chosen over Pirata One, Grenze Gotisch, Cinzel
+  # Decorative, MedievalSharp and Metamorphous on legibility at 23px — a
+  # blackletter title is unreadable across a kitchen. Titles are written in
+  # capitals (LOG.WYDARZENIA), and uncial capitals are ornamental, so they are
+  # lowercased here and the first letter capitalised back.
+  display:
+    fontFamily: "'Uncial Antiqua', 'Papyrus', fantasy"
+    sizePx: 23
+    weight: 400
+    case: lowercase
+    letterSpacingPx: 0
+    lineHeight: 1.05   # a large title at body leading costs every card body 8px
+
+colors:
+  # --- surfaces: iron plate over a forge / burnt vellum ----------------------
+  background:     { light: "#b19a83", dark: "#120a08", night: "#080403" }   # the processed backdrops' own tone
+  backgroundDeep: { light: "#8e7a66", dark: "#090504", night: "#040202" }
+  surface:        { light: "#f3e8d2", dark: "#1e1310", night: "#0f0908" }
+  surfaceRaised:  { light: "#fbf4e4", dark: "#2a1b16", night: "#150d0a" }
+  surfaceSunken:  { light: "#e7d9bd", dark: "#170e0b", night: "#0a0605" }
+
+  # --- text: bone and ash / iron-gall ink -------------------------------------
+  textPrimary:  { light: "#2a1a12", dark: "#f0dcc0", night: "#b09880" }     # 13.77 / 13.59 / 7.20
+  textMuted:    { light: "#6a4a33", dark: "#c0a183", night: "#8e7866" }     #  6.55 /  7.50 / 4.73
+  textDisabled: { light: "#a8917a", dark: "#6d564a", night: "#4a3a30" }
+
+  # --- structure ----------------------------------------------------------------
+  border:       { light: "#d8c5a2", dark: "#46281f", night: "#241511" }     # texture, below 3:1 by design
+  borderStrong: { light: "#8a4a22", dark: "#c2703a", night: "#8f5531" }     #  5.61 /  4.91 / 3.30
+  cardBorder:   { light: "#c9b088", dark: "#46281f", night: "#241511" }     # under the iron frame image
+
+  # --- accent: hellfire ----------------------------------------------------------
+  accent:   { light: "#9c2b16", dark: "#ff8a3d", night: "#c26a2e" }         #  6.24 /  7.75 / 5.08
+  accentFg: { light: "#fbf4e4", dark: "#1a0c06", night: "#080403" }
+
+  # --- signal: verdigris. Good and settled — never fire, which is everywhere. --
+  accentSecondary: { light: "#17573a", dark: "#55c98d", night: "#3f8f68" }
+  signal:          { light: "#17573a", dark: "#55c98d", night: "#3f8f68" }  # 5.30 / 8.76 / 5.02
+
+  # --- status ---------------------------------------------------------------------
+  warn:   { light: "#7f4a0c", dark: "#f2b33c", night: "#b3822c" }           # molten amber, hue 28 off the accent
+  danger: { light: "#8f1f14", dark: "#f2564f", night: "#d3685e" }           # blood
+  focus:  { light: "#9c2b16", dark: "#ffc06a", night: "#c98f4a" }
+
+  # --- titles: branded into the plate ------------------------------------------------
+  display: { light: "#7a1f12", dark: "#ff9a4d", night: "#c26a2e" }
+
+states:
+  accentHover:  { light: "#86230f", dark: "#ffa45e", night: "#d17c3d" }
+  accentActive: { light: "#6d1c0c", dark: "#e06a22", night: "#b8672a" }
+  ghostHover:   { light: "#ece0c6", dark: "#2b1a13", night: "#1b110c" }
+  ghostActive:  { light: "#ded0b0", dark: "#150c08", night: "#070403" }
+
+shape:
+  borderRadiusPx: 0       # iron plates are cut, not moulded
+  borderWidthPx: 1
+  borderWidthStrongPx: 2
+  hudBrackets: true       # the bracket glyphs suit a rune-carved HUD
+
+spacing:      { basePx: 4, gridGapPx: 12, cardPaddingPx: 18, cardMinHeightPx: 240 }  # 18: the frame's claws reach ~9px in
+controls:     { heightPx: 56, heightSmallPx: 44, focusRingWidthPx: 3, focusRingOffsetPx: 2 }
+layout:       { targetViewportPx: 1024, sidebarWidthPx: 260, breakpointTabletPx: 768, breakpointDesktopPx: 1024 }
+motion:       { fastMs: 120, baseMs: 200, slowMs: 400, easing: "cubic-bezier(0.2, 0, 0, 1)", blinkPeriodMs: 1200 }
+nightMode:    { enabled: true, trigger: sun, startTime: "22:00", endTime: "06:00" }
+density:      { default: normal, largeScaleFactor: 1.2 }
+
+# The header as the gate: a blood gradient with its own ink, and an ember for
+# the cursor. The band stops at #7d1a10 rather than a brighter red because the
+# status sits at that end and lavender-pale ink would fall under 4.5:1 there.
+header:
+  padding: "6px 16px"   # the band's height comes out of the deck; 6px ≈ the plain header
+  background:
+    light: 'asset("hellforge/decor/sigil-band.svg") center center / 44px 44px no-repeat, linear-gradient(135deg, #2a0a07 0%, #7d1a10 100%)'
+    dark:  'asset("hellforge/decor/sigil-band.svg") center center / 44px 44px no-repeat, linear-gradient(135deg, #2a0a07 0%, #7d1a10 100%)'
+    night: 'asset("hellforge/decor/sigil-band.svg") center center / 44px 44px no-repeat, linear-gradient(135deg, #160604 0%, #3d0d08 100%)'
+  colors:
+    textPrimary:   { light: "#ffe9d2", dark: "#ffe9d2", night: "#d8bda4" }
+    textMuted:     { light: "#f0c9ad", dark: "#f0c9ad", night: "#b99a82" }
+    display:       { light: "#ffd9a8", dark: "#ffd9a8", night: "#d8bda4" }
+    border:        { light: "#ffd9a83d", dark: "#ffd9a83d", night: "#ffd9a82b" }
+    borderStrong:  { light: "#00000000", dark: "#00000000", night: "#00000000" }  # the rule below is the drip image
+    signal:        { light: "#a9e6c0", dark: "#a9e6c0", night: "#7bb99a" }
+    danger:        { light: "#ffc9c2", dark: "#ffc9c2", night: "#cf9085" }
+    accent:        { light: "#ff9a45", dark: "#ff9a45", night: "#cf7c37" }        # the cursor, an ember
+    focus:         { light: "#ff9a45", dark: "#ff9a45", night: "#cf7c37" }
+    surfaceRaised: { light: "#4a1109", dark: "#4a1109", night: "#280806" }        # the pull-to-refresh tab
+    ghostHover:    { light: "#ffd9a824", dark: "#ffd9a824", night: "#ffd9a818" }
+    ghostActive:   { light: "#ffd9a83d", dark: "#ffd9a83d", night: "#ffd9a82b" }
+
+ornament:
+  # Six backdrops, rotating hourly: lava veins, a molten flow, one ember, a
+  # spark storm, a volcano at night, black rock — all levelled to the same
+  # 95th-percentile luminance (0.17) so the subject changes and the contrast
+  # does not. Light mode rotates four papers, all re-inked on one scorched
+  # ramp. The bands top and bottom are for the header and footer text, which
+  # sits on the picture at every crop.
+  backdropEveryMinutes: 60
+  pageOverlay:
+    light: >-
+      linear-gradient(to bottom, rgba(42, 10, 7, 0.55) 0, rgba(42, 10, 7, 0) 96px),
+      linear-gradient(to top, rgba(236, 224, 198, 0.95) 0, rgba(236, 224, 198, 0.82) 56px, rgba(236, 224, 198, 0) 112px)
+    dark: >-
+      linear-gradient(to top, rgba(9, 5, 4, 0.88) 0, rgba(9, 5, 4, 0.7) 56px, rgba(9, 5, 4, 0) 116px)
+    night: >-
+      linear-gradient(to top, rgba(4, 2, 2, 0.95) 0, rgba(4, 2, 2, 0.85) 56px, rgba(4, 2, 2, 0.6) 116px),
+      linear-gradient(rgba(4, 2, 2, 0.55), rgba(4, 2, 2, 0.55))
+  pageBackground:
+    dark:     # night has no list of its own and rotates through these, damped by its overlay
+      - 'asset("hellforge/decor/blood.svg") left -10px bottom -6px / 460px auto no-repeat, asset("hellforge/images/lava-veins.jpg") center / cover no-repeat'
+      - 'asset("hellforge/decor/blood.svg") left -10px bottom -6px / 460px auto no-repeat, asset("hellforge/images/molten.jpg") center / cover no-repeat'
+      - 'asset("hellforge/decor/blood.svg") left -10px bottom -6px / 460px auto no-repeat, asset("hellforge/images/ember.jpg") center / cover no-repeat'
+      - 'asset("hellforge/decor/blood.svg") left -10px bottom -6px / 460px auto no-repeat, asset("hellforge/images/sparks.jpg") center / cover no-repeat'
+      - 'asset("hellforge/decor/blood.svg") left -10px bottom -6px / 460px auto no-repeat, asset("hellforge/images/volcano.jpg") center / cover no-repeat'
+      - 'asset("hellforge/decor/blood.svg") left -10px bottom -6px / 460px auto no-repeat, asset("hellforge/images/obsidian.jpg") center / cover no-repeat'
+    light:
+      - 'asset("hellforge/decor/blood-light.svg") left -10px bottom -6px / 460px auto no-repeat, asset("hellforge/images/vellum.jpg") center / cover no-repeat'
+      - 'asset("hellforge/decor/blood-light.svg") left -10px bottom -6px / 460px auto no-repeat, asset("hellforge/images/grunge-paper.jpg") center / cover no-repeat'
+      - 'asset("hellforge/decor/blood-light.svg") left -10px bottom -6px / 460px auto no-repeat, asset("hellforge/images/torn-paper.jpg") center / cover no-repeat'
+      - 'asset("hellforge/decor/blood-light.svg") left -10px bottom -6px / 460px auto no-repeat, asset("hellforge/images/old-paper.jpg") center / cover no-repeat'
+
+  # Every card carries a pentagram branded into the plate, over a heat gradient
+  # (dark) or the scorch of the page (light). 11 % stroke: it tints the surface
+  # without moving any text ratio above.
+  cardBackground:
+    dark: >-
+      asset("hellforge/decor/pentagram.svg") right -56px bottom -56px / 240px 240px no-repeat,
+      linear-gradient(to bottom, rgba(255, 138, 61, 0.05), rgba(0, 0, 0, 0.22))
+    light: >-
+      asset("hellforge/decor/pentagram-light.svg") right -84px bottom -84px / 260px 260px no-repeat,
+      linear-gradient(to bottom, rgba(122, 31, 18, 0.03), rgba(122, 31, 18, 0.06))
+    night: 'linear-gradient(to bottom, rgba(255, 138, 61, 0.03), rgba(0, 0, 0, 0.25))'
+
+  # Iron plate edges: nine-sliced bars with clawed corners and an ember stud.
+  cardFrame:
+    dark:  'asset("hellforge/decor/frame.svg") 32 / 20px / 0 stretch'
+    light: 'asset("hellforge/decor/frame.svg") 32 / 20px / 0 stretch'
+    night: 'asset("hellforge/decor/frame-night.svg") 32 / 20px / 0 stretch'
+
+  # The divider under the shell header and every card title: blood running off
+  # a crimson bar. Tiled with `round`, outset so the runs hang past the line.
+  rule:
+    dark:  'asset("hellforge/decor/rule.svg") 0 0 30 0 / 0 0 20px 0 / 0 0 16px 0 round'
+    light: 'asset("hellforge/decor/rule.svg") 0 0 30 0 / 0 0 20px 0 / 0 0 16px 0 round'
+    night: 'asset("hellforge/decor/rule-night.svg") 0 0 30 0 / 0 0 20px 0 / 0 0 16px 0 round'
+
+transparency: { surfaceOpacity: 1, backdropBlurPx: 4 }
+boxShadow: []
+effects:
+  blinkingCursor: true    # an ember in the header, guttering
+  scanlines: false
+
+
+
+
+

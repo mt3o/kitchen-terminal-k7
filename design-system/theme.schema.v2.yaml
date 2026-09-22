@@ -394,7 +394,10 @@ properties:
     properties:
       background:
         $ref: "#/$defs/modeValue"
-        description: "Raw CSS background for the band (--shell-head-bg). Also rounds it with --radius."
+        description: >
+          Raw CSS background for the band (--shell-head-bg). Also rounds it with
+          --radius. asset("path") works here as in ornament, so a band can carry
+          a watermark of its own (hellforge puts a sigil on it).
       padding:
         type: string
         description: "CSS padding (--shell-head-pad). Default: the bottom gap only."
@@ -472,3 +475,4 @@ $defs:
       night:
         type: string
         description: "Hex. Optional — falls back to `dark`, which keeps v1 files valid."
+
