@@ -37,6 +37,7 @@
     "drizzle-orm": "^0.45.2",
     "fastify": "^5.12.3",
     "jsdom": "^30.0.1",
+    "marked": "^18.0.13",
     "node-ical": "^0.27.2",
     "rss-parser": "^3.13.0",
     "undici": "^8.10.2",
