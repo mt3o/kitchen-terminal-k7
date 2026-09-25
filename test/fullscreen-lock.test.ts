@@ -2,8 +2,11 @@ import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
 
 import {
+  type FullscreenEvent,
+  type FullscreenLockState,
   INITIAL_FULLSCREEN_LOCK_STATE,
   fullscreenLockReducer,
+  presentingElId,
   promotedElId,
 } from '../src/client/lib/fullscreen-lock.ts'
 
@@ -74,5 +77,68 @@ describe('fullscreenLockReducer / promotedElId', () => {
     const s1 = fullscreenLockReducer(INITIAL_FULLSCREEN_LOCK_STATE, { type: 'slideshow-enter', elId: 'weather' })
     const s2 = fullscreenLockReducer(s1, { type: 'slideshow-rotate', elId: 'clock' })
     assert.equal(promotedElId(s2), 'clock')
+  })
+})
+
+
+describe('presentingElId', () => {
+  const reduce = (events: FullscreenEvent[]): FullscreenLockState =>
+    events.reduce(fullscreenLockReducer, INITIAL_FULLSCREEN_LOCK_STATE)
+
+  it('nothing is presenting on a quiet dashboard', () => {
+    assert.equal(presentingElId(INITIAL_FULLSCREEN_LOCK_STATE), null)
+  })
+
+  it('the Slideshow presents the card it enters on, and the one it rotates to', () => {
+    const s1 = reduce([{ type: 'slideshow-enter', elId: 'zegar' }])
+    assert.equal(presentingElId(s1), 'zegar')
+    const s2 = fullscreenLockReducer(s1, { type: 'slideshow-rotate', elId: 'pogoda' })
+    assert.equal(presentingElId(s2), 'pogoda')
+  })
+
+  it('a card opened by hand is never presenting — that is the whole distinction', () => {
+    const s1 = reduce([{ type: 'manual-acquire', elId: 'pogoda' }])
+    assert.equal(promotedElId(s1), 'pogoda', 'it is fullscreen')
+    assert.equal(presentingElId(s1), null, 'but being used, not presented')
+  })
+
+  it('taking manual control of the very card the Slideshow is presenting drops it to its ordinary shape', () => {
+    const s1 = reduce([
+      { type: 'slideshow-enter', elId: 'zegar' },
+      { type: 'manual-acquire', elId: 'zegar' },
+    ])
+    assert.equal(promotedElId(s1), 'zegar', 'still fullscreen — nothing closes')
+    assert.equal(presentingElId(s1), null, 'but no longer presented: somebody is using it')
+  })
+
+  it('manual anywhere suppresses presentation, even as the Slideshow keeps rotating underneath', () => {
+    const s1 = reduce([
+      { type: 'slideshow-enter', elId: 'zegar' },
+      { type: 'manual-acquire', elId: 'kalendarz' },
+      { type: 'slideshow-rotate', elId: 'pogoda' },
+    ])
+    assert.equal(presentingElId(s1), null)
+    assert.equal(s1.slideshowElId, 'pogoda', 'the Slideshow\'s bookkeeping is untouched')
+  })
+
+  it('releasing manual hands the card back to presentation, with no explicit re-entry', () => {
+    const s1 = reduce([
+      { type: 'slideshow-enter', elId: 'zegar' },
+      { type: 'manual-acquire', elId: 'kalendarz' },
+      { type: 'slideshow-rotate', elId: 'pogoda' },
+      { type: 'manual-release', elId: 'kalendarz' },
+    ])
+    assert.equal(presentingElId(s1), 'pogoda', 'whatever the Slideshow moved to while manual held the slot')
+  })
+
+  it('a Slideshow that exited while manual held the slot does not come back on release', () => {
+    const s1 = reduce([
+      { type: 'slideshow-enter', elId: 'zegar' },
+      { type: 'manual-acquire', elId: 'zegar' },
+      { type: 'slideshow-exit' },
+      { type: 'manual-release', elId: 'zegar' },
+    ])
+    assert.equal(presentingElId(s1), null)
+    assert.equal(promotedElId(s1), null)
   })
 })

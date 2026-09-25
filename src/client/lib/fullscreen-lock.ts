@@ -40,6 +40,21 @@ export function promotedElId(state: FullscreenLockState): string | null {
   return state.manualElId ?? state.slideshowElId
 }
 
+/**
+ * The element the Slideshow is presenting *on its own* — fullscreen with
+ * nobody's hand on the tablet. Deliberately not the same thing as
+ * `promotedElId`: a card a person opened by hand is one they mean to USE, at
+ * reading distance, with its ordinary layout and its controls; a card the
+ * Slideshow put up while the kitchen is empty is being read from the doorway
+ * and may trade detail for size, or show more of itself than a grid cell had
+ * room for. Manual ownership therefore suppresses this outright rather than
+ * layering on top of it, which is also what makes taking manual control of a
+ * presenting card hand it straight back to its ordinary shape.
+ */
+export function presentingElId(state: FullscreenLockState): string | null {
+  return state.manualElId === null ? state.slideshowElId : null
+}
+
 export function fullscreenLockReducer(state: FullscreenLockState, event: FullscreenEvent): FullscreenLockState {
   switch (event.type) {
     case 'manual-acquire':
@@ -71,6 +86,11 @@ export function fullscreenLockReducer(state: FullscreenLockState, event: Fullscr
 // destroyed Slideshow controller after the very first reconnect.
 
 const ACTIVE_CLASS = 'k7-fullscreen-active'
+/** Carried alongside ACTIVE_CLASS, never instead of it: a presenting card is
+ *  still fullscreen, so app.css's promotion rule must keep matching. This one
+ *  lands on the same custom-element host, which is what lets a component style
+ *  its own presentation look from inside its shadow root via `:host(...)`. */
+const PRESENTING_CLASS = 'k7-slideshow-active'
 
 export interface FullscreenLockDeps {
   track: HTMLElement
@@ -87,6 +107,7 @@ let savedTrackTransform = ''
 
 const promoted = writable<string | null>(null)
 const manualOwner = writable<string | null>(null)
+const presenting = writable<string | null>(null)
 
 /** Read-only view for `main.ts`/`Card.svelte` to subscribe to — the bridge
  *  a card's own fullscreen trait uses to know whether it currently holds
@@ -102,6 +123,30 @@ export const promotedElIdStore = { subscribe: promoted.subscribe }
  * tells them apart.
  */
 export const manualElIdStore = { subscribe: manualOwner.subscribe }
+
+/**
+ * The Slideshow-is-presenting-me bridge, for widgets that change what they
+ * SHOW rather than only how it is styled — the styling half needs no
+ * subscription at all, since `PRESENTING_CLASS` lands on the host and a
+ * component can match it with `:host(.k7-slideshow-active)` from inside its
+ * own shadow root. Reach for this store only when the difference is content:
+ * more forecast days, a chart a grid cell had no room for.
+ */
+export const presentingElIdStore = { subscribe: presenting.subscribe }
+
+/**
+ * The id fullscreen-lock addresses a widget by, resolved from any element
+ * inside that widget's shadow root — its custom-element host's id. Lives here
+ * rather than in each component because it is this module's own addressing
+ * convention that makes it the right answer: the promotion classes go on the
+ * host, so the host's id is what a component must compare against the stores
+ * above. Returns undefined until the element is actually attached.
+ */
+export function hostIdOf(el: Element | null | undefined): string | undefined {
+  if (!el) return undefined
+  const root = el.getRootNode()
+  return root instanceof ShadowRoot ? (root.host as HTMLElement).id || undefined : undefined
+}
 
 /**
  * A plain synchronous read, not routed through the store above: `slideshow.ts`'s
@@ -137,11 +182,28 @@ function applyPromotion(prevElId: string | null, nextElId: string | null): void 
   }
 }
 
+/**
+ * Separate from `applyPromotion` rather than folded into it: the two track
+ * different values and cross their own null boundaries at different moments —
+ * manual taking over a presenting card leaves `promotedElId` untouched (it
+ * only changes which id is promoted) while ending presentation entirely.
+ * Touches no pager/track state; that stays `applyPromotion`'s alone.
+ */
+function applyPresenting(prevElId: string | null, nextElId: string | null): void {
+  if (prevElId === nextElId) return
+  const doc = deps?.doc ?? document
+  if (prevElId) doc.getElementById(prevElId)?.classList.remove(PRESENTING_CLASS)
+  if (nextElId) doc.getElementById(nextElId)?.classList.add(PRESENTING_CLASS)
+  presenting.set(nextElId)
+}
+
 function dispatch(event: FullscreenEvent): void {
   const prevPromoted = promotedElId(state)
+  const prevPresenting = presentingElId(state)
   const prevManual = state.manualElId
   state = fullscreenLockReducer(state, event)
   applyPromotion(prevPromoted, promotedElId(state))
+  applyPresenting(prevPresenting, presentingElId(state))
   if (state.manualElId !== prevManual) manualOwner.set(state.manualElId)
 
   // The Slideshow's own idle-trigger/rotation timers key off `manualElId`'s
@@ -164,6 +226,7 @@ export function configure(newDeps: FullscreenLockDeps): void {
   state = INITIAL_FULLSCREEN_LOCK_STATE
   promoted.set(null)
   manualOwner.set(null)
+  presenting.set(null)
 }
 
 export function acquireManual(elId: string): void {

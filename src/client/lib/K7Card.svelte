@@ -153,4 +153,36 @@
   .badge-warn { color: var(--warn); }
   .badge-fail { color: var(--fail); }
   .badge-idle { color: var(--fg-disabled); }
+
+  /* --- Slideshow presentation ----------------------------------------------
+   *
+   * Keyed on `.k7-slideshow-active` and deliberately NOT on
+   * `.k7-fullscreen-active`, which both a Slideshow turn and a card's own
+   * fullscreen button set: a card somebody opened by hand is one they mean to
+   * read at arm's length, with its layout and controls where they were, while
+   * a card the Slideshow put up is being looked at from the doorway with
+   * nobody in the room. Taking manual control of a presenting card therefore
+   * drops it back to its ordinary shape, which is the intent.
+   *
+   * The class lands on this component's own custom-element host, so `:host()`
+   * matches it from inside the shadow root. A light-DOM rule in app.css could
+   * not reach `.card-body` at all, which is why the presentation look lives in
+   * each component rather than centrally.
+   *
+   * `--glance-lg` is the top of the glance scale — 112px, an x-height of 12.0'
+   * at 3 m by DESIGN.md §4.2, well past its 8' glanceable floor. The scale has
+   * no larger step on purpose. If the wall wants a clock that fills more of the
+   * screen than this, that is a new `glance.xl` in the theme contract, not a
+   * literal size here.
+   */
+  :host(.k7-slideshow-active) .card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    text-align: center;
+  }
+  :host(.k7-slideshow-active) .glance { font-size: var(--glance-lg); }
+  :host(.k7-slideshow-active) .body { font-size: var(--text-xl); }
 </style>
