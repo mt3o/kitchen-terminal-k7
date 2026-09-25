@@ -20,6 +20,8 @@ Keep them in Polish when editing; code, identifiers and commit messages are Engl
 | `docs/handoff/layout.example.yaml` | worked example of a full layout |
 | `docs/handoff/*.html` | standalone wireframes (open directly in a browser) |
 | `design-system/` | the built design system — `DESIGN.md` is normative prose, `kitchen-terminal-k7-kit.html` is the normative component spec, `tokens.css` is the only place a colour is defined |
+| `docs/agent-notes.md` | what previous agents wish they had known: what runs where, shadow-DOM traps, reusable scripts, the parts that are hard to read. Not rules — experience. Add to it. |
+| `design-system/themes/README.md` | how to build a theme: the slots, the recipe, how to verify it, and the pitfalls already hit |
 | `docs/icons/` | logo assets + usage notes |
 | `context/` | graph-workflow lifecycle files — see `context/README.md` |
 

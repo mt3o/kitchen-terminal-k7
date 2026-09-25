@@ -12,21 +12,30 @@
  */
 import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import { pathToFileURL } from 'node:url'
 
 import { parse } from 'yaml'
 
 const ROOT = resolve(import.meta.dirname, '..')
 const OUT = resolve(ROOT, 'design-system/tokens.css')
 
-const { generateTokensCss } = await import(resolve(ROOT, 'src/server/theme/generate.ts'))
+// pathToFileURL, not the bare path: ESM refuses an absolute Windows path
+// ("C:\..." reads as protocol 'c:'), so this line is what stops the script
+// running anywhere but POSIX.
+const { generateTokensCss } = await import(pathToFileURL(resolve(ROOT, 'src/server/theme/generate.ts')).href)
 
 const layout = parse(await readFile(resolve(ROOT, 'layout.yaml'), 'utf8'))
 const theme = parse(await readFile(resolve(ROOT, layout.theme), 'utf8'))
 const css = generateTokensCss(theme)
 
+// Line endings are not drift: a Windows checkout with core.autocrlf holds this
+// file as CRLF while the generator emits LF, which would otherwise fail the
+// check on every such machine for a file whose content matches exactly.
+const sameContent = (a, b) => a.replace(/\r\n/g, '\n').trim() === b.replace(/\r\n/g, '\n').trim()
+
 if (process.argv.includes('--check')) {
   const current = await readFile(OUT, 'utf8').catch(() => '')
-  if (current.trim() !== css.trim()) {
+  if (!sameContent(current, css)) {
     process.stderr.write(
       'design-system/tokens.css has drifted from the theme file.\n' +
         'Run: npm run tokens\n',
