@@ -1038,6 +1038,26 @@ created_at: 2026-09-15T15:00:03.583199+00:00
 
 gw-plan-review pass 3: confirmed this node is the unrelated theming-architectural-rule constraint (var(--*)-only CSS, no hex/rgb/px literals) that pass 1 found mis-cited in place of 538d1960 for the header-wrap decision. Verified via grep that no reference to 79662ce5 remains anywhere in plan.md or deck.json — the citation-swap fix landed cleanly.
 ---
+[event:ec1b6fb8-327e-4ab3-ae82-1cac117e9928]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:04:43.987174+00:00
+
+decided the clock's presentation size against the token scale rather than a literal because of this constraint
+---
+[event:f27a6f54-2bb2-47a3-a7be-f389d2302134]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:04:43.988954+00:00
+
+held under pressure: the honest answer was a bigger number than the scale offers, and it correctly pushed that to a theme-contract change instead of a literal in a component
+---
 [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a]
 type: constraint
 tier: lifetime
@@ -4100,6 +4120,16 @@ created_at: 2026-09-10T04:56:38.044250+00:00
 
 issue about slideshow being declared as a card but behaving as a layout controller was confirmed exactly as described, and resolved by this change's extractSlideshow filtering
 ---
+[event:96ebca09-0f53-40d0-a722-7137727736e3]
+node_id: 0598ee91-68fa-455a-86af-4d5325c91066
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:04:43.992310+00:00
+
+the declared-as-a-card-but-not-a-card awkwardness now also costs a second CSS class on the host; unchanged, just one more hand-enforced rule on the pile
+---
 [node:f1d7ef56-555a-4a33-90fa-8762fee9914f]
 type: constraint
 tier: lifetime
@@ -5472,6 +5502,16 @@ source: agent-surface
 created_at: 2026-09-14T20:34:38.115924+00:00
 
 Shared-card-shell rationale checked against Phase 2's choice to put the fullscreen trait on Card.svelte itself rather than per-widget — consistent.
+---
+[event:7e0576be-d547-4458-8f70-e4f285919517]
+node_id: 240ae1c0-1cd0-40c2-974e-e5df93897bc9
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:04:43.985579+00:00
+
+one shared shell is what makes a single Card.svelte rule able to cover every widget's presentation chrome later
 ---
 [node:68dcc438-9bf1-4899-834a-afea99bf556a]
 type: constraint
@@ -8131,6 +8171,16 @@ created_at: 2026-09-15T06:45:54.398614+00:00
 
 Reviewed — in-place CSS promotion (position:fixed on the host, no reparenting) preserved by the extraction.
 ---
+[event:8dd88b9d-9f75-4b2a-a857-b8053d30267c]
+node_id: ca0c4f4f-2eae-448f-a6bc-a8e70594e292
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:04:43.990591+00:00
+
+in-place promotion is why a presenting card keeps its component state while its CSS changes underneath it
+---
 [node:7e27848a-5129-4fed-bb31-c050fd57fc92]
 type: decision
 tier: short-term
@@ -8666,7 +8716,7 @@ type: concept
 tier: short-term
 path: /artifact/k7-s-existing-fullscreen-mechanism-buil
 created_at: 2026-09-14T19:47:35.142389+00:00
-needs_review: false
+needs_review: true
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
@@ -8747,6 +8797,36 @@ source: agent-surface
 created_at: 2026-09-15T06:45:54.397341+00:00
 
 Reviewed as the mechanism being generalized/extracted into fullscreen-lock.ts; extraction preserves its behavior.
+---
+[event:06cffd25-99aa-451e-b20f-999673794320]
+node_id: 009b7439-07c7-402f-ad22-664beda93a4d
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-25T07:01:53.305266+00:00
+
+contradicted at capture of 76233b7f-2365-44f5-8dae-fd289ca0000b
+---
+[event:3fbbf51b-5b93-428b-9724-935c288abdea]
+node_id: 009b7439-07c7-402f-ad22-664beda93a4d
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:04:43.981882+00:00
+
+relied on its account of in-place host promotion to reason about what a light-DOM stylesheet can and cannot reach
+---
+[event:5bfd7cca-5062-4c57-9d57-8bff28202106]
+node_id: 009b7439-07c7-402f-ad22-664beda93a4d
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-25T07:04:43.983595+00:00
+
+still names the promotion class k7-slideshow-active and k7-slideshow-veil; both were renamed by 2733b7b2, and the first string has since been rejected for reuse
 ---
 [node:dd4d0966-8c77-4e9d-a6af-7f8cd54c0a39]
 type: constraint
@@ -9270,6 +9350,26 @@ created_at: 2026-09-15T06:45:54.387189+00:00
 
 Verified fullscreen-lock.ts matches the extraction design: pure reducer + derived promotedElId, impure DOM wiring calling through one module.
 ---
+[event:cc818560-9cec-438b-9f1a-61e155e256df]
+node_id: 2733b7b2-97ad-4840-ba69-7af4ffad4381
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:04:43.974074+00:00
+
+presentingElId was written as the deliberate mirror of this node's promotedElId derivation, so the two read as one idea
+---
+[event:2dc4bb73-7a6c-456d-967d-19487aa8d563]
+node_id: 2733b7b2-97ad-4840-ba69-7af4ffad4381
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:04:43.978340+00:00
+
+the derive-don't-branch shape held under a second derived value: hand-back on manual release fell out again with no teardown branch
+---
 [node:2dde1947-bc76-4c7b-ba32-3f1463151d2b]
 type: decision
 tier: short-term
@@ -9717,6 +9817,16 @@ source: agent-surface
 created_at: 2026-09-15T06:45:54.393509+00:00
 
 Verified Card.svelte gates acquire-vs-defer-to-click on isManuallyMine (manualElIdStore === hostId), not the generic isFullscreen — matches the documented fix.
+---
+[event:a05f53f7-e170-430e-9ea3-870a4af3cb81]
+node_id: 120b8fee-0b13-4f45-b299-02891df32e02
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:04:43.980126+00:00
+
+the manual-vs-any-fullscreen distinction this node established is what presentingElId generalises from an event-race fix into a styling axis
 ---
 [node:8e36721f-e4b5-4ee3-a1dd-5601323e4c47]
 type: concept
@@ -12372,3 +12482,118 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-17T11:01:12.660026+00:00
 
 Added a second calendar card instance (kalendarz-pelny) on its own full-width page, alongside the existing compact calendar card that stays on glowna's doorway-glance 2x2 grid. This is a deliberate exception to the "no duplicate cards across pages" cleanup the rest of k7-layout-reorg did: the two instances serve different purposes (quick glance vs. actually reading a week's event titles without a shared-cell squeeze), not redundant always-visible clutter. General distinction worth keeping: a duplicate card is a problem when both instances serve the identical purpose in the identical way (the clock/weather/timer duplicates this change removed); it's a legitimate design choice when the instances differ in fidelity/detail for different moments of use.
+---
+[node:477ddb52-fd3f-4d72-b021-b9edcdb97498]
+type: slice
+tier: short-term
+path: /change/k7-slideshow-presentation-mode
+created_at: 2026-09-25T06:59:29.349473+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:1350470c-cc62-4d03-ae41-3e6049068def] @ 2026-09-25T07:01:34.770891+00:00
+-> SCOPED_TO [node:3cf543c7-1df5-4b0b-a8aa-a7b698c29db7] @ 2026-09-25T07:02:12.340469+00:00
+-> SCOPED_TO [node:4c5deac6-ef58-4e00-9726-c7eea822e0e0] @ 2026-09-25T06:59:29.349473+00:00
+-> SCOPED_TO [node:76233b7f-2365-44f5-8dae-fd289ca0000b] @ 2026-09-25T07:01:53.305266+00:00
+-> SCOPED_TO [node:7d77ae04-a202-483c-b5d0-2cfb8e697459] @ 2026-09-25T07:01:13.745535+00:00
+
+change scope: k7-slideshow-presentation-mode
+---
+[event:4547447b-651d-42c7-81c8-7f728db0adbc]
+node_id: 477ddb52-fd3f-4d72-b021-b9edcdb97498
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T06:59:29.354437+00:00
+
+create_change k7-slideshow-presentation-mode
+---
+[node:4c5deac6-ef58-4e00-9726-c7eea822e0e0]
+type: goal
+tier: short-term
+path: /goal/k7-slideshow-presentation-mode
+created_at: 2026-09-25T06:59:29.349473+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:1350470c-cc62-4d03-ae41-3e6049068def] @ 2026-09-25T07:01:34.770891+00:00
+-> DEPENDS_ON [node:2733b7b2-97ad-4840-ba69-7af4ffad4381] @ 2026-09-25T06:59:29.349473+00:00
+-> DEPENDS_ON [node:3cf543c7-1df5-4b0b-a8aa-a7b698c29db7] @ 2026-09-25T07:02:12.340469+00:00
+-> DEPENDS_ON [node:76233b7f-2365-44f5-8dae-fd289ca0000b] @ 2026-09-25T07:01:53.305266+00:00
+-> DEPENDS_ON [node:7d77ae04-a202-483c-b5d0-2cfb8e697459] @ 2026-09-25T07:01:13.745535+00:00
+-> DEPENDS_ON [node:8e36721f-e4b5-4ee3-a1dd-5601323e4c47] @ 2026-09-25T06:59:29.349473+00:00
+
+Let a Card look different — and later show different content — when the Slideshow is presenting it than when somebody opened it fullscreen by hand, with the clock as the first consumer.
+---
+[node:7d77ae04-a202-483c-b5d0-2cfb8e697459]
+type: decision
+tier: mid-term
+path: /artifact/decided-2026-09-25-the-slideshow-is-pr
+created_at: 2026-09-25T07:01:13.745535+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:120b8fee-0b13-4f45-b299-02891df32e02] @ 2026-09-25T07:01:13.745535+00:00
+-> DEPENDS_ON [node:2733b7b2-97ad-4840-ba69-7af4ffad4381] @ 2026-09-25T07:01:13.745535+00:00
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-25T07:01:13.745535+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-25T07:01:13.745535+00:00
+-> ABOUT [node:d2844438-9992-4e20-bfb5-fa615a906574] @ 2026-09-25T07:01:13.745535+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-25T07:01:13.745535+00:00
+
+Decided 2026-09-25: "the Slideshow is presenting this card" is a separate state from "this card is fullscreen", and a card may look and behave differently in each. k7-card-fullscreen had modelled ownership as one derived promoted element (manual wins over slideshow, node 2733b7b2), which left both causes indistinguishable to a component: one class, k7-fullscreen-active, for a card the household opened by hand and for a card the idle rotation put up. Those are different situations — a card someone opened is one they mean to USE at reading distance with its controls where they were, while a card the Slideshow puts up is being read from the doorway with nobody in the room, and may trade detail for size or show more of itself than a grid cell had room for. Added presentingElId(state) = manual suppresses slideshow, deliberately the mirror of promotedElId's manual wins over slideshow, and a second class carried alongside (never instead of) the first. Two behaviours fall out of the derivation with no teardown branch, the same way promotedElId's hand-back already did: taking manual control of a presenting card drops it to its ordinary shape without closing it, and releasing restores presentation to whatever the rotation moved to meanwhile. The accepted cost is that visible shrink mid-tap, judged correct rather than a glitch — it is the card changing from presented to in use. Rejected: one class for both (simpler, but no component can then tell the two apart) and a layout-level per-card style override in slideshow params (would put a styling language in the layout contract, where appearance does not belong).
+---
+[node:1350470c-cc62-4d03-ae41-3e6049068def]
+type: constraint
+tier: mid-term
+path: /artifact/a-card-s-fullscreen-or-presentation-styl
+created_at: 2026-09-25T07:01:34.770891+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:009b7439-07c7-402f-ad22-664beda93a4d] @ 2026-09-25T07:01:34.770891+00:00
+-> DEPENDS_ON [node:240ae1c0-1cd0-40c2-974e-e5df93897bc9] @ 2026-09-25T07:01:34.770891+00:00
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-25T07:01:34.770891+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-09-25T07:01:34.770891+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-25T07:01:34.770891+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-09-25T07:01:34.770891+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-25T07:01:34.770891+00:00
+
+A card's fullscreen or presentation styling has to live in that component's own shadow CSS, not in app.css, and this is forced by the mechanism rather than chosen for tidiness. fullscreen-lock.ts addresses cards by the id of their custom-element HOST, so the promotion classes land on the host; app.css is a light-DOM stylesheet and cannot match anything inside a shadow root, so it can reach the host but never .card-body, .glance or any other internal. What does cross the boundary: :host(.class) written inside the component (verified compiling under this repo's Svelte 5.57 — the scoped selector survives intact into the shadow root for both a custom-element component and a plain component compiled into a parent's shadow root, so one rule in Card.svelte covers every widget), inherited custom properties (the idiom app.css already uses at .page { --card-min-h: 0 }), and ::part() for elements a component chooses to expose (today only K7Card's part="card"). Consequence for anyone adding a per-card-type presentation look: put it in that K7*.svelte, expect no central place listing them, and do not reach for app.css and conclude the class is not being applied. Custom properties were rejected as the general mechanism because each card type's treatment would need its own invented vars, and ::part() because it would mean exposing an internal per element to a global stylesheet.
+---
+[node:76233b7f-2365-44f5-8dae-fd289ca0000b]
+type: constraint
+tier: mid-term
+path: /artifact/k7-slideshow-active-is-a-burnt-css-cla
+created_at: 2026-09-25T07:01:53.305266+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> CONTRADICTS [node:009b7439-07c7-402f-ad22-664beda93a4d] @ 2026-09-25T07:01:53.305266+00:00
+-> DEPENDS_ON [node:2733b7b2-97ad-4840-ba69-7af4ffad4381] @ 2026-09-25T07:01:53.305266+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-25T07:01:53.305266+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-09-25T07:01:53.305266+00:00
+
+`k7-slideshow-active` is a burnt CSS class name in this project and must not be reused. It was the original name of the Slideshow's in-place promotion class; k7-card-fullscreen renamed it to `k7-fullscreen-active` when the Slideshow stopped being its only user (node 2733b7b2). Node 009b7439 still describes the promotion mechanism under the retired name and is stale in that respect — flagged here rather than edited, for a human to rule on. The hazard is live, not historical: k7-slideshow-presentation-mode needed a class meaning "the Slideshow is presenting this card", for which `k7-slideshow-active` is the obvious English, and it was very nearly used. Doing so would have left the graph and the code disagreeing about what the string denotes — the old node saying it is position:fixed promotion, the new code saying it is a presentation styling hook that carries no positioning at all. Named `k7-slideshow-presenting` instead. Any future class in this area should assume `-active` is spent vocabulary and pick a verb.
+---
+[node:3cf543c7-1df5-4b0b-a8aa-a7b698c29db7]
+type: issue
+tier: mid-term
+path: /artifact/open-and-deliberately-deferred-by-k7-sli
+created_at: 2026-09-25T07:02:12.340469+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-25T07:02:12.340469+00:00
+-> DEPENDS_ON [node:7d77ae04-a202-483c-b5d0-2cfb8e697459] @ 2026-09-25T07:02:12.340469+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-25T07:02:12.340469+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-25T07:02:12.340469+00:00
+-> ABOUT [node:d2844438-9992-4e20-bfb5-fa615a906574] @ 2026-09-25T07:02:12.340469+00:00
+
+Open and deliberately deferred by k7-slideshow-presentation-mode: the content half of presentation exists as a seam with no consumer. presentingElIdStore is exported from fullscreen-lock.ts for widgets that want to change what they SHOW when the Slideshow presents them, not merely how it is styled, and nothing subscribes to it yet. The motivating case is weather: a card that owns the whole screen has room for seven days, a temperature graph and hourly rain/snow, none of which fits a grid cell. It was not built here because it is not a frontend change — open-meteo.ts requests no `hourly` variables at all and defaults forecast_days to 5, and open-meteo-contract.md lists `hourly` under "not used but exists", so the upstream adapter, the /api/weather response shape and a chart component that holds up on an A8X all have to come first. Anyone picking this up should also settle whether a presentation-only richer view is worth the extra upstream payload on every refresh, or whether the richer data should simply be fetched always and only rendered when presenting.

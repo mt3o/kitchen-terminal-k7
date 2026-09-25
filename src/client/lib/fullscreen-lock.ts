@@ -89,8 +89,15 @@ const ACTIVE_CLASS = 'k7-fullscreen-active'
 /** Carried alongside ACTIVE_CLASS, never instead of it: a presenting card is
  *  still fullscreen, so app.css's promotion rule must keep matching. This one
  *  lands on the same custom-element host, which is what lets a component style
- *  its own presentation look from inside its shadow root via `:host(...)`. */
-const PRESENTING_CLASS = 'k7-slideshow-active'
+ *  its own presentation look from inside its shadow root via `:host(...)`.
+ *
+ *  Named `-presenting` rather than the more obvious `-active` because
+ *  `k7-slideshow-active` is a BURNT NAME: it was what the promotion class was
+ *  called before k7-card-fullscreen renamed it to `k7-fullscreen-active`, on
+ *  the grounds that it had stopped being Slideshow-exclusive. Reusing the
+ *  retired string for a narrower meaning would leave the project's own history
+ *  describing this selector as something it is not. */
+const PRESENTING_CLASS = 'k7-slideshow-presenting'
 
 export interface FullscreenLockDeps {
   track: HTMLElement
@@ -128,7 +135,7 @@ export const manualElIdStore = { subscribe: manualOwner.subscribe }
  * The Slideshow-is-presenting-me bridge, for widgets that change what they
  * SHOW rather than only how it is styled — the styling half needs no
  * subscription at all, since `PRESENTING_CLASS` lands on the host and a
- * component can match it with `:host(.k7-slideshow-active)` from inside its
+ * component can match it with `:host(.k7-slideshow-presenting)` from inside its
  * own shadow root. Reach for this store only when the difference is content:
  * more forecast days, a chart a grid cell had no room for.
  */

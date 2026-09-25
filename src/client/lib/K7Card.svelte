@@ -156,7 +156,7 @@
 
   /* --- Slideshow presentation ----------------------------------------------
    *
-   * Keyed on `.k7-slideshow-active` and deliberately NOT on
+   * Keyed on `.k7-slideshow-presenting` and deliberately NOT on
    * `.k7-fullscreen-active`, which both a Slideshow turn and a card's own
    * fullscreen button set: a card somebody opened by hand is one they mean to
    * read at arm's length, with its layout and controls where they were, while
@@ -175,7 +175,7 @@
    * screen than this, that is a new `glance.xl` in the theme contract, not a
    * literal size here.
    */
-  :host(.k7-slideshow-active) .card-body {
+  :host(.k7-slideshow-presenting) .card-body {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -183,6 +183,6 @@
     gap: var(--space-2);
     text-align: center;
   }
-  :host(.k7-slideshow-active) .glance { font-size: var(--glance-lg); }
-  :host(.k7-slideshow-active) .body { font-size: var(--text-xl); }
+  :host(.k7-slideshow-presenting) .glance { font-size: var(--glance-lg); }
+  :host(.k7-slideshow-presenting) .body { font-size: var(--text-xl); }
 </style>
