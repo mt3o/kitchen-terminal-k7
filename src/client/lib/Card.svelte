@@ -9,7 +9,7 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
 
-  import { acquireManual, manualElIdStore, releaseManual } from './fullscreen-lock.ts'
+  import { acquireManual, hostIdOf, manualElIdStore, releaseManual } from './fullscreen-lock.ts'
 
   interface Props {
     label: string
@@ -45,13 +45,14 @@
   // fullscreen-lock.ts addresses elements by the id of the widget's own
   // custom-element host, not `cardEl` — `cardEl` lives inside that host's
   // shadow root, and app.css's promotion rule is a light-DOM stylesheet that
-  // cannot match anything inside a shadow root at all. `getRootNode()` is
-  // only meaningful once `cardEl` is actually attached to the document.
+  // cannot match anything inside a shadow root at all. The walk up to that
+  // host is `hostIdOf`, kept in fullscreen-lock.ts because it is that
+  // module's own addressing convention; it answers undefined until `cardEl`
+  // is actually attached to the document.
   let hostId = $state<string | undefined>(undefined)
   $effect(() => {
     if (!cardEl) return
-    const root = cardEl.getRootNode()
-    if (root instanceof ShadowRoot) hostId = (root.host as HTMLElement).id
+    hostId = hostIdOf(cardEl)
   })
 
   // Distinct from "is this card fullscreen at all" (`$promotedElIdStore ===
