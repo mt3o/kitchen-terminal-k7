@@ -16,6 +16,7 @@ import type { ConversationService } from '../ai/conversation-service.ts'
 import { RecipeDraftError, type RecipeDrafter, type RecipeDraftErrorReason } from '../ai/recipe-drafter.ts'
 import type { KiloGatewayClient, ModelCatalog } from '../upstream/kilo.ts'
 import type { AiCallRepository, ConversationRepository } from '../ports/repositories.ts'
+import { refusedMarkdown, type RefusedKind } from '../../shared/markdown.ts'
 
 /** Defaults mirror docs/handoff/layout.schema.yaml's params.chat. */
 const DEFAULT_MARGIN_PERCENT = 20
@@ -56,6 +57,13 @@ export interface ChatRouteDeps {
    * tests), never fails the transcribe request itself if it throws.
    */
   archiveTranscription?: (entry: { audio: Buffer; contentType: string; text: string; model: string }) => Promise<void>
+  /**
+   * Called when a finished answer contains Markdown the chat refuses to render
+   * (raw HTML, images, non-http links, task lists — see shared/markdown.ts).
+   * Gets the kinds, never the content: chat text stays out of the issue log.
+   * Absent disables the check (e.g. in tests that don't exercise it).
+   */
+  reportRefusedMarkdown?: (kinds: RefusedKind[], extra: { conversationId: string; model: string }) => void
 }
 
 function clampPercent(raw: unknown, fallback: number): number {
@@ -242,6 +250,10 @@ export async function registerChatRoutes(app: FastifyInstance, deps: ChatRouteDe
         controller.signal,
       )) {
         send(ev.type, ev)
+        if (ev.type === 'done' && deps.reportRefusedMarkdown) {
+          const kinds = refusedMarkdown(ev.message.content)
+          if (kinds.length > 0) deps.reportRefusedMarkdown(kinds, { conversationId: id, model: conversation.model })
+        }
       }
     } catch (err) {
       // A turn's own gateway/network errors are yielded as `error` events by

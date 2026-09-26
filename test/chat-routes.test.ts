@@ -19,6 +19,9 @@ import type { GatewayChunk, GatewayModel, KiloGatewayClient, ModelCatalog } from
 let repos: Repositories
 let app: FastifyInstance
 let reportedErrors: unknown[]
+let reportedRefusals: unknown[]
+/** The streamed answer, one delta per element — set per-test where the content matters. */
+let streamedDeltas: string[]
 
 const FAKE_MODELS: GatewayModel[] = [
   { id: 'anthropic/claude-sonnet-5', name: 'Claude Sonnet 5', contextLength: 200_000, maxCompletionTokens: 8000, pricing: { promptUsdPerToken: 0.000002, completionUsdPerToken: 0.00001 } },
@@ -42,8 +45,7 @@ let onceContent: string
 function fakeGateway(): Pick<KiloGatewayClient, 'chatCompletion' | 'chatCompletionOnce'> {
   return {
     async *chatCompletion(): AsyncGenerator<GatewayChunk> {
-      yield { choices: [{ delta: { content: 'cze' }, finish_reason: null }] }
-      yield { choices: [{ delta: { content: 'sc!' }, finish_reason: null }] }
+      for (const content of streamedDeltas) yield { choices: [{ delta: { content }, finish_reason: null }] }
       yield { choices: [{ delta: {}, finish_reason: 'stop' }], usage: { prompt_tokens: 12, completion_tokens: 3 } }
     },
     async chatCompletionOnce() {
@@ -66,6 +68,8 @@ beforeEach(async () => {
   runMigrations(db)
   repos = createRepositories(db)
   reportedErrors = []
+  reportedRefusals = []
+  streamedDeltas = ['cze', 'sc!']
   onceContent = 'streszczenie'
 
   const modelCatalog = fakeModelCatalog()
@@ -92,6 +96,7 @@ beforeEach(async () => {
     }),
     kiloGateway: fakeKiloGateway(),
     reportError: (err, extra) => reportedErrors.push({ err, extra }),
+    reportRefusedMarkdown: (kinds, extra) => reportedRefusals.push({ kinds, extra }),
   })
   await app.ready()
 })
@@ -319,6 +324,28 @@ describe('POST /api/chat/conversations/:id/messages (SSE)', () => {
       ['user', 'assistant'],
     )
     assert.equal(history[1]?.content, 'czesc!')
+  })
+
+  it('reports refused markdown in a finished answer by kind, without its content', async () => {
+    streamedDeltas = ['zobacz ![zdjęcie](http://x.example/a.png)', ' i <b>to</b>']
+    const created = await app.inject({ method: 'POST', url: '/api/chat/conversations', payload: { model: 'anthropic/claude-sonnet-5' } })
+    const conversation = created.json() as { id: string }
+
+    await app.inject({ method: 'POST', url: `/api/chat/conversations/${conversation.id}/messages`, payload: { content: 'siema' } })
+
+    assert.deepEqual(reportedRefusals, [
+      { kinds: ['image', 'html'], extra: { conversationId: conversation.id, model: 'anthropic/claude-sonnet-5' } },
+    ])
+  })
+
+  it('reports nothing for an answer within the markdown allowlist', async () => {
+    streamedDeltas = ['### Składniki\n', '- mąka\n- **cukier**\n\n| a | b |\n|---|---|\n| 1<br>2 | 3 |']
+    const created = await app.inject({ method: 'POST', url: '/api/chat/conversations', payload: { model: 'anthropic/claude-sonnet-5' } })
+    const conversation = created.json() as { id: string }
+
+    await app.inject({ method: 'POST', url: `/api/chat/conversations/${conversation.id}/messages`, payload: { content: 'siema' } })
+
+    assert.deepEqual(reportedRefusals, [])
   })
 
   it('400s an empty message body', async () => {

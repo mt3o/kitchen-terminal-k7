@@ -1,0 +1,8 @@
+date: "2026-09-21"
+title: "Czat pokazuje nagłówki, tabele i listy"
+items:
+  - "Odpowiedzi AI z nagłówkami (###), tabelami i listami wyświetlają się jako nagłówki, tabele i listy, a nie jako znaki #, | i 1."
+  - "Lista zaraz pod linijką tekstu i punkt listy w dwóch linijkach nie rozsypują się już w zwykły akapit."
+  - "Dochodzą cytaty (>), linia pozioma (---) i przekreślenie (~~tekst~~); szeroka tabela przewija się w bok w dymku."
+  - "Obrazków, kodu HTML i pól wyboru czat nie wyświetla — zostaje ich tekst, a w dzienniku błędów pojawia się wpis, że model ich użył."
+  - "Słowo CODE0 w wiadomości nie znika już z ekranu."

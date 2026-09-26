@@ -287,6 +287,44 @@ describe('punktomat', () => {
   })
 })
 
+describe('hellforge', () => {
+  const hell = parse(readFileSync('design-system/themes/hellforge.yaml', 'utf8')) as Theme
+  const css = generateTokensCss(hell, { assetUrl: (path) => `/theme-assets/${path}` })
+
+  it('needs no component change: it only fills slots the contract already has', () => {
+    // If this theme ever needs a new token, that is a contract change and
+    // belongs in its own commit — this asserts the four slots it leans on.
+    assert.ok(hell.typography.fontFaces?.length)
+    assert.ok(hell.typography.display?.fontFamily)
+    assert.ok(hell.colors.cardBorder)
+    assert.ok(hell.header?.background && hell.ornament?.cardFrame && hell.ornament?.rule)
+  })
+
+  it('resolves asset() in the header band, not just in ornament slots', () => {
+    // The sigil watermark rides on the band. Before this theme, header.background
+    // was emitted raw, so an asset() there would have reached the browser as-is.
+    for (const mode of ['dark', 'light', 'night'] as const) {
+      const band = valueOf(css, '--shell-head-bg', `[data-mode="${mode}"]`) ?? ''
+      assert.match(band, /^url\("\/theme-assets\/hellforge\/decor\/[^"]+\.svg"\)/, `${mode} band lost its asset`)
+      assert.ok(!band.includes('asset('), `${mode} band kept a raw asset() reference`)
+    }
+  })
+
+  it('serves what the band names: the sigil is in the allowlist', () => {
+    const paths = themeAssetPaths(hell)
+    assert.ok(paths.some((p) => p.includes('sigil-band')), 'the band asset is not servable')
+    assert.ok(resolveThemeAsset('design-system/themes', paths.find((p) => p.includes('sigil-band')) as string, paths))
+  })
+
+  it('rotates six backdrops in dark and four in light, each over the mode ground', () => {
+    assert.equal(backdropCount(hell), 6)
+    for (const mode of ['dark', 'light', 'night'] as const) {
+      const page = valueOf(css, '--page-bg', `[data-mode="${mode}"]`) ?? ''
+      assert.ok(page.endsWith(`, ${valueOf(css, '--bg', `[data-mode="${mode}"]`)}`), `${mode} page is not based on --bg`)
+    }
+  })
+})
+
 describe('every theme ships the files it names', () => {
   for (const file of readdirSync('design-system/themes').filter((f) => f.endsWith('.yaml'))) {
     it(file, () => {

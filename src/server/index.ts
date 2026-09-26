@@ -931,6 +931,9 @@ await registerChatRoutes(app, {
     logIssue('error', 'server', err instanceof Error ? err.message : 'chat error', err)
   },
   archiveTranscription: (entry) => archiveTranscription(config.transcriptArchiveDir, entry),
+  reportRefusedMarkdown: (kinds, { conversationId, model }) => {
+    logIssue('warn', 'kilo-gateway', `chat answer used markdown the chat does not render: ${kinds.join(', ')}`, `model ${model}, conversation ${conversationId}`)
+  },
 })
 
 // A week is long enough to debug a bad transcription days after the fact,

@@ -123,7 +123,7 @@ example in `docs/handoff/layout.example.yaml`.
 
 Point `theme:` at a different file under `design-system/themes/` (currently
 `retro-scifi.yaml`, `daylight-lab.yaml`, `steampunk-brass.yaml` and
-`punktomat.yaml`) to swap the
+`punktomat.yaml`, `hellforge.yaml`) to swap the
 entire visual design — see below. To try one on a single machine without
 committing, put the `theme:` line in the gitignored `layout.local.yaml` instead;
 it overrides `layout.yaml`'s, and takes effect on the next page load.
@@ -207,7 +207,8 @@ Read `design-system/USAGE.md` for the full picture; in short:
   self-hosted fonts, a script title face, background photographs and brass
   border-images, all from files in `themes/steampunk-brass/`, served by
   `/theme-assets/` and only those the theme names; `punktomat.yaml` is the
-  Punktomat app's design system — cork board, white notes, purple header band).
+  Punktomat app's design system — cork board, white notes, purple header band;
+  `hellforge.yaml` is hell — iron frames, blood-drip dividers, pentagrams).
 
 Note: `docs/handoff/theme.schema.yaml` is an earlier/reference copy from the
 handoff docs; the schema the app actually loads against is
@@ -261,3 +262,4 @@ Full detail: `context/foundation/git-workflow.md`.
 
 Foundation docs (`docs/handoff/`, `context/foundation/`) stay in Polish per
 project convention; this README, code, and commit messages are English.
+

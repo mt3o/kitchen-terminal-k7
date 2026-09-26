@@ -120,6 +120,24 @@ export default tseslint.config(
     },
   },
 
+  // The contrast auditor is a Node script whose middle is not Node: the callbacks
+  // it passes to page.evaluate() are serialised and run inside the page. They are
+  // the only place in scripts/ where that happens, so the browser names they need
+  // are listed here rather than widening the whole directory.
+  {
+    files: ['scripts/theme-contrast.mjs'],
+    languageOptions: {
+      globals: {
+        document: 'readonly',
+        sessionStorage: 'readonly',
+        getComputedStyle: 'readonly',
+        innerWidth: 'readonly',
+        innerHeight: 'readonly',
+        Image: 'readonly',
+      },
+    },
+  },
+
   // The service worker is a classic script in a worker global scope — not a
   // module and not a browser window. Without its own globals, every `self`,
   // `caches` and `fetch` in it reads as undefined.
