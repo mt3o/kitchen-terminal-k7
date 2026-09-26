@@ -250,6 +250,16 @@ export async function registerChatRoutes(app: FastifyInstance, deps: ChatRouteDe
         controller.signal,
       )) {
         send(ev.type, ev)
+        if (ev.type === 'error') {
+          // The browser gets this event, but nothing else ever recorded it — a
+          // chat that stopped working left no trace in the issue log or Sentry.
+          // Only the gateway's error text goes out, never the conversation.
+          deps.reportError(new Error(`chat turn failed: ${ev.error}`), {
+            route: '/api/chat/conversations/:id/messages',
+            conversationId: id,
+            model: conversation.model,
+          })
+        }
         if (ev.type === 'done' && deps.reportRefusedMarkdown) {
           const kinds = refusedMarkdown(ev.message.content)
           if (kinds.length > 0) deps.reportRefusedMarkdown(kinds, { conversationId: id, model: conversation.model })

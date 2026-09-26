@@ -35,6 +35,15 @@ function assertImportable(url: URL): void {
 export interface ImportRecipeOptions {
   /** Injectable so tests never touch the network. */
   fetcher?: (url: string) => Promise<{ text(): Promise<string> }>
+  /**
+   * The model-backed reader (`ai/recipe-import-agent.ts`). Absent — no gateway
+   * key — imports with the deterministic extractors alone, as they always did.
+   * Given what those found as a hint; when it throws or finds nothing usable,
+   * the deterministic result (if any) is what the household gets.
+   */
+  agent?: (input: { html: string; sourceUrl: string; hint?: ExtractedRecipe }) => Promise<ExtractedRecipe>
+  /** Told why the agent was passed over, so a broken gateway is visible instead of silently "worse imports". */
+  onAgentError?: (error: unknown) => void
 }
 
 export async function importRecipeFromUrl(rawUrl: string, options: ImportRecipeOptions = {}): Promise<ExtractedRecipe> {
@@ -93,7 +102,17 @@ export async function importRecipeFromUrl(rawUrl: string, options: ImportRecipeO
     }
   }
 
-  const recipe = extractJsonLd(html, url.toString()) ?? extractFallback(html, url.toString())
+  const deterministic = extractJsonLd(html, url.toString()) ?? extractFallback(html, url.toString())
+  let recipe = deterministic
+  if (options.agent) {
+    try {
+      const read = await options.agent({ html, sourceUrl: url.toString(), hint: deterministic })
+      // The page's own description is authored text; the model's is a summary.
+      recipe = { ...read, description: deterministic?.description || read.description }
+    } catch (error) {
+      options.onAgentError?.(error)
+    }
+  }
   if (!recipe) {
     throw new RecipeImportError('no recipe could be extracted from this page', 'extraction-failed')
   }

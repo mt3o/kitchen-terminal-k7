@@ -93,7 +93,7 @@ export const aiCalls = sqliteTable(
     }),
     messageId: text('message_id').references(() => messages.id, { onDelete: 'set null' }),
     /** Why the call happened: a turn, a compaction, a daily ASCII render. */
-    purpose: text('purpose', { enum: ['chat', 'compacting', 'ascii-art', 'transcription', 'recipe-extraction', 'recipe-tagging'] }).notNull(),
+    purpose: text('purpose', { enum: ['chat', 'compacting', 'ascii-art', 'transcription', 'recipe-extraction', 'recipe-import', 'recipe-tagging'] }).notNull(),
     model: text('model').notNull(),
     promptTokens: integer('prompt_tokens').notNull(),
     completionTokens: integer('completion_tokens').notNull(),

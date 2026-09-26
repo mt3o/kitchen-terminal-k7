@@ -47,6 +47,17 @@ const BASE_URL = process.env.K7_KILO_GATEWAY_URL ?? 'https://api.kilo.ai/api/gat
 const DEFAULT_CHAT_COMPLETION_ONCE_TIMEOUT_MS = 45_000
 
 /**
+ * The streaming chat call had no deadline at all: a gateway that accepted the
+ * connection and then went silent left the chat card "thinking" forever, with
+ * nothing in any log (the household's tablet chat stopped working this way,
+ * 2026-09). Two clocks, both reset by *any* bytes — the gateway's
+ * `: KILO PROCESSING` keepalive counts, so a slow reasoning model that is
+ * still alive is not cut off, only a silent one.
+ */
+const CHAT_STREAM_CONNECT_TIMEOUT_MS = 30_000
+const CHAT_STREAM_IDLE_TIMEOUT_MS = 60_000
+
+/**
  * One of three free audio-input-capable models found live in the gateway's
  * catalogue (2026-09-10) — no Whisper-named model exists, so transcription
  * here means routing audio through a multimodal chat model instead of a
@@ -134,6 +145,8 @@ export interface ChatCompletionRequest {
   temperature?: number
   /** Reused verbatim when given (e.g. to reproduce a prior ascii-art-of-the-day result). */
   seed?: number
+  /** OpenAI-style `response_format`, e.g. a `json_schema`. Models that do not support it may reject the call — callers that care retry without. */
+  responseFormat?: Record<string, unknown>
 }
 
 export interface GatewayChunkDelta {
@@ -230,51 +243,95 @@ export function fileNameForContentType(contentType: string): string {
   return `audio.${ext}`
 }
 
-export function createKiloGatewayClient(options: { apiKey?: string; baseUrl?: string } = {}): KiloGatewayClient {
+export function createKiloGatewayClient(
+  options: { apiKey?: string; baseUrl?: string; connectTimeoutMs?: number; idleTimeoutMs?: number } = {},
+): KiloGatewayClient {
   const baseUrl = options.baseUrl ?? BASE_URL
+  const connectTimeoutMs = options.connectTimeoutMs ?? CHAT_STREAM_CONNECT_TIMEOUT_MS
+  const idleTimeoutMs = options.idleTimeoutMs ?? CHAT_STREAM_IDLE_TIMEOUT_MS
 
   async function* chatCompletion(
     request: ChatCompletionRequest,
     opts: { signal?: AbortSignal } = {},
   ): AsyncGenerator<GatewayChunk> {
-    const res = await fetch(`${baseUrl}/chat/completions`, {
-      method: 'POST',
-      headers: buildHeaders(options.apiKey),
-      signal: opts.signal,
-      body: JSON.stringify({
-        model: request.model,
-        messages: request.messages,
-        stream: true,
-        stream_options: { include_usage: true },
-        ...(request.maxTokens !== undefined ? { max_tokens: request.maxTokens } : {}),
-        ...(request.temperature !== undefined ? { temperature: request.temperature } : {}),
-        ...(request.seed !== undefined ? { seed: request.seed } : {}),
-      }),
-    })
-    if (!res.ok || !res.body) {
-      const text = await res.text().catch(() => '')
-      throw new Error(`kilo gateway responded ${res.status}${text ? `: ${text}` : ''}`)
+    const controller = new AbortController()
+    let timedOutAfterMs: number | undefined
+    let timer: ReturnType<typeof setTimeout> | undefined
+    const arm = (ms: number): void => {
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        timedOutAfterMs = ms
+        controller.abort()
+      }, ms)
     }
+    const onCallerAbort = (): void => controller.abort()
+    if (opts.signal?.aborted) controller.abort()
+    opts.signal?.addEventListener('abort', onCallerAbort)
+    // A bare AbortError says nothing; say which clock ran out.
+    const explain = (err: unknown): unknown =>
+      timedOutAfterMs !== undefined
+        ? Object.assign(new Error(`kilo gateway went silent for ${Math.round(timedOutAfterMs / 1000)}s`), { cause: err })
+        : err
 
-    const reader = res.body.getReader()
-    const decoder = new TextDecoder()
-    let buffer = ''
     try {
-      for (;;) {
-        const { value, done } = await reader.read()
-        if (done) break
-        buffer += decoder.decode(value, { stream: true })
-        const { frames, rest } = splitSseFrames(buffer)
-        buffer = rest
-        for (const frame of frames) {
-          const parsed = parseSseFrame(frame)
-          if (parsed.done) return
-          if (parsed.data === undefined) continue // comment/keepalive line, e.g. ": KILO PROCESSING"
-          yield JSON.parse(parsed.data) as GatewayChunk
+      arm(connectTimeoutMs)
+      let res: Response
+      try {
+        res = await fetch(`${baseUrl}/chat/completions`, {
+          method: 'POST',
+          headers: buildHeaders(options.apiKey),
+          signal: controller.signal,
+          body: JSON.stringify({
+            model: request.model,
+            messages: request.messages,
+            stream: true,
+            stream_options: { include_usage: true },
+            ...(request.maxTokens !== undefined ? { max_tokens: request.maxTokens } : {}),
+            ...(request.temperature !== undefined ? { temperature: request.temperature } : {}),
+            ...(request.seed !== undefined ? { seed: request.seed } : {}),
+          }),
+        })
+      } catch (err) {
+        throw explain(err)
+      }
+      if (!res.ok || !res.body) {
+        const text = await res.text().catch(() => '')
+        throw new Error(`kilo gateway responded ${res.status}${text ? `: ${text}` : ''}`)
+      }
+
+      const reader = res.body.getReader()
+      const decoder = new TextDecoder()
+      let buffer = ''
+      try {
+        for (;;) {
+          arm(idleTimeoutMs)
+          let read: ReadableStreamReadResult<Uint8Array>
+          try {
+            read = await reader.read()
+          } catch (err) {
+            throw explain(err)
+          }
+          const { value, done } = read
+          if (done) break
+          buffer += decoder.decode(value, { stream: true })
+          const { frames, rest } = splitSseFrames(buffer)
+          buffer = rest
+          for (const frame of frames) {
+            const parsed = parseSseFrame(frame)
+            if (parsed.done) return
+            if (parsed.data === undefined) continue // comment/keepalive line, e.g. ": KILO PROCESSING"
+            // The consumer may sit on a yielded chunk (a DB write); that is
+            // not the gateway's silence, so the idle clock is stopped here.
+            clearTimeout(timer)
+            yield JSON.parse(parsed.data) as GatewayChunk
+          }
         }
+      } finally {
+        reader.releaseLock()
       }
     } finally {
-      reader.releaseLock()
+      clearTimeout(timer)
+      opts.signal?.removeEventListener('abort', onCallerAbort)
     }
   }
 
@@ -300,6 +357,7 @@ export function createKiloGatewayClient(options: { apiKey?: string; baseUrl?: st
           model: request.model,
           messages: request.messages,
           stream: false,
+          ...(request.responseFormat !== undefined ? { response_format: request.responseFormat } : {}),
           ...(request.maxTokens !== undefined ? { max_tokens: request.maxTokens } : {}),
           ...(request.temperature !== undefined ? { temperature: request.temperature } : {}),
           ...(request.seed !== undefined ? { seed: request.seed } : {}),
