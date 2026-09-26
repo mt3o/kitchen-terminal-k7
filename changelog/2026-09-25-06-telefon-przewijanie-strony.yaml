@@ -1,0 +1,7 @@
+date: "2026-09-25"
+title: "Telefon: strona z kartami się przewija"
+items:
+  - "Na telefonie strona z wieloma kartami przewija się w pionie, zamiast ściskać karty tak, że nic nie było widać — każda karta ma co najmniej swoją normalną minimalną wysokość."
+  - "Nagłówek i linia statusu zostają na miejscu podczas przewijania."
+  - "Przewijanie palcem w pionie nie przesuwa już przypadkiem strony w bok; przełączanie stron nadal działa poziomym przesunięciem."
+  - "Na tablecie w kuchni nic się nie zmienia — tam nadal nic się nie przewija."

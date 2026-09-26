@@ -1,10 +1,11 @@
 /**
  * Pull-to-refresh, reimplemented rather than native.
  *
- * `html, body { overflow: hidden }` (app.css) is deliberate — "nothing scrolls,
- * ever" — so there is no native rubber-band overscroll for iOS to turn into a
- * refresh gesture, and no native pull-to-refresh exists in standalone PWA mode
- * regardless. This is a from-scratch touch gesture instead.
+ * `html, body { overflow: hidden }` (app.css) is deliberate — the document
+ * never scrolls (only a phone's pages do, each on its own) — so there is no
+ * native rubber-band overscroll for iOS to turn into a refresh gesture, and
+ * no native pull-to-refresh exists in standalone PWA mode regardless. This is
+ * a from-scratch touch gesture instead.
  *
  * Scoped to the header (`.shell-head`), not the whole document, on purpose:
  * the pager (`pager.ts`) owns horizontal touches on `#deck`, and several cards

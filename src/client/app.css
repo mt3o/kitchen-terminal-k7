@@ -6,9 +6,10 @@
 html, body {
   margin: 0;
   padding: 0;
-  /* Nothing scrolls, ever. The deck is sized to fit rather than allowed to
-     overflow, so a scrollbar here would only ever mean a bug — and on the wall
-     nobody is there to scroll anyway. */
+  /* The document never scrolls. On the wall nothing does: the deck is sized
+     to fit rather than allowed to overflow, and nobody is there to scroll. A
+     phone is the one exception, and it is scoped to each `.page` (see the
+     max-width: 767px rule below) — the header and the status line stay put. */
   overflow: hidden;
   /* An exact height chained from the root, and deliberately not a viewport unit.
      `100vh` is wrong in a standalone PWA on iOS (the toolbar is gone, the unit
@@ -347,7 +348,18 @@ body {
 @media (max-width: 767px) {
   .page {
     grid-template-rows: none;
-    grid-auto-rows: minmax(0, 1fr);
+    /* A phone scrolls, per page. Cards still share the screen evenly while
+       that share is at least the design system's card floor, so a page that
+       fits looks exactly as before; below the floor each card keeps
+       --card-min-h and the page grows and scrolls instead of crushing them.
+       `inherit` takes the floor back from tokens.css, undoing the `0` the
+       wall sets on .page above. The pager ignores vertical drags
+       (pager.ts#resolveDragAxis), so scrolling never nudges the page sideways. */
+    --card-min-h: inherit;
+    grid-auto-rows: minmax(var(--card-min-h), 1fr);
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
