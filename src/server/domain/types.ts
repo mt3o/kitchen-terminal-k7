@@ -71,6 +71,7 @@ export type AiCallPurpose =
   | 'ascii-art'
   | 'transcription'
   | 'recipe-extraction'
+  | 'recipe-import'
   | 'recipe-tagging'
 
 /** One billable request to the gateway. */

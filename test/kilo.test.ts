@@ -137,3 +137,77 @@ describe('chatCompletionOnce', () => {
     assert.equal(outcome, 'rejected', 'chatCompletionOnce must reject via its own timeout rather than hang past it')
   })
 })
+
+describe('chatCompletion deadlines', () => {
+  async function withServer(
+    handler: (req: import('node:http').IncomingMessage, res: import('node:http').ServerResponse) => void,
+    run: (baseUrl: string) => Promise<void>,
+  ): Promise<void> {
+    const { createServer } = await import('node:http')
+    const server = createServer(handler)
+    await new Promise<void>((r) => server.listen(0, '127.0.0.1', r))
+    const { port } = server.address() as import('node:net').AddressInfo
+    try {
+      await run(`http://127.0.0.1:${port}`)
+    } finally {
+      server.closeAllConnections()
+      await new Promise((r) => server.close(r))
+    }
+  }
+
+  it('fails with a readable error when the gateway accepts the request and never answers', async () => {
+    await withServer(
+      () => {},
+      async (baseUrl) => {
+        const client = createKiloGatewayClient({ baseUrl, connectTimeoutMs: 50 })
+        await assert.rejects(
+          async () => {
+            for await (const chunk of client.chatCompletion({ model: 'm', messages: [] })) void chunk
+          },
+          /went silent for 0s/,
+        )
+      },
+    )
+  })
+
+  it('fails when the stream stalls after the headers', async () => {
+    await withServer(
+      (_req, res) => {
+        res.writeHead(200, { 'content-type': 'text/event-stream' })
+        res.write(': KILO PROCESSING\n\n')
+      },
+      async (baseUrl) => {
+        const client = createKiloGatewayClient({ baseUrl, idleTimeoutMs: 50 })
+        await assert.rejects(
+          async () => {
+            for await (const chunk of client.chatCompletion({ model: 'm', messages: [] })) void chunk
+          },
+          /went silent/,
+        )
+      },
+    )
+  })
+
+  it('does not cut off a stream that keeps sending bytes', async () => {
+    await withServer(
+      (_req, res) => {
+        res.writeHead(200, { 'content-type': 'text/event-stream' })
+        let n = 0
+        const t = setInterval(() => {
+          res.write(': KILO PROCESSING\n\n')
+          if (++n === 5) {
+            clearInterval(t)
+            res.write('data: {"choices":[{"delta":{"content":"ok"},"finish_reason":null}]}\n\ndata: [DONE]\n\n')
+            res.end()
+          }
+        }, 30)
+      },
+      async (baseUrl) => {
+        const client = createKiloGatewayClient({ baseUrl, idleTimeoutMs: 100 })
+        const got: string[] = []
+        for await (const chunk of client.chatCompletion({ model: 'm', messages: [] })) got.push(chunk.choices[0]?.delta.content ?? '')
+        assert.deepEqual(got, ['ok'])
+      },
+    )
+  })
+})

@@ -50,6 +50,7 @@ import { fetchUnsplashPhotos, unsplashCacheKey, UNSPLASH_MAX_COUNT, type Unsplas
 import { createKiloGatewayClient, createModelCatalog } from './upstream/kilo.ts'
 import { createConversationService } from './ai/conversation-service.ts'
 import { createRecipeDrafter } from './ai/recipe-drafter.ts'
+import { createRecipeImportAgent } from './ai/recipe-import-agent.ts'
 import { createRecipeTagger, fillMissingTags } from './ai/recipe-tagger.ts'
 import { registerChatRoutes } from './routes/chat.ts'
 import { archiveTranscription, pruneTranscriptArchive } from './ai/transcript-archive.ts'
@@ -158,6 +159,10 @@ const recipeDrafter = createRecipeDrafter({
   modelCatalog,
   gateway: kiloClient,
 })
+// Absent key means URL import falls back to the markup-only extractors.
+const recipeImportAgent = config.kiloGatewayKey
+  ? createRecipeImportAgent({ aiCalls: repos.aiCalls, modelCatalog, gateway: kiloClient, model: config.recipeImportModel })
+  : undefined
 // Absent key means recipes simply save untagged — see ai/recipe-tagger.ts.
 const recipeTagger = config.kiloGatewayKey
   ? createRecipeTagger({ aiCalls: repos.aiCalls, modelCatalog, gateway: kiloClient })
@@ -393,7 +398,15 @@ app.post('/api/issues/client', async (req, reply) => {
   if (typeof body?.message !== 'string' || body.message.trim() === '') {
     return reply.code(400).send({ error: 'message is required' })
   }
-  logIssue('error', 'client', body.message, typeof body.detail === 'string' ? body.detail : undefined)
+  const detail = typeof body.detail === 'string' ? body.detail : undefined
+  logIssue('error', 'client', body.message, detail)
+  // The client never talks to Sentry itself (no DSN in the bundle, no CSP hole):
+  // its crashes are relayed here, and pass the same scrubber as server errors.
+  Sentry.captureMessage(body.message.slice(0, ISSUE_MESSAGE_MAX), {
+    level: 'error',
+    tags: { source: 'client' },
+    extra: { detail: detail?.slice(0, ISSUE_DETAIL_MAX), userAgent: req.headers['user-agent'] },
+  })
   return reply.code(202).send({ ok: true })
 })
 
@@ -785,7 +798,13 @@ app.post('/api/recipes/import', async (req, reply) => {
     return reply.code(400).send({ error: reason })
   }
   try {
-    const extracted = await importRecipeFromUrl(url.trim())
+    const extracted = await importRecipeFromUrl(url.trim(), {
+      agent: recipeImportAgent ? (input) => recipeImportAgent.extract(input) : undefined,
+      onAgentError: (err) => {
+        Sentry.captureException(err, { extra: { task: 'recipe-import-agent' } })
+        logIssue('warn', 'kilo-gateway', 'recipe import: model reader failed, used the markup-only extractors', err)
+      },
+    })
     return reply.code(200).send(extracted)
   } catch (error) {
     if (error instanceof RecipeImportError) {
