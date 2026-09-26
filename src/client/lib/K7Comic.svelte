@@ -10,6 +10,7 @@
 
 <script lang="ts">
   import Card from './Card.svelte'
+  import { isHttpUrl } from '../../shared/url.ts'
 
   interface Props {
     rssUrl: string
@@ -101,7 +102,7 @@
         <img class="comic" style:max-width="{widthPx}px" src={aged.data.imageUrl} alt={aged.data.title ?? 'komiks dnia'} loading="lazy" />
       </div>
       {#if creditText}
-        {#if showLink && aged.data.sourceUrl}
+        {#if showLink && aged.data.sourceUrl && isHttpUrl(aged.data.sourceUrl)}
           <a class="credit" href={aged.data.sourceUrl} target="_blank" rel="noreferrer">{creditText}</a>
         {:else}
           <p class="credit">{creditText}</p>
