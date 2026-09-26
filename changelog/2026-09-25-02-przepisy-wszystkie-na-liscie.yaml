@@ -1,0 +1,6 @@
+date: "2026-09-25"
+title: "Przepisy: cała baza na liście"
+items:
+  - "Karta przepisów pokazuje teraz wszystkie zapisane przepisy, a nie tylko kilka najnowszych — listę można przewijać."
+  - "Licznik w nagłówku karty podaje liczbę wszystkich przepisów."
+  - "Pełny przepis (składniki, kroki) wczytuje się dopiero po jego otwarciu, więc lista ładuje się szybciej."

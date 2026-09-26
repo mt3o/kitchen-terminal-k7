@@ -33,6 +33,7 @@ describe('RecipeRepository', () => {
     const saved = await repos.recipes.save({
       id: '',
       title: 'Naleśniki',
+      description: 'Cienkie naleśniki na śniadanie.',
       sourceUrl: 'https://example.test/nalesniki',
       ingredients: ['mąka', 'mleko', 'jajka'],
       steps: ['wymieszać', 'smażyć'],
@@ -42,14 +43,29 @@ describe('RecipeRepository', () => {
     assert.deepEqual(got?.ingredients, ['mąka', 'mleko', 'jajka'])
     assert.equal(got?.tags[0], 'śniadanie', 'Polish diacritics survived the round trip')
     assert.ok(got?.importedAt instanceof Date, 'timestamp came back as a Date, not a number')
+    assert.equal(got?.description, 'Cienkie naleśniki na śniadanie.', 'description round-trips through the Drizzle adapter')
   })
 
   it('filters by tag and deletes', async () => {
-    await repos.recipes.save({ id: '', title: 'A', sourceUrl: null, ingredients: [], steps: [], tags: ['obiad'] })
-    const b = await repos.recipes.save({ id: '', title: 'B', sourceUrl: null, ingredients: [], steps: [], tags: ['deser'] })
+    await repos.recipes.save({ id: '', title: 'A', description: '', sourceUrl: null, ingredients: [], steps: [], tags: ['obiad'] })
+    const b = await repos.recipes.save({ id: '', title: 'B', description: '', sourceUrl: null, ingredients: [], steps: [], tags: ['deser'] })
     assert.equal((await repos.recipes.list({ tag: 'obiad' })).length, 1)
     assert.equal(await repos.recipes.delete(b.id), true)
     assert.equal(await repos.recipes.delete(b.id), false, 'deleting twice reported success')
+  })
+
+  it('returns the whole collection for limit: Infinity, past the default 50', async () => {
+    for (let n = 0; n < 51; n += 1) {
+      await repos.recipes.save({ id: '', title: `R${n}`, description: '', sourceUrl: null, ingredients: [], steps: [], tags: [] })
+    }
+    assert.equal((await repos.recipes.list()).length, 50)
+    assert.equal((await repos.recipes.list({ limit: Infinity })).length, 51)
+  })
+
+  it('reports a NULL description column back as an empty string, not null', async () => {
+    const saved = await repos.recipes.save({ id: '', title: 'C', description: '', sourceUrl: null, ingredients: [], steps: [], tags: [] })
+    assert.equal(saved.description, '')
+    assert.equal((await repos.recipes.get(saved.id))?.description, '')
   })
 })
 
@@ -167,5 +183,44 @@ describe('IssueLogRepository', () => {
     const removed = await repos.issueLog.prune(new Date('2026-03-01T00:00:00Z'))
     assert.equal(removed, 1)
     assert.deepEqual((await repos.issueLog.listRecent()).map((e) => e.message), ['fresh'])
+  })
+})
+
+describe('RecipeRejectionRepository', () => {
+  it('lists newest first and round-trips attemptedInput as a real object', async () => {
+    await repos.recipeRejections.record(
+      { kind: 'import', reason: 'nie znaleziono przepisu', attemptedInput: { url: 'https://example.test/x' } },
+      new Date('2026-01-01T00:00:00Z'),
+    )
+    await repos.recipeRejections.record(
+      { kind: 'save', reason: 'title is required', attemptedInput: { title: '', ingredients: ['sol'] } },
+      new Date('2026-01-02T00:00:00Z'),
+    )
+    const recent = await repos.recipeRejections.listRecent()
+    assert.deepEqual(recent.map((r) => r.kind), ['save', 'import'])
+    assert.deepEqual(recent[0]?.attemptedInput, { title: '', ingredients: ['sol'] })
+    assert.ok(recent[0]?.createdAt instanceof Date)
+  })
+
+  it('deletes a single row by id, leaving the rest', async () => {
+    const a = await repos.recipeRejections.record({ kind: 'save', reason: 'a', attemptedInput: {} })
+    await repos.recipeRejections.record({ kind: 'save', reason: 'b', attemptedInput: {} })
+    assert.equal(await repos.recipeRejections.delete(a.id), true)
+    assert.equal(await repos.recipeRejections.delete(a.id), false, 'deleting twice reported success')
+    assert.deepEqual((await repos.recipeRejections.listRecent()).map((r) => r.reason), ['b'])
+  })
+
+  it('prunes entries older than a cutoff and reports how many', async () => {
+    await repos.recipeRejections.record(
+      { kind: 'save', reason: 'stale', attemptedInput: {} },
+      new Date('2026-01-01T00:00:00Z'),
+    )
+    await repos.recipeRejections.record(
+      { kind: 'save', reason: 'fresh', attemptedInput: {} },
+      new Date('2026-06-01T00:00:00Z'),
+    )
+    const removed = await repos.recipeRejections.prune(new Date('2026-03-01T00:00:00Z'))
+    assert.equal(removed, 1)
+    assert.deepEqual((await repos.recipeRejections.listRecent()).map((r) => r.reason), ['fresh'])
   })
 })

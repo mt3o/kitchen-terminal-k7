@@ -16,11 +16,14 @@ import { parse, stringify } from 'yaml'
 
 import type { Recipe } from '../domain/types.ts'
 
+const DESCRIPTION_HEADING = 'Opis'
 const INGREDIENTS_HEADING = 'Składniki'
 const STEPS_HEADING = 'Kroki'
 
 /** Keyed by {@link normalize}d heading text, so `Składniki`, `SKLADNIKI:` and `Ingredients` all land here. */
-const SECTION_BY_HEADING: Record<string, 'ingredients' | 'steps'> = {
+const SECTION_BY_HEADING: Record<string, 'description' | 'ingredients' | 'steps'> = {
+  opis: 'description',
+  description: 'description',
   skladniki: 'ingredients',
   ingredients: 'ingredients',
   kroki: 'steps',
@@ -69,6 +72,7 @@ export function serializeRecipe(recipe: Recipe): string {
   if (recipe.sourceUrl) frontmatter.sourceUrl = recipe.sourceUrl
   frontmatter.importedAt = recipe.importedAt.toISOString()
 
+  const description = recipe.description.split(/\r?\n/).map(oneLine).filter(Boolean)
   const ingredients = recipe.ingredients.map(oneLine).filter(Boolean)
   const steps = recipe.steps.map(oneLine).filter(Boolean)
 
@@ -79,6 +83,7 @@ export function serializeRecipe(recipe: Recipe): string {
     stringify(frontmatter, { lineWidth: 0 }).trimEnd(),
     '---',
     '',
+    ...(description.length ? [`## ${DESCRIPTION_HEADING}`, '', ...description, ''] : []),
     `## ${INGREDIENTS_HEADING}`,
     '',
     ...(ingredients.length ? [...ingredients.map((i) => `- ${i}`), ''] : []),
@@ -137,7 +142,7 @@ export function parseRecipeMarkdown(text: string, fallback: { id: string; mtime:
   const { data, body } = splitFrontmatter(text.replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n'))
 
   let h1: string | undefined
-  const lists = { ingredients: [] as string[], steps: [] as string[] }
+  const lists = { description: [] as string[], ingredients: [] as string[], steps: [] as string[] }
   // Where items currently go, and the heading level that opened it: a deeper
   // heading the reader doesn't recognise (`### Ciasto` under `## Składniki`)
   // is a subsection of the list, not the end of it.
@@ -178,6 +183,7 @@ export function parseRecipeMarkdown(text: string, fallback: { id: string; mtime:
   return {
     id: fallback.id,
     title,
+    description: lists.description.join('\n'),
     sourceUrl: scalarText(data.sourceUrl) ?? null,
     ingredients: lists.ingredients,
     steps: lists.steps,

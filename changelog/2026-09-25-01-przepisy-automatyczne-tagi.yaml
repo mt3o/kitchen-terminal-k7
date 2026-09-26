@@ -1,0 +1,6 @@
+date: "2026-09-25"
+title: "Przepisy: tagi dobierane automatycznie"
+items:
+  - "Przepis zapisany bez tagów dostaje je automatycznie: model językowy proponuje 1–4 krótkie tagi na podstawie tytułu, opisu, składników i kroków."
+  - "Tagi wpisane ręcznie zostają nietknięte, a automatyczne można zmienić przyciskiem EDYTUJ."
+  - "Jeśli model nie odpowie, przepis i tak się zapisuje — tylko bez tagów."

@@ -359,6 +359,10 @@ $defs:
       maxVisible:
         type: integer
         default: 6
+        description: >
+          Nieużywane od k7-recipe-list-all (2026-09-25) — karta pokazuje wszystkie
+          zapisane przepisy i przewija listę. Klucz zostaje, żeby istniejące układy
+          nadal przechodziły walidację.
       allowUrlImport:
         type: boolean
         default: true

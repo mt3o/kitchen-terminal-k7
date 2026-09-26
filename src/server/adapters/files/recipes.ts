@@ -41,7 +41,7 @@ const isMissing = (error: unknown): boolean => (error as NodeJS.ErrnoException).
  * the id `Pierogi ruskie`. A leading dot is refused because dotfiles are
  * where the temp files and the migration marker live.
  */
-function isSafeId(dir: string, id: string): boolean {
+export function isSafeId(dir: string, id: string): boolean {
   if (typeof id !== 'string' || id.length === 0 || id.length > 200) return false
   // eslint-disable-next-line no-control-regex -- control characters are exactly what this refuses
   if (/[/\\\x00-\x1f\x7f]/.test(id) || id.startsWith('.')) return false
@@ -169,6 +169,7 @@ export function createFileRecipeRepository(dir: string, options: FileRecipeRepos
       const content = serializeRecipe({
         id,
         title: recipe.title,
+        description: recipe.description,
         sourceUrl: recipe.sourceUrl,
         ingredients: recipe.ingredients,
         steps: recipe.steps,

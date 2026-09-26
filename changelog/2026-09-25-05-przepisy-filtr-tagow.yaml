@@ -1,0 +1,6 @@
+date: "2026-09-25"
+title: "Przepisy: filtrowanie po tagach"
+items:
+  - "Pod polem wyszukiwania są najczęstsze tagi z bieżącej listy, z liczbą przepisów przy każdym."
+  - "Dotknięcie tagu zawęża listę do przepisów z tym tagiem, razem z tym, co wpisano w wyszukiwarkę; kolejne tagi zawężają dalej."
+  - "Wybrany tag jest w nawiasach [ ], a ponowne dotknięcie go wyłącza."

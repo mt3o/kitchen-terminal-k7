@@ -96,7 +96,8 @@ export function parseRecipeDraft(content: string): ExtractedRecipe {
     throw new RecipeDraftError('the message does not contain a recipe', 'not-a-recipe')
   }
   const tags = [...new Set(cleanList(o.tags, /^#/).map((t) => t.toLowerCase()))]
-  return { title, sourceUrl: null, ingredients, steps, tags }
+  // Not asked of the model: same "no guess presented as authored data" reasoning as extractFallback.
+  return { title, description: '', sourceUrl: null, ingredients, steps, tags }
 }
 
 export function createRecipeDrafter(deps: RecipeDrafterDeps): RecipeDrafter {

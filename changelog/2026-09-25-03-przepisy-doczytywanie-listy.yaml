@@ -1,0 +1,5 @@
+date: "2026-09-25"
+title: "Przepisy: lista doczytuje się przy przewijaniu"
+items:
+  - "Lista przepisów wczytuje się porcjami: kolejne przepisy dochodzą same, zanim dojedziesz do końca listy."
+  - "Jeśli doczytanie się nie uda, na końcu listy pojawia się przycisk WIECEJ, żeby spróbować jeszcze raz."

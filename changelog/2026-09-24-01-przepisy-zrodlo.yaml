@@ -1,0 +1,5 @@
+date: "2026-09-24"
+title: "Przepisy: edytowalne i klikalne źródło"
+items:
+  - "Adres URL źródła przepisu można teraz wpisać albo zmienić ręcznie przy dodawaniu i edycji przepisu — wcześniej pojawiał się tylko przy imporcie z internetu."
+  - "Jeśli przepis ma źródło, na karcie przepisu jest ono teraz klikalnym linkiem, który otwiera oryginalną stronę."

@@ -29,6 +29,7 @@ export interface TimerStartDetail {
 /** The unsaved shape POST /api/recipes/import and the chat's recipe-draft route both return. */
 export interface RecipeDraft {
   title: string
+  description: string
   sourceUrl: string | null
   ingredients: string[]
   steps: string[]

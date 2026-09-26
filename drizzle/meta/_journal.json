@@ -29,6 +29,20 @@
       "when": 1789972743685,
       "tag": "0003_abandoned_mac_gargan",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1790165099946,
+      "tag": "0004_add_recipe_description",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1790264405929,
+      "tag": "0005_add_recipe_rejections",
+      "breakpoints": true
     }
   ]
 }

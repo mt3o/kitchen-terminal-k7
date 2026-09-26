@@ -64,3 +64,45 @@ early because the backend was ready before the loader was.
 
 **Not in this epic:** anything needing OAuth2, the Kilo Gateway or the recipe
 importer. Those are Faza 2-4 and their integrations do not exist.
+
+
+## Epic: k7-recipe-widget-upgrade
+
+**Outcome:** the recipe widget keeps a record of failed add/import attempts so
+they can be fixed and retried, tracks and exposes the recipe's source, carries a
+free-text description, scales past a handful of saved recipes with an infinite
+list, and can be searched by title/tags/ingredients/steps/description/url with
+tags also usable as an explicit filter.
+
+| # | slice | mode | blocked by | delivers |
+|---|---|---|---|---|
+| 1 | `k7-recipe-description-field` | interactive | — | free-text `description` field: domain type, markdown format, API, review form, detail view |
+| 2 | `k7-recipe-source-editable` | interactive | — | source URL clickable in the detail view, editable in the review form |
+| 3 | `k7-recipe-rejection-log` | interactive | — | failed add/import attempts (validation rejections, import errors) logged and listable, with a retry action that reopens the review form pre-filled |
+| 4 | `k7-recipe-auto-tags` | headless | 1 | empty tags at save time trigger a model call, prompted from title/ingredients/steps/description, to generate them |
+| 5 | `k7-recipe-list-all` | interactive | — | widget shows every saved recipe's title instead of the `maxVisible`-capped fetch; full detail fetched only on open |
+| 6 | `k7-recipe-infinite-scroll` | interactive | 5 | the all-titles list becomes cursor-paginated, loading more as the household scrolls |
+| 7 | `k7-recipe-search-fulltext` | interactive | 1, 6 | search box over title/tags/ingredients/steps/description/url, ranked in that priority order |
+| 8 | `k7-recipe-search-tag-filter` | interactive | 7 | tags usable as an explicit filter facet layered on top of full-text search |
+
+**Why this order.** Description (1) has to exist before anything searches it
+(7) or feeds it to the tagging prompt (4). The list has to stop being
+capped (5) before it can be paginated (6), and paginated before search (7)
+extends the same endpoint with a query — searching a capped list would have
+meant redoing the endpoint contract twice. Tag-filtering (8) sits on top of
+working full-text search (7) rather than beside it, since both live in the
+same search box. Source-editing (2) and the rejection log (3) touch the
+review/detail views but not the list-fetching path, so neither blocks or is
+blocked by anything else here.
+
+**Modes.** Only slice 4 is headless: a bounded backend behavior change (empty
+tags → model call → populate) with no new UI surface, verifiable with a
+mocked gateway client. Every other slice changes what the household sees or
+can do in the widget, so all of them run interactive.
+
+**Deliberately not in this epic:** bulk-retry of multiple failed attempts at
+once (slice 3 covers one-at-a-time retry only), and any change to how the
+recipe *collection itself* is stored (still one Markdown file per recipe —
+see `src/server/adapters/files/recipes.ts`) — search and pagination are
+built as a read-time concern over that same store, not a reason to replace
+it.

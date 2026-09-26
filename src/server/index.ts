@@ -10,17 +10,25 @@ import fastifyStatic from '@fastify/static'
 import { parse } from 'yaml'
 
 import type { Layout, NormalisedLayout } from '../shared/layout.ts'
+import { isHttpUrl } from '../shared/url.ts'
 import { findConfiguredCalendar } from './calendar-lookup.ts'
 import { layerLayout, type LocalLayout } from './layout-layers.ts'
 import type { Calendar, IssueSeverity, IssueSource } from './domain/types.ts'
 import { loadChangelog } from './changelog.ts'
 import { createRepositories, openDatabase } from './adapters/drizzle/index.ts'
-import { createFileRecipeRepository, InvalidRecipeIdError, migrateRecipesToFiles } from './adapters/files/recipes.ts'
+import {
+  createFileRecipeRepository,
+  InvalidRecipeIdError,
+  isSafeId,
+  migrateRecipesToFiles,
+} from './adapters/files/recipes.ts'
 import { describeConfig, loadConfig, secretValues } from './config.ts'
 import { runMigrations } from './db/migrate.ts'
 import { initObservability, Sentry } from './observability.ts'
 import { createScrubber } from './redact.ts'
+import { InvalidCursorError, listCatalog } from './recipes/catalog.ts'
 import { importRecipeFromUrl, RecipeImportError } from './recipes/import.ts'
+import { sanitizeRejectionInput } from './recipes/rejection-log.ts'
 import { generateTokensCss, themeAssetPaths, type Theme } from './theme/generate.ts'
 import { assetVersion, assetVersions, resolveThemeAsset, themeAssetUrl } from './theme/assets.ts'
 import { listThemes, pickThemePath, themeId, THEMES_DIR } from './theme/catalogue.ts'
@@ -42,6 +50,7 @@ import { fetchUnsplashPhotos, unsplashCacheKey, UNSPLASH_MAX_COUNT, type Unsplas
 import { createKiloGatewayClient, createModelCatalog } from './upstream/kilo.ts'
 import { createConversationService } from './ai/conversation-service.ts'
 import { createRecipeDrafter } from './ai/recipe-drafter.ts'
+import { createRecipeTagger, fillMissingTags } from './ai/recipe-tagger.ts'
 import { registerChatRoutes } from './routes/chat.ts'
 import { archiveTranscription, pruneTranscriptArchive } from './ai/transcript-archive.ts'
 
@@ -100,6 +109,38 @@ function logIssue(severity: IssueSeverity, source: IssueSource, message: string,
     })
 }
 
+/**
+ * The one place that writes a rejected recipe add/import attempt —
+ * deliberately its own table and helper, not `logIssue`/`issueLog`: see
+ * `RecipeRejection`'s own doc comment for why. Scrubs `reason` the same
+ * way `logIssue` scrubs `message`, but in the opposite order — scrub
+ * first, bound second, never the reverse. `logIssue`'s existing
+ * slice-then-scrub order is fine for its own call sites (short,
+ * developer-authored constants) but would not be safe to copy here:
+ * `POST /api/recipes`'s `InvalidRecipeIdError` branch embeds raw,
+ * client-supplied `body.id` verbatim into its message, so slicing before
+ * scrubbing could cut a secret-shaped pattern in half at the boundary and
+ * store the surviving fragment in plaintext.
+ */
+function logRejection(kind: 'save' | 'import', reason: string, attemptedInput: unknown): void {
+  const fail = (err: unknown): void => {
+    process.stderr.write(`recipe rejection log write failed: ${err instanceof Error ? err.message : String(err)}\n`)
+  }
+  // Everything inside the boundary, argument-building included: a throw
+  // while sanitizing must not turn the 400 this is logging into a 500.
+  try {
+    repos.recipeRejections
+      .record({
+        kind,
+        reason: (scrubIssueText(reason) as string).slice(0, ISSUE_MESSAGE_MAX),
+        attemptedInput: sanitizeRejectionInput(attemptedInput, scrubIssueText),
+      })
+      .catch(fail)
+  } catch (err) {
+    fail(err)
+  }
+}
+
 // AI chat (Faza 4) and ascii-art-of-the-day (Faza 5) share one Kilo Gateway
 // client and model catalogue — see routes/chat.ts for why the chat routes
 // themselves live in their own module.
@@ -117,6 +158,10 @@ const recipeDrafter = createRecipeDrafter({
   modelCatalog,
   gateway: kiloClient,
 })
+// Absent key means recipes simply save untagged — see ai/recipe-tagger.ts.
+const recipeTagger = config.kiloGatewayKey
+  ? createRecipeTagger({ aiCalls: repos.aiCalls, modelCatalog, gateway: kiloClient })
+  : undefined
 // Absent means the card fails honestly with a clear cause rather than every
 // request racing to discover a missing key — see the /api/ascii-art route.
 const generateAndRecordAsciiArt = config.kiloGatewayKey
@@ -692,9 +737,34 @@ try {
 // household confirms it through POST /api/recipes, which is the same shape a
 // hand-typed recipe uses. A card must not present placeholder data as real,
 // and this endpoint must not persist a guess as if it had been reviewed.
-app.get('/api/recipes', async (req) => {
-  const q = req.query as { tag?: string; limit?: string }
+app.get('/api/recipes', async (req, reply) => {
+  const q = req.query as { tag?: string; tags?: string; limit?: string; view?: string; cursor?: string; q?: string }
   const limit = q.limit ? Number(q.limit) : undefined
+  // The recipes card's own listing: every recipe as a summary, a page at a
+  // time, optionally searched (`q`) and tag-filtered (`tags`, ANDed) — see
+  // recipes/catalog.ts. The plain array below stays as it is for the chat
+  // card's /plan and ingredient chips, which read full recipes.
+  if (q.view === 'summary') {
+    try {
+      // A repeated parameter arrives as an array; only a single string is read.
+      const one = (v: unknown): string | undefined => (typeof v === 'string' && v !== '' ? v : undefined)
+      const tag = one(q.tag)
+      return listCatalog(await recipes.list({ tag, limit: Infinity }), {
+        tag,
+        q: one(q.q),
+        tags: (one(q.tags) ?? '')
+          .split(',')
+          .map((t) => t.trim())
+          .filter(Boolean)
+          .slice(0, 8),
+        cursor: one(q.cursor),
+        limit,
+      })
+    } catch (error) {
+      if (error instanceof InvalidCursorError) return reply.code(400).send({ error: error.message })
+      throw error
+    }
+  }
   return recipes.list({
     tag: q.tag,
     limit: Number.isFinite(limit) ? limit : undefined,
@@ -708,9 +778,11 @@ app.get('/api/recipes/:id', async (req, reply) => {
 })
 
 app.post('/api/recipes/import', async (req, reply) => {
-  const { url } = req.body as { url?: unknown }
+  const { url } = (req.body ?? {}) as { url?: unknown }
   if (typeof url !== 'string' || url.trim() === '') {
-    return reply.code(400).send({ error: 'url is required' })
+    const reason = 'url is required'
+    logRejection('import', reason, { url })
+    return reply.code(400).send({ error: reason })
   }
   try {
     const extracted = await importRecipeFromUrl(url.trim())
@@ -718,6 +790,7 @@ app.post('/api/recipes/import', async (req, reply) => {
   } catch (error) {
     if (error instanceof RecipeImportError) {
       const status = error.reason === 'invalid-url' ? 400 : 502
+      logRejection('import', error.message, { url })
       return reply.code(status).send({ error: error.message, reason: error.reason })
     }
     throw error
@@ -732,31 +805,67 @@ app.post('/api/recipes', async (req, reply) => {
   const body = req.body as {
     id?: unknown
     title?: unknown
+    description?: unknown
     sourceUrl?: unknown
     ingredients?: unknown
     steps?: unknown
     tags?: unknown
   }
   if (typeof body?.title !== 'string' || body.title.trim() === '') {
-    return reply.code(400).send({ error: 'title is required' })
+    const reason = 'title is required'
+    logRejection('save', reason, req.body)
+    return reply.code(400).send({ error: reason })
   }
   if (!isStringArray(body.ingredients) || !isStringArray(body.steps) || !isStringArray(body.tags)) {
-    return reply.code(400).send({ error: 'ingredients, steps and tags must be string arrays' })
+    const reason = 'ingredients, steps and tags must be string arrays'
+    logRejection('save', reason, req.body)
+    return reply.code(400).send({ error: reason })
   }
+  // '' clears an existing source on an EDYTUJ save — save() always writes the
+  // full object fresh, so passing null here removes sourceUrl from the
+  // rewritten file/row rather than merely leaving it unset on a new one.
+  const rawSourceUrl = typeof body.sourceUrl === 'string' ? body.sourceUrl.trim() : ''
+  if (rawSourceUrl && !isHttpUrl(rawSourceUrl)) {
+    const reason = 'sourceUrl must be an http(s) URL'
+    logRejection('save', reason, req.body)
+    return reply.code(400).send({ error: reason })
+  }
+  const sourceUrl = rawSourceUrl || null
+  const id = typeof body.id === 'string' ? body.id : ''
+  // Checked here as well as in save(): every rejection must be ruled out
+  // before the tagging call below spends up to 15 s on a doomed request.
+  if (id && !isSafeId(config.recipesDir, id)) {
+    const reason = new InvalidRecipeIdError(id).message
+    logRejection('save', reason, req.body)
+    return reply.code(400).send({ error: reason })
+  }
+  const title = body.title.trim()
+  const description = typeof body.description === 'string' ? body.description.trim() : ''
+  // Empty tags are filled by one model call; a failure saves untagged rather
+  // than losing the save — see ai/recipe-tagger.ts.
+  const tags = await fillMissingTags(
+    { title, description, ingredients: body.ingredients, steps: body.steps, tags: body.tags },
+    recipeTagger,
+    (err) => logIssue('warn', 'kilo-gateway', 'recipe auto-tagging failed, saved untagged', err),
+  )
   try {
     const recipe = await recipes.save({
-      id: typeof body.id === 'string' ? body.id : '',
-      title: body.title.trim(),
-      sourceUrl: typeof body.sourceUrl === 'string' ? body.sourceUrl : null,
+      id,
+      title,
+      description,
+      sourceUrl,
       ingredients: body.ingredients,
       steps: body.steps,
-      tags: body.tags,
+      tags,
     })
     return reply.code(201).send(recipe)
   } catch (error) {
     // An id is a file name now; one that would leave the directory is the
     // client's mistake, not a server fault.
-    if (error instanceof InvalidRecipeIdError) return reply.code(400).send({ error: error.message })
+    if (error instanceof InvalidRecipeIdError) {
+      logRejection('save', error.message, req.body)
+      return reply.code(400).send({ error: error.message })
+    }
     throw error
   }
 })
@@ -765,6 +874,23 @@ app.delete('/api/recipes/:id', async (req, reply) => {
   const { id } = req.params as { id: string }
   const deleted = await recipes.delete(id)
   return deleted ? reply.code(204).send() : reply.code(404).send({ error: 'no such recipe' })
+})
+
+// Failed add/import attempts the household can review and retry — see
+// RecipeRejection's own doc comment for why this is a separate table from
+// the general issue log. `/api/recipes/rejections` is a static path segment,
+// so Fastify's router (find-my-way) resolves it ahead of the parametric
+// `/api/recipes/:id` above regardless of registration order — no collision.
+app.get('/api/recipes/rejections', async (req) => {
+  const q = req.query as { limit?: string }
+  const limit = q.limit ? Number(q.limit) : undefined
+  return repos.recipeRejections.listRecent(Number.isFinite(limit) ? limit : undefined)
+})
+
+app.delete('/api/recipes/rejections/:id', async (req, reply) => {
+  const { id } = req.params as { id: string }
+  const deleted = await repos.recipeRejections.delete(id)
+  return deleted ? reply.code(204).send() : reply.code(404).send({ error: 'no such rejection' })
 })
 
 // Connecting the household's Google account from a browser (k7-google-oauth-connect).
@@ -838,6 +964,14 @@ function sweepIssueLog(): void {
 }
 sweepIssueLog()
 setInterval(sweepIssueLog, ISSUE_LOG_SWEEP_INTERVAL_MS).unref()
+
+function sweepRecipeRejections(): void {
+  repos.recipeRejections.prune(new Date(Date.now() - ISSUE_LOG_MAX_AGE_MS)).catch((err: unknown) => {
+    process.stderr.write(`recipe rejection log sweep failed: ${err instanceof Error ? err.message : String(err)}\n`)
+  })
+}
+sweepRecipeRejections()
+setInterval(sweepRecipeRejections, ISSUE_LOG_SWEEP_INTERVAL_MS).unref()
 
 // Every unhandled error reaches GlitchTip through the same scrubber as the rest.
 app.setErrorHandler((err, req, reply) => {

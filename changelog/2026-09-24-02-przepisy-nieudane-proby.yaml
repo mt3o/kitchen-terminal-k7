@@ -1,0 +1,6 @@
+date: "2026-09-24"
+title: "Przepisy: lista nieudanych prób dodania"
+items:
+  - "Jeśli zapis przepisu albo import z adresu URL się nie uda, próba nie znika — pojawia się na liście „NIEUDANE PROBY” dostępnej z karty przepisów."
+  - "Przycisk PONOW otwiera formularz z powrotem wypełniony tym, co wcześniej wpisano (albo przywraca adres URL przy nieudanym imporcie), żeby dokończyć poprawkę zamiast zaczynać od nowa."
+  - "Nieudaną próbę można usunąć z listy przyciskiem ×, kiedy już nie jest potrzebna."
