@@ -55,9 +55,15 @@ export const AXIS_DEADZONE_PX = 8
  * still inside the deadzone. On a phone a page scrolls vertically
  * (app.css), and every vertical scroll drifts a few px sideways; without
  * this the pager would read that drift as a swipe — the pages wobble, and a
- * diagonal drag flips the page. Ties go to the page scroll.
+ * diagonal drag flips the page. Ties go to the page scroll. Only a page that
+ * actually overflows (`pageScrolls`) gets that treatment.
  */
-export function resolveDragAxis(deltaX: number, deltaY: number): 'x' | 'y' | undefined {
+export function resolveDragAxis(deltaX: number, deltaY: number, pageScrolls = true): 'x' | 'y' | undefined {
+  // A page that cannot scroll has no vertical gesture to protect: every drag
+  // belongs to the pager exactly as it did before a phone's pages scrolled, so
+  // the wall kiosk — and a phone page that fits — keep an arcing thumb swipe
+  // whose first move happens to be more vertical.
+  if (!pageScrolls) return 'x'
   const ax = Math.abs(deltaX)
   const ay = Math.abs(deltaY)
   if (ax < AXIS_DEADZONE_PX && ay < AXIS_DEADZONE_PX) return undefined
@@ -100,6 +106,8 @@ export function createPager(viewport: HTMLElement, pages: PagerPage[]): Pager {
   let startAt = 0
   /** Decided once per touch by resolveDragAxis; `'y'` hands the touch to native scroll. */
   let axis: 'x' | 'y' | undefined
+  /** Whether the page under this touch overflows, read once at touchstart. */
+  let pageScrolls = false
   let dragging = false
   let suspended = false
 
@@ -133,13 +141,15 @@ export function createPager(viewport: HTMLElement, pages: PagerPage[]): Pager {
     startY = e.touches[0]?.clientY ?? 0
     startAt = Date.now()
     axis = undefined
+    const page = track?.children[index]
+    pageScrolls = page instanceof HTMLElement && page.scrollHeight > page.clientHeight + 1
     setDragging(true)
   }
 
   const onTouchMove = (e: TouchEvent): void => {
     if (suspended || !dragging) return
     const dx = (e.touches[0]?.clientX ?? 0) - startX
-    axis ??= resolveDragAxis(dx, (e.touches[0]?.clientY ?? 0) - startY)
+    axis ??= resolveDragAxis(dx, (e.touches[0]?.clientY ?? 0) - startY, pageScrolls)
     if (axis === undefined) return
     if (axis === 'y') {
       // A page scroll: let go for the rest of this touch, track back in place.
