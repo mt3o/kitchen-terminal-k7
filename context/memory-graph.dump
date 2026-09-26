@@ -34,10 +34,12 @@ archived: false
 -> SCOPED_TO [node:77925b30-350a-42ee-a7de-7e8a023c5708] @ 2026-09-08T09:38:00.559118+00:00
 -> SCOPED_TO [node:7835061e-c325-4e70-8051-105f22ff4f8a] @ 2026-09-08T09:38:30.023885+00:00
 -> SCOPED_TO [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-09-08T09:37:21.559263+00:00
+-> SCOPED_TO [node:7c3c191a-fba7-43fb-b89f-75709ae3e17a] @ 2026-09-23T11:27:22.792636+00:00
 -> SCOPED_TO [node:7c574f65-8059-41e1-b507-245d4b1b3d6f] @ 2026-09-08T09:38:01.948165+00:00
 -> SCOPED_TO [node:8a963777-1d94-42ad-ae4b-8a2b08d0a686] @ 2026-09-08T09:38:31.309348+00:00
 -> SCOPED_TO [node:8f453152-4703-4c6e-8a7c-4ae5ca69b54e] @ 2026-09-08T15:59:13.306159+00:00
 -> SCOPED_TO [node:95f8d3a2-3197-4f8c-9126-80c5ddd29466] @ 2026-09-08T11:24:46.150128+00:00
+-> SCOPED_TO [node:97c338d8-a460-4a97-812b-6bf919562e36] @ 2026-09-25T07:22:43.111626+00:00
 -> SCOPED_TO [node:9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0] @ 2026-09-08T09:37:22.142396+00:00
 -> SCOPED_TO [node:9ea20285-de89-4f25-a25e-37700078bd59] @ 2026-09-08T09:38:01.797947+00:00
 -> SCOPED_TO [node:a17b142e-850e-4cdb-8d84-2689e75428a7] @ 2026-09-08T09:55:55.888852+00:00
@@ -59,6 +61,7 @@ archived: false
 -> SCOPED_TO [node:e43574bd-bdb9-493c-83fb-7f89fb4f9d8f] @ 2026-09-08T14:55:08.289479+00:00
 -> SCOPED_TO [node:ee768ade-394d-475c-92fb-e5c5b28e0efc] @ 2026-09-08T09:38:30.858406+00:00
 -> SCOPED_TO [node:f42da1a9-633f-4fe2-81e4-47bd34b836f4] @ 2026-09-08T09:38:30.709099+00:00
+-> SCOPED_TO [node:f4be78b5-ae1f-4600-a55e-f38f086783aa] @ 2026-09-23T11:27:17.128616+00:00
 -> SCOPED_TO [node:fd9717c3-c5af-470d-a9e6-80d382652b16] @ 2026-09-08T13:31:04.312167+00:00
 -> SCOPED_TO [node:ff852de4-c6d2-4da3-906b-de637255e484] @ 2026-09-08T09:37:37.208429+00:00
 
@@ -106,10 +109,12 @@ archived: false
 -> DEPENDS_ON [node:77925b30-350a-42ee-a7de-7e8a023c5708] @ 2026-09-08T09:38:00.559118+00:00
 -> DEPENDS_ON [node:7835061e-c325-4e70-8051-105f22ff4f8a] @ 2026-09-08T09:38:30.023885+00:00
 -> DEPENDS_ON [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-09-08T09:37:21.559263+00:00
+-> DEPENDS_ON [node:7c3c191a-fba7-43fb-b89f-75709ae3e17a] @ 2026-09-23T11:27:22.792636+00:00
 -> DEPENDS_ON [node:7c574f65-8059-41e1-b507-245d4b1b3d6f] @ 2026-09-08T09:38:01.948165+00:00
 -> DEPENDS_ON [node:8a963777-1d94-42ad-ae4b-8a2b08d0a686] @ 2026-09-08T09:38:31.309348+00:00
 -> DEPENDS_ON [node:8f453152-4703-4c6e-8a7c-4ae5ca69b54e] @ 2026-09-08T15:59:13.306159+00:00
 -> DEPENDS_ON [node:95f8d3a2-3197-4f8c-9126-80c5ddd29466] @ 2026-09-08T11:24:46.150128+00:00
+-> DEPENDS_ON [node:97c338d8-a460-4a97-812b-6bf919562e36] @ 2026-09-25T07:22:43.111626+00:00
 -> DEPENDS_ON [node:9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0] @ 2026-09-08T09:37:22.142396+00:00
 -> DEPENDS_ON [node:9ea20285-de89-4f25-a25e-37700078bd59] @ 2026-09-08T09:38:01.797947+00:00
 -> DEPENDS_ON [node:a17b142e-850e-4cdb-8d84-2689e75428a7] @ 2026-09-08T09:55:55.888852+00:00
@@ -131,6 +136,7 @@ archived: false
 -> DEPENDS_ON [node:e43574bd-bdb9-493c-83fb-7f89fb4f9d8f] @ 2026-09-08T14:55:08.289479+00:00
 -> DEPENDS_ON [node:ee768ade-394d-475c-92fb-e5c5b28e0efc] @ 2026-09-08T09:38:30.858406+00:00
 -> DEPENDS_ON [node:f42da1a9-633f-4fe2-81e4-47bd34b836f4] @ 2026-09-08T09:38:30.709099+00:00
+-> DEPENDS_ON [node:f4be78b5-ae1f-4600-a55e-f38f086783aa] @ 2026-09-23T11:27:17.128616+00:00
 -> DEPENDS_ON [node:fd9717c3-c5af-470d-a9e6-80d382652b16] @ 2026-09-08T13:31:04.312167+00:00
 -> DEPENDS_ON [node:ff852de4-c6d2-4da3-906b-de637255e484] @ 2026-09-08T09:37:37.208429+00:00
 
@@ -380,6 +386,26 @@ created_at: 2026-09-15T15:42:41.850889+00:00
 
 verified new CSS (white-space:nowrap, text-overflow:ellipsis, overflow-y:auto) against the Safari 15.0 floor via lint:tokens and real Chrome verification
 ---
+[event:2a49c1fd-381b-4054-987b-d9ffa25a3332]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:35:26.282760+00:00
+
+gw-review Part 1: inspected this change's new CSS/JS for banned-past-Safari-15 features (none found) by reading the diff, not by running a feature-detection check.
+---
+[event:b605374a-ae99-4592-bb0a-e125cf5b9982]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T06:28:01.470130+00:00
+
+Array.prototype.at rejected by the Safari 15 lib target in catalog.ts; IntersectionObserver and sticky checked against 15.0
+---
 [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99]
 type: facet_value
 tier: lifetime
@@ -468,6 +494,26 @@ source: agent-surface
 created_at: 2026-09-15T06:45:54.395386+00:00
 
 Reviewed app.css's fullscreen promotion/veil rules — reused existing transform/opacity-based promotion, no new box-shadow/filter/width/height animation introduced.
+---
+[event:82b6bfae-8ad7-48d8-94c3-4f64c96ad385]
+node_id: 716987ce-f933-41b5-8c4e-590c09dc33bf
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T06:28:01.468331+00:00
+
+IntersectionObserver instead of a scroll listener for infinite scroll
+---
+[event:b6f2b69a-f80f-46d9-b852-7fd0c11b9301]
+node_id: 716987ce-f933-41b5-8c4e-590c09dc33bf
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:11:57.070782+00:00
+
+IntersectionObserver instead of scroll listener
 ---
 [node:e12ca220-5f82-4226-a2eb-9964701f03c4]
 type: facet_value
@@ -770,6 +816,76 @@ created_at: 2026-09-15T13:11:36.531422+00:00
 
 unrelated to this diff but checked no secret handling paths were touched by network.ts changes.
 ---
+[event:2cb920f3-3f33-4330-984e-aad2d2f99c84]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T05:07:23.820853+00:00
+
+Checked the secrets-never-reach-frontend constraint for relevance; sourceUrl is user data, not a secret, not implicated.
+---
+[event:0d76fe6d-9cdd-4358-a0e7-cd73c362e48a]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:08:25.337973+00:00
+
+Reused scrubIssueText for rejection log content as defense-in-depth
+---
+[event:e33fba27-b2fb-4571-a748-dae3468044ff]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:13:16.633539+00:00
+
+Checked Phase 2's scrub-then-truncate-or-truncate-then-scrub ambiguity for attemptedInput against this lifetime secret-scrubbing constraint; truncating before scrubbing risks splitting a secret pattern and leaking a partial credential.
+---
+[event:942a87ee-47e4-4c79-8707-f35de3fccd59]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:20:20.640574+00:00
+
+gw-plan-review: basis for finding that the new recipe_rejections storage path needs the same secret-non-leakage guarantee, and that the guarantee is currently unverified for this path.
+---
+[event:3327dd21-5343-48b4-9aa9-fb211c2ad496]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:29:08.598888+00:00
+
+Used as the root secrets-must-not-leak constraint to assess the newly-found reason-field scrub-order bug (InvalidRecipeIdError embeds raw attacker-controlled id into reason, which the plan slices before scrubbing).
+---
+[event:2c3c306b-0359-4fc6-9fa8-0ec403f458d3]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:30:42.373231+00:00
+
+Reason-field scrub-order fix generalizes this constraint to another call site
+---
+[event:33854c87-f834-447a-9b8a-8ce75c80598c]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:37:26.576986+00:00
+
+Background check that the rejection log's scrubbing obligations trace back to this lifetime secrets constraint; no new evidence, reaffirmed only.
+---
 [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa]
 type: facet_value
 tier: lifetime
@@ -1038,6 +1154,106 @@ created_at: 2026-09-15T15:00:03.583199+00:00
 
 gw-plan-review pass 3: confirmed this node is the unrelated theming-architectural-rule constraint (var(--*)-only CSS, no hex/rgb/px literals) that pass 1 found mis-cited in place of 538d1960 for the header-wrap decision. Verified via grep that no reference to 79662ce5 remains anywhere in plan.md or deck.json — the citation-swap fix landed cleanly.
 ---
+[event:332504d4-6f2c-43ef-b5ce-c567c538b8e6]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T05:07:23.824321+00:00
+
+Checked the theming-only-CSS-vars constraint; plan's new <a>/<input> elements reuse existing .review-source/.field-input classes, no hardcoded styling introduced.
+---
+[event:90c4dade-1f8b-4571-9a2b-291cc180f390]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:35:26.280659+00:00
+
+gw-review Part 1: read the diff's new CSS (.detail-description) and confirmed it references only var(--fg-muted)/var(--text-sm), no hardcoded values — code inspection only, no automated token-contract test run in this session.
+---
+[event:489e9e0d-3b89-4815-9a2d-1503c114f0a4]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:35:34.641896+00:00
+
+Verified the new .review-source/a.review-source CSS in K7Recipes.svelte uses only var(--fg-muted), var(--fg), var(--focus-w), var(--focus), var(--focus-offset), var(--text-xs) - no hex/px/rgb literals.
+---
+[event:3a487b8f-ab83-44b7-99da-ea4431c1cd55]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:36:55.705088+00:00
+
+gw-review Part 1: read the full CSS diff added to K7Recipes.svelte for the review-source link/focus states — every value is var(--fg-muted)/var(--fg)/var(--focus-w)/var(--focus)/var(--focus-offset), zero hardcoded colours, radii or fonts. Theming constraint honored.
+---
+[event:de919ace-ebe4-41d2-890a-253bed5fc982]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:08:25.344911+00:00
+
+New CSS uses only existing custom properties
+---
+[event:0358d44d-51cf-4580-8075-557b465000b9]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:13:16.644350+00:00
+
+Confirmed Phase 3's CSS-via-existing-tokens-only claim is consistent with the theming constraint.
+---
+[event:1778f852-0973-41b9-b4f9-34e9090e7b3e]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:20:20.664284+00:00
+
+gw-plan-review: checked Phase 3's CSS plan (existing tokens/classes only) against theming constraint; compliant, no new evidence.
+---
+[event:90894498-94e3-45bf-bf38-3fef925f0189]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:37:26.578755+00:00
+
+Confirmed Phase 3's CSS bullet stays within the token-only theming constraint (existing classes/vars only), no new evidence.
+---
+[event:298a5baf-6cfb-4918-ae0a-8f1ea6ff8024]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T06:28:01.471570+00:00
+
+search field and tag chips styled only from existing tokens, reusing K7Calendar's tab pattern
+---
+[event:1e9aafbb-f37f-4c4b-8106-8db9933381ff]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:11:57.067747+00:00
+
+reviewer read new CSS: tokens only
+---
 [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a]
 type: constraint
 tier: lifetime
@@ -1299,6 +1515,16 @@ source: agent-surface
 created_at: 2026-09-15T12:33:39.606673+00:00
 
 gw-review PR#45: --radius resolves to 0px in tokens.css; tab/event styling uses var(--radius) exclusively, no hardcoded radius or shadow.
+---
+[event:43069ecb-bc82-4fe9-b834-1d8c4b99cc70]
+node_id: 61c0030d-8bea-45cc-888b-113297483487
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:11:57.037458+00:00
+
+review found type=search broke radius 0 on WebKit; fixed with appearance reset, computed style verified in Chromium
 ---
 [node:6d6046fc-9f71-4b88-8cfa-381a0fe1bd32]
 type: constraint
@@ -1587,6 +1813,16 @@ created_at: 2026-09-15T12:33:39.608312+00:00
 
 gw-review PR#45: tab strip is a ghost-button recipe (transparent background, border), no solid amber fill introduced.
 ---
+[event:c1e1cedb-ebeb-435b-a0d8-1225df806382]
+node_id: a827e6ec-aec4-40a7-b922-c689d71066a3
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:20:20.667644+00:00
+
+gw-plan-review: checked Phase 3's ghost-button-only controls against the one-solid-amber-per-card budget; compliant, no new evidence.
+---
 [node:ff852de4-c6d2-4da3-906b-de637255e484]
 type: constraint
 tier: lifetime
@@ -1681,6 +1917,26 @@ source: gui
 created_at: 2026-09-08T10:11:44.753527+00:00
 
 tier -> lifetime: /gw-resolve promotion pass 2026-09-08: human ruled 'the 31 — constraints + decisions' to lifetime, open issues left at mid-term so they can close and go dormant
+---
+[event:84c02a42-7215-4c17-8675-bc50e9cfeffb]
+node_id: 125f4071-59ec-4d3f-898d-ffcb3edd8aa5
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:36:09.174377+00:00
+
+Hexagonal ports-and-adapters decision used as reinforcing context: RecipeRepository is a port with two adapters (files, drizzle), so a domain type change should be checked against both, not just the one wired at runtime.
+---
+[event:10f7be2e-fa55-4d05-91b3-46b924a9ad98]
+node_id: 125f4071-59ec-4d3f-898d-ffcb3edd8aa5
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:52:55.883563+00:00
+
+Re-checked hexagonal port/adapter architecture is respected by threading description through both RecipeRepository adapters.
 ---
 [node:a815b136-0de2-49af-ac42-6192c12def24]
 type: decision
@@ -1991,6 +2247,26 @@ source: agent-surface
 created_at: 2026-09-09T12:04:31.811624+00:00
 
 Kilo Gateway addressing/pricing decision checked against plan.md Phase 1 client design — consistent
+---
+[event:2af4d6e1-b399-4552-8859-e2aa9ee528f1]
+node_id: 279d73e0-ff0f-4184-a25c-f051d2030072
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:27:30.146193+00:00
+
+Auto-tags slice will call the Kilo Gateway the same way recipe-drafter.ts already does
+---
+[event:62e41701-44f8-433c-8813-18f795dca7a0]
+node_id: 279d73e0-ff0f-4184-a25c-f051d2030072
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T06:28:01.472904+00:00
+
+tagging call recorded to ai_calls with its own purpose recipe-tagging
 ---
 [node:ccc18558-7181-44df-9608-de587d8d937c]
 type: facet_value
@@ -3607,6 +3883,26 @@ created_at: 2026-09-09T11:57:02.451411+00:00
 
 grounded the Recipe entity's shape while reading the already-built repository stack
 ---
+[event:b23a9b95-cee2-4a26-a060-199e1b0b7ac3]
+node_id: 15863232-0fb0-4c79-aaa9-3750ce8c0a2f
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-22T20:06:06.294350+00:00
+
+Answered a question about Recipe storage/limits/validation by grounding in the Recipe entity definition
+---
+[event:fcbdb0f0-d94f-4764-aefc-3e449df31afa]
+node_id: 15863232-0fb0-4c79-aaa9-3750ce8c0a2f
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:27:30.126874+00:00
+
+Sliced the recipe widget upgrade epic around the Recipe entity's fields (description, source, tags)
+---
 [node:5af79def-9364-4086-9b1b-c26f36622dbd]
 type: entity
 tier: short-term
@@ -3988,6 +4284,16 @@ source: agent-surface
 created_at: 2026-09-09T12:01:53.887770+00:00
 
 AiCall entity grounds the chat/compacting logging design
+---
+[event:6214f67e-0d5b-4aa1-961e-e60af6e68b5b]
+node_id: 8b9566f6-a1d5-4c43-952e-369c2796d5ca
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:13:16.652603+00:00
+
+Checked AiCall's domain_model() status (confirmed) against the plan's 'already-ratified AiCall' claim — accurate, though IssueLogEntry itself is absent from the domain model entirely (not even proposed), a slightly different case than the plan's analogy implies.
 ---
 [node:d3c38cda-39ed-48d1-960c-af9033c4137f]
 type: entity
@@ -4428,6 +4734,26 @@ created_at: 2026-09-09T12:04:31.813044+00:00
 
 Two-layer redaction constraint checked against plan.md Phase 3 error-handling section — respected, correctly notes chat content is not a secret
 ---
+[event:929e7c1a-fd07-40f8-b56e-7cc66fa34cd2]
+node_id: 62d2072b-039e-439c-9dfa-1616e42a4afa
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:29:08.610867+00:00
+
+Confirmed the two-layer scrubbing rationale is unaffected by this review's findings; no new evidence.
+---
+[event:7d46c471-2bbf-48b9-ab9d-bd0f9969e6db]
+node_id: 62d2072b-039e-439c-9dfa-1616e42a4afa
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:37:26.580546+00:00
+
+Confirmed the plan's reliance on createScrubber's two-layer scrubbing is consistent with this constraint; verified against live redact.ts, no new evidence beyond what the constraint already states.
+---
 [node:0cd8aca5-d80a-4e98-9c98-a0043c4b5642]
 type: constraint
 tier: lifetime
@@ -4472,6 +4798,56 @@ source: agent-surface
 created_at: 2026-09-15T09:01:47.650058+00:00
 
 Wire-proof redaction constraint checked against test/observability.test.ts; the existing test drives the generic scrubbing mechanism via an injected secrets array, so registering the two new OAuth secrets in secretValues() is sufficient without a new per-secret test.
+---
+[event:897ce3b3-f06a-43b1-b96f-04cad19e2245]
+node_id: 0cd8aca5-d80a-4e98-9c98-a0043c4b5642
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:20:20.643797+00:00
+
+gw-plan-review: 'redaction proven on the wire, not in a unit test' generalizes to recipe_rejections per the plan's own stated reasoning, but Phase 1/2's verify steps add no test (automated or manual) that a secret-shaped attemptedInput value is actually redacted before storage -- primary request-changes finding.
+---
+[event:7cce2f24-bd67-410c-9b34-e07b76d890c9]
+node_id: 0cd8aca5-d80a-4e98-9c98-a0043c4b5642
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:22:08.576812+00:00
+
+Independently verified live logIssue's actual order (slice-then-scrub) contradicts what the plan's prior draft claimed — applied this constraint's discipline to require a real unit test for the new scrub logic rather than relying on manual smoke testing
+---
+[event:421db70a-e96c-452d-992f-e19df656c661]
+node_id: 0cd8aca5-d80a-4e98-9c98-a0043c4b5642
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:29:08.596202+00:00
+
+Checked plan's Phase 2 test coverage against this lifetime discipline; found the plan cites it to justify pure-function extraction but only delivers a pure unit test, not a wire-level test proving logRejection's real wiring calls the sanitizer — a residual, non-blocking gap given the project's established manual-smoke-test precedent for recipe routes.
+---
+[event:dd8fa56c-0365-4d69-a2c3-bda8ecafa385]
+node_id: 0cd8aca5-d80a-4e98-9c98-a0043c4b5642
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:37:26.567515+00:00
+
+Applied this lifetime discipline (redaction must be proven by a real test, not just claimed) to find a new gap: the pure sanitizeRejectionInput module's bound constant could silently be wired via an import from index.ts, which would make its own test untestable/side-effecting despite the plan's 'no Fastify/filesystem' verify claim.
+---
+[event:5ddfc232-f527-492e-877f-71bb46c9fbe7]
+node_id: 0cd8aca5-d80a-4e98-9c98-a0043c4b5642
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:38:33.379516+00:00
+
+Fourth pass re-confirmed the redaction-testability discipline holds throughout the final plan
 ---
 [node:eba12387-598a-40b6-9979-810319724e0f]
 type: decision
@@ -5493,7 +5869,7 @@ type: constraint
 tier: mid-term
 path: /artifact/the-card-deck-fits-by-construction-rathe
 created_at: 2026-09-09T05:57:27.730936+00:00
-needs_review: false
+needs_review: true
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
@@ -5501,6 +5877,36 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T05:57:27.730936+00:00
 
 The card deck fits by construction rather than by scrolling. Rows are minmax(0, 1fr) and each grid item carries min-height zero, because a grid item's automatic minimum size is its content and that silently defeats fractional rows; the deck then clips instead of scrolling, and the page has overflow hidden so a scrollbar anywhere means a bug rather than a feature. This releases the minimum card height inside the deck, and that is not a loss: the token existed so rows would not jump as data loads, and equal fractional rows give the stronger version of the same guarantee, because row height stops depending on content at all. On a wall display nobody is present to scroll, so content below the fold is content that does not exist.
+---
+[event:25ffb3a5-f560-4e90-9645-1636afc47ee2]
+node_id: 26582685-718f-4003-9454-5126ff416a15
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-25T07:22:43.111626+00:00
+
+contradicted at capture of 97c338d8-a460-4a97-812b-6bf919562e36
+---
+[event:0cf3d1f1-6637-4aea-a711-5b1ed7c1ce09]
+node_id: 26582685-718f-4003-9454-5126ff416a15
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-25T07:32:07.325020+00:00
+
+a scrollbar no longer always means a bug: phone pages (<=767px) scroll by design per 97c338d8; wall kiosk unchanged
+---
+[event:d10c79a8-c168-4303-80d3-a087cd2370cc]
+node_id: 26582685-718f-4003-9454-5126ff416a15
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-25T07:32:17.061682+00:00
+
+a scrollbar no longer always means a bug: phone pages (<=767px) scroll by design per 97c338d8; wall kiosk unchanged
 ---
 [node:54cce183-229d-4f45-8d15-ff1f0696b66c]
 type: goal
@@ -6138,6 +6544,96 @@ created_at: 2026-09-15T12:33:39.603321+00:00
 
 gw-review PR#45: not-configured Google calendar falls back to labelled mock events at state=idle, meta='dane przykladowe' — matches the no-placeholder-as-real rule.
 ---
+[event:7b42279e-aa66-45c8-a913-cec48bd0ddc7]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:31:08.695532+00:00
+
+Grounded the decision to not synthesize a description in extractFallback/recipe-drafter
+---
+[event:81a7351e-a4bc-4210-9b2b-09d3a4d6a80e]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:36:09.187702+00:00
+
+No-placeholder-data-as-real constraint checked against plan's non-goals (no auto-generated description); plan respects it on the write path it names, though the drizzle-adapter finding surfaces an unaddressed silent-data-loss variant on the read/round-trip side of a second adapter.
+---
+[event:66856edf-99c3-4307-9d40-cace675e034f]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:37:48.903494+00:00
+
+Grounded the decision to add a real column rather than accept silent data loss
+---
+[event:a30480d9-b592-487f-9ea4-ed48a709f613]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:44:52.637876+00:00
+
+Plan's reasoning for not synthesizing a description in extractFallback/recipe-drafter correctly applies this no-placeholder-data rule.
+---
+[event:1010095e-81b5-4894-a2dc-de21f67971f4]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:52:55.881714+00:00
+
+Re-checked 'no placeholder data as real' against the non-goals (no auto-generated description); plan still complies.
+---
+[event:25b270c7-120a-4542-ab25-a9a02ff2ad19]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:08:25.341783+00:00
+
+Applied no-placeholder-data-as-real to the visibility of the NIEUDANE PROBY affordance itself
+---
+[event:9e1fb3dc-2a53-480f-abbf-81256155313e]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:13:16.642204+00:00
+
+Confirmed Phase 3's count>0-only visibility citation is a correct application of the no-placeholder-data constraint.
+---
+[event:7ec7def9-58cd-4bc2-b386-86ea95842210]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:20:20.659612+00:00
+
+gw-plan-review: checked Phase 3's count>0-gated affordance against this constraint; compliant, no new evidence.
+---
+[event:3d747968-976a-46d0-b881-b537b31e9753]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:11:57.041031+00:00
+
+failed reload kept the old query's rows under new search text; fixed by clearing and showing [!], browser-checked
+---
 [node:09f65864-fbda-4333-86a5-9713a88b92ea]
 type: constraint
 tier: mid-term
@@ -6760,7 +7256,7 @@ type: concept
 tier: short-term
 path: /artifact/the-recipes-repository-stack-is-already
 created_at: 2026-09-09T11:56:07.883692+00:00
-needs_review: false
+needs_review: true
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
@@ -6798,6 +7294,66 @@ source: agent-surface
 created_at: 2026-09-09T12:10:47.616540+00:00
 
 implementation only added HTTP/extraction/UI, confirming storage needed no changes
+---
+[event:510d933f-9e29-4ce7-a6d4-396f54f68758]
+node_id: 2135f0a4-e132-48e6-917f-2284e5a88662
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-22T20:06:06.323620+00:00
+
+Background on the recipes repository stack, not load-bearing for the limit/validation answer
+---
+[event:93c1180a-c602-42ea-8a63-ede07dcfbe05]
+node_id: 2135f0a4-e132-48e6-917f-2284e5a88662
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:36:09.159576+00:00
+
+Independent recall surfaced this concept describing the recipes repository stack (domain/types.ts, db/schema.ts, ports/repositories.ts, adapters/drizzle/index.ts) already fully built ahead of the HTTP layer -- verified against the actual code that adapters/drizzle/index.ts's toRecipe() and save() are a second, still-live RecipeRepository implementation the plan's Recipe.description addition ripples into but never lists as a file to touch.
+---
+[event:101f66c3-7098-4083-8b78-542f2a5b506e]
+node_id: 2135f0a4-e132-48e6-917f-2284e5a88662
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-23T11:37:48.896806+00:00
+
+Plan's first draft omitted the Drizzle adapter this concept describes; corrected after gw-plan-review's independent impact_of trace
+---
+[event:9c41f7e1-d4c0-4ce9-9986-692d6f56b123]
+node_id: 2135f0a4-e132-48e6-917f-2284e5a88662
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:44:52.641936+00:00
+
+Flagged disputed in recall, but no CONTRADICTS edge exists against it in the dump and the plan's premise (repo stack already built) is verified true against live code -- treated as recall-tool noise, not a real fork the plan silently picked a side on.
+---
+[event:29517211-86ad-42ad-acb5-e636258bf4e4]
+node_id: 2135f0a4-e132-48e6-917f-2284e5a88662
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:52:55.889257+00:00
+
+Re-checked which layer (storage vs HTTP/UI) was already built; consistent with plan's file list.
+---
+[event:701ae090-0e86-4a9c-bd80-d83be84fc22e]
+node_id: 2135f0a4-e132-48e6-917f-2284e5a88662
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:39:12.457320+00:00
+
+Part 2 human-gate presentation: genuine minor dispute — the concept's "already fully built" framing undersold that the Drizzle adapter still needed a schema change for the new description field
 ---
 [node:faf594c8-d42b-4068-96f6-bd211eecee0a]
 type: decision
@@ -6911,6 +7467,86 @@ created_at: 2026-09-09T12:01:31.935085+00:00
 
 Two-step import/save HTTP contract checked against Phase 2's route descriptions (POST /api/recipes/import extracts only, POST /api/recipes persists) - consistent.
 ---
+[event:94239989-b4be-4013-bea8-43371f2ad4c4]
+node_id: a0e8d46f-ac32-4c55-ba72-daab617c78e8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-22T20:06:06.316874+00:00
+
+Answered a question about how the recipe widget's review-before-save flow works
+---
+[event:bdbfd3fb-6186-4a30-ac6e-cac88d11a479]
+node_id: a0e8d46f-ac32-4c55-ba72-daab617c78e8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:27:30.140158+00:00
+
+Rejection-log and retry slice builds on the existing import-then-confirm HTTP contract
+---
+[event:b94e4b07-6ae5-4f3e-aeb6-dc12cbbf22ae]
+node_id: a0e8d46f-ac32-4c55-ba72-daab617c78e8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:31:08.708244+00:00
+
+Description stays optional at save time, consistent with only title being required
+---
+[event:cb0cc610-c584-470c-87e8-493996c89d5d]
+node_id: a0e8d46f-ac32-4c55-ba72-daab617c78e8
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:36:09.183437+00:00
+
+Plan's POST /api/recipes optional description, only title required, matches this settled two-step confirm-flow decision; consistent.
+---
+[event:a1514b53-3b80-425a-a443-ad372ba36e7c]
+node_id: a0e8d46f-ac32-4c55-ba72-daab617c78e8
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:52:55.879865+00:00
+
+Re-checked the two-step import/save HTTP contract is undisturbed by the description field; no new evidence, still holds.
+---
+[event:b14205e3-3f0d-4d59-93ef-933faae50a6d]
+node_id: a0e8d46f-ac32-4c55-ba72-daab617c78e8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T12:40:18.047251+00:00
+
+POST /api/recipes treats description as optional, matching the only-title-required rule
+---
+[event:9886dd5c-d308-4142-b82e-1baf4f71c279]
+node_id: a0e8d46f-ac32-4c55-ba72-daab617c78e8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T06:28:01.449170+00:00
+
+k7-recipe-auto-tags checked save-time tagging against review-before-save; still only POST /api/recipes via ZAPISZ writes
+---
+[event:d14c4c53-199f-4f44-a5e6-22341bd21273]
+node_id: a0e8d46f-ac32-4c55-ba72-daab617c78e8
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:11:57.062456+00:00
+
+reviewer checked auto-tagging keeps POST /api/recipes as the only write path
+---
 [node:1eee1694-5c04-4e38-ad65-5d933789a15a]
 type: decision
 tier: short-term
@@ -6934,6 +7570,56 @@ source: agent-surface
 created_at: 2026-09-09T12:01:31.935624+00:00
 
 Distinct-strategies decision checked against Phase 1's extractJsonLd/extractFallback module design - consistent, no guess-mixing.
+---
+[event:a6c0ed9c-ad70-46d3-b7ad-b61c64c9679d]
+node_id: 1eee1694-5c04-4e38-ad65-5d933789a15a
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:31:08.698818+00:00
+
+Kept JSON-LD and Readability-fallback description handling asymmetric, per the genuinely-separate-strategies rule
+---
+[event:7a214ac2-ea79-4630-b737-1c75bf8578cd]
+node_id: 1eee1694-5c04-4e38-ad65-5d933789a15a
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:36:09.191624+00:00
+
+Genuinely-separate-extraction-strategies decision checked against plan's non-goals; consistent, no merging of JSON-LD and fallback signals proposed.
+---
+[event:6dd0b6c4-5ce7-494d-a5ff-a7e533458117]
+node_id: 1eee1694-5c04-4e38-ad65-5d933789a15a
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:44:52.640003+00:00
+
+Plan's keep-strategies-separate framing for extractJsonLd/extractFallback is consistent; not central to this pass's verdict.
+---
+[event:6aa5a502-55cb-4822-bd5b-3d2fb8c35994]
+node_id: 1eee1694-5c04-4e38-ad65-5d933789a15a
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:52:55.885530+00:00
+
+Re-checked the two extraction strategies stay separate; description addition doesn't merge them.
+---
+[event:b1668270-166b-409c-9ce4-f13e8b2af749]
+node_id: 1eee1694-5c04-4e38-ad65-5d933789a15a
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:35:26.286588+00:00
+
+gw-review Part 1: confirmed extractJsonLd and extractFallback remain separate functions with no merged heuristic, by reading the extract.ts diff.
 ---
 [node:fc7ebc25-3d70-456f-9250-9a37e772c607]
 type: decision
@@ -7537,6 +8223,46 @@ archived: false
 
 extractFallback's Readability-based strategy initially returned a "successful" extraction (title only, empty ingredients/steps) for any page Readability considers article-shaped, even one with no list-shaped content at all — confirmed live against https://www.example.com during manual smoke testing, which is exactly the kind of page this would silently mis-handle. Fixed by treating a zero-length ingredients list as a failed extraction (return undefined), not a thin one: a real recipe page always has at least an ingredients list, so a title-only match is the fallback heuristic's version of "no honest answer" and must not be presented as if it had found a recipe. This is the same "no placeholder data as real" reasoning as node 4a749051, applied to what "successful extraction" is allowed to mean.
 ---
+[event:00bf3bd1-fb91-492c-a613-be38f0592592]
+node_id: 9bc167d9-3517-4bd1-a488-f066a5c8f690
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:31:08.701988+00:00
+
+Same no-placeholder-data-as-real reasoning applied to description extraction
+---
+[event:9051275f-bb0a-408f-95c9-be30c0704fd4]
+node_id: 9bc167d9-3517-4bd1-a488-f066a5c8f690
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:36:09.189695+00:00
+
+Zero-length-ingredients-as-failed-extraction precedent checked; plan's fallback/drafter description:'' choice follows the same reasoning consistently.
+---
+[event:926a7700-6f4b-44ef-afa2-49067f8410d1]
+node_id: 9bc167d9-3517-4bd1-a488-f066a5c8f690
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:37:48.900321+00:00
+
+Applied the same no-placeholder-data-as-real reasoning to the silent Drizzle description-loss risk
+---
+[event:d1181a8a-67f4-4284-840d-eeaa5306a1ae]
+node_id: 9bc167d9-3517-4bd1-a488-f066a5c8f690
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:52:55.875878+00:00
+
+Used as the standard against which a fresh-pass gap was checked: markdown-format.ts's reused per-line loop can silently strip a leading '-'/'1.' from a hand-typed Opis line, a minor instance of the same placeholder/lossy-data class this node warns about, not yet stated in the plan.
+---
 [node:03e6c5c0-b1f3-4cf9-9d82-07820b1f94fd]
 type: decision
 tier: short-term
@@ -7552,6 +8278,66 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T12:09:28.232831+00:00
 
 K7Recipes.svelte's review-before-save UI reuses the same field shapes for both the import-then-edit flow and manual entry ("+ RECZNIE" opens the same review form with empty fields, sourceUrl: null) — one review form, two ways to reach it, rather than a separate manual-add form. ZAPISZ is the card's single solid-amber control (the design system's one-per-card budget); IMPORTUJ, + RECZNIE, ANULUJ and the delete "x" are all ghost controls. This closes the plan-review agent's minor finding that the plan hadn't stated explicitly which control carries the solid-amber budget within K7Recipes itself.
+---
+[event:5703bf2e-59b0-4d49-a15f-71aaf89c4d1f]
+node_id: 03e6c5c0-b1f3-4cf9-9d82-07820b1f94fd
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-22T20:06:06.320652+00:00
+
+Answered a question about the manual-entry vs import review form and the ZAPISZ save control
+---
+[event:21aa99ff-67f2-4e4f-85a4-4d3ec284fc40]
+node_id: 03e6c5c0-b1f3-4cf9-9d82-07820b1f94fd
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:27:30.143583+00:00
+
+Source-editable and description-field slices extend the shared review form both import and manual entry already use
+---
+[event:236f572a-f664-4274-86f5-992bd388ec4c]
+node_id: 03e6c5c0-b1f3-4cf9-9d82-07820b1f94fd
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:31:08.705329+00:00
+
+Review form extension follows the one-form-two-entry-paths shape
+---
+[event:3eeed7ca-57e2-488e-8b50-db3f9bf523db]
+node_id: 03e6c5c0-b1f3-4cf9-9d82-07820b1f94fd
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:36:09.185428+00:00
+
+Plan's Phase 3 reuse of one review-form shape for import and manual entry, ZAPISZ as the sole solid-amber control, matches this decision; consistent.
+---
+[event:2adc09ae-a8c7-495f-af92-3c12ff7aee25]
+node_id: 03e6c5c0-b1f3-4cf9-9d82-07820b1f94fd
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:44:52.633808+00:00
+
+Verified K7Recipes.svelte's real openReview/ZAPISZ gating (reviewTitle.trim()==='' only) matches plan's Phase 3 claims about the shared review-form shape.
+---
+[event:f09fa9a0-ae92-407d-966b-efb0db4f0ed3]
+node_id: 03e6c5c0-b1f3-4cf9-9d82-07820b1f94fd
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:52:55.887347+00:00
+
+Re-checked one-review-form-two-entry-points shape; description textarea fits the existing shape without adding a second form.
 ---
 [node:2fb87236-454e-4032-abca-eb79490d5e25]
 type: concept
@@ -8388,6 +9174,16 @@ source: agent-surface
 created_at: 2026-09-15T06:45:54.394770+00:00
 
 Verified changelog.yaml gained a 2026-09-15 dated entry describing the fullscreen button, in the same change that ships it.
+---
+[event:9abecf39-0b31-477f-b53a-c5d2d964d12c]
+node_id: 1b5ac370-7e9f-4d4e-a56c-cde37a7d92ad
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:44:52.643767+00:00
+
+Settled mid-term constraint (every user-facing change adds a dated changelog entry in the same change) did not surface in the recipe-scoped recall query but is a standing CLAUDE.md rule; plan.md has zero mention of it despite this being a squarely user-facing change -- used as grounds for a finding.
 ---
 [node:c7fd59cf-268c-473e-acb1-559187232e85]
 type: goal
@@ -11164,6 +11960,26 @@ created_at: 2026-09-15T13:36:39.466591+00:00
 
 Used this generalizing constraint to check whether any other src/server/index.ts route takes a client-controlled URL unguarded — grepped all fetchWithTimeout callers; only comic-rss.ts and recipes/import.ts do, matching this constraint's own scope note.
 ---
+[event:3547c717-8129-435d-b856-e24538ed97c4]
+node_id: 87702f1f-1848-4624-9b52-e03c40aef76d
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T05:07:23.806664+00:00
+
+Confirmed against live src/server/security/network.ts and recipes/import.ts that isFetchableUrl exists specifically to gate server-side outbound fetches (SSRF), and that this slice's sourceUrl is never fetched server-side — so the plan's decision not to reuse it is correct, not a silent violation.
+---
+[event:2ab088c8-e03b-4537-9bb0-ef1baa51473f]
+node_id: 87702f1f-1848-4624-9b52-e03c40aef76d
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:36:55.709192+00:00
+
+gw-review Part 1: grepped src/server/ for any server-side fetch of Recipe.sourceUrl — none exists outside the already-trusted import path (extractJsonLd/extractFallback/importRecipeFromUrl). This change's sourceUrl is only ever navigated client-side, so the SSRF constraint's premise (server fetching a client-controlled URL) does not apply here, matching plan.md's own stated non-goal reasoning.
+---
 [node:11eb5df1-7022-487f-9eb4-addbd53cadea]
 type: decision
 tier: mid-term
@@ -11278,6 +12094,26 @@ source: agent-surface
 created_at: 2026-09-15T13:36:39.465660+00:00
 
 Recalled round-2 bypass history to know which payload classes were already closed vs. what round 3/4 newly targets (DNS-resolution, not literal-address bypasses).
+---
+[event:54aca94a-91c2-4ddd-ae0b-fda833e207b6]
+node_id: 09f00361-0da0-427d-9f9a-494a1feb01d1
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T04:59:02.315620+00:00
+
+SSRF guard fix is about server-side outbound fetch, a different concern from client-rendered link scheme safety this slice needs
+---
+[event:444f961d-a4b0-4316-a314-2da12125fec8]
+node_id: 09f00361-0da0-427d-9f9a-494a1feb01d1
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T05:01:36.874312+00:00
+
+Distinguished this slice's render-time XSS guard from the SSRF fetch guard it superficially resembles
 ---
 [node:20a64ff9-0eb6-486a-aaa0-3682eb713714]
 type: facet_value
@@ -11641,6 +12477,26 @@ created_at: 2026-09-15T15:00:03.585071+00:00
 
 gw-plan-review pass 3: re-confirmed Phase 1's grid-row root-cause description (main.ts computing --deck-rows once from desktop column count, phone media query only overriding columns) matches this node exactly; the grid-auto-rows: minmax(0,1fr) fix in d8ef0463 addresses it.
 ---
+[event:789c3643-48f3-4f15-89bb-848b5d9d90f1]
+node_id: 3ea28fac-3a03-48dc-a228-894731fa5541
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:32:07.330264+00:00
+
+the phone rule still derives the row count from grid-auto-rows; verified 240px auto rows in Chromium at 375x667
+---
+[event:6958985c-f97f-45d6-9ba2-a261aee43ca4]
+node_id: 3ea28fac-3a03-48dc-a228-894731fa5541
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:32:17.069638+00:00
+
+the phone rule still derives the row count from grid-auto-rows; verified 240px auto rows in Chromium at 375x667
+---
 [node:3218cf7b-eb04-46dc-a6a6-1bd89155936d]
 type: constraint
 tier: mid-term
@@ -11685,6 +12541,46 @@ source: agent-surface
 created_at: 2026-09-17T07:32:08.945373+00:00
 
 gw-review Part 2: the zero-scroll-vs-phone-scroll tension this node names was settled by node:1580e5d3's human ruling and honored throughout the implementation; still awaits human resolution of the dispute itself in the GUI
+---
+[event:f1729ca6-bc77-456d-84fe-ecfb0a3bea40]
+node_id: 3218cf7b-eb04-46dc-a6a6-1bd89155936d
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:28:23.379849+00:00
+
+Deck-level no-scroll invariant is relevant to later infinite-scroll slice, not this one
+---
+[event:653fcb8d-f11a-444a-99e7-ca989ea02fb0]
+node_id: 3218cf7b-eb04-46dc-a6a6-1bd89155936d
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:11:57.087300+00:00
+
+disputed 'nothing scrolls' tension; these slices scroll inside the card, not the deck; not adjudicated
+---
+[event:9b17ba54-75b8-4100-9264-75822f3af9b2]
+node_id: 3218cf7b-eb04-46dc-a6a6-1bd89155936d
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:32:07.327618+00:00
+
+the tension this node asked a human to decide was decided: per-page scroll at phone width
+---
+[event:cf8f2a63-c3a6-426f-90fe-bf2e353afcb9]
+node_id: 3218cf7b-eb04-46dc-a6a6-1bd89155936d
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:32:17.066306+00:00
+
+the tension this node asked a human to decide was decided: per-page scroll at phone width
 ---
 [node:611bc3d8-caa1-4e81-82ab-d955bbcbba4f]
 type: issue
@@ -11814,7 +12710,7 @@ type: decision
 tier: mid-term
 path: /artifact/k7-mobile-responsive-wireframe-ruling-z
 created_at: 2026-09-15T14:42:15.974385+00:00
-needs_review: false
+needs_review: true
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
@@ -11863,6 +12759,36 @@ source: agent-surface
 created_at: 2026-09-17T10:39:39.883999+00:00
 
 re-verified zero-page-scroll holds across all 6 reorganized pages via real-browser screenshots at both 1024x768 and 375x667
+---
+[event:de9f226b-bb3c-4dc9-9dc6-b75d3bdadcc7]
+node_id: 1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-25T07:22:43.111626+00:00
+
+contradicted at capture of 97c338d8-a460-4a97-812b-6bf919562e36
+---
+[event:1b5ab634-0e87-4877-bcd9-e7a110d1fef1]
+node_id: 1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-25T07:32:07.322472+00:00
+
+human reversed the no-page-scroll-on-phone ruling on 2026-09-25: 'it doesn't work for mobile phone screen'; see 97c338d8
+---
+[event:ffdd910d-a7e6-49b4-8e65-3e083d7bbbe4]
+node_id: 1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-25T07:32:17.051152+00:00
+
+human reversed the no-page-scroll-on-phone ruling on 2026-09-25: 'it doesn't work for mobile phone screen'; see 97c338d8
 ---
 [node:c77c25d1-e7f0-4e2d-894c-b0d4a7744b2b]
 type: concept
@@ -12372,3 +13298,2934 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-17T11:01:12.660026+00:00
 
 Added a second calendar card instance (kalendarz-pelny) on its own full-width page, alongside the existing compact calendar card that stays on glowna's doorway-glance 2x2 grid. This is a deliberate exception to the "no duplicate cards across pages" cleanup the rest of k7-layout-reorg did: the two instances serve different purposes (quick glance vs. actually reading a week's event titles without a shared-cell squeeze), not redundant always-visible clutter. General distinction worth keeping: a duplicate card is a problem when both instances serve the identical purpose in the identical way (the clock/weather/timer duplicates this change removed); it's a legitimate design choice when the instances differ in fidelity/detail for different moments of use.
+---
+[node:f4be78b5-ae1f-4600-a55e-f38f086783aa]
+type: decision
+tier: short-term
+path: /artifact/epic-k7-recipe-widget-upgrade-8-slices
+created_at: 2026-09-23T11:27:17.128616+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-23T11:27:17.128616+00:00
+-> HAS_FACET [node:38aab816-158d-4ec6-846b-7b193de37e0a] @ 2026-09-23T11:27:17.128616+00:00
+-> DEPENDS_ON [node:a0e8d46f-ac32-4c55-ba72-daab617c78e8] @ 2026-09-23T11:27:17.128616+00:00
+
+Epic k7-recipe-widget-upgrade (8 slices) is sliced description-first: k7-recipe-description-field (1) precedes both k7-recipe-auto-tags (4, tagging prompt reads description as a signal) and k7-recipe-search-fulltext (7, description is one of the searched fields), so building it later would mean redoing those. The list-fetching path is layered strictly: k7-recipe-list-all (5, drop the maxVisible cap) before k7-recipe-infinite-scroll (6, paginate it) before k7-recipe-search-fulltext (7, extend the same endpoint with a query) before k7-recipe-search-tag-filter (8, add a filter facet on top of working full-text search) — searching a still-capped list would have meant redoing the endpoint contract twice. k7-recipe-source-editable (2) and k7-recipe-rejection-log (3) touch only the review/detail views, not the list-fetching path, so they are unblocked by and don't block anything else in the epic. Only slice 4 (auto-tags) is headless: a bounded backend behavior change verifiable with a mocked gateway client and no new UI surface; every other slice changes what the household sees or can do, so all run interactive.
+---
+[event:9ce0bbbb-13b7-4510-a6a1-62511569c6c0]
+node_id: f4be78b5-ae1f-4600-a55e-f38f086783aa
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:28:23.373415+00:00
+
+Epic sequencing decision confirms this slice is deliberately first
+---
+[event:4b245fea-9aaa-4d3b-bb43-573ef02e55cf]
+node_id: f4be78b5-ae1f-4600-a55e-f38f086783aa
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:36:09.194897+00:00
+
+Epic slice-ordering decision (description-first, slice 1 of 8) checked against plan's stated epic position; consistent.
+---
+[event:2df124d4-46b9-4356-af79-710893a05e7f]
+node_id: f4be78b5-ae1f-4600-a55e-f38f086783aa
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:52:55.891106+00:00
+
+Re-checked epic slice ordering; description-first sequencing before auto-tags/search-fulltext still holds, roadmap.md diff matches.
+---
+[event:ebcf28ab-db4f-4d84-8a30-731691c241fa]
+node_id: f4be78b5-ae1f-4600-a55e-f38f086783aa
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T05:07:23.813658+00:00
+
+Confirmed slice 2 (k7-recipe-source-editable) is correctly unblocked and doesn't block other epic slices per the stated slice ordering.
+---
+[event:d2f1ef29-7ef3-400d-8f13-2f24f14a7753]
+node_id: f4be78b5-ae1f-4600-a55e-f38f086783aa
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:13:16.648514+00:00
+
+Confirmed the plan's slice-3-of-8, unblocked/non-blocking positioning matches the epic's own ordering rationale.
+---
+[event:a87cf1b6-fb03-42bd-84a4-3e3ba52ecc03]
+node_id: f4be78b5-ae1f-4600-a55e-f38f086783aa
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:20:20.672835+00:00
+
+gw-plan-review: confirmed this slice's position (3/8, unblocked/non-blocking within the epic) is consistent with the plan's own framing.
+---
+[event:38f09e93-2528-44a2-8581-f5fac3bd49f0]
+node_id: f4be78b5-ae1f-4600-a55e-f38f086783aa
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T06:28:01.458085+00:00
+
+slice order followed; envelope designed once in slice 5 so 6-8 were additive
+---
+[node:7c3c191a-fba7-43fb-b89f-75709ae3e17a]
+type: issue
+tier: short-term
+path: /artifact/deliberately-out-of-scope-for-epic-k7-re
+created_at: 2026-09-23T11:27:22.792636+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-23T11:27:22.792636+00:00
+-> HAS_FACET [node:38aab816-158d-4ec6-846b-7b193de37e0a] @ 2026-09-23T11:27:22.792636+00:00
+
+Deliberately out of scope for epic k7-recipe-widget-upgrade: bulk-retry of multiple failed add/import attempts at once (k7-recipe-rejection-log covers one-at-a-time retry only), and any change to how the recipe collection itself is stored — it stays one Markdown file per recipe in a flat directory (src/server/adapters/files/recipes.ts); search and pagination are built as a read-time concern over that same store, not a reason to replace it with a database or index.
+---
+[event:a8cc203c-669e-43ec-9034-43a43a8c81ac]
+node_id: 7c3c191a-fba7-43fb-b89f-75709ae3e17a
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:31:08.685624+00:00
+
+Plan's non-goals reaffirm the epic's out-of-scope note about storage staying file-based
+---
+[event:507265af-e52e-49d3-8772-ca7d0d54d2ab]
+node_id: 7c3c191a-fba7-43fb-b89f-75709ae3e17a
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:36:09.170626+00:00
+
+Used to confirm the plan's own cited non-goal (storage stays one .md file per recipe) is legitimate and not itself violated by requiring a fix to adapters/drizzle/index.ts -- that file needs a compile fix regardless of which storage backend is authoritative.
+---
+[event:583dbdf8-fa4e-4322-9638-79a87beb1dd2]
+node_id: 7c3c191a-fba7-43fb-b89f-75709ae3e17a
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:44:52.635863+00:00
+
+Plan's non-goals correctly keep storage as one-file-per-recipe, matching this out-of-scope boundary.
+---
+[event:adcc52cf-5ed5-4d74-a61d-0d0268c71aa7]
+node_id: 7c3c191a-fba7-43fb-b89f-75709ae3e17a
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:52:55.877973+00:00
+
+Confirmed no change to file-based storage is implied anywhere in the plan; non-goal respected.
+---
+[event:537ce683-3c4b-4107-9d59-b949bd42bf50]
+node_id: 7c3c191a-fba7-43fb-b89f-75709ae3e17a
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:13:16.650268+00:00
+
+Confirmed plan.md's non-goals (no bulk retry) matches the epic-level scope decision.
+---
+[event:7bb83ff3-710e-467b-96c7-4c12b709311c]
+node_id: 7c3c191a-fba7-43fb-b89f-75709ae3e17a
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:20:20.670510+00:00
+
+gw-plan-review: confirmed plan's non-goals (no bulk retry) align with this issue's stated epic-level scope boundary.
+---
+[event:ead841de-b9e8-4c8e-91bf-12e80eb4f19a]
+node_id: 7c3c191a-fba7-43fb-b89f-75709ae3e17a
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:29:08.614594+00:00
+
+Confirmed bulk-retry-out-of-scope note is consistent with plan's one-at-a-time retry design; no new evidence.
+---
+[event:24e14be8-c9e5-427c-90a6-615a53337aff]
+node_id: 7c3c191a-fba7-43fb-b89f-75709ae3e17a
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T06:28:01.459630+00:00
+
+paging and search built as read-time passes over the Markdown store, no index
+---
+[event:880e4617-0807-4443-b5ae-7b421d7a4ef2]
+node_id: 7c3c191a-fba7-43fb-b89f-75709ae3e17a
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:11:57.074980+00:00
+
+per-request full scan accepted per this node's stated read-time rationale
+---
+[node:1ff94e56-86a6-4b16-993b-b24ef8343d93]
+type: slice
+tier: short-term
+path: /change/k7-recipe-description-field
+created_at: 2026-09-23T11:27:49.182078+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:0e15e38d-140a-43ee-8b5a-05a767a56fbd] @ 2026-09-23T11:30:54.276222+00:00
+-> SCOPED_TO [node:1cc3fae9-2567-4317-8ca2-761c29eb1838] @ 2026-09-23T19:58:38.473270+00:00
+-> SCOPED_TO [node:5689d533-a542-4ff8-8aa0-15efe8f123a4] @ 2026-09-23T11:27:49.182078+00:00
+-> SCOPED_TO [node:8693c851-b3d6-4d2d-a197-429a2eebfb89] @ 2026-09-23T11:53:53.235374+00:00
+-> SCOPED_TO [node:9e7ddcdd-d02f-40d3-a259-f125e6d966c2] @ 2026-09-24T12:38:37.942119+00:00
+-> SCOPED_TO [node:aa18e4c8-820e-4b6f-b3e5-53775d17099b] @ 2026-09-23T11:46:19.768153+00:00
+-> SCOPED_TO [node:ae75daef-842b-44d7-8deb-1f149024542b] @ 2026-09-23T11:30:45.567082+00:00
+-> SCOPED_TO [node:bf1d9409-e8f3-47b2-86d0-10408e0c6194] @ 2026-09-23T11:37:40.042318+00:00
+-> SCOPED_TO [node:e0d90242-ab21-4c25-b50d-e9fbc58db157] @ 2026-09-23T11:30:59.992216+00:00
+
+change scope: k7-recipe-description-field
+---
+[event:8ad9cbb6-e0ec-40cb-a20f-8886918753a5]
+node_id: 1ff94e56-86a6-4b16-993b-b24ef8343d93
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:27:49.185914+00:00
+
+create_change k7-recipe-description-field
+---
+[node:5689d533-a542-4ff8-8aa0-15efe8f123a4]
+type: goal
+tier: short-term
+path: /goal/k7-recipe-description-field
+created_at: 2026-09-23T11:27:49.182078+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:03e6c5c0-b1f3-4cf9-9d82-07820b1f94fd] @ 2026-09-23T11:27:49.182078+00:00
+-> DEPENDS_ON [node:0e15e38d-140a-43ee-8b5a-05a767a56fbd] @ 2026-09-23T11:30:54.276222+00:00
+-> DEPENDS_ON [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-23T11:27:49.182078+00:00
+-> DEPENDS_ON [node:1cc3fae9-2567-4317-8ca2-761c29eb1838] @ 2026-09-23T19:58:38.473270+00:00
+-> DEPENDS_ON [node:8693c851-b3d6-4d2d-a197-429a2eebfb89] @ 2026-09-23T11:53:53.235374+00:00
+-> DEPENDS_ON [node:9e7ddcdd-d02f-40d3-a259-f125e6d966c2] @ 2026-09-24T12:38:37.942119+00:00
+-> DEPENDS_ON [node:a0e8d46f-ac32-4c55-ba72-daab617c78e8] @ 2026-09-23T11:27:49.182078+00:00
+-> DEPENDS_ON [node:aa18e4c8-820e-4b6f-b3e5-53775d17099b] @ 2026-09-23T11:46:19.768153+00:00
+-> DEPENDS_ON [node:ae75daef-842b-44d7-8deb-1f149024542b] @ 2026-09-23T11:30:45.567082+00:00
+-> DEPENDS_ON [node:bf1d9409-e8f3-47b2-86d0-10408e0c6194] @ 2026-09-23T11:37:40.042318+00:00
+-> DEPENDS_ON [node:e0d90242-ab21-4c25-b50d-e9fbc58db157] @ 2026-09-23T11:30:59.992216+00:00
+-> DEPENDS_ON [node:f4be78b5-ae1f-4600-a55e-f38f086783aa] @ 2026-09-23T11:27:49.182078+00:00
+
+Add a free-text description field to Recipe — domain type, markdown format, HTTP contract, and the review/edit form + detail view in K7Recipes.svelte.
+---
+[event:6bccd8c8-403f-4eee-8edd-478f5ae633da]
+node_id: 5689d533-a542-4ff8-8aa0-15efe8f123a4
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:28:23.368496+00:00
+
+Change goal node for this slice
+---
+[event:ab8c878e-868e-4313-a311-d601d3451c40]
+node_id: 5689d533-a542-4ff8-8aa0-15efe8f123a4
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T12:08:29.587586+00:00
+
+Phase 1 implementation against this goal
+---
+[event:fe1e1e35-392f-47a3-aa48-1c01881b0835]
+node_id: 5689d533-a542-4ff8-8aa0-15efe8f123a4
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T12:40:18.052259+00:00
+
+Phase 2 implementation against this goal
+---
+[event:8cfbe5df-fa57-435e-a568-a95efe968050]
+node_id: 5689d533-a542-4ff8-8aa0-15efe8f123a4
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T19:58:45.418789+00:00
+
+Phase 3 implementation against this goal; change complete
+---
+[node:2df169d5-d5d8-4179-bf70-69b26a3b09a1]
+type: facet_value
+tier: lifetime
+path: /facet/recipes
+created_at: 2026-09-23T11:30:45.567082+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+recipes
+---
+[node:ae75daef-842b-44d7-8deb-1f149024542b]
+type: decision
+tier: short-term
+path: /artifact/recipe-description-lives-as-a-new-op
+created_at: 2026-09-23T11:30:45.567082+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-23T11:30:45.567082+00:00
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-09-23T11:30:45.567082+00:00
+-> HAS_FACET [node:f55f3512-314b-47b1-8a0c-2e2cbcc46651] @ 2026-09-23T11:30:45.567082+00:00
+
+Recipe.description lives as a new `## Opis` Markdown body section (not a frontmatter key) in src/server/recipes/markdown-format.ts, placed before `## Składniki` so a hand-read file goes title → blurb → ingredients → steps. This follows the module's own stated rule: frontmatter is for fields a person rarely touches, the Markdown body for the ones they do — description is squarely a body field. Serialized as plain unbulleted lines, only emitted when non-empty, so recipes without a description keep today's exact file shape (backward compatible with the existing collection).
+---
+[event:d1e8f526-b7b3-409f-8fbd-898171fd97d2]
+node_id: ae75daef-842b-44d7-8deb-1f149024542b
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:36:09.177233+00:00
+
+Plan's Phase 1 (## Opis body section, placement before Skladniki) matches this already-captured decision exactly; re-assessed, no new evidence.
+---
+[event:68304d3d-bec8-4acc-b9c4-47255ea61d10]
+node_id: ae75daef-842b-44d7-8deb-1f149024542b
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:44:52.628303+00:00
+
+Plan's ## Opis body-section placement and conditional-emit rule verified against markdown-format.ts's actual serializeRecipe/parseRecipeMarkdown structure -- consistent.
+---
+[event:3e573b16-ca6a-4ebf-9b88-a3a825ade4d2]
+node_id: ae75daef-842b-44d7-8deb-1f149024542b
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:52:55.852366+00:00
+
+Verified live against markdown-format.ts that the ## Opis placement/parse mechanism the plan describes matches the actual SECTION_BY_HEADING/lists loop; confirms Phase 1 is technically sound.
+---
+[event:437dc199-9b8d-4968-af0c-6fa7ed91cb82]
+node_id: ae75daef-842b-44d7-8deb-1f149024542b
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T12:08:29.560639+00:00
+
+Implemented the ## Opis section exactly as planned; round-trip tests pass, empty-description case emits no Opis section
+---
+[event:8742316c-627a-475f-8a1d-f81877447c22]
+node_id: ae75daef-842b-44d7-8deb-1f149024542b
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:35:26.277964+00:00
+
+gw-review Part 1: ran test/recipe-files.test.ts — round-trip and 'omits empty description' tests pass, confirming ## Opis is placed before ## Składniki and omitted when empty.
+---
+[node:f55f3512-314b-47b1-8a0c-2e2cbcc46651]
+type: facet_value
+tier: lifetime
+path: /facet/storage-format
+created_at: 2026-09-23T11:30:45.567082+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+storage-format
+---
+[node:0e15e38d-140a-43ee-8b5a-05a767a56fbd]
+type: decision
+tier: short-term
+path: /artifact/extractjsonld-src-server-recipes-extrac
+created_at: 2026-09-23T11:30:54.276222+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-23T11:30:54.276222+00:00
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-09-23T11:30:54.276222+00:00
+-> DEPENDS_ON [node:9bc167d9-3517-4bd1-a488-f066a5c8f690] @ 2026-09-23T11:30:54.276222+00:00
+
+extractJsonLd (src/server/recipes/extract.ts) reads schema.org/Recipe's `description` property into Recipe.description when present, but extractFallback (the Readability-based heuristic) and the chat /przepis drafter (recipe-drafter.ts) do not synthesize one from Readability's excerpt or a model guess — they return description: ''. Reading JSON-LD's own description is free (already-published structured data), whereas Readability's excerpt or a model's guess would be exactly the "placeholder data presented as real" this module's extraction rules already forbid (node 9bc167d9's zero-length-ingredients rule, node 1eee1694's genuinely-separate-strategies rule) — the household types a description by hand in the review form instead.
+---
+[event:2d2bcb04-19a8-4ad5-a045-0a625295f0a2]
+node_id: 0e15e38d-140a-43ee-8b5a-05a767a56fbd
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:36:09.181151+00:00
+
+Plan's extraction-path non-goals (JSON-LD reads description, fallback/drafter return '') match this decision; consistent.
+---
+[event:e129880c-f705-4403-b3dd-0c48b356f5b7]
+node_id: 0e15e38d-140a-43ee-8b5a-05a767a56fbd
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:44:52.631673+00:00
+
+Plan's non-goals (extractFallback/recipe-drafter return '', extractJsonLd reads schema.org description) match this decision exactly.
+---
+[event:545b5c8c-d4b6-4f15-bb7e-1593521f3aa4]
+node_id: 0e15e38d-140a-43ee-8b5a-05a767a56fbd
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:52:55.873093+00:00
+
+Verified extractJsonLd/extractFallback/parseRecipeDraft literals live match the plan's per-site description-handling claims exactly.
+---
+[event:f0286113-d318-405a-8eff-73a897458ba3]
+node_id: 0e15e38d-140a-43ee-8b5a-05a767a56fbd
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T12:40:18.035106+00:00
+
+Implemented and tested: extractJsonLd reads schema.org description, extractFallback and parseRecipeDraft return ''
+---
+[event:da860c39-9ddc-4c0c-99dc-33d5a0eafce1]
+node_id: 0e15e38d-140a-43ee-8b5a-05a767a56fbd
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:35:26.274503+00:00
+
+gw-review Part 1: ran test/recipes-extract.test.ts and test/recipe-drafter.test.ts — passing assertions confirm extractJsonLd reads schema.org description while extractFallback/parseRecipeDraft return '' rather than synthesizing one.
+---
+[event:bdb668f9-9f88-4994-9a94-5e499a5c757a]
+node_id: 0e15e38d-140a-43ee-8b5a-05a767a56fbd
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T06:28:01.450541+00:00
+
+weighed model-guessed tags against the no-model-guess description rule; tags left empty by the household are a different case
+---
+[event:2bbd3188-dca9-4c06-8bbe-eb59741057ed]
+node_id: 0e15e38d-140a-43ee-8b5a-05a767a56fbd
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:11:57.064856+00:00
+
+reviewer checked the model never writes description
+---
+[node:e0d90242-ab21-4c25-b50d-e9fbc58db157]
+type: decision
+tier: short-term
+path: /artifact/recipe-description-is-typed-as-a-plain
+created_at: 2026-09-23T11:30:59.992216+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-23T11:30:59.992216+00:00
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-09-23T11:30:59.992216+00:00
+
+Recipe.description is typed as a plain `string` (default '') rather than `string | null`, matching how ingredients/steps are always arrays (empty when absent) rather than nullable — the only nullable field on Recipe stays sourceUrl, where "no source" is a meaningfully different state from "empty string source". "No description" and "empty description" are not meaningfully different, so a third nullable-variant class was avoided.
+---
+[event:e2779f51-1fb3-478b-bab4-72d3fcf830b2]
+node_id: e0d90242-ab21-4c25-b50d-e9fbc58db157
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:36:09.179130+00:00
+
+Plan's description:string default '' typing matches this decision; consistent.
+---
+[event:fad37dcf-2932-4b9e-82d7-2910331ee2f2]
+node_id: e0d90242-ab21-4c25-b50d-e9fbc58db157
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:44:52.624845+00:00
+
+Plan's description:string (default '') convention matches this decision; verified against domain/types.ts's existing ingredients/steps-as-arrays pattern.
+---
+[event:63cac05c-b161-41c7-b3ee-05e457b5306c]
+node_id: e0d90242-ab21-4c25-b50d-e9fbc58db157
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:52:55.869841+00:00
+
+Confirmed Recipe interface in domain/types.ts has no description field yet and the plan's plain-string-not-nullable convention matches ingredients/steps precedent.
+---
+[event:6d908e9f-0ac9-475b-be3a-dffb140500fa]
+node_id: e0d90242-ab21-4c25-b50d-e9fbc58db157
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T12:08:29.578362+00:00
+
+Recipe.description implemented as plain string, default ''
+---
+[event:c5abcec8-353c-45bf-8c76-1b2cf2507c15]
+node_id: e0d90242-ab21-4c25-b50d-e9fbc58db157
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T04:59:02.311158+00:00
+
+sourceUrl stays the one nullable Recipe field; description's non-nullable convention is the contrast case
+---
+[event:9b54f55e-df9a-44b9-969a-7009b18473be]
+node_id: e0d90242-ab21-4c25-b50d-e9fbc58db157
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T05:01:36.885453+00:00
+
+sourceUrl stays the one nullable field; empty-string-means-clear convention designed to match
+---
+[event:3455b051-3137-403b-9564-3c8bf5395881]
+node_id: e0d90242-ab21-4c25-b50d-e9fbc58db157
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T05:07:23.810321+00:00
+
+Checked plan's Phase 3 client-side '' vs null handling against this decision (sourceUrl's null/empty distinction is meaningful) — plan preserves the domain-level distinction at the persistence boundary, no violation.
+---
+[event:0fa081fc-cdbc-4bf9-8cc2-a98fca39897f]
+node_id: e0d90242-ab21-4c25-b50d-e9fbc58db157
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:35:26.270813+00:00
+
+gw-review Part 1: src/server/domain/types.ts diff shows description: string (non-nullable), matching this decision; verified against the actual diff line.
+---
+[node:bf1d9409-e8f3-47b2-86d0-10408e0c6194]
+type: constraint
+tier: short-term
+path: /artifact/reciperepository-has-two-live-adapters
+created_at: 2026-09-23T11:37:40.042318+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-23T11:37:40.042318+00:00
+-> DEPENDS_ON [node:2135f0a4-e132-48e6-917f-2284e5a88662] @ 2026-09-23T11:37:40.042318+00:00
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-09-23T11:37:40.042318+00:00
+
+RecipeRepository has two live adapters (hexagonal port): the file-based one (adapters/files/recipes.ts, the normal runtime path) and the Drizzle/SQLite one (adapters/drizzle/index.ts), which stays live as the one-time SQLite→files migration source (migrateRecipesToFiles) and is directly exercised by test/persistence.test.ts's RecipeRepository block. Any field added to the Recipe domain type must be threaded through both adapters, not just the file-based one — a first draft of k7-recipe-description-field's plan missed this and /gw-plan-review caught it. Resolution for description: add a real `description` column to schema.recipes (nullable, no default) via a drizzle-kit migration, map it in toRecipe(), rather than documenting the Drizzle adapter as description-lossy — the port contract stays honest across both adapters instead of gaining a silent gap.
+---
+[event:49562c96-9eea-4e5d-b26c-78809e688623]
+node_id: bf1d9409-e8f3-47b2-86d0-10408e0c6194
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:44:52.614327+00:00
+
+gw-plan-review (2nd pass): verified live against code (toRecipe(), schema.recipes, FileRecipeRepository.save(), migrateRecipesToFiles, test/persistence.test.ts using the Drizzle adapter) that the revised plan's Phase 1/2 genuinely closes this constraint's gap -- real column, real toRecipe() mapping, real migration mechanism.
+---
+[event:d1065f28-4f3c-4488-bfc6-d0266ad0b3f9]
+node_id: bf1d9409-e8f3-47b2-86d0-10408e0c6194
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:52:55.861707+00:00
+
+Independently re-verified against live schema.ts and drizzle/index.ts that the round-1 Drizzle-adapter gap and its fix (nullable column + toRecipe mapping) are accurate and complete.
+---
+[event:82852b72-2d9c-48f5-b29b-18a981316c54]
+node_id: bf1d9409-e8f3-47b2-86d0-10408e0c6194
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:53:59.470328+00:00
+
+Third review pass independently re-verified the Drizzle adapter fix against live code and found it sound
+---
+[event:076caf84-c66f-4367-889d-24e85ce4ecf8]
+node_id: bf1d9409-e8f3-47b2-86d0-10408e0c6194
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T12:08:29.581575+00:00
+
+Added schema.recipes.description column + drizzle-kit migration + toRecipe() mapping; persistence.test.ts's existing RecipeRepository block still passes unchanged, confirming backward compatibility with the nullable no-default column
+---
+[event:520e5786-eef7-45a6-b41b-df64869d73fc]
+node_id: bf1d9409-e8f3-47b2-86d0-10408e0c6194
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:35:26.255378+00:00
+
+gw-review Part 1 for k7-recipe-description-field: ran npm run typecheck (0 errors) and node --test on test/persistence.test.ts — the new Drizzle-adapter test 'reports a NULL description column back as an empty string, not null' and the description round-trip assertion both pass, confirming the field is threaded through both RecipeRepository adapters as this constraint requires.
+---
+[event:7d55925e-15f5-4f80-bad3-8ea72ef4ef86]
+node_id: bf1d9409-e8f3-47b2-86d0-10408e0c6194
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:13:16.636856+00:00
+
+Used to reason about whether the new RecipeRejectionRepository needs both a file and Drizzle adapter like RecipeRepository — confirmed IssueLogRepository (the pattern being mirrored) is Drizzle/SQLite-only, so a single adapter is correct here.
+---
+[event:ec02370f-12ac-430b-bcf9-415a20f9cdc7]
+node_id: bf1d9409-e8f3-47b2-86d0-10408e0c6194
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:29:08.612694+00:00
+
+Checked whether RecipeRejectionRepository needed a second (files) adapter like RecipeRepository; confirmed it does not, since the precedent it follows (IssueLogRepository) also has only one adapter — no gap.
+---
+[event:82ba2d1f-9768-4b1f-84e3-f9cd6918ce6f]
+node_id: bf1d9409-e8f3-47b2-86d0-10408e0c6194
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T06:28:01.456827+00:00
+
+list({limit: Infinity}) threaded through both the file and Drizzle adapters
+---
+[node:aa18e4c8-820e-4b6f-b3e5-53775d17099b]
+type: constraint
+tier: short-term
+path: /artifact/recipedraft-src-client-lib-k7-events-ts
+created_at: 2026-09-23T11:46:19.768153+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-23T11:46:19.768153+00:00
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-09-23T11:46:19.768153+00:00
+
+RecipeDraft (src/client/lib/k7-events.ts) is a hand-duplicated client-side type shared by both entry points into K7Recipes.svelte's review form (URL import's inline response type, and the chat /przepis drafter's RECIPE_DRAFT event payload) — it is NOT derived from the server Recipe type (unlike ExtractedRecipe = Omit<Recipe,...>), so a field added to Recipe does not flow through to it automatically and must be added by hand. Second /gw-plan-review pass on k7-recipe-description-field caught that its plan's Phase 3 named only K7Recipes.svelte and missed this. General lesson for any future Recipe field: check k7-events.ts's RecipeDraft alongside the server type.
+---
+[event:384deaca-f1cc-4a53-aa36-887559155393]
+node_id: aa18e4c8-820e-4b6f-b3e5-53775d17099b
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:46:24.651404+00:00
+
+Fixed plan Phase 3 to include k7-events.ts's RecipeDraft type after second review caught the omission
+---
+[event:e2ebbff7-b1a9-47cb-859c-6ad406a41811]
+node_id: aa18e4c8-820e-4b6f-b3e5-53775d17099b
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:52:55.865981+00:00
+
+Independently re-verified against live k7-events.ts and K7Recipes.svelte that RecipeDraft, startImport()'s inline union type, and openManualEntry()'s literal all currently lack description, matching the plan's round-2 fix exactly.
+---
+[event:6b92ade3-6566-4f9c-8c2e-53b8f4579312]
+node_id: aa18e4c8-820e-4b6f-b3e5-53775d17099b
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:53:59.473487+00:00
+
+Third review pass independently re-verified the RecipeDraft/k7-events.ts fix against live code and found it sound
+---
+[event:03250545-ea0f-4f82-85b5-33ea6de14ad8]
+node_id: aa18e4c8-820e-4b6f-b3e5-53775d17099b
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T19:58:45.405160+00:00
+
+Added description to RecipeDraft in k7-events.ts and its two call sites; K7Chat.svelte needed no change as predicted, verified live
+---
+[event:fdf314cd-8d7e-4eae-ba9b-3cb2d8fe87ae]
+node_id: aa18e4c8-820e-4b6f-b3e5-53775d17099b
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T05:07:23.817323+00:00
+
+Checked whether the RecipeDraft-hand-duplication lesson applies here; it doesn't — sourceUrl already exists on RecipeDraft, this slice adds no new field, no gap found.
+---
+[event:9edbd61d-436c-4d77-a707-9c1a9762b0b3]
+node_id: aa18e4c8-820e-4b6f-b3e5-53775d17099b
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:35:26.266656+00:00
+
+gw-review Part 1: verified RecipeDraft in k7-events.ts gained description: string by hand (git diff), and npm run typecheck passed with 0 errors, confirming the hand-duplicated type was updated correctly and every call site compiles.
+---
+[event:41dbbede-fa17-43db-8245-5b971655ef22]
+node_id: aa18e4c8-820e-4b6f-b3e5-53775d17099b
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:35:34.654379+00:00
+
+Checked k7-events.ts's RecipeDraft type - sourceUrl already existed on it pre-change so this slice needed no hand-duplication update; only description (sibling change) required one.
+---
+[event:f3bbfbe6-cde8-418e-8c2b-59bb8c970231]
+node_id: aa18e4c8-820e-4b6f-b3e5-53775d17099b
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:13:16.629911+00:00
+
+RecipeDraft has no id field and is hand-duplicated from Recipe — this is exactly why Phase 3's retry-coercion silently drops attemptedInput.id for an edit-originated rejection, a gap the plan doesn't address; this precedent constraint should have flagged it.
+---
+[event:048fa267-f8e6-4397-8dce-0a7f89cfe271]
+node_id: aa18e4c8-820e-4b6f-b3e5-53775d17099b
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:14:42.180219+00:00
+
+The RecipeDraft-has-no-id gap this constraint warned about was exactly what the plan's retry design missed
+---
+[event:db25d4a0-e1b5-4335-bdcc-9cba52364bc3]
+node_id: aa18e4c8-820e-4b6f-b3e5-53775d17099b
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:20:20.651571+00:00
+
+gw-plan-review: verified live in k7-events.ts that RecipeDraft indeed has no id field, confirming Fix 1's premise is accurate.
+---
+[event:b6eae9a1-6067-45fd-a64b-9d806bd286b1]
+node_id: aa18e4c8-820e-4b6f-b3e5-53775d17099b
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:29:08.603537+00:00
+
+Verified RecipeDraft's actual shape (no id field) against the live k7-events.ts source to confirm round 1's id-threading-via-options fix is still necessary and correctly specified.
+---
+[event:83039daa-ca67-49ef-ac29-8cbe4864aa19]
+node_id: aa18e4c8-820e-4b6f-b3e5-53775d17099b
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:37:26.571337+00:00
+
+Verified RecipeDraft has no id field in live k7-events.ts, confirming the round-1 fix's factual premise still holds and the fix (threading id via openReview options) is necessary and correctly described.
+---
+[node:8693c851-b3d6-4d2d-a197-429a2eebfb89]
+type: issue
+tier: short-term
+path: /artifact/markdown-format-ts-s-shared-per-line-sec
+created_at: 2026-09-23T11:53:53.235374+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-23T11:53:53.235374+00:00
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-09-23T11:53:53.235374+00:00
+-> DEPENDS_ON [node:4a749051-6bc6-4807-bc52-47748e2bb914] @ 2026-09-23T11:53:53.235374+00:00
+
+markdown-format.ts's shared per-line section parser (reused for the new `## Opis` description section) strips a leading `-`/`*`/`1.`/`1)` marker from any flush-left line regardless of which section it's in (LIST_MARKER regex). A hand-typed description whose first line starts with a dash (e.g. "- ważne: mrozi się dobrze") loses that dash on read-back. Accepted as a known simplification for k7-recipe-description-field's first cut — the review-form textarea itself won't produce that shape — stated explicitly in plan.md rather than left for someone to discover later, per this module's no-placeholder/lossy-data-as-real discipline. Third /gw-plan-review pass found this; not blocking.
+---
+[event:69ab782b-7c85-4f52-a89b-a7e170489cd6]
+node_id: 8693c851-b3d6-4d2d-a197-429a2eebfb89
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T11:53:59.461497+00:00
+
+Recorded the LIST_MARKER edge case surfaced by the third plan-review pass
+---
+[event:816ee505-d88b-4f4e-a259-576d35e08871]
+node_id: 8693c851-b3d6-4d2d-a197-429a2eebfb89
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T12:08:29.584305+00:00
+
+Wrote a test asserting the leading-dash-stripping simplification actually occurs as described
+---
+[event:34cfd627-7cf8-446d-ad16-5f498b0fcfb9]
+node_id: 8693c851-b3d6-4d2d-a197-429a2eebfb89
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:20:20.654804+00:00
+
+gw-plan-review: cited as the project's own precedent for stating known data-loss simplifications explicitly in plan.md rather than leaving them implicit -- basis for the finding about the isStringArray rejection branch's attemptedInput being silently dropped by the 'drop non-string/array fields' bounding rule.
+---
+[node:1cc3fae9-2567-4317-8ca2-761c29eb1838]
+type: decision
+tier: short-term
+path: /artifact/detail-view-places-recipe-description-ri
+created_at: 2026-09-23T19:58:38.473270+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-23T19:58:38.473270+00:00
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-09-23T19:58:38.473270+00:00
+-> DEPENDS_ON [node:ae75daef-842b-44d7-8deb-1f149024542b] @ 2026-09-23T19:58:38.473270+00:00
+
+Detail view places Recipe.description right after the title, before tags/sourceUrl metadata and before the ingredients list — matching on-disk read order (title → Opis → Składniki) established in Phase 1. Rendered with white-space: pre-wrap in a new .detail-description CSS class so line breaks the household typed in the review textarea survive display, muted color/small size (like .note) since it's secondary to the title.
+---
+[event:b30f561b-7287-4f0b-8d7f-add4e082e496]
+node_id: 1cc3fae9-2567-4317-8ca2-761c29eb1838
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-23T19:58:45.415371+00:00
+
+Verified via full-stack smoke test: POST/GET round-trip, empty-description file shape unchanged, hand-typed Opis heading reads back correctly
+---
+[event:80844758-254e-4e3b-8052-7e21783b23a3]
+node_id: 1cc3fae9-2567-4317-8ca2-761c29eb1838
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:35:26.284615+00:00
+
+gw-review Part 1: confirmed by reading the K7Recipes.svelte diff that detail.description renders right after the title, before tags/sourceUrl/ingredients — no automated test exercises detail-view render order.
+---
+[node:782ecc52-c0ca-4abe-a3a1-9c8136a05568]
+type: goal
+tier: short-term
+path: /goal/k7-recipe-source-editable
+created_at: 2026-09-24T04:58:32.644056+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:03e6c5c0-b1f3-4cf9-9d82-07820b1f94fd] @ 2026-09-24T04:58:32.644056+00:00
+-> DEPENDS_ON [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-24T04:58:32.644056+00:00
+-> DEPENDS_ON [node:4491886e-f636-46d4-89df-68120fea4f9b] @ 2026-09-24T10:05:30.587154+00:00
+-> DEPENDS_ON [node:78581325-d1ad-43a0-8706-ca488b8d2a43] @ 2026-09-24T05:01:28.002446+00:00
+-> DEPENDS_ON [node:854f9232-2976-4e06-979b-c930164c9093] @ 2026-09-24T05:07:07.940062+00:00
+-> DEPENDS_ON [node:8fff18c9-76fa-4795-9527-199fb6d6c715] @ 2026-09-24T12:35:18.157697+00:00
+-> DEPENDS_ON [node:925056b0-26de-4cb2-a564-a35c11c2a9da] @ 2026-09-24T10:02:25.293649+00:00
+-> DEPENDS_ON [node:aa18e4c8-820e-4b6f-b3e5-53775d17099b] @ 2026-09-24T04:58:32.644056+00:00
+-> DEPENDS_ON [node:c4166e29-d48a-47e0-9e1b-e1846166a3b8] @ 2026-09-24T05:08:28.866025+00:00
+-> DEPENDS_ON [node:cea2da7d-e948-4a62-97af-389581bcc501] @ 2026-09-24T12:39:04.999698+00:00
+-> DEPENDS_ON [node:e0d90242-ab21-4c25-b50d-e9fbc58db157] @ 2026-09-24T04:58:32.644056+00:00
+-> DEPENDS_ON [node:e2e2d59a-f4e8-46e5-afda-cde4760b762c] @ 2026-09-24T05:07:07.918121+00:00
+-> DEPENDS_ON [node:f769a5a7-379d-49c0-9844-9fca4340bfae] @ 2026-09-24T05:01:21.717730+00:00
+
+Make a recipe's source URL clickable in K7Recipes.svelte's detail view, and editable in the review/edit form.
+---
+[event:608b9644-0f17-4744-9745-253c9e3bc732]
+node_id: 782ecc52-c0ca-4abe-a3a1-9c8136a05568
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T04:59:02.303528+00:00
+
+Change goal node for slice 2
+---
+[event:f1438b8a-ab66-4289-870f-bd1c438a90c5]
+node_id: 782ecc52-c0ca-4abe-a3a1-9c8136a05568
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T10:02:30.760839+00:00
+
+Phase 2 implementation against this goal
+---
+[event:5adcf042-7127-4717-8034-c21409ec2dc6]
+node_id: 782ecc52-c0ca-4abe-a3a1-9c8136a05568
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T10:05:36.530709+00:00
+
+Phase 3 implementation against this goal; change complete
+---
+[node:e774e69f-3154-4f49-8b5d-57cec412e738]
+type: slice
+tier: short-term
+path: /change/k7-recipe-source-editable
+created_at: 2026-09-24T04:58:32.644056+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:4491886e-f636-46d4-89df-68120fea4f9b] @ 2026-09-24T10:05:30.587154+00:00
+-> SCOPED_TO [node:782ecc52-c0ca-4abe-a3a1-9c8136a05568] @ 2026-09-24T04:58:32.644056+00:00
+-> SCOPED_TO [node:78581325-d1ad-43a0-8706-ca488b8d2a43] @ 2026-09-24T05:01:28.002446+00:00
+-> SCOPED_TO [node:854f9232-2976-4e06-979b-c930164c9093] @ 2026-09-24T05:07:07.940062+00:00
+-> SCOPED_TO [node:8fff18c9-76fa-4795-9527-199fb6d6c715] @ 2026-09-24T12:35:18.157697+00:00
+-> SCOPED_TO [node:925056b0-26de-4cb2-a564-a35c11c2a9da] @ 2026-09-24T10:02:25.293649+00:00
+-> SCOPED_TO [node:c4166e29-d48a-47e0-9e1b-e1846166a3b8] @ 2026-09-24T05:08:28.866025+00:00
+-> SCOPED_TO [node:cea2da7d-e948-4a62-97af-389581bcc501] @ 2026-09-24T12:39:04.999698+00:00
+-> SCOPED_TO [node:e2e2d59a-f4e8-46e5-afda-cde4760b762c] @ 2026-09-24T05:07:07.918121+00:00
+-> SCOPED_TO [node:f769a5a7-379d-49c0-9844-9fca4340bfae] @ 2026-09-24T05:01:21.717730+00:00
+
+change scope: k7-recipe-source-editable
+---
+[event:72425b16-0f27-41ee-888a-5843b482964c]
+node_id: e774e69f-3154-4f49-8b5d-57cec412e738
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T04:58:32.653269+00:00
+
+create_change k7-recipe-source-editable
+---
+[node:f769a5a7-379d-49c0-9844-9fca4340bfae]
+type: constraint
+tier: short-term
+path: /artifact/recipe-sourceurl-was-trustworthy-by-cons
+created_at: 2026-09-24T05:01:21.717730+00:00
+needs_review: true
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-24T05:01:21.717730+00:00
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-09-24T05:01:21.717730+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-24T05:01:21.717730+00:00
+
+Recipe.sourceUrl was trustworthy by construction until k7-recipe-source-editable: every prior writer (extractJsonLd, extractFallback, importRecipeFromUrl's caller) set it to a URL already checked against isFetchableUrl before the server fetched it. Making sourceUrl editable in the review form breaks that invariant on purpose, turning it into untrusted input for the first time — and recipe .md files are separately hand-editable on disk, so a save-time-only check is insufficient. Resolution: a new shared src/shared/url.ts#isHttpUrl (scheme-only check: http:/https: via new URL().protocol) is applied at the render site in K7Recipes.svelte's detail view (the load-bearing guard — an unguarded href={sourceUrl} would let a javascript: value execute on click) and at POST /api/recipes save time (defense-in-depth, better UX). Deliberately NOT reusing isFetchableUrl/isPrivateAddress (security/network.ts) — that guard blocks private/loopback addresses because the server itself fetches the URL (SSRF); this URL is only ever navigated by the household's own browser, so blocking a private-LAN link would be an incorrect restriction, not a security fix.
+---
+[event:2b32fb8f-3ab9-4e82-ad59-6d7e0f3cce15]
+node_id: f769a5a7-379d-49c0-9844-9fca4340bfae
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T05:01:36.890570+00:00
+
+Core plan decision for this slice
+---
+[event:8bb17f0a-9d23-424e-a08a-c3bec3549aee]
+node_id: f769a5a7-379d-49c0-9844-9fca4340bfae
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T05:07:23.792799+00:00
+
+Verified this constraint's claim (sourceUrl trustworthy-by-construction until this slice) against every live writer of Recipe.sourceUrl in src/server/recipes/extract.ts, recipe-drafter.ts, and markdown-format.ts — accurate and complete.
+---
+[event:ee434e76-42e1-489a-917b-73a840e6e0e3]
+node_id: f769a5a7-379d-49c0-9844-9fca4340bfae
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-24T05:08:35.031113+00:00
+
+Plan's threat-model reasoning was independently verified correct; only gap was the missing changelog step, now fixed
+---
+[event:62d71e5d-b3fa-4e56-8684-710c24f4279e]
+node_id: f769a5a7-379d-49c0-9844-9fca4340bfae
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T05:08:44.517370+00:00
+
+Correction: the prior CONTRADICTED event in this batch was a mislabel on my part — the independent review verified this constraint's threat-model reasoning as accurate against live code end-to-end; the only real gap found was an unrelated missing-changelog-step finding, now fixed. Leaving the needs_review flag for a human to clear since this session cannot.
+---
+[event:5c8c72e8-1f32-4982-86de-51be2c7b5dfe]
+node_id: f769a5a7-379d-49c0-9844-9fca4340bfae
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T09:57:42.193994+00:00
+
+Same threat-model and guard-placement reasoning applies here, at the render site
+---
+[event:0a29f284-2ce3-4e94-9ac9-e12e1484a335]
+node_id: f769a5a7-379d-49c0-9844-9fca4340bfae
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T09:59:48.919420+00:00
+
+Same isFetchableUrl-is-the-wrong-guard reasoning restated in isHttpUrl's own doc comment
+---
+[event:0d40f6f4-02ad-4e5d-9ab6-f1407113850e]
+node_id: f769a5a7-379d-49c0-9844-9fca4340bfae
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T10:02:30.747242+00:00
+
+Implemented save-time validation as the defense-in-depth layer this constraint calls for
+---
+[event:0f0d56a8-71fb-413e-b153-7b5c9dc6b20e]
+node_id: f769a5a7-379d-49c0-9844-9fca4340bfae
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T10:05:36.513700+00:00
+
+Full smoke test verified both layers: server rejects javascript: on save, and the API serves a hand-edited malicious sourceUrl unscrubbed, confirming the client-side isHttpUrl render guard is genuinely load-bearing
+---
+[event:56076c79-db9c-430c-9395-e2d4be79340f]
+node_id: f769a5a7-379d-49c0-9844-9fca4340bfae
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:34:27.464455+00:00
+
+Disputed constraint belongs to sibling change k7-recipe-source-editable's scope (Recipe.sourceUrl trust model) — out of scope for this review, not adjudicated, carried to Part 2 per instructions.
+---
+[event:c09c3a50-d08b-4e0f-9a09-f4c70e966f7f]
+node_id: f769a5a7-379d-49c0-9844-9fca4340bfae
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:35:34.629211+00:00
+
+Traced to ground during /gw-review Part 1 of k7-recipe-source-editable: confirmed isHttpUrl gates the <a href> in K7Recipes.svelte's detail view (falls back to plain <p> otherwise), confirmed via grep across src/server/ that no server code path fetches a user-typed sourceUrl (only the trusted import flow's extractJsonLd/extractFallback use it, for JSDOM base-URL construction on an already-isFetchableUrl-checked value), and confirmed isHttpUrl deliberately differs from isFetchableUrl by accepting private/loopback hosts as designed.
+---
+[event:2163b1f8-3e45-4b87-a2f0-ec9bdcfc89f7]
+node_id: f769a5a7-379d-49c0-9844-9fca4340bfae
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:35:34.656272+00:00
+
+This node is flagged disputed with no contradiction pair visible in this recall's returned set - carried to Part 2 for human adjudication per gw-review Part 1 rules; not adjudicated here.
+---
+[event:8614bc1f-299e-4302-95e1-87465640f5eb]
+node_id: f769a5a7-379d-49c0-9844-9fca4340bfae
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:36:55.713162+00:00
+
+gw-review Part 1 on k7-recipe-source-editable: this disputed node is the constraint describing this change's own security resolution. Traced the actual code to ground (src/server/index.ts:748-755, K7Recipes.svelte:331-334, src/shared/url.ts) and confirmed the implementation matches this node's content exactly. Not adjudicating the dispute per Part 1 rules — flagging the handle for the Part 2 human gate. No CONTRADICTS pair for this node appeared in this recall's contradiction list, so the source of the dispute is not visible from here.
+---
+[event:7a1a0672-a0cd-4526-a5d9-06e6870c45ad]
+node_id: f769a5a7-379d-49c0-9844-9fca4340bfae
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:39:12.445998+00:00
+
+Part 2 human-gate presentation: flagged as disputed but the dispute is this session's own mislabeled CONTRADICTED event, not a technical disagreement — content independently re-verified accurate by two review passes
+---
+[node:35144eed-a808-46a4-82cf-674e6f749531]
+type: facet_value
+tier: lifetime
+path: /facet/architecture
+created_at: 2026-09-24T05:01:28.002446+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+architecture
+---
+[node:78581325-d1ad-43a0-8706-ca488b8d2a43]
+type: concept
+tier: short-term
+path: /artifact/src-shared-is-a-proven-pattern-for-runt
+created_at: 2026-09-24T05:01:28.002446+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:35144eed-a808-46a4-82cf-674e6f749531] @ 2026-09-24T05:01:28.002446+00:00
+
+src/shared/ is a proven pattern for runtime code (not just mirrored types) imported by both the Svelte client and the Fastify server — src/shared/changelog.ts's assembleChangelog() and src/shared/layout.ts's normaliseLayout() are actual functions used on both sides, not type-only declarations. k7-recipe-source-editable adds src/shared/url.ts#isHttpUrl following this same pattern, so a security-relevant check (URL scheme validation) exists in exactly one place rather than as two independently-maintained copies that could drift apart.
+---
+[event:fbc82bfc-27bb-430a-aa6c-800c48693920]
+node_id: 78581325-d1ad-43a0-8706-ca488b8d2a43
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T05:01:36.893585+00:00
+
+Justifies putting isHttpUrl in src/shared/
+---
+[event:4c01603a-8928-4ca5-a887-87d1e95f6abf]
+node_id: 78581325-d1ad-43a0-8706-ca488b8d2a43
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T05:07:23.803011+00:00
+
+Verified src/shared/changelog.ts#assembleChangelog and src/shared/layout.ts#normaliseLayout are real functions imported by both src/client and src/server, confirming the plan's precedent claim for src/shared/url.ts#isHttpUrl.
+---
+[event:dd39c299-1cea-400f-87b5-bb5ed7bf652b]
+node_id: 78581325-d1ad-43a0-8706-ca488b8d2a43
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T09:59:48.915627+00:00
+
+src/shared/url.ts follows the same both-sides-runtime-code pattern, now proven by a second consumer (K7Comic.svelte) importing it
+---
+[event:6170bc25-0e6c-4e73-8e7c-39c055c38159]
+node_id: 78581325-d1ad-43a0-8706-ca488b8d2a43
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T10:01:13.233995+00:00
+
+Verified src/shared/url.ts#isHttpUrl (created in sibling fix k7-comic-link-scheme-guard) matches this plan's Phase 1 spec exactly — signature, implementation, and test coverage all satisfy this slice's requirements with no changes needed
+---
+[event:254713aa-df99-400f-926b-deac63914cf4]
+node_id: 78581325-d1ad-43a0-8706-ca488b8d2a43
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:34:27.461052+00:00
+
+Used to understand src/shared/url.ts's placement rationale and that it is shared with the sibling k7-recipe-source-editable change.
+---
+[event:f51d7659-fba4-4a68-8957-bb9da7038297]
+node_id: 78581325-d1ad-43a0-8706-ca488b8d2a43
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:35:34.652493+00:00
+
+Verified both K7Recipes.svelte (../../shared/url.ts) and src/server/index.ts (../shared/url.ts) import the same isHttpUrl from src/shared/url.ts - single source of truth confirmed, not two independently-maintained copies.
+---
+[event:72898480-2f5e-48e1-912c-9a154eb70ffe]
+node_id: 78581325-d1ad-43a0-8706-ca488b8d2a43
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:36:55.715737+00:00
+
+gw-review Part 1: consistent with the diff — isHttpUrl lives once in src/shared/url.ts and is imported by both K7Recipes.svelte and K7Comic.svelte (sibling change), no duplicate scheme-check logic found.
+---
+[node:e2e2d59a-f4e8-46e5-afda-cde4760b762c]
+type: issue
+tier: short-term
+path: /artifact/gw-plan-review-finding-on-k7-recipe-sour
+created_at: 2026-09-24T05:07:07.918121+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:f769a5a7-379d-49c0-9844-9fca4340bfae] @ 2026-09-24T05:07:07.918121+00:00
+
+gw-plan-review finding on k7-recipe-source-editable/plan.md: the plan has no phase/step adding a changelog/ entry, but this slice is user-facing (sourceUrl becomes an editable form field and a clickable link in the detail view) and CLAUDE.md's standing constraint requires one new dated file in changelog/ in the same change that makes a user-facing change. The sibling slice in the same epic, k7-recipe-description-field, set the precedent: its plan.md explicitly included a "Changelog entry (CLAUDE.md standing constraint...)" step and shipped changelog/2026-09-23-01-przepisy-opis.yaml. k7-recipe-source-editable's plan.md should add the same kind of step before this routes to /gw-implement.
+---
+[event:d55ec69e-84b4-4f0c-8cde-eae023c488a5]
+node_id: e2e2d59a-f4e8-46e5-afda-cde4760b762c
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:35:34.649884+00:00
+
+Verified changelog/2026-09-24-01-przepisy-zrodlo.yaml exists, dated 2026-09-24, in Polish, describing the editable/clickable sourceUrl change - the plan-review-caught gap was actually closed.
+---
+[event:c09a4544-6764-4b81-a285-ecb036505dae]
+node_id: e2e2d59a-f4e8-46e5-afda-cde4760b762c
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:36:55.701704+00:00
+
+gw-review Part 1: verified changelog/2026-09-24-01-przepisy-zrodlo.yaml exists, dated 2026-09-24, correctly describes the editable field and clickable link — the gw-plan-review finding this node records was acted on before implementation landed.
+---
+[node:854f9232-2976-4e06-979b-c930164c9093]
+type: issue
+tier: short-term
+path: /artifact/adversarial-finding-during-k7-recipe-sou
+created_at: 2026-09-24T05:07:07.940062+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:87702f1f-1848-4624-9b52-e03c40aef76d] @ 2026-09-24T05:07:07.940062+00:00
+
+Adversarial finding during k7-recipe-source-editable's plan review, out of that slice's scope: K7Comic.svelte (src/client/lib/K7Comic.svelte:105) already renders `<a class="credit" href={aged.data.sourceUrl} target="_blank" rel="noreferrer">` with zero scheme validation. That sourceUrl comes from comic-rss.ts's fetchComic() reading an RSS `<item><link>` value (src/server/upstream/comic-rss.ts:127, `sourceUrl: item.link`) — third-party feed content that is not scheme-checked before being fetched-as-a-link-target, unlike the feed URL itself (which does go through isFetchableUrl/resolvePinned). A `javascript:`-scheme `<link>` in a malicious or compromised RSS feed would be a live, currently-shipped self-XSS vector, the same vulnerability class k7-recipe-source-editable's plan.md is fixing for Recipe.sourceUrl via the new src/shared/url.ts#isHttpUrl. This mirrors the project's own precedent from k7-calendar-ssrf-fix, where /gw-review found /api/comic's rssUrl SSRF out of the original PR's scope and it was fixed in the same PR anyway. Recommendation: apply isHttpUrl (or an equivalent guard) to K7Comic.svelte's credit link too, either as an add-on to this slice or as its own small follow-up change — not blocking k7-recipe-source-editable's approval since Comic is a different Card entity than Recipe, but should not be left undiscovered.
+---
+[node:c4166e29-d48a-47e0-9e1b-e1846166a3b8]
+type: issue
+tier: short-term
+path: /artifact/k7comic-svelte-105-renders-a-href-age
+created_at: 2026-09-24T05:08:28.866025+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-24T05:08:28.866025+00:00
+
+K7Comic.svelte:105 renders `<a href={aged.data.sourceUrl} target="_blank" rel="noreferrer">` with zero URL-scheme validation. That sourceUrl comes from comic-rss.ts:127's `item.link` — raw RSS feed content that is never scheme-checked (only the feed URL itself is validated via isFetchableUrl/resolvePinned before being fetched; the item's own <link> content inside a fetched feed is untrusted and unguarded). A malicious or compromised comic feed with a javascript:-scheme <link> is a live self-XSS today — the same vulnerability class k7-recipe-source-editable's isHttpUrl guard fixes for Recipe.sourceUrl. Found during that slice's plan review (2026-09-24); deliberately not folded into that slice since Comic is an unrelated Card entity — this is its own /gw-fix candidate: reuse src/shared/url.ts#isHttpUrl at K7Comic.svelte's render site the same way.
+---
+[event:68c24db6-d3d4-468d-a6f1-fa2e7892a25a]
+node_id: c4166e29-d48a-47e0-9e1b-e1846166a3b8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T05:08:35.036059+00:00
+
+Recorded the adjacent K7Comic.svelte vulnerability the review surfaced as its own future fix
+---
+[event:aaec3ddd-52ac-4a86-97ea-323835d29ed8]
+node_id: c4166e29-d48a-47e0-9e1b-e1846166a3b8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T09:57:42.189307+00:00
+
+The issue this fix resolves
+---
+[event:e6b7084d-92fe-4f42-b760-890629fd9ba6]
+node_id: c4166e29-d48a-47e0-9e1b-e1846166a3b8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T09:59:48.906746+00:00
+
+Reproduced the guard gap via a red test (isHttpUrl absent), fixed it minimally, full suite green
+---
+[event:013787c9-abbb-4c03-be69-085192f1828c]
+node_id: c4166e29-d48a-47e0-9e1b-e1846166a3b8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:34:27.443439+00:00
+
+Traced the fix: K7Comic.svelte:105 credit-link href is now gated by isHttpUrl(aged.data.sourceUrl); the described vulnerability (unguarded javascript:-scheme <a href>) is closed by this diff.
+---
+[node:0155b5c7-7484-4f79-b894-18d4511eb470]
+type: slice
+tier: short-term
+path: /change/k7-comic-link-scheme-guard
+created_at: 2026-09-24T09:57:25.201997+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:0ff0b78a-e409-4bfc-9d4d-a65bb9c5ce1a] @ 2026-09-24T09:59:42.574572+00:00
+-> SCOPED_TO [node:1920374a-dad7-4371-a36f-1a1a45bc2ae5] @ 2026-09-24T09:57:25.201997+00:00
+-> SCOPED_TO [node:1d1dcb78-9006-41db-a306-9c6bf89613f4] @ 2026-09-24T12:34:17.640299+00:00
+-> SCOPED_TO [node:3df93ff4-7d19-4486-98fb-4b05f45a94dc] @ 2026-09-24T12:38:46.444286+00:00
+-> SCOPED_TO [node:f0b7b975-d10d-4d42-ae0a-2e95143db64d] @ 2026-09-24T10:00:39.818490+00:00
+
+change scope: k7-comic-link-scheme-guard
+---
+[event:100994d3-734e-444c-9b88-5e054357dd34]
+node_id: 0155b5c7-7484-4f79-b894-18d4511eb470
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T09:57:25.206088+00:00
+
+create_change k7-comic-link-scheme-guard
+---
+[node:1920374a-dad7-4371-a36f-1a1a45bc2ae5]
+type: goal
+tier: short-term
+path: /goal/k7-comic-link-scheme-guard
+created_at: 2026-09-24T09:57:25.201997+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:0ff0b78a-e409-4bfc-9d4d-a65bb9c5ce1a] @ 2026-09-24T09:59:42.574572+00:00
+-> DEPENDS_ON [node:1d1dcb78-9006-41db-a306-9c6bf89613f4] @ 2026-09-24T12:34:17.640299+00:00
+-> DEPENDS_ON [node:3df93ff4-7d19-4486-98fb-4b05f45a94dc] @ 2026-09-24T12:38:46.444286+00:00
+-> DEPENDS_ON [node:78581325-d1ad-43a0-8706-ca488b8d2a43] @ 2026-09-24T09:57:25.201997+00:00
+-> DEPENDS_ON [node:c4166e29-d48a-47e0-9e1b-e1846166a3b8] @ 2026-09-24T09:57:25.201997+00:00
+-> DEPENDS_ON [node:f0b7b975-d10d-4d42-ae0a-2e95143db64d] @ 2026-09-24T10:00:39.818490+00:00
+-> DEPENDS_ON [node:f769a5a7-379d-49c0-9844-9fca4340bfae] @ 2026-09-24T09:57:25.201997+00:00
+
+Fix a live self-XSS in K7Comic.svelte: guard the credit link's href against non-http(s) schemes, only rendering it as a clickable anchor when the sourceUrl passes an http(s)-only check.
+---
+[event:29f88aa5-849e-453a-9a12-ce94e493de68]
+node_id: 1920374a-dad7-4371-a36f-1a1a45bc2ae5
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T09:57:42.176131+00:00
+
+Change goal node
+---
+[node:0ff0b78a-e409-4bfc-9d4d-a65bb9c5ce1a]
+type: invariant
+tier: short-term
+path: /artifact/any-recipe-card-field-that-becomes-a-cli
+created_at: 2026-09-24T09:59:42.574572+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:78581325-d1ad-43a0-8706-ca488b8d2a43] @ 2026-09-24T09:59:42.574572+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-24T09:59:42.574572+00:00
+
+Any Recipe/Card field that becomes a clickable href in this codebase must pass through isHttpUrl (src/shared/url.ts) at the render site before being used as an href — never trust a URL-shaped string by its source alone. This was missed for K7Comic.svelte's credit link because item.link (comic-rss.ts) looked "already validated" by association with the feed URL fetch (isFetchableUrl/resolvePinned), but that guard only covers the feed URL itself, not arbitrary content inside a successfully-fetched feed. The general lesson: validating the URL used to FETCH content says nothing about the safety of URL-shaped VALUES found inside that content — each is a separate trust boundary and needs its own check at its own render site.
+---
+[event:fa7c6272-c046-481e-8b97-511b3d324994]
+node_id: 0ff0b78a-e409-4bfc-9d4d-a65bb9c5ce1a
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:34:27.453364+00:00
+
+Verified K7Comic.svelte's credit <a> render site now passes sourceUrl through isHttpUrl before use, matching the stated invariant.
+---
+[node:f0b7b975-d10d-4d42-ae0a-2e95143db64d]
+type: decision
+tier: short-term
+path: /artifact/k7-comic-link-scheme-guard-adds-no-chang
+created_at: 2026-09-24T10:00:39.818490+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-24T10:00:39.818490+00:00
+
+k7-comic-link-scheme-guard adds no changelog/ entry, following established precedent: the two later SSRF-hardening rounds (05cb8bd "Fix real bypasses in isFetchableUrl", 62c48fa "Close DNS-resolution SSRF") touched no changelog file at all, and the one earlier SSRF fix that did get a changelog mention (db083e2) rode as a one-line addendum on an unrelated user-visible fix's entry rather than getting its own. A security-hardening fix with zero visible behavior change under normal/legitimate operation (every real comic feed's link is http(s) and renders identically before and after) is not "user-facing" in CLAUDE.md's sense — the changed behavior (falling back to plain text) only triggers for a malicious/compromised feed, which is not something any household will ever observe under normal use.
+---
+[event:91dc0b47-9024-4b60-ba7f-81e8c5bf92d2]
+node_id: f0b7b975-d10d-4d42-ae0a-2e95143db64d
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:34:27.457491+00:00
+
+Independently verified the cited precedent: `git show --stat 05cb8bd` and `62c48fa` confirm neither touched changelog/, matching the claim that prior SSRF-hardening rounds shipped without changelog entries.
+---
+[node:925056b0-26de-4cb2-a564-a35c11c2a9da]
+type: issue
+tier: short-term
+path: /artifact/plan-md-s-phase-2-verify-step-extend-t
+created_at: 2026-09-24T10:02:25.293649+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-24T10:02:25.293649+00:00
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-09-24T10:02:25.293649+00:00
+-> HAS_FACET [node:3957f716-9c74-4f75-8355-94ac8649c521] @ 2026-09-24T10:02:25.293649+00:00
+
+plan.md's Phase 2 verify step ("extend the POST /api/recipes route tests") assumed automated route-level tests exist for the recipe endpoints; they don't. src/server/index.ts is a monolithic top-level script that calls app.listen() immediately at module load with no exported buildApp()/createApp() function, unlike src/server/routes/chat.ts and admin-google.ts which export registerXRoutes(app, deps) and are covered by test/chat-routes.test.ts and test/admin-google-routes.test.ts via app.inject(). No recipe route (GET/POST/DELETE /api/recipes*) has automated HTTP-level test coverage today — this predates this slice, not a regression it introduces. Verified this slice's sourceUrl validation via manual smoke test instead (live server + curl), same approach used for k7-recipe-description-field. Extracting recipe routes into a registerRecipeRoutes(app, deps) module (mirroring chat.ts's pattern) would close this gap but is out of scope for this slice — left as a future improvement.
+---
+[event:2e5ae934-f3ce-4b1d-961c-dbee879dc389]
+node_id: 925056b0-26de-4cb2-a564-a35c11c2a9da
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:35:34.637941+00:00
+
+Verified by reading every touched test file's diff (chat-routes.test.ts, persistence.test.ts, recipe-drafter.test.ts, recipes-extract.test.ts, recipe-files.test.ts): none add coverage for POST /api/recipes sourceUrl validation (400 rejection, empty-clears-to-null). All test changes in this diff belong to the sibling description-field change. Confirms plan.md's Phase 2 verify step promised route tests that do not exist.
+---
+[event:6ca83f49-98c1-4509-9fc0-d7b70a75c802]
+node_id: 925056b0-26de-4cb2-a564-a35c11c2a9da
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:36:55.691135+00:00
+
+gw-review Part 1 on k7-recipe-source-editable: grepped every test file in the diff (test/chat-routes.test.ts, persistence.test.ts, recipe-drafter.test.ts, recipe-files.test.ts, recipes-extract.test.ts) plus a repo-wide grep for '/api/recipes' — confirmed zero automated HTTP-level test exists for POST /api/recipes' sourceUrl validation (400 on bad scheme, empty-clears-to-null). Matches this node's claim exactly; plan.md's Phase 2 Verify step promised route-test coverage that was not delivered, only disclosed via manual smoke testing.
+---
+[event:04dd48b1-ca12-438f-8a84-a10d7dd53e69]
+node_id: 925056b0-26de-4cb2-a564-a35c11c2a9da
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:08:25.323252+00:00
+
+Applied the same manual-smoke-test-only verification approach for the new recipe routes, per that issue's own recommendation
+---
+[event:66308f5d-e345-4e7a-87d2-2200cce3ee2f]
+node_id: 925056b0-26de-4cb2-a564-a35c11c2a9da
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:13:16.639779+00:00
+
+Confirmed Phase 2's verify-step reasoning (manual smoke test, no route-level automated tests) against live index.ts, which is still a monolithic script with no buildApp()/registerRecipeRoutes().
+---
+[event:7aa75e0f-1692-493e-8a81-9e3cd9088da5]
+node_id: 925056b0-26de-4cb2-a564-a35c11c2a9da
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:20:20.647289+00:00
+
+gw-plan-review: confirmed this issue legitimately covers HTTP-route-level test infra gaps (index.ts not app.inject()-testable), but does not excuse skipping a unit test of the scrub/bound logic as a pure function (test/redact.test.ts already unit-tests createScrubber this way).
+---
+[event:c50f5e2d-0b14-43df-b62d-0e753b566b79]
+node_id: 925056b0-26de-4cb2-a564-a35c11c2a9da
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:22:08.591956+00:00
+
+Confirmed this issue's scope is route-level app.inject() testing specifically, not an excuse to skip unit-testing the pure sanitize logic
+---
+[event:0ad7e172-c73f-4600-ad9f-fa94d9d09fe7]
+node_id: 925056b0-26de-4cb2-a564-a35c11c2a9da
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:29:08.601763+00:00
+
+Confirmed this pre-existing, accepted gap (no route-level test harness for recipe routes) legitimately excuses the plan's reliance on manual smoke testing, mitigating (but not eliminating) the wire-level-proof gap against node 0cd8aca5.
+---
+[event:902878b7-2cad-427e-85f6-cf90f6882fba]
+node_id: 925056b0-26de-4cb2-a564-a35c11c2a9da
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:37:26.569447+00:00
+
+Confirmed index.ts's top-level-script-with-side-effects nature (DB open, migrations, app.listen on import) is the live, documented reason the new pure rejection-log.ts module must not import anything from index.ts, including ISSUE_DETAIL_MAX -- grounding a new finding in this review round.
+---
+[event:109f36cd-7dc9-4e9e-935f-0fc8679460c4]
+node_id: 925056b0-26de-4cb2-a564-a35c11c2a9da
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:44:21.807520+00:00
+
+Confirmed again: new recipe routes verified only by live smoke test, no HTTP-level automated coverage, consistent with this codebase's established gap
+---
+[event:82724025-2e08-4f50-a354-a137a83c5c0b]
+node_id: 925056b0-26de-4cb2-a564-a35c11c2a9da
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T06:28:01.453738+00:00
+
+still true: recipe routes have no app.inject coverage, so slices 4-8 put their logic in pure modules (recipe-tagger.ts, catalog.ts) and tested those
+---
+[event:59834ef3-1598-4c3a-a564-611fe7b1777b]
+node_id: 925056b0-26de-4cb2-a564-a35c11c2a9da
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:11:57.024101+00:00
+
+all three reviewers found recipe routes still lack app.inject tests; logic verified via pure-module tests and live curl instead
+---
+[node:4491886e-f636-46d4-89df-68120fea4f9b]
+type: decision
+tier: short-term
+path: /artifact/k7recipes-svelte-s-review-source-css-cl
+created_at: 2026-09-24T10:05:30.587154+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-24T10:05:30.587154+00:00
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-09-24T10:05:30.587154+00:00
+
+K7Recipes.svelte's .review-source CSS class is shared between the plain-text <p> and clickable <a> states (same pattern as K7Comic.svelte's .credit), with the anchor variant adding hover + focus-visible styling matching this file's own established interactive-element pattern (.row, .btn-ghost, .row-delete all use the same :focus + @supports selector(:focus-visible) idiom) — a deliberate improvement over K7Comic's .credit precedent, which has no focus style at all.
+---
+[event:f1c55269-cfa0-4422-a056-29d3ebb2e145]
+node_id: 4491886e-f636-46d4-89df-68120fea4f9b
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T10:05:36.522676+00:00
+
+Implemented and typechecked
+---
+[event:a14a9475-a75b-4340-8efc-3efef53ad78a]
+node_id: 4491886e-f636-46d4-89df-68120fea4f9b
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:35:34.645838+00:00
+
+Verified the shipped CSS matches the decision exactly: .review-source is shared between plain-text <p> and anchor states, with a.review-source:hover/:focus adding the hover+focus-visible styling the plain-text variant lacks.
+---
+[node:1d1dcb78-9006-41db-a306-9c6bf89613f4]
+type: issue
+tier: short-term
+path: /artifact/k7comic-svelte-s-credit-link-xss-guard
+created_at: 2026-09-24T12:34:17.640299+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:0ff0b78a-e409-4bfc-9d4d-a65bb9c5ce1a] @ 2026-09-24T12:34:17.640299+00:00
+-> HAS_FACET [node:3957f716-9c74-4f75-8355-94ac8649c521] @ 2026-09-24T12:34:17.640299+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-24T12:34:17.640299+00:00
+-> DEPENDS_ON [node:c4166e29-d48a-47e0-9e1b-e1846166a3b8] @ 2026-09-24T12:34:17.640299+00:00
+-> HAS_FACET [node:f72e97e8-5a21-47a3-b30d-b201d70d7593] @ 2026-09-24T12:34:17.640299+00:00
+
+K7Comic.svelte's credit-link XSS guard (isHttpUrl(aged.data.sourceUrl) in the {#if showLink && ...} at the credit <a> render site) has no automated regression test of its own — only the underlying isHttpUrl(value: string): boolean pure function is unit-tested (test/url.test.ts). A future edit that drops the isHttpUrl(...) call from the template (e.g. during a refactor of the credit-link block) would silently reintroduce the XSS with the full suite still green, because no test inspects the render-site wiring. This codebase already has precedent for exactly this kind of check: test/card-host-display.test.ts regex-matches K7Comic.svelte's raw <style> source to assert `:host { display: block }` is present, without a component-rendering harness. The same technique (assert the <script> source contains `isHttpUrl(` on the credit-link line, or that the {#if} condition string matches a pattern) would close this gap cheaply, consistent with how this project already tests Svelte template invariants when there's no rendering test infra. General lesson: a guard implemented as `predicateFn(value)` inside a template conditional needs either a render-site test or a static source-pattern test asserting the call site still calls the predicate — a green unit-test suite for the predicate alone does not prove the call site still uses it.
+---
+[node:f72e97e8-5a21-47a3-b30d-b201d70d7593]
+type: facet_value
+tier: lifetime
+path: /facet/svelte
+created_at: 2026-09-24T12:34:17.640299+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+svelte
+---
+[node:8fff18c9-76fa-4795-9527-199fb6d6c715]
+type: issue
+tier: short-term
+path: /artifact/class-of-gap-found-reviewing-k7-recipe-s
+created_at: 2026-09-24T12:35:18.157697+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:3957f716-9c74-4f75-8355-94ac8649c521] @ 2026-09-24T12:35:18.157697+00:00
+-> DEPENDS_ON [node:925056b0-26de-4cb2-a564-a35c11c2a9da] @ 2026-09-24T12:35:18.157697+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-24T12:35:18.157697+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-24T12:35:18.157697+00:00
+-> DEPENDS_ON [node:f769a5a7-379d-49c0-9844-9fca4340bfae] @ 2026-09-24T12:35:18.157697+00:00
+
+Class of gap found reviewing k7-recipe-source-editable: a shared security-relevant pure function (src/shared/url.ts#isHttpUrl) can be thoroughly unit-tested (test/url.test.ts covers scheme rejection, obfuscation, etc.) while the call site's actual conditional wiring — the Svelte template's `{#if x && guard(x)}<a href={x}>...{:else if x}<p>...{/if}` gating that decides whether the guarded value becomes a live href or falls back to plain text — has zero automated coverage in either consumer (K7Recipes.svelte's detail view, K7Comic.svelte's credit link). The guard function being correct does not prove the render site still calls it: a future edit that reorders the if/else-if branches, or a copy-paste that drops the `&& isHttpUrl(x)` clause while "cleaning up" the template, would silently reintroduce the unguarded `<a href={x}>` and nothing in CI would fail, because the only test coverage is of the pure function in isolation. General lesson for any future security-relevant render-time guard in a Svelte component: test the actual template branch (e.g. via a component-level/@testing-library render asserting the fallback renders a <p> not an <a> for a rejected value), not just the guard function it calls.
+---
+[node:9e7ddcdd-d02f-40d3-a259-f125e6d966c2]
+type: concept
+tier: mid-term
+path: /artifact/change-summary-k7-recipe-description-fi
+created_at: 2026-09-24T12:38:37.942119+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> CONSOLIDATES [node:0e15e38d-140a-43ee-8b5a-05a767a56fbd] @ 2026-09-24T12:38:37.942119+00:00
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-24T12:38:37.942119+00:00
+-> CONSOLIDATES [node:1cc3fae9-2567-4317-8ca2-761c29eb1838] @ 2026-09-24T12:38:37.942119+00:00
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-09-24T12:38:37.942119+00:00
+-> CONSOLIDATES [node:aa18e4c8-820e-4b6f-b3e5-53775d17099b] @ 2026-09-24T12:38:37.942119+00:00
+-> CONSOLIDATES [node:ae75daef-842b-44d7-8deb-1f149024542b] @ 2026-09-24T12:38:37.942119+00:00
+-> CONSOLIDATES [node:bf1d9409-e8f3-47b2-86d0-10408e0c6194] @ 2026-09-24T12:38:37.942119+00:00
+-> CONSOLIDATES [node:e0d90242-ab21-4c25-b50d-e9fbc58db157] @ 2026-09-24T12:38:37.942119+00:00
+
+Change summary: k7-recipe-description-field (slice 1/8 of epic k7-recipe-widget-upgrade) added a free-text description field to Recipe end-to-end — domain type (plain string, default '', not nullable), on-disk Markdown format (new ## Opis body section before ## Składniki, only emitted when non-empty), both storage adapters (files + a new Drizzle migration adding schema.recipes.description), the HTTP contract, extraction paths (extractJsonLd reads schema.org's real description for free; extractFallback and the chat drafter deliberately return '' rather than guess), and the client review form + detail view. Three independent /gw-plan-review rounds before implementation each caught a real gap the prior round missed (missing Drizzle adapter, missing RecipeDraft client type, a test assertion that would silently break, a missing changelog step) — the plan only stabilized on round 3. Outcome: households can now note things a title/ingredient list can't capture. Approved at /gw-review Part 1 with zero findings; plan fidelity fully confirmed.
+---
+[event:5b1cf10e-c460-4ca5-bfbd-bad0b72d33d0]
+node_id: 9e7ddcdd-d02f-40d3-a259-f125e6d966c2
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:39:12.460328+00:00
+
+Change-summary capture for k7-recipe-description-field
+---
+[node:3df93ff4-7d19-4486-98fb-4b05f45a94dc]
+type: concept
+tier: mid-term
+path: /artifact/change-summary-k7-comic-link-scheme-gua
+created_at: 2026-09-24T12:38:46.444286+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> CONSOLIDATES [node:0ff0b78a-e409-4bfc-9d4d-a65bb9c5ce1a] @ 2026-09-24T12:38:46.444286+00:00
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-24T12:38:53.837200+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-24T12:38:46.444286+00:00
+-> CONSOLIDATES [node:c4166e29-d48a-47e0-9e1b-e1846166a3b8] @ 2026-09-24T12:38:46.444286+00:00
+-> CONSOLIDATES [node:f0b7b975-d10d-4d42-ae0a-2e95143db64d] @ 2026-09-24T12:38:46.444286+00:00
+
+Change summary: k7-comic-link-scheme-guard (standalone /gw-fix, not an epic slice) fixed a live self-XSS in K7Comic.svelte's credit link — href={aged.data.sourceUrl} rendered unvalidated RSS <link> content with no scheme guard. Found opportunistically during k7-recipe-source-editable's plan review as an adjacent instance of the same vulnerability class. Fix: TDD red-green — added src/shared/url.ts#isHttpUrl (scheme-only allow-list, deliberately not reusing the SSRF-focused isFetchableUrl/isPrivateAddress since those wrongly block private-LAN addresses that are legitimate for a browser-navigated link) and gated the credit link's render with it. No changelog entry, following established precedent for security hardening invisible under normal/legitimate use. Approved at /gw-review Part 1 with zero blocking findings; one follow-up captured (no automated coverage of the template call-site wiring itself, only the pure guard function).
+---
+[event:1b50479b-18e0-4940-82df-36604e97ac7e]
+node_id: 3df93ff4-7d19-4486-98fb-4b05f45a94dc
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:39:12.464303+00:00
+
+Change-summary capture for k7-comic-link-scheme-guard
+---
+[node:cea2da7d-e948-4a62-97af-389581bcc501]
+type: concept
+tier: mid-term
+path: /artifact/change-summary-k7-recipe-source-editabl
+created_at: 2026-09-24T12:39:04.999698+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-24T12:39:04.999698+00:00
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-09-24T12:39:04.999698+00:00
+-> CONSOLIDATES [node:4491886e-f636-46d4-89df-68120fea4f9b] @ 2026-09-24T12:39:04.999698+00:00
+-> CONSOLIDATES [node:78581325-d1ad-43a0-8706-ca488b8d2a43] @ 2026-09-24T12:39:04.999698+00:00
+-> CONSOLIDATES [node:925056b0-26de-4cb2-a564-a35c11c2a9da] @ 2026-09-24T12:39:04.999698+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-24T12:39:04.999698+00:00
+-> CONSOLIDATES [node:f769a5a7-379d-49c0-9844-9fca4340bfae] @ 2026-09-24T12:39:04.999698+00:00
+
+Change summary: k7-recipe-source-editable (slice 2/8 of epic k7-recipe-widget-upgrade) made Recipe.sourceUrl editable in K7Recipes.svelte's review form and rendered it as a clickable link in the detail view. Central finding, verified end-to-end by /gw-plan-review and /gw-review Part 1: sourceUrl was trustworthy by construction until this change (every prior writer set it from an already-fetch-validated URL), and making it editable — plus recipe .md files being separately hand-editable on disk — turns it into untrusted input for the first time, creating an XSS risk via javascript:-scheme values. Resolution: reused src/shared/url.ts#isHttpUrl (created moments earlier by the sibling fix k7-comic-link-scheme-guard) at the render site as the load-bearing guard, plus save-time validation as defense-in-depth. Deliberately not the SSRF-focused isFetchableUrl guard, since that wrongly blocks private-LAN addresses that are fine for a browser-navigated link. Approved at /gw-review Part 1 with zero blocking findings; the security reasoning was independently re-verified as sound by two separate review passes. Known gap, pre-existing and disclosed, not introduced by this change: no recipe HTTP route has automated integration-test coverage in this codebase.
+---
+[event:ff41e30c-b687-4474-9272-bae2cf6654f4]
+node_id: cea2da7d-e948-4a62-97af-389581bcc501
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T12:39:12.467119+00:00
+
+Change-summary capture for k7-recipe-source-editable
+---
+[node:07189a57-91e1-4728-b17b-e2245c48c06b]
+type: slice
+tier: short-term
+path: /change/k7-recipe-rejection-log
+created_at: 2026-09-24T15:04:42.051459+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:0f65e225-90a5-49a9-849c-a5552f6b4477] @ 2026-09-24T15:04:42.051459+00:00
+-> SCOPED_TO [node:197c7130-a735-411e-bdef-4e8af832f5a4] @ 2026-09-24T15:21:52.512245+00:00
+-> SCOPED_TO [node:2ccd3769-dc7e-4f3d-96c4-2bf83c304297] @ 2026-09-24T15:30:20.178856+00:00
+-> SCOPED_TO [node:2d1f37b5-d449-4a67-aecd-024294524883] @ 2026-09-25T07:11:09.234522+00:00
+-> SCOPED_TO [node:3a2df9aa-fc88-4bfe-ab35-c80d284c3169] @ 2026-09-24T15:22:01.031901+00:00
+-> SCOPED_TO [node:5a43c35e-20c7-4242-97ea-f0fa2c1d0b37] @ 2026-09-24T15:14:27.894757+00:00
+-> SCOPED_TO [node:60244cbc-2035-485f-b4ac-d52625deddd6] @ 2026-09-25T07:11:31.882110+00:00
+-> SCOPED_TO [node:7a68608d-ea04-45b5-a66c-08c1b2093a4c] @ 2026-09-24T15:14:35.773061+00:00
+-> SCOPED_TO [node:897dc2ad-3b04-4d0c-b2af-bd054a16faa6] @ 2026-09-24T15:08:17.118095+00:00
+-> SCOPED_TO [node:b6bbcdbd-d78c-4558-95fb-6c332dcadb56] @ 2026-09-24T15:30:38.039805+00:00
+-> SCOPED_TO [node:e4745884-a5db-4d16-9bed-430cd2b6449c] @ 2026-09-24T15:08:11.222991+00:00
+-> SCOPED_TO [node:f9783e63-ef4d-4a68-816d-0f23f11ddf0d] @ 2026-09-24T15:38:27.831073+00:00
+
+change scope: k7-recipe-rejection-log
+---
+[event:540e60bd-07c4-439a-a7fa-bda5b88af7fa]
+node_id: 07189a57-91e1-4728-b17b-e2245c48c06b
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:04:42.068221+00:00
+
+create_change k7-recipe-rejection-log
+---
+[node:0f65e225-90a5-49a9-849c-a5552f6b4477]
+type: goal
+tier: short-term
+path: /goal/k7-recipe-rejection-log
+created_at: 2026-09-24T15:04:42.051459+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:197c7130-a735-411e-bdef-4e8af832f5a4] @ 2026-09-24T15:21:52.512245+00:00
+-> DEPENDS_ON [node:2ccd3769-dc7e-4f3d-96c4-2bf83c304297] @ 2026-09-24T15:30:20.178856+00:00
+-> DEPENDS_ON [node:2d1f37b5-d449-4a67-aecd-024294524883] @ 2026-09-25T07:11:09.234522+00:00
+-> DEPENDS_ON [node:3a2df9aa-fc88-4bfe-ab35-c80d284c3169] @ 2026-09-24T15:22:01.031901+00:00
+-> DEPENDS_ON [node:5a43c35e-20c7-4242-97ea-f0fa2c1d0b37] @ 2026-09-24T15:14:27.894757+00:00
+-> DEPENDS_ON [node:60244cbc-2035-485f-b4ac-d52625deddd6] @ 2026-09-25T07:11:31.882110+00:00
+-> DEPENDS_ON [node:77ae64a2-d55b-4c37-a4b1-5c5503340179] @ 2026-09-24T15:08:03.712696+00:00
+-> DEPENDS_ON [node:7a68608d-ea04-45b5-a66c-08c1b2093a4c] @ 2026-09-24T15:14:35.773061+00:00
+-> DEPENDS_ON [node:897dc2ad-3b04-4d0c-b2af-bd054a16faa6] @ 2026-09-24T15:08:17.118095+00:00
+-> DEPENDS_ON [node:9e7ddcdd-d02f-40d3-a259-f125e6d966c2] @ 2026-09-24T15:04:42.051459+00:00
+-> DEPENDS_ON [node:b6bbcdbd-d78c-4558-95fb-6c332dcadb56] @ 2026-09-24T15:30:38.039805+00:00
+-> DEPENDS_ON [node:cea2da7d-e948-4a62-97af-389581bcc501] @ 2026-09-24T15:04:42.051459+00:00
+-> DEPENDS_ON [node:e4745884-a5db-4d16-9bed-430cd2b6449c] @ 2026-09-24T15:08:11.222991+00:00
+-> DEPENDS_ON [node:f9783e63-ef4d-4a68-816d-0f23f11ddf0d] @ 2026-09-24T15:38:27.831073+00:00
+
+Log server-side rejections (validation failures on POST /api/recipes, import errors on POST /api/recipes/import) so failed add/import attempts can be reviewed and retried, with the review form reopened pre-filled with the original input.
+---
+[event:9491fbac-cb26-4be0-9e60-16830eb7509a]
+node_id: 0f65e225-90a5-49a9-849c-a5552f6b4477
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:13:16.654444+00:00
+
+Loaded as the change's goal_ref for scoped recall; plan's phases map to its stated outcome.
+---
+[event:2fd16f6a-8b79-48a2-9616-9ceb5cb49e9c]
+node_id: 0f65e225-90a5-49a9-849c-a5552f6b4477
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:40:50.455031+00:00
+
+Phase 1 implementation against this goal
+---
+[event:095e292b-e1bc-48a8-b768-c8902d18ed18]
+node_id: 0f65e225-90a5-49a9-849c-a5552f6b4477
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:44:21.812754+00:00
+
+Phase 2 implementation against this goal
+---
+[event:16623afb-7559-45f8-9cd6-020ad493b1ee]
+node_id: 0f65e225-90a5-49a9-849c-a5552f6b4477
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:48:22.796024+00:00
+
+Phase 3 implementation against this goal; change complete
+---
+[node:77ae64a2-d55b-4c37-a4b1-5c5503340179]
+type: entity
+tier: short-term
+path: /entity/reciperejection
+created_at: 2026-09-24T15:08:03.712696+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+RecipeRejection — A record of a recipe add/import attempt the server rejected — the household's own submitted input (kind: 'save' for a POST /api/recipes validation failure, 'import' for a POST /api/recipes/import failure) plus the reason, kept so the attempt can be reviewed and retried rather than lost. Not an IssueLogEntry: that type is a generic, read-only, four-string ambient error log with no way to replay an attempt; a RecipeRejection carries the full attempted input specifically so it can be re-opened in the review form.
+---
+[event:6d41054d-64ab-4e19-9a52-3744af57b96e]
+node_id: 77ae64a2-d55b-4c37-a4b1-5c5503340179
+type: entity_proposed
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:08:03.712696+00:00
+
+proposed via agent surface (no provenance recorded)
+---
+[event:2cf7ca65-559d-42db-a308-ed498c593018]
+node_id: 77ae64a2-d55b-4c37-a4b1-5c5503340179
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:13:16.614321+00:00
+
+Verified RecipeRejection is correctly proposed (not confirmed) and the plan's characterization of it vs IssueLogEntry matches this entity's own description.
+---
+[event:cb5d1a75-c45a-4dfa-941d-21d8e33207af]
+node_id: 77ae64a2-d55b-4c37-a4b1-5c5503340179
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:29:08.609020+00:00
+
+Confirmed RecipeRejection domain entity proposal matches plan.md's description; no new evidence.
+---
+[event:9ee820f1-b3cc-4d72-80ec-8c9526a647bf]
+node_id: 77ae64a2-d55b-4c37-a4b1-5c5503340179
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:40:50.451914+00:00
+
+RecipeRejection entity's shape (id/kind/reason/attemptedInput/createdAt) implemented and round-trip tested through the Drizzle adapter
+---
+[node:e4745884-a5db-4d16-9bed-430cd2b6449c]
+type: decision
+tier: short-term
+path: /artifact/reciperejection-is-a-deliberately-new-r
+created_at: 2026-09-24T15:08:11.222991+00:00
+needs_review: true
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-24T15:08:11.222991+00:00
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-09-24T15:08:11.222991+00:00
+-> ABOUT [node:77ae64a2-d55b-4c37-a4b1-5c5503340179] @ 2026-09-24T15:08:11.222991+00:00
+
+RecipeRejection is a deliberately new, recipe-scoped store (SQLite table + Drizzle adapter + port, mirroring IssueLogRepository's shape) rather than an extension of the existing IssueLogEntry/GET-api-issues popup. IssueLogEntry is generic and read-only (severity/source/message/detail) with no way to replay an attempt; the user's actual ask ("review the attempts and bring them back by fixing broken imports") needs the full attempted input preserved, which IssueLogEntry's four string fields cannot hold. attemptedInput is stored as a JSON column (Record<string, unknown>) rather than the full Recipe shape duplicated as nullable columns, since POST /api/recipes's body (kind:'save') and POST /api/recipes/import's {url} (kind:'import') are genuinely different shapes — same "shapes vary too much for columns" reasoning schema.ts already applies to ingredients/steps/tags.
+---
+[event:67cb4e79-febd-47f3-a028-c345719fe989]
+node_id: e4745884-a5db-4d16-9bed-430cd2b6449c
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:08:25.347613+00:00
+
+Core plan decision for this slice
+---
+[event:d5e36b8e-b2a1-4eb9-987f-d11e506d9d7c]
+node_id: e4745884-a5db-4d16-9bed-430cd2b6449c
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:13:16.625843+00:00
+
+Checked the new-table-vs-reuse rationale against live IssueLogRepository code (no delete(id), 4 string fields) — decision holds up.
+---
+[event:f4752fe9-f4ba-4122-b4c1-a04886c48d39]
+node_id: e4745884-a5db-4d16-9bed-430cd2b6449c
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-24T15:14:42.171640+00:00
+
+Plan's first draft left the scrub/truncate order ambiguous in a way that, read literally, could leak a partial secret and produce invalid JSON — tightened, see node 5a43c35e
+---
+[event:62233576-ccf6-4622-875c-f1399c70f667]
+node_id: e4745884-a5db-4d16-9bed-430cd2b6449c
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:20:20.656882+00:00
+
+gw-plan-review: disputed decision (new store vs extending IssueLogEntry) is taken openly with stated reasoning in plan.md; no new evidence to adjudicate, left for human review queue.
+---
+[event:d5ed65b7-e776-4cbf-bd3e-e1510b3d06cf]
+node_id: e4745884-a5db-4d16-9bed-430cd2b6449c
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:29:08.607148+00:00
+
+Confirmed the plan takes an open, reasoned side on this disputed new-store-vs-extend-IssueLogEntry decision, satisfying the disputed-block rule; no new evidence.
+---
+[event:c344234c-43a5-4bdb-95ad-7164bf18c767]
+node_id: e4745884-a5db-4d16-9bed-430cd2b6449c
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:37:26.573200+00:00
+
+Confirmed plan.md still takes this position openly (new recipe-scoped store, not folded into IssueLogEntry) with no new evidence found against it; disputed flag is procedural (pending human ratification), not a contradiction with other settled knowledge -- impact_of shows no other dependents.
+---
+[event:32838faf-066d-45a2-98dc-aac3aca27977]
+node_id: e4745884-a5db-4d16-9bed-430cd2b6449c
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:40:50.440444+00:00
+
+New recipe_rejections table + Drizzle adapter + port implemented exactly as planned; RecipeRejectionRepository.delete confirmed present unlike IssueLogRepository
+---
+[event:af3cc9c3-a1f9-482c-902b-046426ba7924]
+node_id: e4745884-a5db-4d16-9bed-430cd2b6449c
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:11:57.080289+00:00
+
+disputed; seen in review, not adjudicated, carried to human gate
+---
+[node:897dc2ad-3b04-4d0c-b2af-bd054a16faa6]
+type: decision
+tier: short-term
+path: /artifact/retry-in-k7-recipe-rejection-log-deliber
+created_at: 2026-09-24T15:08:17.118095+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-09-24T15:08:17.118095+00:00
+-> ABOUT [node:77ae64a2-d55b-4c37-a4b1-5c5503340179] @ 2026-09-24T15:08:17.118095+00:00
+
+Retry in k7-recipe-rejection-log deliberately does not auto-dismiss the originating rejection on a successful resubmit — the household dismisses it explicitly via the same row "×" gesture already used to delete a saved recipe. Avoids threading a rejection-id link through the save/import success path for a small UX gain; keeps the interaction pattern uniform with what the card already teaches (retry = pre-fill the existing form/field and let the household finish, same as EDYTUJ).
+---
+[event:575de547-11b6-4093-ba78-ba4fcd83fd23]
+node_id: 897dc2ad-3b04-4d0c-b2af-bd054a16faa6
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:08:25.349874+00:00
+
+Retry/dismiss interaction design decision
+---
+[event:9d1f5870-4ca3-4a70-b166-1f1d29d88e8e]
+node_id: 897dc2ad-3b04-4d0c-b2af-bd054a16faa6
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:13:16.646559+00:00
+
+Confirmed the no-auto-dismiss-on-retry decision is stated consistently between the graph and plan.md's Non-goals section.
+---
+[event:ff7b2e40-5710-448d-804d-a4620acd4d7e]
+node_id: 897dc2ad-3b04-4d0c-b2af-bd054a16faa6
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:29:08.605261+00:00
+
+Confirmed plan's no-auto-dismiss-on-retry decision is still consistent with Non-goals and Phase 3; no new evidence.
+---
+[event:f5856fa2-d578-48c8-8a55-5743c6eea5b4]
+node_id: 897dc2ad-3b04-4d0c-b2af-bd054a16faa6
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:37:26.575090+00:00
+
+Re-confirmed the no-auto-dismiss-on-retry decision is still reflected in plan.md's Non-goals and Phase 3, no new evidence.
+---
+[event:2d2c7361-5364-4a1f-a9e6-86c19bf492fb]
+node_id: 897dc2ad-3b04-4d0c-b2af-bd054a16faa6
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:48:22.792629+00:00
+
+Retry does not auto-dismiss; delete button implemented as its own explicit action, matching the plan
+---
+[node:5a43c35e-20c7-4242-97ea-f0fa2c1d0b37]
+type: constraint
+tier: short-term
+path: /artifact/logrejection-s-k7-recipe-rejection-log
+created_at: 2026-09-24T15:14:27.894757+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-09-24T15:14:27.894757+00:00
+-> ABOUT [node:77ae64a2-d55b-4c37-a4b1-5c5503340179] @ 2026-09-24T15:14:27.894757+00:00
+-> DEPENDS_ON [node:ac006a24-2763-40e7-8423-2b851793efcf] @ 2026-09-24T15:14:27.894757+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-24T15:14:27.894757+00:00
+
+logRejection's (k7-recipe-rejection-log) scrub-then-bound order must be: scrub the raw attemptedInput object first with scrubIssueText (createScrubber recurses through objects/arrays natively, designed for unknown input, not a pre-stringified string), THEN bound size per string field value before JSON serialization — never by slicing the already-serialized JSON string. Truncating a JSON string at a fixed length can cut a secret-shaped pattern in half at the boundary so the surviving fragment no longer matches redact.ts's length-gated PATTERNS regexes and stores in plaintext, and separately tends to produce invalid JSON that breaks a json-mode column write or downstream reads. General lesson: when scrubbing + truncating together, scrub first on the structured value, truncate second on individual fields — never truncate a serialized blob before scrubbing it.
+---
+[event:7d587660-9711-484d-81cd-66e7b4ff8ff1]
+node_id: 5a43c35e-20c7-4242-97ea-f0fa2c1d0b37
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:14:42.185857+00:00
+
+Plan fix for scrub-then-bound ordering
+---
+[event:77a10393-d142-4350-bfdf-70b79758207a]
+node_id: 5a43c35e-20c7-4242-97ea-f0fa2c1d0b37
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:20:20.637018+00:00
+
+gw-plan-review: verified the scrub-then-bound design against redact.ts and schema.ts (drizzle json-mode column auto-serializes, so no manual JSON slicing occurs). Design is sound, but flagged that no test proves the implementation actually follows this order (see finding tied to node:0cd8aca5).
+---
+[event:a4e387cd-8b08-4c16-b0a3-cfa84bf33009]
+node_id: 5a43c35e-20c7-4242-97ea-f0fa2c1d0b37
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:29:08.576719+00:00
+
+Verified plan's Phase 2 attemptedInput scrub-then-bound order against this constraint; correct for attemptedInput, but found the same discipline is NOT applied to the reason field, which the plan's own code snippet handles in the opposite (riskier) order.
+---
+[event:2025260f-48ca-4299-8a50-90eaa2dd1148]
+node_id: 5a43c35e-20c7-4242-97ea-f0fa2c1d0b37
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:37:26.535089+00:00
+
+gw-plan-review round 4 on k7-recipe-rejection-log: verified plan.md's scrub-then-bound order for attemptedInput matches this constraint and matches sanitizeRejectionInput's described implementation.
+---
+[event:7e2c0287-42a2-4655-8a71-3a4e7e85b4bb]
+node_id: 5a43c35e-20c7-4242-97ea-f0fa2c1d0b37
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:11:57.009651+00:00
+
+gw-review traced logRejection: reason scrubbed then sliced, attemptedInput scrubbed then bounded per field; rejection-log tests pass
+---
+[node:7a68608d-ea04-45b5-a66c-08c1b2093a4c]
+type: constraint
+tier: short-term
+path: /artifact/a-kind-save-reciperejection-s-retry-mu
+created_at: 2026-09-24T15:14:35.773061+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-09-24T15:14:35.773061+00:00
+-> ABOUT [node:77ae64a2-d55b-4c37-a4b1-5c5503340179] @ 2026-09-24T15:14:35.773061+00:00
+-> DEPENDS_ON [node:aa18e4c8-820e-4b6f-b3e5-53775d17099b] @ 2026-09-24T15:14:35.773061+00:00
+
+A kind:'save' RecipeRejection's retry must extract attemptedInput.id (when present) and pass it as openReview(coercedDraft, {id}) — RecipeDraft has no id field (it's the hand-duplicated client type, [node:aa18e4c8]), so "coerce attemptedInput into RecipeDraft shape" silently drops the id by construction unless threaded through separately. A rejected save can originate from editDetail() editing an existing recipe (editDetail already calls openReview(detail, {id: detail.id})), so its attemptedInput does carry the original id. Without preserving it on retry, FileRecipeRepository.save() treats an empty id as a new recipe (id = recipe.id || freeId(...)), silently duplicating the recipe under a new id while the original stays broken — exactly undercutting the point of a rejection-retry feature. General lesson: any retry/replay flow that reconstructs a form from stored attempted input must account for identity fields the form's own type doesn't carry, not just the content fields.
+---
+[event:aca501ee-a46c-4599-8170-05180dfca7e6]
+node_id: 7a68608d-ea04-45b5-a66c-08c1b2093a4c
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:14:42.192926+00:00
+
+Plan fix for id-preservation on save-kind retry
+---
+[event:eba32597-b840-4407-b09f-9d3f1324f1eb]
+node_id: 7a68608d-ea04-45b5-a66c-08c1b2093a4c
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:20:20.625659+00:00
+
+gw-plan-review of k7-recipe-rejection-log: verified against live code (k7-events.ts RecipeDraft, K7Recipes.svelte editDetail/saveReview, files/recipes.ts save()) that this constraint is correctly and completely honored in plan.md Phase 3.
+---
+[event:38c4ebff-062c-4e92-9a74-fe23dcafc807]
+node_id: 7a68608d-ea04-45b5-a66c-08c1b2093a4c
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:29:08.591258+00:00
+
+Re-verified round 1's id-preservation fix is intact in plan.md Phase 3 and cross-checked it against the live code (K7Recipes.svelte openReview/saveReview, FileRecipeRepository.save) — confirmed technically correct and undisturbed by round 2's edits.
+---
+[event:3d4baf9b-2793-464e-97b8-b93febde11d3]
+node_id: 7a68608d-ea04-45b5-a66c-08c1b2093a4c
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:37:26.560536+00:00
+
+Verified attemptedInput.id extraction + openReview(coercedDraft, {id}) is present in Phase 3, and cross-checked against live K7Recipes.svelte (openReview signature, editDetail, saveReview) confirming the underlying factual claims are accurate.
+---
+[event:103082ae-7d27-41fd-9b5d-c44ac1281121]
+node_id: 7a68608d-ea04-45b5-a66c-08c1b2093a4c
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:48:22.780857+00:00
+
+Full end-to-end smoke test: edited a saved recipe with a bad sourceUrl, verified the rejection's attemptedInput carried the id, retried with the fix and the same id, confirmed exactly one recipe exists afterward (no duplicate) — the exact scenario all four review rounds were protecting against
+---
+[event:f6d6b2f8-4b46-448a-b232-6ba1e873ee00]
+node_id: 7a68608d-ea04-45b5-a66c-08c1b2093a4c
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:11:57.019092+00:00
+
+review traced retryRejection threading attemptedInput.id into openReview
+---
+[node:197c7130-a735-411e-bdef-4e8af832f5a4]
+type: decision
+tier: short-term
+path: /artifact/sanitizerejectioninput-src-server-recip
+created_at: 2026-09-24T15:21:52.512245+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-09-24T15:21:52.512245+00:00
+-> DEPENDS_ON [node:5a43c35e-20c7-4242-97ea-f0fa2c1d0b37] @ 2026-09-24T15:21:52.512245+00:00
+-> ABOUT [node:77ae64a2-d55b-4c37-a4b1-5c5503340179] @ 2026-09-24T15:21:52.512245+00:00
+
+sanitizeRejectionInput (src/server/recipes/rejection-log.ts, k7-recipe-rejection-log) preserves malformed fields rather than dropping them: since attemptedInput always comes from req.body (already-parsed JSON, so every field is inherently JSON-safe), there's no need for a "drop non-string/array fields" rule. A string is capped at ISSUE_DETAIL_MAX chars, an array capped to 200 elements (each string element capped the same way), anything else passes through unchanged. This was a second-round /gw-plan-review finding: dropping a malformed field would have silently discarded exactly the value that caused the original rejection, making it unrecoverable on retry — the same "silently lose the data retry needs" bug class as the earlier id-drop finding on the same slice.
+---
+[event:36239a6c-fe2b-498d-863d-e94663146952]
+node_id: 197c7130-a735-411e-bdef-4e8af832f5a4
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:22:08.583367+00:00
+
+Plan fix for the field-dropping bug
+---
+[event:24143751-d3b7-4530-996d-a04c6ab54667]
+node_id: 197c7130-a735-411e-bdef-4e8af832f5a4
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:29:08.587190+00:00
+
+Verified the malformed-field-preserved (not dropped) decision is correctly reflected in plan.md Phase 2, and traced its consequence into Phase 3's retry-coercion logic, finding the import-kind retry path does not extend the same defensive coercion the save-kind path now explicitly requires.
+---
+[event:089b36ae-462d-44cc-9293-bac919c3ccb3]
+node_id: 197c7130-a735-411e-bdef-4e8af832f5a4
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:37:26.551982+00:00
+
+Verified plan.md's preserve-malformed-fields rule for attemptedInput is present and internally consistent with sanitizeRejectionInput's described behavior.
+---
+[event:4ae248e8-a697-42aa-9db2-d4e2f5407ec4]
+node_id: 197c7130-a735-411e-bdef-4e8af832f5a4
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:44:21.793903+00:00
+
+Unit tests + live smoke test confirmed malformed/empty attemptedInput fields are preserved, not dropped
+---
+[event:e187309d-1f24-4833-b1fa-a06f0baf9489]
+node_id: 197c7130-a735-411e-bdef-4e8af832f5a4
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:11:57.016479+00:00
+
+test proves a malformed field survives, bounded; extended to non-object bodies in rework
+---
+[node:3a2df9aa-fc88-4bfe-ab35-c80d284c3169]
+type: constraint
+tier: short-term
+path: /artifact/the-scrub-then-bound-logic-for-k7-recipe
+created_at: 2026-09-24T15:22:01.031901+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:0cd8aca5-d80a-4e98-9c98-a0043c4b5642] @ 2026-09-24T15:22:01.031901+00:00
+-> HAS_FACET [node:3957f716-9c74-4f75-8355-94ac8649c521] @ 2026-09-24T15:22:01.031901+00:00
+-> ABOUT [node:77ae64a2-d55b-4c37-a4b1-5c5503340179] @ 2026-09-24T15:22:01.031901+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-24T15:22:01.031901+00:00
+
+The scrub-then-bound logic for k7-recipe-rejection-log was extracted into a pure function (src/server/recipes/rejection-log.ts#sanitizeRejectionInput) specifically so it could be unit-tested in isolation, following node 0cd8aca5's "redaction is proven on the wire, not in a unit test" discipline. Second-round /gw-plan-review flagged that the first revision's fix (correct scrub-before-bound order) had zero test coverage — Phase 1's CRUD test didn't exercise it and Phase 2's verify step punted entirely to manual smoke testing, which doesn't actually check redaction. General lesson: a security-relevant fix inside a route handler that can't be unit-tested without spinning up the whole HTTP app should be extracted into a pure function first — the untestability is itself the defect, independent of whether the logic is correct.
+---
+[event:e1a90135-ce19-44f2-9e7e-28d78710000d]
+node_id: 3a2df9aa-fc88-4bfe-ab35-c80d284c3169
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:22:08.586899+00:00
+
+Plan fix extracting testable pure function
+---
+[event:5024bae8-64ed-419e-bd72-27ee48d496ea]
+node_id: 3a2df9aa-fc88-4bfe-ab35-c80d284c3169
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:29:08.583608+00:00
+
+Verified sanitizeRejectionInput's extraction into a pure, unit-testable function per this constraint; confirmed the new test/rejection-log.test.ts verify step satisfies it for attemptedInput.
+---
+[event:038eab30-58e1-4533-9135-00f3431bdfc8]
+node_id: 3a2df9aa-fc88-4bfe-ab35-c80d284c3169
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:37:26.563518+00:00
+
+Verified sanitizeRejectionInput's extraction into rejection-log.ts for testability; this same reasoning led to a new finding: the plan's ISSUE_DETAIL_MAX reference inside that pure module is ambiguous about import vs local-constant, risking reintroduction of the untestability defect this node describes if the pure module imports from index.ts.
+---
+[event:46148087-69dc-44ee-a777-904b6e493cbb]
+node_id: 3a2df9aa-fc88-4bfe-ab35-c80d284c3169
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:38:33.375644+00:00
+
+Fourth review round's finding directly validated the purity concern this constraint was written for
+---
+[event:d72606ea-e22e-4d58-a28b-13757a0e18f6]
+node_id: 3a2df9aa-fc88-4bfe-ab35-c80d284c3169
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:44:21.797042+00:00
+
+5 unit tests pass against the pure sanitizeRejectionInput module, proving the scrub-then-bound fix rather than just claiming it
+---
+[node:2ccd3769-dc7e-4f3d-96c4-2bf83c304297]
+type: constraint
+tier: short-term
+path: /artifact/logrejection-s-reason-field-must-be-scru
+created_at: 2026-09-24T15:30:20.178856+00:00
+needs_review: true
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-09-24T15:30:20.178856+00:00
+-> ABOUT [node:77ae64a2-d55b-4c37-a4b1-5c5503340179] @ 2026-09-24T15:30:20.178856+00:00
+-> DEPENDS_ON [node:ac006a24-2763-40e7-8423-2b851793efcf] @ 2026-09-24T15:30:20.178856+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-09-24T15:30:20.178856+00:00
+
+logRejection's reason field must be scrubbed before bounding, at every call site including POST /api/recipes's InvalidRecipeIdError catch branch — whose reason (`not a valid recipe id: ${JSON.stringify(id)}`, from adapters/files/recipes.ts's InvalidRecipeIdError) embeds raw, unbounded, client-supplied body.id verbatim. This falsifies the assumption that "reason is always a short developer-authored constant" for this plan's own call sites, so logIssue's existing slice-then-scrub order (acceptable there because its reasons genuinely are developer-authored) must NOT be copied into logRejection even though the two helpers look similar. Third-round /gw-plan-review caught that an earlier draft's code sample contradicted its own prose on this exact point (wrote slice-then-scrub while claiming scrub-then-slice) — general lesson: when a plan states a security-relevant ordering rule in prose, the code sample in the same bullet must be checked to actually match it, not assumed to.
+---
+[event:d5f18b01-3d7d-40ed-9e0e-477d98ffb443]
+node_id: 2ccd3769-dc7e-4f3d-96c4-2bf83c304297
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-09-24T15:30:23.966594+00:00
+
+Placeholder self-link not intended; see below for the real journal entries
+---
+[event:1c652ba1-63a4-4015-863e-c5ec3f350668]
+node_id: 2ccd3769-dc7e-4f3d-96c4-2bf83c304297
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:30:29.989533+00:00
+
+Correction: the immediately-prior CONTRADICTED event on this node was my own mistake (a stray/placeholder journal call, not a real contradiction) — this node's content is the accurate, verified fix for the reason-scrub-order bug the third review round found. Leaving the needs_review flag for a human to clear since this session cannot.
+---
+[event:75212c79-4fea-4156-ab9e-09a3f5a41e19]
+node_id: 2ccd3769-dc7e-4f3d-96c4-2bf83c304297
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:30:29.999295+00:00
+
+Plan fix for reason scrub-order contradiction
+---
+[event:0464c4c8-2018-4473-84eb-c3cf5c7afe58]
+node_id: 2ccd3769-dc7e-4f3d-96c4-2bf83c304297
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:37:26.565550+00:00
+
+Verified round 3's reason-scrub-order fix: the current plan.md code sample (scrubIssueText(reason) as string).slice(...) matches the prose 'scrub first, bound second' with no self-contradiction, and the InvalidRecipeIdError factual claim was independently confirmed against adapters/files/recipes.ts and index.ts's live code.
+---
+[event:e3b192a3-107f-4b42-be3e-549ea65d28d5]
+node_id: 2ccd3769-dc7e-4f3d-96c4-2bf83c304297
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:44:21.775563+00:00
+
+Live smoke test confirmed the InvalidRecipeIdError path logs correctly with the client-supplied id embedded in reason, scrubbed-then-bounded as designed
+---
+[event:160f81ba-6319-45eb-ba13-a23eb2b8b1c2]
+node_id: 2ccd3769-dc7e-4f3d-96c4-2bf83c304297
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:11:57.083805+00:00
+
+disputed; code honours scrub-then-bound, but the dispute itself is left for the human
+---
+[node:b6bbcdbd-d78c-4558-95fb-6c332dcadb56]
+type: constraint
+tier: short-term
+path: /artifact/kind-import-retry-in-k7-recipe-rejecti
+created_at: 2026-09-24T15:30:38.039805+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:197c7130-a735-411e-bdef-4e8af832f5a4] @ 2026-09-24T15:30:38.039805+00:00
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-09-24T15:30:38.039805+00:00
+-> ABOUT [node:77ae64a2-d55b-4c37-a4b1-5c5503340179] @ 2026-09-24T15:30:38.039805+00:00
+
+kind:'import' retry in k7-recipe-rejection-log must type-guard attemptedInput.url before assigning it to importUrl (a string-typed input binding) — POST /api/recipes/import's empty-url 400 check (`typeof body.url !== 'string' || body.url.trim() === ''`) is reachable with url as a non-string, and once attemptedInput preserves rather than drops malformed fields (per node 197c7130), that non-string value survives into storage. The kind:'save' retry path already had defensive coercion for this exact class of problem; kind:'import' needed the same treatment and was missing it in an earlier draft. General lesson: when one design fix (preserve malformed data instead of dropping it) is applied, every downstream consumer of that data must be re-checked for the same defensive-coercion need, not just the consumer the original finding happened to name.
+---
+[event:91493882-02f5-4d59-803a-4875dda882ae]
+node_id: b6bbcdbd-d78c-4558-95fb-6c332dcadb56
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:30:42.370150+00:00
+
+Plan fix for import-retry defensive coercion gap
+---
+[event:3f312d3c-084f-40ee-a074-4dc96de76bfd]
+node_id: b6bbcdbd-d78c-4558-95fb-6c332dcadb56
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:37:26.556595+00:00
+
+Verified the kind:'import' retry type guard for attemptedInput.url is present in Phase 3 of plan.md, closing round 3's finding.
+---
+[event:fa9bde7a-e7c6-4c9c-bef3-38c1bdcb6831]
+node_id: b6bbcdbd-d78c-4558-95fb-6c332dcadb56
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:48:22.789740+00:00
+
+importUrl retry type guard implemented and typechecked
+---
+[node:f9783e63-ef4d-4a68-816d-0f23f11ddf0d]
+type: constraint
+tier: short-term
+path: /artifact/src-server-recipes-rejection-log-ts-k7
+created_at: 2026-09-24T15:38:27.831073+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-09-24T15:38:27.831073+00:00
+-> HAS_FACET [node:3957f716-9c74-4f75-8355-94ac8649c521] @ 2026-09-24T15:38:27.831073+00:00
+-> DEPENDS_ON [node:3a2df9aa-fc88-4bfe-ab35-c80d284c3169] @ 2026-09-24T15:38:27.831073+00:00
+-> ABOUT [node:77ae64a2-d55b-4c37-a4b1-5c5503340179] @ 2026-09-24T15:38:27.831073+00:00
+
+src/server/recipes/rejection-log.ts (k7-recipe-rejection-log) must define its own local size-cap constant rather than importing ISSUE_DETAIL_MAX from src/server/index.ts. index.ts is a top-level script whose import side effects include opening the database and starting migrations — importing anything from it into a module that was deliberately extracted to be pure/unit-testable would transitively boot the server on the test file's own import, silently reintroducing the untestability defect the extraction existed to fix. General lesson: when extracting a pure module out of a monolithic script for testability, check every constant/helper it reuses from the script for the same import-side-effect risk, not just the logic being extracted.
+---
+[event:96aff404-15f5-4d08-b605-f9a20214a949]
+node_id: f9783e63-ef4d-4a68-816d-0f23f11ddf0d
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:38:33.371493+00:00
+
+Final plan clarification before implementation
+---
+[event:29c08008-3001-48bc-a1f3-6177e4a89257]
+node_id: f9783e63-ef4d-4a68-816d-0f23f11ddf0d
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-24T15:44:21.801122+00:00
+
+rejection-log.ts defines its own local constant, imports nothing from index.ts — verified the test file runs standalone with no server boot
+---
+[node:61f32cec-4390-4f4b-8f53-485a1ff28ce2]
+type: goal
+tier: short-term
+path: /goal/k7-recipe-auto-tags
+created_at: 2026-09-25T06:11:46.729885+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:0f65e225-90a5-49a9-849c-a5552f6b4477] @ 2026-09-25T06:11:46.729885+00:00
+-> DEPENDS_ON [node:42b05a7d-bee4-422e-b86b-b7841fa368ab] @ 2026-09-25T07:11:31.911963+00:00
+-> DEPENDS_ON [node:515834c2-0db1-4186-81cb-ffa438cd07f1] @ 2026-09-25T07:11:09.271800+00:00
+-> DEPENDS_ON [node:5689d533-a542-4ff8-8aa0-15efe8f123a4] @ 2026-09-25T06:11:46.729885+00:00
+-> DEPENDS_ON [node:782ecc52-c0ca-4abe-a3a1-9c8136a05568] @ 2026-09-25T06:11:46.729885+00:00
+-> DEPENDS_ON [node:ada6f63c-2d08-4da0-8c6c-15ddd0afd6ff] @ 2026-09-25T06:12:45.097419+00:00
+
+When a Recipe is saved with no tags, generate them with one Kilo Gateway model call prompted from its title, ingredients, steps and description, so every saved Recipe is findable by tag without the household typing any.
+---
+[event:4da03a03-fb42-47f3-8702-27c2b8d52f6d]
+node_id: 61f32cec-4390-4f4b-8f53-485a1ff28ce2
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T06:28:01.474159+00:00
+
+slice 4 implemented; gw-review deferred by the user until slices 4-8 are all done
+---
+[node:f8788ec6-184f-4f28-96bc-6f7afbb1a3f8]
+type: slice
+tier: short-term
+path: /change/k7-recipe-auto-tags
+created_at: 2026-09-25T06:11:46.729885+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:42b05a7d-bee4-422e-b86b-b7841fa368ab] @ 2026-09-25T07:11:31.911963+00:00
+-> SCOPED_TO [node:515834c2-0db1-4186-81cb-ffa438cd07f1] @ 2026-09-25T07:11:09.271800+00:00
+-> SCOPED_TO [node:61f32cec-4390-4f4b-8f53-485a1ff28ce2] @ 2026-09-25T06:11:46.729885+00:00
+-> SCOPED_TO [node:ada6f63c-2d08-4da0-8c6c-15ddd0afd6ff] @ 2026-09-25T06:12:45.097419+00:00
+
+change scope: k7-recipe-auto-tags
+---
+[event:6ca7dd41-9dc8-45d2-91cc-8ce224771bf0]
+node_id: f8788ec6-184f-4f28-96bc-6f7afbb1a3f8
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T06:11:46.738865+00:00
+
+create_change k7-recipe-auto-tags
+---
+[node:ada6f63c-2d08-4da0-8c6c-15ddd0afd6ff]
+type: decision
+tier: short-term
+path: /artifact/recipe-auto-tagging-k7-recipe-auto-tags
+created_at: 2026-09-25T06:12:45.097419+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:0e15e38d-140a-43ee-8b5a-05a767a56fbd] @ 2026-09-25T06:12:45.097419+00:00
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-25T06:12:50.070595+00:00
+-> DEPENDS_ON [node:a0e8d46f-ac32-4c55-ba72-daab617c78e8] @ 2026-09-25T06:12:45.097419+00:00
+
+Recipe auto-tagging (k7-recipe-auto-tags) runs synchronously inside POST /api/recipes when the submitted tags are empty — one Kilo Gateway call with a 15 s timeout on kilo-auto/free — and any failure (thrown call, unparsable reply, empty result) saves the recipe untagged with a warn in the issue log rather than failing the save. A background save-then-retag job was rejected because it would race an EDYTUJ opened right after ZAPISZ, and the file store has no compare-and-set. This does not breach the review-before-save rule: POST /api/recipes is still the only write path, reached only via ZAPISZ, and tags are the one field the household explicitly left empty, visible and editable right after save.
+---
+[event:9e58043c-0abb-46a8-bb62-1b0900b964a8]
+node_id: ada6f63c-2d08-4da0-8c6c-15ddd0afd6ff
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:11:57.057538+00:00
+
+fillMissingTags tests plus live curl show untagged save with no key and no failure on tagger error
+---
+[node:a0dff778-b3ac-47be-9d82-8b9d54a1e78c]
+type: slice
+tier: short-term
+path: /change/k7-recipe-list-all
+created_at: 2026-09-25T06:15:24.424503+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:35b6940f-6145-4c90-870e-c7d713023651] @ 2026-09-25T06:19:09.392145+00:00
+-> SCOPED_TO [node:e1febe2d-6274-476e-a75e-834508b52241] @ 2026-09-25T06:15:24.424503+00:00
+
+change scope: k7-recipe-list-all
+---
+[event:ce873523-9cd7-4657-914a-97f50a69089d]
+node_id: a0dff778-b3ac-47be-9d82-8b9d54a1e78c
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T06:15:24.434913+00:00
+
+create_change k7-recipe-list-all
+---
+[node:e1febe2d-6274-476e-a75e-834508b52241]
+type: goal
+tier: short-term
+path: /goal/k7-recipe-list-all
+created_at: 2026-09-25T06:15:24.424503+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:35b6940f-6145-4c90-870e-c7d713023651] @ 2026-09-25T06:19:09.392145+00:00
+-> DEPENDS_ON [node:5689d533-a542-4ff8-8aa0-15efe8f123a4] @ 2026-09-25T06:15:24.424503+00:00
+-> DEPENDS_ON [node:61f32cec-4390-4f4b-8f53-485a1ff28ce2] @ 2026-09-25T06:15:24.424503+00:00
+-> DEPENDS_ON [node:7c3c191a-fba7-43fb-b89f-75709ae3e17a] @ 2026-09-25T06:15:24.424503+00:00
+-> DEPENDS_ON [node:f4be78b5-ae1f-4600-a55e-f38f086783aa] @ 2026-09-25T06:15:24.424503+00:00
+
+The recipes widget lists every saved Recipe's title instead of a maxVisible-capped fetch of full recipes, fetching a Recipe's full detail only when it is opened.
+---
+[node:35b6940f-6145-4c90-870e-c7d713023651]
+type: decision
+tier: short-term
+path: /artifact/the-recipes-widget-s-listing-is-get-api
+created_at: 2026-09-25T06:19:09.392145+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-25T06:19:21.630566+00:00
+-> DEPENDS_ON [node:7c3c191a-fba7-43fb-b89f-75709ae3e17a] @ 2026-09-25T06:19:09.392145+00:00
+-> DEPENDS_ON [node:f4be78b5-ae1f-4600-a55e-f38f086783aa] @ 2026-09-25T06:19:09.392145+00:00
+
+The recipes widget's listing is GET /api/recipes?view=summary, returning an envelope {items: RecipeSummary[], total, ...} built by the pure src/server/recipes/catalog.ts, while plain GET /api/recipes stays a full-Recipe array because the chat card consumes it (/plan reads ?limit=40 titles, ingredient chips read ?limit=1 ingredients). The envelope is epic k7-recipe-widget-upgrade's one contract break; paging, search and tag facets (slices 6-8) are additive fields on it. A new static path like /api/recipes/catalog was rejected because any static segment under /api/recipes/ shadows GET /api/recipes/:id for a recipe whose file-name slug equals it (/api/recipes/rejections already does).
+---
+[event:78fcb0c0-a525-41d9-b28c-91c0a0d0a8ac]
+node_id: 35b6940f-6145-4c90-870e-c7d713023651
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:11:57.044004+00:00
+
+review verified chat's plain GET /api/recipes callers unaffected; live curl returns array of 50 vs summary envelope
+---
+[node:87501e40-d35c-4b19-a79c-263e1c29a367]
+type: slice
+tier: short-term
+path: /change/k7-recipe-infinite-scroll
+created_at: 2026-09-25T06:19:21.662995+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:1e13f61e-5115-49d7-a31b-99e25491f1ac] @ 2026-09-25T06:21:22.392503+00:00
+-> SCOPED_TO [node:1e1b181e-c5d5-45ce-ac76-f53089d07b0f] @ 2026-09-25T07:11:09.298339+00:00
+-> SCOPED_TO [node:e80dff0a-f65d-4e24-a0f4-803f9fbcf347] @ 2026-09-25T06:19:21.662995+00:00
+
+change scope: k7-recipe-infinite-scroll
+---
+[event:a00d32d7-a68e-477f-938d-16865e08f5a9]
+node_id: 87501e40-d35c-4b19-a79c-263e1c29a367
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T06:19:21.671130+00:00
+
+create_change k7-recipe-infinite-scroll
+---
+[node:e80dff0a-f65d-4e24-a0f4-803f9fbcf347]
+type: goal
+tier: short-term
+path: /goal/k7-recipe-infinite-scroll
+created_at: 2026-09-25T06:19:21.662995+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:1e13f61e-5115-49d7-a31b-99e25491f1ac] @ 2026-09-25T06:21:22.392503+00:00
+-> DEPENDS_ON [node:1e1b181e-c5d5-45ce-ac76-f53089d07b0f] @ 2026-09-25T07:11:09.298339+00:00
+-> DEPENDS_ON [node:35b6940f-6145-4c90-870e-c7d713023651] @ 2026-09-25T06:19:21.662995+00:00
+-> DEPENDS_ON [node:e1febe2d-6274-476e-a75e-834508b52241] @ 2026-09-25T06:19:21.662995+00:00
+
+The recipes widget's all-titles list becomes cursor-paginated: GET /api/recipes?view=summary returns one page plus a nextCursor, and the widget loads the next page as the household scrolls to the bottom.
+---
+[node:1e13f61e-5115-49d7-a31b-99e25491f1ac]
+type: decision
+tier: short-term
+path: /artifact/the-recipes-widget-s-list-pages-with-an
+created_at: 2026-09-25T06:21:22.392503+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-25T06:28:07.419927+00:00
+-> DEPENDS_ON [node:35b6940f-6145-4c90-870e-c7d713023651] @ 2026-09-25T06:21:22.392503+00:00
+-> DEPENDS_ON [node:716987ce-f933-41b5-8c4e-590c09dc33bf] @ 2026-09-25T06:21:22.392503+00:00
+
+The recipes widget's list pages with an opaque keyset cursor, the last row's (importedAt, id) as base64url JSON, not an offset, because a recipe saved mid-scroll would shift an offset by one and serve the boundary row twice. A cursor that does not decode is a 400, never silently treated as "from the start", which would re-serve page one mid-scroll. The next page is triggered by an IntersectionObserver on a sentinel row (root = the card's own scroll container, 200px rootMargin), re-created after every append because an observer only reports changes. A scroll listener was rejected for per-frame cost on the A8X.
+---
+[event:2634f7ec-8918-4b16-8d14-b3825918b7f1]
+node_id: 1e13f61e-5115-49d7-a31b-99e25491f1ac
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:11:57.050970+00:00
+
+catalog tests walk all pages exactly once including a mid-walk insert; browser loaded 30->60->61
+---
+[node:4c30e39a-763d-4c09-b58c-e90a9dcc8ba4]
+type: slice
+tier: short-term
+path: /change/k7-recipe-search-fulltext
+created_at: 2026-09-25T06:21:27.224894+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:7b95583c-4b3f-4212-95c1-73c943f04e7e] @ 2026-09-25T07:11:09.323551+00:00
+-> SCOPED_TO [node:84bdd8e7-f7fd-49c0-94a1-8a1b5c4b6da2] @ 2026-09-25T06:21:27.224894+00:00
+-> SCOPED_TO [node:dda883c2-a474-458f-ba53-c60d32f54446] @ 2026-09-25T06:23:05.763538+00:00
+
+change scope: k7-recipe-search-fulltext
+---
+[event:a6dfe498-b737-4add-aa25-1ac683598ad6]
+node_id: 4c30e39a-763d-4c09-b58c-e90a9dcc8ba4
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T06:21:27.229533+00:00
+
+create_change k7-recipe-search-fulltext
+---
+[node:84bdd8e7-f7fd-49c0-94a1-8a1b5c4b6da2]
+type: goal
+tier: short-term
+path: /goal/k7-recipe-search-fulltext
+created_at: 2026-09-25T06:21:27.224894+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:1e13f61e-5115-49d7-a31b-99e25491f1ac] @ 2026-09-25T06:21:27.224894+00:00
+-> DEPENDS_ON [node:35b6940f-6145-4c90-870e-c7d713023651] @ 2026-09-25T06:21:27.224894+00:00
+-> DEPENDS_ON [node:5689d533-a542-4ff8-8aa0-15efe8f123a4] @ 2026-09-25T06:21:27.224894+00:00
+-> DEPENDS_ON [node:7b95583c-4b3f-4212-95c1-73c943f04e7e] @ 2026-09-25T07:11:09.323551+00:00
+-> DEPENDS_ON [node:dda883c2-a474-458f-ba53-c60d32f54446] @ 2026-09-25T06:23:05.763538+00:00
+-> DEPENDS_ON [node:e80dff0a-f65d-4e24-a0f4-803f9fbcf347] @ 2026-09-25T06:21:27.224894+00:00
+
+A search box in the recipes widget queries GET /api/recipes?view=summary&q= over title, tags, ingredients, steps, description and source URL, ranked in that priority order, and pages through results with the same cursor.
+---
+[node:dda883c2-a474-458f-ba53-c60d32f54446]
+type: decision
+tier: short-term
+path: /artifact/recipe-full-text-search-k7-recipe-searc
+created_at: 2026-09-25T06:23:05.763538+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-25T06:28:07.384127+00:00
+-> DEPENDS_ON [node:1e13f61e-5115-49d7-a31b-99e25491f1ac] @ 2026-09-25T06:23:05.763538+00:00
+-> DEPENDS_ON [node:7c3c191a-fba7-43fb-b89f-75709ae3e17a] @ 2026-09-25T06:23:05.763538+00:00
+
+Recipe full-text search (k7-recipe-search-fulltext) ANDs whitespace-separated terms (typing more narrows, never widens) after folding case and Polish diacritics (NFD, strip marks, ł→l, so a kiosk keyboard without long-press still finds Żurek). Each term counts once, at the best field it appears in (title > tags > ingredients > steps > description > source URL), and recipes rank lexicographically by those per-field counts. This is encoded as one integer Σ 9^(5-field), with the terms capped at 8 so no base-9 digit carries, which lets the rank sit in the same keyset cursor as (importedAt, id). There is no search index: one scan of the Markdown store per debounced query, because an index would be a second copy of hand-edited data.
+---
+[event:042688b2-1322-4e54-abba-53fab1f7a60c]
+node_id: dda883c2-a474-458f-ba53-c60d32f54446
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:11:57.054839+00:00
+
+search tests prove priority order, AND, diacritic folding and ranked paging; reviewer checked no base-9 carry
+---
+[node:7f98639c-a8ed-4e4e-a7e6-94d01476d76b]
+type: goal
+tier: short-term
+path: /goal/k7-recipe-search-tag-filter
+created_at: 2026-09-25T06:23:10.528790+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:1e13f61e-5115-49d7-a31b-99e25491f1ac] @ 2026-09-25T06:23:10.528790+00:00
+-> DEPENDS_ON [node:35b6940f-6145-4c90-870e-c7d713023651] @ 2026-09-25T06:23:10.528790+00:00
+-> DEPENDS_ON [node:76109a6c-0cf8-4ef5-bfce-758585562252] @ 2026-09-25T07:11:31.938773+00:00
+-> DEPENDS_ON [node:84bdd8e7-f7fd-49c0-94a1-8a1b5c4b6da2] @ 2026-09-25T06:23:10.528790+00:00
+-> DEPENDS_ON [node:dda883c2-a474-458f-ba53-c60d32f54446] @ 2026-09-25T06:23:10.528790+00:00
+
+Tags become an explicit filter facet on top of recipe full-text search: the summary envelope reports the tags present in the current result with counts, and the widget shows them as toggleable chips that AND-filter the list alongside the search query.
+---
+[event:82bfe58b-acc2-4ee6-a796-5e9019806952]
+node_id: 7f98639c-a8ed-4e4e-a7e6-94d01476d76b
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T06:28:01.475529+00:00
+
+slice 8 implemented, last of epic k7-recipe-widget-upgrade; slices 4-8 await one gw-review pass
+---
+[node:9b36a47d-8ffe-466c-b5cc-df69671c7e23]
+type: slice
+tier: short-term
+path: /change/k7-recipe-search-tag-filter
+created_at: 2026-09-25T06:23:10.528790+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:76109a6c-0cf8-4ef5-bfce-758585562252] @ 2026-09-25T07:11:31.938773+00:00
+-> SCOPED_TO [node:7f98639c-a8ed-4e4e-a7e6-94d01476d76b] @ 2026-09-25T06:23:10.528790+00:00
+
+change scope: k7-recipe-search-tag-filter
+---
+[event:d86ba147-2dc4-4755-8b47-d62d789515e5]
+node_id: 9b36a47d-8ffe-466c-b5cc-df69671c7e23
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T06:23:10.535786+00:00
+
+create_change k7-recipe-search-tag-filter
+---
+[node:2d1f37b5-d449-4a67-aecd-024294524883]
+type: constraint
+tier: short-term
+path: /artifact/a-fire-and-forget-logging-helper-logrej
+created_at: 2026-09-25T07:11:09.234522+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:3a2df9aa-fc88-4bfe-ab35-c80d284c3169] @ 2026-09-25T07:11:09.234522+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-25T07:11:09.234522+00:00
+
+A fire-and-forget logging helper (logRejection, logIssue-style) must put all of its work, including building its arguments, inside its own error boundary. A synchronous throw while preparing the record (e.g. Object.entries on a JSON `null` body in sanitizeRejectionInput) happens before the promise's .catch() exists, escapes the route and turns the 400 being logged into a 500 plus a spurious error report. Found by /gw-review of k7-recipe-rejection-log; fixed with a try/catch around the whole helper and a sanitizer that keeps non-object bodies as {value}.
+---
+[node:515834c2-0db1-4186-81cb-ffa438cd07f1]
+type: constraint
+tier: short-term
+path: /artifact/a-slow-or-billable-side-call-inside-a-wr
+created_at: 2026-09-25T07:11:09.271800+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-25T07:11:09.271800+00:00
+-> DEPENDS_ON [node:ada6f63c-2d08-4da0-8c6c-15ddd0afd6ff] @ 2026-09-25T07:11:09.271800+00:00
+
+A slow or billable side call inside a write route (e.g. the auto-tagging model call in POST /api/recipes) must run only after every rejection path has been ruled out, including validation the repository would otherwise raise later (InvalidRecipeIdError from save()). Otherwise a request that is going to be rejected first spends the call, writes an ai_calls row and waits up to the call's timeout before it gets its 400. Found by /gw-review of k7-recipe-auto-tags; fixed by checking the id with the file adapter's exported isSafeId before tagging.
+---
+[node:1e1b181e-c5d5-45ce-ac76-f53089d07b0f]
+type: constraint
+tier: short-term
+path: /artifact/a-cursor-paging-client-must-drop-its-cur
+created_at: 2026-09-25T07:11:09.298339+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:1e13f61e-5115-49d7-a31b-99e25491f1ac] @ 2026-09-25T07:11:09.298339+00:00
+-> DEPENDS_ON [node:4a749051-6bc6-4807-bc52-47748e2bb914] @ 2026-09-25T07:11:09.298339+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-25T07:11:09.298339+00:00
+
+A cursor-paging client must drop its cursor, and the previous query's rows, when a reload fails, not just flag the error. Otherwise the next loadMore() pairs the new query (search text, tags) with the old query's cursor, and the old rows sit under the new search text looking like a complete result, which is stale data presented as current. Found by /gw-review of the K7Recipes infinite-scroll/search slices; fixed in load()'s catch by clearing items, total, nextCursor and tagFacets and showing an explicit [!] line.
+---
+[node:7b95583c-4b3f-4212-95c1-73c943f04e7e]
+type: constraint
+tier: short-term
+path: /artifact/a-native-form-control-such-as-input-typ
+created_at: 2026-09-25T07:11:09.323551+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:0bc7e618-9b95-4977-9fe1-f3a48759276f] @ 2026-09-25T07:11:09.323551+00:00
+-> DEPENDS_ON [node:61c0030d-8bea-45cc-888b-113297483487] @ 2026-09-25T07:11:09.323551+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-25T07:11:09.323551+00:00
+
+A native form control such as <input type="search"> needs `-webkit-appearance: none` (plus `appearance: none`) before the design system's radius-0 and padding rules take effect: iPadOS 15 WebKit draws the native, rounded search field and ignores an author border-radius on it. Desktop Chromium and CI do not show the difference, so only a real device catches it. Whether the native clear button survives the reset must be checked on the iPad. Found by /gw-review of k7-recipe-search-fulltext.
+---
+[node:60244cbc-2035-485f-b4ac-d52625deddd6]
+type: concept
+tier: mid-term
+path: /artifact/change-summary-k7-recipe-rejection-log
+created_at: 2026-09-25T07:11:31.882110+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:2d1f37b5-d449-4a67-aecd-024294524883] @ 2026-09-25T07:11:31.882110+00:00
+-> DEPENDS_ON [node:5a43c35e-20c7-4242-97ea-f0fa2c1d0b37] @ 2026-09-25T07:11:31.882110+00:00
+-> ABOUT [node:77ae64a2-d55b-4c37-a4b1-5c5503340179] @ 2026-09-25T07:11:56.903298+00:00
+-> DEPENDS_ON [node:7a68608d-ea04-45b5-a66c-08c1b2093a4c] @ 2026-09-25T07:11:31.882110+00:00
+-> DEPENDS_ON [node:e4745884-a5db-4d16-9bed-430cd2b6449c] @ 2026-09-25T07:11:31.882110+00:00
+
+Change summary: k7-recipe-rejection-log (slice 3/8 of epic k7-recipe-widget-upgrade) keeps every rejected recipe save/import. It stores the scrubbed and bounded attempted input in a new recipe_rejections table (its own RecipeRejectionRepository, not the generic issue log), lists and dismisses them via GET/DELETE /api/recipes/rejections, and adds a NIEUDANE PROBY view in K7Recipes whose PONOW reopens the review form pre-filled (keeping the original id, so an edit is retried, not duplicated) or refills the import URL. /gw-review requested changes on two defects: a JSON `null` body made the sanitizer throw synchronously, turning the 400 into a 500; and the count never refreshed after a failure in the same session, so the entry point did not appear until a reload. Both were fixed and re-verified live, and import rejections now store only {url}, as planned.
+---
+[node:42b05a7d-bee4-422e-b86b-b7841fa368ab]
+type: concept
+tier: mid-term
+path: /artifact/change-summary-k7-recipe-auto-tags-sli
+created_at: 2026-09-25T07:11:31.911963+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-25T07:11:56.930746+00:00
+-> DEPENDS_ON [node:515834c2-0db1-4186-81cb-ffa438cd07f1] @ 2026-09-25T07:11:31.911963+00:00
+-> ABOUT [node:8b9566f6-a1d5-4c43-952e-369c2796d5ca] @ 2026-09-25T07:11:56.981590+00:00
+-> DEPENDS_ON [node:ada6f63c-2d08-4da0-8c6c-15ddd0afd6ff] @ 2026-09-25T07:11:31.911963+00:00
+
+Change summary: k7-recipe-auto-tags (slice 4/8 of epic k7-recipe-widget-upgrade): a recipe saved with empty tags gets 1-4 tags from one synchronous kilo-auto/free call. The call has a 15 s timeout, is prompted from title, description, ingredients and steps, and is recorded as an AiCall with purpose recipe-tagging, which needed no migration because the purpose column has no CHECK constraint. Tags the household typed are never touched. Any failure saves the recipe untagged with a warn in the issue log, and a missing gateway key means no tagging at all. The policy lives in the pure fillMissingTags (src/server/ai/recipe-tagger.ts) because recipe routes have no HTTP tests. /gw-review approved it; the rework moved the recipe-id validation ahead of the model call, pinned the timeout in a test, and fixed '#' stripping. Accepted as designed: a save that clears the tags gets new ones generated.
+---
+[node:76109a6c-0cf8-4ef5-bfce-758585562252]
+type: concept
+tier: mid-term
+path: /artifact/change-summary-slices-5-8-of-epic-k7-re
+created_at: 2026-09-25T07:11:31.938773+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-25T07:11:56.956052+00:00
+-> DEPENDS_ON [node:1e13f61e-5115-49d7-a31b-99e25491f1ac] @ 2026-09-25T07:11:31.938773+00:00
+-> DEPENDS_ON [node:1e1b181e-c5d5-45ce-ac76-f53089d07b0f] @ 2026-09-25T07:11:31.938773+00:00
+-> DEPENDS_ON [node:35b6940f-6145-4c90-870e-c7d713023651] @ 2026-09-25T07:11:31.938773+00:00
+-> DEPENDS_ON [node:7b95583c-4b3f-4212-95c1-73c943f04e7e] @ 2026-09-25T07:11:31.938773+00:00
+-> DEPENDS_ON [node:dda883c2-a474-458f-ba53-c60d32f54446] @ 2026-09-25T07:11:31.938773+00:00
+
+Change summary: slices 5-8 of epic k7-recipe-widget-upgrade (k7-recipe-list-all, k7-recipe-infinite-scroll, k7-recipe-search-fulltext, k7-recipe-search-tag-filter) replaced the recipes widget's maxVisible-capped fetch of full recipes with GET /api/recipes?view=summary. That endpoint returns {items: summaries, total, nextCursor, tagFacets}, built by the pure src/server/recipes/catalog.ts over the whole Markdown store on each request, with no index. The plain GET /api/recipes array stays for the chat card. Paging uses an opaque keyset cursor over (search score, importedAt, id); search ANDs diacritic-folded terms and ranks title > tags > ingredients > steps > description > URL; tag chips (counts over the current result, AND-filtered, the layout's fixed tag excluded) reuse K7Calendar's bracketed tab pattern; full recipes load only on open; an IntersectionObserver sentinel loads the next page. /gw-review requested changes on search (type=search needed -webkit-appearance: none for radius 0 on iPadOS) and flagged the lost scroll position after a detail visit, a failed reload keeping the old cursor, and facet counts after a delete. All were fixed and browser-verified. The search field's clear button still needs checking on the real iPad.
+---
+[node:97c338d8-a460-4a97-812b-6bf919562e36]
+type: decision
+tier: mid-term
+path: /artifact/human-ruling-2026-09-25-reversing-the-k
+created_at: 2026-09-25T07:22:43.111626+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> CONTRADICTS [node:1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea] @ 2026-09-25T07:22:43.111626+00:00
+-> CONTRADICTS [node:26582685-718f-4003-9454-5126ff416a15] @ 2026-09-25T07:22:43.111626+00:00
+-> DEPENDS_ON [node:3218cf7b-eb04-46dc-a6a6-1bd89155936d] @ 2026-09-25T07:22:43.111626+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-25T07:22:43.111626+00:00
+
+Human ruling 2026-09-25, reversing the k7-mobile-responsive choice: "nothing scrolls" does not work on a phone screen. At phone width (≤767px) each pager page scrolls vertically inside the fixed shell. The header and the status footer stay put, so "is the terminal alive" never leaves the screen, and pages still swipe sideways. Cards still share the screen evenly when they fit, but never go below the design system's --card-min-h (240px); only when an even share would fall below that floor does the page grow and scroll. List cards keep their own inner scroll. The wall kiosk (wider than 767px) keeps "nothing scrolls, ever" unchanged. Rejected alternatives: the whole document scrolling (the status line would scroll away) and content-height cards (list cards would grow to their full length and lose their inner scroll).
+---
+[node:409c89c0-eb19-471f-a3c4-3c0fcdb74118]
+type: slice
+tier: short-term
+path: /change/k7-phone-page-scroll
+created_at: 2026-09-25T07:22:43.157456+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:65a79c91-b547-4deb-859f-2dd50656c4c8] @ 2026-09-25T07:32:07.289651+00:00
+-> SCOPED_TO [node:e73397bc-9bc3-47c9-8457-f72312d46aef] @ 2026-09-25T07:22:43.157456+00:00
+
+change scope: k7-phone-page-scroll
+---
+[event:42c6e352-3b5b-42cf-9835-9743b7c43814]
+node_id: 409c89c0-eb19-471f-a3c4-3c0fcdb74118
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-25T07:22:43.162984+00:00
+
+create_change k7-phone-page-scroll
+---
+[node:e73397bc-9bc3-47c9-8457-f72312d46aef]
+type: goal
+tier: short-term
+path: /goal/k7-phone-page-scroll
+created_at: 2026-09-25T07:22:43.157456+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea] @ 2026-09-25T07:22:43.157456+00:00
+-> DEPENDS_ON [node:26582685-718f-4003-9454-5126ff416a15] @ 2026-09-25T07:22:43.157456+00:00
+-> DEPENDS_ON [node:3218cf7b-eb04-46dc-a6a6-1bd89155936d] @ 2026-09-25T07:22:43.157456+00:00
+-> DEPENDS_ON [node:3ea28fac-3a03-48dc-a228-894731fa5541] @ 2026-09-25T07:22:43.157456+00:00
+-> DEPENDS_ON [node:65a79c91-b547-4deb-859f-2dd50656c4c8] @ 2026-09-25T07:32:07.289651+00:00
+
+On a phone (≤767px) each pager page scrolls vertically inside the fixed shell, with cards sharing the screen but never going below --card-min-h, and the pager ignoring vertical drags, while the wall kiosk keeps "nothing scrolls, ever".
+---
+[node:65a79c91-b547-4deb-859f-2dd50656c4c8]
+type: constraint
+tier: short-term
+path: /artifact/once-a-pager-page-can-scroll-vertically
+created_at: 2026-09-25T07:32:07.289651+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:97c338d8-a460-4a97-812b-6bf919562e36] @ 2026-09-25T07:32:07.289651+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-25T07:32:07.289651+00:00
+
+Once a pager page can scroll vertically (phones, k7-phone-page-scroll), the horizontal pager must commit each touch to one axis (pager.ts#resolveDragAxis: 8px deadzone, ties go to the page scroll). A 'y' drag releases the pager for the rest of the touch. Without this, the few px of sideways drift in every vertical scroll get read as a swipe: pages wobble and a diagonal drag flips the page. The touch listeners stay passive, so native scroll is never blocked. Test-harness note: synthetic CDP touches on injected plain <div>s inside .page did not reach #deck's listeners in headless Chromium, while touches on real card elements did, so gesture tests must pad pages with real cards.
