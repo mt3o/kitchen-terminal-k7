@@ -1,0 +1,7 @@
+date: "2026-09-25"
+title: "Przepisy: wyszukiwarka"
+items:
+  - "Nad listą przepisów jest pole wyszukiwania. Szuka w tytule, tagach, składnikach, krokach, opisie i adresie źródła."
+  - "Najwyżej są przepisy z trafieniem w tytule, potem w tagach, składnikach, krokach, opisie i adresie."
+  - "Kilka słów zawęża wyniki: pokazują się tylko przepisy, w których występują wszystkie wpisane słowa."
+  - "Polskie znaki są opcjonalne — „zurek” znajdzie „Żurek”."

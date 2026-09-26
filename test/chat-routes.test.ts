@@ -261,6 +261,7 @@ describe('POST /api/chat/conversations/:id/recipe-draft', () => {
     assert.equal(res.statusCode, 200)
     assert.deepEqual(res.json(), {
       title: 'Szakszuka',
+      description: '',
       sourceUrl: null,
       ingredients: ['4 jajka'],
       steps: ['Podsmaż'],

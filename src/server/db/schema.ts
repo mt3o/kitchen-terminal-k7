@@ -19,6 +19,8 @@ const now = sql`(unixepoch() * 1000)`
 export const recipes = sqliteTable('recipes', {
   id: text('id').primaryKey(),
   title: text('title').notNull(),
+  /** Free text. Null for a recipe saved before this column existed, or with none typed. */
+  description: text('description'),
   /** Where it was imported from. Null for one typed in by hand. */
   sourceUrl: text('source_url'),
   /** JSON arrays: the shapes vary too much between sources for columns. */
@@ -91,7 +93,7 @@ export const aiCalls = sqliteTable(
     }),
     messageId: text('message_id').references(() => messages.id, { onDelete: 'set null' }),
     /** Why the call happened: a turn, a compaction, a daily ASCII render. */
-    purpose: text('purpose', { enum: ['chat', 'compacting', 'ascii-art', 'transcription', 'recipe-extraction'] }).notNull(),
+    purpose: text('purpose', { enum: ['chat', 'compacting', 'ascii-art', 'transcription', 'recipe-extraction', 'recipe-tagging'] }).notNull(),
     model: text('model').notNull(),
     promptTokens: integer('prompt_tokens').notNull(),
     completionTokens: integer('completion_tokens').notNull(),
@@ -145,6 +147,27 @@ export const issueLog = sqliteTable(
 )
 
 export type IssueLogRow = typeof issueLog.$inferSelect
+
+/**
+ * A recipe add/import attempt the server rejected — see `RecipeRejection`'s
+ * own doc comment for why this is a separate table from `issueLog` rather
+ * than an extension of it. `attemptedInput` is JSON for the same
+ * "shapes vary too much for columns" reason `recipes.ingredients`/`steps`/
+ * `tags` already are.
+ */
+export const recipeRejections = sqliteTable(
+  'recipe_rejections',
+  {
+    id: text('id').primaryKey(),
+    kind: text('kind', { enum: ['save', 'import'] }).notNull(),
+    reason: text('reason').notNull(),
+    attemptedInput: text('attempted_input', { mode: 'json' }).$type<Record<string, unknown>>().notNull(),
+    createdAt: integer('created_at', { mode: 'timestamp_ms' }).notNull().default(now),
+  },
+  (t) => [index('recipe_rejections_created_idx').on(t.createdAt)],
+)
+
+export type RecipeRejectionRow = typeof recipeRejections.$inferSelect
 
 export type RecipeRow = typeof recipes.$inferSelect
 export type ShoppingListItemRow = typeof shoppingListItems.$inferSelect

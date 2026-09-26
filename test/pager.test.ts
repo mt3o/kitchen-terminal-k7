@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
 
-import { COMMIT_RATIO, resolveSwipe } from '../src/client/lib/pager.ts'
+import { AXIS_DEADZONE_PX, COMMIT_RATIO, resolveDragAxis, resolveSwipe } from '../src/client/lib/pager.ts'
 import { normaliseLayout, type Layout } from '../src/shared/layout.ts'
 
 const W = 1000
@@ -65,5 +65,24 @@ describe('normaliseLayout', () => {
     const out = normaliseLayout({ ...base, cards: [{ id: 'x', type: 'clock' }], pages: [{ id: 'p', cards: [] }] } as Layout)
     assert.equal(out.pages.length, 1)
     assert.equal(out.pages[0]?.id, 'p')
+  })
+})
+
+describe('resolveDragAxis', () => {
+  it('waits until the drag leaves the deadzone', () => {
+    assert.equal(resolveDragAxis(AXIS_DEADZONE_PX - 1, -(AXIS_DEADZONE_PX - 1)), undefined)
+  })
+
+  it('reads a mostly-horizontal drag as a swipe', () => {
+    assert.equal(resolveDragAxis(-40, 12), 'x')
+  })
+
+  it("reads a vertical scroll's sideways drift as a scroll, not a swipe", () => {
+    assert.equal(resolveDragAxis(6, -30), 'y')
+    assert.equal(resolveDragAxis(-20, 25), 'y')
+  })
+
+  it('gives a perfect diagonal to the page scroll', () => {
+    assert.equal(resolveDragAxis(20, 20), 'y')
   })
 })

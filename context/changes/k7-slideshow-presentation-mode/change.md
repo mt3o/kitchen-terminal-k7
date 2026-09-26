@@ -2,8 +2,8 @@
 
 status: implemented
 created: 2026-09-25
-memory_goal: 4c5deac6-ef58-4e00-9726-c7eea822e0e0
-change_anchor: 477ddb52-fd3f-4d72-b021-b9edcdb97498
+memory_goal: 65f9b13b-40b7-44d2-8769-d4df7e8d8004
+change_anchor: 133eee1a-cec7-4f49-8232-a6dd7b20eb2a
 
 ## Goal
 Let a Card look different — and later show different content — when the
@@ -16,7 +16,7 @@ Implemented directly on a branch rather than through the full
 `/gw-new → /gw-plan → /gw-plan-review → /gw-implement` lifecycle; there is no
 `plan.md` and there were no per-phase memory gates. The scope node and the
 captures below were opened after the code was written, for traceability
-(`[node:7d77ae04]`, `[node:1350470c]`, `[node:76233b7f]`, `[node:3cf543c7]`).
+(`[node:8b25dd73]`, `[node:465e38f0]`, `[node:1c30a45a]`, `[node:1d6acf4f]`).
 
 `presentingElId(state)` derives "the Slideshow is showing this on its own" as
 *manual suppresses slideshow*, the mirror of `promotedElId`'s *manual wins
@@ -40,7 +40,7 @@ The obvious name for the new class was `k7-slideshow-active`. Recall surfaced
 promotion class — renamed to `k7-fullscreen-active` by `[node:2733b7b2]` when
 it stopped being Slideshow-exclusive. Reusing it would have left the graph and
 the code disagreeing about what the selector denotes. Renamed to
-`k7-slideshow-presenting`; the hazard is captured as `[node:76233b7f]`, which
+`k7-slideshow-presenting`; the hazard is captured as `[node:1c30a45a]`, which
 carries a CONTRADICTS edge to `009b7439` and has flagged it `needs_review` for
 a human to rule on.
 
@@ -51,4 +51,4 @@ The content half of presentation is a seam with no consumer:
 is a weather card that uses the whole screen for seven days, a temperature
 graph and hourly precipitation — blocked on server work, since
 `open-meteo.ts` requests no `hourly` variables and defaults `forecast_days` to
-5. Captured as `[node:3cf543c7]`.
+5. Captured as `[node:1d6acf4f]`.

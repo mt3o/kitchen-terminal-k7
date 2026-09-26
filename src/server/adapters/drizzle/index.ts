@@ -18,12 +18,14 @@ import type {
   IssueLogEntry,
   Message,
   Recipe,
+  RecipeRejection,
   ShoppingListItem,
 } from '../../domain/types.ts'
 import type {
   AiCallRepository,
   ConversationRepository,
   IssueLogRepository,
+  RecipeRejectionRepository,
   RecipeRepository,
   Repositories,
   ShoppingListRepository,
@@ -55,6 +57,7 @@ export function openDatabase(path: string): Db {
 const toRecipe = (r: schema.RecipeRow): Recipe => ({
   id: r.id,
   title: r.title,
+  description: r.description ?? '',
   sourceUrl: r.sourceUrl,
   ingredients: r.ingredients,
   steps: r.steps,
@@ -70,11 +73,14 @@ const toAiCall = (r: schema.AiCallRow): AiCall => ({ ...r })
 // closed union in the domain type — same "store wider, read narrower" shape
 // upstreamCache's own cast below follows.
 const toIssue = (r: schema.IssueLogRow): IssueLogEntry => ({ ...r } as IssueLogEntry)
+const toRecipeRejection = (r: schema.RecipeRejectionRow): RecipeRejection => ({ ...r })
 
 export function createRepositories(db: Db): Repositories {
   const recipes: RecipeRepository = {
     async list({ tag, limit = 50 } = {}) {
-      const rows = await db.select().from(schema.recipes).orderBy(desc(schema.recipes.importedAt)).limit(limit)
+      const ordered = db.select().from(schema.recipes).orderBy(desc(schema.recipes.importedAt))
+      // SQLite's LIMIT takes an integer; "everything" is no LIMIT at all.
+      const rows = await (Number.isFinite(limit) ? ordered.limit(limit) : ordered)
       // Tags are a JSON array, so the filter is in JS rather than SQL. At
       // household scale that is cheaper than a join table nobody else needs.
       return rows.map(toRecipe).filter((r) => (tag ? r.tags.includes(tag) : true))
@@ -225,6 +231,35 @@ export function createRepositories(db: Db): Repositories {
     },
   }
 
+  const recipeRejections: RecipeRejectionRepository = {
+    async record(entry, createdAt) {
+      const [row] = await db
+        .insert(schema.recipeRejections)
+        .values({ ...entry, id: randomUUID(), ...(createdAt ? { createdAt } : {}) })
+        .returning()
+      return toRecipeRejection(row!)
+    },
+    async listRecent(limit = 50) {
+      const rows = await db
+        .select()
+        .from(schema.recipeRejections)
+        .orderBy(desc(schema.recipeRejections.createdAt))
+        .limit(limit)
+      return rows.map(toRecipeRejection)
+    },
+    async delete(id) {
+      const rows = await db.delete(schema.recipeRejections).where(eq(schema.recipeRejections.id, id)).returning()
+      return rows.length > 0
+    },
+    async prune(olderThan) {
+      const rows = await db
+        .delete(schema.recipeRejections)
+        .where(lt(schema.recipeRejections.createdAt, olderThan))
+        .returning()
+      return rows.length
+    },
+  }
+
   const upstreamCache: UpstreamCacheRepository = {
     async get(key) {
       const [row] = await db.select().from(schema.upstreamCache).where(eq(schema.upstreamCache.key, key)).limit(1)
@@ -241,5 +276,5 @@ export function createRepositories(db: Db): Repositories {
     },
   }
 
-  return { recipes, shoppingList, conversations, aiCalls, upstreamCache, issueLog }
+  return { recipes, shoppingList, conversations, aiCalls, upstreamCache, issueLog, recipeRejections }
 }

@@ -26,6 +26,8 @@ describe('parseRecipeDraft', () => {
     assert.equal(draft.title, 'Żurek')
     assert.deepEqual(draft.ingredients, ['zakwas'])
     assert.equal(draft.sourceUrl, null)
+    // Not asked of the model for this extraction — see parseRecipeDraft's own comment.
+    assert.equal(draft.description, '')
   })
 
   it('strips list markers the model left in, drops non-strings and blanks, dedupes tags', () => {

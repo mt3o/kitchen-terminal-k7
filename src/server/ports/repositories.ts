@@ -14,6 +14,7 @@ import type {
   IssueLogEntry,
   Message,
   Recipe,
+  RecipeRejection,
   ShoppingListItem,
   Upstream,
 } from '../domain/types.ts'
@@ -22,6 +23,7 @@ import type {
 export type New<T, K extends keyof T = never> = Omit<T, 'id' | 'createdAt' | 'updatedAt' | K>
 
 export interface RecipeRepository {
+  /** Newest first. `limit` defaults to 50; `Infinity` means the whole collection. */
   list(options?: { tag?: string; limit?: number }): Promise<Recipe[]>
   get(id: string): Promise<Recipe | undefined>
   save(recipe: Omit<Recipe, 'importedAt'> | Recipe): Promise<Recipe>
@@ -71,6 +73,18 @@ export interface IssueLogRepository {
   prune(olderThan: Date): Promise<number>
 }
 
+export interface RecipeRejectionRepository {
+  /** `createdAt` is injectable for the same reason `UpstreamCacheRepository.put`'s `fetchedAt` is. */
+  record(entry: New<RecipeRejection>, createdAt?: Date): Promise<RecipeRejection>
+  /** Newest first — the NIEUDANE PROBY list's row list. */
+  listRecent(limit?: number): Promise<RecipeRejection[]>
+  /** Explicit per-row dismiss — unlike `IssueLogRepository`, a rejection leaves
+   *  the household's view of it deliberately, not only via the sweep. */
+  delete(id: string): Promise<boolean>
+  /** Keeps a kiosk nobody restarts from growing this table forever. Returns the row count removed. */
+  prune(olderThan: Date): Promise<number>
+}
+
 /** Everything the core needs from storage, in one injectable bundle. */
 export interface Repositories {
   recipes: RecipeRepository
@@ -79,4 +93,5 @@ export interface Repositories {
   aiCalls: AiCallRepository
   upstreamCache: UpstreamCacheRepository
   issueLog: IssueLogRepository
+  recipeRejections: RecipeRejectionRepository
 }

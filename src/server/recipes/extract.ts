@@ -122,6 +122,7 @@ export function extractJsonLd(html: string, sourceUrl: string): ExtractedRecipe 
       if (title.length < MIN_TITLE_LENGTH) continue
       return {
         title,
+        description: typeof node.description === 'string' ? node.description.trim() : '',
         sourceUrl,
         ingredients: toStringArray(node.recipeIngredient ?? node.ingredients),
         steps: extractInstructions(node.recipeInstructions),
@@ -182,6 +183,10 @@ export function extractFallback(html: string, sourceUrl: string): ExtractedRecip
 
       return {
         title: article.title.trim(),
+        // Not Readability's excerpt: that would be a guess presented as an
+        // authored description, exactly what this heuristic must not do
+        // (see extractJsonLd's genuine schema.org description, by contrast).
+        description: '',
         sourceUrl,
         ingredients,
         steps,

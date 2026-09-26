@@ -18,6 +18,7 @@ describe('extractJsonLd', () => {
           '@context': 'https://schema.org',
           '@type': 'Recipe',
           name: 'Naleśniki',
+          description: 'Cienkie naleśniki na śniadanie.',
           recipeIngredient: ['2 szklanki mąki', '2 jajka', '1 szklanka mleka'],
           recipeInstructions: [
             { '@type': 'HowToStep', text: 'Wymieszać składniki.' },
@@ -32,6 +33,7 @@ describe('extractJsonLd', () => {
     const recipe = extractJsonLd(html, SOURCE)
     assert.ok(recipe)
     assert.equal(recipe.title, 'Naleśniki')
+    assert.equal(recipe.description, 'Cienkie naleśniki na śniadanie.')
     assert.deepEqual(recipe.ingredients, ['2 szklanki mąki', '2 jajka', '1 szklanka mleka'])
     assert.deepEqual(recipe.steps, ['Wymieszać składniki.', 'Smażyć na patelni.'])
     assert.deepEqual(recipe.tags, ['śniadanie', 'szybkie', 'deser'])
@@ -114,6 +116,8 @@ describe('extractFallback', () => {
 
     const recipe = extractFallback(html, SOURCE)
     assert.ok(recipe, 'Readability should have found an article')
+    // Not synthesized from Readability's excerpt — see extractFallback's own comment.
+    assert.equal(recipe.description, '')
     assert.equal(recipe.ingredients.length, 4)
     assert.ok(recipe.ingredients.includes('1 kg kapusty kiszonej'))
     assert.equal(recipe.steps.length, 4)

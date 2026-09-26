@@ -24,6 +24,7 @@ const MTIME = new Date('2026-01-02T03:04:05.000Z')
 const zurek: Recipe = {
   id: 'zurek',
   title: 'Żurek z jajkiem',
+  description: 'Wielkanocna zupa na zakwasie, z białą kiełbasą i jajkiem.',
   sourceUrl: 'https://example.test/żurek',
   ingredients: ['500 ml zakwasu', 'biała kiełbasa', '4 jajka'],
   steps: ['Zagotować wodę z zakwasem.', 'Dodać kiełbasę i gotować 20 minut.'],
@@ -34,6 +35,7 @@ const zurek: Recipe = {
 const draft = (title: string, extra: Partial<Recipe> = {}): Omit<Recipe, 'importedAt'> => ({
   id: '',
   title,
+  description: '',
   sourceUrl: null,
   ingredients: [],
   steps: [],
@@ -50,8 +52,17 @@ describe('markdown format', () => {
   it('writes the documented layout', () => {
     const text = serializeRecipe(zurek)
     assert.match(text, /^---\ntitle: Żurek z jajkiem\n/)
-    assert.match(text, /\n---\n\n## Składniki\n\n- 500 ml zakwasu\n- biała kiełbasa\n- 4 jajka\n\n## Kroki\n\n1\. Zagotować/)
+    assert.match(
+      text,
+      /\n---\n\n## Opis\n\nWielkanocna zupa na zakwasie, z białą kiełbasą i jajkiem\.\n\n## Składniki\n\n- 500 ml zakwasu\n- biała kiełbasa\n- 4 jajka\n\n## Kroki\n\n1\. Zagotować/,
+    )
     assert.ok(text.endsWith('2. Dodać kiełbasę i gotować 20 minut.\n'))
+  })
+
+  it('splits a multi-line description onto its own lines under ## Opis', () => {
+    const text = serializeRecipe({ ...zurek, description: 'Pierwsza linia.\nDruga linia.' })
+    assert.match(text, /\n---\n\n## Opis\n\nPierwsza linia\.\nDruga linia\.\n\n## Składniki\n/)
+    assert.equal(parseRecipeMarkdown(text, { id: 'zurek', mtime: MTIME }).description, 'Pierwsza linia.\nDruga linia.')
   })
 
   it('collapses a line break inside an item to one space', () => {
@@ -59,10 +70,12 @@ describe('markdown format', () => {
     assert.deepEqual(parseRecipeMarkdown(text, { id: 'zurek', mtime: MTIME }).steps, ['Wymieszać i odstawić', 'Podać'])
   })
 
-  it('omits a null sourceUrl and keeps both headings for empty lists', () => {
-    const empty: Recipe = { ...zurek, sourceUrl: null, ingredients: [], steps: [], tags: [] }
+  it('omits a null sourceUrl, an empty description, and keeps both headings for empty lists', () => {
+    const empty: Recipe = { ...zurek, description: '', sourceUrl: null, ingredients: [], steps: [], tags: [] }
     const text = serializeRecipe(empty)
     assert.doesNotMatch(text, /sourceUrl/)
+    // No description at all means no ## Opis section — file shape stays exactly what it was before this field existed.
+    assert.doesNotMatch(text, /Opis/)
     assert.match(text, /## Składniki\n\n## Kroki\n$/)
     assert.deepEqual(parseRecipeMarkdown(text, { id: 'zurek', mtime: MTIME }), empty)
   })
@@ -104,6 +117,33 @@ describe('markdown format', () => {
     assert.deepEqual(recipe.tags, [])
     assert.equal(recipe.sourceUrl, null)
     assert.deepEqual(recipe.importedAt, MTIME, 'no importedAt in the file falls back to its mtime')
+  })
+
+  it('reads a hand-typed Opis section as the description, English heading included', () => {
+    const pl = parseRecipeMarkdown('## Opis\n\nSzybki obiad na jeden garnek.\n\n## Skladniki\n\n- ryz\n', {
+      id: 'x',
+      mtime: MTIME,
+    })
+    assert.equal(pl.description, 'Szybki obiad na jeden garnek.')
+
+    const en = parseRecipeMarkdown('## Description\n\nOne-pot dinner.\n\n## Ingredients\n\n- rice\n', {
+      id: 'x',
+      mtime: MTIME,
+    })
+    assert.equal(en.description, 'One-pot dinner.')
+  })
+
+  it('known simplification: a blank line inside Opis does not survive as a paragraph break', () => {
+    const text = '## Opis\n\nPierwszy akapit.\n\nDrugi akapit.\n\n## Skladniki\n\n- sol\n'
+    const recipe = parseRecipeMarkdown(text, { id: 'x', mtime: MTIME })
+    // The blank line is dropped by the shared section parser, not preserved — documented in plan.md Phase 1.
+    assert.equal(recipe.description, 'Pierwszy akapit.\nDrugi akapit.')
+  })
+
+  it('known simplification: a leading dash on an Opis line is read as a list marker and stripped', () => {
+    const text = '## Opis\n\n- wazne: mrozi sie dobrze\n\n## Skladniki\n\n- sol\n'
+    const recipe = parseRecipeMarkdown(text, { id: 'x', mtime: MTIME })
+    assert.equal(recipe.description, 'wazne: mrozi sie dobrze')
   })
 
   it('falls back to the file name when there is neither a title nor an H1', () => {

@@ -10,11 +10,29 @@
 export interface Recipe {
   id: string
   title: string
+  description: string
   sourceUrl: string | null
   ingredients: string[]
   steps: string[]
   tags: string[]
   importedAt: Date
+}
+
+/**
+ * A recipe add/import attempt the server rejected, kept so the household can
+ * review it and retry rather than losing what they typed or tried to import.
+ * `attemptedInput` is the raw (scrubbed, size-bounded) submitted body — the
+ * full `POST /api/recipes` JSON for `kind: 'save'`, `{ url }` for
+ * `kind: 'import'` — stored as JSON rather than duplicated as a pile of
+ * nullable `Recipe` fields, since the two kinds carry genuinely different
+ * shapes.
+ */
+export interface RecipeRejection {
+  id: string
+  kind: 'save' | 'import'
+  reason: string
+  attemptedInput: Record<string, unknown>
+  createdAt: Date
 }
 
 /** One line on the household shopping list. */
@@ -47,7 +65,13 @@ export interface Message {
   createdAt: Date
 }
 
-export type AiCallPurpose = 'chat' | 'compacting' | 'ascii-art' | 'transcription' | 'recipe-extraction'
+export type AiCallPurpose =
+  | 'chat'
+  | 'compacting'
+  | 'ascii-art'
+  | 'transcription'
+  | 'recipe-extraction'
+  | 'recipe-tagging'
 
 /** One billable request to the gateway. */
 export interface AiCall {

@@ -47,6 +47,23 @@ export function resolveSwipe(
   return { index: clamped, committed: clamped !== current }
 }
 
+/** Below this many px in both axes a drag has not said which way it is going. */
+export const AXIS_DEADZONE_PX = 8
+
+/**
+ * Which way a drag is going, decided once per touch: `undefined` while it is
+ * still inside the deadzone. On a phone a page scrolls vertically
+ * (app.css), and every vertical scroll drifts a few px sideways; without
+ * this the pager would read that drift as a swipe — the pages wobble, and a
+ * diagonal drag flips the page. Ties go to the page scroll.
+ */
+export function resolveDragAxis(deltaX: number, deltaY: number): 'x' | 'y' | undefined {
+  const ax = Math.abs(deltaX)
+  const ay = Math.abs(deltaY)
+  if (ax < AXIS_DEADZONE_PX && ay < AXIS_DEADZONE_PX) return undefined
+  return ax > ay ? 'x' : 'y'
+}
+
 export interface PagerPage {
   id: string
   label?: string | undefined
@@ -79,7 +96,10 @@ export function createPager(viewport: HTMLElement, pages: PagerPage[]): Pager {
   const dots = viewport.querySelector<HTMLElement>('.pager-dots')
   let index = 0
   let startX = 0
+  let startY = 0
   let startAt = 0
+  /** Decided once per touch by resolveDragAxis; `'y'` hands the touch to native scroll. */
+  let axis: 'x' | 'y' | undefined
   let dragging = false
   let suspended = false
 
@@ -110,13 +130,23 @@ export function createPager(viewport: HTMLElement, pages: PagerPage[]): Pager {
   const onTouchStart = (e: TouchEvent): void => {
     if (suspended || count <= 1 || e.touches.length !== 1) return
     startX = e.touches[0]?.clientX ?? 0
+    startY = e.touches[0]?.clientY ?? 0
     startAt = Date.now()
+    axis = undefined
     setDragging(true)
   }
 
   const onTouchMove = (e: TouchEvent): void => {
     if (suspended || !dragging) return
     const dx = (e.touches[0]?.clientX ?? 0) - startX
+    axis ??= resolveDragAxis(dx, (e.touches[0]?.clientY ?? 0) - startY)
+    if (axis === undefined) return
+    if (axis === 'y') {
+      // A page scroll: let go for the rest of this touch, track back in place.
+      setDragging(false)
+      paint()
+      return
+    }
     // Resist at the ends so the edge is felt rather than discovered.
     const atEdge = (index === 0 && dx > 0) || (index === count - 1 && dx < 0)
     paint(atEdge ? dx / 3 : dx)
@@ -125,6 +155,10 @@ export function createPager(viewport: HTMLElement, pages: PagerPage[]): Pager {
   const onTouchEnd = (e: TouchEvent): void => {
     if (suspended || !dragging) return
     setDragging(false)
+    if (axis !== 'x') {
+      paint()
+      return
+    }
     const dx = (e.changedTouches[0]?.clientX ?? 0) - startX
     go(resolveSwipe(index, count, dx, viewport.clientWidth, Date.now() - startAt).index)
   }
