@@ -339,12 +339,13 @@ body {
    to recompute. Before this, `.page`'s grid-template-rows kept whatever
    --deck-rows main.ts's render() had computed for the DESKTOP column
    count, so a card beyond that row count fell into an implicit row and
-   .page > *'s own `overflow: hidden` clipped it. grid-auto-rows:
-   minmax(0, 1fr) keeps the same equal-share, shrinkable semantics the
-   desktop grid-template-rows already uses — only the row *count* is now
-   derived from the actual grid children instead of a number that can
-   drift out of sync with the column count, which is what broke this the
-   first time. No resize/orientationchange listener needed either way. */
+   .page > *'s own `overflow: hidden` clipped it. grid-auto-rows makes the
+   row *count* fall out of the actual grid children instead of a number that
+   can drift out of sync with the column count, which is what broke this the
+   first time; each row is minmax(var(--card-min-h), 1fr) — an equal share of
+   the screen, never below the card floor, the page scrolling once that floor
+   is hit (k7-phone-page-scroll, below). No resize/orientationchange listener
+   needed either way. */
 @media (max-width: 767px) {
   .page {
     grid-template-rows: none;
@@ -359,7 +360,6 @@ body {
     grid-auto-rows: minmax(var(--card-min-h), 1fr);
     overflow-x: hidden;
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
   }
 }
 

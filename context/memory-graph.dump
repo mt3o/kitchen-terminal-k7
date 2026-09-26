@@ -406,6 +406,26 @@ created_at: 2026-09-25T06:28:01.470130+00:00
 
 Array.prototype.at rejected by the Safari 15 lib target in catalog.ts; IntersectionObserver and sticky checked against 15.0
 ---
+[event:1aa2b5e0-9f95-44d3-bd4b-40a9f57916ef]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:11.502448+00:00
+
+npm run build passes at the Safari 15 target and the change uses no dvh/:has/subgrid; ??= and IntersectionObserver are within the floor. Chromium only, not the real device
+---
+[event:aed09298-24a9-405d-82aa-3aa494095a3b]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:42.312213+00:00
+
+npm run build passes at the Safari 15 target and the change uses no dvh/:has/subgrid; ??= and IntersectionObserver are within the floor. Chromium only, not the real device
+---
 [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99]
 type: facet_value
 tier: lifetime
@@ -5948,6 +5968,16 @@ created_at: 2026-09-25T07:32:17.061682+00:00
 
 a scrollbar no longer always means a bug: phone pages (<=767px) scroll by design per 97c338d8; wall kiosk unchanged
 ---
+[event:3783c6c7-5e96-4914-a248-884aebf24472]
+node_id: 26582685-718f-4003-9454-5126ff416a15
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:42.336131+00:00
+
+disputed, narrowed to >=768px by 97c338d8; carried to the human gate, not adjudicated
+---
 [node:54cce183-229d-4f45-8d15-ff1f0696b66c]
 type: goal
 tier: short-term
@@ -6092,6 +6122,16 @@ source: agent-surface
 created_at: 2026-09-15T14:43:35.080115+00:00
 
 no-subgrid constraint reaffirmed while choosing the grid-auto-rows mechanism
+---
+[event:57ae31ad-a54c-41f8-a345-109267540f5b]
+node_id: e156fb5f-8f05-400a-812b-e0552df1def3
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:42.319020+00:00
+
+page grid stays a plain nested grid, no subgrid; read the CSS, no executed check
 ---
 [node:0eb267d9-a394-4dc0-84c6-e18825cccfd6]
 type: decision
@@ -12692,6 +12732,16 @@ created_at: 2026-09-25T07:32:17.066306+00:00
 
 the tension this node asked a human to decide was decided: per-page scroll at phone width
 ---
+[event:53eb9955-9d77-4b59-ad6a-27be5c397e2b]
+node_id: 3218cf7b-eb04-46dc-a6a6-1bd89155936d
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:42.338527+00:00
+
+disputed; the tension it asked a human to decide was decided by 97c338d8; carried to the human gate
+---
 [node:611bc3d8-caa1-4e81-82ab-d955bbcbba4f]
 type: issue
 tier: mid-term
@@ -12900,6 +12950,16 @@ created_at: 2026-09-25T07:32:17.051152+00:00
 
 human reversed the no-page-scroll-on-phone ruling on 2026-09-25: 'it doesn't work for mobile phone screen'; see 97c338d8
 ---
+[event:682e5450-ee69-4df0-8329-b1c3dc5a30a1]
+node_id: 1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:42.331693+00:00
+
+disputed, contradicted by the human ruling 97c338d8; carried to the human gate, not adjudicated
+---
 [node:c77c25d1-e7f0-4e2d-894c-b0d4a7744b2b]
 type: concept
 tier: short-term
@@ -12957,6 +13017,16 @@ source: agent-surface
 created_at: 2026-09-15T15:42:41.843563+00:00
 
 row-derivation mechanism unchanged when reversing the 1-column-at-phone rule
+---
+[event:7096fcc0-9daf-42c9-8dfd-afc66b865a9f]
+node_id: d8ef0463-6746-4a43-b4d9-1699db3f1fca
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:42.324260+00:00
+
+its deck text still described grid-auto-rows minmax(0, 1fr); found stale in review and updated in the deck, the decision itself (CSS-only row derivation) still holds
 ---
 [node:538d1960-cb76-4fb7-be15-d72ae9f34b45]
 type: decision
@@ -13203,6 +13273,16 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-15T15:41:56.863133+00:00
 
 Phone-width layout keeps the page's configured column count (2, for every page in this project) instead of collapsing to 1 column. Reversed the earlier single-column-at-phone rule after real-browser verification of the SYSTEM page (6 cards) showed each card getting only 67px — not enough for even one line of glance-tier text (--glance-sm ~48px) plus minimal head/foot chrome, so the clock and weather readouts were silently clipped, not just squeezed. Keeping 2 columns halves the row count for exactly the pages dense enough to need it. Mechanism: the phone media query no longer overrides grid-template-columns at all, relying on .page's base rule (repeat(var(--deck-cols,3), ...)) which every page already sets to 2 — it still overrides grid-template-rows/grid-auto-rows for row-count derivation, unchanged from the original fix this decision builds on.
+---
+[event:3c81ab81-3386-405f-b206-a4c05f406985]
+node_id: db145886-1644-4fb9-bfe1-796c6efbeca7
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:42.328718+00:00
+
+column count left as the layout's own; raised for a human whether phones should go to one column now that pages scroll
 ---
 [node:e24899db-3191-464e-a7c6-12cdef56aa6f]
 type: constraint
@@ -16285,6 +16365,26 @@ archived: false
 
 Human ruling 2026-09-25, reversing the k7-mobile-responsive choice: "nothing scrolls" does not work on a phone screen. At phone width (≤767px) each pager page scrolls vertically inside the fixed shell. The header and the status footer stay put, so "is the terminal alive" never leaves the screen, and pages still swipe sideways. Cards still share the screen evenly when they fit, but never go below the design system's --card-min-h (240px); only when an even share would fall below that floor does the page grow and scroll. List cards keep their own inner scroll. The wall kiosk (wider than 767px) keeps "nothing scrolls, ever" unchanged. Rejected alternatives: the whole document scrolling (the status line would scroll away) and content-height cards (list cards would grow to their full length and lose their inner scroll).
 ---
+[event:44a4bd1d-dc70-41aa-9e76-b31b2664e0a2]
+node_id: 97c338d8-a460-4a97-812b-6bf919562e36
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:11.494852+00:00
+
+review exercised the ruling: --card-min-h resolves to 240px at 390 and 767px and to 0 with overflow visible at 768/1024, and a scrolled phone page kept header and footer fixed, in Chromium
+---
+[event:28b86483-375a-49da-abb5-c996a7c7fa8d]
+node_id: 97c338d8-a460-4a97-812b-6bf919562e36
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:42.308759+00:00
+
+review exercised the ruling: --card-min-h resolves to 240px at 390 and 767px and to 0 with overflow visible at 768/1024, and a scrolled phone page kept header and footer fixed, in Chromium
+---
 [node:409c89c0-eb19-471f-a3c4-3c0fcdb74118]
 type: slice
 tier: short-term
@@ -16294,8 +16394,10 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> SCOPED_TO [node:646d47df-8d8a-484b-93b0-1d9fa3bc59ce] @ 2026-09-26T11:40:03.405306+00:00
 -> SCOPED_TO [node:65a79c91-b547-4deb-859f-2dd50656c4c8] @ 2026-09-25T07:32:07.289651+00:00
 -> SCOPED_TO [node:e73397bc-9bc3-47c9-8457-f72312d46aef] @ 2026-09-25T07:22:43.157456+00:00
+-> SCOPED_TO [node:f84c977b-5391-4d0d-923b-1ac6afc6b649] @ 2026-09-26T11:40:03.474688+00:00
 
 change scope: k7-phone-page-scroll
 ---
@@ -16322,7 +16424,9 @@ archived: false
 -> DEPENDS_ON [node:26582685-718f-4003-9454-5126ff416a15] @ 2026-09-25T07:22:43.157456+00:00
 -> DEPENDS_ON [node:3218cf7b-eb04-46dc-a6a6-1bd89155936d] @ 2026-09-25T07:22:43.157456+00:00
 -> DEPENDS_ON [node:3ea28fac-3a03-48dc-a228-894731fa5541] @ 2026-09-25T07:22:43.157456+00:00
+-> DEPENDS_ON [node:646d47df-8d8a-484b-93b0-1d9fa3bc59ce] @ 2026-09-26T11:40:03.405306+00:00
 -> DEPENDS_ON [node:65a79c91-b547-4deb-859f-2dd50656c4c8] @ 2026-09-25T07:32:07.289651+00:00
+-> DEPENDS_ON [node:f84c977b-5391-4d0d-923b-1ac6afc6b649] @ 2026-09-26T11:40:03.474688+00:00
 
 On a phone (≤767px) each pager page scrolls vertically inside the fixed shell, with cards sharing the screen but never going below --card-min-h, and the pager ignoring vertical drags, while the wall kiosk keeps "nothing scrolls, ever".
 ---
@@ -16339,6 +16443,26 @@ archived: false
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-25T07:32:07.289651+00:00
 
 Once a pager page can scroll vertically (phones, k7-phone-page-scroll), the horizontal pager must commit each touch to one axis (pager.ts#resolveDragAxis: 8px deadzone, ties go to the page scroll). A 'y' drag releases the pager for the rest of the touch. Without this, the few px of sideways drift in every vertical scroll get read as a swipe: pages wobble and a diagonal drag flips the page. The touch listeners stay passive, so native scroll is never blocked. Test-harness note: synthetic CDP touches on injected plain <div>s inside .page did not reach #deck's listeners in headless Chromium, while touches on real card elements did, so gesture tests must pad pages with real cards.
+---
+[event:488406d8-533c-4b42-83bd-f40b7fa1deb8]
+node_id: 65a79c91-b547-4deb-859f-2dd50656c4c8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:11.505373+00:00
+
+the review's own re-check found the gesture guard needed the page-overflow gate; tests and a live Chromium run pass after the fix
+---
+[event:1bb560c0-ea7b-46f9-8521-eb731f07617f]
+node_id: 65a79c91-b547-4deb-859f-2dd50656c4c8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:42.315555+00:00
+
+the review found the gesture guard needed the page-overflow gate; unit tests and a live Chromium run pass after the fix
 ---
 [node:133eee1a-cec7-4f49-8232-a6dd7b20eb2a]
 type: slice
@@ -16454,3 +16578,33 @@ archived: false
 -> ABOUT [node:d2844438-9992-4e20-bfb5-fa615a906574] @ 2026-09-26T11:19:13.019371+00:00
 
 Open and deliberately deferred by k7-slideshow-presentation-mode: the content half of presentation exists as a seam with no consumer. presentingElIdStore is exported from fullscreen-lock.ts for widgets that want to change what they SHOW when the Slideshow presents them, not merely how it is styled, and nothing subscribes to it yet. The motivating case is weather: a card that owns the whole screen has room for seven days, a temperature graph and hourly rain/snow, none of which fits a grid cell. It was not built here because it is not a frontend change — open-meteo.ts requests no `hourly` variables at all and defaults forecast_days to 5, and open-meteo-contract.md lists `hourly` under "not used but exists", so the upstream adapter, the /api/weather response shape and a chart component that holds up on an A8X all have to come first. Anyone picking this up should also settle whether a presentation-only richer view is worth the extra upstream payload on every refresh, or whether the richer data should simply be fetched always and only rendered when presenting.
+---
+[node:646d47df-8d8a-484b-93b0-1d9fa3bc59ce]
+type: constraint
+tier: short-term
+path: /artifact/a-gesture-guard-introduced-for-a-viewpor
+created_at: 2026-09-26T11:40:03.405306+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:65a79c91-b547-4deb-859f-2dd50656c4c8] @ 2026-09-26T11:40:03.405306+00:00
+-> DEPENDS_ON [node:97c338d8-a460-4a97-812b-6bf919562e36] @ 2026-09-26T11:40:03.405306+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-26T11:40:03.405306+00:00
+
+A gesture guard introduced for a viewport-scoped feature must be gated on the same condition as the feature, or it silently regresses the platform that was declared "unchanged". The pager's axis lock (k7-phone-page-scroll) originally applied to every drag, so on the wall kiosk, where pages never scroll, an arcing thumb swipe whose first >=8px move was more vertical was silently dropped, contradicting "kiosk unchanged" and the changelog. Fixed by reading `page.scrollHeight > page.clientHeight` at touchstart and giving every drag to the pager when the page cannot scroll (resolveDragAxis's `pageScrolls`). Found by /gw-review; the same gate also keeps a phone page that fits behaving as before.
+---
+[node:f84c977b-5391-4d0d-923b-1ac6afc6b649]
+type: concept
+tier: mid-term
+path: /artifact/change-summary-k7-phone-page-scroll-a
+created_at: 2026-09-26T11:40:03.474688+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-26T11:40:11.460995+00:00
+-> DEPENDS_ON [node:65a79c91-b547-4deb-859f-2dd50656c4c8] @ 2026-09-26T11:40:03.474688+00:00
+-> DEPENDS_ON [node:97c338d8-a460-4a97-812b-6bf919562e36] @ 2026-09-26T11:40:03.474688+00:00
+
+Change summary: k7-phone-page-scroll, a human ruling (2026-09-25) that reversed "nothing scrolls, even on a phone". At <=767px each pager page scrolls vertically inside the fixed shell: the header and status line stay put, the document never scrolls, and cards share the screen evenly but never go below --card-min-h (grid-auto-rows: minmax(var(--card-min-h), 1fr) with --card-min-h inherited back from tokens.css instead of the wall's 0). The wall kiosk (>=768px) is unchanged. The pager now commits each touch to one axis (pager.ts#resolveDragAxis, 8px deadzone, ties to the scroll) so a vertical scroll's sideways drift never nudges or flips a page, and only when the page actually overflows, otherwise every drag stays the pager's as before. /gw-review by a fresh reviewer approved it, but its top finding was that the first version applied the axis lock on the kiosk too; that was fixed and verified in Chromium (arcing kiosk swipe flips again, phone page scrolls without moving the pager). Still unverified on a real iPhone/iPad: touch-action behaviour on iOS and fullscreen from a scrolled page (checked in Chromium only). Left open for a human: whether phones should go to one column now that pages scroll, and adding an agreed_by entry for this change to the k7-shell-mobile deck, since the ruling was made in conversation rather than through /gw-wireframe.

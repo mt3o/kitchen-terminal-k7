@@ -17,7 +17,7 @@
         ]
       },
       "components": {
-        "grid rows below the breakpoint": "GAP:ruled:d8ef0463 — no explicit grid-template-rows from JS below the tablet/phone breakpoint; grid-auto-rows: minmax(0, 1fr) with no explicit row template lets CSS Grid derive the row count from the actual number of cards, distributed across the fixed column count, shrinkable — zero JS resize listener needed",
+        "grid rows below the breakpoint": "GAP:ruled:d8ef0463 — no explicit grid-template-rows from JS below the tablet/phone breakpoint; grid-auto-rows: minmax(var(--card-min-h), 1fr) with no explicit row template lets CSS Grid derive the row count from the actual number of cards, distributed across the fixed column count; an equal share of the screen, never below --card-min-h (k7-phone-page-scroll, [node:97c338d8]) — zero JS resize listener needed",
           "grid columns": "GAP:ruled:db145886 — superseded from an earlier @media(max-width:767px) column-count-forced-to-1 override: the phone media query no longer overrides grid-template-columns at all, so the base rule's repeat(var(--deck-cols,3), ...) applies at phone width too, same as desktop/tablet"
         },
       "states": {
@@ -98,7 +98,7 @@
       },
       "states": {
         "content fits its cell": "unchanged from today",
-        "content taller than its cell (many cards on the page, or a long generation)": "internal scroll, same as Timer's idle preset list — no page-level scroll"
+        "content taller than its cell (a long generation)": "internal scroll, same as Timer's idle preset list; on a phone the page itself also scrolls when its cards do not fit (k7-phone-page-scroll, [node:97c338d8])"
       },
       "behavior": ["Purely mechanical CSS fix — no new visual design, no new token."],
       "cites": ["node:97d0c4ba"],
