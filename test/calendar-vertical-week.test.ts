@@ -76,6 +76,6 @@ describe('K7Calendar.svelte lays days out as a scrollable vertical list', () => 
       assert.match(wrap, decl, `.wrap must declare ${decl.source}`)
     }
     const markup = readFileSync('src/client/lib/K7Calendar.svelte', 'utf8')
-    assert.match(markup, /<div class="wrap">\s*\{#if calendarsList\.length > 1\}/, '.tabs must render inside .wrap')
+    assert.match(markup, /<div class="wrap">\s*\{#if calendarsList\.length > 1[^}]*\}/, '.tabs must render inside .wrap')
   })
 })

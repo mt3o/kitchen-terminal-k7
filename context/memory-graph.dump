@@ -584,6 +584,16 @@ created_at: 2026-09-15T15:00:03.583856+00:00
 
 gw-plan-review pass 3: confirmed plan.md now explicitly addresses why this lifetime doorway-distance (3m/1m/0.4m) glanceability-floor constraint does not transfer to the Timer --glance-sm phone-width swap — its premise is a wall-mounted kiosk read at a distance, while a phone is handheld and read at arm's length. Reasonable, non-silent treatment of a settled constraint that touches the same token scale.
 ---
+[event:318dc6d8-c210-413b-9925-e1a3b8d1d025]
+node_id: 7108856c-d3d5-4701-bb69-11087256a081
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:08:31.358378+00:00
+
+glance vs read tier sizing for doorway presentation
+---
 [node:4c740d82-541d-4c70-9970-793467c4f26e]
 type: facet_value
 tier: lifetime
@@ -1273,6 +1283,16 @@ source: agent-surface
 created_at: 2026-09-26T11:19:13.058673+00:00
 
 held under pressure: the honest answer was a bigger number than the scale offers, and it correctly pushed that to a theme-contract change instead of a literal in a component (re-journaled from PR #80)
+---
+[event:b214aa91-9983-4da0-a9c9-ad013f70dea0]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:08:31.363373+00:00
+
+all new sizes are --text-*/--glance-*/--space-* tokens; token lint green
 ---
 [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a]
 type: constraint
@@ -16403,6 +16423,16 @@ archived: false
 
 Decided 2026-09-25: "the Slideshow is presenting this card" is a separate state from "this card is fullscreen", and a card may look and behave differently in each. k7-card-fullscreen had modelled ownership as one derived promoted element (manual wins over slideshow, node 2733b7b2), which left both causes indistinguishable to a component: one class, k7-fullscreen-active, for a card the household opened by hand and for a card the idle rotation put up. Those are different situations — a card someone opened is one they mean to USE at reading distance with its controls where they were, while a card the Slideshow puts up is being read from the doorway with nobody in the room, and may trade detail for size or show more of itself than a grid cell had room for. Added presentingElId(state) = manual suppresses slideshow, deliberately the mirror of promotedElId's manual wins over slideshow, and a second class carried alongside (never instead of) the first. Two behaviours fall out of the derivation with no teardown branch, the same way promotedElId's hand-back already did: taking manual control of a presenting card drops it to its ordinary shape without closing it, and releasing restores presentation to whatever the rotation moved to meanwhile. The accepted cost is that visible shrink mid-tap, judged correct rather than a glitch — it is the card changing from presented to in use. Rejected: one class for both (simpler, but no component can then tell the two apart) and a layout-level per-card style override in slideshow params (would put a styling language in the layout contract, where appearance does not belong).
 ---
+[event:0cfb7d3a-f42b-40d1-ba5d-0494eebb7598]
+node_id: 8b25dd73-dac8-4c2e-87a3-0e9e743d7a65
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:08:31.336184+00:00
+
+presenting vs fullscreen split is what both widgets key their look on
+---
 [node:465e38f0-6160-447f-891a-ebb5b55474c8]
 type: constraint
 tier: mid-term
@@ -16422,6 +16452,16 @@ archived: false
 
 A card's fullscreen or presentation styling has to live in that component's own shadow CSS, not in app.css, and this is forced by the mechanism rather than chosen for tidiness. fullscreen-lock.ts addresses cards by the id of their custom-element HOST, so the promotion classes land on the host; app.css is a light-DOM stylesheet and cannot match anything inside a shadow root, so it can reach the host but never .card-body, .glance or any other internal. What does cross the boundary: :host(.class) written inside the component (verified compiling under this repo's Svelte 5.57 — the scoped selector survives intact into the shadow root for both a custom-element component and a plain component compiled into a parent's shadow root, so one rule in Card.svelte covers every widget), inherited custom properties (the idiom app.css already uses at .page { --card-min-h: 0 }), and ::part() for elements a component chooses to expose (today only K7Card's part="card"). Consequence for anyone adding a per-card-type presentation look: put it in that K7*.svelte, expect no central place listing them, and do not reach for app.css and conclude the class is not being applied. Custom properties were rejected as the general mechanism because each card type's treatment would need its own invented vars, and ::part() because it would mean exposing an internal per element to a global stylesheet.
 ---
+[event:56b6a7a0-5ec9-472d-bdf8-ae49dced1a00]
+node_id: 465e38f0-6160-447f-891a-ebb5b55474c8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:08:31.353780+00:00
+
+:host(.k7-slideshow-presenting) from inside each component's shadow CSS works, verified in real Chromium rotation
+---
 [node:1c30a45a-1298-4729-b4e1-88340649a03b]
 type: constraint
 tier: mid-term
@@ -16437,6 +16477,16 @@ archived: false
 -> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-09-26T11:18:51.699900+00:00
 
 `k7-slideshow-active` is a burnt CSS class name in this project and must not be reused. It was the original name of the Slideshow's in-place promotion class; k7-card-fullscreen renamed it to `k7-fullscreen-active` when the Slideshow stopped being its only user (node 2733b7b2). Node 009b7439 still describes the promotion mechanism under the retired name and is stale in that respect — flagged here rather than edited, for a human to rule on. The hazard is live, not historical: k7-slideshow-presentation-mode needed a class meaning "the Slideshow is presenting this card", for which `k7-slideshow-active` is the obvious English, and it was very nearly used. Doing so would have left the graph and the code disagreeing about what the string denotes — the old node saying it is position:fixed promotion, the new code saying it is a presentation styling hook that carries no positioning at all. Named `k7-slideshow-presenting` instead. Any future class in this area should assume `-active` is spent vocabulary and pick a verb.
+---
+[event:6bbd5ec3-b10a-49db-979e-3b1c463427eb]
+node_id: 1c30a45a-1298-4729-b4e1-88340649a03b
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:08:31.367175+00:00
+
+used k7-slideshow-presenting, not the burnt -active name
 ---
 [node:1d6acf4f-bd1a-4575-8ce1-b0957dfba740]
 type: issue
@@ -16454,3 +16504,107 @@ archived: false
 -> ABOUT [node:d2844438-9992-4e20-bfb5-fa615a906574] @ 2026-09-26T11:19:13.019371+00:00
 
 Open and deliberately deferred by k7-slideshow-presentation-mode: the content half of presentation exists as a seam with no consumer. presentingElIdStore is exported from fullscreen-lock.ts for widgets that want to change what they SHOW when the Slideshow presents them, not merely how it is styled, and nothing subscribes to it yet. The motivating case is weather: a card that owns the whole screen has room for seven days, a temperature graph and hourly rain/snow, none of which fits a grid cell. It was not built here because it is not a frontend change — open-meteo.ts requests no `hourly` variables at all and defaults forecast_days to 5, and open-meteo-contract.md lists `hourly` under "not used but exists", so the upstream adapter, the /api/weather response shape and a chart component that holds up on an A8X all have to come first. Anyone picking this up should also settle whether a presentation-only richer view is worth the extra upstream payload on every refresh, or whether the richer data should simply be fetched always and only rendered when presenting.
+---
+[event:61595f20-59b7-480d-af2a-7c2772c56f08]
+node_id: 1d6acf4f-bd1a-4575-8ce1-b0957dfba740
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:08:31.350112+00:00
+
+consumed presentingElIdStore for weather days and calendar tab/rows
+---
+[node:57cd4c29-22b8-41d4-bd8f-dc2b817171c1]
+type: goal
+tier: short-term
+path: /goal/k7-slideshow-weather-calendar
+created_at: 2026-10-03T15:02:56.253361+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:0a1201ce-85d0-4293-b4f5-e193a7d035e7] @ 2026-10-03T15:08:17.730210+00:00
+-> DEPENDS_ON [node:1d6acf4f-bd1a-4575-8ce1-b0957dfba740] @ 2026-10-03T15:02:56.253361+00:00
+-> DEPENDS_ON [node:2120bc65-1887-4e0f-9f7e-e3a6cbcc9b3d] @ 2026-10-03T15:08:17.703322+00:00
+-> DEPENDS_ON [node:465e38f0-6160-447f-891a-ebb5b55474c8] @ 2026-10-03T15:02:56.253361+00:00
+-> DEPENDS_ON [node:883015f1-ac75-4d20-976c-be61bb69c652] @ 2026-10-03T15:08:17.752969+00:00
+-> DEPENDS_ON [node:8b25dd73-dac8-4c2e-87a3-0e9e743d7a65] @ 2026-10-03T15:02:56.253361+00:00
+
+When the idle Slideshow presents the weather and calendar cards, they read from the doorway like the clock does: centred, glance-tier sizes, no touch-only controls, weather showing every forecast day the server returns, calendar showing the merged main tab from today forward.
+---
+[node:608339b2-fc29-462a-b962-4b3013bf6e0e]
+type: slice
+tier: short-term
+path: /change/k7-slideshow-weather-calendar
+created_at: 2026-10-03T15:02:56.253361+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:0a1201ce-85d0-4293-b4f5-e193a7d035e7] @ 2026-10-03T15:08:17.730210+00:00
+-> SCOPED_TO [node:2120bc65-1887-4e0f-9f7e-e3a6cbcc9b3d] @ 2026-10-03T15:08:17.703322+00:00
+-> SCOPED_TO [node:57cd4c29-22b8-41d4-bd8f-dc2b817171c1] @ 2026-10-03T15:02:56.253361+00:00
+-> SCOPED_TO [node:883015f1-ac75-4d20-976c-be61bb69c652] @ 2026-10-03T15:08:17.752969+00:00
+
+change scope: k7-slideshow-weather-calendar
+---
+[event:e6a1a6f3-a74e-44f5-88c7-d6f3991e5049]
+node_id: 608339b2-fc29-462a-b962-4b3013bf6e0e
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:02:56.265340+00:00
+
+create_change k7-slideshow-weather-calendar
+---
+[node:2120bc65-1887-4e0f-9f7e-e3a6cbcc9b3d]
+type: decision
+tier: short-term
+path: /artifact/decided-2026-10-03-k7-slideshow-weather
+created_at: 2026-10-03T15:08:17.703322+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:1d6acf4f-bd1a-4575-8ce1-b0957dfba740] @ 2026-10-03T15:08:17.703322+00:00
+-> DEPENDS_ON [node:8b25dd73-dac8-4c2e-87a3-0e9e743d7a65] @ 2026-10-03T15:08:17.703322+00:00
+-> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-10-03T15:08:17.703322+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-03T15:08:17.703322+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-10-03T15:08:17.703322+00:00
+-> HAS_FACET [node:f72e97e8-5a21-47a3-b30d-b201d70d7593] @ 2026-10-03T15:08:17.703322+00:00
+
+Decided 2026-10-03 (k7-slideshow-weather-calendar): while the Slideshow presents the calendar card, it shows the merged GŁÓWNY tab and only today onward, and hides the tab strip, whatever tab somebody left selected. This is derived (`shownTab = presenting ? 'main' : selectedTab`) and never written back to `selectedTab`, so the card comes back exactly as it was left when someone touches the glass. Alternatives rejected: presenting whichever tab was last chosen (a per-calendar tab is a choice made at the glass, not what the wall should show to an empty room), and resetting `selectedTab` to main on presentation (loses the household's choice). Weather does the same for content: in a grid cell it shows 3 forecast days, and while presenting it shows every day `/api/weather` returned. Both widgets read `presentingElIdStore` through `hostIdOf(<an element in the shadow root>)`, the same pattern Card.svelte uses for `manualElIdStore`. These are the first consumers of the content seam that k7-slideshow-presentation-mode left with none.
+---
+[node:0a1201ce-85d0-4293-b4f5-e193a7d035e7]
+type: issue
+tier: short-term
+path: /artifact/the-weather-card-s-forecastdays-layout
+created_at: 2026-10-03T15:08:17.730210+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:1d6acf4f-bd1a-4575-8ce1-b0957dfba740] @ 2026-10-03T15:08:17.730210+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-10-03T15:08:17.730210+00:00
+-> HAS_FACET [node:622597fb-68a0-4e83-8aa7-26c6f2a69a5b] @ 2026-10-03T15:08:17.730210+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-03T15:08:17.730210+00:00
+
+The weather card's `forecastDays` layout param (layout.yaml sets 5) is read by nothing. main.ts's `case 'weather'` never passes it to k7-weather, the `/api/weather` route accepts no such query, and open-meteo.ts always requests its default of `forecast_days=5`. So the number of days the card can show is set by the server default, not the layout. A grid cell shows 3 of them and a Slideshow presentation shows all 4 after today. Changing the param in layout.yaml silently does nothing until it is wired through the route, the cache key (open-meteo.ts already keys on forecastDays) and the element attribute.
+---
+[node:883015f1-ac75-4d20-976c-be61bb69c652]
+type: issue
+tier: short-term
+path: /artifact/still-open-after-k7-slideshow-weather-ca
+created_at: 2026-10-03T15:08:17.752969+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:465e38f0-6160-447f-891a-ebb5b55474c8] @ 2026-10-03T15:08:17.752969+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-03T15:08:17.752969+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-10-03T15:08:17.752969+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-10-03T15:08:17.752969+00:00
+
+Still open after k7-slideshow-weather-calendar, from a screenshot audit of every widget with `k7-slideshow-presenting` set at 1024x768 on 2026-10-03: only the clock, weather and calendar have a presentation look. The rest render their grid-cell layout stretched to full screen. ascii-art-of-the-day: tiny art in the top-left at 16px, needs centring and a size picked from the art's own columns and rows. comic-of-the-day and image: never enlarge past natural size, and an inline `max-width` style (`widthPx`) beats shadow CSS. image needs `image-rendering: pixelated` so a QR code stays sharp when scaled. timer: an idle timer presents only buttons; a running one should present just the countdown at glance size. chat, recipes, shopping list, audiometer and menu are interactive and should stay out of `cardIds`. The `[ + ]` header button stays visible while presenting, but it is not dead weight: tapping it takes the card over into manual fullscreen. So hiding it is a ruling for a human, not a style fix.
