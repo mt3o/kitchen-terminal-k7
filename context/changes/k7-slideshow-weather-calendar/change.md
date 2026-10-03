@@ -4,7 +4,7 @@ status: implemented
 created: 2026-10-03
 memory_goal: 57cd4c29-22b8-41d4-bd8f-dc2b817171c1
 change_anchor: 608339b2-fc29-462a-b962-4b3013bf6e0e
-design_surface: dashboard
+design_surface: k7-calendar-card
 
 ## Goal
 When the idle Slideshow presents the weather and calendar cards, they read from
@@ -40,3 +40,16 @@ driven in Chromium with a fake clock, in landscape 1024×768 and portrait
 768×1024. Weather shows 3 days in the grid and 4 while presenting (5-day
 canned data). The calendar's selected Google tab survived a presentation.
 **Not verified on the iPad.**
+
+## Review (2026-10-03)
+
+PR #84 merged before `/gw-review` finished. The verdict was **request changes**,
+handled as a follow-up `/gw-fix`. Both findings were reproduced in Chromium:
+
+1. The calendar reset effect misses `presenting`. After a touch exits the
+   presentation, past days show for 2 minutes. Lesson `[node:da3dff86]`.
+2. The presented weather card clips on phone viewports (375×667, 667×375).
+   Lesson `[node:32f913e8]`.
+
+Change summary `[node:81c7ca54]`. Review comment:
+https://github.com/mt3o/kitchen-terminal-k7/pull/84#issuecomment-5970507469

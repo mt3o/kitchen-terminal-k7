@@ -189,9 +189,12 @@
   })
 
   $effect(() => {
-    // Tab or day changing is a fresh look at the list: re-anchor.
+    // Tab or day changing is a fresh look at the list: re-anchor. So is a
+    // Slideshow presentation starting or ending — and the touch that ends one
+    // has already set `userScrolledAt` by the time the past rows come back.
     void selectedTab
     void today
+    void presenting
     userScrolledAt = 0
   })
 
