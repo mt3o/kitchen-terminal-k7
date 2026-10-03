@@ -35,3 +35,18 @@ Found by /gw-review of k7-slideshow-weather-calendar (PR #84), `[node:32f913e8]`
 - **Left as is:** in phone portrait the art wraps above the temperature and is
   centred, while the temperature stays left-aligned. This is cosmetic only.
 - Changelog: `2026-10-03-03-pokaz-pogoda-na-telefonie.yaml`.
+
+## Review follow-up (2026-10-03)
+
+The /gw-review of PR #85 approved, with one cosmetic finding. Dropping the
+presented `.detail`/`.stale` `margin: 0` had brought back their base 8px
+vertical margins, so the wall had 8px more space above the forecast row. The
+earlier "wall look unchanged" claim was wrong by that much.
+
+- **Red:** a new case in `test/weather-presenting-fit.test.ts`, "rows are
+  spaced only by .wrap's gap".
+- **Fix:** zero only the vertical margins, so the auto left/right margins and
+  `.stale`'s auto bottom margin (when it is the last child) still apply.
+- **Chromium:** the gaps between rows are now equal, 32px on the wall and 16px
+  on phones, and the content still fits at 1024x768, 375x667 and 667x375.
+- `npm run check` green (723 tests).

@@ -227,7 +227,7 @@
   :host(.k7-slideshow-presenting) .glance { font-size: var(--glance-lg); }
   :host(.k7-slideshow-presenting) .unit { font-size: var(--glance-sm); }
   :host(.k7-slideshow-presenting) .cond { margin: 0; font-size: var(--text-xl); }
-  :host(.k7-slideshow-presenting) .detail { justify-content: center; gap: var(--space-12); }
+  :host(.k7-slideshow-presenting) .detail { justify-content: center; gap: var(--space-12); margin-top: 0; margin-bottom: 0; }
   :host(.k7-slideshow-presenting) .detail div,
   :host(.k7-slideshow-presenting) .days li { align-items: center; }
   :host(.k7-slideshow-presenting) dt,
@@ -235,7 +235,7 @@
   :host(.k7-slideshow-presenting) dd,
   :host(.k7-slideshow-presenting) .range { font-size: var(--text-xl); }
   :host(.k7-slideshow-presenting) .days { justify-content: center; flex-wrap: wrap; gap: var(--space-6) var(--space-12); }
-  :host(.k7-slideshow-presenting) .stale { font-size: var(--text-lg); }
+  :host(.k7-slideshow-presenting) .stale { margin-top: 0; font-size: var(--text-lg); }
   /* Last, so they win the margin ties with the per-element rules above. */
   :host(.k7-slideshow-presenting) .wrap > * { margin-left: auto; margin-right: auto; }
   :host(.k7-slideshow-presenting) .wrap > :first-child { margin-top: auto; }

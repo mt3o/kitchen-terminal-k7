@@ -106,6 +106,15 @@ describe('K7Weather.svelte: the Slideshow presentation fits a phone', () => {
     assert.equal(last?.decls.get('margin-bottom'), 'auto', 'the last child needs margin-bottom: auto')
   })
 
+  it('the rows are spaced only by .wrap\'s gap, not by their grid-cell margins', () => {
+    // The auto-margin rules override left/right (and the outer top/bottom)
+    // only; a base `margin: 0 0 var(--space-2)` left standing adds 8px
+    // above the next row on the wall.
+    assert.equal(valueOf('.detail', 'margin-top'), '0', 'presented .detail must zero its top margin')
+    assert.equal(valueOf('.detail', 'margin-bottom'), '0', 'presented .detail must zero its bottom margin')
+    assert.equal(valueOf('.stale', 'margin-top'), '0', 'presented .stale must zero its top margin')
+  })
+
   it('at the phone breakpoint the temperature steps down from the wall size', () => {
     const phone = valueOf('.glance', 'font-size', true)
     assert.ok(phone, 'presented .glance has no font-size')

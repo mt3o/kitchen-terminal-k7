@@ -436,6 +436,16 @@ created_at: 2026-10-03T15:57:51.232418+00:00
 
 ruled out `safe center` (15.4+), used auto margins
 ---
+[event:394b2e76-f043-4f7f-b4ed-c68669054a45]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T16:09:00.682781+00:00
+
+CSS read against the 15.0 list; safe center deliberately avoided
+---
 [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99]
 type: facet_value
 tier: lifetime
@@ -653,6 +663,16 @@ source: agent-surface
 created_at: 2026-10-03T15:57:51.222869+00:00
 
 doorway floor scoped to the wall, phone presentation steps down
+---
+[event:900812c5-8451-43cb-b7d3-85e397afa556]
+node_id: 7108856c-d3d5-4701-bb69-11087256a081
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T16:09:00.686496+00:00
+
+phone step-down scoped below 768px; wall sizes unchanged
 ---
 [node:4c740d82-541d-4c70-9970-793467c4f26e]
 type: facet_value
@@ -1383,6 +1403,16 @@ source: agent-surface
 created_at: 2026-10-03T15:57:51.217648+00:00
 
 npm run check token contract lint green on the phone presentation rules
+---
+[event:0b421adf-3eeb-47c0-ab54-cb7fa8a9a1a1]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T16:09:00.679053+00:00
+
+reviewer ran check-token-contract.py on the PR: exit 0
 ---
 [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a]
 type: constraint
@@ -13152,6 +13182,16 @@ created_at: 2026-09-17T07:32:08.940224+00:00
 
 gw-review Part 2: disputed node from this change's earlier plan phase, re-assessed at PR gate, no new evidence changes its status
 ---
+[event:4b0e5c26-ea8a-4667-9978-57e7dadbbb04]
+node_id: 538d1960-cb76-4fb7-be15-d72ae9f34b45
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T16:09:00.693717+00:00
+
+disputed phone-breakpoint step-down precedent; 126b8c0b relies on the same pattern via Card/Carousel instead, not adjudicated
+---
 [node:0cadf65f-e79e-4a26-9008-bb68e44cfb42]
 type: decision
 tier: mid-term
@@ -16813,6 +16853,16 @@ created_at: 2026-10-03T15:57:51.209401+00:00
 
 red test failed without `void presenting` in the reset effect, green with it; Chromium: after touch-exit scrollTop 371 vs today row 374 (was 0)
 ---
+[event:c8eb2072-3dc8-4765-9188-1bfe88537c3f]
+node_id: da3dff86-bd2d-41de-9b68-b24e20f50d0f
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T16:09:00.669111+00:00
+
+independent reviewer swapped in the pre-fix K7Calendar.svelte: test fails; restored: passes
+---
 [node:32f913e8-0a2e-491b-ab31-7f3e76281a54]
 type: issue
 tier: short-term
@@ -16839,6 +16889,16 @@ source: agent-surface
 created_at: 2026-10-03T15:57:51.211985+00:00
 
 red test failed on nowrap/centre/no auto margins; after fix Chromium measured content inside the card at 375x667, 667x375, 1024x768, 768x1024
+---
+[event:39a6904f-42dc-4036-aec4-0ad110af3731]
+node_id: 32f913e8-0a2e-491b-ab31-7f3e76281a54
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T16:09:00.675912+00:00
+
+independent reviewer swapped in the pre-fix K7Weather.svelte: 4/4 cases fail; restored: pass
 ---
 [node:81c7ca54-0290-4040-882a-78e95f3f7402]
 type: concept
@@ -16872,6 +16932,7 @@ retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> SCOPED_TO [node:80f9e4e3-4206-4ef5-8d94-18553c9c4e85] @ 2026-10-03T15:53:44.034034+00:00
+-> SCOPED_TO [node:a81f190a-113c-4256-9524-9f118ebfca24] @ 2026-10-03T16:08:48.219225+00:00
 
 change scope: k7-calendar-presenting-reanchor
 ---
@@ -16896,6 +16957,7 @@ trust_weight: 1.0
 archived: false
 -> DEPENDS_ON [node:2120bc65-1887-4e0f-9f7e-e3a6cbcc9b3d] @ 2026-10-03T15:53:44.034034+00:00
 -> DEPENDS_ON [node:81c7ca54-0290-4040-882a-78e95f3f7402] @ 2026-10-03T15:53:44.034034+00:00
+-> DEPENDS_ON [node:a81f190a-113c-4256-9524-9f118ebfca24] @ 2026-10-03T16:08:48.219225+00:00
 -> DEPENDS_ON [node:da3dff86-bd2d-41de-9b68-b24e20f50d0f] @ 2026-10-03T15:53:44.034034+00:00
 
 When a touch ends the Slideshow presenting the calendar, the card is back at today's row immediately, not showing past days until the 2-minute snap-back.
@@ -16910,6 +16972,7 @@ retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> SCOPED_TO [node:126b8c0b-9323-47b5-86e6-5b68bcc02844] @ 2026-10-03T15:57:51.178133+00:00
+-> SCOPED_TO [node:eede0e36-e151-43b0-ae65-c11d32c63945] @ 2026-10-03T16:08:48.252029+00:00
 -> SCOPED_TO [node:ef3a29fd-eeda-433a-a76b-fc69db23ed4c] @ 2026-10-03T15:53:44.074700+00:00
 
 change scope: k7-weather-presenting-phone-fit
@@ -16937,6 +17000,7 @@ archived: false
 -> DEPENDS_ON [node:2120bc65-1887-4e0f-9f7e-e3a6cbcc9b3d] @ 2026-10-03T15:53:44.074700+00:00
 -> DEPENDS_ON [node:32f913e8-0a2e-491b-ab31-7f3e76281a54] @ 2026-10-03T15:53:44.074700+00:00
 -> DEPENDS_ON [node:81c7ca54-0290-4040-882a-78e95f3f7402] @ 2026-10-03T15:53:44.074700+00:00
+-> DEPENDS_ON [node:eede0e36-e151-43b0-ae65-c11d32c63945] @ 2026-10-03T16:08:48.252029+00:00
 
 The weather card presented by the Slideshow fits a phone screen (375x667 portrait, 667x375 landscape) with nothing cut off on either edge.
 ---
@@ -16957,3 +17021,91 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-10-03T15:57:51.178133+00:00
 
 Decided 2026-10-03 (k7-weather-presenting-phone-fit): below the 767px phone breakpoint, the Slideshow's presentation of the weather card steps one notch down each scale (temperature --glance-md instead of --glance-lg, values --text-lg instead of --text-xl) rather than keeping the wall's sizes. DESIGN.md §4.2's glanceable floor is sized for the 3 m doorway. A phone is read at arm's length, and at 375px a 112px figure beside its art does not fit at all. Alternatives rejected: keeping the wall sizes and letting the card scroll (nobody scrolls a presentation); keeping them and clipping (the original bug). It is centred with auto margins on .wrap's children, so content too big for the box loses its end, never its start. This is the same breakpoint and the same step-down approach as K7Carousel and Card.svelte's phone rules.
+---
+[event:a84c6aa9-78e8-439e-99fe-e256fbd4707f]
+node_id: 126b8c0b-9323-47b5-86e6-5b68bcc02844
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T16:09:00.689979+00:00
+
+reviewer agrees with phone step-down; notes 844x390 landscape phones unmeasured
+---
+[node:a81f190a-113c-4256-9524-9f118ebfca24]
+type: concept
+tier: mid-term
+path: /artifact/change-summary-k7-calendar-presenting-r
+created_at: 2026-10-03T16:08:48.219225+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:2120bc65-1887-4e0f-9f7e-e3a6cbcc9b3d] @ 2026-10-03T16:08:48.219225+00:00
+-> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-10-03T16:08:48.219225+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-03T16:08:48.219225+00:00
+-> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-10-03T16:09:00.573749+00:00
+-> ABOUT [node:d2844438-9992-4e20-bfb5-fa615a906574] @ 2026-10-03T16:09:00.600137+00:00
+-> DEPENDS_ON [node:da3dff86-bd2d-41de-9b68-b24e20f50d0f] @ 2026-10-03T16:08:48.219225+00:00
+-> HAS_FACET [node:f72e97e8-5a21-47a3-b30d-b201d70d7593] @ 2026-10-03T16:08:48.219225+00:00
+
+Change summary: k7-calendar-presenting-reanchor (/gw-fix, PR #85, 2026-10-03). After a touch ended a Slideshow presentation of the calendar, the card showed past days for 2 minutes instead of today. The cause: the touch marks the list as scrolled by hand (`userScrolledAt`) before the past-day rows come back above today, so the re-anchor bailed. Fix: the "fresh look" reset effect also depends on `presenting`. Pinned by test/calendar-presenting-reanchor.test.ts; an independent reviewer showed it fails on the pre-fix code. In Chromium after the fix, scrollTop is 371 against today's row at 374, where it was 0 before. The general rule is da3dff86: a re-anchor effect must depend on any mode flag that changes the displayed rows.
+---
+[node:eede0e36-e151-43b0-ae65-c11d32c63945]
+type: concept
+tier: mid-term
+path: /artifact/change-summary-k7-weather-presenting-ph
+created_at: 2026-10-03T16:08:48.252029+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> CONSOLIDATES [node:126b8c0b-9323-47b5-86e6-5b68bcc02844] @ 2026-10-03T16:09:00.645995+00:00
+-> DEPENDS_ON [node:126b8c0b-9323-47b5-86e6-5b68bcc02844] @ 2026-10-03T16:08:48.252029+00:00
+-> DEPENDS_ON [node:32f913e8-0a2e-491b-ab31-7f3e76281a54] @ 2026-10-03T16:08:48.252029+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-03T16:08:48.252029+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-10-03T16:08:48.252029+00:00
+-> ABOUT [node:d2844438-9992-4e20-bfb5-fa615a906574] @ 2026-10-03T16:09:00.623141+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-10-03T16:08:48.252029+00:00
+
+Change summary: k7-weather-presenting-phone-fit (/gw-fix, PR #85, 2026-10-03). The weather card's Slideshow presentation was sized for the wall and centred with `justify-content`/`align-items: center` and `nowrap` in a box that cannot scroll. On phones it clipped both edges: the temperature ran to x=424 inside a 365px body at 375x667. Fix: centre with auto margins on .wrap's children (they collapse on overflow; `safe center` is past Safari 15), let the .now row wrap, and step one notch down each scale below 767px (decision 126b8c0b). Pinned by test/weather-presenting-fit.test.ts; an independent reviewer showed all 4 cases fail on the pre-fix code. In Chromium, content fits at 375x667, 667x375, 1024x768 and 768x1024. Known residue: dropping the presented `.detail`/`.stale` `margin: 0` brought their base 8px margins back (on the wall, 8px more above the forecast row). Phones wider than 767px in landscape, such as 844x390, still get the wall sizes and were not measured.
+---
+[node:408ed48c-3935-45fa-bd5d-029816361149]
+type: slice
+tier: short-term
+path: /change/k7-weather-hourly
+created_at: 2026-10-03T16:10:42.758748+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:7f63f396-9eb4-45f7-ac01-7c072df71923] @ 2026-10-03T16:10:42.758748+00:00
+
+change scope: k7-weather-hourly
+---
+[event:6fcab2bd-6382-43f3-8d5c-9ce19fbaf50b]
+node_id: 408ed48c-3935-45fa-bd5d-029816361149
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T16:10:42.770850+00:00
+
+create_change k7-weather-hourly
+---
+[node:7f63f396-9eb4-45f7-ac01-7c072df71923]
+type: goal
+tier: short-term
+path: /goal/k7-weather-hourly
+created_at: 2026-10-03T16:10:42.758748+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:0a1201ce-85d0-4293-b4f5-e193a7d035e7] @ 2026-10-03T16:10:42.758748+00:00
+-> DEPENDS_ON [node:1d6acf4f-bd1a-4575-8ce1-b0957dfba740] @ 2026-10-03T16:10:42.758748+00:00
+-> DEPENDS_ON [node:81c7ca54-0290-4040-882a-78e95f3f7402] @ 2026-10-03T16:10:42.758748+00:00
+-> DEPENDS_ON [node:8f453152-4703-4c6e-8a7c-4ae5ca69b54e] @ 2026-10-03T16:10:42.758748+00:00
+-> DEPENDS_ON [node:eede0e36-e151-43b0-ae65-c11d32c63945] @ 2026-10-03T16:10:42.758748+00:00
+
+The weather card shows an hourly forecast from Open-Meteo (temperature, precipitation, precipitation probability, weather code): a compact hourly strip on the standard card, and separate ASCII graphs for temperature and for rain/snowfall when the card is maximized or presented by the Slideshow, with the data refreshing periodically.
