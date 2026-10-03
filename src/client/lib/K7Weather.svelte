@@ -11,6 +11,7 @@
 
 <script lang="ts">
   import Card from './Card.svelte'
+  import { hostIdOf, presentingElIdStore } from './fullscreen-lock.ts'
   import { ageLabel, describeWeather, isSevere, weatherArt } from './wmo.ts'
 
   interface Props {
@@ -80,13 +81,25 @@
     }
   })
 
+  // The grid cell has room for three days; a card the Slideshow is presenting
+  // owns the whole screen, so it shows every day the server returned. Content,
+  // not styling, hence the store rather than the `:host(...)` class alone.
+  let wrapEl = $state<HTMLElement | undefined>(undefined)
+  let hostId = $state<string | undefined>(undefined)
+  $effect(() => {
+    if (!wrapEl) return
+    hostId = hostIdOf(wrapEl)
+  })
+  let presenting = $derived(hostId !== undefined && $presentingElIdStore === hostId)
+  let forecast = $derived(aged ? aged.data.daily.slice(1, presenting ? undefined : 4) : [])
+
   const round = (n: number): string => (Number.isFinite(n) ? String(Math.round(n)) : '--')
   const day = (iso: string): string =>
     new Date(iso).toLocaleDateString('pl-PL', { weekday: 'short' }).replace('.', '')
 </script>
 
 <Card label={label} meta={meta} state={cardState as 'ok' | 'warn' | 'fail' | 'idle'}>
-  <div class="wrap">
+  <div class="wrap" bind:this={wrapEl}>
   {#if failed && !aged}
     <p class="msg">brak danych pogodowych</p>
   {:else if !aged}
@@ -109,7 +122,7 @@
       <div><dt>wiatr</dt><dd>{round(aged.data.now.windSpeed)} {aged.data.units.windSpeed}</dd></div>
     </dl>
     <ul class="days">
-      {#each aged.data.daily.slice(1, 4) as d (d.date)}
+      {#each forecast as d (d.date)}
         <li><span class="dow">{day(d.date)}</span><span class="range">{round(d.temperatureMin)} / {round(d.temperatureMax)}</span></li>
       {/each}
     </ul>
@@ -189,4 +202,33 @@
   .range { font-size: var(--text-sm); font-variant-numeric: tabular-nums; }
 
   .stale { margin: var(--space-2) 0 0; color: var(--warn); font-size: var(--text-sm); }
+
+  /* --- Slideshow presentation ----------------------------------------------
+   * Read from the doorway with nobody in the room, so the same centred,
+   * glance-tier shape as the clock (K7Card.svelte, which explains why this is
+   * keyed on `-presenting` and not on `.k7-fullscreen-active`). The
+   * temperature takes the top of the glance scale; everything else steps up
+   * from the meta sizes a grid cell needs to the read tier's upper end. */
+  :host(.k7-slideshow-presenting) .wrap {
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-8);
+    text-align: center;
+    overflow: hidden;
+  }
+  :host(.k7-slideshow-presenting) .now { justify-content: center; gap: var(--space-8); flex-wrap: nowrap; }
+  :host(.k7-slideshow-presenting) .art { font-size: var(--text-xl); }
+  :host(.k7-slideshow-presenting) .readout { text-align: left; }
+  :host(.k7-slideshow-presenting) .glance { font-size: var(--glance-lg); }
+  :host(.k7-slideshow-presenting) .unit { font-size: var(--glance-sm); }
+  :host(.k7-slideshow-presenting) .cond { margin: 0; font-size: var(--text-xl); }
+  :host(.k7-slideshow-presenting) .detail { justify-content: center; gap: var(--space-12); margin: 0; }
+  :host(.k7-slideshow-presenting) .detail div,
+  :host(.k7-slideshow-presenting) .days li { align-items: center; }
+  :host(.k7-slideshow-presenting) dt,
+  :host(.k7-slideshow-presenting) .dow { font-size: var(--text-base); }
+  :host(.k7-slideshow-presenting) dd,
+  :host(.k7-slideshow-presenting) .range { font-size: var(--text-xl); }
+  :host(.k7-slideshow-presenting) .days { justify-content: center; flex-wrap: wrap; gap: var(--space-6) var(--space-12); }
+  :host(.k7-slideshow-presenting) .stale { margin: 0; font-size: var(--text-lg); }
 </style>
