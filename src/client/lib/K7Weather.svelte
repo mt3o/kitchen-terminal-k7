@@ -208,21 +208,26 @@
    * glance-tier shape as the clock (K7Card.svelte, which explains why this is
    * keyed on `-presenting` and not on `.k7-fullscreen-active`). The
    * temperature takes the top of the glance scale; everything else steps up
-   * from the meta sizes a grid cell needs to the read tier's upper end. */
+   * from the meta sizes a grid cell needs to the read tier's upper end.
+   *
+   * Centred with auto margins, not `justify-content`/`align-items: center`:
+   * the Slideshow is in the shared layout.yaml, so a phone presents this too,
+   * and centred content that does not fit spills past BOTH edges of a box
+   * that cannot scroll — the start of the temperature was cut off at 375px.
+   * Auto margins collapse to zero on overflow, so at worst the end is lost,
+   * never the start. (`safe center` would say this directly; Safari 15.4+.) */
   :host(.k7-slideshow-presenting) .wrap {
-    align-items: center;
-    justify-content: center;
     gap: var(--space-8);
     text-align: center;
     overflow: hidden;
   }
-  :host(.k7-slideshow-presenting) .now { justify-content: center; gap: var(--space-8); flex-wrap: nowrap; }
+  :host(.k7-slideshow-presenting) .now { justify-content: center; gap: var(--space-8); }
   :host(.k7-slideshow-presenting) .art { font-size: var(--text-xl); }
   :host(.k7-slideshow-presenting) .readout { text-align: left; }
   :host(.k7-slideshow-presenting) .glance { font-size: var(--glance-lg); }
   :host(.k7-slideshow-presenting) .unit { font-size: var(--glance-sm); }
   :host(.k7-slideshow-presenting) .cond { margin: 0; font-size: var(--text-xl); }
-  :host(.k7-slideshow-presenting) .detail { justify-content: center; gap: var(--space-12); margin: 0; }
+  :host(.k7-slideshow-presenting) .detail { justify-content: center; gap: var(--space-12); }
   :host(.k7-slideshow-presenting) .detail div,
   :host(.k7-slideshow-presenting) .days li { align-items: center; }
   :host(.k7-slideshow-presenting) dt,
@@ -230,5 +235,29 @@
   :host(.k7-slideshow-presenting) dd,
   :host(.k7-slideshow-presenting) .range { font-size: var(--text-xl); }
   :host(.k7-slideshow-presenting) .days { justify-content: center; flex-wrap: wrap; gap: var(--space-6) var(--space-12); }
-  :host(.k7-slideshow-presenting) .stale { margin: 0; font-size: var(--text-lg); }
+  :host(.k7-slideshow-presenting) .stale { font-size: var(--text-lg); }
+  /* Last, so they win the margin ties with the per-element rules above. */
+  :host(.k7-slideshow-presenting) .wrap > * { margin-left: auto; margin-right: auto; }
+  :host(.k7-slideshow-presenting) .wrap > :first-child { margin-top: auto; }
+  :host(.k7-slideshow-presenting) .wrap > :last-child { margin-bottom: auto; }
+
+  /* A phone is held at arm's length, not read from the doorway (DESIGN.md
+     §4.2's glanceable floor is for the wall), and the wall's sizes do not fit
+     it: a 112px figure beside its art is wider than 375px. One step down
+     the same scales, at the same breakpoint the rest of the app uses. */
+  @media (max-width: 767px) {
+    :host(.k7-slideshow-presenting) .wrap { gap: var(--space-4); }
+    :host(.k7-slideshow-presenting) .now { gap: var(--space-4); }
+    :host(.k7-slideshow-presenting) .art { font-size: var(--text-sm); }
+    :host(.k7-slideshow-presenting) .glance { font-size: var(--glance-md); }
+    :host(.k7-slideshow-presenting) .unit { font-size: var(--text-xl); }
+    :host(.k7-slideshow-presenting) .cond { font-size: var(--text-lg); }
+    :host(.k7-slideshow-presenting) .detail { gap: var(--space-6); }
+    :host(.k7-slideshow-presenting) dt,
+    :host(.k7-slideshow-presenting) .dow { font-size: var(--text-xs); }
+    :host(.k7-slideshow-presenting) dd,
+    :host(.k7-slideshow-presenting) .range { font-size: var(--text-lg); }
+    :host(.k7-slideshow-presenting) .days { gap: var(--space-2) var(--space-6); }
+    :host(.k7-slideshow-presenting) .stale { font-size: var(--text-base); }
+  }
 </style>

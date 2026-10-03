@@ -406,6 +406,36 @@ created_at: 2026-09-25T06:28:01.470130+00:00
 
 Array.prototype.at rejected by the Safari 15 lib target in catalog.ts; IntersectionObserver and sticky checked against 15.0
 ---
+[event:0a034e4a-018a-492d-9bfb-c24849a8aa3c]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:18:43.526963+00:00
+
+review read the diff's CSS features against the Safari 15.0 list; nothing past the floor
+---
+[event:3e8c71fa-e990-4717-9e65-666170a164fd]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:18:53.641318+00:00
+
+review read the diff's CSS features against the Safari 15.0 list; nothing past the floor
+---
+[event:261310d6-d3db-4e5c-9129-383dcb95e8e0]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:57:51.232418+00:00
+
+ruled out `safe center` (15.4+), used auto margins
+---
 [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99]
 type: facet_value
 tier: lifetime
@@ -593,6 +623,36 @@ source: agent-surface
 created_at: 2026-10-03T15:08:31.358378+00:00
 
 glance vs read tier sizing for doorway presentation
+---
+[event:40b0734b-e8e7-4678-9845-9f8cdae5314a]
+node_id: 7108856c-d3d5-4701-bb69-11087256a081
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:18:43.529733+00:00
+
+glance tier for temperature/dates, read tier otherwise
+---
+[event:40f976d0-eeba-460d-9c7c-25076622d516]
+node_id: 7108856c-d3d5-4701-bb69-11087256a081
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:18:53.644227+00:00
+
+glance tier for temperature/dates, read tier otherwise
+---
+[event:3a34e518-5889-4dfe-94fc-e7d0f5e39390]
+node_id: 7108856c-d3d5-4701-bb69-11087256a081
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:57:51.222869+00:00
+
+doorway floor scoped to the wall, phone presentation steps down
 ---
 [node:4c740d82-541d-4c70-9970-793467c4f26e]
 type: facet_value
@@ -1294,6 +1354,36 @@ created_at: 2026-10-03T15:08:31.363373+00:00
 
 all new sizes are --text-*/--glance-*/--space-* tokens; token lint green
 ---
+[event:478c23e0-160b-4be6-a00e-3865ac243efe]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:18:43.523805+00:00
+
+review ran check-token-contract.py on the diff: exit 0, only var(--*) used
+---
+[event:e4759f84-585c-4e57-8c43-8cfbc2bba98a]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:18:53.633005+00:00
+
+review ran check-token-contract.py on the diff: exit 0, only var(--*) used
+---
+[event:1be75130-e7d2-4972-aeac-d7b5d2d68cde]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:57:51.217648+00:00
+
+npm run check token contract lint green on the phone presentation rules
+---
 [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a]
 type: constraint
 tier: lifetime
@@ -1443,6 +1533,16 @@ source: agent-surface
 created_at: 2026-09-15T12:33:39.607227+00:00
 
 gw-review PR#45: active tab uses literal bracket text plus border-color change, never colour alone; [!]/[X] glyphs reused verbatim.
+---
+[event:cf98ee7a-bc8e-4e3c-b843-1121e79469b1]
+node_id: 9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:18:53.653038+00:00
+
+design gate: presenting hides tab [!]/[X] glyphs but the card footer badge still carries calendar state
 ---
 [node:cabf56d2-4b59-4f19-96f7-9388071c1086]
 type: decision
@@ -6693,6 +6793,16 @@ source: agent-surface
 created_at: 2026-09-25T07:11:57.041031+00:00
 
 failed reload kept the old query's rows under new search text; fixed by clearing and showing [!], browser-checked
+---
+[event:31ed79f2-8a5a-44bc-8638-9a8686b28ca2]
+node_id: 4a749051-6bc6-4807-bc52-47748e2bb914
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:18:53.654957+00:00
+
+design gate: presented calendar still shows 'dane przykladowe' meta and idle badge for sample data
 ---
 [node:09f65864-fbda-4333-86a5-9713a88b92ea]
 type: constraint
@@ -16433,6 +16543,26 @@ created_at: 2026-10-03T15:08:31.336184+00:00
 
 presenting vs fullscreen split is what both widgets key their look on
 ---
+[event:ebbdcfb3-850b-4069-8739-e7fe9a151e56]
+node_id: 8b25dd73-dac8-4c2e-87a3-0e9e743d7a65
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:18:43.535100+00:00
+
+both widgets key on -presenting, manual fullscreen unaffected
+---
+[event:2dd4e9bb-1557-48df-bce8-48dd93749c2f]
+node_id: 8b25dd73-dac8-4c2e-87a3-0e9e743d7a65
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:18:53.650962+00:00
+
+both widgets key on -presenting, manual fullscreen unaffected
+---
 [node:465e38f0-6160-447f-891a-ebb5b55474c8]
 type: constraint
 tier: mid-term
@@ -16461,6 +16591,26 @@ source: agent-surface
 created_at: 2026-10-03T15:08:31.353780+00:00
 
 :host(.k7-slideshow-presenting) from inside each component's shadow CSS works, verified in real Chromium rotation
+---
+[event:10368317-e3c5-4467-ae8b-dc09ca84a426]
+node_id: 465e38f0-6160-447f-891a-ebb5b55474c8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:18:43.532249+00:00
+
+real Chromium Slideshow run: :host(.k7-slideshow-presenting) rules applied from both widgets' shadow CSS
+---
+[event:2a0b4264-56a1-448e-9d55-b4e1e2cfaf1a]
+node_id: 465e38f0-6160-447f-891a-ebb5b55474c8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:18:53.648193+00:00
+
+real Chromium Slideshow run: :host(.k7-slideshow-presenting) rules applied from both widgets' shadow CSS
 ---
 [node:1c30a45a-1298-4729-b4e1-88340649a03b]
 type: constraint
@@ -16527,11 +16677,24 @@ archived: false
 -> DEPENDS_ON [node:0a1201ce-85d0-4293-b4f5-e193a7d035e7] @ 2026-10-03T15:08:17.730210+00:00
 -> DEPENDS_ON [node:1d6acf4f-bd1a-4575-8ce1-b0957dfba740] @ 2026-10-03T15:02:56.253361+00:00
 -> DEPENDS_ON [node:2120bc65-1887-4e0f-9f7e-e3a6cbcc9b3d] @ 2026-10-03T15:08:17.703322+00:00
+-> DEPENDS_ON [node:32f913e8-0a2e-491b-ab31-7f3e76281a54] @ 2026-10-03T15:18:18.543770+00:00
 -> DEPENDS_ON [node:465e38f0-6160-447f-891a-ebb5b55474c8] @ 2026-10-03T15:02:56.253361+00:00
+-> DEPENDS_ON [node:81c7ca54-0290-4040-882a-78e95f3f7402] @ 2026-10-03T15:18:27.576564+00:00
 -> DEPENDS_ON [node:883015f1-ac75-4d20-976c-be61bb69c652] @ 2026-10-03T15:08:17.752969+00:00
 -> DEPENDS_ON [node:8b25dd73-dac8-4c2e-87a3-0e9e743d7a65] @ 2026-10-03T15:02:56.253361+00:00
+-> DEPENDS_ON [node:da3dff86-bd2d-41de-9b68-b24e20f50d0f] @ 2026-10-03T15:18:18.504109+00:00
 
 When the idle Slideshow presents the weather and calendar cards, they read from the doorway like the clock does: centred, glance-tier sizes, no touch-only controls, weather showing every forecast day the server returns, calendar showing the merged main tab from today forward.
+---
+[event:a8a80f07-cb7d-4858-8f64-2ee9f95f5301]
+node_id: 57cd4c29-22b8-41d4-bd8f-dc2b817171c1
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:18:53.656870+00:00
+
+PR #84 merged before /gw-review finished; request-changes verdict converted to a follow-up /gw-fix (da3dff86, 32f913e8)
 ---
 [node:608339b2-fc29-462a-b962-4b3013bf6e0e]
 type: slice
@@ -16544,8 +16707,11 @@ trust_weight: 1.0
 archived: false
 -> SCOPED_TO [node:0a1201ce-85d0-4293-b4f5-e193a7d035e7] @ 2026-10-03T15:08:17.730210+00:00
 -> SCOPED_TO [node:2120bc65-1887-4e0f-9f7e-e3a6cbcc9b3d] @ 2026-10-03T15:08:17.703322+00:00
+-> SCOPED_TO [node:32f913e8-0a2e-491b-ab31-7f3e76281a54] @ 2026-10-03T15:18:18.543770+00:00
 -> SCOPED_TO [node:57cd4c29-22b8-41d4-bd8f-dc2b817171c1] @ 2026-10-03T15:02:56.253361+00:00
+-> SCOPED_TO [node:81c7ca54-0290-4040-882a-78e95f3f7402] @ 2026-10-03T15:18:27.576564+00:00
 -> SCOPED_TO [node:883015f1-ac75-4d20-976c-be61bb69c652] @ 2026-10-03T15:08:17.752969+00:00
+-> SCOPED_TO [node:da3dff86-bd2d-41de-9b68-b24e20f50d0f] @ 2026-10-03T15:18:18.504109+00:00
 
 change scope: k7-slideshow-weather-calendar
 ---
@@ -16572,10 +16738,21 @@ archived: false
 -> DEPENDS_ON [node:8b25dd73-dac8-4c2e-87a3-0e9e743d7a65] @ 2026-10-03T15:08:17.703322+00:00
 -> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-10-03T15:08:17.703322+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-03T15:08:17.703322+00:00
+-> ABOUT [node:d2844438-9992-4e20-bfb5-fa615a906574] @ 2026-10-03T15:18:43.478662+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-10-03T15:08:17.703322+00:00
 -> HAS_FACET [node:f72e97e8-5a21-47a3-b30d-b201d70d7593] @ 2026-10-03T15:08:17.703322+00:00
 
 Decided 2026-10-03 (k7-slideshow-weather-calendar): while the Slideshow presents the calendar card, it shows the merged GŁÓWNY tab and only today onward, and hides the tab strip, whatever tab somebody left selected. This is derived (`shownTab = presenting ? 'main' : selectedTab`) and never written back to `selectedTab`, so the card comes back exactly as it was left when someone touches the glass. Alternatives rejected: presenting whichever tab was last chosen (a per-calendar tab is a choice made at the glass, not what the wall should show to an empty room), and resetting `selectedTab` to main on presentation (loses the household's choice). Weather does the same for content: in a grid cell it shows 3 forecast days, and while presenting it shows every day `/api/weather` returned. Both widgets read `presentingElIdStore` through `hostIdOf(<an element in the shadow root>)`, the same pattern Card.svelte uses for `manualElIdStore`. These are the first consumers of the content seam that k7-slideshow-presentation-mode left with none.
+---
+[event:526189cc-33c2-4e47-abc6-7c25d825d959]
+node_id: 2120bc65-1887-4e0f-9f7e-e3a6cbcc9b3d
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:57:51.214858+00:00
+
+the code had broken the 'comes back exactly as it was left' half of this decision; the fix restores it, verified in Chromium
 ---
 [node:0a1201ce-85d0-4293-b4f5-e193a7d035e7]
 type: issue
@@ -16608,3 +16785,175 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-10-03T15:08:17.752969+00:00
 
 Still open after k7-slideshow-weather-calendar, from a screenshot audit of every widget with `k7-slideshow-presenting` set at 1024x768 on 2026-10-03: only the clock, weather and calendar have a presentation look. The rest render their grid-cell layout stretched to full screen. ascii-art-of-the-day: tiny art in the top-left at 16px, needs centring and a size picked from the art's own columns and rows. comic-of-the-day and image: never enlarge past natural size, and an inline `max-width` style (`widthPx`) beats shadow CSS. image needs `image-rendering: pixelated` so a QR code stays sharp when scaled. timer: an idle timer presents only buttons; a running one should present just the countdown at glance size. chat, recipes, shopping list, audiometer and menu are interactive and should stay out of `cardIds`. The `[ + ]` header button stays visible while presenting, but it is not dead weight: tapping it takes the card over into manual fullscreen. So hiding it is a ruling for a human, not a style fix.
+---
+[node:da3dff86-bd2d-41de-9b68-b24e20f50d0f]
+type: constraint
+tier: short-term
+path: /artifact/when-a-widget-starts-deriving-which-rows
+created_at: 2026-10-03T15:18:18.504109+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:2120bc65-1887-4e0f-9f7e-e3a6cbcc9b3d] @ 2026-10-03T15:18:18.504109+00:00
+-> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-10-03T15:18:18.504109+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-03T15:18:18.504109+00:00
+-> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-10-03T15:18:43.500526+00:00
+-> HAS_FACET [node:f72e97e8-5a21-47a3-b30d-b201d70d7593] @ 2026-10-03T15:18:18.504109+00:00
+
+When a widget starts deriving which rows it shows from a new mode flag (e.g. Slideshow presenting), every effect that re-anchors the list on "a fresh look" must also depend on that flag. Otherwise guard state set by the very interaction that ends the mode suppresses the re-anchor. Found in K7Calendar.svelte (/gw-review of k7-slideshow-weather-calendar, reproduced in Chromium on 2026-10-03): the reset effect watched only `selectedTab` and `today`. The touch that exits the Slideshow first hits the list's own passive touchstart (`markUserScroll`, set on the element), then reaches slideshow.ts's window listener. `userScrolledAt` is therefore non-zero when `presenting` turns false and the past-day rows reappear above today. The anchor effect then bails, and the card shows the oldest past day at `scrollTop` 0 for SNAP_BACK_MS (2 min). Fix: add the mode flag (`void presenting`) to the reset effect.
+---
+[event:ed46d7cc-466e-48fe-a099-45321f8c0dd9]
+node_id: da3dff86-bd2d-41de-9b68-b24e20f50d0f
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:57:51.209401+00:00
+
+red test failed without `void presenting` in the reset effect, green with it; Chromium: after touch-exit scrollTop 371 vs today row 374 (was 0)
+---
+[node:32f913e8-0a2e-491b-ab31-7f3e76281a54]
+type: issue
+tier: short-term
+path: /artifact/presentation-css-that-centres-content-wi
+created_at: 2026-10-03T15:18:18.543770+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:0bc7e618-9b95-4977-9fe1-f3a48759276f] @ 2026-10-03T15:18:18.543770+00:00
+-> DEPENDS_ON [node:2120bc65-1887-4e0f-9f7e-e3a6cbcc9b3d] @ 2026-10-03T15:18:18.543770+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-03T15:18:18.543770+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-10-03T15:18:18.543770+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-10-03T15:18:18.543770+00:00
+
+Presentation CSS that centres content with `justify-content: center`, `flex-wrap: nowrap` and `overflow: hidden` clips both edges on narrow viewports, and nothing can scroll it back. The Slideshow is declared in the shared layout.yaml, so phones get it too, not just the 1024x768 wall. Measured 2026-10-03 on the presented weather card (K7Weather.svelte, k7-slideshow-weather-calendar). At 375x667 the 112px temperature runs to x=424 inside a card body ending at x=365. At 667x375 the content is 360px tall in a 296px box. Presentation looks must be checked at phone sizes as well as the kiosk sizes. Centre with auto margins, which give way when content overflows (`safe center` is Safari 15.4+ and unavailable here), and let rows wrap.
+---
+[event:27840c1a-7fec-49a5-ac82-4e8c65c678cf]
+node_id: 32f913e8-0a2e-491b-ab31-7f3e76281a54
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:57:51.211985+00:00
+
+red test failed on nowrap/centre/no auto margins; after fix Chromium measured content inside the card at 375x667, 667x375, 1024x768, 768x1024
+---
+[node:81c7ca54-0290-4040-882a-78e95f3f7402]
+type: concept
+tier: mid-term
+path: /artifact/change-summary-k7-slideshow-weather-cal
+created_at: 2026-10-03T15:18:27.576564+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:0a1201ce-85d0-4293-b4f5-e193a7d035e7] @ 2026-10-03T15:18:27.576564+00:00
+-> CONSOLIDATES [node:2120bc65-1887-4e0f-9f7e-e3a6cbcc9b3d] @ 2026-10-03T15:18:43.392876+00:00
+-> DEPENDS_ON [node:2120bc65-1887-4e0f-9f7e-e3a6cbcc9b3d] @ 2026-10-03T15:18:27.576564+00:00
+-> DEPENDS_ON [node:32f913e8-0a2e-491b-ab31-7f3e76281a54] @ 2026-10-03T15:18:27.576564+00:00
+-> DEPENDS_ON [node:883015f1-ac75-4d20-976c-be61bb69c652] @ 2026-10-03T15:18:27.576564+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-03T15:18:27.576564+00:00
+-> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-10-03T15:18:43.456055+00:00
+-> ABOUT [node:d2844438-9992-4e20-bfb5-fa615a906574] @ 2026-10-03T15:18:43.432420+00:00
+-> DEPENDS_ON [node:da3dff86-bd2d-41de-9b68-b24e20f50d0f] @ 2026-10-03T15:18:27.576564+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-10-03T15:18:27.576564+00:00
+
+Change summary: k7-slideshow-weather-calendar (PR #84, merged 2026-10-03). It gave the weather and calendar cards a Slideshow presentation look, following the clock. A screenshot audit had shown every other widget presenting its grid-cell layout stretched to full screen. Weather is centred with the temperature at --glance-lg and shows every forecast day the server returned. Calendar shows the merged GŁÓWNY tab from today onward, with no tab strip and no scrolling, and leaves the household's chosen tab untouched. These are the first consumers of presentingElIdStore. The independent /gw-review found two defects, both reproduced in Chromium, after the PR had already merged; both are left for a follow-up /gw-fix: the calendar re-anchor misses the presenting flag, and the presented weather clips on phone viewports. Still open: forecastDays is read by nothing, and ascii/comic/image/timer have no presentation look yet.
+---
+[node:55c9fe00-eb76-4606-bf87-bb6d49b98379]
+type: slice
+tier: short-term
+path: /change/k7-calendar-presenting-reanchor
+created_at: 2026-10-03T15:53:44.034034+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:80f9e4e3-4206-4ef5-8d94-18553c9c4e85] @ 2026-10-03T15:53:44.034034+00:00
+
+change scope: k7-calendar-presenting-reanchor
+---
+[event:562af132-60f1-4921-8546-4eb4be535e92]
+node_id: 55c9fe00-eb76-4606-bf87-bb6d49b98379
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:53:44.046745+00:00
+
+create_change k7-calendar-presenting-reanchor
+---
+[node:80f9e4e3-4206-4ef5-8d94-18553c9c4e85]
+type: goal
+tier: short-term
+path: /goal/k7-calendar-presenting-reanchor
+created_at: 2026-10-03T15:53:44.034034+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:2120bc65-1887-4e0f-9f7e-e3a6cbcc9b3d] @ 2026-10-03T15:53:44.034034+00:00
+-> DEPENDS_ON [node:81c7ca54-0290-4040-882a-78e95f3f7402] @ 2026-10-03T15:53:44.034034+00:00
+-> DEPENDS_ON [node:da3dff86-bd2d-41de-9b68-b24e20f50d0f] @ 2026-10-03T15:53:44.034034+00:00
+
+When a touch ends the Slideshow presenting the calendar, the card is back at today's row immediately, not showing past days until the 2-minute snap-back.
+---
+[node:2c3b83e1-78f8-4a27-b123-4e63c79ddfd4]
+type: slice
+tier: short-term
+path: /change/k7-weather-presenting-phone-fit
+created_at: 2026-10-03T15:53:44.074700+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:126b8c0b-9323-47b5-86e6-5b68bcc02844] @ 2026-10-03T15:57:51.178133+00:00
+-> SCOPED_TO [node:ef3a29fd-eeda-433a-a76b-fc69db23ed4c] @ 2026-10-03T15:53:44.074700+00:00
+
+change scope: k7-weather-presenting-phone-fit
+---
+[event:5d81a16c-d197-46b1-83a2-8d07d3143bd5]
+node_id: 2c3b83e1-78f8-4a27-b123-4e63c79ddfd4
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-03T15:53:44.078399+00:00
+
+create_change k7-weather-presenting-phone-fit
+---
+[node:ef3a29fd-eeda-433a-a76b-fc69db23ed4c]
+type: goal
+tier: short-term
+path: /goal/k7-weather-presenting-phone-fit
+created_at: 2026-10-03T15:53:44.074700+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:126b8c0b-9323-47b5-86e6-5b68bcc02844] @ 2026-10-03T15:57:51.178133+00:00
+-> DEPENDS_ON [node:2120bc65-1887-4e0f-9f7e-e3a6cbcc9b3d] @ 2026-10-03T15:53:44.074700+00:00
+-> DEPENDS_ON [node:32f913e8-0a2e-491b-ab31-7f3e76281a54] @ 2026-10-03T15:53:44.074700+00:00
+-> DEPENDS_ON [node:81c7ca54-0290-4040-882a-78e95f3f7402] @ 2026-10-03T15:53:44.074700+00:00
+
+The weather card presented by the Slideshow fits a phone screen (375x667 portrait, 667x375 landscape) with nothing cut off on either edge.
+---
+[node:126b8c0b-9323-47b5-86e6-5b68bcc02844]
+type: decision
+tier: short-term
+path: /artifact/decided-2026-10-03-k7-weather-presentin
+created_at: 2026-10-03T15:57:51.178133+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:0bc7e618-9b95-4977-9fe1-f3a48759276f] @ 2026-10-03T15:57:51.178133+00:00
+-> DEPENDS_ON [node:32f913e8-0a2e-491b-ab31-7f3e76281a54] @ 2026-10-03T15:57:51.178133+00:00
+-> DEPENDS_ON [node:7108856c-d3d5-4701-bb69-11087256a081] @ 2026-10-03T15:57:51.178133+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-03T15:57:51.178133+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-10-03T15:57:51.178133+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-10-03T15:57:51.178133+00:00
+
+Decided 2026-10-03 (k7-weather-presenting-phone-fit): below the 767px phone breakpoint, the Slideshow's presentation of the weather card steps one notch down each scale (temperature --glance-md instead of --glance-lg, values --text-lg instead of --text-xl) rather than keeping the wall's sizes. DESIGN.md §4.2's glanceable floor is sized for the 3 m doorway. A phone is read at arm's length, and at 375px a 112px figure beside its art does not fit at all. Alternatives rejected: keeping the wall sizes and letting the card scroll (nobody scrolls a presentation); keeping them and clipping (the original bug). It is centred with auto margins on .wrap's children, so content too big for the box loses its end, never its start. This is the same breakpoint and the same step-down approach as K7Carousel and Card.svelte's phone rules.
