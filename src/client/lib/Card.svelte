@@ -346,8 +346,15 @@
 
   .card-body { flex: 1 1 auto; min-height: 0; }
 
+  /* Rows wrap before they crush (DESIGN.md §6.1): when meta and the badge do
+     not fit side by side, the badge drops to a line of its own — still at the
+     bottom-right, by its `margin-left: auto` — rather than being squeezed.
+     Before, the row could not wrap and the badge could shrink, so at phone
+     width the CZAT card's meta pressed the idle "[--]" down to its
+     min-content and it broke after a hyphen, drawn as "[-" over "-]". */
   .card-foot {
     display: flex;
+    flex-wrap: wrap;
     align-items: baseline;
     justify-content: space-between;
     gap: var(--space-2);
@@ -374,8 +381,13 @@
     font-variant-numeric: tabular-nums;
   }
 
+  /* The glyph is the state, so it is read whole or not at all: it never
+     shrinks and never breaks — a hyphen is a line-break opportunity, so
+     "[--]" otherwise would. Short of room, it moves; it is not squeezed. */
   .badge {
     margin-left: auto;
+    flex-shrink: 0;
+    white-space: nowrap;
     font-size: var(--text-sm);
     letter-spacing: var(--tracking-label);
     font-variant-numeric: tabular-nums;

@@ -142,7 +142,11 @@
 
   .body { margin: 0; color: var(--fg-muted); }
 
+  /* One glyph, never broken or shrunk — Card.svelte's rule. This footer holds
+     nothing else to squeeze it today; the rule keeps it that way if it does. */
   .badge {
+    flex-shrink: 0;
+    white-space: nowrap;
     font-size: var(--text-sm);
     letter-spacing: var(--tracking-label);
     font-variant-numeric: tabular-nums;
