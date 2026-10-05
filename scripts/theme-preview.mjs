@@ -61,6 +61,31 @@ const day = (offset) => {
   return d.toISOString().slice(0, 10)
 }
 
+/**
+ * 120 hours from local midnight today, the shape /api/weather returns since
+ * k7-weather-hourly: real instants, nulls kept. Made up on purpose, and
+ * shaped so every graph glyph shows up — rain hours, one snow hour, one
+ * mixed hour past the 4 mm/h end of the scale, and one hour with no data.
+ */
+const hourly = (() => {
+  const start = new Date()
+  start.setHours(0, 0, 0, 0)
+  return Array.from({ length: 120 }, (_, i) => {
+    const rain = i === 44 ? 1.2 : i % 24 >= 15 && i % 24 <= 18 ? 0.4 * (i % 24 - 14) : 0
+    const snow = i === 40 ? 0.8 : i === 44 ? 3.5 : 0
+    const precipitation = Math.round((rain + snow) * 10) / 10
+    return {
+      time: new Date(start.getTime() + i * 3_600_000).toISOString(),
+      temperature: i === 30 ? null : Math.round((10 + 5 * Math.sin(((i % 24) - 9) / 24 * 2 * Math.PI)) * 10) / 10,
+      precipitation,
+      precipitationProbability: i === 30 ? null : Math.min(100, Math.round(precipitation * 40) + (i % 7) * 3),
+      weatherCode: snow ? 71 : rain ? 61 : 3,
+      rain,
+      snowfall: snow ? Math.round(snow * 0.7 * 10) / 10 : 0,
+    }
+  })
+})()
+
 /** Enough shape to render; the numbers are obviously made up on purpose. */
 const CANNED = {
   '/api/health': { ok: true, service: 'theme-preview', reporting: false },
@@ -72,7 +97,9 @@ const CANNED = {
   '/api/weather': {
     data: {
       now: { temperature: 12, apparentTemperature: 9, humidity: 84, windSpeed: 22, weatherCode: 3 },
-      units: { temperature: '°C', windSpeed: 'km/h' },
+      timezone: 'Europe/Warsaw',
+      units: { temperature: '°C', windSpeed: 'km/h', precipitation: 'mm', snowfall: 'cm' },
+      hourly,
       daily: [0, 1, 2, 3].map((i) => ({ date: day(i), temperatureMin: 9 + i, temperatureMax: 14 + (i % 3), weatherCode: i === 1 ? 61 : 3 })),
     },
     ageSeconds: 240,

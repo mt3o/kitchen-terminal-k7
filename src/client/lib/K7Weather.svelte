@@ -11,7 +11,8 @@
 
 <script lang="ts">
   import Card from './Card.svelte'
-  import { hostIdOf, presentingElIdStore } from './fullscreen-lock.ts'
+  import { hostIdOf, manualElIdStore, presentingElIdStore } from './fullscreen-lock.ts'
+  import { stripCells, upcomingHours, type WeatherHour } from './weather-hourly.ts'
   import { ageLabel, describeWeather, isSevere, weatherArt } from './wmo.ts'
 
   interface Props {
@@ -41,9 +42,13 @@
     stale: boolean
     source: string
     data: {
-      units: { temperature: string; windSpeed: string }
+      /** IANA zone the hours are labelled in. Absent from answers cached
+       *  before the hourly series existed, like `hourly` itself. */
+      timezone?: string
+      units: { temperature: string; windSpeed: string; precipitation?: string; snowfall?: string }
       now: { temperature: number; apparentTemperature: number; humidity: number; windSpeed: number; weatherCode: number }
       daily: { date: string; weatherCode: number; temperatureMax: number; temperatureMin: number }[]
+      hourly?: WeatherHour[]
     }
   }
 
@@ -56,7 +61,16 @@
   let meta = $derived(aged ? ageLabel(aged.ageSeconds) : '')
   let art = $derived(aged ? weatherArt(aged.data.now.weatherCode) : undefined)
 
+  /**
+   * The clock the hourly rows trim against. It advances on EVERY load attempt,
+   * failed ones included: when the upstream is down the card keeps its last
+   * answer, and the strip must still move past hours that have gone by rather
+   * than freeze at the last successful refresh.
+   */
+  let nowMs = $state(Date.now())
+
   async function load(signal: AbortSignal): Promise<void> {
+    nowMs = Date.now()
     try {
       const res = await fetch(`/api/weather?lat=${lat}&lon=${lon}&units=${units}`, { signal })
       if (!res.ok) throw new Error(`weather ${res.status}`)
@@ -91,6 +105,26 @@
     hostId = hostIdOf(wrapEl)
   })
   let presenting = $derived(hostId !== undefined && $presentingElIdStore === hostId)
+  // Opened by hand with the card's own [ + ]: a different look from a
+  // Slideshow presentation, which sets the same fullscreen class (F7).
+  let manual = $derived(hostId !== undefined && $manualElIdStore === hostId)
+
+  // Same breakpoint as every phone rule in this app. JS needs it too: the strip
+  // RENDERS four cells on a phone rather than hiding two of six.
+  let phone = $state(false)
+  $effect(() => {
+    const mq = window.matchMedia('(max-width: 767px)')
+    const update = (): void => {
+      phone = mq.matches
+    }
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  })
+
+  let timeZone = $derived(aged?.data.timezone ?? 'Europe/Warsaw')
+  let upcoming = $derived(upcomingHours(aged?.data.hourly, nowMs, 72))
+  let strip = $derived(stripCells(upcoming, phone ? 4 : 6, timeZone, nowMs))
   let forecast = $derived(aged ? aged.data.daily.slice(1, presenting ? undefined : 4) : [])
 
   const round = (n: number): string => (Number.isFinite(n) ? String(Math.round(n)) : '--')
@@ -98,7 +132,7 @@
     new Date(iso).toLocaleDateString('pl-PL', { weekday: 'short' }).replace('.', '')
 </script>
 
-<Card label={label} meta={meta} state={cardState as 'ok' | 'warn' | 'fail' | 'idle'}>
+<Card label={label} meta={meta} state={cardState as 'ok' | 'warn' | 'fail' | 'idle'} fullscreen>
   <div class="wrap" bind:this={wrapEl}>
   {#if failed && !aged}
     <p class="msg">brak danych pogodowych</p>
@@ -121,6 +155,20 @@
       <div><dt>wilgotnosc</dt><dd>{round(aged.data.now.humidity)}%</dd></div>
       <div><dt>wiatr</dt><dd>{round(aged.data.now.windSpeed)} {aged.data.units.windSpeed}</dd></div>
     </dl>
+    {#if strip.length > 0 && !presenting && !manual}
+      <!-- The next full hours: hour, temperature, chance of precipitation.
+           Absent, not empty, when there is no hourly data (an answer cached
+           before the series existed): the card then renders as it always did. -->
+      <dl class="hours" aria-label="prognoza godzinowa">
+        {#each strip as cell (cell.hour)}
+          <div>
+            <dt>{cell.hour}</dt>
+            <dd class="h-temp">{cell.temp}</dd>
+            <dd class="h-pct" class:h-pct-zero={cell.pct === '0'}>{cell.pct === '--' ? '--' : `${cell.pct}%`}</dd>
+          </div>
+        {/each}
+      </dl>
+    {/if}
     <ul class="days">
       {#each forecast as d (d.date)}
         <li><span class="dow">{day(d.date)}</span><span class="range">{round(d.temperatureMin)} / {round(d.temperatureMax)}</span></li>
@@ -200,6 +248,27 @@
     color: var(--fg-muted);
   }
   .range { font-size: var(--text-sm); font-variant-numeric: tabular-nums; }
+
+  /* The hourly strip (deck k7-weather-card, screen standard-card): the .days
+     recipe one row up — hour in the dt label style, temperature and chance
+     of precipitation in the dd value style. Equal columns that may shrink
+     (DESIGN.md §6.1), six on the wall, four on a phone. Four are RENDERED
+     there, not two of six hidden; the count comes from the same breakpoint in
+     the script. */
+  .hours {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: var(--space-2);
+    margin: 0 0 var(--space-2);
+  }
+  .hours div { display: flex; flex-direction: column; min-width: 0; }
+  .h-temp { color: var(--fg); }
+  .h-pct { color: var(--fg); }
+  /* A dry hour is the common case; it should not shout as loudly as a wet one. */
+  .h-pct-zero { color: var(--fg-muted); }
+  @media (max-width: 767px) {
+    .hours { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
 
   .stale { margin: var(--space-2) 0 0; color: var(--warn); font-size: var(--text-sm); }
 
