@@ -97,6 +97,12 @@ describe('K7Weather.svelte: graphs in the Slideshow presentation', () => {
     assert.match(script, /el\.clientHeight > droppedAtHeight \+ 1/)
   })
 
+  it('gives way in the deck\'s order: days, detail, then the decorative drawing — never the temperature or condition', () => {
+    assert.match(script, /if \(!dropDays\) dropDays = true\s*else if \(!dropDetail\) dropDetail = true\s*else if \(!dropArt\) dropArt = true/)
+    assert.match(markup, /\{#if artEnabled && art && !dropArt\}/)
+    assert.doesNotMatch(markup, /\{#if[^}]*drop[^}]*\}\s*<p class="(glance|cond)"/)
+  })
+
   it('hides the ASCII from screen readers and gives them one sentence instead', () => {
     assert.match(markup, /class="g-text g-head" aria-hidden="true"/)
     assert.match(markup, /<p class="g-summary">\{summary\}<\/p>/)

@@ -183,13 +183,16 @@
    * What gives way when the hero does not fit, by the deck's rulings:
    * stacked portrait with too few graph lines drops the detail row; side by
    * side in landscape, the hero drops the days row first ("days kept if they
-   * fit"), then the detail row. Each drop is latched for the rest of the
+   * fit"), then the detail row, then the decorative drawing — never the
+   * temperature or the condition, which are what the presentation is for
+   * (at 844x390 the condition was clipped to the dot of an "i"). Each drop is latched for the rest of the
    * presentation: dropping makes room, and deciding again from the roomier
    * layout would put the row straight back ([node:21b0b80b]).
    */
   const MIN_LINES_WITH_DETAIL = 8
   let heroEl = $state<HTMLElement | undefined>(undefined)
   let dropDays = $state(false)
+  let dropArt = $state(false)
   let portrait = $state(false)
   $effect(() => {
     const mq = window.matchMedia('(orientation: portrait)')
@@ -205,6 +208,7 @@
     if (!presenting) {
       dropDetail = false
       dropDays = false
+      dropArt = false
       return
     }
     if (hasHours && portrait && fit.lines > 0 && fit.lines < MIN_LINES_WITH_DETAIL) dropDetail = true
@@ -224,6 +228,7 @@
   $effect(() => {
     void dropDays
     void dropDetail
+    void dropArt
     void forecast
     const el = heroEl
     if (!el || portrait || !hasHours) return
@@ -233,11 +238,13 @@
       droppedAtHeight = el.clientHeight
       if (!dropDays) dropDays = true
       else if (!dropDetail) dropDetail = true
+      else if (!dropArt) dropArt = true
     }
     const settle = (): void => {
-      if ((dropDays || dropDetail) && el.clientHeight > droppedAtHeight + 1) {
+      if ((dropDays || dropDetail || dropArt) && el.clientHeight > droppedAtHeight + 1) {
         dropDays = false
         dropDetail = false
+        dropArt = false
       }
       if (timer !== undefined) clearTimeout(timer)
       timer = setTimeout(check, SETTLE_MS)
@@ -258,7 +265,7 @@
 
 {#snippet hero(a: Aged)}
   <div class="now">
-    {#if artEnabled && art}
+    {#if artEnabled && art && !dropArt}
       <!-- Decorative: the temperature and the label beside it already say
            everything this draws, so a screen reader gets nothing new here. -->
       <pre class="art" aria-hidden="true">{art}</pre>

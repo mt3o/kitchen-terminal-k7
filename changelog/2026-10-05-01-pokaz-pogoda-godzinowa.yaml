@@ -1,0 +1,7 @@
+date: "2026-10-05"
+title: "Pokaz: prognoza godzinowa przy pogodzie"
+items:
+  - "Gdy po dłuższej chwili bez dotyku ekran przechodzi w pokaz, karta SYS.POGODA pokazuje obok obecnej pogody prognozę na najbliższe godziny: wykres temperatury i wykres opadów, godzina pod godziną, od bieżącej godziny w dół — na ekranie w kuchni do 24 godzin naraz."
+  - "Na wykresie opadów # to deszcz, a * to śnieg; skala jest stała, pełny pasek to 4 mm na godzinę, a mocniejszy opad kończy się znakiem >. Obok każdej godziny jest szansa opadu w procentach."
+  - "Na telefonie wykresy są mniejsze, a w poziomie, gdy brakuje miejsca, pod temperaturą znikają najpierw dni, potem odczuwalna, wilgotność i wiatr."
+  - "Zwykła karta pogody na stronie GLOWNA się nie zmienia."

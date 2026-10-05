@@ -277,7 +277,16 @@
         "two columns in landscape, stacked in portrait",
         "graph rows at --text-lg",
         "detail row kept; first to drop in stacked portrait"
-      ]
+      ],
+      "implemented": {
+        "change": "k7-weather-hourly",
+        "on": "2026-10-05",
+        "checked": "Chromium, real Slideshow rotation with a synthetic #87 payload: 1024x768, 768x1024, 375x667, 667x375, 844x390 — no overflow, <= 24 lines, no half-cut line, nothing clipped at the start; 0 px diff without hourly data. Not checked on the iPad.",
+        "deviations": [
+          "landscape split is 1:1, not 5:7: at 5/12 the wall-size hero ran ~125 px past the card",
+          "in landscape, when the hero does not fit, it drops days, then detail, then the decorative drawing; never the temperature or condition"
+        ]
+      }
     },
     {
       "id": "slideshow-presenting-phone",
@@ -362,7 +371,16 @@
       "rulings": [
         "graphs side by side, compressed (10 cells, % kept, mm dropped), not tabs",
         "orientation picks arrangement, width picks size step"
-      ]
+      ],
+      "implemented": {
+        "change": "k7-weather-hourly",
+        "on": "2026-10-05",
+        "checked": "Chromium, real Slideshow rotation with a synthetic #87 payload: 1024x768, 768x1024, 375x667, 667x375, 844x390 — no overflow, <= 24 lines, no half-cut line, nothing clipped at the start; 0 px diff without hourly data. Not checked on the iPad.",
+        "deviations": [
+          "landscape split is 1:1, not 5:7: at 5/12 the wall-size hero ran ~125 px past the card",
+          "in landscape, when the hero does not fit, it drops days, then detail, then the decorative drawing; never the temperature or condition"
+        ]
+      }
     }
   ]
 }
