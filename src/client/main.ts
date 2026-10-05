@@ -29,6 +29,7 @@ import { createThemeToggleUi } from './lib/theme-toggle.ts'
 import { createThemePickerUi, SESSION_KEY as THEME_SESSION_KEY } from './lib/theme-picker.ts'
 import { createShellMenuUi } from './lib/shell-menu.ts'
 import { createBackdropRotation } from './lib/backdrop.ts'
+import { dealCardBackground, redealCardBackgrounds, redealIfThemeChanged } from './lib/card-background.ts'
 import { createPullToRefresh } from './lib/pull-refresh.ts'
 import { createPager, type Pager } from './lib/pager.ts'
 import { createSlideshowController, extractSlideshow, isForbiddenNestedSlideshow, type SlideshowController } from './lib/slideshow.ts'
@@ -210,6 +211,7 @@ function render(rawLayout: NormalisedLayout): void {
     for (const card of page.cards) {
       const card_el = createWidget(card)
       card_el.id = card.id
+      dealCardBackground(card_el)
       if (card.span?.cols && card.span.cols > 1) {
         card_el.style.gridColumn = `span ${Math.min(card.span.cols, columns)}`
       }
@@ -580,6 +582,7 @@ function buildNestedChild(parentType: 'carousel' | 'grid', nested: Card): HTMLEl
   }
   const el = createWidget(nested)
   el.id = nested.id
+  dealCardBackground(el)
   return el
 }
 
@@ -654,12 +657,17 @@ createIssueLogUi()
 createThemeToggleUi()
 createShellMenuUi()
 let backdrop = createBackdropRotation()
+// The first deal may have read the layout's theme rather than this tab's.
+if (document.readyState === 'complete') redealIfThemeChanged()
+else window.addEventListener('load', () => redealIfThemeChanged(), { once: true })
 createThemePickerUi({
-  // The rotation counted the old theme's backdrops; start it over on the new one.
+  // The rotation counted the old theme's backdrops; start it over on the new
+  // one. The cards were dealt the old theme's card pictures; deal them again.
   onApplied: () => {
     backdrop.destroy()
     delete document.documentElement.dataset.backdrop
     backdrop = createBackdropRotation()
+    redealCardBackgrounds()
   },
   onShown: (theme) => {
     footThemeKnown = true

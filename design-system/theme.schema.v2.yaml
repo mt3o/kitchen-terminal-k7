@@ -29,6 +29,8 @@
 #  11. colors.cardBorder / header — added for punktomat: a card outline that
 #                     is not the controls' 3:1 frame, and the shell header as
 #                     a band with its own background, padding and scoped ink.
+#  12. ornament.cardBackground as a list — added for kawaii: each card draws
+#                     one variant at random (src/client/lib/card-background.ts).
 
 $schema: "https://json-schema.org/draft/2020-12/schema"
 $id: "https://kitchen-terminal-k7.local/schema/theme.schema.v2.yaml"
@@ -371,11 +373,25 @@ properties:
           How long each backdrop stays, counted from local midnight so every
           screen shows the same one at the same time. 1440 = one per day.
       cardBackground:
-        $ref: "#/$defs/modeValue"
         description: >
           Background layers for every card; the mode's `surface` colour is
-          appended (--card-bg). Measure text contrast against the picture's
-          darkest/lightest pixels, not only against `surface`.
+          appended (--card-bg). A list per mode is a set of variants: each card
+          draws one at random when it is built, dealt so that every variant is
+          used once before any repeats (src/client/lib/card-background.ts). The
+          variants are emitted as --card-bg-0..11, wrapping round the list.
+          Night falls back to dark. Measure text contrast against the
+          picture's darkest/lightest pixels, not only against `surface`.
+        oneOf:
+          - type: string
+          - type: array
+            items: { type: string }
+          - type: object
+            properties:
+              light: { oneOf: [{ type: string }, { type: array, items: { type: string } }] }
+              dark: { oneOf: [{ type: string }, { type: array, items: { type: string } }] }
+              night:
+                oneOf: [{ type: string }, { type: array, items: { type: string } }]
+                description: "Falls back to dark."
       cardFrame:
         $ref: "#/$defs/modeValue"
         description: "A border-image value for every card (--card-frame). Default none."

@@ -13,7 +13,7 @@ import { describe, it } from 'node:test'
 import { parse } from 'yaml'
 
 import { resolveThemeAsset } from '../src/server/theme/assets.ts'
-import { backdropCount, generateTokensCss, themeAssetPaths, type Theme } from '../src/server/theme/generate.ts'
+import { backdropCount, CARD_BG_SLOTS, cardBackgroundCount, generateTokensCss, themeAssetPaths, type Theme } from '../src/server/theme/generate.ts'
 
 const theme = parse(readFileSync('design-system/themes/retro-scifi.yaml', 'utf8')) as Theme
 const daylight = parse(readFileSync('design-system/themes/daylight-lab.yaml', 'utf8')) as Theme
@@ -118,6 +118,13 @@ describe('the generator emits every token the components use', () => {
       // per-request (the number of configured calendars is arbitrary and
       // unknown at theme-build time), not a fixed theme token.
       '--calendar-tick-color',
+      // Which of the theme's --card-bg-N slots a card paints: emitted only by
+      // a theme with several card pictures, for hosts lib/card-background.ts
+      // has dealt a slot. The components fall back to --card-bg when it is
+      // unset, which is every theme with one card picture (this one).
+      '--card-bg-pick',
+      // Not a token: generate.ts's own template for those rules, `var(--card-bg-${slot})`.
+      '--card-bg-',
     ])
     const used = new Set(
       [...sources.matchAll(/var\((--[a-z0-9-]+)/g)].map((m) => m[1] as string).filter((t) => !RUNTIME.has(t)),
@@ -321,6 +328,51 @@ describe('hellforge', () => {
     for (const mode of ['dark', 'light', 'night'] as const) {
       const page = valueOf(css, '--page-bg', `[data-mode="${mode}"]`) ?? ''
       assert.ok(page.endsWith(`, ${valueOf(css, '--bg', `[data-mode="${mode}"]`)}`), `${mode} page is not based on --bg`)
+    }
+  })
+})
+
+describe('card background variants', () => {
+  const kawaii = parse(readFileSync('design-system/themes/kawaii.yaml', 'utf8')) as Theme
+  const css = generateTokensCss(kawaii, { assetUrl: (path) => `/theme-assets/${path}` })
+
+  it('a theme with one card background emits no slots, so cards paint --card-bg as before', () => {
+    for (const t of [theme, parse(readFileSync('design-system/themes/hellforge.yaml', 'utf8')) as Theme]) {
+      const out = generateTokensCss(t)
+      assert.equal(cardBackgroundCount(t), 1)
+      assert.ok(!out.includes('--card-bg-0:'), `${t.name} emitted a slot`)
+      assert.ok(!out.includes('--card-bg-count'), `${t.name} emitted a count`)
+    }
+  })
+
+  it('a list emits every slot in every mode, wrapping round that mode\'s own list', () => {
+    const n = cardBackgroundCount(kawaii)
+    assert.ok(n > 1)
+    assert.equal(valueOf(css, '--card-bg-count'), String(n))
+    for (const mode of ['dark', 'light', 'night'] as const) {
+      const at = `[data-mode="${mode}"]`
+      const slots = Array.from({ length: CARD_BG_SLOTS }, (_, i) => valueOf(css, `--card-bg-${i}`, at))
+      for (const [i, v] of slots.entries()) assert.ok(v, `${mode} --card-bg-${i} missing`)
+      const surface = valueOf(css, '--surface', at) as string
+      for (const v of slots) assert.ok(v?.endsWith(`, ${surface}`), `${mode} variant is not based on --surface: ${v}`)
+      assert.equal(slots[0], valueOf(css, '--card-bg', at), `${mode} variant 0 is not --card-bg`)
+      const list = slots.slice(0, n)
+      assert.equal(new Set(list).size, n, `${mode}: the first ${n} slots are not ${n} distinct variants`)
+      for (let i = n; i < CARD_BG_SLOTS; i++) assert.equal(slots[i], slots[i % n], `${mode} slot ${i} does not wrap`)
+    }
+  })
+
+  it('maps every slot attribute to its slot token, and only for a theme with variants', () => {
+    for (let slot = 0; slot < CARD_BG_SLOTS; slot++) {
+      assert.equal(valueOf(css, '--card-bg-pick', `[data-card-bg="${slot}"]`), `var(--card-bg-${slot})`)
+    }
+    assert.ok(!generated.includes('data-card-bg'), 'a one-picture theme emitted slot rules')
+  })
+
+  it('serves every variant: each picture is in the allowlist', () => {
+    const paths = themeAssetPaths(kawaii)
+    for (const url of css.matchAll(/--card-bg-\d+: url\("\/theme-assets\/([^"]+)"\)/g)) {
+      assert.ok(paths.includes(url[1] as string), `${url[1]} is not servable`)
     }
   })
 })
