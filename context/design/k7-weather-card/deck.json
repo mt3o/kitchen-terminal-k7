@@ -1,0 +1,358 @@
+{
+  "v": 1,
+  "surface": "k7-weather-card",
+  "target": "src/client/lib/K7Weather.svelte",
+  "binding": "system-bound",
+  "notes": [
+    "Graph glyphs are 7-bit ASCII only, like wmo.ts's art: themes swap monoFontFamily, so box-drawing and block elements do not hold a cell width everywhere.",
+    "Rain and snow are told apart by glyph, never colour alone (DESIGN.md §8 status-badge rule).",
+    "Hourly horizon: 72 h from the current hour (ruled 2026-10-03). Time runs DOWN the graphs, one row per hour, scrolled vertically by finger (confirmed 2026-10-05) — vertical so it never competes with the Page swipe. Unscrolled they show at most 24 h, fewer if the space does not hold 24. The Slideshow never scrolls: a touch ends the presentation."
+  ],
+  "screens": [
+    {
+      "id": "standard-card",
+      "status": "agreed",
+      "agreed_by": [
+        {
+          "change": "k7-weather-hourly",
+          "on": "2026-10-05"
+        }
+      ],
+      "implements": "src/client/lib/K7Weather.svelte",
+      "wireframe": {
+        "cols": 12,
+        "rows": 8,
+        "regions": [
+          {
+            "label": "card-head SYS.POGODA // age (existing)",
+            "x": 0,
+            "y": 0,
+            "w": 12,
+            "h": 1
+          },
+          {
+            "label": "now: art + temperature + condition (existing)",
+            "x": 0,
+            "y": 1,
+            "w": 12,
+            "h": 2
+          },
+          {
+            "label": "detail: odczuwalna / wilgotnosc / wiatr (existing)",
+            "x": 0,
+            "y": 3,
+            "w": 12,
+            "h": 1
+          },
+          {
+            "label": "hourly strip: next 6 h (4 on phone) — hour / temp / precip % (new)",
+            "x": 0,
+            "y": 4,
+            "w": 12,
+            "h": 2,
+            "accent": true
+          },
+          {
+            "label": "days: 3 days min/max (existing)",
+            "x": 0,
+            "y": 6,
+            "w": 12,
+            "h": 1
+          },
+          {
+            "label": "stale line, only when stale (existing)",
+            "x": 0,
+            "y": 7,
+            "w": 12,
+            "h": 1
+          }
+        ]
+      },
+      "components": {
+        "card shell, header, fullscreen button": "existing:Card.svelte",
+        "now, detail, days, stale": "existing:K7Weather.svelte (unchanged)",
+        "hourly strip": "existing:K7Weather .days column pattern (label in dt/dow style, value in .range style) — one more row of the same recipe, grid repeat(6, minmax(0, 1fr)) per DESIGN.md §6.1; repeat(4, ...) below 767px"
+      },
+      "states": {
+        "loading": "unchanged: 'odczyt'",
+        "error-no-data": "unchanged: 'brak danych pogodowych'",
+        "stale": "strip still shown; the existing [!] line says how old",
+        "hourly-missing": "strip absent (old cache without hourly, or fewer than 1 future hour); the rest renders exactly as before",
+        "null-slot": "that cell shows '--', like round() already does"
+      },
+      "behavior": [
+        "No interaction. Starts at the next full hour (the readout above is 'now').",
+        "Moves with the existing refresh (900 s client poll, 900 s server freshness)."
+      ],
+      "cites": [
+        "node:7108856c",
+        "node:4a749051",
+        "node:0a1201ce"
+      ],
+      "prototype": null,
+      "rulings": [
+        "6 columns x 1 h, from the next full hour",
+        "third line is precipitation probability (%), not mm — mm lives in the graphs",
+        "below 767px the strip drops to 4 columns; nothing else is cut; .wrap scroll stays the fallback"
+      ]
+    },
+    {
+      "id": "maximized",
+      "status": "agreed",
+      "agreed_by": [
+        {
+          "change": "k7-weather-hourly",
+          "on": "2026-10-05"
+        }
+      ],
+      "implements": "src/client/lib/K7Weather.svelte (manualElIdStore === hostId)",
+      "wireframe": {
+        "cols": 12,
+        "rows": 12,
+        "regions": [
+          {
+            "label": "card-head (existing, close button)",
+            "x": 0,
+            "y": 0,
+            "w": 12,
+            "h": 1
+          },
+          {
+            "label": "summary band: art + temp + cond | detail | days, one row",
+            "x": 0,
+            "y": 1,
+            "w": 12,
+            "h": 1
+          },
+          {
+            "label": "graph header (sticky): GODZ | TEMPERATURA min..max | OPADY mm/h 0..4 + legend | SZANSA",
+            "x": 0,
+            "y": 2,
+            "w": 12,
+            "h": 1
+          },
+          {
+            "label": "hour column",
+            "x": 0,
+            "y": 3,
+            "w": 1,
+            "h": 9
+          },
+          {
+            "label": "temperature graph: 'o' marker per hour on min..max of the window, value after",
+            "x": 1,
+            "y": 3,
+            "w": 5,
+            "h": 9,
+            "accent": true
+          },
+          {
+            "label": "precipitation graph: bar per hour, '#' rain '*' snow, fixed 0-4 mm/h scale, mm + %",
+            "x": 6,
+            "y": 3,
+            "w": 6,
+            "h": 9,
+            "accent": true
+          }
+        ]
+      },
+      "components": {
+        "card shell, header, close button": "existing:Card.svelte",
+        "summary band": "existing:K7Weather now/detail/days pieces, laid in one row",
+        "graphs": "GAP:ruled:f1290406 — text rows in the .art <pre> recipe, 7-bit ASCII, token colours only; one-off in K7Weather until a second card wants a chart"
+      },
+      "states": {
+        "loading": "unchanged",
+        "error-no-data": "unchanged",
+        "stale": "graphs shown, rows start at the current hour (past rows dropped), [!] line in the summary band",
+        "no-precipitation": "precip column header reads 'OPADY // brak w ciagu 72 h'; rows stay blank",
+        "hourly-missing": "graph area shows one muted line 'brak prognozy godzinowej' — a blank fullscreen would look broken"
+      },
+      "behavior": [
+        "Vertical finger scroll over the graph area, both graphs scroll together (one scroller, shared hour column)",
+        "Unscrolled: as many hours as fit, capped at 24; scrollable to 72",
+        "Midnight is a separator row '-- PON 06.10 --'",
+        "First row is the current hour, prefixed '>'"
+      ],
+      "cites": [
+        "node:8b25dd73",
+        "node:7108856c",
+        "node:4a749051",
+        "node:f1290406",
+        "node:97369103",
+        "node:0ea3bd46"
+      ],
+      "prototype": null,
+      "rulings": [
+        "graphs: option (a), ASCII text rows, node f1290406",
+        "temperature: point 'o' on the window's min..max, not a bar (node 0ea3bd46)",
+        "precipitation: fixed 0-4 mm/h scale, '>' past the end (node 0ea3bd46)",
+        "time axis vertical, shared scroller (node 97369103)"
+      ],
+      "notes": "Phone width (<768px) is designed with screen 3p and applies here too."
+    },
+    {
+      "id": "slideshow-presenting",
+      "status": "agreed",
+      "agreed_by": [
+        {
+          "change": "k7-weather-hourly",
+          "on": "2026-10-05"
+        }
+      ],
+      "implements": "src/client/lib/K7Weather.svelte (presentingElIdStore === hostId)",
+      "wireframe": {
+        "cols": 12,
+        "rows": 12,
+        "regions": [
+          {
+            "label": "card-head (existing)",
+            "x": 0,
+            "y": 0,
+            "w": 12,
+            "h": 1
+          },
+          {
+            "label": "hero column: art / temperature --glance-lg / condition / detail / days",
+            "x": 0,
+            "y": 1,
+            "w": 5,
+            "h": 11
+          },
+          {
+            "label": "graph header: GODZ | TEMP min..max | OPADY 0..4 mm/h, # deszcz * snieg",
+            "x": 5,
+            "y": 1,
+            "w": 7,
+            "h": 1
+          },
+          {
+            "label": "graphs side by side at --text-lg, 1 h rows from the current hour, as many as fit (~22, cap 24), no scroll",
+            "x": 5,
+            "y": 2,
+            "w": 7,
+            "h": 10,
+            "accent": true
+          }
+        ]
+      },
+      "variants": {
+        "768-1023px (iPad portrait)": "stacked: hero on top (as today), graphs below at full width; ~12-16 h fit"
+      },
+      "components": {
+        "card shell": "existing:Card.svelte",
+        "hero": "existing:K7Weather presentation pieces, restacked into one column",
+        "graphs": "GAP:ruled:f1290406 — same ASCII rows as screen 2, larger type, no scroller"
+      },
+      "states": {
+        "stale": "graphs shown, rows from the current hour, [!] line under the hero",
+        "no-precipitation": "header 'OPADY // brak w ciagu 24 h'",
+        "hourly-missing": "graph column absent; the hero falls back to today's centred presentation exactly — no error line on an unattended wall"
+      },
+      "behavior": [
+        "No interaction, no scroll: a touch ends the presentation",
+        "First row re-derived from the clock on every refresh (<=15 min lag)"
+      ],
+      "cites": [
+        "node:8b25dd73",
+        "node:7108856c",
+        "node:81c7ca54",
+        "node:97369103",
+        "node:f1290406"
+      ],
+      "prototype": null,
+      "rulings": [
+        "two columns in landscape, stacked in portrait",
+        "graph rows at --text-lg",
+        "detail row kept; first to drop in stacked portrait"
+      ]
+    },
+    {
+      "id": "slideshow-presenting-phone",
+      "status": "agreed",
+      "agreed_by": [
+        {
+          "change": "k7-weather-hourly",
+          "on": "2026-10-05"
+        }
+      ],
+      "implements": "src/client/lib/K7Weather.svelte (presenting, max-width 767px)",
+      "applies_also_to": "maximized at max-width 767px (same graph columns, with the scroller)",
+      "wireframe": {
+        "cols": 6,
+        "rows": 12,
+        "regions": [
+          {
+            "label": "card-head",
+            "x": 0,
+            "y": 0,
+            "w": 6,
+            "h": 1
+          },
+          {
+            "label": "hero: art --text-sm beside temperature --glance-md, condition",
+            "x": 0,
+            "y": 1,
+            "w": 6,
+            "h": 2
+          },
+          {
+            "label": "detail row --text-lg values",
+            "x": 0,
+            "y": 3,
+            "w": 6,
+            "h": 1
+          },
+          {
+            "label": "days",
+            "x": 0,
+            "y": 4,
+            "w": 6,
+            "h": 1
+          },
+          {
+            "label": "graph header: GODZ | TEMP | OPADY # *",
+            "x": 0,
+            "y": 5,
+            "w": 6,
+            "h": 1
+          },
+          {
+            "label": "graphs side by side at --text-sm: hour | temp 10 cells + value | precip 10 cells + %; ~15 rows portrait",
+            "x": 0,
+            "y": 6,
+            "w": 6,
+            "h": 6,
+            "accent": true
+          }
+        ]
+      },
+      "variants": {
+        "phone landscape (667x375)": "two columns like the iPad landscape screen: hero left (days kept if they fit), graphs right, ~14 rows"
+      },
+      "layout_rule": "orientation picks the arrangement (landscape = two columns, portrait = stacked); width picks the size step (<768px one notch down, node 126b8c0b)",
+      "components": {
+        "graphs": "GAP:ruled:f1290406 — same ASCII rows, compressed: 10-cell graphs, mm value dropped (the bar carries it), % kept",
+        "rest": "existing:K7Weather phone presentation (PR #85)"
+      },
+      "states": "as screen 3",
+      "behavior": [
+        "presenting: no scroll, rows from the current hour, as many as fit",
+        "maximized on a phone: same columns inside the vertical scroller, to +72 h"
+      ],
+      "cites": [
+        "node:126b8c0b",
+        "node:32f913e8",
+        "node:eede0e36",
+        "node:f1290406",
+        "node:97369103",
+        "node:7f4027ac"
+      ],
+      "prototype": null,
+      "rulings": [
+        "graphs side by side, compressed (10 cells, % kept, mm dropped), not tabs",
+        "orientation picks arrangement, width picks size step"
+      ]
+    }
+  ]
+}
