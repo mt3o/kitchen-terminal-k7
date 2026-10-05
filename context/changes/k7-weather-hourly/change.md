@@ -1,6 +1,6 @@
 # k7-weather-hourly
 
-status: open
+status: implemented
 created: 2026-10-03
 memory_goal: 7f63f396-9eb4-45f7-ac01-7c072df71923
 change_anchor: 408ed48c-3935-45fa-bd5d-029816361149
@@ -64,3 +64,30 @@ Planning inputs: the standard card is at its height limit on the 4-card
 *glowna* Page (measure with `light` + `density: large`); the server must
 request `forecast_days` covering 72 h from now (4 days) plus `rain`,
 `showers`, `snowfall`.
+
+## Outcome (2026-10-05)
+
+Implemented on `k7-weather-hourly-card`, stacked on #87 (the server half).
+Work was split between two sessions. "Widget display in fullscreen slideshow"
+owned the card, the deck and the branch. "K7 weather" wrote the pure module
+(Phase 2) and ran every Chromium verification.
+
+- **Plan review:** independent, APPROVE WITH AMENDMENTS (F1–F9, in plan.md).
+- **User ruling after measuring Phase 3** `[node:d1f56964]`: the standard
+  card stays as it was, with no hourly strip and no `[ + ]`. The deck screens
+  `standard-card` and `maximized` are withdrawn.
+- **Shipped:** hourly ASCII graphs when the Slideshow presents the card.
+  - **Layout:** hero beside the graphs in landscape (1:1), stacked in
+    portrait, one size step down on a phone.
+  - **Fitting:** the line count is measured, capped at 24.
+  - **What gives way:** in landscape, days, then detail, then the drawing.
+    The decision is taken after the box settles and re-decided when it grows.
+- **Verified** (synthetic #87 payload, real rotation, fake clock):
+  - 1024x768, 768x1024, 375x667, 667x375 and 844x390: 0 overflow, nothing
+    half-cut, nothing clipped at the start;
+  - 0 px diff for the standard card and for the presentation without hourly
+    data;
+  - three stress runs with identical row drops.
+  - **Not checked on the iPad.**
+- **Captures:** `2de61225`, `9baa87db`, `21b0b80b`, `eab9ac6c`, `d1f56964`,
+  plus the K7 weather session's plan captures.
