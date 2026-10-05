@@ -188,3 +188,74 @@ removed against `main` (agent-notes §6).
 | Mono advance width differs per theme (Courier Prime vs Source Code Pro) | Geometry measured from one rendered character per theme, not a 0.6 em constant. |
 | A ResizeObserver loop on Safari 15 (resize → re-render → resize) | The graph's own size never depends on its row text: fixed font-size, `width: 100%`. Only the cell counts change. |
 | Not verified on the iPad | Said plainly at review (agent-notes §6). Chromium is not Safari 15. |
+
+## Plan-review amendments (2026-10-05, independent /gw-plan-review: APPROVE WITH AMENDMENTS)
+
+Implementation is taken over by the "Widget display in fullscreen slideshow"
+session on branch `k7-weather-hourly-card` (= main + #87 c8cc1f1 + the plan
+commit). Phase 2 is built by the K7 weather session in its own worktree and
+cherry-picked; that session also runs the Chromium checks for Phases 3–5.
+**F9 (branch names):** the card PR is rebased onto `main` once #87 merges, so
+it carries client files only.
+
+- **F1 (Phase 5): the presenting rows box gets its height from the layout,
+  not from its content.** Under `.has-hours` the graph rows box is `flex: 1 1
+  0` (or a `1fr` track), `min-height: 0`, `overflow: hidden`, `margin: 0`,
+  overriding the #85 auto margins for that box only. The ResizeObserver
+  measures the rows box, never the header. If the box took its height from its
+  rows, `floor(box / row)` would lock at 0 or a wrong count.
+- **F2 (Phase 3): the `fullscreen` opt-in moves to Phase 3.** `[ + ]` makes
+  the head taller, so the standard card's `.wrap` overflow is measured with
+  the button present.
+- **F3 (Phase 5): dropping `.detail` in stacked portrait is decided from the
+  row count computed as if `.detail` were present.** Otherwise hiding it adds
+  rows, which un-hides it, and the layout flips back and forth.
+- **F4 (Phase 2): the budget counts lines, not hours.** `graphRows(...,
+  maxLines)` counts midnight separators, so 24 hours plus a separator never
+  paints 25 lines.
+- **F5 (Phase 2): precipitation edge cases.**
+  - The snow share is `max(0, precipitation − rain)`.
+  - When `rain` is `null` and `precipitation` is not, the whole bar draws as
+    rain (`#`). Snow is never inferred from a missing split.
+  - A capped bar keeps its rain/snow proportions.
+  - The scale comes from `units.precipitation` (`inch` → 0.16 in/h), not
+    from the card's `units` prop. The header reads `in/h` in imperial.
+  - Value segments carry numbers only. Units live in the header, so every
+    output character stays below 0x80 (no `°`).
+- **F6 (Phases 2–3): role colours and deterministic labels.**
+  - **Colour per role:**
+
+    | Role | Token |
+    |---|---|
+    | `hour` | `--fg-muted` |
+    | `marker` | `--accent` (the amber ink) |
+    | `value` | `--fg` |
+    | `rain` | `--fg` |
+    | `snow` | `--fg-muted` |
+    | `pct` | `--fg-muted` |
+    | `muted` | `--fg-disabled` |
+    | `separator` | `--fg-muted` |
+
+    Not `--signal` (teal: at most twice per card, dffe0843) and not `--warn`
+    (that means a state). Rain and snow differ by glyph, never by colour alone.
+  - **Time zone:** the pure module takes a `timeZone`. The card passes the
+    response's `timezone` (added to `Aged`). Hours are formatted with
+    `Intl.DateTimeFormat(… { timeZone, hour: '2-digit', hourCycle: 'h23' })`.
+  - **Weekdays** come from a fixed folded table, `NIEDZ PON WT SR CZW PT SOB`,
+    not from ICU, so the separator and its test don't depend on the machine.
+- **Deck coverage:**
+  - `graphRows` takes `showPct` and emits a `pct` role. Probability is kept
+    on the phone, while mm is dropped there.
+  - The no-precipitation header names the window actually shown: `brak w
+    ciagu 24 h` when presenting, `72 h` when maximized. The component
+    supplies the number; `hasPrecipitation` runs on the shown slice.
+  - When presenting, the stale `[!]` line sits under the hero.
+- **F7 (Phase 4): maximized styling never keys on `.k7-fullscreen-active`
+  alone, which presenting also sets.**
+  - It uses a `manual` class set from `manualElIdStore`.
+  - Maximized rows are `--text-base`.
+  - Before the first ResizeObserver measurement, the graph renders with the
+    phone cell counts (10), so a fallback is always painted.
+- **F8 (Phase 5): `(max-height: 500px)` is not added without the user.**
+  7f4027ac rules that width alone picks the size step. If 844×390 overflows,
+  the screenshot goes to the user with a proposal, not into the code.
