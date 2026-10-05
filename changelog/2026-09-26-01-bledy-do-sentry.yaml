@@ -1,0 +1,5 @@
+date: "2026-09-26"
+title: "Błędy trafiają do Sentry, a czat nie zawiesza się w ciszy"
+items:
+  - "Terminal zgłasza błędy do naszego Sentry (sentry.rashell.pl) — także te, które wywróciły ekran na tablecie."
+  - "Gdy czat nie dostaje odpowiedzi od modelu, po 30 sekundach ciszy pokazuje błąd zamiast kręcić się w nieskończoność, a przyczyna zapisuje się w dzienniku problemów."

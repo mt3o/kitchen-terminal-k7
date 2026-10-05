@@ -1,0 +1,6 @@
+date: "2026-10-03"
+title: "Pokaz: pogoda i kalendarz czytelne z drzwi"
+items:
+  - "Gdy po dłuższej chwili bez dotyku ekran przechodzi w pokaz, karta SYS.POGODA jest wyśrodkowana jak zegar: duża temperatura, większe wartości i prognoza na wszystkie dni, które przyszły z serwera, a nie tylko na trzy."
+  - "Karta LOG.WYDARZENIA w pokazie zaczyna od dzisiaj, bez minionych dni, ma duże daty i większe godziny i tytuły wydarzeń. Pokazuje zawsze zakładkę GŁÓWNY i chowa pasek zakładek."
+  - "Po dotknięciu ekranu obie karty wracają do zwykłego wyglądu, a w kalendarzu zostaje zakładka, którą ktoś wybrał wcześniej."

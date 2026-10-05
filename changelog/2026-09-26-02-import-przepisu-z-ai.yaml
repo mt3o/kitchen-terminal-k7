@@ -1,0 +1,6 @@
+date: "2026-09-26"
+title: "Import przepisu z linku czyta stronę mądrzej"
+items:
+  - "Import przepisu z adresu URL czyta teraz całą stronę modelem AI i zwraca uporządkowany przepis: składniki osobno, kroki osobno."
+  - "Pusta linia w opisie na stronie źródłowej nie robi już z listy składników sposobu przygotowania ani nie gubi kroków."
+  - "Gdy model jest niedostępny, import działa jak dotąd — na podstawie znaczników strony."

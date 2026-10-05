@@ -1,0 +1,4 @@
+date: "2026-10-03"
+title: "Kalendarz po pokazie wraca do dzisiejszego dnia"
+items:
+  - "Gdy dotknięcie ekranu kończyło pokaz na karcie LOG.WYDARZENIA, kalendarz przez dwie minuty pokazywał miniony dzień na górze listy. Teraz od razu wraca do dzisiejszego dnia."

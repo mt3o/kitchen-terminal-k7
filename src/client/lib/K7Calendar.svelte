@@ -36,6 +36,7 @@
 
 <script lang="ts">
   import Card from './Card.svelte'
+  import { hostIdOf, presentingElIdStore } from './fullscreen-lock.ts'
   import {
     agendaRange,
     agendaRows,
@@ -126,10 +127,35 @@
   // The agenda spans three months, so a bare day number no longer says which.
   const MONTHS = ['sty', 'lut', 'mar', 'kwi', 'maj', 'cze', 'lip', 'sie', 'wrz', 'paz', 'lis', 'gru']
 
-  let selectedEvents = $derived(selectEventsForTab(calendarsList, mainIds, eventsByCalendar, selectedTab))
+  let listEl = $state<HTMLElement | undefined>()
+
+  /**
+   * Whether the Slideshow is presenting this card on its own — nobody in the
+   * room, read from the doorway. Two content changes follow, which is why
+   * this goes through the store and not only the `:host(...)` class: the
+   * merged GŁÓWNY tab is shown whatever tab somebody left selected (a
+   * single calendar's tab is a choice made at the glass, not what the wall
+   * should default to), and only today onward — the past days above today
+   * are a scroll away in the card, and nobody scrolls a presentation.
+   * `selectedTab` itself is left alone, so the card comes back as it was.
+   */
+  let hostId = $state<string | undefined>(undefined)
+  $effect(() => {
+    if (!listEl) return
+    hostId = hostIdOf(listEl)
+  })
+  let presenting = $derived(hostId !== undefined && $presentingElIdStore === hostId)
+  let shownTab = $derived(presenting ? 'main' : selectedTab)
+
+  let selectedEvents = $derived(selectEventsForTab(calendarsList, mainIds, eventsByCalendar, shownTab))
   let buckets = $derived(groupByDay(selectedEvents, days))
   let rows = $derived.by(() => {
-    if (!dayView) return agendaRows(days, buckets, today)
+    if (!dayView) {
+      const all = agendaRows(days, buckets, today)
+      if (!presenting) return all
+      const i = all.findIndex((r) => isSameDay(r.day, today))
+      return i === -1 ? all : all.slice(i)
+    }
     const i = days.findIndex((d) => isSameDay(d, today))
     return [{ day: days[i] ?? today, events: buckets[i] ?? [] }]
   })
@@ -141,7 +167,6 @@
    * left it for `SNAP_BACK_MS` of quiet, and snaps back.
    */
   const SNAP_BACK_MS = 120_000
-  let listEl = $state<HTMLElement | undefined>()
   let userScrolledAt = $state(0)
   let snapTick = $state(0)
 
@@ -164,9 +189,12 @@
   })
 
   $effect(() => {
-    // Tab or day changing is a fresh look at the list: re-anchor.
+    // Tab or day changing is a fresh look at the list: re-anchor. So is a
+    // Slideshow presentation starting or ending — and the touch that ends one
+    // has already set `userScrolledAt` by the time the past rows come back.
     void selectedTab
     void today
+    void presenting
     userScrolledAt = 0
   })
 
@@ -320,7 +348,7 @@
 
 <Card label="LOG.WYDARZENIA" {meta} state={cardState} fullscreen>
   <div class="wrap">
-    {#if calendarsList.length > 1}
+    {#if calendarsList.length > 1 && !presenting}
       <div
         class="tabs"
         role="tablist"
@@ -597,4 +625,28 @@
 
   .day-view .col-body { gap: var(--space-2); }
   .day-view .event { min-height: var(--control-h-sm); }
+
+  /* --- Slideshow presentation ----------------------------------------------
+   * Same doorway reading as the clock (K7Card.svelte explains the
+   * `-presenting` vs `.k7-fullscreen-active` split). The tab strip is gone
+   * (see `presenting` in the script) and the list no longer scrolls: it
+   * starts at today and whatever does not fit is simply off the bottom —
+   * the next days are the ones that matter from the doorway. Date numbers
+   * take the bottom of the glance scale; times and titles the top of the
+   * read tier. The head is wider than the cell's `--space-12` so a
+   * glance-size two-digit date and its weekday still share one line. */
+  :host(.k7-slideshow-presenting) .week { overflow: hidden; gap: var(--space-4); }
+  :host(.k7-slideshow-presenting) .col { gap: var(--space-6); padding-bottom: var(--space-4); }
+  :host(.k7-slideshow-presenting) .col-today { padding-left: var(--space-4); }
+  :host(.k7-slideshow-presenting) .col-head { width: calc(var(--space-16) * 2); }
+  :host(.k7-slideshow-presenting) .date-line { gap: var(--space-2); }
+  :host(.k7-slideshow-presenting) .num { font-size: var(--glance-sm); line-height: var(--leading-glance); }
+  :host(.k7-slideshow-presenting) .dow,
+  :host(.k7-slideshow-presenting) .month,
+  :host(.k7-slideshow-presenting) .today-mark { font-size: var(--text-base); }
+  :host(.k7-slideshow-presenting) .col-body { gap: var(--space-3); }
+  :host(.k7-slideshow-presenting) .event { padding: var(--space-2) var(--space-3); }
+  :host(.k7-slideshow-presenting) .time { font-size: var(--text-lg); }
+  :host(.k7-slideshow-presenting) .title,
+  :host(.k7-slideshow-presenting) .empty { font-size: var(--text-xl); }
 </style>

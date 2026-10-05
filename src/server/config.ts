@@ -30,6 +30,8 @@ export interface Config {
   /** Absent means error reporting is off. That is a supported way to run. */
   glitchtipDsn: string | undefined
   kiloGatewayKey: string | undefined
+  /** The model that reads an imported recipe page. Smarter than the free default on purpose: it is one call per import. */
+  recipeImportModel: string
   googleOauthRefreshToken: string | undefined
   googleOauthClientId: string | undefined
   googleOauthClientSecret: string | undefined
@@ -100,8 +102,11 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     trustProxy: env.K7_TRUST_PROXY || undefined,
     environment: env.NODE_ENV ?? 'development',
     databasePath: env.K7_DB_PATH ?? './data/k7.sqlite',
-    glitchtipDsn: env.GLITCHTIP_DSN || undefined,
+    // SENTRY_DSN is the name the self-hosted Sentry-compatible server
+    // (sentry.rashell.pl) goes by; GLITCHTIP_DSN stays for existing deployments.
+    glitchtipDsn: env.SENTRY_DSN || env.GLITCHTIP_DSN || undefined,
     kiloGatewayKey: env.KILO_GATEWAY_KEY || undefined,
+    recipeImportModel: env.K7_RECIPE_IMPORT_MODEL || 'kilo-auto/balanced',
     googleOauthRefreshToken: env.GOOGLE_OAUTH_REFRESH_TOKEN || undefined,
     googleOauthClientId: env.GOOGLE_OAUTH_CLIENT_ID || undefined,
     googleOauthClientSecret: env.GOOGLE_OAUTH_CLIENT_SECRET || undefined,
