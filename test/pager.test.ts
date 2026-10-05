@@ -85,4 +85,11 @@ describe('resolveDragAxis', () => {
   it('gives a perfect diagonal to the page scroll', () => {
     assert.equal(resolveDragAxis(20, 20), 'y')
   })
+
+  it('gives every drag to the pager when the page cannot scroll (kiosk, or a phone page that fits)', () => {
+    // The reviewer's repro: an arcing thumb swipe whose first >=8px move is more vertical.
+    assert.equal(resolveDragAxis(-10, 12, false), 'x')
+    assert.equal(resolveDragAxis(6, -30, false), 'x')
+    assert.equal(resolveDragAxis(2, 3, false), 'x')
+  })
 })

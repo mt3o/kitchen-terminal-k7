@@ -1,8 +1,9 @@
 # k7-phone-page-scroll
 
-status: implemented
+status: reviewed
 created: 2026-09-25
 memory_goal: e73397bc-9bc3-47c9-8457-f72312d46aef
+review: context/changes/k7-phone-page-scroll/review.md
 design_surface: k7-shell-mobile
 
 ## Goal
