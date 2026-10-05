@@ -53,14 +53,40 @@ export interface WeatherDay {
   sunset: string
 }
 
+/**
+ * One hour of the forecast. A value Open-Meteo did not provide stays `null` —
+ * the far end of the horizon drops precipitation probability first — so the
+ * card can show '--' rather than a confident zero.
+ */
+export interface WeatherHour {
+  /** Real instant, resolved through the IANA zone (see resolveLocalInstant). */
+  time: string
+  temperature: number | null
+  /** Total, rain and snow together, as water (units.precipitation). */
+  precipitation: number | null
+  /** Percent. */
+  precipitationProbability: number | null
+  weatherCode: number | null
+  /** Liquid part: Open-Meteo's `rain` + `showers`, as water. The snow part of
+   *  `precipitation` is the remainder; `snowfall` is the same snow as fallen
+   *  depth (units.snowfall), which is not on the precipitation scale. */
+  rain: number | null
+  snowfall: number | null
+}
+
 export interface Weather {
   latitude: number
   longitude: number
   timezone: string
   utcOffsetSeconds: number
-  units: { temperature: string; windSpeed: string }
+  units: { temperature: string; windSpeed: string; precipitation: string; snowfall: string }
   now: WeatherNow
   daily: WeatherDay[]
+  /** Every hour Open-Meteo returned (from local midnight today, forecast_days
+   *  long). The card trims to the current hour itself, because a stale cached
+   *  answer must drop its past hours too. Absent from answers cached before
+   *  the series existed. */
+  hourly: WeatherHour[]
 }
 
 export function weatherUrl(q: WeatherQuery): string {
@@ -70,10 +96,12 @@ export function weatherUrl(q: WeatherQuery): string {
     longitude: String(q.longitude),
     current: 'temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code,is_day',
     daily: 'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset',
+    hourly: 'temperature_2m,precipitation,precipitation_probability,weather_code,rain,showers,snowfall',
     timezone: q.timezone,
     forecast_days: String(q.forecastDays ?? 5),
     temperature_unit: imperial ? 'fahrenheit' : 'celsius',
     wind_speed_unit: imperial ? 'mph' : 'kmh',
+    precipitation_unit: imperial ? 'inch' : 'mm',
   })
   return `${ENDPOINT}?${params.toString()}`
 }
@@ -98,6 +126,39 @@ export function resolveInstant(naive: string, utcOffsetSeconds: number): string 
   return new Date(`${withSeconds}${sign}${hh}:${mm}`).toISOString()
 }
 
+const HOUR_MS = 3_600_000
+
+/** The zone's offset from UTC, in ms, at one instant. */
+function zoneOffsetMs(instantMs: number, timeZone: string): number {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone, hourCycle: 'h23',
+    year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit',
+  }).formatToParts(new Date(instantMs))
+  const get = (type: string): number => Number(parts.find((p) => p.type === type)?.value)
+  const wall = Date.UTC(get('year'), get('month') - 1, get('day'), get('hour'), get('minute'), get('second'))
+  return wall - instantMs
+}
+
+/**
+ * A naive local wall-clock time, resolved in an IANA zone to a real instant
+ * (ms). Unlike resolveInstant, the offset is the zone's offset AT THAT TIME,
+ * so hours on both sides of a DST switch come out right. For the repeated
+ * hour at the end of summer time this picks the first occurrence; the hourly
+ * mapping below keeps the series increasing, which places the second.
+ */
+export function resolveLocalInstant(naive: string, timeZone: string): number {
+  const withSeconds = /\d{2}:\d{2}$/.test(naive) ? `${naive}:00` : naive
+  const asUtc = Date.parse(`${withSeconds}Z`)
+  // The offsets in force half a day either side cover both sides of any switch.
+  const before = asUtc - zoneOffsetMs(asUtc - 12 * HOUR_MS, timeZone)
+  const after = asUtc - zoneOffsetMs(asUtc + 12 * HOUR_MS, timeZone)
+  // A candidate is real if the zone, at that instant, shows this wall time.
+  const real = [before, after].filter((c) => zoneOffsetMs(c, timeZone) === asUtc - c)
+  // Two real candidates: the repeated hour, take the first. None: the hour
+  // skipped by spring-forward, read with the offset in force before it.
+  return real.length > 0 ? Math.min(...real) : before
+}
+
 interface RawResponse {
   error?: boolean
   reason?: string
@@ -108,6 +169,36 @@ interface RawResponse {
   current_units: Record<string, string>
   current: Record<string, number | string>
   daily: Record<string, (number | string)[]>
+  hourly_units?: Record<string, string>
+  hourly?: Record<string, (number | string | null)[]>
+}
+
+function hourlySeries(raw: RawResponse): WeatherHour[] {
+  const h = raw.hourly
+  if (!h?.time) return []
+  const num = (key: string, i: number): number | null => {
+    const v = h[key]?.[i]
+    return v === null || v === undefined || v === '' ? null : Number(v)
+  }
+  let previous = Number.NEGATIVE_INFINITY
+  return h.time.map((t, i) => {
+    // Strictly increasing: the wall clock repeats an hour when summer time
+    // ends, and both occurrences resolve to the first instant.
+    let at = resolveLocalInstant(String(t), raw.timezone)
+    if (at <= previous) at = previous + HOUR_MS
+    previous = at
+    const rain = num('rain', i)
+    const showers = num('showers', i)
+    return {
+      time: new Date(at).toISOString(),
+      temperature: num('temperature_2m', i),
+      precipitation: num('precipitation', i),
+      precipitationProbability: num('precipitation_probability', i),
+      weatherCode: num('weather_code', i),
+      rain: rain === null && showers === null ? null : (rain ?? 0) + (showers ?? 0),
+      snowfall: num('snowfall', i),
+    }
+  })
 }
 
 export async function fetchWeather(q: WeatherQuery, timeoutMs?: number): Promise<Weather> {
@@ -129,6 +220,8 @@ export async function fetchWeather(q: WeatherQuery, timeoutMs?: number): Promise
     units: {
       temperature: raw.current_units?.temperature_2m ?? '',
       windSpeed: raw.current_units?.wind_speed_10m ?? '',
+      precipitation: raw.hourly_units?.precipitation ?? '',
+      snowfall: raw.hourly_units?.snowfall ?? '',
     },
     now: {
       time: resolveInstant(String(raw.current.time), offset),
@@ -148,5 +241,6 @@ export async function fetchWeather(q: WeatherQuery, timeoutMs?: number): Promise
       sunrise: resolveInstant(String(raw.daily.sunrise?.[i] ?? ''), offset),
       sunset: resolveInstant(String(raw.daily.sunset?.[i] ?? ''), offset),
     })),
+    hourly: hourlySeries(raw),
   }
 }

@@ -16,12 +16,14 @@ https://api.open-meteo.com/v1/forecast?latitude=52.2297&longitude=21.0122&curren
 | `current` | `temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code,is_day` | Comma-separated list of instant "current conditions" variables. |
 | `daily` | `weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset` | Comma-separated list of daily-aggregate variables. Requires `timezone` to be meaningful (day boundaries are local). |
 | `timezone` | `Europe/Warsaw` (URL-encoded `Europe%2FWarsaw`) | IANA tz name. Default is `GMT`. All returned timestamps (`current.time`, `daily.time`, `sunrise`, `sunset`) are rendered in this zone as naive ISO8601 (no UTC offset suffix) — see §5. `timezone=auto` derives the zone from lat/lon server-side but *strips per-variable units for `current`* in some combos observed here (see below) — prefer an explicit IANA name for a fixed known location like the kiosk's.
-| `forecast_days` | `5` | Number of daily forecast days from today. Default 7, max 16. Also implicitly bounds the `hourly` array length if `hourly` is requested (not used here). |
+| `forecast_days` | `5` | Number of daily forecast days from today. Default 7, max 16. Also bounds the `hourly` array: `forecast_days × 24` rows from local midnight today (120 at 5). |
 | `temperature_unit` | `celsius` (default) | `celsius` or `fahrenheit`. |
 | `wind_speed_unit` | `kmh` (default) | `kmh`, `ms`, `mph`, or `kn`. |
+| `hourly` | `temperature_2m,precipitation,precipitation_probability,weather_code,rain,showers,snowfall` | Hourly variables, added 2026-10-05 (k7-weather-hourly), see §6. |
+| `precipitation_unit` | `mm` (`inch` for imperial) | Unit of `precipitation`, `rain`, `showers`. `snowfall` stays in cm (inch) of snow depth either way. |
 | `past_days` | not used | 0–92, prepends historical days before today. Not needed for this kiosk. |
 
-Not used but exists: `hourly` (hourly variables array), `apikey` (commercial tier auth), multi-location via comma-separated `latitude`/`longitude` lists.
+Not used but exists: `apikey` (commercial tier auth), multi-location via comma-separated `latitude`/`longitude` lists.
 
 ## 2. Real response (abridged to 2 daily entries)
 
@@ -148,3 +150,18 @@ Codes 95/96/99 (hail variants) are documented as only reliably available for Cen
 - **Response echoes snapped grid coordinates**, not your input lat/lon (see §2) — never assert round-trip equality on coordinates in tests.
 - **`timezone=auto`** works (derives zone from coordinates) but was only exercised here with a minimal `current` var list; for a kiosk with a fixed known location, prefer the explicit IANA name (`Europe/Warsaw`) for clarity and to avoid any edge-case geocoding failures at Open-Meteo's end.
 - Unit strings are exact and match Open-Meteo's own formatting, not a standard unit-code enum — e.g. `"mp/h"` for mph, `"°C"`/`"°F"` with the degree symbol, `"km/h"`. If displaying units from `current_units`/`daily_units` verbatim, don't re-derive them from `temperature_unit`/`wind_speed_unit` request params — read them from the response.
+
+## 6. Hourly block (verified live 2026-10-05)
+
+Request: the URL in §1 plus `hourly=temperature_2m,precipitation,precipitation_probability,weather_code,rain,showers,snowfall&precipitation_unit=mm`.
+
+```json
+"hourly_units": { "time": "iso8601", "temperature_2m": "°C", "precipitation": "mm",
+  "precipitation_probability": "%", "weather_code": "wmo code", "rain": "mm", "showers": "mm", "snowfall": "cm" },
+"hourly": { "time": ["2026-10-05T00:00", "2026-10-05T01:00", "..."], "temperature_2m": [13.7, 13.8, "..."], "...": "..." }
+```
+
+- 120 rows at `forecast_days=5`, starting at **local midnight today**, not at the current hour — the card trims to the current hour itself. Even at 23:00 local that leaves 97 hours, so a 72 h horizon fits.
+- `precipitation` is the total as **water** (mm) and already includes snow; `rain` and `showers` are its liquid parts; `snowfall` is snow **depth** in cm, a different quantity. The liquid share of an hour is `rain + showers`; the snow share, on the same mm scale, is `precipitation − (rain + showers)`. The adapter returns `rain` as that sum and keeps `snowfall` as reported.
+- No nulls observed in this sample; slots can still be `null` (§5), and the adapter keeps them `null`.
+- **DST**: the series is naive wall-clock time with a single `utc_offset_seconds`, the offset at request time. A 120-hour window crosses a DST switch for several days a year, so the adapter resolves each hour through the IANA `timezone` (`resolveLocalInstant`), keeping the series strictly increasing so the repeated hour when summer time ends stays two hours. How Open-Meteo spells that repeated hour (a duplicated `02:00` or not) has **not** been observed live — the next switch in Warsaw (2026-10-25) is beyond `forecast_days`' reach at the time of writing; the mapping handles both.
