@@ -1,0 +1,5 @@
+date: "2026-10-05"
+title: "Znacznik stanu karty nie łamie się już na dwie linie"
+items:
+  - "CZAT na telefonie: znacznik stanu w prawym dolnym rogu karty był rozbijany na dwie linie — \"[-\" nad \"-]\" — bo obok niego w stopce stoi nazwa modelu i dzisiejszy koszt. Teraz znacznik zawsze jest w całości ([OK], [!], [X], [--]); gdy obok niego nie ma miejsca, przechodzi do osobnej linii pod tym tekstem, nadal w prawym rogu."
+  - "Tekst w stopce czatu ma przez to całą szerokość karty, więc na telefonie widać go więcej niż dotąd. Na iPadzie w poziomie karty wyglądają dokładnie tak jak wcześniej."
