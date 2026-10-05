@@ -17273,12 +17273,14 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> DEPENDS_ON [node:0c1915db-564c-447f-b38d-c804d2f4f192] @ 2026-10-05T19:44:27.027224+00:00
 -> DEPENDS_ON [node:716987ce-f933-41b5-8c4e-590c09dc33bf] @ 2026-10-05T18:53:14.964719+00:00
 -> DEPENDS_ON [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-10-05T18:53:14.964719+00:00
 -> DEPENDS_ON [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-10-05T18:53:14.964719+00:00
 -> DEPENDS_ON [node:7ccea40e-a1e4-4382-abf2-dabe6c1a6a16] @ 2026-10-05T19:14:14.552485+00:00
 -> DEPENDS_ON [node:976f5dc0-bdd3-4fdb-9ef2-74d32178b1fe] @ 2026-10-05T19:14:14.897127+00:00
 -> DEPENDS_ON [node:c4182d99-ee62-476d-8f1a-c56c0b2cf8cf] @ 2026-10-05T19:14:15.266484+00:00
+-> DEPENDS_ON [node:f4a8aad8-33b8-414c-995e-5ea2b0f263ff] @ 2026-10-05T19:44:26.648209+00:00
 
 Ship a new decorated theme, Kawaii: a cozy, friendly, cute look with pastel rainbows, kawaii cats and unicorns, in all three modes, meeting the token contract and the AA contrast tests, selectable from the header menu without touching any component.
 ---
@@ -17291,10 +17293,12 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> SCOPED_TO [node:0c1915db-564c-447f-b38d-c804d2f4f192] @ 2026-10-05T19:44:27.027224+00:00
 -> SCOPED_TO [node:3a19fedf-6a0d-4315-8ab7-d2e633232219] @ 2026-10-05T18:53:14.964719+00:00
 -> SCOPED_TO [node:7ccea40e-a1e4-4382-abf2-dabe6c1a6a16] @ 2026-10-05T19:14:14.552485+00:00
 -> SCOPED_TO [node:976f5dc0-bdd3-4fdb-9ef2-74d32178b1fe] @ 2026-10-05T19:14:14.897127+00:00
 -> SCOPED_TO [node:c4182d99-ee62-476d-8f1a-c56c0b2cf8cf] @ 2026-10-05T19:14:15.266484+00:00
+-> SCOPED_TO [node:f4a8aad8-33b8-414c-995e-5ea2b0f263ff] @ 2026-10-05T19:44:26.648209+00:00
 
 change scope: k7-kawaii-theme
 ---
@@ -17374,3 +17378,43 @@ archived: false
 -> HAS_FACET [node:753f01fe-589f-4c8b-9b4b-e77dd2ad9546] @ 2026-10-05T19:14:15.266484+00:00
 
 Decided 2026-10-05 (k7-kawaii-theme): the kawaii theme's scenic backdrops are AI-generated illustrations (Google Gemini image generation, prompts written for the theme, "no text, no border"), while every small ornament — card ribbon frame, title rule, header mascot, paw watermark, pattern backdrop — is vector art drawn by scripts/draw-kawaii-decor.mjs. The user suggested Gemini mid-change; the first cut was all-vector, and hand-drawn SVG scenes were clearly weaker than generated illustrations at backdrop scale, while generated raster is wrong for nine-slice frames and rules, which need exact geometry (corner radius = slice × scale = borderRadiusPx). Generated images are normalised like stock photos: cover-cropped 4:3 at 1280×960, dark set scaled to p95 luminance 0.17, done in headless Chromium canvas because the machine has no ImageMagick/sharp. Credits record them as generated, not as third-party work.
+---
+[node:f4a8aad8-33b8-414c-995e-5ea2b0f263ff]
+type: decision
+tier: mid-term
+path: /artifact/decided-2026-10-05-k7-kawaii-theme-at
+created_at: 2026-10-05T19:44:26.648209+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-10-05T19:44:26.648209+00:00
+-> HAS_FACET [node:753f01fe-589f-4c8b-9b4b-e77dd2ad9546] @ 2026-10-05T19:44:26.648209+00:00
+-> DEPENDS_ON [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-10-05T19:44:26.648209+00:00
+
+Decided 2026-10-05 (k7-kawaii-theme, at the user's request): ornament.cardBackground may be a list per mode, and each card draws one variant at random. Mechanism: the generator emits the variants as 12 slot tokens --card-bg-0..11 per mode (wrapping round the list; 12 divides by 1-4 and 6), a --card-bg-count token, and one rule per slot `[data-card-bg="n"] { --card-bg-pick: var(--card-bg-n) }`; src/client/lib/card-background.ts sets data-card-bg on every card host (top-level and nested — all are light DOM, grid/carousel slot them) from a shuffled deck, so every picture shows before any repeats; Card.svelte and K7Card.svelte paint var(--card-bg-pick, var(--card-bg)). A theme with one picture emits no slot rules, so every existing theme renders byte-identically. Rejected: an inline --card-bg-pick on the host (K7Menu's `style` is a component prop, see the constraint captured alongside), and per-card selection in CSS (nth-child is not random and cannot reach across shadow roots). The deck is re-dealt when the theme's count changes: on onApplied, and once at window load, because index.html applies the tab's session theme before main.ts and the picker never fires onApplied for it.
+---
+[node:0c1915db-564c-447f-b38d-c804d2f4f192]
+type: constraint
+tier: mid-term
+path: /artifact/k7menu-src-client-lib-k7menu-svelte-de
+created_at: 2026-10-05T19:44:27.027224+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:35785afc-98d7-4d52-8dbb-b9934f2dc34e] @ 2026-10-05T19:44:27.027224+00:00
+
+K7Menu (src/client/lib/K7Menu.svelte) declares a component prop named `style` ('tabs' | 'icons' | 'list', reflected), which shadows HTMLElement.style on the k7-menu host. So `el.style` on a menu card is a string, `el.style.setProperty(...)` throws, and in ES-module strict mode even `el.style.gridColumn = ...` throws (assignment to a property of a primitive). Any of these inside main.ts's render() makes boot() fail, reconnectLoop's layout probe succeed, and boot() run again — the tight re-render loop main.ts's comments describe (seen in k7-kawaii-theme: 1526 /api/layout requests in 8 s). Latent today: render() sets `card_el.style.gridColumn` for any card with span.cols > 1, so a menu card with a column span would trigger it. Code touching card hosts generically should use attributes/dataset, or reach the real declaration via HTMLElement.prototype's style getter. Renaming the prop would be the real fix but changes the layout contract.
+---
+[node:35785afc-98d7-4d52-8dbb-b9934f2dc34e]
+type: facet_value
+tier: lifetime
+path: /facet/client
+created_at: 2026-10-05T19:44:27.027224+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+client

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Draws the `kawaii` theme's vector pictures: the pattern backdrop, card
-// frame, title rule, header-band mascot and card watermark. The scenic
-// backdrops are raster illustrations in images/, credited in CREDITS.md.
+// frame, title rule and header-band mascot. The scenic backdrops and card
+// pictures are raster illustrations in images/, credited in CREDITS.md.
 //
 //   node scripts/draw-kawaii-decor.mjs     → design-system/themes/kawaii/decor/
 //
@@ -189,13 +189,5 @@ writeFileSync(`${OUT}/rule-night.svg`, rule(['#8f5674', '#87694d', '#4c7a68', '#
 writeFileSync(`${OUT}/mascot.svg`, svg(96, 96, caticorn(48, 56, 30, { ...LIGHT, ink: '#4a2a52' }, { eyes: 'happy' })))
 writeFileSync(`${OUT}/mascot-dark.svg`, svg(96, 96, caticorn(48, 56, 30, { ...LIGHT, fur: '#fff6fb', ink: '#4a2a52' }, { eyes: 'happy' })))
 writeFileSync(`${OUT}/mascot-night.svg`, svg(96, 96, caticorn(48, 56, 30, DARK, { eyes: 'sleep' })))
-
-// --- card watermark: faint paws walking out of the bottom-left corner --------------
-// ≤8% ink, per the themes README: [OK] lives bottom-right, so the paws stay left.
-function paws(fill, op) {
-  return svg(220, 160, paw(30, 128, 26, fill, op) + paw(78, 98, 26, fill, op) + paw(118, 120, 26, fill, op) + paw(166, 88, 26, fill, op) + paw(200, 46, 22, fill, op))
-}
-writeFileSync(`${OUT}/paws-light.svg`, paws('#c0367c', 0.07))
-writeFileSync(`${OUT}/paws-dark.svg`, paws('#ff9fd0', 0.07))
 
 console.log('drew', OUT)

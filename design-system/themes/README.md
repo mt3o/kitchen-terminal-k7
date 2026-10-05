@@ -68,7 +68,7 @@ renders", which is how retro stays pixel-identical when a slot is added.
 | `ornament.pageBackground` (string or **list per mode**) | `--page-bg` | the mode's `--bg` |
 | `ornament.pageOverlay` | layered over every backdrop | none |
 | `ornament.backdropEveryMinutes` | `--backdrop-count`, `--backdrop-every` | 60 |
-| `ornament.cardBackground` | `--card-bg` | the mode's `--surface` |
+| `ornament.cardBackground` (string or **list per mode**) | `--card-bg`; a list adds `--card-bg-0..11`, `--card-bg-count` and a `[data-card-bg]` rule per slot | the mode's `--surface` |
 | `ornament.cardFrame` / `rule` | `--card-frame`, `--rule` (`border-image`) | `none` |
 
 Schema with descriptions: `../theme.schema.v2.yaml`. Worked examples, heavily
@@ -159,6 +159,16 @@ and issue-log dialogs, which are easy to forget and easy to leave unthemed.
 - **Night inherits dark's ornaments, watermark included.** Omitting a slot's
   `night` value means "use dark's", not "none". Kawaii's paw watermark
   showed at 03:00 until night got an explicit transparent gradient.
+- **A card picture sits under text, so it is clamped, not just dimmed.**
+  A list of card pictures means each card draws one at random
+  (`src/client/lib/card-background.ts`). Kawaii's were made legible by
+  construction: `scripts/kawaii-card-pictures.mjs` pulls every pixel toward
+  `surface` until all seven text roles keep 4.5:1 on it, measured on the
+  decoded JPEG. Deep light-mode inks are what leave room for visible pastels.
+- **A card host's `style` may not be its style.** K7Menu has a `style` prop,
+  so `el.style` on a menu card is the string `"icons"`. Writing to it threw
+  inside `render()`, and the reconnect loop then re-rendered forever. Theme
+  plumbing that touches card hosts uses attributes and stylesheet rules.
 - **Generated illustrations are fine for backdrops, not for ornaments.**
   Kawaii's scenes are Gemini illustrations normalised like photographs
   (step 5); its frame, rule and mascot are vector art from

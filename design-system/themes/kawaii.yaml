@@ -11,7 +11,7 @@
 #   pastel rainbow ribbon round cards  ornament.cardFrame (nine-slice, 16px)
 #   rainbow + heart under every title  ornament.rule
 #   caticorn in the header             header.background, over a rainbow band
-#   paw prints walking off each card   ornament.cardBackground, 7 % ink
+#   a random picture on every card     ornament.cardBackground (a list per mode)
 #   rounded everything                 shape.borderRadiusPx 16
 #   Nunito for reading, Baloo 2 titles typography
 #
@@ -21,8 +21,11 @@
 # palette there and redraw, do not hand-edit the SVGs. Nothing is animated
 # and nothing is blurred: the A8X rasterises each picture once.
 #
-# Palette ratios beside each role are on that mode's surface / surfaceRaised
-# / surfaceSunken.
+# Palette ratios beside each role are on that mode's surface. Light-mode
+# inks are deliberately deep (all ≥7:1): the card pictures underneath are
+# clamped per pixel so every ink keeps ≥4.5:1 on them
+# (scripts/kawaii-card-pictures.mjs), and deeper inks are what leave room for
+# visible pastels. Change a colour here, re-run that script.
 
 name: "Kawaii"
 schemaVersion: 2
@@ -70,7 +73,7 @@ colors:
 
   # --- text -------------------------------------------------------------------
   textPrimary:  { light: "#4a2a52", dark: "#fbeefe", night: "#cbbbd8" }     # 11.66 / 13.22 / 10.04
-  textMuted:    { light: "#7a4f80", dark: "#d6c3e4", night: "#a796b8" }     #  6.24 /  9.01 /  6.64
+  textMuted:    { light: "#6e4474", dark: "#d6c3e4", night: "#a796b8" }     #  7.41 /  9.01 /  6.64
   textDisabled: { light: "#c9b3cc", dark: "#6d5d86", night: "#4a3f60" }
 
   # --- structure ----------------------------------------------------------------
@@ -79,22 +82,22 @@ colors:
   cardBorder:   { light: "#f0c6dd", dark: "#5a4580", night: "#3a2e55" }     # under the ribbon; shows only if the frame does not load
 
   # --- accent: raspberry by day, bubblegum after dark -----------------------------
-  accent:   { light: "#c0367c", dark: "#ff9fd0", night: "#d47eaa" }         # 5.01 / 7.84 / 6.36
+  accent:   { light: "#93255d", dark: "#ff9fd0", night: "#d47eaa" }         # 7.63 / 7.84 / 6.36
   accentFg: { light: "#ffffff", dark: "#2a0f22", night: "#120d20" }
 
   # --- status: mint, lemon, cherry -------------------------------------------------
-  accentSecondary: { light: "#1d7558", dark: "#8ee6c3", night: "#6fbb9d" }
-  signal:          { light: "#1d7558", dark: "#8ee6c3", night: "#6fbb9d" }  # 5.44 / 10.04 / 8.00
-  warn:   { light: "#9a5800", dark: "#ffd37a", night: "#c9a764" }           # 5.39 / 10.46 / 7.93, ~70° off the accent
-  danger: { light: "#c22f2f", dark: "#ff9a9a", night: "#d98282" }           # 5.43 /  7.29 / 6.44
+  accentSecondary: { light: "#155c45", dark: "#8ee6c3", night: "#6fbb9d" }
+  signal:          { light: "#155c45", dark: "#8ee6c3", night: "#6fbb9d" }  # 7.68 / 10.04 / 8.00
+  warn:   { light: "#7f4800", dark: "#ffd37a", night: "#c9a764" }           # 7.19 / 10.46 / 7.93, ~70° off the accent
+  danger: { light: "#9e2424", dark: "#ff9a9a", night: "#d98282" }           # 7.44 /  7.29 / 6.44
   focus:  { light: "#8a4fd1", dark: "#cbb4ff", night: "#a48fd0" }           # lavender: 4.94 / 8.11 / 6.40
 
   # --- titles: lavender-violet ink ---------------------------------------------------
-  display: { light: "#7a3d9e", dark: "#ffc6e8", night: "#cfa2c6" }          # 6.80 / 10.21 / 8.32
+  display: { light: "#6f3591", dark: "#ffc6e8", night: "#cfa2c6" }          # 7.84 / 10.21 / 8.32
 
 states:
-  accentHover:  { light: "#a82c6b", dark: "#ffb6dc", night: "#de93ba" }
-  accentActive: { light: "#8f245b", dark: "#f283bf", night: "#c06b97" }
+  accentHover:  { light: "#7d1f4f", dark: "#ffb6dc", night: "#de93ba" }
+  accentActive: { light: "#6a1a43", dark: "#f283bf", night: "#c06b97" }
   ghostHover:   { light: "#fde8f2", dark: "#3a2d57", night: "#221a38" }
   ghostActive:  { light: "#f8d6e7", dark: "#1f1733", night: "#0e0a18" }
 
@@ -154,12 +157,30 @@ ornament:
       - 'asset("kawaii/images/hill-dark.jpg") center / cover no-repeat'
       - 'asset("kawaii/decor/backdrop-sweets-dark.svg") center / cover no-repeat'
 
-  # Paws walking off the bottom-left of every card; the status badge lives
-  # bottom-right, so they stay out of its way. 7 % ink. None at night.
+  # Five pictures per mode; every card draws one at random when the deck is
+  # built (src/client/lib/card-background.ts), each used once before any
+  # repeats. Scene at the bottom, plain sky on top where titles sit. Every
+  # pixel of every decoded file keeps all seven text roles at >= 4.5:1 — the
+  # pictures were clamped per pixel to make that true, see CREDITS.md.
   cardBackground:
-    light: 'asset("kawaii/decor/paws-light.svg") left -8px bottom -10px / 176px 128px no-repeat'
-    dark:  'asset("kawaii/decor/paws-dark.svg") left -8px bottom -10px / 176px 128px no-repeat'
-    night: "linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0))"   # an explicit nothing, or night inherits dark's paws
+    light:
+      - 'asset("kawaii/images/card-clouds-light.jpg") center bottom / cover no-repeat'
+      - 'asset("kawaii/images/card-meadow-light.jpg") center bottom / cover no-repeat'
+      - 'asset("kawaii/images/card-picnic-light.jpg") center bottom / cover no-repeat'
+      - 'asset("kawaii/images/card-balloons-light.jpg") center bottom / cover no-repeat'
+      - 'asset("kawaii/images/card-windowsill-light.jpg") center bottom / cover no-repeat'
+    dark:
+      - 'asset("kawaii/images/card-cloud-dark.jpg") center bottom / cover no-repeat'
+      - 'asset("kawaii/images/card-unicorn-dark.jpg") center bottom / cover no-repeat'
+      - 'asset("kawaii/images/card-cocoa-dark.jpg") center bottom / cover no-repeat'
+      - 'asset("kawaii/images/card-balloons-dark.jpg") center bottom / cover no-repeat'
+      - 'asset("kawaii/images/card-windowsill-dark.jpg") center bottom / cover no-repeat'
+    night:
+      - 'asset("kawaii/images/card-cloud-night.jpg") center bottom / cover no-repeat'
+      - 'asset("kawaii/images/card-unicorn-night.jpg") center bottom / cover no-repeat'
+      - 'asset("kawaii/images/card-cocoa-night.jpg") center bottom / cover no-repeat'
+      - 'asset("kawaii/images/card-balloons-night.jpg") center bottom / cover no-repeat'
+      - 'asset("kawaii/images/card-windowsill-night.jpg") center bottom / cover no-repeat'
 
   cardFrame:
     light: 'asset("kawaii/decor/frame-light.svg") 32 / 16px / 0 stretch'

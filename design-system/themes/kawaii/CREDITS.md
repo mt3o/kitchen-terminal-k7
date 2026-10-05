@@ -5,7 +5,7 @@ by `/theme-assets/` only while that theme is the active one.
 
 ## Illustrations — generated for this theme
 
-The four scenic backdrops were generated with Google Gemini (image
+The four scenic page backdrops were generated with Google Gemini (image
 generation) on 2026-10-05, from prompts written for this theme: flat, pastel,
 kawaii, "no text, no border". They depict no real person, brand or existing
 character.
@@ -23,10 +23,24 @@ character.
 dark backdrops use — so the bedtime sky does not glow. Night mode dims them
 further with its overlay.
 
+### Card pictures
+
+Fifteen more files, `images/card-*-{light,dark,night}.jpg`: five daytime
+scenes (cat asleep on a cloud, unicorn in a meadow, kittens' cupcake picnic,
+cat with heart balloons, kitten on a windowsill) and five bedtime ones, the
+latter used for both dark and night. Same generator, same date, prompts
+asking for the scene in the bottom 40% and plain sky above.
+
+`scripts/kawaii-card-pictures.mjs` made them from the originals: cover-crop
+to 1024×768, blend toward the mode's `surface`, then clamp every pixel so
+each of the seven text roles keeps ≥ 4.5:1 on it — measured on the decoded
+JPEG, with the target raised until JPEG ringing could not break it. Light
+pictures stay pastel; dark ones are dusky; night ones are barely there.
+
 ## Vector art — drawn for this theme
 
 Everything in `decor/` — the pattern backdrops, the rainbow card ribbon, the
-title rule, the caticorn in the header and the paw-print watermark — is drawn
+title rule and the caticorn in the header — is drawn
 by `scripts/draw-kawaii-decor.mjs` in this repository. Redraw it there rather
 than editing the SVGs.
 
