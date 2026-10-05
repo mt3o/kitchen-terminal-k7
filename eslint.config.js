@@ -27,6 +27,7 @@ const browserGlobals = {
   MutationObserver: 'readonly',
   IntersectionObserver: 'readonly',
   IntersectionObserverEntry: 'readonly',
+  ResizeObserver: 'readonly',
   customElements: 'readonly',
   CustomEvent: 'readonly',
   AbortController: 'readonly',

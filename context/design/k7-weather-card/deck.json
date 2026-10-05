@@ -6,12 +6,12 @@
   "notes": [
     "Graph glyphs are 7-bit ASCII only, like wmo.ts's art: themes swap monoFontFamily, so box-drawing and block elements do not hold a cell width everywhere.",
     "Rain and snow are told apart by glyph, never colour alone (DESIGN.md §8 status-badge rule).",
-    "Hourly horizon: 72 h from the current hour (ruled 2026-10-03). Time runs DOWN the graphs, one row per hour, scrolled vertically by finger (confirmed 2026-10-05) — vertical so it never competes with the Page swipe. Unscrolled they show at most 24 h, fewer if the space does not hold 24. The Slideshow never scrolls: a touch ends the presentation."
+    "Hourly horizon: rows from the current hour. Time runs DOWN the graphs, one row per hour. The Slideshow never scrolls (a touch ends the presentation): it paints as many rows as fit, capped at 24. The finger-scrolled 72 h maximized view was withdrawn 2026-10-05 (node d1f56964)."
   ],
   "screens": [
     {
       "id": "standard-card",
-      "status": "agreed",
+      "status": "withdrawn",
       "agreed_by": [
         {
           "change": "k7-weather-hourly",
@@ -94,11 +94,17 @@
         "6 columns x 1 h, from the next full hour",
         "third line is precipitation probability (%), not mm — mm lives in the graphs",
         "below 767px the strip drops to 4 columns; nothing else is cut; .wrap scroll stays the fallback"
-      ]
+      ],
+      "withdrawn": {
+        "on": "2026-10-05",
+        "by": "user",
+        "node": "node:d1f56964",
+        "why": "Measured at 1024x768 on the main page: the card body is 184 px and today's content fills it. The [ + ] button grows the head 32->53 px (44 px touch target) and alone clipped the 3-day row by 14 px; the strip added 75 px more (88 px overflow, a row cut at the card edge). The user kept today's standard card: no strip, no [ + ], graphs only in the Slideshow presentation."
+      }
     },
     {
       "id": "maximized",
-      "status": "agreed",
+      "status": "withdrawn",
       "agreed_by": [
         {
           "change": "k7-weather-hourly",
@@ -189,7 +195,13 @@
         "precipitation: fixed 0-4 mm/h scale, '>' past the end (node 0ea3bd46)",
         "time axis vertical, shared scroller (node 97369103)"
       ],
-      "notes": "Phone width (<768px) is designed with screen 3p and applies here too."
+      "notes": "Phone width (<768px) is designed with screen 3p and applies here too.",
+      "withdrawn": {
+        "on": "2026-10-05",
+        "by": "user",
+        "node": "node:d1f56964",
+        "why": "Measured at 1024x768 on the main page: the card body is 184 px and today's content fills it. The [ + ] button grows the head 32->53 px (44 px touch target) and alone clipped the 3-day row by 14 px; the strip added 75 px more (88 px overflow, a row cut at the card edge). The user kept today's standard card: no strip, no [ + ], graphs only in the Slideshow presentation."
+      }
     },
     {
       "id": "slideshow-presenting",
@@ -277,7 +289,6 @@
         }
       ],
       "implements": "src/client/lib/K7Weather.svelte (presenting, max-width 767px)",
-      "applies_also_to": "maximized at max-width 767px (same graph columns, with the scroller)",
       "wireframe": {
         "cols": 6,
         "rows": 12,
@@ -337,8 +348,7 @@
       },
       "states": "as screen 3",
       "behavior": [
-        "presenting: no scroll, rows from the current hour, as many as fit",
-        "maximized on a phone: same columns inside the vertical scroller, to +72 h"
+        "presenting: no scroll, rows from the current hour, as many as fit"
       ],
       "cites": [
         "node:126b8c0b",

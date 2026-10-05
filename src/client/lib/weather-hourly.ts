@@ -1,7 +1,8 @@
 /**
- * The weather card's hourly forecast, as text: the strip on the standard card
- * and the two ASCII graphs (temperature, precipitation) the card draws when it
- * is maximized or presented by the Slideshow.
+ * The weather card's hourly forecast, as text: the two ASCII graphs
+ * (temperature, precipitation) the card draws when the Slideshow presents it.
+ * (A strip on the standard card and a hand-maximized view were designed and
+ * withdrawn: the card's cell has no row to spare for them, [node:d1f56964].)
  *
  * Pure on purpose: no DOM, no Svelte, no clock of its own. The component
  * measures how many character cells it has and passes them in, together with
@@ -114,38 +115,6 @@ export function upcomingHours(
 /** True when any hour of the slice actually shown has rain or snow. */
 export function hasPrecipitation(hours: readonly WeatherHour[]): boolean {
   return hours.some((h) => (h.precipitation ?? 0) > 0)
-}
-
-// --- the strip -------------------------------------------------------------
-
-export interface StripCell {
-  /** `00`–`23`, in the zone. */
-  hour: string
-  /** Rounded figure without a unit, or `--`. */
-  temp: string
-  /** Rounded percent without the sign, or `--` when it was not provided. */
-  pct: string
-}
-
-/**
- * The standard card's strip: the next `n` full hours. The hour containing
- * `nowMs` is left out, because the readout above the strip already is "now".
- */
-export function stripCells(
-  hours: readonly WeatherHour[] | null | undefined,
-  n: number,
-  timeZone: string,
-  nowMs: number,
-): StripCell[] {
-  if (!Array.isArray(hours)) return []
-  const out: StripCell[] = []
-  for (const h of hours) {
-    const t = Date.parse(h.time)
-    if (!Number.isFinite(t) || t <= nowMs) continue
-    out.push({ hour: hourLabel(t, timeZone), temp: figure(h.temperature), pct: figure(h.precipitationProbability) })
-    if (out.length >= n) break
-  }
-  return out
 }
 
 function figure(n: number | null): string {
@@ -276,7 +245,7 @@ export function graphRows(hours: readonly WeatherHour[], opts: GraphOptions): Li
 }
 
 export interface HeaderOptions extends GraphOptions {
-  /** Hours the window covers (24 presenting, 72 maximized), for "brak w ciagu N h". */
+  /** Hours the window covers (24 when the Slideshow presents the card), for "brak w ciagu N h". */
   windowHours: number
 }
 

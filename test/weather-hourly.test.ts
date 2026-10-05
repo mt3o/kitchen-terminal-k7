@@ -1,5 +1,5 @@
 /**
- * The weather card's hourly strip and ASCII graphs (src/client/lib/weather-hourly.ts).
+ * The weather card's hourly ASCII graphs (src/client/lib/weather-hourly.ts).
  *
  * The fixture starts at local midnight 2026-10-24 in Europe/Warsaw — the shape
  * /api/weather returns (#87: 120 hours from local midnight, real instants) —
@@ -19,7 +19,6 @@ import {
   hourLabel,
   lineText,
   shownSlice,
-  stripCells,
   upcomingHours,
   type GraphOptions,
   type WeatherHour,
@@ -76,26 +75,6 @@ describe('upcomingHours', () => {
     assert.deepEqual(upcomingHours(null, NOW), [])
     const broken = [hour(14, { time: 'not a time' }), hour(15)]
     assert.deepEqual(upcomingHours(broken, NOW).map((h) => h.time), [hour(15).time])
-  })
-})
-
-describe('stripCells', () => {
-  it('starts at the next full hour: the readout above is now', () => {
-    const cells = stripCells(upcomingHours(series(), NOW), 6, ZONE, NOW)
-    assert.deepEqual(cells.map((c) => c.hour), ['15', '16', '17', '18', '19', '20'])
-  })
-
-  it('leaves out the current hour even when now is exactly on it', () => {
-    const cells = stripCells(series(), 2, ZONE, MIDNIGHT + 14 * HOUR)
-    assert.deepEqual(cells.map((c) => c.hour), ['15', '16'])
-  })
-
-  it('rounds figures and shows a missing one as --, never as 0', () => {
-    const hours = [hour(15, { temperature: 7.6, precipitationProbability: 39.5 }), hour(16, { temperature: null, precipitationProbability: null })]
-    assert.deepEqual(stripCells(hours, 6, ZONE, NOW), [
-      { hour: '15', temp: '8', pct: '40' },
-      { hour: '16', temp: '--', pct: '--' },
-    ])
   })
 })
 

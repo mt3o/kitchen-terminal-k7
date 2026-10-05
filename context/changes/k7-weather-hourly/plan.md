@@ -259,3 +259,31 @@ it carries client files only.
 - **F8 (Phase 5): `(max-height: 500px)` is not added without the user.**
   7f4027ac rules that width alone picks the size step. If 844×390 overflows,
   the screenshot goes to the user with a proposal, not into the code.
+
+## User ruling after Phase 3 measurement (2026-10-05) — scope change
+
+Phase 3 was built and measured (K7 weather session, synthetic #87 payload,
+1024x768 on *glowna*). The card body is 184 px and today's content fills it
+exactly. The `[ + ]` button (44 px touch target) grows the head 32 → 53 px.
+That alone clipped the 3-day row by 14 px, even with no hourly data. The strip
+added 75 px more, which made 88 px of overflow and left a row cut through the
+middle at the card's edge.
+
+Offered: now + strip (drop details/days), today's card unchanged, a bigger
+cell in layout.yaml, or the agreed design with internal scroll. **The user
+chose today's card unchanged** (`[node:d1f56964]`, CONTRADICTS `97369103`):
+
+- **Phase 3 is withdrawn.** There is no strip, no `fullscreen` opt-in and no
+  `manual` flag. The deck marks `standard-card` and `maximized` as withdrawn.
+  `stripCells` is removed from the module. What stays from Phase 3: `Aged`
+  carries `timezone`, `hourly` and the new units; `nowMs` advances on every
+  load attempt; canned hourly data in theme-preview and the story.
+  `test/weather-hourly-card.test.ts` now guards that neither the strip nor the
+  button comes back without that trade being re-decided.
+- **Phase 4 is dropped.**
+- **Phase 5 is the whole visible feature**: the graphs when the Slideshow
+  presents the card, on the wall and on a phone, with the amendments F1, F3,
+  F4, F5 and F6 above. With no hourly data, the presentation is exactly
+  today's.
+- Phase 6 unchanged. The changelog entry now describes the Slideshow graphs
+  only.
