@@ -1,9 +1,9 @@
 # themes/ — how to build one
 
-A theme is **one YAML file plus its own folder of files**. Four exist:
+A theme is **one YAML file plus its own folder of files**. Six exist:
 `retro-scifi` (the default), `daylight-lab` (a deliberate stress test),
-`steampunk-brass`, `punktomat` and `hellforge`. The last three are "decorated":
-self-hosted fonts, background pictures, `border-image` ornaments.
+`steampunk-brass`, `punktomat`, `hellforge` and `kawaii`. The last four are
+"decorated": self-hosted fonts, background pictures, `border-image` ornaments.
 
 Read `../DESIGN.md` first for *why* the system is the way it is. This file is
 the *how*, and the list of things that have already gone wrong.
@@ -88,7 +88,10 @@ commented, in `steampunk-brass.yaml` (rotation, brass frames) and
    too, via a night overlay or a darker variant. Light mode is not optional
    thinking: the kitchen is sunlit at 14:00.
 3. **Fonts.** Self-host woff2 (`fontFaces`), latin **and latin-ext** — Polish
-   needs it — with each subset's `unicode-range` copied from Google's CSS. The
+   needs it — with each subset's `unicode-range` copied from Google's CSS.
+   Having a latin-ext file is not the same as having Polish: check with
+   fontkit that ą ć ę ł ń ó ś ź ż (and capitals) are really in one of the
+   subsets. The
    clock wants **tabular figures**: check with fontkit that all ten digits have
    one advance width, or the time jitters every minute. Keep the x-height near
    Source Code Pro's 0.486 em or DESIGN.md §4.2's reading-distance table stops
@@ -150,5 +153,16 @@ and issue-log dialogs, which are easy to forget and easy to leave unthemed.
   `@container`, `dvh`. Derive in OKLCH, ship hex.
 - **Night is not "dark, but darker".** Dim the pictures and the ornaments too,
   or a theme that is calm in dark mode glows at 03:00.
+- **Fredoka has no Polish.** Its latin-ext subset is 4.5 KB and lacks
+  ą ć ę ń ś ź ż, so a title like "Święta" falls back glyph by glyph. Kawaii
+  shipped Baloo 2 instead. Check every face you adopt (recipe step 3).
+- **Night inherits dark's ornaments, watermark included.** Omitting a slot's
+  `night` value means "use dark's", not "none". Kawaii's paw watermark
+  showed at 03:00 until night got an explicit transparent gradient.
+- **Generated illustrations are fine for backdrops, not for ornaments.**
+  Kawaii's scenes are Gemini illustrations normalised like photographs
+  (step 5); its frame, rule and mascot are vector art from
+  `scripts/draw-kawaii-decor.mjs`, because nine-slice needs exact geometry.
+  Say in `CREDITS.md` that a picture was generated.
 - **Budget.** A decorated theme runs ~2 MB, nearly all pictures. The service
   worker caches them by hashed URL, so they cost once.

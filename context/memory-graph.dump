@@ -17263,3 +17263,114 @@ archived: false
 -> DEPENDS_ON [node:eede0e36-e151-43b0-ae65-c11d32c63945] @ 2026-10-03T16:10:42.758748+00:00
 
 The weather card shows an hourly forecast from Open-Meteo (temperature, precipitation, precipitation probability, weather code): a compact hourly strip on the standard card, and separate ASCII graphs for temperature and for rain/snowfall when the card is maximized or presented by the Slideshow, with the data refreshing periodically.
+---
+[node:3a19fedf-6a0d-4315-8ab7-d2e633232219]
+type: goal
+tier: short-term
+path: /goal/k7-kawaii-theme
+created_at: 2026-10-05T18:53:14.964719+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:716987ce-f933-41b5-8c4e-590c09dc33bf] @ 2026-10-05T18:53:14.964719+00:00
+-> DEPENDS_ON [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-10-05T18:53:14.964719+00:00
+-> DEPENDS_ON [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-10-05T18:53:14.964719+00:00
+-> DEPENDS_ON [node:7ccea40e-a1e4-4382-abf2-dabe6c1a6a16] @ 2026-10-05T19:14:14.552485+00:00
+-> DEPENDS_ON [node:976f5dc0-bdd3-4fdb-9ef2-74d32178b1fe] @ 2026-10-05T19:14:14.897127+00:00
+-> DEPENDS_ON [node:c4182d99-ee62-476d-8f1a-c56c0b2cf8cf] @ 2026-10-05T19:14:15.266484+00:00
+
+Ship a new decorated theme, Kawaii: a cozy, friendly, cute look with pastel rainbows, kawaii cats and unicorns, in all three modes, meeting the token contract and the AA contrast tests, selectable from the header menu without touching any component.
+---
+[node:c67a659f-8ceb-4060-b86b-b35d895f06c7]
+type: slice
+tier: short-term
+path: /change/k7-kawaii-theme
+created_at: 2026-10-05T18:53:14.964719+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:3a19fedf-6a0d-4315-8ab7-d2e633232219] @ 2026-10-05T18:53:14.964719+00:00
+-> SCOPED_TO [node:7ccea40e-a1e4-4382-abf2-dabe6c1a6a16] @ 2026-10-05T19:14:14.552485+00:00
+-> SCOPED_TO [node:976f5dc0-bdd3-4fdb-9ef2-74d32178b1fe] @ 2026-10-05T19:14:14.897127+00:00
+-> SCOPED_TO [node:c4182d99-ee62-476d-8f1a-c56c0b2cf8cf] @ 2026-10-05T19:14:15.266484+00:00
+
+change scope: k7-kawaii-theme
+---
+[event:3bb86ef2-0f3b-4d6d-b971-bae0a92c402a]
+node_id: c67a659f-8ceb-4060-b86b-b35d895f06c7
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T18:53:15.040092+00:00
+
+create_change k7-kawaii-theme
+---
+[node:753f01fe-589f-4c8b-9b4b-e77dd2ad9546]
+type: facet_value
+tier: lifetime
+path: /facet/theming
+created_at: 2026-10-05T19:14:14.552485+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+theming
+---
+[node:7ccea40e-a1e4-4382-abf2-dabe6c1a6a16]
+type: constraint
+tier: mid-term
+path: /artifact/a-theme-s-ornament-slots-inherit-night-f
+created_at: 2026-10-05T19:14:14.552485+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-10-05T19:14:14.552485+00:00
+-> HAS_FACET [node:753f01fe-589f-4c8b-9b4b-e77dd2ad9546] @ 2026-10-05T19:14:14.552485+00:00
+
+A theme's ornament slots inherit night from dark when night is omitted, and that includes cardBackground: a card watermark meant for dark mode silently shows at night too. To have no watermark at night, give night an explicit transparent value (kawaii uses linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0))); omitting the key is not "none". Found in k7-kawaii-theme by looking at night screenshots, not by any test — test/theme.test.ts checks palette and asset allowlist, not which ornaments a mode actually paints.
+---
+[node:5af0910d-e824-4ce4-a02c-569e0e7a193a]
+type: facet_value
+tier: lifetime
+path: /facet/fonts
+created_at: 2026-10-05T19:14:14.897127+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+
+fonts
+---
+[node:976f5dc0-bdd3-4fdb-9ef2-74d32178b1fe]
+type: constraint
+tier: mid-term
+path: /artifact/before-adopting-a-google-font-for-a-them
+created_at: 2026-10-05T19:14:14.897127+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:5af0910d-e824-4ce4-a02c-569e0e7a193a] @ 2026-10-05T19:14:14.897127+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-10-05T19:14:14.897127+00:00
+-> HAS_FACET [node:753f01fe-589f-4c8b-9b4b-e77dd2ad9546] @ 2026-10-05T19:14:14.897127+00:00
+
+Before adopting a Google Font for a theme, check the woff2 subsets actually contain Polish letters (ą ć ę ł ń ó ś ź ż and capitals) — having a "latin-ext" subset is not enough. Fredoka ships a latin-ext file of 4.5 KB that lacks ą ć ę ń ś ź ż (only ł/ó render), so titles would fall back per glyph. Checked with fontkit (npm i fontkit in a scratch dir; hasGlyphForCodePoint across both subset files). Baloo 2 passes and replaced it as kawaii's display face; Nunito passes and has tabular digits.
+---
+[node:c4182d99-ee62-476d-8f1a-c56c0b2cf8cf]
+type: decision
+tier: mid-term
+path: /artifact/decided-2026-10-05-k7-kawaii-theme-th
+created_at: 2026-10-05T19:14:15.266484+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-10-05T19:14:15.266484+00:00
+-> HAS_FACET [node:753f01fe-589f-4c8b-9b4b-e77dd2ad9546] @ 2026-10-05T19:14:15.266484+00:00
+
+Decided 2026-10-05 (k7-kawaii-theme): the kawaii theme's scenic backdrops are AI-generated illustrations (Google Gemini image generation, prompts written for the theme, "no text, no border"), while every small ornament — card ribbon frame, title rule, header mascot, paw watermark, pattern backdrop — is vector art drawn by scripts/draw-kawaii-decor.mjs. The user suggested Gemini mid-change; the first cut was all-vector, and hand-drawn SVG scenes were clearly weaker than generated illustrations at backdrop scale, while generated raster is wrong for nine-slice frames and rules, which need exact geometry (corner radius = slice × scale = borderRadiusPx). Generated images are normalised like stock photos: cover-cropped 4:3 at 1280×960, dark set scaled to p95 luminance 0.17, done in headless Chromium canvas because the machine has no ImageMagick/sharp. Credits record them as generated, not as third-party work.
