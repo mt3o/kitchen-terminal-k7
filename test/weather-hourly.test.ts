@@ -251,6 +251,18 @@ describe('graphHeader', () => {
     assert.equal(legend(10, 24), 'OPADY // brak w ciagu 24 h')
   })
 
+  it('keeps the scale in the header when the bar is narrow, ahead of the word OPADY', () => {
+    const hours = upcomingHours(series(), NOW)
+    const label = (precipCells: number): string =>
+      lineText(graphHeader(hours, { ...OPTS, precipCells, showMm: false, windowHours: 24 })[0])
+    // The Slideshow's wall column: 8 cells, mm dropped, % kept.
+    assert.ok(label(8).includes('0..4 mm/h'), label(8))
+    // 844x390: 5 cells.
+    assert.ok(label(5).includes('0..4mm/h'), label(5))
+    assert.ok(label(2).includes('OPADY'), label(2))
+    for (const n of [2, 5, 8, 10]) assert.ok(label(n).endsWith(' %'), label(n))
+  })
+
   it('names the imperial scale in the header', () => {
     const [labels] = graphHeader(upcomingHours(series(), NOW), { ...OPTS, unit: 'inch', windowHours: 72 }).map(lineText)
     assert.ok(labels.includes('0..0.16 in/h'), labels)

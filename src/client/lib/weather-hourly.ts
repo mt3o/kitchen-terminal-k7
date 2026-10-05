@@ -271,8 +271,13 @@ export function graphHeader(hours: readonly WeatherHour[], opts: HeaderOptions):
   push(labels, 'GODZ ', 'hour')
   push(labels, fit([range && `TEMP ${range}`, range, 'TEMP'], tempCells + 4), 'hour')
   push(labels, '  ', 'muted')
-  push(labels, fit([`OPADY ${bar}`, bar, 'OPADY'], precipCells + (opts.showMm ? 5 : 0)), 'hour')
-  if (opts.showPct) push(labels, '    %', 'hour')
+  // The scale is what makes a bar's length readable, so it is the last thing
+  // to give way: the label may run into the blank before the `%` (which the
+  // rows fill with a right-aligned figure, so the header has room there), and
+  // it tries a spaceless form before falling back to the bare word.
+  const room = precipCells + (opts.showMm ? 5 : 0) + (opts.showPct ? 3 : 0)
+  push(labels, fit([`OPADY ${bar}`, bar, bar.replace(' ', ''), 'OPADY'], room), 'hour')
+  if (opts.showPct) push(labels, ' %', 'hour')
 
   const second: Line = []
   if (chosen.some((c) => (c.hour.precipitation ?? 0) > 0)) {
