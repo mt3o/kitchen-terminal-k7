@@ -406,6 +406,26 @@ created_at: 2026-09-25T06:28:01.470130+00:00
 
 Array.prototype.at rejected by the Safari 15 lib target in catalog.ts; IntersectionObserver and sticky checked against 15.0
 ---
+[event:1aa2b5e0-9f95-44d3-bd4b-40a9f57916ef]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:11.502448+00:00
+
+npm run build passes at the Safari 15 target and the change uses no dvh/:has/subgrid; ??= and IntersectionObserver are within the floor. Chromium only, not the real device
+---
+[event:aed09298-24a9-405d-82aa-3aa494095a3b]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:42.312213+00:00
+
+npm run build passes at the Safari 15 target and the change uses no dvh/:has/subgrid; ??= and IntersectionObserver are within the floor. Chromium only, not the real device
+---
 [event:0a034e4a-018a-492d-9bfb-c24849a8aa3c]
 node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
 type: manual_review
@@ -455,6 +475,26 @@ source: agent-surface
 created_at: 2026-10-05T18:11:19.946248+00:00
 
 ResizeObserver, sticky and em-based max-height chosen against the Safari 15.0 floor (no lh unit)
+---
+[event:632156d8-276b-4856-9942-3377d3295dd2]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T19:17:20.334362+00:00
+
+build at Safari 15 target passes; ResizeObserver/matchMedia listeners within the floor; not run on Safari
+---
+[event:5224eb17-5f05-4f4d-93ff-d09251ff9810]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T19:17:36.079527+00:00
+
+build at Safari 15 target passes; ResizeObserver/matchMedia listeners within the floor; not run on Safari
 ---
 [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99]
 type: facet_value
@@ -1790,6 +1830,16 @@ source: agent-surface
 created_at: 2026-09-15T12:33:39.608835+00:00
 
 gw-review PR#45: contrast floor for calendar ticks independently verified (see CONFIRMED event); other surfaces reuse existing token roles unchanged.
+---
+[event:91cff62b-f063-4d82-a901-6c79fa47da54]
+node_id: 6d6046fc-9f71-4b88-8cfa-381a0fe1bd32
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T19:17:36.083902+00:00
+
+gw-review #90 finding: role 'muted' maps to --fg-disabled but colours data ('--' and 0 %), below the 4.5:1 floor that only disabled controls may drop under
 ---
 [node:aef51033-1a7b-4e25-a133-f6e3053e0eb6]
 type: constraint
@@ -6148,6 +6198,16 @@ created_at: 2026-09-25T07:32:17.061682+00:00
 
 a scrollbar no longer always means a bug: phone pages (<=767px) scroll by design per 97c338d8; wall kiosk unchanged
 ---
+[event:3783c6c7-5e96-4914-a248-884aebf24472]
+node_id: 26582685-718f-4003-9454-5126ff416a15
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:42.336131+00:00
+
+disputed, narrowed to >=768px by 97c338d8; carried to the human gate, not adjudicated
+---
 [node:54cce183-229d-4f45-8d15-ff1f0696b66c]
 type: goal
 tier: short-term
@@ -6292,6 +6352,16 @@ source: agent-surface
 created_at: 2026-09-15T14:43:35.080115+00:00
 
 no-subgrid constraint reaffirmed while choosing the grid-auto-rows mechanism
+---
+[event:57ae31ad-a54c-41f8-a345-109267540f5b]
+node_id: e156fb5f-8f05-400a-812b-e0552df1def3
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:42.319020+00:00
+
+page grid stays a plain nested grid, no subgrid; read the CSS, no executed check
 ---
 [node:0eb267d9-a394-4dc0-84c6-e18825cccfd6]
 type: decision
@@ -13162,6 +13232,16 @@ created_at: 2026-09-25T07:32:17.066306+00:00
 
 the tension this node asked a human to decide was decided: per-page scroll at phone width
 ---
+[event:53eb9955-9d77-4b59-ad6a-27be5c397e2b]
+node_id: 3218cf7b-eb04-46dc-a6a6-1bd89155936d
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:42.338527+00:00
+
+disputed; the tension it asked a human to decide was decided by 97c338d8; carried to the human gate
+---
 [node:611bc3d8-caa1-4e81-82ab-d955bbcbba4f]
 type: issue
 tier: mid-term
@@ -13370,6 +13450,16 @@ created_at: 2026-09-25T07:32:17.051152+00:00
 
 human reversed the no-page-scroll-on-phone ruling on 2026-09-25: 'it doesn't work for mobile phone screen'; see 97c338d8
 ---
+[event:682e5450-ee69-4df0-8329-b1c3dc5a30a1]
+node_id: 1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:42.331693+00:00
+
+disputed, contradicted by the human ruling 97c338d8; carried to the human gate, not adjudicated
+---
 [node:c77c25d1-e7f0-4e2d-894c-b0d4a7744b2b]
 type: concept
 tier: short-term
@@ -13427,6 +13517,16 @@ source: agent-surface
 created_at: 2026-09-15T15:42:41.843563+00:00
 
 row-derivation mechanism unchanged when reversing the 1-column-at-phone rule
+---
+[event:7096fcc0-9daf-42c9-8dfd-afc66b865a9f]
+node_id: d8ef0463-6746-4a43-b4d9-1699db3f1fca
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:42.324260+00:00
+
+its deck text still described grid-auto-rows minmax(0, 1fr); found stale in review and updated in the deck, the decision itself (CSS-only row derivation) still holds
 ---
 [node:538d1960-cb76-4fb7-be15-d72ae9f34b45]
 type: decision
@@ -13683,6 +13783,16 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-15T15:41:56.863133+00:00
 
 Phone-width layout keeps the page's configured column count (2, for every page in this project) instead of collapsing to 1 column. Reversed the earlier single-column-at-phone rule after real-browser verification of the SYSTEM page (6 cards) showed each card getting only 67px — not enough for even one line of glance-tier text (--glance-sm ~48px) plus minimal head/foot chrome, so the clock and weather readouts were silently clipped, not just squeezed. Keeping 2 columns halves the row count for exactly the pages dense enough to need it. Mechanism: the phone media query no longer overrides grid-template-columns at all, relying on .page's base rule (repeat(var(--deck-cols,3), ...)) which every page already sets to 2 — it still overrides grid-template-rows/grid-auto-rows for row-count derivation, unchanged from the original fix this decision builds on.
+---
+[event:3c81ab81-3386-405f-b206-a4c05f406985]
+node_id: db145886-1644-4fb9-bfe1-796c6efbeca7
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:42.328718+00:00
+
+column count left as the layout's own; raised for a human whether phones should go to one column now that pages scroll
 ---
 [node:e24899db-3191-464e-a7c6-12cdef56aa6f]
 type: constraint
@@ -16765,6 +16875,26 @@ archived: false
 
 Human ruling 2026-09-25, reversing the k7-mobile-responsive choice: "nothing scrolls" does not work on a phone screen. At phone width (≤767px) each pager page scrolls vertically inside the fixed shell. The header and the status footer stay put, so "is the terminal alive" never leaves the screen, and pages still swipe sideways. Cards still share the screen evenly when they fit, but never go below the design system's --card-min-h (240px); only when an even share would fall below that floor does the page grow and scroll. List cards keep their own inner scroll. The wall kiosk (wider than 767px) keeps "nothing scrolls, ever" unchanged. Rejected alternatives: the whole document scrolling (the status line would scroll away) and content-height cards (list cards would grow to their full length and lose their inner scroll).
 ---
+[event:44a4bd1d-dc70-41aa-9e76-b31b2664e0a2]
+node_id: 97c338d8-a460-4a97-812b-6bf919562e36
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:11.494852+00:00
+
+review exercised the ruling: --card-min-h resolves to 240px at 390 and 767px and to 0 with overflow visible at 768/1024, and a scrolled phone page kept header and footer fixed, in Chromium
+---
+[event:28b86483-375a-49da-abb5-c996a7c7fa8d]
+node_id: 97c338d8-a460-4a97-812b-6bf919562e36
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:42.308759+00:00
+
+review exercised the ruling: --card-min-h resolves to 240px at 390 and 767px and to 0 with overflow visible at 768/1024, and a scrolled phone page kept header and footer fixed, in Chromium
+---
 [node:409c89c0-eb19-471f-a3c4-3c0fcdb74118]
 type: slice
 tier: short-term
@@ -16823,6 +16953,26 @@ archived: false
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-25T07:32:07.289651+00:00
 
 Once a pager page can scroll vertically (phones, k7-phone-page-scroll), the horizontal pager must commit each touch to one axis (pager.ts#resolveDragAxis: 8px deadzone, ties go to the page scroll). A 'y' drag releases the pager for the rest of the touch. Without this, the few px of sideways drift in every vertical scroll get read as a swipe: pages wobble and a diagonal drag flips the page. The touch listeners stay passive, so native scroll is never blocked. Test-harness note: synthetic CDP touches on injected plain <div>s inside .page did not reach #deck's listeners in headless Chromium, while touches on real card elements did, so gesture tests must pad pages with real cards.
+---
+[event:488406d8-533c-4b42-83bd-f40b7fa1deb8]
+node_id: 65a79c91-b547-4deb-859f-2dd50656c4c8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:11.505373+00:00
+
+the review's own re-check found the gesture guard needed the page-overflow gate; tests and a live Chromium run pass after the fix
+---
+[event:1bb560c0-ea7b-46f9-8521-eb731f07617f]
+node_id: 65a79c91-b547-4deb-859f-2dd50656c4c8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-09-26T11:40:42.315555+00:00
+
+the review found the gesture guard needed the page-overflow gate; unit tests and a live Chromium run pass after the fix
 ---
 [node:133eee1a-cec7-4f49-8232-a6dd7b20eb2a]
 type: slice
@@ -17377,6 +17527,16 @@ created_at: 2026-10-03T16:23:30.637474+00:00
 
 10x lifecycle sweep
 ---
+[event:26608143-1ecf-4cb1-bb56-12a978f4db59]
+node_id: da3dff86-bd2d-41de-9b68-b24e20f50d0f
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T19:17:36.087306+00:00
+
+same class recurs in K7Weather: hero drops latched in one orientation are not reset when orientation changes mid-presentation
+---
 [node:32f913e8-0a2e-491b-ab31-7f3e76281a54]
 type: issue
 tier: short-term
@@ -17453,6 +17613,26 @@ source: agent-surface
 created_at: 2026-10-05T18:11:19.938447+00:00
 
 graph column start-aligned; 844x390 added to the Phase 5 verification sizes
+---
+[event:3ad8d6ca-a2e4-42ea-a219-89d02c13b134]
+node_id: 32f913e8-0a2e-491b-ab31-7f3e76281a54
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T19:17:20.302918+00:00
+
+gw-review #90: nothing clipped at the start at 375x667, 667x375, 844x390 with the two-column layout
+---
+[event:55e3ab37-abbe-4847-9f4d-f3706c47c2dc]
+node_id: 32f913e8-0a2e-491b-ab31-7f3e76281a54
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T19:17:36.061475+00:00
+
+gw-review #90: nothing clipped at the start at 375x667, 667x375, 844x390 with the two-column layout
 ---
 [node:81c7ca54-0290-4040-882a-78e95f3f7402]
 type: concept
@@ -17833,6 +18013,7 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> SCOPED_TO [node:000044d9-924e-4568-8c20-de416173ddd2] @ 2026-10-05T19:17:01.597248+00:00
 -> SCOPED_TO [node:0c340910-6c8f-4fb7-9528-0b921b3f628a] @ 2026-10-05T18:11:07.413044+00:00
 -> SCOPED_TO [node:0ea3bd46-91a2-4588-96b9-c550c911a52b] @ 2026-10-05T16:52:03.229211+00:00
 -> SCOPED_TO [node:21b0b80b-4cac-4b8d-bfbb-71e3ae71796a] @ 2026-10-05T18:22:52.033747+00:00
@@ -17840,6 +18021,7 @@ archived: false
 -> SCOPED_TO [node:3f599ef1-912c-4bd6-92d3-7fc563029b66] @ 2026-10-05T16:56:14.455841+00:00
 -> SCOPED_TO [node:7f4027ac-0840-42de-8d36-4ef0390853e5] @ 2026-10-05T16:59:02.480465+00:00
 -> SCOPED_TO [node:7f63f396-9eb4-45f7-ac01-7c072df71923] @ 2026-10-03T16:10:42.758748+00:00
+-> SCOPED_TO [node:90c2c8b3-fde3-4a43-a97b-d073a56303b8] @ 2026-10-05T19:17:01.641227+00:00
 -> SCOPED_TO [node:97369103-54d2-462b-a9eb-003dc04a8dc2] @ 2026-10-05T16:52:03.205197+00:00
 -> SCOPED_TO [node:9baa87db-1033-4da8-966a-11cd6d548461] @ 2026-10-05T17:03:36.891412+00:00
 -> SCOPED_TO [node:d1f56964-8088-492c-8c6c-898874ff7564] @ 2026-10-05T18:32:58.020477+00:00
@@ -17868,6 +18050,7 @@ needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
+-> DEPENDS_ON [node:000044d9-924e-4568-8c20-de416173ddd2] @ 2026-10-05T19:17:01.597248+00:00
 -> DEPENDS_ON [node:0a1201ce-85d0-4293-b4f5-e193a7d035e7] @ 2026-10-03T16:10:42.758748+00:00
 -> DEPENDS_ON [node:0c340910-6c8f-4fb7-9528-0b921b3f628a] @ 2026-10-05T18:11:07.413044+00:00
 -> DEPENDS_ON [node:0ea3bd46-91a2-4588-96b9-c550c911a52b] @ 2026-10-05T16:52:03.229211+00:00
@@ -17878,6 +18061,7 @@ archived: false
 -> DEPENDS_ON [node:7f4027ac-0840-42de-8d36-4ef0390853e5] @ 2026-10-05T16:59:02.480465+00:00
 -> DEPENDS_ON [node:81c7ca54-0290-4040-882a-78e95f3f7402] @ 2026-10-03T16:10:42.758748+00:00
 -> DEPENDS_ON [node:8f453152-4703-4c6e-8a7c-4ae5ca69b54e] @ 2026-10-03T16:10:42.758748+00:00
+-> DEPENDS_ON [node:90c2c8b3-fde3-4a43-a97b-d073a56303b8] @ 2026-10-05T19:17:01.641227+00:00
 -> DEPENDS_ON [node:97369103-54d2-462b-a9eb-003dc04a8dc2] @ 2026-10-05T16:52:03.205197+00:00
 -> DEPENDS_ON [node:9baa87db-1033-4da8-966a-11cd6d548461] @ 2026-10-05T17:03:36.891412+00:00
 -> DEPENDS_ON [node:d1f56964-8088-492c-8c6c-898874ff7564] @ 2026-10-05T18:32:58.020477+00:00
@@ -17903,6 +18087,26 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-10-05T16:52:03.171905+00:00
 
 Decided 2026-10-05 (k7-weather-hourly, /gw-wireframe gap ruling): the weather card's hourly temperature and precipitation graphs are text rows drawn in 7-bit ASCII inside the card's existing `.art` <pre> recipe (--font-mono, token colours only), as a one-off in K7Weather — not a new chart primitive in the design-system kit and not SVG. The kit has no chart component; adding one would need its own spec and blast radius for a single consumer, and SVG would drop the terminal language the user asked for. 7-bit only (no box-drawing or block elements) because themes swap monoFontFamily and only plain ASCII is guaranteed to hold one cell width in every fallback face — the same rule wmo.ts's weather art already follows. Extract a shared component only when a second card wants a chart.
+---
+[event:056560da-4f57-45c0-8537-b1fec4e906fc]
+node_id: f1290406-94cb-40d7-961d-182a0526b033
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T19:17:20.281794+00:00
+
+gw-review #90: measured 0 non-ASCII chars in the painted graph lines at 5 sizes plus the module's all-ASCII test
+---
+[event:ca56272f-2ec6-46a2-8b1b-5d53f6daeabe]
+node_id: f1290406-94cb-40d7-961d-182a0526b033
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T19:17:36.032369+00:00
+
+gw-review #90: measured 0 non-ASCII chars in the painted graph lines at 5 sizes plus the module's all-ASCII test
 ---
 [node:97369103-54d2-462b-a9eb-003dc04a8dc2]
 type: decision
@@ -17942,6 +18146,16 @@ created_at: 2026-10-05T18:32:58.020477+00:00
 
 contradicted at capture of d1f56964-8088-492c-8c6c-898874ff7564
 ---
+[event:a9a3c4a4-0c40-4106-a18f-dbf464650983]
+node_id: 97369103-54d2-462b-a9eb-003dc04a8dc2
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T19:17:36.090018+00:00
+
+contradicted by d1f56964 this change; still cited by the live slideshow-presenting deck screen
+---
 [node:0ea3bd46-91a2-4588-96b9-c550c911a52b]
 type: decision
 tier: short-term
@@ -17956,6 +18170,26 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-10-05T16:52:03.229211+00:00
 
 Decided 2026-10-05 (k7-weather-hourly wireframe): the hourly precipitation graph uses a FIXED 0–4 mm/h scale (a bar past the end is capped and marked '>'), not a scale stretched to the 72 h maximum, and the temperature graph plots a point 'o' on the window's min..max rather than a bar. A stretched precipitation scale turns 0.1 mm on a dry day into a full-width downpour; a temperature bar measured from the window minimum makes the coldest hour look like nothing. Both choices keep the mark's length honest at a glance. Rain and snow are told apart by glyph ('#' rain incl. showers, '*' snowfall), never by colour alone.
+---
+[event:b663ca99-f107-4ed2-9508-c9b679526461]
+node_id: 0ea3bd46-91a2-4588-96b9-c550c911a52b
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T19:17:20.290136+00:00
+
+gw-review #90: fixed-scale cap '>' and point-on-min..max exercised by passing weather-hourly tests and seen rendered
+---
+[event:adb9285a-ba53-40cd-88a4-ad3405479d56]
+node_id: 0ea3bd46-91a2-4588-96b9-c550c911a52b
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T19:17:36.044849+00:00
+
+gw-review #90: fixed-scale cap '>' and point-on-min..max exercised by passing weather-hourly tests and seen rendered
 ---
 [node:3f599ef1-912c-4bd6-92d3-7fc563029b66]
 type: decision
@@ -17974,6 +18208,26 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-10-05T16:56:14.455841+00:00
 
 Decided 2026-10-05 (k7-weather-hourly wireframe, user ruling): when the Slideshow presents the weather card in landscape, it is two columns — the existing hero (art, --glance-lg temperature, condition, detail row, days) centred in a left column, and the hourly graphs at --text-lg in the right column, ~22 one-hour rows, no scroll. In portrait it stays stacked (hero on top, graphs below), and the detail row is the first thing to drop there if rows run short. This deliberately moves the hero off the screen's centre, changing the look k7-slideshow-weather-calendar agreed: a 4:3 landscape screen has spare width, not height, and stacking left room for only ~9 hours. Graph rows are read tier, not glance tier: from the doorway the curve and the bar lengths carry the reading; only the current temperature must be readable as a number at 3 m. When the response has no hourly data, the presentation falls back to the previous centred look with no error line.
+---
+[event:4263f603-37ed-4b24-9db5-d7de0e1e9498]
+node_id: 3f599ef1-912c-4bd6-92d3-7fc563029b66
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T19:17:20.323957+00:00
+
+two columns built at 1:1, not 5:7; deviation recorded in the deck's implemented field
+---
+[event:e7f851e7-1b34-4f49-9910-178e93c929f0]
+node_id: 3f599ef1-912c-4bd6-92d3-7fc563029b66
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T19:17:36.074361+00:00
+
+two columns built at 1:1, not 5:7; deviation recorded in the deck's implemented field
 ---
 [node:7f4027ac-0840-42de-8d36-4ef0390853e5]
 type: decision
@@ -18002,6 +18256,26 @@ source: agent-surface
 created_at: 2026-10-05T18:23:07.064943+00:00
 
 F8: width-only size step held; 844x390 max-height goes to the user, not into code
+---
+[event:f5e07bf1-eea7-4cdb-bd38-09623dd4dda4]
+node_id: 7f4027ac-0840-42de-8d36-4ef0390853e5
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T19:17:20.331947+00:00
+
+orientation picks arrangement, width picks step: honoured; rotation mid-presentation keeps stale hero drops (minor)
+---
+[event:03787521-e94f-42cd-afa8-9a5b19911c61]
+node_id: 7f4027ac-0840-42de-8d36-4ef0390853e5
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T19:17:36.076929+00:00
+
+orientation picks arrangement, width picks step: honoured; rotation mid-presentation keeps stale hero drops (minor)
 ---
 [node:2de61225-3e49-4fde-883e-f74b6915cfaf]
 type: decision
@@ -18093,6 +18367,26 @@ created_at: 2026-10-05T18:23:07.048186+00:00
 
 plan review: measured geometry stands, amended with F1 (rows box height from layout)
 ---
+[event:a3c1ce7f-e0fe-4c61-a4af-a8a087534859]
+node_id: e0d9cfb5-14db-437b-931e-bfecdac6829d
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T19:17:20.320617+00:00
+
+measured geometry implemented as planned; only the default theme was measured
+---
+[event:216cb44c-4c3f-42ca-b96c-90babd230720]
+node_id: e0d9cfb5-14db-437b-931e-bfecdac6829d
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T19:17:36.071615+00:00
+
+measured geometry implemented as planned; only the default theme was measured
+---
 [node:0c340910-6c8f-4fb7-9528-0b921b3f628a]
 type: constraint
 tier: short-term
@@ -18120,6 +18414,26 @@ created_at: 2026-10-05T18:23:07.054890+00:00
 
 plan review: clock-advances-on-every-load rule passes
 ---
+[event:2df14b88-5d89-4bf5-a04c-2ef0cb7514ee]
+node_id: 0c340910-6c8f-4fb7-9528-0b921b3f628a
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T19:17:20.312633+00:00
+
+gw-review #90: nowMs assigned before the fetch in load(), pinned by a passing test in weather-hourly-card.test.ts
+---
+[event:180540eb-40db-46c0-b71e-4525f8cf71e5]
+node_id: 0c340910-6c8f-4fb7-9528-0b921b3f628a
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T19:17:36.068976+00:00
+
+gw-review #90: nowMs assigned before the fetch in load(), pinned by a passing test in weather-hourly-card.test.ts
+---
 [node:21b0b80b-4cac-4b8d-bfbb-71e3ae71796a]
 type: constraint
 tier: short-term
@@ -18136,6 +18450,26 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-10-05T18:22:52.033747+00:00
 
 A count derived from measuring a box ("how many rows fit": floor(boxHeight / rowHeight)) is only stable when the box's height comes from the layout, never from its own content. If the box sizes to its rows, the measurement starts at 0 rows and locks there or settles on a wrong count. In K7Weather's Slideshow presentation this is easy to get wrong. The #85 phone-fit rules give every child of `.wrap` auto margins (`.wrap > * { margin: auto }`), and those make a child content-sized. So the graph rows box must override them: `flex: 1 1 0` (or a `1fr` track), `min-height: 0`, `overflow: hidden`, `margin: 0`, scoped under `.has-hours`. The ResizeObserver measures that box, not the header. The same trap catches any hide-to-fit rule ("drop .detail when too few rows fit"): decide it from the count computed as if the element were present, or hiding it adds rows that un-hide it. From the independent /gw-plan-review of k7-weather-hourly, 2026-10-05.
+---
+[event:cdfe944d-e6b0-4b56-a23e-5f7a4308dd1e]
+node_id: 21b0b80b-4cac-4b8d-bfbb-71e3ae71796a
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T19:17:20.295383+00:00
+
+gw-review #90: rows box sized by layout; measured 0 half-cut lines and <=24 lines at 5 sizes, identical over 3 runs
+---
+[event:405fe48a-81c4-4c03-834a-2ed9211dffea]
+node_id: 21b0b80b-4cac-4b8d-bfbb-71e3ae71796a
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T19:17:36.056725+00:00
+
+gw-review #90: rows box sized by layout; measured 0 half-cut lines and <=24 lines at 5 sizes, identical over 3 runs
 ---
 [node:eab9ac6c-35f3-4ea4-8c04-8c1027465d7e]
 type: decision
@@ -18182,4 +18516,65 @@ Decided 2026-10-05 (k7-weather-hourly, user ruling after Phase 3 measurement): t
 Why: measured at 1024x768 on the main page, the card's body is 184 px and today's content fills it exactly (82 + 51 + 51). The [ + ] button's 44 px touch-target floor grows the head from 32 to 53 px. That alone clipped the 3-day row by 14 px even with no hourly data, and the strip added 75 px more (88 px overflow, a row cut through the middle at the card's edge). The user chose today's card over the button, over a strip-only card, and over enlarging the cell in layout.yaml.
 
 Consequence: a card that wants a manual fullscreen view needs a free row's worth of height in its cell, a cost the deck did not see.
+---
+[event:9a54a45d-b900-48c6-9341-834ce587f306]
+node_id: d1f56964-8088-492c-8c6c-898874ff7564
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T19:17:20.308032+00:00
+
+gw-review #90: standard card pixel-identical to main (0 px in the weather card) and tests pin no strip / no fullscreen
+---
+[event:938a4eb8-3b89-44f6-be39-8bd74861bb83]
+node_id: d1f56964-8088-492c-8c6c-898874ff7564
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-05T19:17:36.064459+00:00
+
+gw-review #90: standard card pixel-identical to main (0 px in the weather card) and tests pin no strip / no fullscreen
+---
+[node:000044d9-924e-4568-8c20-de416173ddd2]
+type: concept
+tier: mid-term
+path: /artifact/change-summary-k7-weather-hourly-issue
+created_at: 2026-10-05T19:17:01.597248+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:0c340910-6c8f-4fb7-9528-0b921b3f628a] @ 2026-10-05T19:17:01.597248+00:00
+-> DEPENDS_ON [node:0ea3bd46-91a2-4588-96b9-c550c911a52b] @ 2026-10-05T19:17:01.597248+00:00
+-> DEPENDS_ON [node:21b0b80b-4cac-4b8d-bfbb-71e3ae71796a] @ 2026-10-05T19:17:01.597248+00:00
+-> DEPENDS_ON [node:2de61225-3e49-4fde-883e-f74b6915cfaf] @ 2026-10-05T19:17:01.597248+00:00
+-> DEPENDS_ON [node:3f599ef1-912c-4bd6-92d3-7fc563029b66] @ 2026-10-05T19:17:01.597248+00:00
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-10-05T19:17:01.597248+00:00
+-> DEPENDS_ON [node:7f4027ac-0840-42de-8d36-4ef0390853e5] @ 2026-10-05T19:17:01.597248+00:00
+-> CONSOLIDATES [node:97369103-54d2-462b-a9eb-003dc04a8dc2] @ 2026-10-05T19:17:01.597248+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-05T19:17:01.597248+00:00
+-> DEPENDS_ON [node:d1f56964-8088-492c-8c6c-898874ff7564] @ 2026-10-05T19:17:01.597248+00:00
+-> ABOUT [node:d2844438-9992-4e20-bfb5-fa615a906574] @ 2026-10-05T19:17:01.597248+00:00
+-> DEPENDS_ON [node:e0d9cfb5-14db-437b-931e-bfecdac6829d] @ 2026-10-05T19:17:01.597248+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-10-05T19:17:01.597248+00:00
+-> DEPENDS_ON [node:eab9ac6c-35f3-4ea4-8c04-8c1027465d7e] @ 2026-10-05T19:17:01.597248+00:00
+-> DEPENDS_ON [node:f1290406-94cb-40d7-961d-182a0526b033] @ 2026-10-05T19:17:01.597248+00:00
+
+Change summary: k7-weather-hourly (issue #86; server half PR #87, card PR #90, 2026-10-05). The weather card gained an hourly forecast from Open-Meteo, shown ONLY while the Slideshow presents the card: two 7-bit ASCII graphs, time running down one line per hour — temperature as a point 'o' on the shown min..max, precipitation as a bar on a fixed 0-4 mm/h scale ('#' rain, '*' snow = precipitation - rain, capped with '>') with the probability beside it. Landscape puts the hero and the graphs side by side 1:1 (the wireframe's 5:7 could not hold the wall-size hero); portrait stacks them; below 767px one size step down. Line count and cell widths are measured at runtime (ResizeObserver + a probe line), capped at 24 lines; when the hero does not fit, days, then detail, then the decorative drawing give way, never the temperature or condition. The text comes from a pure module, src/client/lib/weather-hourly.ts. The standard card is unchanged: after measuring, the user withdrew the planned 6-hour strip and the [ + ] maximized view (the button alone pushed the 3-day row out of a 1024x768 cell), so the finger-scrolled 72 h view never shipped. Refresh needed no work: the card already polls every 900 s and the server caches 900 s. Verified in Chromium at 1024x768, 768x1024, 375x667, 667x375, 844x390; not on the iPad.
+---
+[node:90c2c8b3-fde3-4a43-a97b-d073a56303b8]
+type: constraint
+tier: short-term
+path: /artifact/lesson-from-the-gw-review-of-k7-weather
+created_at: 2026-10-05T19:17:01.641227+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-10-05T19:17:01.641227+00:00
+-> HAS_FACET [node:f55f3512-314b-47b1-8a0c-2e2cbcc46651] @ 2026-10-05T19:17:01.641227+00:00
+
+Lesson from the /gw-review of k7-weather-hourly (PR #90): when two memory-graph dumps are unioned by script (e.g. on rebase, because .gitattributes marks the dump -merge), a node present on BOTH sides must not be taken wholesale from one side. Its per-node state has to be merged — archived:true from a sweep wins unless a human reactivated the node — and EVERY event block from both sides must be kept, not just node blocks and edges. PR #90's union took its own side's copy of shared nodes and only main's 2 new node blocks plus their edges: merging it would have un-archived 23 k7-multi-calendar nodes that main's sweep had retired, and dropped 12 human-gate journal events (manual_review on 7 nodes, confirmation_added on 3) from a 2026-09-26 resolve session. `doctor` and an "in sync" status cannot catch this: a dump missing a human's events is internally consistent. Check before committing: every main node id present, no node whose archived flipped true->false, and main's event ids a subset of the result's.
 
