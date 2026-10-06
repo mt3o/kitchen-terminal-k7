@@ -103,6 +103,18 @@ describe('K7Weather.svelte: graphs in the Slideshow presentation', () => {
     assert.doesNotMatch(markup, /\{#if[^}]*drop[^}]*\}\s*<p class="(glance|cond)"/)
   })
 
+  it('decides drops afresh after a rotation: a new layout, not a resized one', () => {
+    assert.match(
+      script,
+      /if \(mq\.matches === portrait\) return\s*portrait = mq\.matches[\s\S]{0,400}?dropDetail = false\s*dropDays = false\s*dropArt = false/,
+    )
+  })
+
+  it('never colours data below the 4.5:1 text floor: "--" and "0" use --fg-muted ([node:6d6046fc])', () => {
+    assert.match(css, /\.r-muted\s*\{\s*color:\s*var\(--fg-muted\);\s*\}/)
+    assert.doesNotMatch(css, /\.r-[a-z]+[^{]*\{[^}]*--fg-disabled/)
+  })
+
   it('hides the ASCII from screen readers and gives them one sentence instead', () => {
     assert.match(markup, /class="g-text g-head" aria-hidden="true"/)
     assert.match(markup, /<p class="g-summary">\{summary\}<\/p>/)

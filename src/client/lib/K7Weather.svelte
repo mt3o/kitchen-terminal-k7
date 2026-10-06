@@ -11,6 +11,7 @@
 
 <script lang="ts">
   import Card from './Card.svelte'
+  import { untrack } from 'svelte'
   import { hostIdOf, presentingElIdStore } from './fullscreen-lock.ts'
   import {
     DEFAULT_CELLS,
@@ -150,7 +151,9 @@
       const columns = Math.floor(b.width / (p.width / 10))
       const lines = Math.min(MAX_LINES, Math.floor(b.height / p.height))
       // Only on change: an equal write would still re-render every row.
-      if (columns !== fit.columns || lines !== fit.lines) fit = { columns, lines }
+      // untrack: reading `fit` here must not make the effect depend on it,
+      // or every new measurement would tear down and rebuild the observer.
+      if (untrack(() => columns !== fit.columns || lines !== fit.lines)) fit = { columns, lines }
     }
     measure()
     const ro = new ResizeObserver(measure)
@@ -197,7 +200,14 @@
   $effect(() => {
     const mq = window.matchMedia('(orientation: portrait)')
     const update = (): void => {
+      if (mq.matches === portrait) return
       portrait = mq.matches
+      // A rotation is a new layout, not a roomier or tighter version of the
+      // old one: what had to give way in landscape is decided afresh in
+      // portrait, and back (same class of bug as [node:da3dff86]).
+      dropDetail = false
+      dropDays = false
+      dropArt = false
     }
     update()
     mq.addEventListener('change', update)
@@ -536,7 +546,11 @@
   .r-marker { color: var(--accent); }
   .r-value, .r-rain { color: var(--fg); }
   .r-snow { color: var(--fg-muted); }
-  .r-muted { color: var(--fg-disabled); }
+  /* --fg-muted, not --fg-disabled: this role also carries data ("--" for a
+     missing value, "0" for a dry hour), and --fg-disabled is ~2.9:1 against
+     the 4.5:1 floor for text ([node:6d6046fc]). The padding it also colours
+     is spaces, so nothing else changes. */
+  .r-muted { color: var(--fg-muted); }
 
   /* The graphs' sentence for screen readers: present in the accessibility
      tree, not on the wall. */
