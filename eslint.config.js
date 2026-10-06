@@ -122,11 +122,12 @@ export default tseslint.config(
   },
 
   // The contrast auditor is a Node script whose middle is not Node: the callbacks
-  // it passes to page.evaluate() are serialised and run inside the page. They are
-  // the only place in scripts/ where that happens, so the browser names they need
+  // it passes to page.evaluate() are serialised and run inside the page. They and
+  // the kawaii card-picture clamp (same pattern, canvas instead of the DOM) are
+  // the only places in scripts/ where that happens, so the browser names they need
   // are listed here rather than widening the whole directory.
   {
-    files: ['scripts/theme-contrast.mjs'],
+    files: ['scripts/theme-contrast.mjs', 'scripts/kawaii-card-pictures.mjs'],
     languageOptions: {
       globals: {
         document: 'readonly',

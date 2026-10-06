@@ -75,8 +75,12 @@ export interface ThemeOrnament {
   pageOverlay?: ThemeModeValue
   /** How long each backdrop stays, in minutes, counted from local midnight. Default 60. */
   backdropEveryMinutes?: number
-  /** Background layers for every card. The mode's `surface` colour is appended as the base layer. */
-  cardBackground?: ThemeModeValue
+  /**
+   * Background layers for every card. The mode's `surface` colour is appended
+   * as the base layer. A list is a set of variants, one drawn per card (see
+   * CARD_BG_SLOTS); each mode's list is independent.
+   */
+  cardBackground?: ThemeModeValues
   /** A `border-image` value for every card's frame. */
   cardFrame?: ThemeModeValue
   /** A `border-image` value for the dividers under the shell header and each card head. */
@@ -187,6 +191,37 @@ export function backdropCount(theme: Theme): number {
   return Math.max(1, ...MODES.map((mode) => pickValues(theme.ornament?.pageBackground, mode).length))
 }
 
+/** How many card-background variants the theme offers: the longest mode's list, at least 1. */
+export function cardBackgroundCount(theme: Theme): number {
+  return Math.max(1, ...MODES.map((mode) => pickValues(theme.ornament?.cardBackground, mode).length))
+}
+
+/**
+ * Card-background variants are emitted as this many slot tokens,
+ * --card-bg-0..11, each wrapping round the mode's list. The client gives a
+ * card a slot, not a variant, so a card keeps a valid picture when the theme
+ * changes under it to one with a different number of variants — 12 divides
+ * evenly by 1, 2, 3, 4 and 6.
+ */
+export const CARD_BG_SLOTS = 12
+
+/**
+ * One rule per slot: a card host carrying `data-card-bg="n"` (dealt by
+ * lib/card-background.ts) picks slot n. An attribute and a stylesheet rule
+ * rather than an inline custom property, because a card's host is a custom
+ * element whose `style` may be a component prop (K7Menu has one) — and every
+ * card host, nested ones included, is light DOM (grid and carousel slot
+ * their children), so a document rule reaches all of them. The slot tokens
+ * themselves live in the mode blocks, so the pick follows the mode. A theme
+ * with one card picture emits none of this.
+ */
+function cardBackgroundBlocks(theme: Theme): string[] {
+  if (cardBackgroundCount(theme) <= 1) return []
+  return Array.from({ length: CARD_BG_SLOTS }, (_, slot) =>
+    block(`[data-card-bg="${slot}"]`, [`--card-bg-pick: var(--card-bg-${slot});`]),
+  )
+}
+
 /** `asset("path")` / `asset(path)` — a theme file named inside a raw CSS value. */
 const ASSET_REF = /asset\(\s*["']?([^"')]+?)["']?\s*\)/g
 
@@ -290,8 +325,18 @@ function modeBlock(theme: Theme, mode: Mode, selector: string, assetUrl: (path: 
   }
   const pageBg = pageBackground(theme, mode, 0, assetUrl)
   if (pageBg) lines.push(`--page-bg: ${pageBg};`)
-  const cardBg = layered(ornament?.cardBackground, pick(theme.colors.surface, mode))
+  // Variant 0 is --card-bg itself, so a card nobody has dealt a slot (a
+  // story, a theme with one picture) paints exactly what it always did.
+  const surface = pick(theme.colors.surface, mode)
+  const cardVariants = pickValues(ornament?.cardBackground, mode).map((layers) => layered(layers, surface))
+  const cardBg = cardVariants[0] ?? surface
   if (cardBg) lines.push(`--card-bg: ${cardBg};`)
+  if (cardBackgroundCount(theme) > 1) {
+    for (let slot = 0; slot < CARD_BG_SLOTS; slot++) {
+      const value = cardVariants.length ? cardVariants[slot % cardVariants.length] : surface
+      if (value) lines.push(`--card-bg-${slot}: ${value};`)
+    }
+  }
   const frame = pickValue(ornament?.cardFrame, mode)
   lines.push(`--card-frame: ${frame ? resolveAssets(frame.trim(), assetUrl) : 'none'};`)
   const rule = pickValue(ornament?.rule, mode)
@@ -407,6 +452,9 @@ export function generateTokensCss(theme: Theme, options: GenerateOptions = {}): 
   // long each one stays. 1 means there is nothing to rotate.
   structure.push(`--backdrop-count: ${backdropCount(theme)};`)
   structure.push(`--backdrop-every: ${theme.ornament?.backdropEveryMinutes ?? 60};`)
+  // Read by lib/card-background.ts: how many distinct card pictures there are
+  // to deal. Only a theme with more than one emits the --card-bg-N slots.
+  if (cardBackgroundCount(theme) > 1) structure.push(`--card-bg-count: ${cardBackgroundCount(theme)};`)
   structure.push(
     `--display-tracking: ${
       display.letterSpacingPx !== undefined ? `${(display.letterSpacingPx / t.baseSizePx).toFixed(3)}em` : 'var(--tracking-label)'
@@ -468,6 +516,7 @@ export function generateTokensCss(theme: Theme, options: GenerateOptions = {}): 
     modeBlock(theme, 'light', '[data-mode="light"]', assetUrl),
     modeBlock(theme, 'night', '[data-mode="night"]', assetUrl),
     ...backdropBlocks(theme, assetUrl),
+    ...cardBackgroundBlocks(theme),
     ...headerBlocks(theme),
   ]
 
