@@ -187,8 +187,10 @@
     padding: var(--card-pad);
     /* --card-bg and --card-frame are a theme's pictures and brass: a flat
        surface and no frame image unless the theme supplies them, which is
-       exactly the plain card this always was. */
-    background: var(--card-bg);
+       exactly the plain card this always was. --card-bg-pick is the
+       variant lib/card-background.ts dealt this card's host, when the theme
+       has several; unset or unresolvable, the theme's one --card-bg. */
+    background: var(--card-bg-pick, var(--card-bg));
     /* --card-border is --border-strong unless the theme sets cards apart by
        their fill instead (a white note on cork) and wants a hairline here. */
     border: var(--border-w-strong) solid var(--card-border);
