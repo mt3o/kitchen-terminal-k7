@@ -11,7 +11,19 @@
 
 <script lang="ts">
   import Card from './Card.svelte'
+  import { untrack } from 'svelte'
   import { hostIdOf, presentingElIdStore } from './fullscreen-lock.ts'
+  import {
+    DEFAULT_CELLS,
+    fitCells,
+    graphHeader,
+    graphRows,
+    hourLabel,
+    shownSlice,
+    upcomingHours,
+    type GraphOptions,
+    type WeatherHour,
+  } from './weather-hourly.ts'
   import { ageLabel, describeWeather, isSevere, weatherArt } from './wmo.ts'
 
   interface Props {
@@ -41,9 +53,13 @@
     stale: boolean
     source: string
     data: {
-      units: { temperature: string; windSpeed: string }
+      /** IANA zone the hours are labelled in. Absent from answers cached
+       *  before the hourly series existed, like `hourly` itself. */
+      timezone?: string
+      units: { temperature: string; windSpeed: string; precipitation?: string; snowfall?: string }
       now: { temperature: number; apparentTemperature: number; humidity: number; windSpeed: number; weatherCode: number }
       daily: { date: string; weatherCode: number; temperatureMax: number; temperatureMin: number }[]
+      hourly?: WeatherHour[]
     }
   }
 
@@ -56,7 +72,16 @@
   let meta = $derived(aged ? ageLabel(aged.ageSeconds) : '')
   let art = $derived(aged ? weatherArt(aged.data.now.weatherCode) : undefined)
 
+  /**
+   * The clock the hourly rows trim against. It advances on EVERY load attempt,
+   * failed ones included: when the upstream is down the card keeps its last
+   * answer, and the presented graphs must still move past hours that have
+   * gone by rather than freeze at the last successful refresh.
+   */
+  let nowMs = $state(Date.now())
+
   async function load(signal: AbortSignal): Promise<void> {
+    nowMs = Date.now()
     try {
       const res = await fetch(`/api/weather?lat=${lat}&lon=${lon}&units=${units}`, { signal })
       if (!res.ok) throw new Error(`weather ${res.status}`)
@@ -93,43 +118,220 @@
   let presenting = $derived(hostId !== undefined && $presentingElIdStore === hostId)
   let forecast = $derived(aged ? aged.data.daily.slice(1, presenting ? undefined : 4) : [])
 
+  // --- hourly graphs, Slideshow presentation only (deck k7-weather-card) ---
+  //
+  // The standard card has no row to spare for hourly data ([node:d1f56964]),
+  // so the graphs exist only while the Slideshow presents the card and owns
+  // the screen. No hours (an answer cached before the series existed) means
+  // no graph column at all: the presentation is then exactly the old one.
+  let timeZone = $derived(aged?.data.timezone ?? 'Europe/Warsaw')
+  let upcoming = $derived(upcomingHours(aged?.data.hourly, nowMs, 72))
+  let hasHours = $derived(presenting && upcoming.length > 0)
+
+  /**
+   * Geometry is measured, never set per breakpoint ([node:e0d9cfb5]): one
+   * rendered line of ten mono characters gives the cell width and the line
+   * height in whatever face the theme uses, and the rows box — whose size
+   * comes from the layout, never from its own text ([node:21b0b80b]) — says
+   * how many of each fit. `lines` starts at 0 so nothing is painted before the
+   * first measurement, rather than a guess that might be cut in half.
+   */
+  const MAX_LINES = 24
+  let rowsEl = $state<HTMLElement | undefined>(undefined)
+  let probeEl = $state<HTMLElement | undefined>(undefined)
+  let fit = $state({ columns: 0, lines: 0 })
+  $effect(() => {
+    const box = rowsEl
+    const probe = probeEl
+    if (!box || !probe) return
+    const measure = (): void => {
+      const b = box.getBoundingClientRect()
+      const p = probe.getBoundingClientRect()
+      if (p.width <= 0 || p.height <= 0) return
+      const columns = Math.floor(b.width / (p.width / 10))
+      const lines = Math.min(MAX_LINES, Math.floor(b.height / p.height))
+      // Only on change: an equal write would still re-render every row.
+      // untrack: reading `fit` here must not make the effect depend on it,
+      // or every new measurement would tear down and rebuild the observer.
+      if (untrack(() => columns !== fit.columns || lines !== fit.lines)) fit = { columns, lines }
+    }
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(box)
+    return () => ro.disconnect()
+  })
+
+  let graphOpts = $derived.by((): GraphOptions => {
+    const cells =
+      fit.columns > 0
+        ? fitCells(fit.columns, { showMm: true, showPct: true })
+        : { tempCells: DEFAULT_CELLS, precipCells: DEFAULT_CELLS, showMm: false, showPct: true }
+    return { timeZone, unit: aged?.data.units.precipitation ?? 'mm', ...cells, maxLines: Math.max(1, fit.lines) }
+  })
+  let shown = $derived(hasHours && fit.lines > 0 ? shownSlice(upcoming, graphOpts) : [])
+  let rows = $derived(shown.length > 0 ? graphRows(upcoming, graphOpts) : [])
+  let header = $derived(shown.length > 0 ? graphHeader(upcoming, { ...graphOpts, windowHours: shown.length }) : [])
+
+  /** What the aria-hidden graphs say, as one sentence. */
+  let summary = $derived.by((): string => {
+    if (shown.length === 0) return ''
+    const temps = shown.map((h) => h.temperature).filter((t): t is number => t !== null && Number.isFinite(t))
+    const wet = shown.find((h) => (h.precipitation ?? 0) > 0)
+    const range = temps.length > 0 ? `temperatura od ${Math.round(Math.min(...temps))} do ${Math.round(Math.max(...temps))} ${aged?.data.units.temperature ?? ''}` : 'brak temperatury'
+    const rain = wet ? `pierwszy opad o ${hourLabel(Date.parse(wet.time), timeZone)}` : 'bez opadow'
+    return `Prognoza godzinowa na ${shown.length} h: ${range}, ${rain}.`
+  })
+
+  /**
+   * What gives way when the hero does not fit, by the deck's rulings:
+   * stacked portrait with too few graph lines drops the detail row; side by
+   * side in landscape, the hero drops the days row first ("days kept if they
+   * fit"), then the detail row, then the decorative drawing — never the
+   * temperature or the condition, which are what the presentation is for
+   * (at 844x390 the condition was clipped to the dot of an "i"). Each drop is latched for the rest of the
+   * presentation: dropping makes room, and deciding again from the roomier
+   * layout would put the row straight back ([node:21b0b80b]).
+   */
+  const MIN_LINES_WITH_DETAIL = 8
+  let heroEl = $state<HTMLElement | undefined>(undefined)
+  let dropDays = $state(false)
+  let dropArt = $state(false)
+  let portrait = $state(false)
+  $effect(() => {
+    const mq = window.matchMedia('(orientation: portrait)')
+    const update = (): void => {
+      if (mq.matches === portrait) return
+      portrait = mq.matches
+      // A rotation is a new layout, not a roomier or tighter version of the
+      // old one: what had to give way in landscape is decided afresh in
+      // portrait, and back (same class of bug as [node:da3dff86]).
+      dropDetail = false
+      dropDays = false
+      dropArt = false
+    }
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  })
+  let dropDetail = $state(false)
+  $effect(() => {
+    if (!presenting) {
+      dropDetail = false
+      dropDays = false
+      dropArt = false
+      return
+    }
+    if (hasHours && portrait && fit.lines > 0 && fit.lines < MIN_LINES_WITH_DETAIL) dropDetail = true
+  })
+  // Landscape: the hero has the column's full height, so a hero taller than
+  // that is measurable as its own overflow. Decided once the box has settled
+  // for a moment, and decided AGAIN whenever the box grows past the height a
+  // drop was taken at. A promoted card spends its first second or so at the
+  // deck's size, not the screen's (measured at 1024x768: the host is 992x626,
+  // the hero 503 px, before it reaches 768 and 645), so a latch taken then
+  // would keep dropping a row that fits. Only growth of the box un-drops, and
+  // that comes from outside, never from the drop itself, so it cannot flip
+  // back and forth ([node:21b0b80b]). Every drop re-checks, since a drop
+  // changes the content, not the box.
+  const SETTLE_MS = 500
+  let droppedAtHeight = 0
+  $effect(() => {
+    void dropDays
+    void dropDetail
+    void dropArt
+    void forecast
+    const el = heroEl
+    if (!el || portrait || !hasHours) return
+    let timer: ReturnType<typeof setTimeout> | undefined
+    const check = (): void => {
+      if (el.scrollHeight <= el.clientHeight + 1) return
+      droppedAtHeight = el.clientHeight
+      if (!dropDays) dropDays = true
+      else if (!dropDetail) dropDetail = true
+      else if (!dropArt) dropArt = true
+    }
+    const settle = (): void => {
+      if ((dropDays || dropDetail || dropArt) && el.clientHeight > droppedAtHeight + 1) {
+        dropDays = false
+        dropDetail = false
+        dropArt = false
+      }
+      if (timer !== undefined) clearTimeout(timer)
+      timer = setTimeout(check, SETTLE_MS)
+    }
+    settle()
+    const ro = new ResizeObserver(settle)
+    ro.observe(el)
+    return () => {
+      ro.disconnect()
+      if (timer !== undefined) clearTimeout(timer)
+    }
+  })
+
   const round = (n: number): string => (Number.isFinite(n) ? String(Math.round(n)) : '--')
   const day = (iso: string): string =>
     new Date(iso).toLocaleDateString('pl-PL', { weekday: 'short' }).replace('.', '')
 </script>
 
-<Card label={label} meta={meta} state={cardState as 'ok' | 'warn' | 'fail' | 'idle'}>
-  <div class="wrap" bind:this={wrapEl}>
-  {#if failed && !aged}
-    <p class="msg">brak danych pogodowych</p>
-  {:else if !aged}
-    <p class="msg">odczyt</p>
-  {:else}
-    <div class="now">
-      {#if artEnabled && art}
-        <!-- Decorative: the temperature and the label beside it already say
-             everything this draws, so a screen reader gets nothing new here. -->
-        <pre class="art" aria-hidden="true">{art}</pre>
-      {/if}
-      <div class="readout">
-        <p class="glance">{round(aged.data.now.temperature)}<span class="unit">{aged.data.units.temperature}</span></p>
-        <p class="cond">{describeWeather(aged.data.now.weatherCode)}</p>
-      </div>
+{#snippet hero(a: Aged)}
+  <div class="now">
+    {#if artEnabled && art && !dropArt}
+      <!-- Decorative: the temperature and the label beside it already say
+           everything this draws, so a screen reader gets nothing new here. -->
+      <pre class="art" aria-hidden="true">{art}</pre>
+    {/if}
+    <div class="readout">
+      <p class="glance">{round(a.data.now.temperature)}<span class="unit">{a.data.units.temperature}</span></p>
+      <p class="cond">{describeWeather(a.data.now.weatherCode)}</p>
     </div>
+  </div>
+  {#if !dropDetail}
     <dl class="detail">
-      <div><dt>odczuwalna</dt><dd>{round(aged.data.now.apparentTemperature)}{aged.data.units.temperature}</dd></div>
-      <div><dt>wilgotnosc</dt><dd>{round(aged.data.now.humidity)}%</dd></div>
-      <div><dt>wiatr</dt><dd>{round(aged.data.now.windSpeed)} {aged.data.units.windSpeed}</dd></div>
+      <div><dt>odczuwalna</dt><dd>{round(a.data.now.apparentTemperature)}{a.data.units.temperature}</dd></div>
+      <div><dt>wilgotnosc</dt><dd>{round(a.data.now.humidity)}%</dd></div>
+      <div><dt>wiatr</dt><dd>{round(a.data.now.windSpeed)} {a.data.units.windSpeed}</dd></div>
     </dl>
+  {/if}
+  {#if !dropDays}
     <ul class="days">
       {#each forecast as d (d.date)}
         <li><span class="dow">{day(d.date)}</span><span class="range">{round(d.temperatureMin)} / {round(d.temperatureMax)}</span></li>
       {/each}
     </ul>
-    {#if aged.stale}
-      <!-- Not a decoration. The number above is old and looks current. -->
-      <p class="stale">[!] dane sprzed {ageLabel(aged.ageSeconds)}</p>
-    {/if}
+  {/if}
+  {#if a.stale}
+    <!-- Not a decoration. The number above is old and looks current. -->
+    <p class="stale">[!] dane sprzed {ageLabel(a.ageSeconds)}</p>
+  {/if}
+{/snippet}
+
+<Card label={label} meta={meta} state={cardState as 'ok' | 'warn' | 'fail' | 'idle'}>
+  <div class="wrap" class:has-hours={hasHours} bind:this={wrapEl}>
+  {#if failed && !aged}
+    <p class="msg">brak danych pogodowych</p>
+  {:else if !aged}
+    <p class="msg">odczyt</p>
+  {:else if hasHours}
+    <div class="hero" bind:this={heroEl}>{@render hero(aged)}</div>
+    <div class="graphs">
+      <!-- Text drawn by weather-hourly.ts: 7-bit ASCII, one span per role,
+           coloured by token. Hidden from screen readers, which get the
+           sentence below instead of 24 lines of bars. -->
+      <div class="g-text g-head" aria-hidden="true">
+        {#each header as line, i (i)}<div class="g-line">{#each line as seg, j (j)}<span class="r-{seg.role}">{seg.text}</span>{/each}</div>{/each}
+      </div>
+      <div class="g-rows" bind:this={rowsEl}>
+        <div class="g-text" aria-hidden="true">
+          {#each rows as line, i (i)}<div class="g-line">{#each line as seg, j (j)}<span class="r-{seg.role}">{seg.text}</span>{/each}</div>{/each}
+        </div>
+        <!-- The ruler: ten characters on one line, measured for cell width and
+             line height in whatever mono face the theme uses. -->
+        <div class="g-text g-line g-probe" aria-hidden="true" bind:this={probeEl}>0000000000</div>
+      </div>
+      <p class="g-summary">{summary}</p>
+    </div>
+  {:else}
+    {@render hero(aged)}
   {/if}
   </div>
 </Card>
@@ -259,5 +461,116 @@
     :host(.k7-slideshow-presenting) .range { font-size: var(--text-lg); }
     :host(.k7-slideshow-presenting) .days { gap: var(--space-2) var(--space-6); }
     :host(.k7-slideshow-presenting) .stale { font-size: var(--text-base); }
+  }
+
+  /* --- Slideshow presentation with hourly graphs ----------------------------
+   * Deck k7-weather-card, screens slideshow-presenting(-phone). Everything
+   * here is scoped under `.has-hours`, which only exists while presenting
+   * WITH hours, so a presentation without hourly data is exactly the one
+   * above (test/weather-presenting-fit.test.ts pins it).
+   *
+   * Orientation picks the arrangement, width picks the size step
+   * ([node:7f4027ac]): landscape puts the hero and the graphs side by side,
+   * portrait stacks them; below 767px everything is one notch down.
+   *
+   * The graph rows box takes its size from the layout — `flex: 1 1 0`,
+   * `min-height: 0`, no auto margins — never from its rows, or measuring how
+   * many rows fit would lock at a wrong count ([node:21b0b80b]). Inside the
+   * hero, centring is auto margins again, never `align-items: center`, so a
+   * hero too wide for its column loses its end and never its start
+   * ([node:32f913e8]). */
+  :host(.k7-slideshow-presenting) .wrap.has-hours { text-align: left; }
+  :host(.k7-slideshow-presenting) .wrap.has-hours > .hero {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    flex: 0 0 auto;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    margin: 0;
+    text-align: center;
+  }
+  :host(.k7-slideshow-presenting) .hero > * { margin-left: auto; margin-right: auto; }
+  :host(.k7-slideshow-presenting) .wrap.has-hours > .graphs {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 0;
+    margin: 0;
+  }
+  @media (orientation: landscape) {
+    :host(.k7-slideshow-presenting) .wrap.has-hours { flex-direction: row; }
+    /* Half and half, not the wireframe's 5:7: measured at 1024x768, a
+       5/12 column (~400px) cannot hold the wall-size art beside the 112px
+       figure, so the hero stacked and ran ~125px past the card. At half
+       width it sits on one line; the graphs drop only the mm figure, which
+       the bar already carries. */
+    :host(.k7-slideshow-presenting) .wrap.has-hours > .hero { flex: 1 1 0; }
+    :host(.k7-slideshow-presenting) .wrap.has-hours > .graphs { flex: 1 1 0; }
+    /* Sharing the width with the graphs, the hero tightens what is not read
+       from the doorway: the drawing one step down, the detail row closer.
+       The temperature, condition and values keep their wall sizes. */
+    :host(.k7-slideshow-presenting) .wrap.has-hours .art { font-size: var(--text-lg); }
+    :host(.k7-slideshow-presenting) .wrap.has-hours .detail { gap: var(--space-6); }
+    /* Three wall-size days at the --space-12 gap need ~498px; the half
+       column has ~490, so the third day wrapped and the row stopped fitting. */
+    :host(.k7-slideshow-presenting) .wrap.has-hours .days { gap: var(--space-6) var(--space-8); }
+    /* Vertically centred in its column, by auto margins. */
+    :host(.k7-slideshow-presenting) .hero > :first-child { margin-top: auto; }
+    :host(.k7-slideshow-presenting) .hero > :last-child { margin-bottom: auto; }
+  }
+
+  .g-rows {
+    position: relative;
+    flex: 1 1 0;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .g-text {
+    font-family: var(--font-mono);
+    font-size: var(--text-lg);
+    line-height: var(--leading-tight);
+    color: var(--fg-muted);
+  }
+  .g-line { white-space: pre; }
+  .g-probe { position: absolute; top: 0; left: 0; visibility: hidden; }
+  .g-head { flex: 0 0 auto; }
+
+  /* One token per role ([node:eab9ac6c]). Rain and snow already differ by
+     glyph (# and *); colour only reinforces it. No --signal (teal is the
+     state colour, rationed per card) and no --warn (that means a state). */
+  .r-hour, .r-separator, .r-pct { color: var(--fg-muted); }
+  .r-marker { color: var(--accent); }
+  .r-value, .r-rain { color: var(--fg); }
+  .r-snow { color: var(--fg-muted); }
+  /* --fg-muted, not --fg-disabled: this role also carries data ("--" for a
+     missing value, "0" for a dry hour), and --fg-disabled is ~2.9:1 against
+     the 4.5:1 floor for text ([node:6d6046fc]). The padding it also colours
+     is spaces, so nothing else changes. */
+  .r-muted { color: var(--fg-muted); }
+
+  /* The graphs' sentence for screen readers: present in the accessibility
+     tree, not on the wall. */
+  .g-summary {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (max-width: 767px) {
+    .g-text { font-size: var(--text-sm); }
+    :host(.k7-slideshow-presenting) .wrap.has-hours > .hero { gap: var(--space-3); }
+    /* The landscape hero rules above out-rank the phone step for these two. */
+    :host(.k7-slideshow-presenting) .wrap.has-hours .art { font-size: var(--text-sm); }
+    :host(.k7-slideshow-presenting) .wrap.has-hours .detail { gap: var(--space-4); }
   }
 </style>

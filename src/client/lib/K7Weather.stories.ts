@@ -10,13 +10,40 @@ import type { Decorator } from '@storybook/web-components'
 // failure this renderer choice exists to catch.
 import './K7Weather.svelte'
 
+/**
+ * 120 hours from the start of today, relative to when the story runs: the card
+ * trims to the current hour, so fixed timestamps would trim to nothing.
+ * One wet afternoon, one snow hour, one mixed hour past the scale's end and
+ * one hour with no data, so every glyph and the '--' cell show up.
+ */
+function cannedHourly(): unknown[] {
+  const start = new Date()
+  start.setHours(0, 0, 0, 0)
+  return Array.from({ length: 120 }, (_, i) => {
+    const rain = i === 44 ? 1.2 : i % 24 >= 15 && i % 24 <= 18 ? 0.4 * ((i % 24) - 14) : 0
+    const snow = i === 40 ? 0.8 : i === 44 ? 3.5 : 0
+    const precipitation = Math.round((rain + snow) * 10) / 10
+    return {
+      time: new Date(start.getTime() + i * 3_600_000).toISOString(),
+      temperature: i === 30 ? null : Math.round((10 + 5 * Math.sin((((i % 24) - 9) / 24) * 2 * Math.PI)) * 10) / 10,
+      precipitation,
+      precipitationProbability: i === 30 ? null : Math.min(100, Math.round(precipitation * 40) + (i % 7) * 3),
+      weatherCode: snow ? 71 : rain ? 61 : 3,
+      rain,
+      snowfall: snow ? Math.round(snow * 0.7 * 10) / 10 : 0,
+    }
+  })
+}
+
 /** A full, fresh /api/weather response — the shape the component actually parses. */
 const FRESH_PAYLOAD = {
   ageSeconds: 40,
   stale: false,
   source: 'open-meteo',
   data: {
-    units: { temperature: '°C', windSpeed: 'km/h' },
+    timezone: 'Europe/Warsaw',
+    units: { temperature: '°C', windSpeed: 'km/h', precipitation: 'mm', snowfall: 'cm' },
+    hourly: cannedHourly(),
     now: { temperature: 18.4, apparentTemperature: 17.1, humidity: 62, windSpeed: 11.3, weatherCode: 2 },
     daily: [
       { date: '2026-09-09', weatherCode: 2, temperatureMax: 21, temperatureMin: 12 },
@@ -106,6 +133,21 @@ export const Loaded: Story = {
  */
 export const Stale: Story = {
   decorators: [withFetch(async () => new Response(JSON.stringify(STALE_PAYLOAD), { status: 200 }))],
+}
+
+/**
+ * An answer cached before /api/weather carried `hourly`: the card must render
+ * exactly as it did before the hourly strip existed, with no empty strip.
+ */
+export const CachedBeforeHourly: Story = {
+  name: 'Cached before hourly',
+  decorators: [
+    withFetch(async () => {
+      const data: Partial<typeof FRESH_PAYLOAD.data> = { ...FRESH_PAYLOAD.data }
+      delete data.hourly
+      return new Response(JSON.stringify({ ...FRESH_PAYLOAD, data }), { status: 200 })
+    }),
+  ],
 }
 
 /** No response yet and nothing cached — the card's very first paint. */
