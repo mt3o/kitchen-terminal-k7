@@ -496,6 +496,16 @@ created_at: 2026-10-05T19:17:36.079527+00:00
 
 build at Safari 15 target passes; ResizeObserver/matchMedia listeners within the floor; not run on Safari
 ---
+[event:1546679d-d553-4b4d-a508-d6534fdda3aa]
+node_id: 0bc7e618-9b95-4977-9fe1-f3a48759276f
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T10:04:30.755807+00:00
+
+gw-review k7-card-foot-badge: flex-wrap/flex-shrink/white-space are below the Safari 15 floor; lint:tokens Safari checks pass; not run on a device
+---
 [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99]
 type: facet_value
 tier: lifetime
@@ -733,6 +743,16 @@ source: agent-surface
 created_at: 2026-10-05T16:59:20.271477+00:00
 
 read vs glance tier set graph row sizes (read tier) and kept only the temperature at glance tier
+---
+[event:b347b912-c245-45ea-957c-f145e787cbe1]
+node_id: 7108856c-d3d5-4701-bb69-11087256a081
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T10:17:22.763794+00:00
+
+checked that --text-sm is a read-tier token with no floor for the date line; tier figures are iPad-pitch, phone viewed closer
 ---
 [node:4c740d82-541d-4c70-9970-793467c4f26e]
 type: facet_value
@@ -1474,6 +1494,26 @@ created_at: 2026-10-03T16:09:00.679053+00:00
 
 reviewer ran check-token-contract.py on the PR: exit 0
 ---
+[event:d5d9c4a8-ca9d-4f6d-8a4d-39c691440bdc]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T10:04:30.729268+00:00
+
+gw-review k7-card-foot-badge: lint:tokens and tokens:check pass on main; the new badge/footer declarations are keywords only
+---
+[event:783e72ab-ee24-44f3-b4c2-97efb0209dfc]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T10:17:22.766721+00:00
+
+the fix uses var(--text-sm) only; the test resolves it from tokens.css
+---
 [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a]
 type: constraint
 tier: lifetime
@@ -1633,6 +1673,16 @@ source: agent-surface
 created_at: 2026-10-03T15:18:53.653038+00:00
 
 design gate: presenting hides tab [!]/[X] glyphs but the card footer badge still carries calendar state
+---
+[event:b68936bd-e4ad-4568-a835-c0cbce1bb8f8]
+node_id: 9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T10:04:30.749723+00:00
+
+gw-review k7-card-foot-badge: test/card-foot-badge.test.ts (part of 762/762 green) pins the state glyph whole in both card shells
 ---
 [node:cabf56d2-4b59-4f19-96f7-9388071c1086]
 type: decision
@@ -2798,7 +2848,7 @@ path: /artifact/the-middleware-pipe-package-name-is-alre
 created_at: 2026-09-08T09:38:30.023885+00:00
 needs_review: false
 retrieval_weight: 1.0
-trust_weight: 1.0
+trust_weight: 0.0
 archived: false
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-08T09:38:30.023885+00:00
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:38:30.023885+00:00
@@ -2882,7 +2932,7 @@ path: /artifact/the-vidataflux-repository-is-empty-and-m
 created_at: 2026-09-08T09:38:30.154849+00:00
 needs_review: false
 retrieval_weight: 1.0
-trust_weight: 1.0
+trust_weight: 0.0
 archived: false
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:38:30.154849+00:00
 
@@ -2965,7 +3015,7 @@ path: /artifact/the-stack-assumes-typescript-7-with-the
 created_at: 2026-09-08T09:38:30.287095+00:00
 needs_review: false
 retrieval_weight: 1.0
-trust_weight: 1.0
+trust_weight: 0.0
 archived: false
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:38:30.287095+00:00
 
@@ -3058,7 +3108,7 @@ path: /artifact/the-service-worker-aims-at-a-full-offlin
 created_at: 2026-09-08T09:38:30.445420+00:00
 needs_review: false
 retrieval_weight: 1.0
-trust_weight: 1.0
+trust_weight: 0.0
 archived: false
 -> DEPENDS_ON [node:0bc7e618-9b95-4977-9fe1-f3a48759276f] @ 2026-09-08T09:38:30.445420+00:00
 -> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-08T13:42:12.574912+00:00
@@ -3285,7 +3335,7 @@ path: /artifact/the-design-system-replaces-the-courier-n
 created_at: 2026-09-08T09:38:30.858406+00:00
 needs_review: false
 retrieval_weight: 1.0
-trust_weight: 1.0
+trust_weight: 0.0
 archived: false
 -> DEPENDS_ON [node:7108856c-d3d5-4701-bb69-11087256a081] @ 2026-09-08T09:38:30.858406+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-08T09:38:30.858406+00:00
@@ -3448,7 +3498,7 @@ path: /artifact/the-project-has-no-settled-git-workflow
 created_at: 2026-09-08T09:38:31.309348+00:00
 needs_review: false
 retrieval_weight: 1.0
-trust_weight: 1.0
+trust_weight: 0.0
 archived: false
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T09:38:31.309348+00:00
 
@@ -3894,6 +3944,16 @@ created_at: 2026-09-15T07:20:09.463641+00:00
 
 Calendar entity's DEPENDS_ON target (exists only within a calendar-type Card's config)
 ---
+[event:a2b1f1f8-58c0-4ecb-a0b8-43a3226258c4]
+node_id: 49ba726c-031e-4a01-839f-11a76a8bf009
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T09:58:41.853005+00:00
+
+Card entity used to attach the badge constraint and the clock-date issue at archive
+---
 [node:7e1fbadd-ddd7-496e-89e4-0f835b3753a8]
 type: entity
 tier: short-term
@@ -4193,7 +4253,7 @@ path: /entity/calendarevent
 created_at: 2026-09-08T13:41:27.055782+00:00
 needs_review: true
 retrieval_weight: 1.0
-trust_weight: 1.0
+trust_weight: 0.0
 archived: false
 -> DEPENDS_ON [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-09-15T07:19:46.546671+00:00
 -> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-08T13:41:27.055782+00:00
@@ -4661,7 +4721,7 @@ type: constraint
 tier: lifetime
 path: /artifact/the-sidebar-s-collapse-behaviour-is-deci
 created_at: 2026-09-08T13:42:46.308554+00:00
-needs_review: true
+needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
@@ -4700,6 +4760,16 @@ source: agent-surface
 created_at: 2026-09-15T14:53:06.792065+00:00
 
 Disputed sidebar phone-collapse constraint; plan doesn't touch sidebar so takes no implicit side, no new finding needed.
+---
+[event:ef15a20d-049d-4b12-b5d5-9dab0593b231]
+node_id: f1d7ef56-555a-4a33-90fa-8762fee9914f
+type: contradiction_cleared
+weight: 1.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T10:44:30.514784+00:00
+
+reviewed in GUI: false alarm
 ---
 [node:73716ffb-625f-4745-9032-65658cd2e691]
 type: slice
@@ -4770,7 +4840,7 @@ path: /artifact/typescript-7-with-the-native-go-compiler
 created_at: 2026-09-08T14:55:08.289479+00:00
 needs_review: false
 retrieval_weight: 1.0
-trust_weight: 1.0
+trust_weight: 0.0
 archived: false
 -> CONTRADICTS [node:b6cc5895-5e52-462a-aab2-c934ba921825] @ 2026-09-08T14:55:08.289479+00:00
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T14:55:08.289479+00:00
@@ -5640,9 +5710,19 @@ created_at: 2026-09-08T17:41:57.991905+00:00
 
 create_change k7-lan-tls
 ---
+[event:c3a8f8bf-4c48-4ae3-bccd-0e424dfa1757]
+node_id: c1b00607-b2d5-42eb-aa31-77998b12bcab
+type: slice_deactivated
+weight: 0.0
+polarity: -1
+source: gui
+created_at: 2026-10-08T10:36:22.193153+00:00
+
+deactivated via GUI
+---
 [node:ff83d0c0-3596-408a-b047-3363ea8a99c1]
 type: constraint
-tier: mid-term
+tier: lifetime
 path: /artifact/the-kiosk-is-not-reachable-from-the-inte
 created_at: 2026-09-08T17:49:01.705201+00:00
 needs_review: false
@@ -5655,9 +5735,19 @@ archived: false
 
 The kiosk is not reachable from the internet because it has no public address and no port is forwarded, and that structural fact is the real boundary. The application adds two checks on top of it, each for a different attack. A source-address check rejects any client outside RFC1918, loopback and link-local, which turns an accidental port forward or a newly acquired second interface from an exposure into a 403. A Host header allowlist rejects names the kiosk does not answer to, which is what catches DNS rebinding - a page on the open internet resolving its own name to a private address and issuing requests from the household's own browser, where the packets are genuinely local and a source check sees nothing wrong. Everything already inside the network is trusted; that is a deliberate choice for a household appliance with no accounts, and authentication is the answer only if that changes.
 ---
+[event:4766b92d-e21c-45ca-9350-248a4f922f7e]
+node_id: ff83d0c0-3596-408a-b047-3363ea8a99c1
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T11:09:54.402985+00:00
+
+tier -> lifetime
+---
 [node:36def95b-9c71-42d3-8cef-4935a023a76c]
 type: constraint
-tier: mid-term
+tier: long-term
 path: /artifact/the-machine-s-lan-address-is-assigned-by
 created_at: 2026-09-08T17:49:01.829509+00:00
 needs_review: false
@@ -5670,9 +5760,19 @@ archived: false
 
 The machine's LAN address is assigned by DHCP and does change - it moved from 192.168.0.114 to 192.168.1.107 in the middle of a single working session, which is how this was noticed rather than deduced. A DNS A record pointing at a leased address is therefore a certificate and a kiosk that both stop working at an arbitrary future moment, with a failure that looks like the server being down. The address must be pinned by a DHCP reservation on the router before the record is published, and the hostname rather than a literal address is what every client should be configured with.
 ---
+[event:34299fd2-e51e-44c1-9b74-e63e627e7385]
+node_id: 36def95b-9c71-42d3-8cef-4935a023a76c
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T11:10:06.406229+00:00
+
+tier -> long-term
+---
 [node:c68c6715-1e1a-4876-8f3c-35ff3d9b8fac]
 type: decision
-tier: mid-term
+tier: long-term
 path: /artifact/certificate-issuance-defaults-to-the-let
 created_at: 2026-09-08T17:49:01.967859+00:00
 needs_review: false
@@ -5684,6 +5784,16 @@ archived: false
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T17:49:01.967859+00:00
 
 Certificate issuance defaults to the Let's Encrypt staging environment and production is opt-in through an explicit flag. Production allows five duplicate certificates per week and throttles failed validations hard, so a retry loop while the DNS credentials or the record are still wrong burns the week's budget with no remedy but waiting - and setup is exactly when things are wrong. A staging certificate is a real certificate that browsers do not trust, which makes the difference visible rather than silent. Publishing a certificate for a hostname also enters that name into public Certificate Transparency logs, so the name is discoverable even though the address it resolves to is not routable; a wildcard certificate is the way to keep the specific label out of the logs if that ever matters.
+---
+[event:28bce846-9704-4863-a750-27db4cef67d2]
+node_id: c68c6715-1e1a-4876-8f3c-35ff3d9b8fac
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T11:10:22.587317+00:00
+
+tier -> long-term
 ---
 [node:17d093df-8bc9-4e91-bd34-2df2be1cce2a]
 type: goal
@@ -5964,9 +6074,19 @@ created_at: 2026-09-08T19:47:53.704639+00:00
 
 create_change k7-offline-shell
 ---
+[event:9770ae92-1791-4d4d-b8ae-842b6df4ff43]
+node_id: d3a59b66-5cba-4c3a-8b0f-41d22cadde4e
+type: slice_deactivated
+weight: 0.0
+polarity: -1
+source: gui
+created_at: 2026-10-08T10:36:25.989846+00:00
+
+deactivated via GUI
+---
 [node:f0e2ae72-268a-4859-80b0-e98ec768fb10]
 type: constraint
-tier: mid-term
+tier: lifetime
 path: /artifact/a-layout-is-part-of-the-shell-not-upstr
 created_at: 2026-09-08T19:56:57.176951+00:00
 needs_review: false
@@ -5981,9 +6101,19 @@ archived: false
 
 A Layout is part of the shell, not upstream data, and caching it on the device is what makes an outage screen honest. The service worker deliberately does not cache the API, because the backend owns data freshness and a second cache in front of it would answer with a lie - but applying that rule to the layout produced a reload during an outage that painted an empty deck, so the reconnect scrim covered a void rather than the last screen the household saw. The shape of the screen is kept locally and repainted before the scrim goes over it; the data inside the cards is still not, and the footer says the layout is the last known one rather than pretending it is current.
 ---
+[event:0c496463-ed96-4f31-a004-77d4256ee1e5]
+node_id: f0e2ae72-268a-4859-80b0-e98ec768fb10
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T11:10:35.121771+00:00
+
+tier -> lifetime
+---
 [node:b347fe70-0841-4c01-95c2-6019fa19423f]
 type: constraint
-tier: mid-term
+tier: lifetime
 path: /artifact/headless-chrome-s-virtual-time-budget-do
 created_at: 2026-09-08T19:56:57.300588+00:00
 needs_review: false
@@ -5994,6 +6124,16 @@ archived: false
 -> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-09-08T19:56:57.300588+00:00
 
 Headless Chrome's virtual-time budget does not drive service worker installation, so a service worker cannot be verified with the screenshot-and-dump-DOM approach that works for ordinary pages. A test that way reports a blank error page and looks exactly like a broken worker; the worker in question was in fact registering, activating and caching correctly. Verification needs a real browser driven over the devtools protocol with real waits - controller present, registration activated, cache populated - and an offline check needs the backend actually stopped between a warm load and a reload, not a network condition simulated in the page.
+---
+[event:6e76ce6f-7fa9-458e-9cf3-61d75f851c1c]
+node_id: b347fe70-0841-4c01-95c2-6019fa19423f
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T11:10:53.915986+00:00
+
+tier -> lifetime
 ---
 [node:036d7035-0137-4a2f-8438-15cb318048df]
 type: slice
@@ -6139,6 +6279,16 @@ created_at: 2026-09-26T11:19:13.065136+00:00
 
 one shared shell is what makes a single Card.svelte rule able to cover every widget's presentation chrome later (re-journaled from PR #80)
 ---
+[event:5fcf486c-6c21-435b-9de8-3bc6f535c501]
+node_id: 240ae1c0-1cd0-40c2-974e-e5df93897bc9
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T09:58:41.843284+00:00
+
+shared card shell: Card.svelte is the one footer to fix for every Card-based widget (k7-card-foot-badge, replayed from backlog)
+---
 [node:68dcc438-9bf1-4899-834a-afea99bf556a]
 type: constraint
 tier: mid-term
@@ -6161,7 +6311,7 @@ path: /artifact/the-card-deck-fits-by-construction-rathe
 created_at: 2026-09-09T05:57:27.730936+00:00
 needs_review: true
 retrieval_weight: 1.0
-trust_weight: 1.0
+trust_weight: 0.0
 archived: false
 -> DEPENDS_ON [node:7108856c-d3d5-4701-bb69-11087256a081] @ 2026-09-09T05:57:27.967751+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T05:57:27.730936+00:00
@@ -6447,9 +6597,19 @@ created_at: 2026-09-09T06:14:00.294778+00:00
 
 create_change k7-pages-and-audiometer
 ---
+[event:2838c9a9-195c-47ab-87ac-c0ee9a4773b5]
+node_id: e145d232-c623-4c8b-a6d6-df75aa7d9280
+type: slice_deactivated
+weight: 0.0
+polarity: -1
+source: gui
+created_at: 2026-10-08T10:36:28.735796+00:00
+
+deactivated via GUI
+---
 [node:e501e6f3-ae58-4154-a7db-f48d40b153e6]
 type: constraint
-tier: mid-term
+tier: long-term
 path: /artifact/a-card-can-claim-a-whole-grid-column-an
 created_at: 2026-09-09T06:22:37.677683+00:00
 needs_review: false
@@ -6482,9 +6642,19 @@ created_at: 2026-09-10T04:56:38.045477+00:00
 
 existing span.rows===0 grid math footgun informed filtering slideshow cards out before that computation runs, not interacting with it
 ---
+[event:6a3785f8-9fe2-46bb-ba7b-621b0e922242]
+node_id: e501e6f3-ae58-4154-a7db-f48d40b153e6
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T11:11:13.585273+00:00
+
+tier -> long-term
+---
 [node:2946e332-fd2b-4b23-9f13-a6f014255945]
 type: constraint
-tier: mid-term
+tier: long-term
 path: /artifact/the-microphone-is-never-requested-when-a
 created_at: 2026-09-09T06:22:37.815060+00:00
 needs_review: false
@@ -6536,6 +6706,16 @@ source: agent-surface
 created_at: 2026-09-10T04:41:37.305422+00:00
 
 K7Chat's mic UI implemented following the exact audiometer permission/teardown pattern; npm run build:storybook confirms the component still registers as a custom element
+---
+[event:b65e07d0-4be5-46ba-9e51-babd2af818d9]
+node_id: 2946e332-fd2b-4b23-9f13-a6f014255945
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T11:09:31.940048+00:00
+
+tier -> long-term
 ---
 [node:bfdc005e-8633-4914-9385-35a9481a657a]
 type: slice
@@ -7598,7 +7778,7 @@ path: /artifact/the-recipes-repository-stack-is-already
 created_at: 2026-09-09T11:56:07.883692+00:00
 needs_review: true
 retrieval_weight: 1.0
-trust_weight: 1.0
+trust_weight: 0.0
 archived: false
 -> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-09T11:56:07.883692+00:00
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:56:07.883692+00:00
@@ -8038,7 +8218,7 @@ path: /artifact/compacting-persists-as-two-additive-colu
 created_at: 2026-09-09T11:58:47.465608+00:00
 needs_review: true
 retrieval_weight: 1.0
-trust_weight: 1.0
+trust_weight: 0.0
 archived: true
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:58:47.465608+00:00
 -> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-09-09T11:58:47.465608+00:00
@@ -9152,7 +9332,7 @@ k7-chat-voice-input's client picks the MediaRecorder mime type at runtime via Me
 ---
 [node:a555044b-699f-4d49-8e2d-c5abe8c42d86]
 type: decision
-tier: short-term
+tier: mid-term
 path: /artifact/k7-chat-voice-input-s-k7chat-svelte-mic
 created_at: 2026-09-10T04:36:10.119002+00:00
 needs_review: false
@@ -9164,6 +9344,16 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-10T04:36:10.119002+00:00
 
 k7-chat-voice-input's K7Chat.svelte mic control follows the K7Audiometer.svelte permission pattern exactly [node:2946e332]: feature-detected once (MediaRecorder + getUserMedia existence check) so showMic is false and the button never renders on an unsupported browser rather than rendering-then-breaking; getUserMedia is only ever called from the click handler, never on mount/effect; the MediaStream's tracks are stopped immediately after recording stops (before the network call), and the component's existing unmount $effect is extended to also tear down any live stream/recorder. Errors reuse the composer's existing failed/errorText display rather than a new UI region.
+---
+[event:eba24e30-aa58-4ade-85e8-b089b4d5be84]
+node_id: a555044b-699f-4d49-8e2d-c5abe8c42d86
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T11:09:27.050058+00:00
+
+tier -> mid-term
 ---
 [node:443681c4-4837-4568-b441-a468849e9207]
 type: decision
@@ -9814,7 +10004,7 @@ path: /artifact/k7-s-existing-fullscreen-mechanism-buil
 created_at: 2026-09-14T19:47:35.142389+00:00
 needs_review: true
 retrieval_weight: 1.0
-trust_weight: 1.0
+trust_weight: 0.0
 archived: false
 -> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-14T19:47:35.142389+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-14T19:47:35.142389+00:00
@@ -11614,7 +11804,7 @@ path: /artifact/plan-decision-for-k7-multi-calendar-eac
 created_at: 2026-09-15T07:30:24.783670+00:00
 needs_review: true
 retrieval_weight: 1.0
-trust_weight: 1.0
+trust_weight: 0.0
 archived: false
 -> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-09-15T07:30:24.783670+00:00
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T07:30:24.783670+00:00
@@ -13152,7 +13342,7 @@ type: constraint
 tier: mid-term
 path: /artifact/architectural-tension-for-k7-mobile-resp
 created_at: 2026-09-15T13:45:57.548601+00:00
-needs_review: true
+needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
@@ -13241,6 +13431,26 @@ source: agent-surface
 created_at: 2026-09-26T11:40:42.338527+00:00
 
 disputed; the tension it asked a human to decide was decided by 97c338d8; carried to the human gate
+---
+[event:023c35ba-bb6e-4856-8a42-84e51817d923]
+node_id: 3218cf7b-eb04-46dc-a6a6-1bd89155936d
+type: manual_review
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T10:32:45.990650+00:00
+
+guided resolve: recommended=defer, chose=still_valid
+---
+[event:e679e86a-c24c-4685-a093-03fb1319373f]
+node_id: 3218cf7b-eb04-46dc-a6a6-1bd89155936d
+type: contradiction_cleared
+weight: 1.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T10:32:45.990650+00:00
+
+guided review: still_valid
 ---
 [node:611bc3d8-caa1-4e81-82ab-d955bbcbba4f]
 type: issue
@@ -13370,10 +13580,10 @@ type: decision
 tier: mid-term
 path: /artifact/k7-mobile-responsive-wireframe-ruling-z
 created_at: 2026-09-15T14:42:15.974385+00:00
-needs_review: true
+needs_review: false
 retrieval_weight: 1.0
-trust_weight: 1.0
-archived: false
+trust_weight: 0.0
+archived: true
 -> HAS_FACET [node:1afc718d-b700-4331-8d2f-a8eb21690d24] @ 2026-09-15T14:42:15.974385+00:00
 -> CONTRADICTS [node:3218cf7b-eb04-46dc-a6a6-1bd89155936d] @ 2026-09-15T14:42:15.974385+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T14:42:15.974385+00:00
@@ -13460,6 +13670,36 @@ created_at: 2026-09-26T11:40:42.331693+00:00
 
 disputed, contradicted by the human ruling 97c338d8; carried to the human gate, not adjudicated
 ---
+[event:2023eb4e-036d-4e07-8b75-5f9a948b4358]
+node_id: 1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea
+type: manual_review
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T10:58:58.596007+00:00
+
+guided resolve: recommended=defer, chose=superseded: The "no scroll even on mobile phone" constraint is really bad for the usability, we had to revise this rule.
+---
+[event:6b600818-0e5d-451b-bf39-f16674ecc3b5]
+node_id: 1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea
+type: archived
+weight: 0.0
+polarity: -1
+source: gui-guided
+created_at: 2026-10-08T10:58:58.596007+00:00
+
+guided review: superseded
+---
+[event:71d5b257-4c83-4288-985e-6faaf52a2b41]
+node_id: 1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea
+type: contradiction_cleared
+weight: 1.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T10:58:58.596007+00:00
+
+guided review: superseded
+---
 [node:c77c25d1-e7f0-4e2d-894c-b0d4a7744b2b]
 type: concept
 tier: short-term
@@ -13533,9 +13773,9 @@ type: decision
 tier: mid-term
 path: /artifact/k7-mobile-responsive-wireframe-timer-s
 created_at: 2026-09-15T14:42:49.124904+00:00
-needs_review: true
+needs_review: false
 retrieval_weight: 1.0
-trust_weight: 1.0
+trust_weight: 0.0
 archived: false
 -> DEPENDS_ON [node:97d0c4ba-55ce-407d-8ecd-14a6a1269357] @ 2026-09-15T14:42:49.124904+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T14:42:49.124904+00:00
@@ -13601,6 +13841,36 @@ source: agent-surface
 created_at: 2026-10-03T16:09:00.693717+00:00
 
 disputed phone-breakpoint step-down precedent; 126b8c0b relies on the same pattern via Card/Carousel instead, not adjudicated
+---
+[event:4a7082b0-c559-4782-9351-109f04866d49]
+node_id: 538d1960-cb76-4fb7-be15-d72ae9f34b45
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T10:17:22.759555+00:00
+
+one-notch-per-media-query step-down precedent applied to the clock date
+---
+[event:134ec83a-bc75-448c-968f-ac4ee7fbac57]
+node_id: 538d1960-cb76-4fb7-be15-d72ae9f34b45
+type: manual_review
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T10:48:19.043039+00:00
+
+guided resolve: recommended=defer, chose=still_valid
+---
+[event:a2242591-1c6b-435b-8475-58d9ce3fe69d]
+node_id: 538d1960-cb76-4fb7-be15-d72ae9f34b45
+type: contradiction_cleared
+weight: 1.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T10:48:19.043039+00:00
+
+guided review: still_valid
 ---
 [node:0cadf65f-e79e-4a26-9008-bb68e44cfb42]
 type: decision
@@ -13742,6 +14012,26 @@ source: agent-surface
 created_at: 2026-09-15T15:03:02.774785+00:00
 
 Phase 3 implementation of header flex-wrap
+---
+[event:26c0f55e-aa82-41fc-b73c-79cd6248d9d6]
+node_id: 2ee73f47-a258-479c-acf0-5e1a6fbf46b4
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T09:58:41.845856+00:00
+
+DESIGN.md 6.1 rows-wrap rule, applied to the card footer (k7-card-foot-badge, replayed from backlog)
+---
+[event:12e31895-fd6e-4fed-b68b-3a2d7222b259]
+node_id: 2ee73f47-a258-479c-acf0-5e1a6fbf46b4
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T09:58:41.850805+00:00
+
+the same rows-wrap rule fixed the card footer's split badge; 15/15 tests green
 ---
 [node:622597fb-68a0-4e83-8aa7-26c6f2a69a5b]
 type: facet_value
@@ -15831,6 +16121,16 @@ source: agent-surface
 created_at: 2026-09-24T15:40:50.451914+00:00
 
 RecipeRejection entity's shape (id/kind/reason/attemptedInput/createdAt) implemented and round-trip tested through the Drizzle adapter
+---
+[event:049010f8-26f0-42c0-8e0a-1374c2f49c1f]
+node_id: 77ae64a2-d55b-4c37-a4b1-5c5503340179
+type: entity_confirmed
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T10:27:45.078421+00:00
+
+confirmed as part of the domain model
 ---
 [node:e4745884-a5db-4d16-9bed-430cd2b6449c]
 type: decision
@@ -18143,7 +18443,7 @@ type: decision
 tier: short-term
 path: /artifact/decided-2026-10-05-k7-weather-hourly-wi
 created_at: 2026-10-05T16:52:03.205197+00:00
-needs_review: true
+needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: true
@@ -18195,6 +18495,36 @@ source: lifecycle-cli
 created_at: 2026-10-08T10:00:55.628193+00:00
 
 10x lifecycle sweep
+---
+[event:4b52255f-4068-4b1f-919b-8e05dfd1f878]
+node_id: 97369103-54d2-462b-a9eb-003dc04a8dc2
+type: archived
+weight: 0.0
+polarity: -1
+source: gui-guided
+created_at: 2026-10-08T10:34:11.742009+00:00
+
+guided review: superseded
+---
+[event:866d7cbb-c9af-4d97-b19a-db8d7f1c6dca]
+node_id: 97369103-54d2-462b-a9eb-003dc04a8dc2
+type: contradiction_cleared
+weight: 1.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T10:34:11.742009+00:00
+
+guided review: superseded
+---
+[event:883119d3-075c-444d-8b05-d6e6d164faf2]
+node_id: 97369103-54d2-462b-a9eb-003dc04a8dc2
+type: manual_review
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T10:34:11.742009+00:00
+
+guided resolve: recommended=defer, chose=superseded
 ---
 [node:0ea3bd46-91a2-4588-96b9-c550c911a52b]
 type: decision
@@ -18893,6 +19223,7 @@ source: gui
 created_at: 2026-10-08T10:00:45.047329+00:00
 
 tier -> long-term: human ruling 2026-10-08, gw-archive k7-weather-hourly
+\---
 ---
 [node:f4a8aad8-33b8-414c-995e-5ea2b0f263ff]
 type: decision
@@ -18933,3 +19264,358 @@ trust_weight: 1.0
 archived: false
 
 client
+---
+[node:05a0a900-999c-4203-9580-035e126d56e6]
+type: slice
+tier: short-term
+path: /change/k7-card-foot-badge
+created_at: 2026-10-08T09:58:01.689900+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:2857d837-0738-48b7-ad69-f09cb90939c1] @ 2026-10-08T09:58:25.384352+00:00
+-> SCOPED_TO [node:726faa94-0439-43a3-8b6a-c2a089d26744] @ 2026-10-08T09:58:25.415958+00:00
+-> SCOPED_TO [node:807a68ee-542b-4717-87ee-351351cf253c] @ 2026-10-08T09:58:41.759791+00:00
+-> SCOPED_TO [node:f43a5ad7-013a-4599-81f7-648092f9c407] @ 2026-10-08T09:58:01.689900+00:00
+
+change scope: k7-card-foot-badge
+---
+[event:2e18811c-20b6-44bb-9794-ded8b7f3b12b]
+node_id: 05a0a900-999c-4203-9580-035e126d56e6
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T09:58:01.702701+00:00
+
+create_change k7-card-foot-badge
+---
+[event:a9e15e30-9fb1-400b-a1e1-b7e72e648625]
+node_id: 05a0a900-999c-4203-9580-035e126d56e6
+type: slice_deactivated
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T09:59:14.306316+00:00
+
+merge: deactivate k7-card-foot-badge
+---
+[event:fc0d1ce2-f0fb-4fc0-a063-aca49b378f95]
+node_id: 05a0a900-999c-4203-9580-035e126d56e6
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: lifecycle-cli
+created_at: 2026-10-08T09:59:28.424345+00:00
+
+activate k7-card-foot-badge
+---
+[node:f43a5ad7-013a-4599-81f7-648092f9c407]
+type: goal
+tier: short-term
+path: /goal/k7-card-foot-badge
+created_at: 2026-10-08T09:58:01.689900+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:240ae1c0-1cd0-40c2-974e-e5df93897bc9] @ 2026-10-08T09:58:01.689900+00:00
+-> DEPENDS_ON [node:2857d837-0738-48b7-ad69-f09cb90939c1] @ 2026-10-08T09:58:25.384352+00:00
+-> DEPENDS_ON [node:2ee73f47-a258-479c-acf0-5e1a6fbf46b4] @ 2026-10-08T09:58:01.689900+00:00
+-> DEPENDS_ON [node:726faa94-0439-43a3-8b6a-c2a089d26744] @ 2026-10-08T09:58:25.415958+00:00
+-> DEPENDS_ON [node:807a68ee-542b-4717-87ee-351351cf253c] @ 2026-10-08T09:58:41.759791+00:00
+
+Keep a card's footer status badge ([OK]/[!]/[X]/[--]) whole on one line when the footer is crowded, at every width (merged as PR #88, 2026-10-05).
+---
+[event:2ecd17c8-38fc-458a-967a-af50bafc6f58]
+node_id: f43a5ad7-013a-4599-81f7-648092f9c407
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T09:59:14.315436+00:00
+
+10x lifecycle sweep
+---
+[event:230f4fd6-ef10-4f34-87e0-b4200c36788c]
+node_id: f43a5ad7-013a-4599-81f7-648092f9c407
+type: reactivated
+weight: 0.0
+polarity: 1
+source: lifecycle-cli
+created_at: 2026-10-08T09:59:28.447536+00:00
+
+10x lifecycle sweep
+---
+[node:2857d837-0738-48b7-ad69-f09cb90939c1]
+type: constraint
+tier: lifetime
+path: /artifact/a-card-s-footer-status-badge-ok
+created_at: 2026-10-08T09:58:25.384352+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:240ae1c0-1cd0-40c2-974e-e5df93897bc9] @ 2026-10-08T09:58:25.384352+00:00
+-> DEPENDS_ON [node:2ee73f47-a258-479c-acf0-5e1a6fbf46b4] @ 2026-10-08T09:58:25.384352+00:00
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-10-08T09:58:41.797714+00:00
+-> HAS_FACET [node:622597fb-68a0-4e83-8aa7-26c6f2a69a5b] @ 2026-10-08T09:58:25.384352+00:00
+-> HAS_FACET [node:68773fd1-2296-4527-b027-8d5d6c699ece] @ 2026-10-08T09:58:25.384352+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T09:58:25.384352+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-10-08T09:58:25.384352+00:00
+
+A card's footer status badge ([OK] / [!] / [X] / [--]) is one unit that never breaks. It is the state signal that does not rely on colour (DESIGN.md §8). In both card shells (Card.svelte and K7Card.svelte), `.badge` is `white-space: nowrap; flex-shrink: 0`. A footer that puts text next to the badge is `flex-wrap: wrap`, so the badge moves to its own line, still bottom-right through `margin-left: auto`, rather than being squeezed. The non-obvious part: a hyphen is a line-break opportunity. When a sibling squeezes a shrinkable badge to its min-content width, the idle `[--]` breaks into "[-" over "-]". K7Chat's footer meta does that at 390×844. `[OK]`, `[!]` and `[X]` never show the defect, so testing with them misses it. test/card-foot-badge.test.ts enforces the rule for both shells.
+---
+[event:e8fbf2ea-18e9-4765-a099-ad5755ccce22]
+node_id: 2857d837-0738-48b7-ad69-f09cb90939c1
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T09:59:14.315436+00:00
+
+10x lifecycle sweep
+---
+[event:550c27e6-3c1d-406e-8f63-4e347c8f47f0]
+node_id: 2857d837-0738-48b7-ad69-f09cb90939c1
+type: reactivated
+weight: 0.0
+polarity: 1
+source: lifecycle-cli
+created_at: 2026-10-08T09:59:28.447536+00:00
+
+10x lifecycle sweep
+---
+[event:f91f47ce-f06c-4286-a104-b13763c63e51]
+node_id: 2857d837-0738-48b7-ad69-f09cb90939c1
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T10:04:30.752628+00:00
+
+gw-review: ran test/card-foot-badge.test.ts on main, 15/15 green; the diff matches the constraint
+---
+[event:9c2ab572-4c99-4d8e-81c0-06138b555dc4]
+node_id: 2857d837-0738-48b7-ad69-f09cb90939c1
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T10:17:22.769991+00:00
+
+parent: same phone-width card-shell overflow territory, reused its static style-block test pattern
+---
+[event:4580d62c-becc-40ea-819e-206b67db90b8]
+node_id: 2857d837-0738-48b7-ad69-f09cb90939c1
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T11:08:51.197107+00:00
+
+tier -> lifetime
+---
+[node:726faa94-0439-43a3-8b6a-c2a089d26744]
+type: issue
+tier: mid-term
+path: /artifact/open-issue-at-phone-width-the-clock-car
+created_at: 2026-10-08T09:58:25.415958+00:00
+needs_review: true
+retrieval_weight: 1.0
+trust_weight: 0.0
+archived: false
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-10-08T09:58:41.821638+00:00
+-> HAS_FACET [node:622597fb-68a0-4e83-8aa7-26c6f2a69a5b] @ 2026-10-08T09:58:25.415958+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T09:58:25.415958+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-10-08T09:58:25.415958+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-10-08T09:58:25.415958+00:00
+
+Open issue: at phone width the clock card's date line is wider than a half-width card. In K7Card's `.body` at ≤390px, the word "poniedziałek," (from "poniedziałek, 21 września 2026") is wider than the content box of a half-width GLOWNA card. Its comma paints over the right border, 0.5px past the border box at 375×667. Nothing is cut off, because K7Card has no `overflow: hidden`. Both obvious fixes are design trade-offs. `overflow-wrap: break-word` would start the next line with ", 21" and add a line of height to a card that has no room to spare. A smaller date size at phone width is a typography decision. This stays open until someone picks one. Test with the longest Polish names: weekday "poniedziałek", month "października".
+---
+[event:65395551-beb8-497c-a989-589d28277e6f]
+node_id: 726faa94-0439-43a3-8b6a-c2a089d26744
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T09:59:14.315436+00:00
+
+10x lifecycle sweep
+---
+[event:b32a07d6-9dac-47dc-8d7b-3ad31a7c9674]
+node_id: 726faa94-0439-43a3-8b6a-c2a089d26744
+type: reactivated
+weight: 0.0
+polarity: 1
+source: lifecycle-cli
+created_at: 2026-10-08T09:59:28.447536+00:00
+
+10x lifecycle sweep
+---
+[event:6a16f5c2-80f6-4b67-816b-1fc1e8b3b644]
+node_id: 726faa94-0439-43a3-8b6a-c2a089d26744
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T10:04:30.758151+00:00
+
+gw-review: the open clock-date issue is out of scope for this diff and still open
+---
+[event:3b026834-b136-4abb-9626-3f9ba3c48ef9]
+node_id: 726faa94-0439-43a3-8b6a-c2a089d26744
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-10-08T10:17:12.887721+00:00
+
+contradicted at capture of a2717fde-a85c-42f6-80b6-18dd72041eff
+---
+[event:80122d86-b039-4107-bcd7-7332cc4acaa1]
+node_id: 726faa94-0439-43a3-8b6a-c2a089d26744
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T10:17:22.750526+00:00
+
+k7-clock-date-phone-fit: the issue's measurements and the two candidate fixes framed the human ruling
+---
+[node:807a68ee-542b-4717-87ee-351351cf253c]
+type: concept
+tier: long-term
+path: /artifact/change-summary-k7-card-foot-badge-gw
+created_at: 2026-10-08T09:58:41.759791+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:2857d837-0738-48b7-ad69-f09cb90939c1] @ 2026-10-08T09:58:41.759791+00:00
+-> HAS_FACET [node:622597fb-68a0-4e83-8aa7-26c6f2a69a5b] @ 2026-10-08T09:58:41.759791+00:00
+-> DEPENDS_ON [node:726faa94-0439-43a3-8b6a-c2a089d26744] @ 2026-10-08T09:58:41.759791+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T09:58:41.759791+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-10-08T09:58:41.759791+00:00
+
+Change summary: k7-card-foot-badge (/gw-fix, PR #88, merged 2026-10-05, commit 5d9257b). At phone width the CZAT card's footer badge `[--]` broke over two lines. Card.svelte's `.card-foot` row could not wrap, and its badge could both shrink and break at the hyphen. Fix: `.card-foot { flex-wrap: wrap }` plus `.badge { flex-shrink: 0; white-space: nowrap }` in Card.svelte and K7Card.svelte, following DESIGN.md §6.1 "rows wrap before they crush" (constraint 2857d837). Pinned by test/card-foot-badge.test.ts, 10 of 15 red before the fix. In Chromium the wall view at 1024×768 is pixel-identical. Rejected: PR #69's one-line, truncate-meta-first footer, because it cuts the chat's daily-cost meta even shorter. Left open: the clock date overflows at phone width (issue 726faa94). This change was worked in degraded mode, and its memory backlog was replayed at archive on 2026-10-08.
+---
+[event:1d0d7707-2e2f-4d19-be19-3b51ada9ad18]
+node_id: 807a68ee-542b-4717-87ee-351351cf253c
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T09:59:14.315436+00:00
+
+10x lifecycle sweep
+---
+[event:a51fab8c-445a-4e59-a621-73a6e97861f2]
+node_id: 807a68ee-542b-4717-87ee-351351cf253c
+type: reactivated
+weight: 0.0
+polarity: 1
+source: lifecycle-cli
+created_at: 2026-10-08T09:59:28.447536+00:00
+
+10x lifecycle sweep
+---
+[event:fd44aaec-01e7-45f3-a804-0c3ecc041c7d]
+node_id: 807a68ee-542b-4717-87ee-351351cf253c
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T10:04:30.760207+00:00
+
+gw-review: the change summary matches commit 5d9257b
+---
+[event:2db21903-b385-4e2f-9f84-a33a24b0e00c]
+node_id: 807a68ee-542b-4717-87ee-351351cf253c
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T10:45:27.203519+00:00
+
+tier -> lifetime
+---
+[event:dbb46749-0ba7-4306-9984-aaad257e64eb]
+node_id: 807a68ee-542b-4717-87ee-351351cf253c
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T10:45:37.641870+00:00
+
+tier -> long-term
+---
+[node:6605aad8-0e06-4ce3-a461-48abe6fd67ab]
+type: goal
+tier: short-term
+path: /goal/k7-clock-date-phone-fit
+created_at: 2026-10-08T10:08:52.351963+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:2857d837-0738-48b7-ad69-f09cb90939c1] @ 2026-10-08T10:08:52.351963+00:00
+-> DEPENDS_ON [node:726faa94-0439-43a3-8b6a-c2a089d26744] @ 2026-10-08T10:08:52.351963+00:00
+-> DEPENDS_ON [node:a2717fde-a85c-42f6-80b6-18dd72041eff] @ 2026-10-08T10:17:12.887721+00:00
+
+At phone width (≤767px) the clock card's date line fits inside a half-width card: its text steps one token down (--text-sm) instead of running past the right border.
+---
+[node:d72b5d42-e3cb-4321-8754-0742a2fa0d4e]
+type: slice
+tier: short-term
+path: /change/k7-clock-date-phone-fit
+created_at: 2026-10-08T10:08:52.351963+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:6605aad8-0e06-4ce3-a461-48abe6fd67ab] @ 2026-10-08T10:08:52.351963+00:00
+-> SCOPED_TO [node:a2717fde-a85c-42f6-80b6-18dd72041eff] @ 2026-10-08T10:17:12.887721+00:00
+
+change scope: k7-clock-date-phone-fit
+---
+[event:b309a9ec-202e-4a79-bb3e-8e7d81c63fa3]
+node_id: d72b5d42-e3cb-4321-8754-0742a2fa0d4e
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T10:08:52.357782+00:00
+
+create_change k7-clock-date-phone-fit
+---
+[node:a2717fde-a85c-42f6-80b6-18dd72041eff]
+type: decision
+tier: long-term
+path: /artifact/at-phone-width-767px-a-half-width-ca
+created_at: 2026-10-08T10:17:12.887721+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-10-08T10:17:22.713212+00:00
+-> DEPENDS_ON [node:538d1960-cb76-4fb7-be15-d72ae9f34b45] @ 2026-10-08T10:17:12.887721+00:00
+-> HAS_FACET [node:622597fb-68a0-4e83-8aa7-26c6f2a69a5b] @ 2026-10-08T10:17:12.887721+00:00
+-> DEPENDS_ON [node:7108856c-d3d5-4701-bb69-11087256a081] @ 2026-10-08T10:17:12.887721+00:00
+-> CONTRADICTS [node:726faa94-0439-43a3-8b6a-c2a089d26744] @ 2026-10-08T10:17:12.887721+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T10:17:12.887721+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-10-08T10:17:12.887721+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-10-08T10:17:12.887721+00:00
+
+At phone width (≤767px), a half-width card's content box is only about 145px at 375px wide (iPhone 6s). In the default monospace face that holds about 15 glyphs at --text-base (20px) and about 18 at --text-sm (16px). Polish words are long and cannot break: "poniedziałek," is 13 glyphs and "października" is 12. So any read-tier text in a half-width card that can contain them overflows at --text-base. Human ruling 2026-10-08 (k7-clock-date-phone-fit): the clock's date line (K7Card .body) steps one token notch down to --text-sm inside the existing phone media query. Rejected: `overflow-wrap: anywhere`, because lines open with ", 21" or split mid-word; and a shorter phone-only date format, because that is a copy change. The step follows the one-notch-per-media-query precedent (timer readout, presented weather card). It leaves 1.5px of slack in the tightest theme (retro-scifi, "26 października" at 375px). Still too wide: 320px phones (6.8px past the content box, inside the border) and data-density large (2.7px at 375px). Neither is a household device or a runtime setting today. test/clock-date-phone-fit.test.ts computes the word width from the resolved token and Source Code Pro's 0.6em advance.
+---
+[event:f6991293-d298-4a41-99c6-ab53c81ecd87]
+node_id: a2717fde-a85c-42f6-80b6-18dd72041eff
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T10:45:45.544024+00:00
+
+tier -> long-term
