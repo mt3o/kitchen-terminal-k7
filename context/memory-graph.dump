@@ -18438,6 +18438,16 @@ created_at: 2026-10-08T10:00:45.145676+00:00
 
 tier -> long-term: human ruling 2026-10-08, gw-archive k7-weather-hourly
 ---
+[event:ebd867bc-048d-4c2a-9c14-e5d8e73ac867]
+node_id: 9baa87db-1033-4da8-966a-11cd6d548461
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T10:02:00.859807+00:00
+
+tracked as GitHub issue #93 (2026-10-08)
+---
 [node:e0d9cfb5-14db-437b-931e-bfecdac6829d]
 type: decision
 tier: short-term
