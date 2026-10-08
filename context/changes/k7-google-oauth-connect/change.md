@@ -2,7 +2,7 @@
 
 status: planned
 created: 2026-09-20
-memory_goal: UNASSIGNED — see memory-backlog.md
+memory_goal: e25f7a0d-8713-4507-aaa0-aa3a7f413d16   # minted 2026-10-08 when memory-backlog.md was replayed
 change_anchor: UNASSIGNED — see memory-backlog.md
 
 ## Goal

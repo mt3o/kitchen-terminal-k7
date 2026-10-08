@@ -1,5 +1,9 @@
 # Memory backlog — k7-layout-local-overrides
 
+> **REPLAYED 2026-10-08 — do not replay again.** Goal 5313173b-f08a-41db-8722-17a2a78e02d0. Captures: c1 → 1a729744, c3 → d785bc18. Each claim was re-checked against the code on 2026-10-08 and worded to what is true now; facet names mapped onto the graph's vocabulary.
+> Not replayed: capture 2 (narrow calendarAdditions surface) not replayed: superseded on 2026-09-21 by k7-calendar-config-layers, which records the reversal
+> Not replayed: capture 1's "generic deep merge rejected" half not replayed for the same reason
+
 Degraded mode per CLAUDE.md: `agentic-memory-mcp` failed to connect (ENOENT)
 and the `agentic-memory` CLI is not on PATH in this session/environment —
 the store itself is unreachable, not just unregistered. Queuing the

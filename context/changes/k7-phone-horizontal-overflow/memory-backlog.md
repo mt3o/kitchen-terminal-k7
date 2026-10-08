@@ -1,5 +1,7 @@
 # Memory backlog — k7-phone-horizontal-overflow
 
+> **REPLAYED 2026-10-08 — do not replay again.** Goal b6151b62-b052-42ed-a9ba-3fd9a5d4a57c. Captures: a → 22760f17, b → 0e6c918c, c → 21cf68ed, d → 9b0cdd9c, e → 7fa51863. Each claim was re-checked against the code on 2026-10-08 and worded to what is true now; facet names mapped onto the graph's vocabulary.
+
 The store was unreachable for this whole session: the `agentic-memory` MCP
 server failed to connect (`ENOENT: Executable not found in $PATH:
 agentic-memory-mcp`) and `agentic-memory` is not on PATH, so the CLI

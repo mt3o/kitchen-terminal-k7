@@ -2,9 +2,7 @@
 
 status: implemented
 created: 2026-09-19
-memory_goal: UNAVAILABLE — agentic-memory unreachable this session (CLI not on PATH,
-  MCP server ENOENT), see memory-backlog.md. Not a normal "MCP not registered"
-  case — the store itself could not be reached by either transport.
+memory_goal: 5313173b-f08a-41db-8722-17a2a78e02d0   # minted 2026-10-08 when memory-backlog.md was replayed
 design_surface: n/a (config/backend only, no UI surface change beyond new
   calendar tabs whose count/labels are a runtime config value, not a design)
 

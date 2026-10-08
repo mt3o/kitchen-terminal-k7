@@ -2,8 +2,7 @@
 
 status: implemented
 created: 2026-09-21
-memory_goal: UNAVAILABLE — agentic-memory unreachable this session (CLI not on PATH,
-  MCP server ENOENT), see memory-backlog.md.
+memory_goal: ee760e80-791f-40db-adcc-d74df3edac5e   # minted 2026-10-08 when memory-backlog.md was replayed
 design_surface: n/a (config contract only; the calendar card renders the same tabs)
 supersedes: k7-layout-local-overrides (its `calendarAdditions` hook)
 

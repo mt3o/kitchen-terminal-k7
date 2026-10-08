@@ -3,9 +3,7 @@
 status: implemented
 created: 2026-09-21
 branch: claude/punktomat-theme
-memory_goal: UNAVAILABLE — agentic-memory unreachable this session (MCP server
-  ENOENT on `agentic-memory-mcp`, `agentic-memory` CLI not on PATH); see
-  memory-backlog.md.
+memory_goal: 087eef12-0c0b-4962-88fe-a4e6e798f184   # minted 2026-10-08 when memory-backlog.md was replayed
 design_surface: n/a — a theme instance plus two optional token slots. Under
   every existing theme each surface is pixel-identical (screenshot-diffed).
 
