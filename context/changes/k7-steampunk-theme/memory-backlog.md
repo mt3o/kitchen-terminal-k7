@@ -1,5 +1,8 @@
 # Memory backlog — k7-steampunk-theme
 
+> **REPLAYED 2026-10-08 — do not replay again.** Goal 49fcdbed-ab78-4380-a6d7-1ca8972a7e4a. Captures: c1 → 2af77c77, c2 → 440fc794, c3 → 261561da, c4 → 5c7b4db5, c6 → 1ea46275, c7 → d6a18dd8. Each claim was re-checked against the code on 2026-10-08 and worded to what is true now; facet names mapped onto the graph's vocabulary.
+> Not replayed: capture 5 (shadow-root content-box clips every card) not replayed: fixed by k7-card-box-sizing, whose constraint a records it
+
 Degraded mode per CLAUDE.md: `agentic-memory-mcp` failed to connect (ENOENT) and
 the `agentic-memory` CLI is not on PATH — the store is unreachable by both
 transports. Queued here for replay.

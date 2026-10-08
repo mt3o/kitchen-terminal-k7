@@ -1,5 +1,7 @@
 # Memory backlog — k7-punktomat-theme
 
+> **REPLAYED 2026-10-08 — do not replay again.** Goal 087eef12-0c0b-4962-88fe-a4e6e798f184. Captures: c1 → e2b5e37c, c2 → 4cb722f2, c3 → ac178b1f. Each claim was re-checked against the code on 2026-10-08 and worded to what is true now; facet names mapped onto the graph's vocabulary.
+
 Degraded mode per CLAUDE.md: `agentic-memory-mcp` ENOENT and the
 `agentic-memory` CLI is not on PATH — the store is unreachable by both
 transports. Queued for replay.

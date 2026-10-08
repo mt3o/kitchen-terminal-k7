@@ -1,5 +1,7 @@
 # Memory backlog — k7-google-oauth-connect
 
+> **REPLAYED 2026-10-08 — do not replay again.** Goal e25f7a0d-8713-4507-aaa0-aa3a7f413d16. Captures: a → c0d83d5c, b → 2ae35b8f, c → 9e5c7868, d → a5c95d7b, e → 59469f3f, f → 52473f20. Each claim was re-checked against the code on 2026-10-08 and worded to what is true now; facet names mapped onto the graph's vocabulary.
+
 The store was unreachable for this change's planning session: the
 `agentic-memory` MCP server failed to connect (`ENOENT: Executable not found in
 $PATH: agentic-memory-mcp`) and `agentic-memory` is not on PATH either, so the

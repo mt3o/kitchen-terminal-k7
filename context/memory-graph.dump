@@ -11,6 +11,7 @@ retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> SCOPED_TO [node:012f356c-2e3e-4fe4-9388-38f089198a41] @ 2026-09-08T09:38:29.877767+00:00
+-> SCOPED_TO [node:026babb1-78dc-4fd2-ba5f-e7f55be661a5] @ 2026-10-08T15:28:34.084647+00:00
 -> SCOPED_TO [node:0bc7e618-9b95-4977-9fe1-f3a48759276f] @ 2026-09-08T09:36:58.919859+00:00
 -> SCOPED_TO [node:125f4071-59ec-4d3f-898d-ffcb3edd8aa5] @ 2026-09-08T09:38:00.686003+00:00
 -> SCOPED_TO [node:156d8b7d-0b1f-48f0-b434-c7a269edf283] @ 2026-09-08T09:38:31.156725+00:00
@@ -88,6 +89,7 @@ retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> DEPENDS_ON [node:012f356c-2e3e-4fe4-9388-38f089198a41] @ 2026-09-08T09:38:29.877767+00:00
+-> DEPENDS_ON [node:026babb1-78dc-4fd2-ba5f-e7f55be661a5] @ 2026-10-08T15:28:34.084647+00:00
 -> DEPENDS_ON [node:0bc7e618-9b95-4977-9fe1-f3a48759276f] @ 2026-09-08T09:36:58.919859+00:00
 -> DEPENDS_ON [node:125f4071-59ec-4d3f-898d-ffcb3edd8aa5] @ 2026-09-08T09:38:00.686003+00:00
 -> DEPENDS_ON [node:156d8b7d-0b1f-48f0-b434-c7a269edf283] @ 2026-09-08T09:38:31.156725+00:00
@@ -119,6 +121,7 @@ archived: false
 -> DEPENDS_ON [node:97c338d8-a460-4a97-812b-6bf919562e36] @ 2026-09-25T07:22:43.111626+00:00
 -> DEPENDS_ON [node:9b0e63ee-cd5a-4ba9-ba51-f1e773e399b0] @ 2026-09-08T09:37:22.142396+00:00
 -> DEPENDS_ON [node:9ea20285-de89-4f25-a25e-37700078bd59] @ 2026-09-08T09:38:01.797947+00:00
+-> DEPENDS_ON [node:9f026244-ad13-4fe7-8f39-944bf5a6f7bb] @ 2026-10-08T15:34:15.549494+00:00
 -> DEPENDS_ON [node:a17b142e-850e-4cdb-8d84-2689e75428a7] @ 2026-09-08T09:55:55.888852+00:00
 -> DEPENDS_ON [node:a1d42a8e-6fb1-493c-b5ef-003288aa28f2] @ 2026-09-08T09:59:26.697299+00:00
 -> DEPENDS_ON [node:a815b136-0de2-49af-ac42-6192c12def24] @ 2026-09-08T09:38:00.810299+00:00
@@ -4323,14 +4326,14 @@ type: entity
 tier: short-term
 path: /entity/calendarevent
 created_at: 2026-09-08T13:41:27.055782+00:00
-needs_review: true
+needs_review: false
 retrieval_weight: 1.0
 trust_weight: 0.0
 archived: false
 -> DEPENDS_ON [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-09-15T07:19:46.546671+00:00
 -> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-09-08T13:41:27.055782+00:00
 
-CalendarEvent — An entry in the household Google calendar. K7 both reads and writes them - add, edit and delete - so this is not a read-only feed item; that difference is what forces OAuth2 rather than a public .ics.
+CalendarEvent — An entry belonging to a Calendar. Whether it can be added, edited or deleted depends on its Calendar's source: the household's Google calendar is decided to be two-way (read plus add/edit/delete), while an event from an .ics-sourced Calendar is read-only by nature. Writing is planned but not built: K7 currently connects to Google with calendar.readonly and only reads events.
 ---
 [event:1c269801-ce9f-4514-815a-b305c3096710]
 node_id: 3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550
@@ -4421,6 +4424,36 @@ source: agent-surface
 created_at: 2026-09-15T13:36:39.467447+00:00
 
 Store-wide staleness queue check at review time — this disputed CalendarEvent entity is unrelated to PR #51's diff, no new evidence either way, left for the human queue.
+---
+[event:631af4f7-bfee-4fd6-adf3-f296470bc8f2]
+node_id: 3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550
+type: contradiction_cleared
+weight: 1.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:33.533862+00:00
+
+guided review: needs_correction
+---
+[event:a664b944-b1f5-4707-ba30-207861a7a652]
+node_id: 3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550
+type: manual_review
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:33.533862+00:00
+
+guided resolve: recommended=needs_correction, chose=needs_correction: human: "needs_correction with your wording, no tier move" — broadens to Calendar-scoped (c4994962) and corrects 'K7 writes them': code requests calendar.readonly, no write route; two-way is decided (HANDOFF) but unbuilt (PLAN.md)
+---
+[event:d06044c8-679e-4e99-a1d0-9702a307fe34]
+node_id: 3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550
+type: content_edited
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:33.533862+00:00
+
+guided review correction
 ---
 [node:7b73e502-b1fb-4587-96bd-f005b1ead665]
 type: entity
@@ -6408,17 +6441,17 @@ The kiosk sizes itself with a percentage height chained from the root element an
 ---
 [node:26582685-718f-4003-9454-5126ff416a15]
 type: constraint
-tier: mid-term
+tier: long-term
 path: /artifact/the-card-deck-fits-by-construction-rathe
 created_at: 2026-09-09T05:57:27.730936+00:00
-needs_review: true
+needs_review: false
 retrieval_weight: 1.0
 trust_weight: 0.0
 archived: false
 -> DEPENDS_ON [node:7108856c-d3d5-4701-bb69-11087256a081] @ 2026-09-09T05:57:27.967751+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-09T05:57:27.730936+00:00
 
-The card deck fits by construction rather than by scrolling. Rows are minmax(0, 1fr) and each grid item carries min-height zero, because a grid item's automatic minimum size is its content and that silently defeats fractional rows; the deck then clips instead of scrolling, and the page has overflow hidden so a scrollbar anywhere means a bug rather than a feature. This releases the minimum card height inside the deck, and that is not a loss: the token existed so rows would not jump as data loads, and equal fractional rows give the stronger version of the same guarantee, because row height stops depending on content at all. On a wall display nobody is present to scroll, so content below the fold is content that does not exist.
+The wall deck (wider than 767px) fits by construction rather than by scrolling. Rows are `minmax(0, 1fr)` and each grid item carries min-height zero, because a grid item's automatic minimum size is its content and that silently defeats fractional rows; the deck then clips instead of scrolling, and the page has `overflow: hidden`, so on the wall a scrollbar anywhere is a bug. This releases `--card-min-h` inside the wall deck, and equal fractional rows give the stronger guarantee: row height stops depending on content. On a wall display nobody is present to scroll. Phones are the exception, by the human ruling of 2026-09-25 (97c338d8): at 767px and below each page scrolls, with rows `minmax(var(--card-min-h), 1fr)`.
 ---
 [event:25ffb3a5-f560-4e90-9645-1636afc47ee2]
 node_id: 26582685-718f-4003-9454-5126ff416a15
@@ -6459,6 +6492,46 @@ source: agent-surface
 created_at: 2026-09-26T11:40:42.336131+00:00
 
 disputed, narrowed to >=768px by 97c338d8; carried to the human gate, not adjudicated
+---
+[event:451dcf3b-5e9f-4343-8520-9f8dc9f286bf]
+node_id: 26582685-718f-4003-9454-5126ff416a15
+type: manual_review
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:33.224205+00:00
+
+guided resolve: recommended=needs_correction, chose=needs_correction: human: "needs_correction with your wording, promote to long-term" — the wall half still holds (app.css >767px), the phone half was reversed by 97c338d8
+---
+[event:a683e216-94d7-4fcb-b848-30e87682300f]
+node_id: 26582685-718f-4003-9454-5126ff416a15
+type: content_edited
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:33.224205+00:00
+
+guided review correction
+---
+[event:c6f9c917-c029-4037-8d6a-4116bcdbe5c8]
+node_id: 26582685-718f-4003-9454-5126ff416a15
+type: contradiction_cleared
+weight: 1.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:33.224205+00:00
+
+guided review: needs_correction
+---
+[event:512023f9-0b81-4996-9084-6016be52623d]
+node_id: 26582685-718f-4003-9454-5126ff416a15
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:33.233108+00:00
+
+tier -> long-term: guided review tier move
 ---
 [node:54cce183-229d-4f45-8d15-ff1f0696b66c]
 type: goal
@@ -7888,10 +7961,10 @@ type: concept
 tier: short-term
 path: /artifact/the-recipes-repository-stack-is-already
 created_at: 2026-09-09T11:56:07.883692+00:00
-needs_review: true
+needs_review: false
 retrieval_weight: 1.0
 trust_weight: 0.0
-archived: false
+archived: true
 -> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-09-09T11:56:07.883692+00:00
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-09T11:56:07.883692+00:00
 
@@ -7986,6 +8059,36 @@ source: agent-surface
 created_at: 2026-09-24T12:39:12.457320+00:00
 
 Part 2 human-gate presentation: genuine minor dispute — the concept's "already fully built" framing undersold that the Drizzle adapter still needed a schema change for the new description field
+---
+[event:290cca6c-742e-497a-9087-333227d3786a]
+node_id: 2135f0a4-e132-48e6-917f-2284e5a88662
+type: manual_review
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:33.960941+00:00
+
+guided resolve: recommended=superseded, chose=superseded: human: "superseded with f5e505dd, no tier move" — Faza 3 planning snapshot, spent; recipes now file-backed outside the checkout (f5e505dd), two live adapters (bf1d9409)
+---
+[event:7e7c9766-8e98-4d24-abe1-43b431bb4f0f]
+node_id: 2135f0a4-e132-48e6-917f-2284e5a88662
+type: archived
+weight: 0.0
+polarity: -1
+source: gui-guided
+created_at: 2026-10-08T15:26:33.960941+00:00
+
+guided review: superseded
+---
+[event:9bd6096c-84b5-4f77-86d1-6d1e87a29d04]
+node_id: 2135f0a4-e132-48e6-917f-2284e5a88662
+type: contradiction_cleared
+weight: 1.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:33.960941+00:00
+
+guided review: superseded
 ---
 [node:faf594c8-d42b-4068-96f6-bd211eecee0a]
 type: decision
@@ -10131,10 +10234,10 @@ create_change k7-card-fullscreen
 ---
 [node:009b7439-07c7-402f-ad22-664beda93a4d]
 type: concept
-tier: short-term
+tier: long-term
 path: /artifact/k7-s-existing-fullscreen-mechanism-buil
 created_at: 2026-09-14T19:47:35.142389+00:00
-needs_review: true
+needs_review: false
 retrieval_weight: 1.0
 trust_weight: 0.0
 archived: false
@@ -10144,7 +10247,7 @@ archived: false
 -> DEPENDS_ON [node:ca0c4f4f-2eae-448f-a6bc-a8e70594e292] @ 2026-09-14T19:47:35.142389+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-14T19:47:35.142389+00:00
 
-K7's existing fullscreen mechanism (built for the Slideshow, slideshow.ts + app.css) promotes the target element in place via CSS rather than reparenting it or using the browser Fullscreen API: a class (`k7-slideshow-active`, position:fixed !important; inset:0; z-index:500, plus a `k7-slideshow-veil` backdrop at z-index:499) is toggled directly on the widget's own custom-element host, which still works because Shadow DOM does not itself create a new CSS containing block — position:fixed on the host element resolves against the viewport unless an ancestor's own style (e.g. a transform) intervenes. The one real gotcha found and fixed here: `.pager-track`'s inline transform (used for page-swipe animation) would otherwise become that containing block, so it is cleared while fullscreen is active and restored via `pager.go()`'s saved value on exit. The promoted element also stays a DOM descendant of the pager's viewport even though it paints as fixed, so its touch/click events still bubble to the page-level pager underneath — Pager (pager.ts) gained `suspend()`/`resume()` specifically so an interaction meant to exit fullscreen isn't also read as a page swipe.
+K7's fullscreen mechanism promotes the target element in place via CSS, not by reparenting it or using the browser Fullscreen API: `fullscreen-lock.ts` toggles `k7-fullscreen-active` (`position: fixed !important; inset: 0; z-index: 500`, with a `k7-fullscreen-veil` backdrop at 499) on the widget's own custom-element host. That works because Shadow DOM does not create a CSS containing block: `position: fixed` on the host resolves against the viewport unless an ancestor's own style intervenes. The one such ancestor is `.pager-track`, whose inline transform (page-swipe animation) would become the containing block, so it is cleared while fullscreen is active and restored on exit. The promoted element stays a DOM descendant of the pager's viewport, so its touch and click events still bubble to the pager; `Pager.suspend()`/`resume()` exist so a tap meant to leave fullscreen is not also read as a swipe. The Slideshow and the manual per-card fullscreen share this one controller. The class was originally `k7-slideshow-active`, a burnt name (1c30a45a): the Slideshow's presentation styling hook is `k7-slideshow-presenting`.
 ---
 [event:245e8ccc-f569-4285-a7ba-34e224cfae9a]
 node_id: 009b7439-07c7-402f-ad22-664beda93a4d
@@ -10245,6 +10348,46 @@ source: agent-surface
 created_at: 2026-09-26T11:19:13.075339+00:00
 
 still names the promotion class k7-slideshow-active and k7-slideshow-veil; both were renamed by 2733b7b2, and the first string has since been rejected for reuse (re-journaled from PR #80)
+---
+[event:3c364178-3227-442b-9537-919db4f99016]
+node_id: 009b7439-07c7-402f-ad22-664beda93a4d
+type: contradiction_cleared
+weight: 1.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:34.536515+00:00
+
+guided review: needs_correction
+---
+[event:4c0a50cf-554e-4284-90fb-309103535048]
+node_id: 009b7439-07c7-402f-ad22-664beda93a4d
+type: content_edited
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:34.536515+00:00
+
+guided review correction
+---
+[event:9db093b7-40dc-4406-a146-5aa68f9c1798]
+node_id: 009b7439-07c7-402f-ad22-664beda93a4d
+type: manual_review
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:34.536515+00:00
+
+guided resolve: recommended=needs_correction, chose=needs_correction: human: "needs_correction with your wording, promote to long-term" — mechanism unchanged; class renamed to k7-fullscreen-active and logic moved to fullscreen-lock.ts (app.css:516-545, fullscreen-lock.ts:178-185)
+---
+[event:46df870c-1337-4f82-96d6-9b1a8432668f]
+node_id: 009b7439-07c7-402f-ad22-664beda93a4d
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:34.541234+00:00
+
+tier -> long-term: guided review tier move
 ---
 [node:dd4d0966-8c77-4e9d-a6af-7f8cd54c0a39]
 type: constraint
@@ -10797,6 +10940,16 @@ source: agent-surface
 created_at: 2026-10-05T18:11:19.932266+00:00
 
 pager suspended during manual fullscreen means the vertical graph scroller in maximized needs no pager guard
+---
+[event:c8568d60-6047-4214-a95f-5c2331ab76f9]
+node_id: 2733b7b2-97ad-4840-ba69-7af4ffad4381
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T15:32:54.986933+00:00
+
+gw-consolidate: clusters 16/27 restate the fullscreen mechanism now held by long-term 009b7439; repetition, nothing new to mint
 ---
 [node:2dde1947-bc76-4c7b-ba32-3f1463151d2b]
 type: decision
@@ -11745,10 +11898,10 @@ type: decision
 tier: mid-term
 path: /artifact/decided-2026-09-15-k7-multi-calendar-s
 created_at: 2026-09-15T07:25:16.838467+00:00
-needs_review: true
+needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:156c9e97-0f19-4ba6-92be-e61465e34c1f] @ 2026-09-15T07:25:16.838467+00:00
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-09-15T07:25:16.838467+00:00
 -> DEPENDS_ON [node:ac006a24-2763-40e7-8423-2b851793efcf] @ 2026-09-15T07:25:16.838467+00:00
@@ -11857,6 +12010,36 @@ source: agent-surface
 created_at: 2026-10-08T13:29:10.240316+00:00
 
 Disputed node about the old 'no consent flow' bound; seen in this change's territory (consent callback) but not adjudicated here.
+---
+[event:45310abd-6e64-4cc2-9565-671b9b7f3b81]
+node_id: ab43353e-e0e8-49d5-88d5-8333b9f6912d
+type: manual_review
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:33.381075+00:00
+
+guided resolve: recommended=superseded, chose=superseded: human: "superseded with c0d83d5c, no tier move" — the consent flow shipped (routes/admin-google.ts); the env refresh token remains a documented fallback in c0d83d5c
+---
+[event:472e9594-b51a-4735-9166-9c84b466bbc5]
+node_id: ab43353e-e0e8-49d5-88d5-8333b9f6912d
+type: archived
+weight: 0.0
+polarity: -1
+source: gui-guided
+created_at: 2026-10-08T15:26:33.381075+00:00
+
+guided review: superseded
+---
+[event:d1e40808-1463-4e89-abe5-22a0dbf2d63f]
+node_id: ab43353e-e0e8-49d5-88d5-8333b9f6912d
+type: contradiction_cleared
+weight: 1.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:33.381075+00:00
+
+guided review: superseded
 ---
 [node:6e173c60-5243-48f4-9d43-3635c3e272b9]
 type: decision
@@ -11971,10 +12154,10 @@ created_at: 2026-10-03T16:23:10.268426+00:00
 ---
 [node:53a1b84b-bb63-4ea4-b6b1-c739e8aa1170]
 type: decision
-tier: mid-term
+tier: long-term
 path: /artifact/plan-decision-for-k7-multi-calendar-eac
 created_at: 2026-09-15T07:30:24.783670+00:00
-needs_review: true
+needs_review: false
 retrieval_weight: 1.0
 trust_weight: 0.0
 archived: false
@@ -11984,7 +12167,7 @@ archived: false
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T07:30:24.783670+00:00
 -> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-09-15T07:30:24.783670+00:00
 
-Plan decision for k7-multi-calendar: each configured Calendar is fetched independently (its own HTTP/API request, its own freshness-cache key and entry), rather than one combined request/cache-row for the whole card. This is a new pattern for this codebase -- every existing multi-source card (weather, comics) has exactly one upstream per card. Chosen so one dead .ics feed (a school's system down) doesn't blank the whole calendar card or block other calendars' events from showing; each source fails independently and falls back to its own last-good cache or, for Google with no credentials configured, the existing mock-event fallback. Structured configuration (the calendars array, each with a nested source object) is passed from main.ts's createWidget to the k7-calendar custom element as a single JSON.stringify'd attribute, parsed back out in K7Calendar.svelte -- a new technique for this codebase (existing complex-param cards like timer flatten to a comma-joined string, insufficient for genuinely nested per-item objects).
+Each configured Calendar is fetched independently (its own `/api/calendar/week?id=…` request, its own freshness-cache key and entry), not as one combined request or cache row for the whole card. One dead .ics feed (a school's system down) therefore never blanks the calendar card or blocks the other calendars: each source fails on its own and falls back to its own last-good cache, or for Google with no credentials to the mock-event fallback. Before this, every multi-source card (weather, comics) had exactly one upstream per card. The calendars config reaches the k7-calendar element as one JSON attribute (the established pattern main.ts's menu card already used). Since k7-calendar-config-layers it comes from the layout's top-level `calendars` map. `calendar.ts` cites this node.
 ---
 [event:1b1beb08-cbf3-4d5f-8eb6-ef9943312810]
 node_id: 53a1b84b-bb63-4ea4-b6b1-c739e8aa1170
@@ -12045,6 +12228,46 @@ source: lifecycle-cli
 created_at: 2026-10-03T16:23:10.268426+00:00
 
 10x lifecycle sweep
+---
+[event:6775d226-9be9-4dff-aec3-09bc26814939]
+node_id: 53a1b84b-bb63-4ea4-b6b1-c739e8aa1170
+type: content_edited
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:33.816018+00:00
+
+guided review correction
+---
+[event:e13dc8f5-e3a8-4f38-a708-cbfae4236317]
+node_id: 53a1b84b-bb63-4ea4-b6b1-c739e8aa1170
+type: contradiction_cleared
+weight: 1.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:33.816018+00:00
+
+guided review: needs_correction
+---
+[event:e956beed-d832-41d6-adaf-d491d5f70906]
+node_id: 53a1b84b-bb63-4ea4-b6b1-c739e8aa1170
+type: manual_review
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:33.816018+00:00
+
+guided resolve: recommended=needs_correction, chose=needs_correction: human: "needs_correction with your wording, promote to long-term" — core decision live (K7Calendar.svelte per-calendar loadCalendar); drops the false 'new technique' claim (f7035c1b); calendar.ts cites the node
+---
+[event:3427361d-5e7f-4a14-8ab6-5384f6721a5a]
+node_id: 53a1b84b-bb63-4ea4-b6b1-c739e8aa1170
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:33.820240+00:00
+
+tier -> long-term: guided review tier move
 ---
 [node:834d4089-c726-4399-90c2-c540e2f8b6a4]
 type: decision
@@ -12938,9 +13161,19 @@ archived: false
 
 Found during k7-calendar-ssrf-fix's review, out of scope for that PR: /api/comic (src/server/index.ts ~line 297) has the same class of SSRF /api/calendar/week just had. It reads a client-supplied `rssUrl` query param directly and passes it unvalidated into fetchComic() -> fetchWithTimeout(query.rssUrl, ...) (src/server/upstream/comic-rss.ts, fetchComic ~line 70) — no scheme check, no isPrivateAddress() guard, unlike src/server/recipes/import.ts's assertImportable() which already does exactly this validation for recipe URL imports. A LAN client can therefore direct K7's server to fetch an arbitrary internal address via GET /api/comic?rssUrl=http://127.0.0.1:PORT/.... Needs its own fix: either resolve rssUrl server-side from layout.yaml's configured comic-of-the-day card (matching the calendar fix's pattern) or, if rssUrl must stay client-configurable per the layout schema's design, apply the same host/scheme guard recipes/import.ts already has (isPrivateAddress in src/server/security/network.ts).
 ---
+[event:8cd25242-2977-4358-b2e9-348070206209]
+node_id: fb0cacd3-4114-4733-965a-b12a5a19d2e3
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T15:32:54.988923+00:00
+
+gw-consolidate: re-checked 2026-10-08, /api/comic now validates rssUrl with isFetchableUrl (index.ts:532); the issue is fixed but the node still reads open
+---
 [node:87702f1f-1848-4624-9b52-e03c40aef76d]
 type: constraint
-tier: mid-term
+tier: long-term
 path: /artifact/lesson-from-k7-calendar-ssrf-fix-s-revie
 created_at: 2026-09-15T12:53:39.376790+00:00
 needs_review: false
@@ -12991,6 +13224,26 @@ source: agent-surface
 created_at: 2026-09-24T12:36:55.709192+00:00
 
 gw-review Part 1: grepped src/server/ for any server-side fetch of Recipe.sourceUrl — none exists outside the already-trusted import path (extractJsonLd/extractFallback/importRecipeFromUrl). This change's sourceUrl is only ever navigated client-side, so the SSRF constraint's premise (server fetching a client-controlled URL) does not apply here, matching plan.md's own stated non-goal reasoning.
+---
+[event:48f52608-c16a-42ce-8660-ea78a4f59db9]
+node_id: 87702f1f-1848-4624-9b52-e03c40aef76d
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T15:32:44.595677+00:00
+
+tier -> long-term: human ruling 2026-10-08 at the consolidation pass: the SSRF rule for every new server route
+---
+[event:ca9042ab-3a53-422e-a5ea-6bf97a089bc1]
+node_id: 87702f1f-1848-4624-9b52-e03c40aef76d
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T15:32:54.990825+00:00
+
+gw-consolidate: cluster 25's general SSRF lesson; promoted to long-term by the human in this pass
 ---
 [node:11eb5df1-7022-487f-9eb4-addbd53cadea]
 type: decision
@@ -14572,15 +14825,16 @@ type: constraint
 tier: long-term
 path: /artifact/card-head-row-text-hud-label-meta-nee
 created_at: 2026-09-15T15:42:25.125702+00:00
-needs_review: true
+needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> DEPENDS_ON [node:97d0c4ba-55ce-407d-8ecd-14a6a1269357] @ 2026-09-15T15:42:25.125702+00:00
+-> DEPENDS_ON [node:9f026244-ad13-4fe7-8f39-944bf5a6f7bb] @ 2026-10-08T15:34:15.549494+00:00
 -> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-09-15T15:42:25.125702+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-15T15:42:25.125702+00:00
 
-Card head-row text (hud-label, meta) needs explicit min-width:0 + overflow:hidden/text-overflow:ellipsis/white-space:nowrap at the phone breakpoint: flex children default to min-width:auto, refusing to shrink below their own content width, so a label plus a meta string that together exceed a squeezed (or, after the 2-column phone decision, half-width) card silently overflow past Card.svelte's own overflow:hidden with no ellipsis to show it happened. A related trap found immediately after adding min-width:0 to Card.svelte's .card-head-right: its .fullscreen-btn renders literal text "[ + ]"/"[ x ]" (spaces included) with no white-space:nowrap, so once the container was allowed to shrink, the browser wrapped the button's own label onto three lines at the spaces instead of just staying one line. Any button/label whose text contains spaces needs white-space:nowrap (and usually flex-shrink:0, to keep priority over less-critical sibling text) before its container is given min-width:0 — the two changes are not safe to make independently.
+Card head-row text (hud-label, meta) needs explicit `min-width: 0` + `overflow: hidden` / `text-overflow: ellipsis` / `white-space: nowrap` at the phone breakpoint: flex children default to `min-width: auto` and refuse to shrink below their content, so a label plus meta wider than a half-width card silently overflows past Card.svelte's `overflow: hidden` with no ellipsis. A control whose text contains spaces ("[ + ]") needs `white-space: nowrap`, and usually `flex-shrink: 0`, before its container gets `min-width: 0`, or the browser wraps the label itself at the spaces. Those two are still not enough together: a container that may shrink holding a control that may not hangs the control past the card edge (34px on k7-image, 139px on k7-chat at 390×844). The row must also be able to wrap. Card.svelte's head does this as two zones (22760f17): the title truncates, and the controls group wraps.
 ---
 [event:9789f598-3ecc-42d3-b5a8-3e9ec3e2484a]
 node_id: 25827824-ea3d-4245-8597-3b9841ef3725
@@ -14611,6 +14865,56 @@ source: agent-surface
 created_at: 2026-10-08T13:20:14.724719+00:00
 
 replayed 2026-10-08 from memory-backlog.md: its nowrap + flex-shrink:0 control with a min-width:0 container, made together as prescribed, still hung controls past the card edge (34px on k7-image, 139px on k7-chat at 390×844); the missing third leg is that the row must be able to wrap (see k7-phone-horizontal-overflow decision a). Recorded, not resolved.
+---
+[event:1367cb59-fe76-4b9b-a01a-9ced1d2259f7]
+node_id: 25827824-ea3d-4245-8597-3b9841ef3725
+type: content_edited
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:33.674052+00:00
+
+guided review correction
+---
+[event:1ea21880-f921-4b44-9676-4dda65d06926]
+node_id: 25827824-ea3d-4245-8597-3b9841ef3725
+type: manual_review
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:33.674052+00:00
+
+guided resolve: recommended=needs_correction, chose=needs_correction: human: "needs_correction with your wording, keep long-term" — truncation recipe still in Card.svelte; adds the missing third leg (the row must wrap) found by k7-phone-horizontal-overflow
+---
+[event:865aa3c0-1dfb-4642-92a7-95c3ecf074c5]
+node_id: 25827824-ea3d-4245-8597-3b9841ef3725
+type: contradiction_cleared
+weight: 1.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:33.674052+00:00
+
+guided review: needs_correction
+---
+[event:6a641b3c-822c-4076-b6d5-72be6f487b2d]
+node_id: 25827824-ea3d-4245-8597-3b9841ef3725
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T15:32:54.975417+00:00
+
+gw-consolidate 2026-10-08: read as an instance of the rows-wrap-before-they-crush pattern (DESIGN.md §6.1)
+---
+[event:ae70f275-df22-4f6d-a3b8-19aa82e5acb6]
+node_id: 25827824-ea3d-4245-8597-3b9841ef3725
+type: consolidated
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T15:34:15.549494+00:00
+
+human: "your wording, constraint, long-term" — DESIGN.md §6.1 was never distilled into the graph and four changes rediscovered it independently
 ---
 [node:c5e8c11c-643e-4b93-be3d-61f93ac70500]
 type: decision
@@ -15788,10 +16092,10 @@ create_change k7-recipe-source-editable
 ---
 [node:f769a5a7-379d-49c0-9844-9fca4340bfae]
 type: constraint
-tier: short-term
+tier: long-term
 path: /artifact/recipe-sourceurl-was-trustworthy-by-cons
 created_at: 2026-09-24T05:01:21.717730+00:00
-needs_review: true
+needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
@@ -15930,6 +16234,36 @@ source: agent-surface
 created_at: 2026-09-24T12:39:12.445998+00:00
 
 Part 2 human-gate presentation: flagged as disputed but the dispute is this session's own mislabeled CONTRADICTED event, not a technical disagreement — content independently re-verified accurate by two review passes
+---
+[event:cd809ac3-d387-4db7-9bc4-6a5b9b63622b]
+node_id: f769a5a7-379d-49c0-9844-9fca4340bfae
+type: contradiction_cleared
+weight: 1.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:34.242995+00:00
+
+guided review: still_valid
+---
+[event:cfe78a15-3da4-452d-b018-8d1ac20cc961]
+node_id: f769a5a7-379d-49c0-9844-9fca4340bfae
+type: manual_review
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:34.242995+00:00
+
+guided resolve: recommended=still_valid, chose=still_valid: human: "still_valid, promote to long-term" — the flag was a self-acknowledged mislabeled CONTRADICTED; render guard K7Recipes.svelte:608 + save check index.ts:847 match the node; same guard now in K7Comic.svelte:105
+---
+[event:bace974b-3684-4e1c-a139-2d15bd64b3a9]
+node_id: f769a5a7-379d-49c0-9844-9fca4340bfae
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:34.245706+00:00
+
+tier -> long-term: guided review tier move
 ---
 [node:35144eed-a808-46a4-82cf-674e6f749531]
 type: facet_value
@@ -16683,10 +17017,10 @@ confirmed as part of the domain model
 ---
 [node:e4745884-a5db-4d16-9bed-430cd2b6449c]
 type: decision
-tier: short-term
+tier: long-term
 path: /artifact/reciperejection-is-a-deliberately-new-r
 created_at: 2026-09-24T15:08:11.222991+00:00
-needs_review: true
+needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
@@ -16775,6 +17109,36 @@ source: agent-surface
 created_at: 2026-09-25T07:11:57.080289+00:00
 
 disputed; seen in review, not adjudicated, carried to human gate
+---
+[event:7b1e17fa-6cb1-467c-946c-78f92a545fe3]
+node_id: e4745884-a5db-4d16-9bed-430cd2b6449c
+type: contradiction_cleared
+weight: 1.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:34.380555+00:00
+
+guided review: still_valid
+---
+[event:c25e46ef-c514-44fb-b859-2a04769fdd7f]
+node_id: e4745884-a5db-4d16-9bed-430cd2b6449c
+type: manual_review
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:34.380555+00:00
+
+guided resolve: recommended=still_valid, chose=still_valid: human: "still_valid, promote to long-term" — the contradiction was about scrub/truncate ordering (item 2ccd3769's topic), misattached here; recipe_rejections built as decided (schema.ts:158); rationale for the ratified RecipeRejection entity
+---
+[event:4042b90a-861a-493b-9391-e3ac3cb5fe2c]
+node_id: e4745884-a5db-4d16-9bed-430cd2b6449c
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:34.384394+00:00
+
+tier -> long-term: guided review tier move
 ---
 [node:897dc2ad-3b04-4d0c-b2af-bd054a16faa6]
 type: decision
@@ -17114,10 +17478,10 @@ created_at: 2026-09-24T15:44:21.797042+00:00
 ---
 [node:2ccd3769-dc7e-4f3d-96c4-2bf83c304297]
 type: constraint
-tier: short-term
+tier: long-term
 path: /artifact/logrejection-s-reason-field-must-be-scru
 created_at: 2026-09-24T15:30:20.178856+00:00
-needs_review: true
+needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
@@ -17187,6 +17551,36 @@ source: agent-surface
 created_at: 2026-09-25T07:11:57.083805+00:00
 
 disputed; code honours scrub-then-bound, but the dispute itself is left for the human
+---
+[event:2ebaafd5-8144-40bd-bd89-5c30dd641a7c]
+node_id: 2ccd3769-dc7e-4f3d-96c4-2bf83c304297
+type: contradiction_cleared
+weight: 1.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:34.098233+00:00
+
+guided review: still_valid
+---
+[event:70ecac7e-de44-4662-9b6d-a1948bc6ae45]
+node_id: 2ccd3769-dc7e-4f3d-96c4-2bf83c304297
+type: manual_review
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:34.098233+00:00
+
+guided resolve: recommended=still_valid, chose=still_valid: human: "as recommended" (= still_valid + long-term) — the flag came from an unintended placeholder self-link; index.ts:136 scrubs then bounds in the one helper all call sites use
+---
+[event:43c801fc-af1f-497a-bfbe-4290972fafa0]
+node_id: 2ccd3769-dc7e-4f3d-96c4-2bf83c304297
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T15:26:34.102520+00:00
+
+tier -> long-term: guided review tier move
 ---
 [node:b6bbcdbd-d78c-4558-95fb-6c332dcadb56]
 type: constraint
@@ -18397,6 +18791,7 @@ trust_weight: 1.0
 archived: false
 -> DEPENDS_ON [node:0bc7e618-9b95-4977-9fe1-f3a48759276f] @ 2026-10-03T15:18:18.543770+00:00
 -> DEPENDS_ON [node:2120bc65-1887-4e0f-9f7e-e3a6cbcc9b3d] @ 2026-10-03T15:18:18.543770+00:00
+-> DEPENDS_ON [node:9f026244-ad13-4fe7-8f39-944bf5a6f7bb] @ 2026-10-08T15:34:15.549494+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-03T15:18:18.543770+00:00
 -> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-10-03T15:18:18.543770+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-10-03T15:18:18.543770+00:00
@@ -18482,6 +18877,26 @@ source: agent-surface
 created_at: 2026-10-05T19:17:36.061475+00:00
 
 gw-review #90: nothing clipped at the start at 375x667, 667x375, 844x390 with the two-column layout
+---
+[event:e7e0145d-1f80-41df-9dd1-eeafe88f2180]
+node_id: 32f913e8-0a2e-491b-ab31-7f3e76281a54
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T15:32:54.982416+00:00
+
+gw-consolidate 2026-10-08: read as an instance of the rows-wrap-before-they-crush pattern (DESIGN.md §6.1)
+---
+[event:31126267-0cf3-40cb-aa7c-9832f51f0e16]
+node_id: 32f913e8-0a2e-491b-ab31-7f3e76281a54
+type: consolidated
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T15:34:15.549494+00:00
+
+human: "your wording, constraint, long-term" — DESIGN.md §6.1 was never distilled into the graph and four changes rediscovered it independently
 ---
 [node:81c7ca54-0290-4040-882a-78e95f3f7402]
 type: concept
@@ -19932,6 +20347,7 @@ archived: false
 -> DEPENDS_ON [node:4c7c5cf3-7bc0-4180-9c85-4c41cd1c2593] @ 2026-10-08T13:20:39.783597+00:00
 -> HAS_FACET [node:622597fb-68a0-4e83-8aa7-26c6f2a69a5b] @ 2026-10-08T09:58:25.384352+00:00
 -> HAS_FACET [node:68773fd1-2296-4527-b027-8d5d6c699ece] @ 2026-10-08T09:58:25.384352+00:00
+-> DEPENDS_ON [node:9f026244-ad13-4fe7-8f39-944bf5a6f7bb] @ 2026-10-08T15:34:15.549494+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T09:58:25.384352+00:00
 -> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-10-08T09:58:25.384352+00:00
 
@@ -19986,6 +20402,26 @@ source: gui
 created_at: 2026-10-08T11:08:51.197107+00:00
 
 tier -> lifetime
+---
+[event:2d6db609-4633-45bf-af45-6908c682d83f]
+node_id: 2857d837-0738-48b7-ad69-f09cb90939c1
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T15:32:54.967682+00:00
+
+gw-consolidate 2026-10-08: read as an instance of the rows-wrap-before-they-crush pattern (DESIGN.md §6.1)
+---
+[event:75c6885b-a643-42ae-a34b-6365dd9aa946]
+node_id: 2857d837-0738-48b7-ad69-f09cb90939c1
+type: consolidated
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T15:34:15.549494+00:00
+
+human: "your wording, constraint, long-term" — DESIGN.md §6.1 was never distilled into the graph and four changes rediscovered it independently
 ---
 [node:726faa94-0439-43a3-8b6a-c2a089d26744]
 type: issue
@@ -20563,6 +20999,16 @@ created_at: 2026-10-08T13:20:10.620916+00:00
 
 replayed 2026-10-08 from memory-backlog.md: config-layers deep-copies layers, caller objects untouched; covered by test/layout-layers.test.ts
 ---
+[event:37fb4395-375d-4d6e-a115-6de577b47c6d]
+node_id: d74d3349-9f03-405f-9c03-64799b5fe890
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T15:32:54.984447+00:00
+
+gw-consolidate: cluster 20 is one lineage (overrides → config-layers); this invariant is already the abstraction
+---
 [node:6b3d0d61-b05c-4ad4-ae27-9412be350638]
 type: goal
 tier: short-term
@@ -20732,10 +21178,31 @@ archived: false
 -> CONTRADICTS [node:25827824-ea3d-4245-8597-3b9841ef3725] @ 2026-10-08T13:20:13.158187+00:00
 -> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-10-08T13:20:13.158187+00:00
 -> HAS_FACET [node:622597fb-68a0-4e83-8aa7-26c6f2a69a5b] @ 2026-10-08T13:20:13.158187+00:00
+-> DEPENDS_ON [node:9f026244-ad13-4fe7-8f39-944bf5a6f7bb] @ 2026-10-08T15:34:15.549494+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T13:20:13.158187+00:00
 -> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-10-08T13:20:13.158187+00:00
 
 Card.svelte's head is two zones, and only the controls zone can push the row onto a second line. .card-head-title holds the label (plus meta when the widget has no actions), .card-head-right holds the widget's actions and then [ + ]. The head row wraps (DESIGN.md §6.1), and the controls group wraps too with min-width: 0. At phone width the title has flex-basis: 0 and a floor of calc(3 * var(--text-sm)), so its text never decides where the row breaks (label and meta truncate), and controls wrap only when the title would get less than the floor. 3 label-ems, not 4: at 4, a half-width card at 375px sent a lone [ + ] to a second line and cost GLOWNA's calendar 48px. Rejected: pure §6.1 at phone width (adds a second head line to five cards whose heads fit today), and a lower floor (a running timer's reset [ + ] left "MI…"). At ≥768px the title keeps flex-basis: auto; 1024×768 is pixel-identical.
+---
+[event:42be47a4-9503-4639-a31d-0d04e596ff04]
+node_id: 22760f17-2bf2-43de-bc9c-79d79f32f51a
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T15:32:54.978380+00:00
+
+gw-consolidate 2026-10-08: read as an instance of the rows-wrap-before-they-crush pattern (DESIGN.md §6.1)
+---
+[event:7bde5008-9a36-4e83-a75c-92520c05a9e3]
+node_id: 22760f17-2bf2-43de-bc9c-79d79f32f51a
+type: consolidated
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T15:34:15.549494+00:00
+
+human: "your wording, constraint, long-term" — DESIGN.md §6.1 was never distilled into the graph and four changes rediscovered it independently
 ---
 [node:0e6c918c-3122-4daf-a441-5adef6a4c208]
 type: constraint
@@ -20750,10 +21217,31 @@ archived: false
 -> HAS_FACET [node:3957f716-9c74-4f75-8355-94ac8649c521] @ 2026-10-08T13:20:13.471464+00:00
 -> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-10-08T13:20:13.471464+00:00
 -> HAS_FACET [node:622597fb-68a0-4e83-8aa7-26c6f2a69a5b] @ 2026-10-08T13:20:13.471464+00:00
+-> DEPENDS_ON [node:9f026244-ad13-4fe7-8f39-944bf5a6f7bb] @ 2026-10-08T15:34:15.549494+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T13:20:13.471464+00:00
 -> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-10-08T13:20:13.471464+00:00
 
 A group of head controls must be able to wrap. A container of several controls at the top of a widget's actions snippet (.controls in K7Timer, .nav in K7Unsplash and K7Carousel) declares flex-wrap: wrap: a flex container that cannot wrap has a min-content width equal to all its controls together, so nothing around it can make it narrower and it overflows any card narrower than that. Alternatively render the controls directly, as K7Chat does, so they wrap as one flow. test/phone-horizontal-overflow.test.ts enforces it for every src/client/lib/*.svelte.
+---
+[event:284d0a12-54f3-4e22-8403-17f9b309d067]
+node_id: 0e6c918c-3122-4daf-a441-5adef6a4c208
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T15:32:54.980457+00:00
+
+gw-consolidate 2026-10-08: read as an instance of the rows-wrap-before-they-crush pattern (DESIGN.md §6.1)
+---
+[event:8feb9b92-4db6-43a4-b962-9fe913a1eac7]
+node_id: 0e6c918c-3122-4daf-a441-5adef6a4c208
+type: consolidated
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T15:34:15.549494+00:00
+
+human: "your wording, constraint, long-term" — DESIGN.md §6.1 was never distilled into the graph and four changes rediscovered it independently
 ---
 [node:21cf68ed-6a45-4741-b4c6-c80eca741014]
 type: issue
@@ -21219,6 +21707,7 @@ retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-10-08T13:20:21.348212+00:00
+-> DEPENDS_ON [node:2135f0a4-e132-48e6-917f-2284e5a88662] @ 2026-10-08T15:26:33.960941+00:00
 -> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-10-08T13:20:21.348212+00:00
 -> HAS_FACET [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99] @ 2026-10-08T13:20:21.348212+00:00
 -> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-10-08T13:20:21.348212+00:00
@@ -21419,6 +21908,7 @@ archived: false
 -> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-10-08T13:20:25.152116+00:00
 -> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-10-08T13:20:25.152116+00:00
 -> CONTRADICTS [node:ab43353e-e0e8-49d5-88d5-8333b9f6912d] @ 2026-10-08T13:20:25.152116+00:00
+-> DEPENDS_ON [node:ab43353e-e0e8-49d5-88d5-8333b9f6912d] @ 2026-10-08T15:26:33.381075+00:00
 -> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-10-08T13:20:25.152116+00:00
 -> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-10-08T13:20:25.152116+00:00
 
@@ -21551,3 +22041,44 @@ What changed in the consent callback: grantsCalendarRead() in oauth/google-conse
 What changed in the issue log: IssueLogRepository.clear() backs a new unauthenticated DELETE /api/issues. The DZIENNIK BŁĘDÓW popup gets a two-tap [ wyczyść ] → [ na pewno? ] button with a 4 s window. Taps are ignored while a clear is in flight, and a failed clear shows a single failure line.
 
 Process note: the first commit used `git add -A` and picked up another concurrent session's memory-backlog replays. It was rewritten to contain this change only.
+---
+[node:026babb1-78dc-4fd2-ba5f-e7f55be661a5]
+type: constraint
+tier: mid-term
+path: /artifact/record-a-contradiction-through-one-path
+created_at: 2026-10-08T15:28:34.084647+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:2fda4632-61ba-4fe1-90b4-4a31277b7338] @ 2026-10-08T15:28:34.084647+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-10-08T15:28:34.084647+00:00
+
+Record a contradiction through one path only: either a CONTRADICTS edge (at capture time, or with link) or an append_event CONTRADICTED, never both for the same disagreement. Each journals its own contradiction_raised, and a human resolution journals only one contradiction_cleared, so a doubled raise leaves the node folding to trust 0 after a human has ruled it correct (25827824 on 2026-10-08, after a backlog replay sent the same contradiction both ways; filed as mt3o-dev/agentic-memory-system#23). Events are append-only, so the doubling cannot be undone. Prefer the edge when the contradicting node is being captured, because it also records which node disagrees; use the event only when there is no such node. Degraded-mode backlogs list both by habit, so a replay must pick one per disagreement.
+---
+[node:9f026244-ad13-4fe7-8f39-944bf5a6f7bb]
+type: constraint
+tier: long-term
+path: /consolidated/when-a-flex-row-in-this-ui-meets-a-box-n
+created_at: 2026-10-08T15:34:15.549494+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> CONSOLIDATES [node:0e6c918c-3122-4daf-a441-5adef6a4c208] @ 2026-10-08T15:34:15.549494+00:00
+-> CONSOLIDATES [node:22760f17-2bf2-43de-bc9c-79d79f32f51a] @ 2026-10-08T15:34:15.549494+00:00
+-> CONSOLIDATES [node:25827824-ea3d-4245-8597-3b9841ef3725] @ 2026-10-08T15:34:15.549494+00:00
+-> CONSOLIDATES [node:2857d837-0738-48b7-ad69-f09cb90939c1] @ 2026-10-08T15:34:15.549494+00:00
+-> CONSOLIDATES [node:32f913e8-0a2e-491b-ab31-7f3e76281a54] @ 2026-10-08T15:34:15.549494+00:00
+
+When a flex row in this UI meets a box narrower than it was designed for, the shortfall is never absorbed by squeezing or clipping content. Three rules, from DESIGN.md §6.1 ("rows wrap before they crush"): (1) The row can wrap (`flex-wrap: wrap`), and so can any group of controls inside it. A row that cannot wrap has a min-content width equal to all its parts together, and nothing around it can make it narrower. (2) Parts that must be read whole, such as a state glyph or a bracketed control like `[ + ]`, declare `white-space: nowrap; flex-shrink: 0`. A space or hyphen inside them is otherwise a line-break opportunity. Text that may give way (a label, a meta string) gets `min-width: 0` and an ellipsis. (3) Content centred in a box that cannot scroll uses auto margins, not `justify-content` or `align-items: center`, because auto margins collapse on overflow and the others clip both edges. Every new widget and presentation look is checked at 375px. All four rediscoveries (k7-mobile-responsive, k7-card-foot-badge, k7-phone-horizontal-overflow, k7-weather-presenting-phone-fit) were invisible at the 1024×768 wall size.
+---
+[event:b1cfa3e5-6f06-4643-acd7-58a7175d2958]
+node_id: 9f026244-ad13-4fe7-8f39-944bf5a6f7bb
+type: consolidated
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T15:34:15.549494+00:00
+
+human: "your wording, constraint, long-term" — DESIGN.md §6.1 was never distilled into the graph and four changes rediscovered it independently

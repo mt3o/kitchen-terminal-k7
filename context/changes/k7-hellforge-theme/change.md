@@ -3,9 +3,7 @@
 status: implemented
 created: 2026-09-22
 branch: claude/hellforge-theme
-memory_goal: UNAVAILABLE — agentic-memory unreachable this session (the MCP
-  server is configured for a POSIX shell and this session runs on Windows; the
-  `agentic-memory` CLI is not on PATH here either). See memory-backlog.md.
+memory_goal: 199d77c3-11e1-4d00-89da-ea4478a56b92   # minted 2026-10-08 when memory-backlog.md was replayed
 design_surface: n/a — a theme instance. No component changed.
 
 ## Goal
