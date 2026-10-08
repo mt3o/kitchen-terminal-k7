@@ -1,6 +1,8 @@
 # k7-card-foot-badge
 
-status: implemented, PR open
+status: archived
+archived: 2026-10-08
+merged: 2026-10-05, PR #88 (5d9257b); reviewed post-merge 2026-10-08 (review.md)
 created: 2026-09-21
 lifecycle: /gw-fix (bug — red test before the source edit)
 
@@ -83,4 +85,26 @@ design_surface: none
 tracker: github — no issue opened (creating one is outward-facing; left
 for the human to open or waive)
 
-memory_goal: (not minted — store unreachable this session; see memory-backlog.md)
+memory_goal: f43a5ad7-013a-4599-81f7-648092f9c407   # minted at /gw-archive 2026-10-08 (backlog replayed)
+change_anchor: 05a0a900-999c-4203-9580-035e126d56e6
+change_summary: 807a68ee-542b-4717-87ee-351351cf253c
+
+## Archive (2026-10-08)
+
+Memory backlog replayed at archive (memory-backlog.md, marked REPLAYED).
+Promoted by the human before the sweep: constraint 2857d837 → lifetime,
+change summary 807a68ee → long-term. Issue 726faa94 was resolved by
+k7-clock-date-phone-fit (#94) and archived by the human.
+
+`memory_lifecycle.py deactivate k7-card-foot-badge --sweep`: this change's
+goal f43a5ad7 swept dormant. The store-wide sweep also retired 07a456b4
+(k7-offline-shell's unimplemented API-caching decision, left at mid-term by
+the human) and the goals of k7-lan-tls, k7-offline-shell and
+k7-pages-and-audiometer, deactivated in the GUI earlier the same day. It
+reactivated 1580e5d3, which the human had archived as superseded in guided
+review, because k7-mobile-responsive is still active. That reverses a human
+ruling, and it is raised as a separate issue rather than patched here.
+
+An earlier accidental deactivate+sweep in this session (the lifecycle
+script's `--dry-run` applies only to `recompute-trust`) was undone at once
+with `activate --sweep`. Both are in the journal.

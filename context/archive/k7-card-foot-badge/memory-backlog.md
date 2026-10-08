@@ -1,5 +1,7 @@
 # Memory backlog — k7-card-foot-badge
 
+> **REPLAYED 2026-10-08 — do not replay again.** Replayed at /gw-archive: goal f43a5ad7-013a-4599-81f7-648092f9c407 (change anchor 05a0a900-999c-4203-9580-035e126d56e6); §2a → constraint 2857d837-0738-48b7-ad69-f09cb90939c1; §2b → issue 726faa94-0439-43a3-8b6a-c2a089d26744; both ABOUT Card; §4 events journaled. The parent link to k7-card-box-sizing's capture 2a was not made — that backlog is still unreplayed.
+
 The store was unreachable for this whole session: the `agentic-memory` MCP
 server failed to connect (`ENOENT: Executable not found in $PATH:
 agentic-memory-mcp`) and `agentic-memory` is not on PATH, so the CLI

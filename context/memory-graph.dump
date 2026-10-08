@@ -16,6 +16,7 @@ archived: false
 -> SCOPED_TO [node:156d8b7d-0b1f-48f0-b434-c7a269edf283] @ 2026-09-08T09:38:31.156725+00:00
 -> SCOPED_TO [node:18bafc37-5e9e-4d04-936a-53218abaca4b] @ 2026-09-08T09:38:01.499476+00:00
 -> SCOPED_TO [node:279d73e0-ff0f-4184-a25c-f051d2030072] @ 2026-09-08T09:38:01.059071+00:00
+-> SCOPED_TO [node:2fda4632-61ba-4fe1-90b4-4a31277b7338] @ 2026-10-08T11:45:05.882765+00:00
 -> SCOPED_TO [node:34616847-1c75-4625-a51e-be17514f7e34] @ 2026-09-08T15:59:13.187008+00:00
 -> SCOPED_TO [node:36e6377e-7d18-4de2-b827-8644f15bf56a] @ 2026-09-08T09:55:56.268439+00:00
 -> SCOPED_TO [node:40398c2a-b8e4-4721-b426-730e93b8a4d8] @ 2026-09-08T09:38:30.154849+00:00
@@ -92,6 +93,7 @@ archived: false
 -> DEPENDS_ON [node:156d8b7d-0b1f-48f0-b434-c7a269edf283] @ 2026-09-08T09:38:31.156725+00:00
 -> DEPENDS_ON [node:18bafc37-5e9e-4d04-936a-53218abaca4b] @ 2026-09-08T09:38:01.499476+00:00
 -> DEPENDS_ON [node:279d73e0-ff0f-4184-a25c-f051d2030072] @ 2026-09-08T09:38:01.059071+00:00
+-> DEPENDS_ON [node:2fda4632-61ba-4fe1-90b4-4a31277b7338] @ 2026-10-08T11:45:05.882765+00:00
 -> DEPENDS_ON [node:34616847-1c75-4625-a51e-be17514f7e34] @ 2026-09-08T15:59:13.187008+00:00
 -> DEPENDS_ON [node:36e6377e-7d18-4de2-b827-8644f15bf56a] @ 2026-09-08T09:55:56.268439+00:00
 -> DEPENDS_ON [node:40398c2a-b8e4-4721-b426-730e93b8a4d8] @ 2026-09-08T09:38:30.154849+00:00
@@ -5676,13 +5678,23 @@ created_at: 2026-09-08T17:41:57.990588+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:36def95b-9c71-42d3-8cef-4935a023a76c] @ 2026-09-08T17:49:01.829509+00:00
 -> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-08T17:41:57.990588+00:00
 -> DEPENDS_ON [node:c68c6715-1e1a-4876-8f3c-35ff3d9b8fac] @ 2026-09-08T17:49:01.967859+00:00
 -> DEPENDS_ON [node:ff83d0c0-3596-408a-b047-3363ea8a99c1] @ 2026-09-08T17:49:01.705201+00:00
 
 Put the kiosk on a real certificate: a Cloudflare DNS-01 challenge for a subdomain of revert-h0m3.co.pl, renewed in-process so the appliance maintains itself, lifting the secure-context blocker on the Service Worker
+---
+[event:64d17552-f300-4e06-905c-ab50a524e110]
+node_id: 70d97cb6-59dd-4020-b3e8-2f7bd0bd8c04
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T11:45:18.499892+00:00
+
+10x lifecycle sweep
 ---
 [node:c1b00607-b2d5-42eb-aa31-77998b12bcab]
 type: slice
@@ -6039,7 +6051,7 @@ created_at: 2026-09-08T19:47:53.703076+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:07a456b4-8f9a-40ee-977a-9c5f32f06249] @ 2026-09-14T15:54:17.591874+00:00
 -> DEPENDS_ON [node:430c9542-7dd1-4b78-bfa1-760e6afcee1d] @ 2026-09-08T19:47:53.703076+00:00
 -> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-08T19:47:53.703076+00:00
@@ -6047,6 +6059,16 @@ archived: false
 -> DEPENDS_ON [node:f0e2ae72-268a-4859-80b0-e98ec768fb10] @ 2026-09-08T19:56:57.176951+00:00
 
 Keep the kitchen wall alive across a backend restart: a hand-rolled Service Worker for the app shell, and a reconnect scrim over the blurred stale grid that says what is happening and how far along it is
+---
+[event:32755fc1-5e52-48bc-9822-c8e3c02a478a]
+node_id: b50027cf-438d-4a12-bf40-983fc53fc63e
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T11:45:18.499892+00:00
+
+10x lifecycle sweep
 ---
 [node:d3a59b66-5cba-4c3a-8b0f-41d22cadde4e]
 type: slice
@@ -6564,13 +6586,23 @@ created_at: 2026-09-09T06:14:00.293252+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:2946e332-fd2b-4b23-9f13-a6f014255945] @ 2026-09-09T06:22:37.815060+00:00
 -> DEPENDS_ON [node:54cce183-229d-4f45-8d15-ff1f0696b66c] @ 2026-09-09T06:14:00.293252+00:00
 -> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-09-09T06:14:00.293252+00:00
 -> DEPENDS_ON [node:e501e6f3-ae58-4154-a7db-f48d40b153e6] @ 2026-09-09T06:22:37.677683+00:00
 
 Four bounded pieces: two more pages, the shopping list given a full column, a working audiometer card, and the logo assets used where iOS actually needs them
+---
+[event:edf26a51-1c63-427f-81d9-b5b1daafd2ad]
+node_id: 985229b1-13b7-4596-872b-3126fb384590
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T11:45:18.499892+00:00
+
+10x lifecycle sweep
 ---
 [node:e145d232-c623-4c8b-a6d6-df75aa7d9280]
 type: slice
@@ -9904,7 +9936,7 @@ created_at: 2026-09-14T15:54:17.591874+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> ABOUT [node:3c7e1fe3-fba9-48d1-b1f3-8dc9b463a550] @ 2026-09-14T15:54:17.591874+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-14T15:54:17.591874+00:00
 -> DEPENDS_ON [node:baefeee7-a562-4085-8a4e-cd20045f4164] @ 2026-09-14T15:54:17.591874+00:00
@@ -9920,6 +9952,16 @@ source: agent-surface
 created_at: 2026-09-14T18:46:49.263077+00:00
 
 gw-resolve 2026-09-14: human ruled to leave this new decision node at mid-term rather than promote, since the SWR caching decision isn't implemented yet.
+---
+[event:cbb103f4-44be-474f-b336-2f30025301fb]
+node_id: 07a456b4-8f9a-40ee-977a-9c5f32f06249
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T11:45:18.499892+00:00
+
+10x lifecycle sweep
 ---
 [node:4de33010-13b5-4766-bd90-cffd5f58a7c8]
 type: goal
@@ -13582,8 +13624,8 @@ path: /artifact/k7-mobile-responsive-wireframe-ruling-z
 created_at: 2026-09-15T14:42:15.974385+00:00
 needs_review: false
 retrieval_weight: 1.0
-trust_weight: 0.0
-archived: true
+trust_weight: 1.0
+archived: false
 -> HAS_FACET [node:1afc718d-b700-4331-8d2f-a8eb21690d24] @ 2026-09-15T14:42:15.974385+00:00
 -> CONTRADICTS [node:3218cf7b-eb04-46dc-a6a6-1bd89155936d] @ 2026-09-15T14:42:15.974385+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T14:42:15.974385+00:00
@@ -13700,6 +13742,16 @@ created_at: 2026-10-08T10:58:58.596007+00:00
 
 guided review: superseded
 ---
+[event:d4681482-9d9d-4a6a-beb8-74153c32d780]
+node_id: 1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea
+type: reactivated
+weight: 0.0
+polarity: 1
+source: lifecycle-cli
+created_at: 2026-10-08T11:45:18.499892+00:00
+
+10x lifecycle sweep
+---
 [node:c77c25d1-e7f0-4e2d-894c-b0d4a7744b2b]
 type: concept
 tier: short-term
@@ -13775,7 +13827,7 @@ path: /artifact/k7-mobile-responsive-wireframe-timer-s
 created_at: 2026-09-15T14:42:49.124904+00:00
 needs_review: false
 retrieval_weight: 1.0
-trust_weight: 0.0
+trust_weight: 1.0
 archived: false
 -> DEPENDS_ON [node:97d0c4ba-55ce-407d-8ecd-14a6a1269357] @ 2026-09-15T14:42:49.124904+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T14:42:49.124904+00:00
@@ -19311,6 +19363,16 @@ created_at: 2026-10-08T09:59:28.424345+00:00
 
 activate k7-card-foot-badge
 ---
+[event:e9520ef0-c2bb-497b-9a7c-b6c8a5390b8d]
+node_id: 05a0a900-999c-4203-9580-035e126d56e6
+type: slice_deactivated
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T11:45:18.487518+00:00
+
+merge: deactivate k7-card-foot-badge
+---
 [node:f43a5ad7-013a-4599-81f7-648092f9c407]
 type: goal
 tier: short-term
@@ -19319,7 +19381,7 @@ created_at: 2026-10-08T09:58:01.689900+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:240ae1c0-1cd0-40c2-974e-e5df93897bc9] @ 2026-10-08T09:58:01.689900+00:00
 -> DEPENDS_ON [node:2857d837-0738-48b7-ad69-f09cb90939c1] @ 2026-10-08T09:58:25.384352+00:00
 -> DEPENDS_ON [node:2ee73f47-a258-479c-acf0-5e1a6fbf46b4] @ 2026-10-08T09:58:01.689900+00:00
@@ -19345,6 +19407,16 @@ weight: 0.0
 polarity: 1
 source: lifecycle-cli
 created_at: 2026-10-08T09:59:28.447536+00:00
+
+10x lifecycle sweep
+---
+[event:4904a67c-696a-4c50-8adc-cb6960759b99]
+node_id: f43a5ad7-013a-4599-81f7-648092f9c407
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T11:45:18.499892+00:00
 
 10x lifecycle sweep
 ---
@@ -19422,10 +19494,10 @@ type: issue
 tier: mid-term
 path: /artifact/open-issue-at-phone-width-the-clock-car
 created_at: 2026-10-08T09:58:25.415958+00:00
-needs_review: true
+needs_review: false
 retrieval_weight: 1.0
-trust_weight: 0.0
-archived: false
+trust_weight: 1.0
+archived: true
 -> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-10-08T09:58:41.821638+00:00
 -> HAS_FACET [node:622597fb-68a0-4e83-8aa7-26c6f2a69a5b] @ 2026-10-08T09:58:25.415958+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T09:58:25.415958+00:00
@@ -19483,6 +19555,36 @@ source: agent-surface
 created_at: 2026-10-08T10:17:22.750526+00:00
 
 k7-clock-date-phone-fit: the issue's measurements and the two candidate fixes framed the human ruling
+---
+[event:1e45780b-cd23-4fa4-8655-f159eeefcaab]
+node_id: 726faa94-0439-43a3-8b6a-c2a089d26744
+type: manual_review
+weight: 0.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T11:43:28.767116+00:00
+
+guided resolve: recommended=defer, chose=wrong
+---
+[event:5097c505-0156-4a57-ab1b-03817d6a4efe]
+node_id: 726faa94-0439-43a3-8b6a-c2a089d26744
+type: archived
+weight: 0.0
+polarity: -1
+source: gui-guided
+created_at: 2026-10-08T11:43:28.767116+00:00
+
+guided review: wrong
+---
+[event:64d327f9-8b25-4261-afac-6b6c2abe9e9f]
+node_id: 726faa94-0439-43a3-8b6a-c2a089d26744
+type: contradiction_cleared
+weight: 1.0
+polarity: 1
+source: gui-guided
+created_at: 2026-10-08T11:43:28.767116+00:00
+
+guided review: wrong
 ---
 [node:807a68ee-542b-4717-87ee-351351cf253c]
 type: concept
@@ -19619,3 +19721,18 @@ source: gui
 created_at: 2026-10-08T10:45:45.544024+00:00
 
 tier -> long-term
+---
+[node:2fda4632-61ba-4fe1-90b4-4a31277b7338]
+type: constraint
+tier: mid-term
+path: /artifact/a-merged-memory-graph-dump-is-verified-a
+created_at: 2026-10-08T11:45:05.882765+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:90c2c8b3-fde3-4a43-a97b-d073a56303b8] @ 2026-10-08T11:45:05.882765+00:00
+-> HAS_FACET [node:c62c070b-e4a6-41b3-86f3-00ad5d96800f] @ 2026-10-08T11:45:05.882765+00:00
+-> HAS_FACET [node:f55f3512-314b-47b1-8a0c-2e2cbcc46651] @ 2026-10-08T11:45:05.882765+00:00
+
+A merged memory-graph dump is verified against the database rebuilt from it, never against the merged file. Rebuild it into a scratch store (`agentic-memory --db <scratch>/memory-graph.db sync restore`), then check that every node and event id from both sides is a row there, as well as running `doctor`. In the dump format `---` separates blocks, so the last block of a file has none. A script that joins two dumps without restoring the separator makes the next block's header part of the previous block's body. The store then drops that block silently, while the joined file still parses, still contains the id, and passes a text-level "all ids present" check. Merging the k7 dump on 2026-10-08 lost 2 events this way, and only counting the rebuilt database's rows caught it. Commit the store's own re-dump (`sync dump` from the scratch store), not the script's output, so that formatting quirks of the merge tool never reach git. When two Claude sessions share one store, also stop every process that has the database open before swapping a merged dump in: `sync restore` refuses to rebuild under an open handle, and with auto-sync on, the next write from a still-running MCP server re-dumps the old database over the merged file.
