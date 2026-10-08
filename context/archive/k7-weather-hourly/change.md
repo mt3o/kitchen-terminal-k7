@@ -1,6 +1,7 @@
 # k7-weather-hourly
 
-status: implemented
+status: archived
+archived: 2026-10-08
 created: 2026-10-03
 memory_goal: 7f63f396-9eb4-45f7-ac01-7c072df71923
 change_anchor: 408ed48c-3935-45fa-bd5d-029816361149
@@ -91,3 +92,19 @@ owned the card, the deck and the branch. "K7 weather" wrote the pure module
   - **Not checked on the iPad.**
 - **Captures:** `2de61225`, `9baa87db`, `21b0b80b`, `eab9ac6c`, `d1f56964`,
   plus the K7 weather session's plan captures.
+
+## Archive (2026-10-08)
+
+PR #90 merged into `main` on 2026-10-07 (`7645b7f`). On the user's ruling at
+archive time, eight nodes were promoted to long-term so they survive the sweep:
+the summary `000044d9`, the five deck-cited decisions `f1290406`, `0ea3bd46`,
+`7f4027ac`, `3f599ef1`, `d1f56964`, the dump-merge lesson `90c2c8b3`, and the
+open DST sunrise/sunset defect `9baa87db` (no GitHub issue yet). The summary
+also gained `DEPENDS_ON` edges to every node the `k7-weather-card` deck cites.
+
+`deactivate k7-weather-hourly --sweep` sent 7 nodes dormant: the goal
+`7f63f396` and `0c340910`, `21b0b80b`, `2de61225`, `97369103`, `e0d9cfb5`,
+`eab9ac6c`. They stay reachable from the summary's `DEPENDS_ON` edges.
+
+The design surface `context/design/k7-weather-card/` (one `deck.json`, no
+prototypes, 14 KB) stays where it is.
