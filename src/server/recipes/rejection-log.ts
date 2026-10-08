@@ -20,10 +20,16 @@
  *  never imported from `index.ts` (see file doc comment). */
 const ATTEMPTED_INPUT_FIELD_MAX = 4000
 const ATTEMPTED_INPUT_ARRAY_MAX = 200
+/**
+ * Per-field overrides of the string cap. A recipe's whole method is one
+ * string (`stepsMarkdown`, #102) where it used to be up to 200 strings of
+ * 4000 each, so a long method would come back cut off on PONOW.
+ */
+const ATTEMPTED_INPUT_FIELD_MAX_BY_KEY: Record<string, number> = { stepsMarkdown: 20_000 }
 
-function boundValue(value: unknown): unknown {
-  if (typeof value === 'string') return value.slice(0, ATTEMPTED_INPUT_FIELD_MAX)
-  if (Array.isArray(value)) return value.slice(0, ATTEMPTED_INPUT_ARRAY_MAX).map(boundValue)
+function boundValue(value: unknown, max = ATTEMPTED_INPUT_FIELD_MAX): unknown {
+  if (typeof value === 'string') return value.slice(0, max)
+  if (Array.isArray(value)) return value.slice(0, ATTEMPTED_INPUT_ARRAY_MAX).map((v) => boundValue(v))
   // Every other JSON-native shape (number, boolean, null, a nested object)
   // is already small and already JSON-safe — a submitted recipe body has
   // no reason to carry a large one, so it passes through unbounded rather
@@ -50,6 +56,6 @@ export function sanitizeRejectionInput(
     return scrubbed === undefined ? {} : { value: boundValue(scrubbed) }
   }
   const out: Record<string, unknown> = {}
-  for (const [key, value] of Object.entries(scrubbed)) out[key] = boundValue(value)
+  for (const [key, value] of Object.entries(scrubbed)) out[key] = boundValue(value, ATTEMPTED_INPUT_FIELD_MAX_BY_KEY[key])
   return out
 }

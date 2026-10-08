@@ -11,6 +11,7 @@ import { parse } from 'yaml'
 
 import type { Layout, NormalisedLayout } from '../shared/layout.ts'
 import { stepsMarkdownFrom } from '../shared/recipe-steps.ts'
+import { withLegacySteps } from './recipes/legacy-steps.ts'
 import { isHttpUrl } from '../shared/url.ts'
 import { findConfiguredCalendar } from './calendar-lookup.ts'
 import { layerLayout, type LocalLayout } from './layout-layers.ts'
@@ -790,16 +791,19 @@ app.get('/api/recipes', async (req, reply) => {
       throw error
     }
   }
-  return recipes.list({
-    tag: q.tag,
-    limit: Number.isFinite(limit) ? limit : undefined,
-  })
+  // `steps` is transitional, for kiosks still on the old bundle (recipes/legacy-steps.ts).
+  return (
+    await recipes.list({
+      tag: q.tag,
+      limit: Number.isFinite(limit) ? limit : undefined,
+    })
+  ).map(withLegacySteps)
 })
 
 app.get('/api/recipes/:id', async (req, reply) => {
   const { id } = req.params as { id: string }
   const recipe = await recipes.get(id)
-  return recipe ?? reply.code(404).send({ error: 'no such recipe' })
+  return recipe ? withLegacySteps(recipe) : reply.code(404).send({ error: 'no such recipe' })
 })
 
 app.post('/api/recipes/import', async (req, reply) => {
@@ -817,7 +821,7 @@ app.post('/api/recipes/import', async (req, reply) => {
         logIssue('warn', 'kilo-gateway', 'recipe import: model reader failed, used the markup-only extractors', err)
       },
     })
-    return reply.code(200).send(extracted)
+    return reply.code(200).send(withLegacySteps(extracted))
   } catch (error) {
     if (error instanceof RecipeImportError) {
       const status = error.reason === 'invalid-url' ? 400 : 502
@@ -894,7 +898,7 @@ app.post('/api/recipes', async (req, reply) => {
       stepsMarkdown,
       tags,
     })
-    return reply.code(201).send(recipe)
+    return reply.code(201).send(withLegacySteps(recipe))
   } catch (error) {
     // An id is a file name now; one that would leave the directory is the
     // client's mistake, not a server fault.

@@ -17,6 +17,7 @@ import { RecipeDraftError, type RecipeDrafter, type RecipeDraftErrorReason } fro
 import type { KiloGatewayClient, ModelCatalog } from '../upstream/kilo.ts'
 import type { AiCallRepository, ConversationRepository } from '../ports/repositories.ts'
 import { refusedMarkdown, type RefusedKind } from '../../shared/markdown.ts'
+import { withLegacySteps } from '../recipes/legacy-steps.ts'
 
 /** Defaults mirror docs/handoff/layout.schema.yaml's params.chat. */
 const DEFAULT_MARGIN_PERCENT = 20
@@ -185,10 +186,12 @@ export async function registerChatRoutes(app: FastifyInstance, deps: ChatRouteDe
     const controller = new AbortController()
     req.raw.on('close', () => controller.abort())
     try {
-      return await deps.recipeDrafter.draftFromConversation(
+      const draft = await deps.recipeDrafter.draftFromConversation(
         { conversationId: id, messageId: typeof body.messageId === 'string' ? body.messageId : undefined },
         controller.signal,
       )
+      // `steps` is transitional, for kiosks still on the old bundle (recipes/legacy-steps.ts).
+      return withLegacySteps(draft)
     } catch (err) {
       if (err instanceof RecipeDraftError) {
         return reply.code(RECIPE_DRAFT_STATUS[err.reason]).send({ error: err.message, reason: err.reason })
