@@ -4215,6 +4215,16 @@ created_at: 2026-09-17T10:39:39.883416+00:00
 
 confirmed Slideshow's cross-page, no-visual-slot behavior before leaving pokaz-domowy's cardIds unchanged across the reorg
 ---
+[event:8fb41e2e-5e3f-4ae7-a905-01935e8a6a7a]
+node_id: d2844438-9992-4e20-bfb5-fa615a906574
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:17:23.266018+00:00
+
+Slideshow entity: idle-driven, never paging; the reason it must not write history
+---
 [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f]
 type: entity
 tier: short-term
@@ -4277,6 +4287,16 @@ source: agent-surface
 created_at: 2026-09-23T11:27:30.126874+00:00
 
 Sliced the recipe widget upgrade epic around the Recipe entity's fields (description, source, tags)
+---
+[event:84655612-58e4-4f05-9c5f-34417646ce39]
+node_id: 15863232-0fb0-4c79-aaa9-3750ce8c0a2f
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:18:05.251230+00:00
+
+Recipe entity: chose the stepsMarkdown field name; no steps vocabulary in the domain model
 ---
 [node:5af79def-9364-4086-9b1b-c26f36622dbd]
 type: entity
@@ -6643,6 +6663,16 @@ created_at: 2026-09-17T10:39:39.877752+00:00
 
 Page entity's own 'a card costs a page, not shrinking existing ones' principle directly shaped the reorg's per-page grouping
 ---
+[event:324c3396-8f2f-4b40-9aea-024665a6e6ce]
+node_id: e1da2600-04f7-4243-bb85-f79692e086ae
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:17:23.268537+00:00
+
+Page entity: 'changed deliberately' is exactly what makes a page change a history entry
+---
 [node:e156fb5f-8f05-400a-812b-e0552df1def3]
 type: constraint
 tier: mid-term
@@ -8281,6 +8311,16 @@ source: agent-surface
 created_at: 2026-09-25T07:11:57.062456+00:00
 
 reviewer checked auto-tagging keeps POST /api/recipes as the only write path
+---
+[event:a8b7c297-6eea-4c7a-83d0-32613326bfda]
+node_id: a0e8d46f-ac32-4c55-ba72-daab617c78e8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:18:05.272659+00:00
+
+import still returns an unsaved draft; stepsMarkdown flows through the same review form before POST /api/recipes
 ---
 [node:1eee1694-5c04-4e38-ad65-5d933789a15a]
 type: decision
@@ -10389,6 +10429,26 @@ created_at: 2026-10-08T15:26:34.541234+00:00
 
 tier -> long-term: guided review tier move
 ---
+[event:dcd3e348-1fad-4912-be23-ef95f1e4689a]
+node_id: 009b7439-07c7-402f-ad22-664beda93a4d
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:17:23.247236+00:00
+
+k7-deep-links: applying a page route releases manual fullscreen BEFORE pager.go, because pager.go repaints the .pager-track transform that fullscreen-lock clears while anything is promoted
+---
+[event:051b5808-b22a-46c5-bce4-be2007bb9e8d]
+node_id: 009b7439-07c7-402f-ad22-664beda93a4d
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:24:02.710182+00:00
+
+k7-weather-fullscreen: relied on both classes landing on the host to key one rule set for both causes
+---
 [node:dd4d0966-8c77-4e9d-a6af-7f8cd54c0a39]
 type: constraint
 tier: mid-term
@@ -10724,6 +10784,16 @@ source: agent-surface
 created_at: 2026-09-15T06:45:54.387855+00:00
 
 Verified promotedElIdStore/manualElIdStore Svelte stores bridge fullscreen-lock.ts to Card.svelte and main.ts as designed.
+---
+[event:ad753bd3-b031-453d-a7f3-ca71443d7e31]
+node_id: 5ab29a2b-dbe9-45e5-977e-3d21bc2359b6
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:17:23.263351+00:00
+
+k7-deep-links subscribes to manualElIdStore (not promotedElIdStore) so the Slideshow never produces a router event
 ---
 [node:ce2dbda2-1e9b-4f80-8757-871c05d6e031]
 type: decision
@@ -11263,6 +11333,16 @@ created_at: 2026-09-15T06:45:54.391660+00:00
 
 Verified main.ts's render() calls fullscreenLock.configure({track, pager, slideshow}) at the end of every render, and configure() resets pure state to {null,null}.
 ---
+[event:912aff57-3bec-40f4-8372-24204568d008]
+node_id: 2588c22e-bc07-4cef-a0ea-891b28f59170
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:17:23.259506+00:00
+
+k7-deep-links: because render() rebuilds deck/pager/lock on every boot, the router holds an applying window during render and re-applies the URL route after it, which also restores a manual fullscreen or open recipe after pull-to-refresh
+---
 [node:c53157eb-64a3-41b1-be47-d357431a54dc]
 type: decision
 tier: short-term
@@ -11330,7 +11410,7 @@ type: constraint
 tier: mid-term
 path: /artifact/real-bug-found-only-via-real-browser-tes
 created_at: 2026-09-15T06:33:57.045571+00:00
-needs_review: false
+needs_review: true
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
@@ -11360,6 +11440,16 @@ source: agent-surface
 created_at: 2026-09-15T06:45:54.392871+00:00
 
 Verified Card.svelte replaced the reactive onclick binding with stable onPointerDown/onActivate handlers plus a suppressClick flag — traced through double-tap and undefined-hostId edge cases, internally consistent, no remaining race.
+---
+[event:c80d88d8-efc1-4e82-bedf-27db0a7688f2]
+node_id: 2b7b465d-27c4-410b-8cfe-f1c9ffc38ebc
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-10-08T16:22:23.244914+00:00
+
+contradicted at capture of 89241737-b262-4692-8c7d-8a6721df37b3
 ---
 [node:120b8fee-0b13-4f45-b299-02891df32e02]
 type: constraint
@@ -15503,6 +15593,16 @@ created_at: 2026-09-24T12:35:26.277964+00:00
 
 gw-review Part 1: ran test/recipe-files.test.ts — round-trip and 'omits empty description' tests pass, confirming ## Opis is placed before ## Składniki and omitted when empty.
 ---
+[event:9b143d9c-2a50-402c-a4c7-d7d9143b5688]
+node_id: ae75daef-842b-44d7-8deb-1f149024542b
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:18:05.284257+00:00
+
+description section format untouched; Kroki section format changed alongside it
+---
 [node:f55f3512-314b-47b1-8a0c-2e2cbcc46651]
 type: facet_value
 tier: lifetime
@@ -15923,6 +16023,16 @@ created_at: 2026-09-24T15:37:26.571337+00:00
 
 Verified RecipeDraft has no id field in live k7-events.ts, confirming the round-1 fix's factual premise still holds and the fix (threading id via openReview options) is necessary and correctly described.
 ---
+[event:5dea9bb2-788f-4b17-aa61-168ae8057ed6]
+node_id: aa18e4c8-820e-4b6f-b3e5-53775d17099b
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:18:05.262309+00:00
+
+RecipeDraft in k7-events.ts again had to be changed by hand alongside the server Recipe type (steps -> stepsMarkdown)
+---
 [node:8693c851-b3d6-4d2d-a197-429a2eebfb89]
 type: issue
 tier: short-term
@@ -16264,6 +16374,16 @@ source: gui-guided
 created_at: 2026-10-08T15:26:34.245706+00:00
 
 tier -> long-term: guided review tier move
+---
+[event:340faa06-b5c3-47a8-8bf4-3f740aa2c968]
+node_id: f769a5a7-379d-49c0-9844-9fca4340bfae
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:18:05.269110+00:00
+
+same untrusted-hand-edited-file reasoning applied to the steps Markdown render
 ---
 [node:35144eed-a808-46a4-82cf-674e6f749531]
 type: facet_value
@@ -16687,6 +16807,16 @@ created_at: 2026-09-25T07:11:57.024101+00:00
 
 all three reviewers found recipe routes still lack app.inject tests; logic verified via pure-module tests and live curl instead
 ---
+[event:ebf51a7e-244e-41c7-9493-280924157173]
+node_id: 925056b0-26de-4cb2-a564-a35c11c2a9da
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:18:05.286489+00:00
+
+still no HTTP tests for POST /api/recipes; legacy steps body verified by curl against a scratch server plus unit tests of stepsMarkdownFrom
+---
 [node:4491886e-f636-46d4-89df-68120fea4f9b]
 type: decision
 tier: short-term
@@ -17014,6 +17144,16 @@ source: gui
 created_at: 2026-10-08T10:27:45.078421+00:00
 
 confirmed as part of the domain model
+---
+[event:f7667947-0434-4eae-9d7e-60dde83e3450]
+node_id: 77ae64a2-d55b-4c37-a4b1-5c5503340179
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:18:05.275744+00:00
+
+PONOW on a pre-change rejection reads its steps array as a numbered list; browser-verified
 ---
 [node:e4745884-a5db-4d16-9bed-430cd2b6449c]
 type: decision
@@ -17942,6 +18082,16 @@ created_at: 2026-09-25T07:11:57.054839+00:00
 
 search tests prove priority order, AND, diacritic folding and ranked paging; reviewer checked no base-9 carry
 ---
+[event:935b4baa-945d-45a3-89b7-7456c68b9007]
+node_id: dda883c2-a474-458f-ba53-c60d32f54446
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:18:05.279503+00:00
+
+steps search field now scans stepsMarkdown text; ranking order unchanged
+---
 [node:7f98639c-a8ed-4e4e-a7e6-94d01476d76b]
 type: goal
 tier: short-term
@@ -18083,6 +18233,16 @@ archived: false
 -> DEPENDS_ON [node:ada6f63c-2d08-4da0-8c6c-15ddd0afd6ff] @ 2026-09-25T07:11:31.911963+00:00
 
 Change summary: k7-recipe-auto-tags (slice 4/8 of epic k7-recipe-widget-upgrade): a recipe saved with empty tags gets 1-4 tags from one synchronous kilo-auto/free call. The call has a 15 s timeout, is prompted from title, description, ingredients and steps, and is recorded as an AiCall with purpose recipe-tagging, which needed no migration because the purpose column has no CHECK constraint. Tags the household typed are never touched. Any failure saves the recipe untagged with a warn in the issue log, and a missing gateway key means no tagging at all. The policy lives in the pure fillMissingTags (src/server/ai/recipe-tagger.ts) because recipe routes have no HTTP tests. /gw-review approved it; the rework moved the recipe-id validation ahead of the model call, pinned the timeout in a test, and fixed '#' stripping. Accepted as designed: a save that clears the tags gets new ones generated.
+---
+[event:9adb8141-867f-4e34-936b-5c244825ec8b]
+node_id: 42b05a7d-bee4-422e-b86b-b7841fa368ab
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:18:05.282313+00:00
+
+tagging prompt now sends the steps Markdown as-is
 ---
 [node:76109a6c-0cf8-4ef5-bfce-758585562252]
 type: concept
@@ -18320,6 +18480,16 @@ created_at: 2026-10-05T16:59:20.261366+00:00
 
 presenting vs maximized split drove separate screens 2 and 3 with different sizing and scroll rules
 ---
+[event:806ef444-7d72-4391-b5aa-5dc7424dacd1]
+node_id: 8b25dd73-dac8-4c2e-87a3-0e9e743d7a65
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:24:02.696594+00:00
+
+k7-weather-fullscreen: the presenting-vs-manual split is what weather deliberately departs from; read to decide keying on k7-fullscreen-active
+---
 [node:465e38f0-6160-447f-891a-ebb5b55474c8]
 type: constraint
 tier: mid-term
@@ -18378,6 +18548,16 @@ source: agent-surface
 created_at: 2026-10-05T18:11:19.935496+00:00
 
 maximized/presenting graph styling planned in K7Weather's own shadow CSS
+---
+[event:397c9f55-28bc-4606-84c2-ae371e4d6cec]
+node_id: 465e38f0-6160-447f-891a-ebb5b55474c8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:24:02.707392+00:00
+
+k7-weather-fullscreen: the manual-fullscreen look works from :host(.k7-fullscreen-active) in K7Weather's own shadow CSS, nothing in app.css; verified in Chromium
 ---
 [node:1c30a45a-1298-4729-b4e1-88340649a03b]
 type: constraint
@@ -19583,6 +19763,16 @@ created_at: 2026-10-08T09:59:54.570507+00:00
 
 tier -> long-term: human ruling 2026-10-08, gw-archive k7-weather-hourly
 ---
+[event:e3bb4981-42a0-4260-8140-c672e5b95839]
+node_id: 3f599ef1-912c-4bd6-92d3-7fc563029b66
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:24:02.704110+00:00
+
+k7-weather-fullscreen: the landscape two-column / portrait stacked layout is reused unchanged for manual fullscreen
+---
 [node:7f4027ac-0840-42de-8d36-4ef0390853e5]
 type: decision
 tier: long-term
@@ -19945,7 +20135,7 @@ type: decision
 tier: long-term
 path: /artifact/decided-2026-10-05-k7-weather-hourly-u
 created_at: 2026-10-05T18:32:58.020477+00:00
-needs_review: false
+needs_review: true
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
@@ -19990,6 +20180,16 @@ source: gui
 created_at: 2026-10-08T09:59:54.663948+00:00
 
 tier -> long-term: human ruling 2026-10-08, gw-archive k7-weather-hourly
+---
+[event:45cfa6c1-6b4a-4eaf-bc3e-670b150820aa]
+node_id: d1f56964-8088-492c-8c6c-898874ff7564
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-10-08T16:22:22.925395+00:00
+
+contradicted at capture of 487f72d5-7f46-4273-a00e-f4f83543686c
 ---
 [node:3a19fedf-6a0d-4315-8ab7-d2e633232219]
 type: goal
@@ -20161,6 +20361,16 @@ source: gui
 created_at: 2026-10-08T09:59:54.156559+00:00
 
 tier -> long-term: human ruling 2026-10-08, gw-archive k7-weather-hourly
+---
+[event:56ef1089-8b8e-4556-90df-e3382f55aa48]
+node_id: 000044d9-924e-4568-8c20-de416173ddd2
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:24:02.712778+00:00
+
+k7-weather-fullscreen: the withdrawn [ + ] and its 44px head cost were the starting point for the text-rank button
 ---
 [node:90c2c8b3-fde3-4a43-a97b-d073a56303b8]
 type: constraint
@@ -21204,6 +21414,16 @@ created_at: 2026-10-08T15:34:15.549494+00:00
 
 human: "your wording, constraint, long-term" — DESIGN.md §6.1 was never distilled into the graph and four changes rediscovered it independently
 ---
+[event:f6be6adb-428e-4c2a-9482-2c58463e42be]
+node_id: 22760f17-2bf2-43de-bc9c-79d79f32f51a
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:24:02.714835+00:00
+
+k7-weather-fullscreen: head zone structure read to place the text-rank [ + ] in .card-head-right without wrapping
+---
 [node:0e6c918c-3122-4daf-a441-5adef6a4c208]
 type: constraint
 tier: mid-term
@@ -21724,6 +21944,16 @@ created_at: 2026-10-08T13:20:24.511773+00:00
 
 replayed 2026-10-08 from memory-backlog.md: the pre-existing repo list() applied limit before the tag filter; the file adapter filters first
 ---
+[event:d838c42a-e311-460c-a63e-9e5edef890a2]
+node_id: f5e505dd-01c5-4df2-8b83-6b7cd67246c0
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:18:05.265372+00:00
+
+file store is the live store; SQLite only migration source, so no Drizzle migration for stepsMarkdown
+---
 [node:d0109057-6ba9-4fa2-8d00-6e63390341f4]
 type: invariant
 tier: mid-term
@@ -21771,6 +22001,16 @@ archived: false
 -> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-10-08T13:20:22.276231+00:00
 
 Cards talk to each other only through window CustomEvents defined in client/lib/k7-events.ts. The receiver answers by writing into event.detail (dispatch is synchronous), so the sender can report "no timer in the layout" or "timer busy" honestly. Bringing a card on screen (pager plus menu tab) is main.ts's job alone (k7-reveal → k7-menu-select).
+---
+[event:3d2e1525-502a-4f03-8fda-c096a87f8655]
+node_id: b458394d-e8b9-4e1a-a17e-f2539e1047b3
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:17:23.255766+00:00
+
+k7-deep-links followed it: main.ts asks the recipes card via k7-recipe-open/k7-recipe-close (answer in event.detail, synchronous) and the card announces k7-recipe-shown; reveal still goes through k7-reveal. Pattern held without changes.
 ---
 [node:37bf679b-880e-4640-acf6-e517283c6b76]
 type: constraint
@@ -22082,3 +22322,262 @@ source: gui
 created_at: 2026-10-08T15:34:15.549494+00:00
 
 human: "your wording, constraint, long-term" — DESIGN.md §6.1 was never distilled into the graph and four changes rediscovered it independently
+---
+[node:1588dc1a-edce-47a5-9994-091847ffcc50]
+type: slice
+tier: short-term
+path: /change/k7-weather-fullscreen
+created_at: 2026-10-08T16:02:06.670094+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:14c6d1a8-efc5-4a62-af94-75c47741967f] @ 2026-10-08T16:22:09.692234+00:00
+-> SCOPED_TO [node:487f72d5-7f46-4273-a00e-f4f83543686c] @ 2026-10-08T16:22:22.925395+00:00
+-> SCOPED_TO [node:7dfbcf12-be19-4ecf-8879-106ef9e129e6] @ 2026-10-08T16:02:06.670094+00:00
+-> SCOPED_TO [node:89241737-b262-4692-8c7d-8a6721df37b3] @ 2026-10-08T16:22:23.244914+00:00
+
+change scope: k7-weather-fullscreen
+---
+[event:eb35980e-cd51-47f0-ac8b-13fceb388736]
+node_id: 1588dc1a-edce-47a5-9994-091847ffcc50
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:02:06.674525+00:00
+
+create_change k7-weather-fullscreen
+---
+[node:7dfbcf12-be19-4ecf-8879-106ef9e129e6]
+type: goal
+tier: short-term
+path: /goal/k7-weather-fullscreen
+created_at: 2026-10-08T16:02:06.670094+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:14c6d1a8-efc5-4a62-af94-75c47741967f] @ 2026-10-08T16:22:09.692234+00:00
+-> DEPENDS_ON [node:487f72d5-7f46-4273-a00e-f4f83543686c] @ 2026-10-08T16:22:22.925395+00:00
+-> DEPENDS_ON [node:89241737-b262-4692-8c7d-8a6721df37b3] @ 2026-10-08T16:22:23.244914+00:00
+
+Give the weather card the manual fullscreen button, and in manual fullscreen show the full forecast and the hourly graphs instead of the stretched grid-cell layout.
+---
+[node:aa90b0bf-41fc-47bb-b821-520c476415be]
+type: slice
+tier: short-term
+path: /change/k7-recipe-steps-markdown
+created_at: 2026-10-08T16:02:25.032892+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:00804cd1-9356-4f6e-afcd-1be6247e976b] @ 2026-10-08T16:17:39.806058+00:00
+-> SCOPED_TO [node:0d45017b-7e5d-4dd8-a909-bd33519ced40] @ 2026-10-08T16:17:39.484404+00:00
+-> SCOPED_TO [node:bec961df-3f1f-4c69-a4d9-9a959bbe7f73] @ 2026-10-08T16:17:33.504668+00:00
+-> SCOPED_TO [node:c7d65819-0bd7-4609-8d2b-e4e9386624c0] @ 2026-10-08T16:02:25.032892+00:00
+
+change scope: k7-recipe-steps-markdown
+---
+[event:001f128f-6425-4d48-a637-4bd2abdf70cd]
+node_id: aa90b0bf-41fc-47bb-b821-520c476415be
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:02:25.046024+00:00
+
+create_change k7-recipe-steps-markdown
+---
+[node:c7d65819-0bd7-4609-8d2b-e4e9386624c0]
+type: goal
+tier: short-term
+path: /goal/k7-recipe-steps-markdown
+created_at: 2026-10-08T16:02:25.032892+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:00804cd1-9356-4f6e-afcd-1be6247e976b] @ 2026-10-08T16:17:39.806058+00:00
+-> DEPENDS_ON [node:0d45017b-7e5d-4dd8-a909-bd33519ced40] @ 2026-10-08T16:17:39.484404+00:00
+-> DEPENDS_ON [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-10-08T16:02:25.032892+00:00
+-> DEPENDS_ON [node:bec961df-3f1f-4c69-a4d9-9a959bbe7f73] @ 2026-10-08T16:17:33.504668+00:00
+
+A Recipe's steps are one household-written Markdown document, rendered XSS-safe with duration timer buttons and no forced numbering, while legacy string[] steps still load as a numbered list.
+---
+[node:99a85019-f436-45d1-9048-99bf532fd62a]
+type: slice
+tier: short-term
+path: /change/k7-deep-links
+created_at: 2026-10-08T16:02:50.834588+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:33db65ff-c822-46b0-a01b-1f9bb0b783ae] @ 2026-10-08T16:16:58.342953+00:00
+-> SCOPED_TO [node:a61d23a2-594c-4bf3-8513-74952ef86b05] @ 2026-10-08T16:02:50.834588+00:00
+-> SCOPED_TO [node:ece5561d-8f91-4c13-aac1-19ab0a619b9a] @ 2026-10-08T16:16:58.734668+00:00
+
+change scope: k7-deep-links
+---
+[event:83c69b23-62ab-444d-ab67-8b7f1644e101]
+node_id: 99a85019-f436-45d1-9048-99bf532fd62a
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T16:02:50.851238+00:00
+
+create_change k7-deep-links
+---
+[node:a61d23a2-594c-4bf3-8513-74952ef86b05]
+type: goal
+tier: short-term
+path: /goal/k7-deep-links
+created_at: 2026-10-08T16:02:50.834588+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:33db65ff-c822-46b0-a01b-1f9bb0b783ae] @ 2026-10-08T16:16:58.342953+00:00
+-> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-10-08T16:02:50.834588+00:00
+-> DEPENDS_ON [node:ece5561d-8f91-4c13-aac1-19ab0a619b9a] @ 2026-10-08T16:16:58.734668+00:00
+
+Push dashboard state (page, manual fullscreen card, open recipe) to a hash URL so a link reopens the same view and Back undoes the last human navigation, without the Slideshow ever touching history.
+---
+[node:33db65ff-c822-46b0-a01b-1f9bb0b783ae]
+type: decision
+tier: mid-term
+path: /artifact/deep-links-use-hash-routing-with-three-r
+created_at: 2026-10-08T16:16:58.342953+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-10-08T16:16:58.342953+00:00
+-> HAS_FACET [node:35144eed-a808-46a4-82cf-674e6f749531] @ 2026-10-08T16:16:58.342953+00:00
+-> HAS_FACET [node:35785afc-98d7-4d52-8dbb-b9934f2dc34e] @ 2026-10-08T16:16:58.342953+00:00
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-10-08T16:16:58.342953+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T16:16:58.342953+00:00
+-> DEPENDS_ON [node:b458394d-e8b9-4e1a-a17e-f2539e1047b3] @ 2026-10-08T16:16:58.342953+00:00
+-> ABOUT [node:e1da2600-04f7-4243-bb85-f79692e086ae] @ 2026-10-08T16:16:58.342953+00:00
+
+Deep links use hash routing with three routes: #/p/<pageId>, #/p/<pageId>/card/<cardId>?fs=1 (a card a person holds fullscreen) and #/recipe/<recipeId>, keyed by layout.yaml page/card ids and the recipe file store's ids. Hash, not path, because the PWA shell is precached and the server needs no fallback route. The URL names the most specific thing open: an open recipe outranks the page (paging away from it does not push, since it stays open in its card), and a manual fullscreen card outranks its page. Anything a link names that this layout cannot show (unknown page or card, a card without Card.svelte's fullscreen button, a missing recipe) falls back silently: the UI does what it can and the router replaceStates the URL to what is actually on screen, never an error. The pure half (parse/serialize, deepLinkReducer, a DOM-free router over a host adapter) is src/client/lib/deep-link.ts; main.ts wires it to pager onChange, fullscreen-lock's manualElIdStore and the recipes card's k7-recipe-open/close/shown events.
+---
+[node:ece5561d-8f91-4c13-aac1-19ab0a619b9a]
+type: invariant
+tier: mid-term
+path: /artifact/only-human-navigation-writes-browser-his
+created_at: 2026-10-08T16:16:58.734668+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:009b7439-07c7-402f-ad22-664beda93a4d] @ 2026-10-08T16:16:58.734668+00:00
+-> HAS_FACET [node:35785afc-98d7-4d52-8dbb-b9934f2dc34e] @ 2026-10-08T16:16:58.734668+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T16:16:58.734668+00:00
+-> ABOUT [node:d2844438-9992-4e20-bfb5-fa615a906574] @ 2026-10-08T16:16:58.734668+00:00
+
+Only human navigation writes browser history; the Slideshow never does, not even replaceState. This holds by construction rather than by a check: the deep-link router observes fullscreen-lock's manualElIdStore (the manual owner), never promotedElIdStore, so a Slideshow entering, rotating and leaving fullscreen produces no router event at all, and the Slideshow does not page. The second half of the same rule: while a route is being applied (cold load, Back/Forward, a re-render after reconnect or pull-to-refresh) the UI's own page/fullscreen/recipe events are recorded but never pushed, and the URL is only replaceState-corrected at the end. That applying window is what makes popstate loop-free and stops a Back press from fighting the pager. Anyone adding a new source of history (calendar events, menu tabs) must feed it through the same reducer and must not subscribe it to anything the Slideshow drives.
+---
+[node:bec961df-3f1f-4c69-a4d9-9a959bbe7f73]
+type: decision
+tier: mid-term
+path: /artifact/owner-s-decision-2026-10-08-github-10
+created_at: 2026-10-08T16:17:33.504668+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-10-08T16:17:33.504668+00:00
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-10-08T16:17:33.504668+00:00
+-> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-10-08T16:17:33.504668+00:00
+-> HAS_FACET [node:f55f3512-314b-47b1-8a0c-2e2cbcc46651] @ 2026-10-08T16:17:33.504668+00:00
+-> DEPENDS_ON [node:f5e505dd-01c5-4df2-8b83-6b7cd67246c0] @ 2026-10-08T16:17:33.504668+00:00
+
+Owner's decision (2026-10-08, GitHub #102): a Recipe's method is ONE Markdown document, Recipe.stepsMarkdown: string, not steps: string[] rendered per item — a sub-list or a "Krem" heading cannot live inside one string per step. There is no on-disk rewrite: the legacy string[] shape (old SQLite rows, POST bodies from a cached PWA bundle, RecipeRejection attemptedInput saved before the change, every importer's and model's step array) is read as a numbered Markdown list "1. …\n2. …" via src/shared/recipe-steps.ts (numberedSteps / stepsMarkdownFrom), so old recipes keep a visible order; a save writes the new shape. In a recipe file the `## Kroki` section is kept verbatim and was already a numbered list. Models (import agent, /przepis drafter) still answer with a steps array — the JSON-schema contract and the "steps echo the ingredients" check stay — and the conversion happens after validation. The SQLite recipes table got no migration: its JSON `steps` column holds a string[] (legacy) or a JSON string (saved since), told apart on read, because the table is only the files store's migration source and rollback path.
+---
+[node:0d45017b-7e5d-4dd8-a909-bd33519ced40]
+type: decision
+tier: short-term
+path: /artifact/in-a-recipe-md-file-src-server-recipes
+created_at: 2026-10-08T16:17:39.484404+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-10-08T16:17:39.484404+00:00
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-10-08T16:17:39.484404+00:00
+-> DEPENDS_ON [node:bec961df-3f1f-4c69-a4d9-9a959bbe7f73] @ 2026-10-08T16:17:39.484404+00:00
+-> HAS_FACET [node:f55f3512-314b-47b1-8a0c-2e2cbcc46651] @ 2026-10-08T16:17:39.484404+00:00
+
+In a recipe .md file (src/server/recipes/markdown-format.ts) the `## Kroki` section is read verbatim as Recipe.stepsMarkdown and runs until a heading (level <= 3) that names ANOTHER known section (Opis/Składniki and their aliases) — not until any same-level heading, as the list sections still do. Without that, a method containing `## Krem` would lose everything after it on the next read, and a hand-made file's trailing `## Uwagi` is now shown as part of the method instead of silently dropped. The writer closes the remaining hole: a heading inside the method that names another section is pushed to level 4 on serialize, so a save can never move part of the method into the ingredients. A file with `## Kroki` before `## Składniki` still reads both.
+---
+[node:00804cd1-9356-4f6e-afcd-1be6247e976b]
+type: constraint
+tier: mid-term
+path: /artifact/the-recipe-detail-view-renders-recipe-st
+created_at: 2026-10-08T16:17:39.806058+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-10-08T16:17:39.806058+00:00
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-10-08T16:17:39.806058+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T16:17:39.806058+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-10-08T16:17:39.806058+00:00
+-> DEPENDS_ON [node:f769a5a7-379d-49c0-9844-9fca4340bfae] @ 2026-10-08T16:17:39.806058+00:00
+
+The recipe detail view renders Recipe.stepsMarkdown — household-written and hand-editable on disk, so untrusted input like sourceUrl — through the chat's allowlist renderer, renderMarkdown in src/shared/markdown.ts (raw HTML escaped to visible text, links only http/https, only ALLOWED_TAGS emitted), and only then runs linkDurations over that output (src/client/lib/recipe-steps.ts#renderRecipeSteps). The order is load-bearing: linkDurations splits on tags and assumes no text segment contains a raw `<`, and it skips text inside <a>, <code> and <pre> so a duration in a link label or code never becomes a nested button. Any new {@html} of recipe text must go through the same function, never linkDurations on raw text or escapeHtml alone.
+---
+[node:14c6d1a8-efc5-4a62-af94-75c47741967f]
+type: decision
+tier: mid-term
+path: /artifact/decided-2026-10-08-k7-weather-fullscree
+created_at: 2026-10-08T16:22:09.692234+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:3f599ef1-912c-4bd6-92d3-7fc563029b66] @ 2026-10-08T16:22:09.692234+00:00
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-10-08T16:22:09.692234+00:00
+-> DEPENDS_ON [node:8b25dd73-dac8-4c2e-87a3-0e9e743d7a65] @ 2026-10-08T16:22:09.692234+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T16:22:09.692234+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-10-08T16:22:09.692234+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-10-08T16:22:09.692234+00:00
+
+Decided 2026-10-08 (k7-weather-fullscreen, issue #101): the weather card's manual fullscreen ([ + ]) shows the same big view as the Slideshow presentation: every forecast day and the hourly graphs, landscape side by side, portrait stacked, with the same drop order. The clock and calendar keep their big look presentation-only ([node:8b25dd73]: a card opened by hand is meant to be used in its ordinary shape). Weather is the exception because its ordinary shape has nothing to use: no controls and nothing to scroll to, so the cell layout stretched to the screen is three days and empty floor. Mechanism: K7Weather.svelte derives `expanded` from promotedElIdStore (set for both causes) instead of presentingElIdStore, and its big-look CSS matches :host(.k7-fullscreen-active), which fullscreen-lock.ts puts on the host for both causes. One rule stays presentation-only: `overflow: hidden` on .wrap, because nobody scrolls a presentation but a person holding the tablet can, so manual fullscreen scrolls what does not fit (measured: 20px at 667x375 without hourly data). fullscreen-lock.ts was not changed. Rejected: a separate manual-only layout (a third look to keep in step), and duplicating every presenting rule under a second selector.
+---
+[node:487f72d5-7f46-4273-a00e-f4f83543686c]
+type: decision
+tier: mid-term
+path: /artifact/card-svelte-has-a-fullscreenrank-prop
+created_at: 2026-10-08T16:22:22.925395+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-10-08T16:22:22.925395+00:00
+-> HAS_FACET [node:68773fd1-2296-4527-b027-8d5d6c699ece] @ 2026-10-08T16:22:22.925395+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T16:22:22.925395+00:00
+-> CONTRADICTS [node:d1f56964-8088-492c-8c6c-898874ff7564] @ 2026-10-08T16:22:22.925395+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-10-08T16:22:22.925395+00:00
+
+Card.svelte has a fullscreenRank prop ('ghost' default | 'text', DESIGN.md §8 button ranks), added 2026-10-08 for the weather card (issue #101). The text rank draws [ + ] as bare bracketed text one head line high (min-height 0, no padding, border-style none) and keeps the 44px --control-h-sm touch target as an invisible ::before hit area centred on the label (top/bottom: calc(50% - var(--control-h-sm) / 2)), reaching into the card padding above and the head-to-body gap below. Hover and press raise the ink to --fg instead of filling, since a 44px fill would cross the head rule. Measured in Chromium: the weather head stays 32px at 1024x768 and 28px at phone width, identical to before; the ghost button made it 53px and cut the 3-day row by 14px. This reverses the k7-weather-hourly ruling that the weather card gets no [ + ] at all, which was a height trade, not a dislike of the button. Use the text rank for any card whose cell has no row to spare; the ghost rank stays for cards with room. Rejected: putting [ + ] in the footer (same 44px growth), shrinking the target below 44px, and taking the 21px from the weather body.
+---
+[node:89241737-b262-4692-8c7d-8a6721df37b3]
+type: constraint
+tier: mid-term
+path: /artifact/svelte-5-registers-ontouchstart-and
+created_at: 2026-10-08T16:22:23.244914+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> CONTRADICTS [node:2b7b465d-27c4-410b-8cfe-f1c9ffc38ebc] @ 2026-10-08T16:22:23.244914+00:00
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-10-08T16:22:23.244914+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T16:22:23.244914+00:00
+-> HAS_FACET [node:f72e97e8-5a21-47a3-b30d-b201d70d7593] @ 2026-10-08T16:22:23.244914+00:00
+
+Svelte 5 registers `ontouchstart` (and `ontouchmove`) as a passive listener, so event.preventDefault() inside such a handler is silently ignored (Chrome logs "Unable to preventDefault inside passive event listener invocation"). Card.svelte's fullscreen button relied on that preventDefault to stop the browser synthesizing a trailing mousedown and click after the acquiring touch. With the listener passive, they arrived anyway. On the second event, isManuallyMine was already true, so the click released the fullscreen the same tap had just acquired. This only happens when the promoted card's [ x ] sits where its [ + ] was. A promoted card spends its first moments at the deck's size, so a card in the top-right cell keeps its button in place. The weather card on GLOWNA at 1024x768 hit this every time. The calendar escaped only because its button moves away. Fixed 2026-10-08: the listener is added by hand with addEventListener('touchstart', handler, { passive: false }) in an $effect. Rule: any touch handler that must call preventDefault is attached this way, never through the on* attribute.
