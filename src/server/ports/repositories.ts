@@ -71,6 +71,8 @@ export interface IssueLogRepository {
   listRecent(limit?: number): Promise<IssueLogEntry[]>
   /** Keeps a kiosk nobody restarts from growing this table forever. Returns the row count removed. */
   prune(olderThan: Date): Promise<number>
+  /** The popup's WYCZYŚĆ — everything, regardless of age. Returns the row count removed. */
+  clear(): Promise<number>
 }
 
 export interface RecipeRejectionRepository {

@@ -32,6 +32,7 @@ let store: CredentialStore
 let tokenResponse: unknown
 let tokenStatus: number
 let revoked: string[]
+let issues: string[]
 
 function fakeFetch(): typeof fetch {
   return (async (input: RequestInfo | URL, init?: RequestInit) => {
@@ -60,9 +61,10 @@ async function build(overrides: { adminToken?: string; clientId?: string; redire
   db = openDatabase(':memory:')
   runMigrations(db)
   store = createCredentialStore(db, KEY)
-  tokenResponse = { refresh_token: 'granted-refresh', access_token: 'access', scope: 'calendar.readonly' }
+  tokenResponse = { refresh_token: 'granted-refresh', access_token: 'access', scope: 'https://www.googleapis.com/auth/calendar.readonly openid' }
   tokenStatus = 200
   revoked = []
+  issues = []
   app = Fastify()
   await registerAdminGoogleRoutes(app, {
     adminToken: overrides.adminToken ?? TOKEN,
@@ -76,6 +78,7 @@ async function build(overrides: { adminToken?: string; clientId?: string; redire
     ),
     states: createStateStore(),
     reportError: () => {},
+    reportIssue: (message) => issues.push(message),
     fetchImpl: fakeFetch(),
   })
   await app.ready()
@@ -196,6 +199,43 @@ describe('consent flow', () => {
     tokenResponse = { access_token: 'access', scope: 'x' }
     const res = await app.inject({ method: 'GET', url: `/api/admin/google/callback?code=abc&state=${state}` })
     assert.equal(res.statusCode, 502)
+  })
+
+  it('refuses a grant without calendar access, keeps the previous credential and logs why', async () => {
+    await connect()
+    tokenResponse = {
+      refresh_token: 'email-only-refresh',
+      access_token: 'access',
+      scope: 'https://www.googleapis.com/auth/userinfo.email openid',
+    }
+    const res = await connect()
+    assert.equal(res.statusCode, 400)
+    assert.ok(res.body.includes('kalendarz'))
+    const stored = await store.read()
+    assert.equal(stored.status === 'ok' && stored.credential.refreshToken, 'granted-refresh')
+    assert.equal(issues.length, 1)
+    assert.ok(issues[0]!.includes('calendar.readonly'))
+    // Revoking at Google would take the previous, still-good grant down with it.
+    assert.deepEqual(revoked, [])
+  })
+
+  it('refuses a grant whose token response names no scope at all', async () => {
+    tokenResponse = { refresh_token: 'unscoped-refresh', access_token: 'access' }
+    const res = await connect()
+    assert.equal(res.statusCode, 400)
+    assert.deepEqual(await store.read(), { status: 'absent' })
+    assert.equal(issues.length, 1)
+  })
+
+  it('accepts the full calendar scope as calendar access', async () => {
+    tokenResponse = {
+      refresh_token: 'full-refresh',
+      access_token: 'access',
+      scope: 'https://www.googleapis.com/auth/calendar',
+    }
+    const res = await connect()
+    assert.equal(res.statusCode, 200)
+    assert.deepEqual(issues, [])
   })
 
   it('refuses to start without a redirect URI rather than inventing one', async () => {

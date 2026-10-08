@@ -47,7 +47,7 @@ export interface IssueLogUi {
 }
 
 /**
- * Wires the open/close buttons and the fetch-on-first-open behaviour.
+ * Wires the open/close/clear buttons and the fetch-on-open behaviour.
  * Missing nodes are tolerated, same "still work, just without the
  * affordance" rule `domReconnectUi` and `createChangelogUi` both follow.
  */
@@ -55,6 +55,12 @@ export function createIssueLogUi(doc: Document = document, fetchImpl: typeof fet
   const root = doc.getElementById('issue-log')
   const openButton = doc.getElementById('issue-log-open')
   const closeButton = doc.getElementById('issue-log-close')
+  const clearButton = doc.getElementById('issue-log-clear')
+  const CLEAR_LABEL = '[ wyczyść ]'
+  const CONFIRM_LABEL = '[ na pewno? ]'
+  const CONFIRM_WINDOW_MS = 4000
+  let confirmTimer: ReturnType<typeof setTimeout> | undefined
+  let clearing = false
   const veil = root?.querySelector('.issue-log-veil')
   const body = doc.getElementById('issue-log-body')
 
@@ -70,6 +76,40 @@ export function createIssueLogUi(doc: Document = document, fetchImpl: typeof fet
     }
   }
 
+  function disarm(): void {
+    clearTimeout(confirmTimer)
+    confirmTimer = undefined
+    if (clearButton) clearButton.textContent = CLEAR_LABEL
+  }
+
+  /**
+   * Two taps, same as deleting a chat conversation: a kiosk screen gets
+   * brushed, and an emptied log cannot be brought back. The first tap arms,
+   * the second within the window clears; the window lapsing disarms.
+   */
+  async function clear(): Promise<void> {
+    if (!clearButton || clearing) return
+    if (confirmTimer === undefined) {
+      clearButton.textContent = CONFIRM_LABEL
+      confirmTimer = setTimeout(disarm, CONFIRM_WINDOW_MS)
+      return
+    }
+    disarm()
+    clearing = true
+    try {
+      const res = await fetchImpl('/api/issues', { method: 'DELETE' })
+      if (!res.ok) throw new Error(`issues clear ${res.status}`)
+    } catch {
+      if (body && !body.querySelector('.issue-log-clear-failed')) {
+        body.insertAdjacentHTML('afterbegin', '<p class="stale issue-log-clear-failed">[!] nie udało się wyczyścić dziennika</p>')
+      }
+      return
+    } finally {
+      clearing = false
+    }
+    await load()
+  }
+
   function open(): void {
     if (root) root.hidden = false
     // Refetched on every open, unlike the changelog: this log changes while
@@ -79,10 +119,12 @@ export function createIssueLogUi(doc: Document = document, fetchImpl: typeof fet
 
   function close(): void {
     if (root) root.hidden = true
+    disarm()
   }
 
   const onOpenClick = (): void => open()
   const onCloseClick = (): void => close()
+  const onClearClick = (): void => void clear()
   const onVeilClick = (): void => close()
   const onKeydown = (e: KeyboardEvent): void => {
     if (e.key === 'Escape' && root && !root.hidden) close()
@@ -90,6 +132,7 @@ export function createIssueLogUi(doc: Document = document, fetchImpl: typeof fet
 
   openButton?.addEventListener('click', onOpenClick)
   closeButton?.addEventListener('click', onCloseClick)
+  clearButton?.addEventListener('click', onClearClick)
   veil?.addEventListener('click', onVeilClick)
   doc.addEventListener('keydown', onKeydown)
 
@@ -99,6 +142,8 @@ export function createIssueLogUi(doc: Document = document, fetchImpl: typeof fet
     destroy() {
       openButton?.removeEventListener('click', onOpenClick)
       closeButton?.removeEventListener('click', onCloseClick)
+      clearButton?.removeEventListener('click', onClearClick)
+      disarm()
       veil?.removeEventListener('click', onVeilClick)
       doc.removeEventListener('keydown', onKeydown)
     },

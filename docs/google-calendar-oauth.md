@@ -220,6 +220,14 @@ later at the first write.
 Google returns you to a page that says *Google: połączono* and names the account;
 back on `/admin` the status reads *POŁĄCZONE — z bazy*.
 
+**Tick the calendar permission.** Google's consent screen lists each permission
+with its own checkbox, and the calendar one ("See and download any calendar you
+can access") can be left unticked. Such a grant is useless — every calendar
+fetch would answer 403 `ACCESS_TOKEN_SCOPE_INSUFFICIENT` — so the callback
+refuses it: you get *brak dostępu do kalendarza*, nothing is stored, the
+previous connection (if any) keeps working, and the attempt is recorded in the
+dashboard's DZIENNIK BŁĘDÓW. Connect again and tick the box.
+
 Use a laptop rather than the kitchen iPad: Safari 15 in kiosk mode is not where
 anyone wants to type a Google password, and the panel is deliberately left out
 of the iPad's offline cache.
@@ -234,6 +242,7 @@ laptop  → Google consent screen → "Allow"
 Google  → GET /api/admin/google/callback?code=…&state=…
 server  → consumes the state (a replay or a forged one gets 400)
         → exchanges the code for a refresh token
+        → refuses a grant without calendar.readonly (400, nothing stored, issue logged)
         → asks Google for the account e-mail (display only)
         → encrypts the token and writes the oauth_credentials row
         ← "Google: połączono"

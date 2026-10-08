@@ -30,6 +30,20 @@ const USERINFO_ENDPOINT = 'https://www.googleapis.com/oauth2/v2/userinfo'
 export const CALENDAR_READONLY_SCOPE = 'https://www.googleapis.com/auth/calendar.readonly'
 /** Only so the admin view can say *which* account is connected. */
 const EMAIL_SCOPE = 'https://www.googleapis.com/auth/userinfo.email'
+/** Never requested, but a superset of the read scope if a grant carries it. */
+const CALENDAR_FULL_SCOPE = 'https://www.googleapis.com/auth/calendar'
+
+/**
+ * Whether a grant can actually read the calendar. Google's consent screen
+ * lets the account holder untick individual scopes, and an exchange that left
+ * the calendar unticked still succeeds — with a refresh token that 403s on
+ * every `events.list` (2026-10-08: stored, reported as connected, and the
+ * calendar silently fell back to its cache).
+ */
+export function grantsCalendarRead(scope: string): boolean {
+  const granted = scope.split(/\s+/)
+  return granted.includes(CALENDAR_READONLY_SCOPE) || granted.includes(CALENDAR_FULL_SCOPE)
+}
 
 const STATE_TTL_MS = 10 * 60 * 1000
 
@@ -127,7 +141,10 @@ export async function exchangeCode(input: {
   return {
     refreshToken: json.refresh_token,
     accessToken: json.access_token ?? '',
-    scope: json.scope ?? CALENDAR_READONLY_SCOPE,
+    // A missing `scope` means granted-unknown, not granted-what-we-asked:
+    // defaulting to the read scope would let grantsCalendarRead wave an
+    // unchecked grant through.
+    scope: json.scope ?? '',
   }
 }
 
