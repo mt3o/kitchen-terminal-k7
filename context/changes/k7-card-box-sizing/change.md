@@ -55,4 +55,4 @@ design_surface: none
 tracker: github — no issue opened (creating one is outward-facing; left
 for the human to open or waive)
 
-memory_goal: (not minted — store unreachable this session; see memory-backlog.md)
+memory_goal: 6b3d0d61-b05c-4ad4-ae27-9412be350638   # minted 2026-10-08 when memory-backlog.md was replayed

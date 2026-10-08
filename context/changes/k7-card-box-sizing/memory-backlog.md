@@ -1,5 +1,7 @@
 # Memory backlog — k7-card-box-sizing
 
+> **REPLAYED 2026-10-08 — do not replay again.** Goal 6b3d0d61-b05c-4ad4-ae27-9412be350638. Captures: a → 4c7c5cf3, b → d1f50d36, c → 24a3ff9c, d → 90309263. Each claim was re-checked against the code on 2026-10-08 and worded to what is true now; facet names mapped onto the graph's vocabulary.
+
 The store was unreachable for this whole session: the `agentic-memory` MCP
 server failed to connect (`ENOENT: Executable not found in $PATH:
 agentic-memory-mcp`) and `agentic-memory` is not on PATH, so the CLI

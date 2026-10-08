@@ -1078,6 +1078,16 @@ created_at: 2026-09-24T15:37:26.576986+00:00
 
 Background check that the rejection log's scrubbing obligations trace back to this lifetime secrets constraint; no new evidence, reaffirmed only.
 ---
+[event:b6afbe71-a5fc-49a7-9249-30d66367710d]
+node_id: ac006a24-2763-40e7-8423-2b851793efcf
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:27.141033+00:00
+
+replayed 2026-10-08 from memory-backlog.md: secrets stay server-side
+---
 [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa]
 type: facet_value
 tier: lifetime
@@ -1545,6 +1555,36 @@ source: agent-surface
 created_at: 2026-10-08T12:03:54.107892+00:00
 
 gw-review k7-clock-date-phone-fit: npm run check (token lint + tokens:check) passes on main; the fix is var(--text-sm) only
+---
+[event:4db746d4-12c5-4450-8205-f64f4aed70cf]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:17.214869+00:00
+
+replayed 2026-10-08 from memory-backlog.md: a third theme with a new face, pictures and frames swapped in by pointing theme: elsewhere, no component naming a value
+---
+[event:4fff3697-d697-4559-bd0d-c5dd202268ef]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:18.768503+00:00
+
+replayed 2026-10-08 from memory-backlog.md: a fourth theme with a header band and a new card outline, no component naming a value
+---
+[event:90ca8ede-c984-4a2f-9641-8377c38e2694]
+node_id: 79662ce5-7b55-458a-b0e9-f0efd406d5a8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:20.712471+00:00
+
+replayed 2026-10-08 from memory-backlog.md: a fifth theme, no component naming a value
 ---
 [node:dffe0843-23d7-4095-99e1-1d39a07d1b2a]
 type: constraint
@@ -6341,6 +6381,16 @@ created_at: 2026-10-08T09:58:41.843284+00:00
 
 shared card shell: Card.svelte is the one footer to fix for every Card-based widget (k7-card-foot-badge, replayed from backlog)
 ---
+[event:7ebe7b8e-58d1-4b1a-bc64-68be002d0f06]
+node_id: 240ae1c0-1cd0-40c2-974e-e5df93897bc9
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:12.523296+00:00
+
+replayed 2026-10-08 from memory-backlog.md: shared card shell, Card.svelte the one file to fix
+---
 [node:68dcc438-9bf1-4899-834a-afea99bf556a]
 type: constraint
 tier: mid-term
@@ -9558,6 +9608,16 @@ created_at: 2026-09-14T19:48:57.295119+00:00
 
 read for :host/shadow-DOM display context; turned out not directly load-bearing for the fullscreen mechanism itself (position:fixed escapes shadow DOM regardless of :host display), but confirms K7Card.svelte's :host pattern other widgets follow
 ---
+[event:77862e0e-f572-4aa6-97d9-644297c0f787]
+node_id: 49912e9d-20bb-4002-b6f0-5c9f4ce058e0
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:12.536410+00:00
+
+replayed 2026-10-08 from memory-backlog.md: the shadow-root :host gotcha family
+---
 [node:20b11c2e-cc5a-4569-8be1-16ea7de5c52c]
 type: issue
 tier: short-term
@@ -11685,7 +11745,7 @@ type: decision
 tier: mid-term
 path: /artifact/decided-2026-09-15-k7-multi-calendar-s
 created_at: 2026-09-15T07:25:16.838467+00:00
-needs_review: false
+needs_review: true
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
@@ -11757,6 +11817,36 @@ source: lifecycle-cli
 created_at: 2026-10-03T16:23:10.268426+00:00
 
 10x lifecycle sweep
+---
+[event:dea75a11-8a86-4ed6-a411-0db9d31b79cb]
+node_id: ab43353e-e0e8-49d5-88d5-8333b9f6912d
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-10-08T13:20:25.152116+00:00
+
+contradicted at capture of c0d83d5c-ad0f-4b18-8559-57c558a8e04c
+---
+[event:65285eb2-b3ff-4b68-abe1-7a06a15e7c9e]
+node_id: ab43353e-e0e8-49d5-88d5-8333b9f6912d
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:27.135800+00:00
+
+replayed 2026-10-08 from memory-backlog.md: the earlier no-consent-flow decision, while planning
+---
+[event:5e471055-fa12-4821-885a-624ada8aab50]
+node_id: ab43353e-e0e8-49d5-88d5-8333b9f6912d
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-10-08T13:20:27.142999+00:00
+
+replayed 2026-10-08 from memory-backlog.md: k7-google-oauth-connect adds the consent flow it ruled out; its two supports were removed by LAN TLS and K7_ADMIN_TOKEN. Not wrong on its own terms; for a human to rule.
 ---
 [node:6e173c60-5243-48f4-9d43-3635c3e272b9]
 type: decision
@@ -14447,12 +14537,32 @@ created_at: 2026-10-08T11:55:15.439107+00:00
 
 tier -> long-term: human ruling 2026-10-08 at the k7-mobile-responsive archive gate
 ---
+[event:0642dc75-870d-463f-81a6-0616eb6114dc]
+node_id: 14679772-a89b-4f80-9679-1572e5cd68b8
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:12.538722+00:00
+
+replayed 2026-10-08 from memory-backlog.md: flex-column card body pattern reused for K7Calendar
+---
+[event:48db9c77-4a4a-4e9d-a075-562c6a45bcac]
+node_id: 14679772-a89b-4f80-9679-1572e5cd68b8
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:12.540577+00:00
+
+replayed 2026-10-08 from memory-backlog.md: the same wrapper pattern fixed K7Calendar's .tabs + .week overrun
+---
 [node:25827824-ea3d-4245-8597-3b9841ef3725]
 type: constraint
 tier: long-term
 path: /artifact/card-head-row-text-hud-label-meta-nee
 created_at: 2026-09-15T15:42:25.125702+00:00
-needs_review: false
+needs_review: true
 retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
@@ -14471,6 +14581,26 @@ source: gui
 created_at: 2026-10-08T11:55:15.142914+00:00
 
 tier -> long-term: human ruling 2026-10-08 at the k7-mobile-responsive archive gate
+---
+[event:36e2443d-d290-424e-97e5-1369e95f37e5]
+node_id: 25827824-ea3d-4245-8597-3b9841ef3725
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-10-08T13:20:13.158187+00:00
+
+contradicted at capture of 22760f17-2bf2-43de-bc9c-79d79f32f51a
+---
+[event:41e9a36e-f644-489e-ac50-9d871f7460f9]
+node_id: 25827824-ea3d-4245-8597-3b9841ef3725
+type: contradiction_raised
+weight: 1.0
+polarity: -1
+source: agent-surface
+created_at: 2026-10-08T13:20:14.724719+00:00
+
+replayed 2026-10-08 from memory-backlog.md: its nowrap + flex-shrink:0 control with a min-width:0 container, made together as prescribed, still hung controls past the card edge (34px on k7-image, 139px on k7-chat at 390×844); the missing third leg is that the row must be able to wrap (see k7-phone-horizontal-overflow decision a). Recorded, not resolved.
 ---
 [node:c5e8c11c-643e-4b93-be3d-61f93ac70500]
 type: decision
@@ -14496,6 +14626,16 @@ source: gui
 created_at: 2026-10-08T11:55:15.241484+00:00
 
 tier -> long-term: human ruling 2026-10-08 at the k7-mobile-responsive archive gate
+---
+[event:c1eaab72-0446-4122-b73f-8aadfeccdff3]
+node_id: c5e8c11c-643e-4b93-be3d-61f93ac70500
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:14.736180+00:00
+
+replayed 2026-10-08 from memory-backlog.md: applied a third time: K7Unsplash hides its dots at phone width, K7Menu items give up horizontal padding, not height
 ---
 [node:f7db89bf-2d21-4fd3-8b14-3d8eea6377f3]
 type: concept
@@ -14537,6 +14677,26 @@ source: gui
 created_at: 2026-10-08T11:55:14.935133+00:00
 
 tier -> long-term: human ruling 2026-10-08 at the k7-mobile-responsive archive gate
+---
+[event:6ec97652-f6dc-45fe-baa7-32605b6c2e2f]
+node_id: f7db89bf-2d21-4fd3-8b14-3d8eea6377f3
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:14.732673+00:00
+
+replayed 2026-10-08 from memory-backlog.md: phone keeps the desktop column count; one-line truncating head
+---
+[event:56d07bee-0e89-47da-8b0f-5b5f1abc974b]
+node_id: f7db89bf-2d21-4fd3-8b14-3d8eea6377f3
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:14.738867+00:00
+
+replayed 2026-10-08 from memory-backlog.md: "all pages verified overflow-free at 375x667" did not hold for horizontal overflow once pages gained a 1-of-3 column and head controls
 ---
 [node:4b94d744-3404-4999-a3b5-98900807ece0]
 type: constraint
@@ -19759,6 +19919,7 @@ archived: false
 -> DEPENDS_ON [node:240ae1c0-1cd0-40c2-974e-e5df93897bc9] @ 2026-10-08T09:58:25.384352+00:00
 -> DEPENDS_ON [node:2ee73f47-a258-479c-acf0-5e1a6fbf46b4] @ 2026-10-08T09:58:25.384352+00:00
 -> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-10-08T09:58:41.797714+00:00
+-> DEPENDS_ON [node:4c7c5cf3-7bc0-4180-9c85-4c41cd1c2593] @ 2026-10-08T13:20:39.783597+00:00
 -> HAS_FACET [node:622597fb-68a0-4e83-8aa7-26c6f2a69a5b] @ 2026-10-08T09:58:25.384352+00:00
 -> HAS_FACET [node:68773fd1-2296-4527-b027-8d5d6c699ece] @ 2026-10-08T09:58:25.384352+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T09:58:25.384352+00:00
@@ -20123,3 +20284,1194 @@ source: gui
 created_at: 2026-10-08T12:05:11.293795+00:00
 
 tier -> long-term: human ruling 2026-10-08 at the k7-clock-date-phone-fit review gate
+---
+[node:37e9fadf-5fca-41fb-ac8e-d5cf781dad28]
+type: slice
+tier: short-term
+path: /change/k7-oauth-scope-check-and-issue-log-clear
+created_at: 2026-10-08T13:15:22.084175+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:d1116c6c-1175-466d-8048-9ac870f0bdbf] @ 2026-10-08T13:19:23.347749+00:00
+-> SCOPED_TO [node:dfca3c04-165d-4149-ba6b-2e11ce179282] @ 2026-10-08T13:19:23.315025+00:00
+-> SCOPED_TO [node:ef973eda-51cd-4b4e-a2aa-7a3d953ff481] @ 2026-10-08T13:15:22.084175+00:00
+
+change scope: k7-oauth-scope-check-and-issue-log-clear
+---
+[event:5fbc2b3d-a33a-4511-b093-1c0cd0d09d22]
+node_id: 37e9fadf-5fca-41fb-ac8e-d5cf781dad28
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:15:22.104064+00:00
+
+create_change k7-oauth-scope-check-and-issue-log-clear
+---
+[node:ef973eda-51cd-4b4e-a2aa-7a3d953ff481]
+type: goal
+tier: short-term
+path: /goal/k7-oauth-scope-check-and-issue-log-clear
+created_at: 2026-10-08T13:15:22.084175+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:d1116c6c-1175-466d-8048-9ac870f0bdbf] @ 2026-10-08T13:19:23.347749+00:00
+-> DEPENDS_ON [node:dfca3c04-165d-4149-ba6b-2e11ce179282] @ 2026-10-08T13:19:23.315025+00:00
+
+Refuse a Google OAuth grant that lacks calendar.readonly at the /admin consent callback (keep the previous credential, record it in the issue log), and let the household clear the issue log from the dashboard's issue-log popup.
+---
+[event:c9742069-7202-41be-92f6-bcfd50777a74]
+node_id: ef973eda-51cd-4b4e-a2aa-7a3d953ff481
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:19:27.523733+00:00
+
+Implemented in one session: scope check in admin callback + DELETE /api/issues + two-tap clear in the popup; 833 tests, typecheck, lint, build green. Not yet live-verified or committed.
+---
+[node:dfca3c04-165d-4149-ba6b-2e11ce179282]
+type: decision
+tier: short-term
+path: /artifact/the-admin-google-consent-callback-src
+created_at: 2026-10-08T13:19:23.315025+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-10-08T13:19:23.315025+00:00
+-> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-10-08T13:19:23.315025+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-10-08T13:19:23.315025+00:00
+
+The /admin Google consent callback (src/server/routes/admin-google.ts) refuses a grant whose returned scope lacks calendar.readonly (or the full calendar scope): it answers 400, stores nothing, and logs an error-severity 'google-calendar' entry to the issue log. Google's consent screen has a separate checkbox for each scope. On 2026-10-08 an email-only grant was stored and reported as "połączono". Because the database row takes priority over GOOGLE_OAUTH_REFRESH_TOKEN, every events.list call then returned 403 and fell back to the stale cache. The refused token is deliberately NOT revoked at Google. Revocation drops the whole grant for this OAuth client, which would also kill the previously stored, still-working credential. A useless unrevoked token was accepted as the cheaper cost.
+---
+[node:d1116c6c-1175-466d-8048-9ac870f0bdbf]
+type: decision
+tier: short-term
+path: /artifact/delete-api-issues-the-issue-log-popup
+created_at: 2026-10-08T13:19:23.347749+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-10-08T13:19:23.347749+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-10-08T13:19:23.347749+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-10-08T13:19:23.347749+00:00
+
+DELETE /api/issues (the issue-log popup's [ wyczyść ] button) clears the whole household issue log and is deliberately unauthenticated, not guarded by K7_ADMIN_TOKEN. The kiosk iPad that shows the log has no admin token, so an admin-only clear would never be usable where the clutter is seen. The issue log is a household view of what went wrong, not the durable record of it; GlitchTip holds that. Accidental taps are handled client-side instead: two taps within 4 s (arm → "[ na pewno? ]" → clear), the same pattern K7Chat uses for deleting a conversation.
+---
+[node:5313173b-f08a-41db-8722-17a2a78e02d0]
+type: goal
+tier: short-term
+path: /goal/k7-layout-local-overrides
+created_at: 2026-10-08T13:20:08.526599+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:1a729744-8eea-458d-88bd-90aa4dff7e67] @ 2026-10-08T13:20:08.821079+00:00
+-> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-10-08T13:20:08.526599+00:00
+-> DEPENDS_ON [node:d785bc18-a8af-4299-bf98-b9d520c272fc] @ 2026-10-08T13:20:09.121767+00:00
+
+Private layout data (extra calendars) lives in a gitignored layout.local.yaml merged over layout.yaml by config-layers.
+---
+[node:6a1b0633-49eb-4d27-b7d8-78b20c954b18]
+type: slice
+tier: short-term
+path: /change/k7-layout-local-overrides
+created_at: 2026-10-08T13:20:08.526599+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:1a729744-8eea-458d-88bd-90aa4dff7e67] @ 2026-10-08T13:20:08.821079+00:00
+-> SCOPED_TO [node:5313173b-f08a-41db-8722-17a2a78e02d0] @ 2026-10-08T13:20:08.526599+00:00
+-> SCOPED_TO [node:d785bc18-a8af-4299-bf98-b9d520c272fc] @ 2026-10-08T13:20:09.121767+00:00
+
+change scope: k7-layout-local-overrides
+---
+[event:86e8656d-f538-4410-918c-df7320437884]
+node_id: 6a1b0633-49eb-4d27-b7d8-78b20c954b18
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:08.531782+00:00
+
+create_change k7-layout-local-overrides
+---
+[node:1a729744-8eea-458d-88bd-90aa4dff7e67]
+type: decision
+tier: mid-term
+path: /artifact/the-backend-layout-loader-merges-two-lay
+created_at: 2026-10-08T13:20:08.821079+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:35144eed-a808-46a4-82cf-674e6f749531] @ 2026-10-08T13:20:08.821079+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-10-08T13:20:08.821079+00:00
+-> HAS_FACET [node:622597fb-68a0-4e83-8aa7-26c6f2a69a5b] @ 2026-10-08T13:20:08.821079+00:00
+-> ABOUT [node:f96f62c3-d72a-4c40-8e16-57278ca1f302] @ 2026-10-08T13:20:08.821079+00:00
+
+The backend layout loader merges two layers with config-layers: layout.yaml as the base and an optional, gitignored layout.local.yaml on top, read fresh per request like layout.yaml. This is the pattern for any household-private layout data (extra calendars, a local theme choice). Rejected: putting such data in env vars through Varlock, because it is structured and list-shaped, not a scalar secret. This change first used it through a narrow calendarAdditions hook; k7-calendar-config-layers replaced that with a same-keys layer.
+---
+[event:62522e5b-1818-476c-9027-61387826b69a]
+node_id: 1a729744-8eea-458d-88bd-90aa4dff7e67
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:09.419600+00:00
+
+replayed 2026-10-08 from memory-backlog.md: config-layers was listed in TECH-STACK.md from 2026-09-08 but had no usage site before this change
+---
+[node:d785bc18-a8af-4299-bf98-b9d520c272fc]
+type: constraint
+tier: mid-term
+path: /artifact/a-google-calendar-added-by-calendarid-f
+created_at: 2026-10-08T13:20:09.121767+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99] @ 2026-10-08T13:20:09.121767+00:00
+-> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-10-08T13:20:09.121767+00:00
+-> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-10-08T13:20:09.121767+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-10-08T13:20:09.121767+00:00
+
+A Google calendar added by calendarId (for example a personal Gmail address) only resolves through the Calendar API if it is shared with, or belongs to, the Google account that owns the backend's OAuth refresh token. Otherwise the API answers 404. That is a sharing and deployment step for the household, not a code path; the alternative for a calendar that cannot be shared is mode: ics.
+---
+[node:782323a9-0cdb-4c9c-b222-ba8438fb3ba7]
+type: slice
+tier: short-term
+path: /change/k7-calendar-config-layers
+created_at: 2026-10-08T13:20:09.723800+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:2da93dec-25c6-478d-b442-79a89d0cfca7] @ 2026-10-08T13:20:10.022121+00:00
+-> SCOPED_TO [node:d74d3349-9f03-405f-9c03-64799b5fe890] @ 2026-10-08T13:20:10.324543+00:00
+-> SCOPED_TO [node:ee760e80-791f-40db-adcc-d74df3edac5e] @ 2026-10-08T13:20:09.723800+00:00
+
+change scope: k7-calendar-config-layers
+---
+[event:2173883a-cfd2-4df9-b268-d6e343f6275e]
+node_id: 782323a9-0cdb-4c9c-b222-ba8438fb3ba7
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:09.729100+00:00
+
+create_change k7-calendar-config-layers
+---
+[node:ee760e80-791f-40db-adcc-d74df3edac5e]
+type: goal
+tier: short-term
+path: /goal/k7-calendar-config-layers
+created_at: 2026-10-08T13:20:09.723800+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:1a729744-8eea-458d-88bd-90aa4dff7e67] @ 2026-10-08T13:20:09.723800+00:00
+-> DEPENDS_ON [node:2da93dec-25c6-478d-b442-79a89d0cfca7] @ 2026-10-08T13:20:10.022121+00:00
+-> DEPENDS_ON [node:d74d3349-9f03-405f-9c03-64799b5fe890] @ 2026-10-08T13:20:10.324543+00:00
+
+layout.local.yaml is a same-keys config-layers layer over layout.yaml; mainCalendars replaces per-calendar showInMain.
+---
+[node:2da93dec-25c6-478d-b442-79a89d0cfca7]
+type: decision
+tier: mid-term
+path: /artifact/calendars-are-declared-once-at-the-top-o
+created_at: 2026-10-08T13:20:10.022121+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:35144eed-a808-46a4-82cf-674e6f749531] @ 2026-10-08T13:20:10.022121+00:00
+-> HAS_FACET [node:622597fb-68a0-4e83-8aa7-26c6f2a69a5b] @ 2026-10-08T13:20:10.022121+00:00
+-> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-10-08T13:20:10.022121+00:00
+-> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-10-08T13:20:10.022121+00:00
+-> ABOUT [node:f96f62c3-d72a-4c40-8e16-57278ca1f302] @ 2026-10-08T13:20:10.022121+00:00
+
+Calendars are declared once at the top of the layout, calendars: Record<id, {name, source}>, not in a calendar card's params. Every calendar card shows all of them, and mainCalendars: id[] picks what the GŁÓWNY tab merges (replacing per-calendar showInMain). The reason is that layout.local.yaml can then be a partial layout.yaml merged entirely by config-layers: the library deep-merges objects per key but cannot reach into the pages/cards lists by id. Given up: per-card calendar sets (both cards already showed an identical list). Rejected, by the household's explicit instruction on 2026-09-21: the earlier hand-written calendarAdditions hook from k7-layout-local-overrides, which bypassed the library built for exactly this.
+---
+[node:d74d3349-9f03-405f-9c03-64799b5fe890]
+type: invariant
+tier: mid-term
+path: /artifact/layout-data-that-a-local-layer-must-be-a
+created_at: 2026-10-08T13:20:10.324543+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:2da93dec-25c6-478d-b442-79a89d0cfca7] @ 2026-10-08T13:20:10.324543+00:00
+-> HAS_FACET [node:35144eed-a808-46a4-82cf-674e6f749531] @ 2026-10-08T13:20:10.324543+00:00
+-> HAS_FACET [node:622597fb-68a0-4e83-8aa7-26c6f2a69a5b] @ 2026-10-08T13:20:10.324543+00:00
+-> ABOUT [node:f96f62c3-d72a-4c40-8e16-57278ca1f302] @ 2026-10-08T13:20:10.324543+00:00
+
+Layout data that a local layer must be able to add to or amend by id lives in a map keyed by id, never in a list. config-layers merges lists only whole: the incoming layer replaces them by default, and a <key>Strategy: concat|union beside a list extends it instead. The strategy is read from the incoming layer first, so the local file alone decides. A new layout field that is a list of id-bearing objects is a contract bug waiting to happen.
+---
+[event:d2addad8-c669-4d57-9f79-0f52ed4881a2]
+node_id: d74d3349-9f03-405f-9c03-64799b5fe890
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:10.620916+00:00
+
+replayed 2026-10-08 from memory-backlog.md: config-layers deep-copies layers, caller objects untouched; covered by test/layout-layers.test.ts
+---
+[node:6b3d0d61-b05c-4ad4-ae27-9412be350638]
+type: goal
+tier: short-term
+path: /goal/k7-card-box-sizing
+created_at: 2026-10-08T13:20:10.946239+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:240ae1c0-1cd0-40c2-974e-e5df93897bc9] @ 2026-10-08T13:20:10.946239+00:00
+-> DEPENDS_ON [node:24a3ff9c-3a53-4537-8933-3f0cc81b295f] @ 2026-10-08T13:20:11.869841+00:00
+-> DEPENDS_ON [node:4c7c5cf3-7bc0-4180-9c85-4c41cd1c2593] @ 2026-10-08T13:20:11.262989+00:00
+-> DEPENDS_ON [node:90309263-c7ee-41ae-8853-6e52330913fc] @ 2026-10-08T13:20:12.186403+00:00
+-> DEPENDS_ON [node:d1f50d36-1ae7-46ac-bb89-1ada321040a0] @ 2026-10-08T13:20:11.564240+00:00
+
+Every card fits its grid cell: border-box sizing declared inside each widget's shadow root where a rule sizes to 100% and adds padding or a border.
+---
+[node:75910082-e60d-4f94-b870-aeb0ed6af99a]
+type: slice
+tier: short-term
+path: /change/k7-card-box-sizing
+created_at: 2026-10-08T13:20:10.946239+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:24a3ff9c-3a53-4537-8933-3f0cc81b295f] @ 2026-10-08T13:20:11.869841+00:00
+-> SCOPED_TO [node:4c7c5cf3-7bc0-4180-9c85-4c41cd1c2593] @ 2026-10-08T13:20:11.262989+00:00
+-> SCOPED_TO [node:6b3d0d61-b05c-4ad4-ae27-9412be350638] @ 2026-10-08T13:20:10.946239+00:00
+-> SCOPED_TO [node:90309263-c7ee-41ae-8853-6e52330913fc] @ 2026-10-08T13:20:12.186403+00:00
+-> SCOPED_TO [node:d1f50d36-1ae7-46ac-bb89-1ada321040a0] @ 2026-10-08T13:20:11.564240+00:00
+
+change scope: k7-card-box-sizing
+---
+[event:02918ab5-4e26-4e14-8638-0ac734f46365]
+node_id: 75910082-e60d-4f94-b870-aeb0ed6af99a
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:10.959470+00:00
+
+create_change k7-card-box-sizing
+---
+[node:4c7c5cf3-7bc0-4180-9c85-4c41cd1c2593]
+type: constraint
+tier: mid-term
+path: /artifact/app-css-s-box-sizing-reset-before
+created_at: 2026-10-08T13:20:11.262989+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:240ae1c0-1cd0-40c2-974e-e5df93897bc9] @ 2026-10-08T13:20:11.262989+00:00
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-10-08T13:20:11.262989+00:00
+-> HAS_FACET [node:622597fb-68a0-4e83-8aa7-26c6f2a69a5b] @ 2026-10-08T13:20:11.262989+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T13:20:11.262989+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-10-08T13:20:11.262989+00:00
+
+app.css's box-sizing reset (*, *::before, *::after { box-sizing: border-box }) stops at every shadow boundary, and every widget is a Svelte custom element with its own shadow root, so inside a widget everything is content-box unless the component says otherwise. A shadow-root rule that sizes an element to 100% of its container (width/height/min-/max-) and also gives it padding or a border must declare box-sizing: border-box itself; test/shadow-box-sizing.test.ts enforces it for every src/client/lib/*.svelte. Found because .card { height: 100% } plus padding and border made every card 44px taller than its cell, and .page > *'s overflow: hidden had hidden the bottom border and footer badge of every card since the shells were written.
+---
+[node:d1f50d36-1ae7-46ac-bb89-1ada321040a0]
+type: decision
+tier: mid-term
+path: /artifact/shadow-root-box-sizing-is-fixed-per-rule
+created_at: 2026-10-08T13:20:11.564240+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:1afc718d-b700-4331-8d2f-a8eb21690d24] @ 2026-10-08T13:20:11.564240+00:00
+-> DEPENDS_ON [node:4c7c5cf3-7bc0-4180-9c85-4c41cd1c2593] @ 2026-10-08T13:20:11.564240+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T13:20:11.564240+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-10-08T13:20:11.564240+00:00
+
+Shadow-root box-sizing is fixed per rule, not with a blanket per-shadow-root reset: only rules that size to a container and add padding or border get box-sizing: border-box (the two card shells; .frame/.comic/.pic in K7Comic, K7Image, K7Unsplash). A blanket reset was measured and rejected for that change: buttons are already border-box by the UA stylesheet, so it would resize only text inputs (46→44px), calendar events (54→53px) and K7Timer's time fields (88→70px wide). It would bring those controls to the kit's exact --control-h*, but it resizes controls, which the bug did not call for.
+---
+[node:24a3ff9c-3a53-4537-8933-3f0cc81b295f]
+type: issue
+tier: mid-term
+path: /artifact/non-button-controls-inside-widgets-are-c
+created_at: 2026-10-08T13:20:11.869841+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:1afc718d-b700-4331-8d2f-a8eb21690d24] @ 2026-10-08T13:20:11.869841+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T13:20:11.869841+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-10-08T13:20:11.869841+00:00
+-> DEPENDS_ON [node:d1f50d36-1ae7-46ac-bb89-1ada321040a0] @ 2026-10-08T13:20:11.869841+00:00
+
+Non-button controls inside widgets are content-box, unlike the design kit (kitchen-terminal-k7-kit.html is authored under *{box-sizing:border-box}). Widget text inputs, calendar .event and list .row elements render 1-2px taller than specified: a field with min-height: var(--control-h-sm) (44px) renders 46px. Small, but a standing divergence from the normative spec; the blanket per-shadow-root reset rejected in k7-card-box-sizing is the known fix.
+---
+[node:90309263-c7ee-41ae-8853-6e52330913fc]
+type: constraint
+tier: mid-term
+path: /artifact/a-card-body-child-sized-height-100-mus
+created_at: 2026-10-08T13:20:12.186403+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:14679772-a89b-4f80-9679-1572e5cd68b8] @ 2026-10-08T13:20:12.186403+00:00
+-> HAS_FACET [node:622597fb-68a0-4e83-8aa7-26c6f2a69a5b] @ 2026-10-08T13:20:12.186403+00:00
+-> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-10-08T13:20:12.186403+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T13:20:12.186403+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-10-08T13:20:12.186403+00:00
+
+A card-body child sized height: 100% must be the body's only child. .card-body is display: block, so a height: 100% element beside a sibling (K7Calendar's .week under .tabs) overruns the body by that sibling's height and lands on the footer row. Multi-child bodies wrap their children in a height: 100% flex column and give the scroll region flex: 1 1 auto; min-height: 0, as K7ShoppingList and K7Timer do. K7Calendar's overrun was 48px and stayed invisible until the shell fix exposed the footer.
+---
+[node:b6151b62-b052-42ed-a9ba-3fd9a5d4a57c]
+type: goal
+tier: short-term
+path: /goal/k7-phone-horizontal-overflow
+created_at: 2026-10-08T13:20:12.842886+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:0e6c918c-3122-4daf-a441-5adef6a4c208] @ 2026-10-08T13:20:13.471464+00:00
+-> DEPENDS_ON [node:21cf68ed-6a45-4741-b4c6-c80eca741014] @ 2026-10-08T13:20:13.768589+00:00
+-> DEPENDS_ON [node:22760f17-2bf2-43de-bc9c-79d79f32f51a] @ 2026-10-08T13:20:13.158187+00:00
+-> DEPENDS_ON [node:25827824-ea3d-4245-8597-3b9841ef3725] @ 2026-10-08T13:20:12.842886+00:00
+-> DEPENDS_ON [node:7fa51863-51e0-4695-a27e-d8a8549378fc] @ 2026-10-08T13:20:14.402750+00:00
+-> DEPENDS_ON [node:9b0cdd9c-8e7d-43c0-98ae-7b5c05c042a6] @ 2026-10-08T13:20:14.083061+00:00
+
+Nothing overflows a card horizontally at phone width: head controls and menu labels wrap instead of hanging past the card edge.
+---
+[node:d4429250-d0af-4ebf-a552-e50a6a77073e]
+type: slice
+tier: short-term
+path: /change/k7-phone-horizontal-overflow
+created_at: 2026-10-08T13:20:12.842886+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:0e6c918c-3122-4daf-a441-5adef6a4c208] @ 2026-10-08T13:20:13.471464+00:00
+-> SCOPED_TO [node:21cf68ed-6a45-4741-b4c6-c80eca741014] @ 2026-10-08T13:20:13.768589+00:00
+-> SCOPED_TO [node:22760f17-2bf2-43de-bc9c-79d79f32f51a] @ 2026-10-08T13:20:13.158187+00:00
+-> SCOPED_TO [node:7fa51863-51e0-4695-a27e-d8a8549378fc] @ 2026-10-08T13:20:14.402750+00:00
+-> SCOPED_TO [node:9b0cdd9c-8e7d-43c0-98ae-7b5c05c042a6] @ 2026-10-08T13:20:14.083061+00:00
+-> SCOPED_TO [node:b6151b62-b052-42ed-a9ba-3fd9a5d4a57c] @ 2026-10-08T13:20:12.842886+00:00
+
+change scope: k7-phone-horizontal-overflow
+---
+[event:ac25145e-0cc6-488f-a0aa-0736ee47f1c9]
+node_id: d4429250-d0af-4ebf-a552-e50a6a77073e
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:12.852725+00:00
+
+create_change k7-phone-horizontal-overflow
+---
+[node:22760f17-2bf2-43de-bc9c-79d79f32f51a]
+type: decision
+tier: mid-term
+path: /artifact/card-svelte-s-head-is-two-zones-and-onl
+created_at: 2026-10-08T13:20:13.158187+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:1afc718d-b700-4331-8d2f-a8eb21690d24] @ 2026-10-08T13:20:13.158187+00:00
+-> CONTRADICTS [node:25827824-ea3d-4245-8597-3b9841ef3725] @ 2026-10-08T13:20:13.158187+00:00
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-10-08T13:20:13.158187+00:00
+-> HAS_FACET [node:622597fb-68a0-4e83-8aa7-26c6f2a69a5b] @ 2026-10-08T13:20:13.158187+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T13:20:13.158187+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-10-08T13:20:13.158187+00:00
+
+Card.svelte's head is two zones, and only the controls zone can push the row onto a second line. .card-head-title holds the label (plus meta when the widget has no actions), .card-head-right holds the widget's actions and then [ + ]. The head row wraps (DESIGN.md §6.1), and the controls group wraps too with min-width: 0. At phone width the title has flex-basis: 0 and a floor of calc(3 * var(--text-sm)), so its text never decides where the row breaks (label and meta truncate), and controls wrap only when the title would get less than the floor. 3 label-ems, not 4: at 4, a half-width card at 375px sent a lone [ + ] to a second line and cost GLOWNA's calendar 48px. Rejected: pure §6.1 at phone width (adds a second head line to five cards whose heads fit today), and a lower floor (a running timer's reset [ + ] left "MI…"). At ≥768px the title keeps flex-basis: auto; 1024×768 is pixel-identical.
+---
+[node:0e6c918c-3122-4daf-a441-5adef6a4c208]
+type: constraint
+tier: mid-term
+path: /artifact/a-group-of-head-controls-must-be-able-to
+created_at: 2026-10-08T13:20:13.471464+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:22760f17-2bf2-43de-bc9c-79d79f32f51a] @ 2026-10-08T13:20:13.471464+00:00
+-> HAS_FACET [node:3957f716-9c74-4f75-8355-94ac8649c521] @ 2026-10-08T13:20:13.471464+00:00
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-10-08T13:20:13.471464+00:00
+-> HAS_FACET [node:622597fb-68a0-4e83-8aa7-26c6f2a69a5b] @ 2026-10-08T13:20:13.471464+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T13:20:13.471464+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-10-08T13:20:13.471464+00:00
+
+A group of head controls must be able to wrap. A container of several controls at the top of a widget's actions snippet (.controls in K7Timer, .nav in K7Unsplash and K7Carousel) declares flex-wrap: wrap: a flex container that cannot wrap has a min-content width equal to all its controls together, so nothing around it can make it narrower and it overflows any card narrower than that. Alternatively render the controls directly, as K7Chat does, so they wrap as one flow. test/phone-horizontal-overflow.test.ts enforces it for every src/client/lib/*.svelte.
+---
+[node:21cf68ed-6a45-4741-b4c6-c80eca741014]
+type: issue
+tier: mid-term
+path: /artifact/a-wrapping-column-flexbox-is-as-wide-as
+created_at: 2026-10-08T13:20:13.768589+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:441547c8-c8df-41c9-86d0-eebe5da729de] @ 2026-10-08T13:20:13.768589+00:00
+-> HAS_FACET [node:622597fb-68a0-4e83-8aa7-26c6f2a69a5b] @ 2026-10-08T13:20:13.768589+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T13:20:13.768589+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-10-08T13:20:13.768589+00:00
+
+A wrapping column flexbox is as wide as its widest item. flex-direction: column; flex-wrap: wrap with no definite height never makes a second column, but it does make the container multi-line, and a multi-line flex container sizes each line's cross size to its widest item. K7Menu's vertical items were all as wide as "AUDIOMETR" (135px) in a 91px card body at 390×844 and were cut off. A vertical list is a single-line column (align-items: stretch then sizes items to the container); flex-wrap: wrap belongs to the row orientation.
+---
+[node:9b0cdd9c-8e7d-43c0-98ae-7b5c05c042a6]
+type: decision
+tier: mid-term
+path: /artifact/a-menu-label-that-does-not-fit-breaks-mi
+created_at: 2026-10-08T13:20:14.083061+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:1afc718d-b700-4331-8d2f-a8eb21690d24] @ 2026-10-08T13:20:14.083061+00:00
+-> DEPENDS_ON [node:21cf68ed-6a45-4741-b4c6-c80eca741014] @ 2026-10-08T13:20:14.083061+00:00
+-> ABOUT [node:441547c8-c8df-41c9-86d0-eebe5da729de] @ 2026-10-08T13:20:14.083061+00:00
+-> HAS_FACET [node:68773fd1-2296-4527-b027-8d5d6c699ece] @ 2026-10-08T13:20:14.083061+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T13:20:14.083061+00:00
+-> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-10-08T13:20:14.083061+00:00
+
+A menu label that does not fit breaks mid-word rather than truncating. In a 1-of-3 column at phone width (~70px of text), tracked --text-sm cannot fit "PRZEPISY", "MINUTNIK" or "AUDIOMETR". .label gets min-width: 0; overflow-wrap: break-word (not anywhere, which is Safari 15.4, past the floor), horizontal padding drops to --space-2 at phone width so the break comes as late as possible, and min-height stays --control-h-sm. Rejected: ellipsis, which hides the word the item is named for; smaller type or no tracking, which still does not fit at 375px.
+---
+[node:7fa51863-51e0-4695-a27e-d8a8549378fc]
+type: issue
+tier: mid-term
+path: /artifact/at-phone-width-a-card-head-with-label
+created_at: 2026-10-08T13:20:14.402750+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:1afc718d-b700-4331-8d2f-a8eb21690d24] @ 2026-10-08T13:20:14.402750+00:00
+-> DEPENDS_ON [node:22760f17-2bf2-43de-bc9c-79d79f32f51a] @ 2026-10-08T13:20:14.402750+00:00
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-10-08T13:20:14.402750+00:00
+-> HAS_FACET [node:622597fb-68a0-4e83-8aa7-26c6f2a69a5b] @ 2026-10-08T13:20:14.402750+00:00
+-> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-10-08T13:20:14.402750+00:00
+-> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-10-08T13:20:14.402750+00:00
+
+At phone width a card head with label + meta + [ + ] is still crushed: on GLOWNA's half-width calendar (and przepisy's recipes card) the title zone gets ~62-78px for label and meta together, so both truncate to a few characters ("L… da…" at 375px; still so on 2026-10-08). Full §6.1 wrapping would make both readable at the cost of a ~48px second head line on those cards. A height-budget versus legibility call for a human, not taken yet.
+---
+[node:0e49a1e9-92ef-4106-8654-a049bf043a2b]
+type: slice
+tier: short-term
+path: /change/k7-steampunk-theme
+created_at: 2026-10-08T13:20:15.031079+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:1ea46275-782d-4493-bac6-4f4ed2cb95e7] @ 2026-10-08T13:20:16.602472+00:00
+-> SCOPED_TO [node:261561da-a426-447d-8809-877eec1410f1] @ 2026-10-08T13:20:15.987001+00:00
+-> SCOPED_TO [node:2af77c77-6afd-4a99-a03a-510568368965] @ 2026-10-08T13:20:15.333283+00:00
+-> SCOPED_TO [node:440fc794-9ac9-4ec4-bfb9-cd3964c959cb] @ 2026-10-08T13:20:15.632249+00:00
+-> SCOPED_TO [node:49fcdbed-ab78-4380-a6d7-1ca8972a7e4a] @ 2026-10-08T13:20:15.031079+00:00
+-> SCOPED_TO [node:5c7b4db5-05ba-45e9-a61f-cb1d7484ae73] @ 2026-10-08T13:20:16.295941+00:00
+-> SCOPED_TO [node:d6a18dd8-e0dc-40fd-9954-969033e1f11b] @ 2026-10-08T13:20:16.906541+00:00
+
+change scope: k7-steampunk-theme
+---
+[event:2547ed58-ed2e-4594-bd77-03cbb595665b]
+node_id: 0e49a1e9-92ef-4106-8654-a049bf043a2b
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:15.036657+00:00
+
+create_change k7-steampunk-theme
+---
+[node:49fcdbed-ab78-4380-a6d7-1ca8972a7e4a]
+type: goal
+tier: short-term
+path: /goal/k7-steampunk-theme
+created_at: 2026-10-08T13:20:15.031079+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:1ea46275-782d-4493-bac6-4f4ed2cb95e7] @ 2026-10-08T13:20:16.602472+00:00
+-> DEPENDS_ON [node:261561da-a426-447d-8809-877eec1410f1] @ 2026-10-08T13:20:15.987001+00:00
+-> DEPENDS_ON [node:2af77c77-6afd-4a99-a03a-510568368965] @ 2026-10-08T13:20:15.333283+00:00
+-> DEPENDS_ON [node:440fc794-9ac9-4ec4-bfb9-cd3964c959cb] @ 2026-10-08T13:20:15.632249+00:00
+-> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-10-08T13:20:15.031079+00:00
+-> DEPENDS_ON [node:5c7b4db5-05ba-45e9-a61f-cb1d7484ae73] @ 2026-10-08T13:20:16.295941+00:00
+-> DEPENDS_ON [node:d6a18dd8-e0dc-40fd-9954-969033e1f11b] @ 2026-10-08T13:20:16.906541+00:00
+
+A steampunk theme: script title face, background pictures, decorative borders, plus the optional theme-contract slots it needs.
+---
+[node:2af77c77-6afd-4a99-a03a-510568368965]
+type: decision
+tier: mid-term
+path: /artifact/theme-files-fonts-pictures-ornaments
+created_at: 2026-10-08T13:20:15.333283+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:35144eed-a808-46a4-82cf-674e6f749531] @ 2026-10-08T13:20:15.333283+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-10-08T13:20:15.333283+00:00
+-> HAS_FACET [node:753f01fe-589f-4c8b-9b4b-e77dd2ad9546] @ 2026-10-08T13:20:15.333283+00:00
+-> HAS_FACET [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99] @ 2026-10-08T13:20:15.333283+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-10-08T13:20:15.333283+00:00
+
+Theme files (fonts, pictures, ornaments) are served by a dedicated /theme-assets/* route that serves only the paths the active theme names (themeAssetPaths), each URL carrying a content-hash ?v=, with immutable caching only when v matches the current bytes. Rejected: data: URIs inlined into /theme.css (offline by construction, but /theme.css is no-cache and regenerated per request, so ~500 KB would travel on every load); copying assets into public/ (splits a theme across two directories and ties a server-side swap to a rebuild).
+---
+[node:440fc794-9ac9-4ec4-bfb9-cd3964c959cb]
+type: decision
+tier: mid-term
+path: /artifact/theme-ornament-slots-are-raw-css-strings
+created_at: 2026-10-08T13:20:15.632249+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:35144eed-a808-46a4-82cf-674e6f749531] @ 2026-10-08T13:20:15.632249+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-10-08T13:20:15.632249+00:00
+-> HAS_FACET [node:753f01fe-589f-4c8b-9b4b-e77dd2ad9546] @ 2026-10-08T13:20:15.632249+00:00
+
+Theme ornament slots are raw CSS strings, with asset("path") rewritten by the generator, not structured YAML like the v1 background block. The structured form could not express px-stopped gradient bands (header/footer legibility over a photo at any cover crop) or a border-image shorthand, and was not mode-aware.
+---
+[node:261561da-a426-447d-8809-877eec1410f1]
+type: invariant
+tier: mid-term
+path: /artifact/every-optional-theme-slot-defaults-to-th
+created_at: 2026-10-08T13:20:15.987001+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:35144eed-a808-46a4-82cf-674e6f749531] @ 2026-10-08T13:20:15.987001+00:00
+-> HAS_FACET [node:3957f716-9c74-4f75-8355-94ac8649c521] @ 2026-10-08T13:20:15.987001+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-10-08T13:20:15.987001+00:00
+-> HAS_FACET [node:753f01fe-589f-4c8b-9b4b-e77dd2ad9546] @ 2026-10-08T13:20:15.987001+00:00
+
+Every optional theme slot defaults to the exact value components used before the slot existed (titles = HUD label tokens, --page-bg = --bg, --card-bg = --surface, frame and rule none, --font-mono = var(--font-ui)), so an undecorated theme renders pixel-identically. Checked by screenshot diff and asserted in test/theme.test.ts.
+---
+[event:f17358d1-87bd-4b79-a1c0-4bd3eb328ad1]
+node_id: 261561da-a426-447d-8809-877eec1410f1
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:17.224620+00:00
+
+replayed 2026-10-08 from memory-backlog.md: typography.fontSourceWoff2 in retro-scifi.yaml had never been emitted; the kiosk rendered the system monospace, not Source Code Pro, until this change
+---
+[node:5c7b4db5-05ba-45e9-a61f-cb1d7484ae73]
+type: decision
+tier: mid-term
+path: /artifact/titles-stay-authored-uppercase-in-compon
+created_at: 2026-10-08T13:20:16.295941+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:5af0910d-e824-4ce4-a02c-569e0e7a193a] @ 2026-10-08T13:20:16.295941+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-10-08T13:20:16.295941+00:00
+-> HAS_FACET [node:753f01fe-589f-4c8b-9b4b-e77dd2ad9546] @ 2026-10-08T13:20:16.295941+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-10-08T13:20:16.295941+00:00
+
+Titles stay authored uppercase in components (LOG.WYDARZENIA), and a theme with a script face sets display.case: lowercase while every title rule adds ::first-letter { text-transform: uppercase } (a no-op for uppercase themes). A script face is unreadable in capitals, and the alternative, rewriting every label to natural case across ~15 components, was rejected.
+---
+[node:1ea46275-782d-4493-bac6-4f4ed2cb95e7]
+type: issue
+tier: mid-term
+path: /artifact/daylight-lab-s-borderstrong-fails-3-1-in
+created_at: 2026-10-08T13:20:16.602472+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:68773fd1-2296-4527-b027-8d5d6c699ece] @ 2026-10-08T13:20:16.602472+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-10-08T13:20:16.602472+00:00
+-> HAS_FACET [node:753f01fe-589f-4c8b-9b4b-e77dd2ad9546] @ 2026-10-08T13:20:16.602472+00:00
+
+daylight-lab's borderStrong fails 3:1 in dark (2.26) and night (1.90); the comment in the theme file measured light only. It is a named known exception (KNOWN_BELOW_3) in test/theme.test.ts's contrast suite, still open on 2026-10-08.
+---
+[node:d6a18dd8-e0dc-40fd-9954-969033e1f11b]
+type: decision
+tier: mid-term
+path: /artifact/backdrop-rotation-is-chosen-on-the-clien
+created_at: 2026-10-08T13:20:16.906541+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:35785afc-98d7-4d52-8dbb-b9934f2dc34e] @ 2026-10-08T13:20:16.906541+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-10-08T13:20:16.906541+00:00
+-> HAS_FACET [node:753f01fe-589f-4c8b-9b4b-e77dd2ad9546] @ 2026-10-08T13:20:16.906541+00:00
+-> HAS_FACET [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99] @ 2026-10-08T13:20:16.906541+00:00
+
+Backdrop rotation is chosen on the client from the local clock (interval from local midnight, backdropEveryMinutes), not by the server per request: the kiosk PWA stays open for days and loads /theme.css once, so a server-side pick would change only on reload. The generator emits every variant as a [data-backdrop="n"] rule; the client finds the next variant's URLs by computing --page-bg on a detached probe element with the same attributes (never hard-coding a path), decodes them, then flips the attribute. Clock-based, not per-load random, so every screen agrees. Rejected: per-page backdrops (more layer memory on the A8X) and a CSS transition between backdrops (background repaint every frame).
+---
+[node:087eef12-0c0b-4962-88fe-a4e6e798f184]
+type: goal
+tier: short-term
+path: /goal/k7-punktomat-theme
+created_at: 2026-10-08T13:20:17.518106+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:4cb722f2-7298-4aa9-a2c8-31d4a7c085d8] @ 2026-10-08T13:20:18.141709+00:00
+-> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-10-08T13:20:17.518106+00:00
+-> DEPENDS_ON [node:ac178b1f-3580-401c-8bdf-16aad3765919] @ 2026-10-08T13:20:18.446734+00:00
+-> DEPENDS_ON [node:e2b5e37c-8921-42f9-88e1-713c7c684d16] @ 2026-10-08T13:20:17.823237+00:00
+
+A punktomat (cork board) theme: a header band with its own scoped palette and a card outline role separate from borderStrong.
+---
+[node:12b2a457-297e-48e0-9d24-6233c6b660c3]
+type: slice
+tier: short-term
+path: /change/k7-punktomat-theme
+created_at: 2026-10-08T13:20:17.518106+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:087eef12-0c0b-4962-88fe-a4e6e798f184] @ 2026-10-08T13:20:17.518106+00:00
+-> SCOPED_TO [node:4cb722f2-7298-4aa9-a2c8-31d4a7c085d8] @ 2026-10-08T13:20:18.141709+00:00
+-> SCOPED_TO [node:ac178b1f-3580-401c-8bdf-16aad3765919] @ 2026-10-08T13:20:18.446734+00:00
+-> SCOPED_TO [node:e2b5e37c-8921-42f9-88e1-713c7c684d16] @ 2026-10-08T13:20:17.823237+00:00
+
+change scope: k7-punktomat-theme
+---
+[event:08750e34-1e70-44b7-88cd-e09749ea105a]
+node_id: 12b2a457-297e-48e0-9d24-6233c6b660c3
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:17.526751+00:00
+
+create_change k7-punktomat-theme
+---
+[node:e2b5e37c-8921-42f9-88e1-713c7c684d16]
+type: decision
+tier: mid-term
+path: /artifact/the-card-outline-is-its-own-optional-the
+created_at: 2026-10-08T13:20:17.823237+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:68773fd1-2296-4527-b027-8d5d6c699ece] @ 2026-10-08T13:20:17.823237+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-10-08T13:20:17.823237+00:00
+-> HAS_FACET [node:753f01fe-589f-4c8b-9b4b-e77dd2ad9546] @ 2026-10-08T13:20:17.823237+00:00
+
+The card outline is its own optional theme role, colors.cardBorder → --card-border (default borderStrong), rather than a lowered borderStrong: borderStrong also outlines buttons, active tabs and focused inputs (Timer, Carousel, Menu, Chat, Calendar) and must reach 3:1, while a cork-board theme sets cards apart by their fill. Rejected: a solid-colour border-image for cards, which ignores border-radius and draws a square border round a rounded fill.
+---
+[node:4cb722f2-7298-4aa9-a2c8-31d4a7c085d8]
+type: decision
+tier: mid-term
+path: /artifact/a-theme-s-header-band-ink-is-a-scoped-pa
+created_at: 2026-10-08T13:20:18.141709+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:35144eed-a808-46a4-82cf-674e6f749531] @ 2026-10-08T13:20:18.141709+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-10-08T13:20:18.141709+00:00
+-> HAS_FACET [node:753f01fe-589f-4c8b-9b4b-e77dd2ad9546] @ 2026-10-08T13:20:18.141709+00:00
+
+A theme's header band ink is a scoped palette: the generator emits header.colors as custom properties on [data-region="header"] (dark unqualified, light and night qualified by [data-mode]), so every token-reading component inside the header follows without code changes. The pull-to-refresh tab lives inside the header and inherits it, so surfaceRaised is part of the header palette. Rejected: per-element header colour tokens.
+---
+[node:ac178b1f-3580-401c-8bdf-16aad3765919]
+type: constraint
+tier: mid-term
+path: /artifact/header-ink-must-reach-4-5-1-against-ever
+created_at: 2026-10-08T13:20:18.446734+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:3957f716-9c74-4f75-8355-94ac8649c521] @ 2026-10-08T13:20:18.446734+00:00
+-> HAS_FACET [node:68773fd1-2296-4527-b027-8d5d6c699ece] @ 2026-10-08T13:20:18.446734+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-10-08T13:20:18.446734+00:00
+-> HAS_FACET [node:753f01fe-589f-4c8b-9b4b-e77dd2ad9546] @ 2026-10-08T13:20:18.446734+00:00
+
+Header ink must reach 4.5:1 against every colour stop of the header band's gradient, not its average: the status text sits at the lighter right-hand end. Enforced in test/theme.test.ts for every theme with a band.
+---
+[node:199d77c3-11e1-4d00-89da-ea4478a56b92]
+type: goal
+tier: short-term
+path: /goal/k7-hellforge-theme
+created_at: 2026-10-08T13:20:19.076812+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:235838fe-a44a-4ce6-8724-2611f1878121] @ 2026-10-08T13:20:19.389687+00:00
+-> DEPENDS_ON [node:59472cdc-4531-4206-a9fc-968166c52250] @ 2026-10-08T13:20:19.076812+00:00
+-> DEPENDS_ON [node:6e276b8d-a737-4372-8b50-9aec8a2e5779] @ 2026-10-08T13:20:20.052698+00:00
+-> DEPENDS_ON [node:ac881e1e-897f-4fb7-b5f8-6fb7b826eaa8] @ 2026-10-08T13:20:20.392221+00:00
+-> DEPENDS_ON [node:ca67cd98-4288-483f-aa41-ccb12dcbc94f] @ 2026-10-08T13:20:19.708744+00:00
+
+A hellforge theme (iron plates, blood, pentagrams) built only from existing theme-contract slots.
+---
+[node:556e0b45-4296-41de-a62c-21e7d3bf967b]
+type: slice
+tier: short-term
+path: /change/k7-hellforge-theme
+created_at: 2026-10-08T13:20:19.076812+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:199d77c3-11e1-4d00-89da-ea4478a56b92] @ 2026-10-08T13:20:19.076812+00:00
+-> SCOPED_TO [node:235838fe-a44a-4ce6-8724-2611f1878121] @ 2026-10-08T13:20:19.389687+00:00
+-> SCOPED_TO [node:6e276b8d-a737-4372-8b50-9aec8a2e5779] @ 2026-10-08T13:20:20.052698+00:00
+-> SCOPED_TO [node:ac881e1e-897f-4fb7-b5f8-6fb7b826eaa8] @ 2026-10-08T13:20:20.392221+00:00
+-> SCOPED_TO [node:ca67cd98-4288-483f-aa41-ccb12dcbc94f] @ 2026-10-08T13:20:19.708744+00:00
+
+change scope: k7-hellforge-theme
+---
+[event:181ae913-9d4b-4e4d-b72a-49d16afa4806]
+node_id: 556e0b45-4296-41de-a62c-21e7d3bf967b
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:19.087419+00:00
+
+create_change k7-hellforge-theme
+---
+[node:235838fe-a44a-4ce6-8724-2611f1878121]
+type: invariant
+tier: mid-term
+path: /artifact/a-new-theme-costs-no-component-change-h
+created_at: 2026-10-08T13:20:19.389687+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:35144eed-a808-46a4-82cf-674e6f749531] @ 2026-10-08T13:20:19.389687+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-10-08T13:20:19.389687+00:00
+-> HAS_FACET [node:753f01fe-589f-4c8b-9b4b-e77dd2ad9546] @ 2026-10-08T13:20:19.389687+00:00
+-> DEPENDS_ON [node:79662ce5-7b55-458a-b0e9-f0efd406d5a8] @ 2026-10-08T13:20:19.389687+00:00
+
+A new theme costs no component change: hellforge filled fontFaces, display, colors.cardBorder, header and ornament and touched no .svelte or .css file. The two decorated themes before it each had to extend the contract; this one did not, the first evidence that the slots generalise rather than fit their original theme.
+---
+[node:ca67cd98-4288-483f-aa41-ccb12dcbc94f]
+type: constraint
+tier: mid-term
+path: /artifact/every-raw-css-theme-slot-must-go-through
+created_at: 2026-10-08T13:20:19.708744+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:35144eed-a808-46a4-82cf-674e6f749531] @ 2026-10-08T13:20:19.708744+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-10-08T13:20:19.708744+00:00
+-> HAS_FACET [node:753f01fe-589f-4c8b-9b4b-e77dd2ad9546] @ 2026-10-08T13:20:19.708744+00:00
+
+Every raw-CSS theme slot must go through both the generator's asset("…") resolver and the themeAssetPaths allowlist collector. header.background was added later and missed both, so an asset() in a header band reached the browser raw and its file was not served; it failed only for themes that put a file there. Fixed in theme/generate.ts by k7-hellforge-theme.
+---
+[node:6e276b8d-a737-4372-8b50-9aec8a2e5779]
+type: decision
+tier: mid-term
+path: /artifact/text-contrast-for-decorated-themes-is-me
+created_at: 2026-10-08T13:20:20.052698+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:3957f716-9c74-4f75-8355-94ac8649c521] @ 2026-10-08T13:20:20.052698+00:00
+-> HAS_FACET [node:68773fd1-2296-4527-b027-8d5d6c699ece] @ 2026-10-08T13:20:20.052698+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-10-08T13:20:20.052698+00:00
+-> HAS_FACET [node:753f01fe-589f-4c8b-9b4b-e77dd2ad9546] @ 2026-10-08T13:20:20.052698+00:00
+
+Text contrast for decorated themes is measured on the pixels the glyphs cover (render, re-render with all colour transparent, diff), not on the element's bounding box. The box method produced false failures wherever a coloured bar, border or event tick sat inside the box (1.5:1 readings for plainly legible text), and would have hidden two real failures among them. scripts/theme-contrast.mjs does this.
+---
+[node:ac881e1e-897f-4fb7-b5f8-6fb7b826eaa8]
+type: constraint
+tier: mid-term
+path: /artifact/a-border-image-rule-under-a-card-title-n
+created_at: 2026-10-08T13:20:20.392221+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:68773fd1-2296-4527-b027-8d5d6c699ece] @ 2026-10-08T13:20:20.392221+00:00
+-> ABOUT [node:73fb6132-40d3-4e2d-8b88-334442c4bfa7] @ 2026-10-08T13:20:20.392221+00:00
+-> HAS_FACET [node:753f01fe-589f-4c8b-9b4b-e77dd2ad9546] @ 2026-10-08T13:20:20.392221+00:00
+
+A border-image rule under a card title needs its outset set so the image's top edge clears the glyphs: at outset 9px hellforge's blood bar ran through the descenders and dropped the title to 1.9-2.9:1; 16px clears it. Applies to any theme that puts an image under that divider.
+---
+[node:9a5df681-0539-4335-b190-17ceec71ca04]
+type: goal
+tier: short-term
+path: /goal/k7-chat-harness
+created_at: 2026-10-08T13:20:21.042720+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:048276b3-fcad-4800-a603-cb4e08628c89] @ 2026-10-08T13:20:21.042720+00:00
+-> DEPENDS_ON [node:37bf679b-880e-4640-acf6-e517283c6b76] @ 2026-10-08T13:20:22.582804+00:00
+-> DEPENDS_ON [node:3f1c6749-2df5-49d0-946d-576268ddcfa3] @ 2026-10-08T13:20:23.697742+00:00
+-> DEPENDS_ON [node:4108ab4a-7df0-4734-9327-ead19c77c933] @ 2026-10-08T13:20:23.312391+00:00
+-> DEPENDS_ON [node:71fb4822-99fe-4ed6-b579-61b779bdf31f] @ 2026-10-08T13:20:24.165078+00:00
+-> DEPENDS_ON [node:755bb29e-5960-4e96-9d89-a08d2f23a1a0] @ 2026-10-08T13:20:21.966117+00:00
+-> DEPENDS_ON [node:7aa1c37e-f2a8-44ad-9331-4e9029002f70] @ 2026-10-08T13:20:21.042720+00:00
+-> DEPENDS_ON [node:8a1f81de-c361-4adb-99ca-f4a94579e278] @ 2026-10-08T13:20:22.930628+00:00
+-> DEPENDS_ON [node:b458394d-e8b9-4e1a-a17e-f2539e1047b3] @ 2026-10-08T13:20:22.276231+00:00
+-> DEPENDS_ON [node:d0109057-6ba9-4fa2-8d00-6e63390341f4] @ 2026-10-08T13:20:21.657834+00:00
+-> DEPENDS_ON [node:f5e505dd-01c5-4df2-8b83-6b7cd67246c0] @ 2026-10-08T13:20:21.348212+00:00
+
+Chat archive, /clear, chat-to-recipe drafts, a file-backed recipe store outside the checkout, and harness slash commands.
+---
+[node:b4597dc1-70c6-4318-ab8d-b01459dae70c]
+type: slice
+tier: short-term
+path: /change/k7-chat-harness
+created_at: 2026-10-08T13:20:21.042720+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:37bf679b-880e-4640-acf6-e517283c6b76] @ 2026-10-08T13:20:22.582804+00:00
+-> SCOPED_TO [node:3f1c6749-2df5-49d0-946d-576268ddcfa3] @ 2026-10-08T13:20:23.697742+00:00
+-> SCOPED_TO [node:4108ab4a-7df0-4734-9327-ead19c77c933] @ 2026-10-08T13:20:23.312391+00:00
+-> SCOPED_TO [node:71fb4822-99fe-4ed6-b579-61b779bdf31f] @ 2026-10-08T13:20:24.165078+00:00
+-> SCOPED_TO [node:755bb29e-5960-4e96-9d89-a08d2f23a1a0] @ 2026-10-08T13:20:21.966117+00:00
+-> SCOPED_TO [node:8a1f81de-c361-4adb-99ca-f4a94579e278] @ 2026-10-08T13:20:22.930628+00:00
+-> SCOPED_TO [node:9a5df681-0539-4335-b190-17ceec71ca04] @ 2026-10-08T13:20:21.042720+00:00
+-> SCOPED_TO [node:b458394d-e8b9-4e1a-a17e-f2539e1047b3] @ 2026-10-08T13:20:22.276231+00:00
+-> SCOPED_TO [node:d0109057-6ba9-4fa2-8d00-6e63390341f4] @ 2026-10-08T13:20:21.657834+00:00
+-> SCOPED_TO [node:f5e505dd-01c5-4df2-8b83-6b7cd67246c0] @ 2026-10-08T13:20:21.348212+00:00
+
+change scope: k7-chat-harness
+---
+[event:6a0b03c0-5be3-4f5f-8c1b-911c660b5ef1]
+node_id: b4597dc1-70c6-4318-ab8d-b01459dae70c
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:21.050014+00:00
+
+create_change k7-chat-harness
+---
+[node:f5e505dd-01c5-4df2-8b83-6b7cd67246c0]
+type: decision
+tier: mid-term
+path: /artifact/recipes-are-stored-as-one-markdown-file
+created_at: 2026-10-08T13:20:21.348212+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-10-08T13:20:21.348212+00:00
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-10-08T13:20:21.348212+00:00
+-> HAS_FACET [node:8a6a1300-bb21-4ae1-8d79-4957f245fc99] @ 2026-10-08T13:20:21.348212+00:00
+-> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-10-08T13:20:21.348212+00:00
+
+Recipes are stored as one Markdown file per recipe in K7_RECIPES_DIR (default $XDG_DATA_HOME or ~/.local/share/kitchen-terminal-k7/przepisy), outside the deployed checkout, through a second RecipeRepository adapter (adapters/files/recipes.ts). Chosen by the user over moving the SQLite file or dockerizing: the collection is hand-edited household data that deploy.sh's git reset --hard must never touch. The SQLite recipes table stays as the one-time migration source and rollback path.
+---
+[event:95f94e25-e049-4d4a-96c3-2506c2c17bd9]
+node_id: f5e505dd-01c5-4df2-8b83-6b7cd67246c0
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:24.511773+00:00
+
+replayed 2026-10-08 from memory-backlog.md: the pre-existing repo list() applied limit before the tag filter; the file adapter filters first
+---
+[node:d0109057-6ba9-4fa2-8d00-6e63390341f4]
+type: invariant
+tier: mid-term
+path: /artifact/the-recipe-directory-migration-from-sqli
+created_at: 2026-10-08T13:20:21.657834+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-10-08T13:20:21.657834+00:00
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-10-08T13:20:21.657834+00:00
+-> HAS_FACET [node:be297a51-6cb1-4526-bdb5-c01badf562a2] @ 2026-10-08T13:20:21.657834+00:00
+-> DEPENDS_ON [node:f5e505dd-01c5-4df2-8b83-6b7cd67246c0] @ 2026-10-08T13:20:21.657834+00:00
+
+The recipe-directory migration from SQLite is guarded by a .migrated-from-sqlite marker file, not by "the directory is empty": deleting every recipe file must not resurrect them from SQLite on the next boot.
+---
+[node:755bb29e-5960-4e96-9d89-a08d2f23a1a0]
+type: decision
+tier: mid-term
+path: /artifact/przepis-extracts-a-recipe-from-an-assis
+created_at: 2026-10-08T13:20:21.966117+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-10-08T13:20:21.966117+00:00
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-10-08T13:20:21.966117+00:00
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-10-08T13:20:21.966117+00:00
+-> ABOUT [node:7b73e502-b1fb-4587-96bd-f005b1ead665] @ 2026-10-08T13:20:21.966117+00:00
+-> ABOUT [node:8b9566f6-a1d5-4c43-952e-369c2796d5ca] @ 2026-10-08T13:20:21.966117+00:00
+
+/przepis extracts a recipe from an assistant message with an LLM call on the thread's own model (ai/recipe-drafter.ts), logged as an AiCall with purpose recipe-extraction, and returns an unsaved draft into the recipes card's existing review form. The review-before-save invariant from k7-recipes-shopping holds for model output too.
+---
+[node:b458394d-e8b9-4e1a-a17e-f2539e1047b3]
+type: decision
+tier: mid-term
+path: /artifact/cards-talk-to-each-other-only-through-wi
+created_at: 2026-10-08T13:20:22.276231+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:35144eed-a808-46a4-82cf-674e6f749531] @ 2026-10-08T13:20:22.276231+00:00
+-> HAS_FACET [node:35785afc-98d7-4d52-8dbb-b9934f2dc34e] @ 2026-10-08T13:20:22.276231+00:00
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-10-08T13:20:22.276231+00:00
+
+Cards talk to each other only through window CustomEvents defined in client/lib/k7-events.ts. The receiver answers by writing into event.detail (dispatch is synchronous), so the sender can report "no timer in the layout" or "timer busy" honestly. Bringing a card on screen (pager plus menu tab) is main.ts's job alone (k7-reveal → k7-menu-select).
+---
+[node:37bf679b-880e-4640-acf6-e517283c6b76]
+type: constraint
+tier: mid-term
+path: /artifact/chat-harness-command-output-is-a-local-l
+created_at: 2026-10-08T13:20:22.582804+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-10-08T13:20:22.582804+00:00
+-> ABOUT [node:7b73e502-b1fb-4587-96bd-f005b1ead665] @ 2026-10-08T13:20:22.582804+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-10-08T13:20:22.582804+00:00
+-> ABOUT [node:f2e09a03-8e61-4299-ad7c-cef6c06775fe] @ 2026-10-08T13:20:22.582804+00:00
+
+Chat harness command output is a local line: rendered on the device, never sent to the model, never persisted. Prompt-template commands (/porcje, /lodowka, /pogoda) instead expand into an ordinary, readable user Message, persisted exactly as sent: no hidden system prompt.
+---
+[node:8a1f81de-c361-4adb-99ca-f4a94579e278]
+type: decision
+tier: mid-term
+path: /artifact/the-chat-model-can-be-switched-mid-threa
+created_at: 2026-10-08T13:20:22.930628+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-10-08T13:20:22.930628+00:00
+-> ABOUT [node:7b73e502-b1fb-4587-96bd-f005b1ead665] @ 2026-10-08T13:20:22.930628+00:00
+
+The chat model can be switched mid-thread (PATCH /api/chat/conversations/:id, the picker, /model). It is safe because the per-turn budget is recomputed from the current model's context length on every turn.
+---
+[node:4108ab4a-7df0-4734-9327-ead19c77c933]
+type: decision
+tier: mid-term
+path: /artifact/przelicz-answers-from-a-local-density-t
+created_at: 2026-10-08T13:20:23.312391+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:15863232-0fb0-4c79-aaa9-3750ce8c0a2f] @ 2026-10-08T13:20:23.312391+00:00
+-> HAS_FACET [node:2df169d5-d5d8-4179-bf70-69b26a3b09a1] @ 2026-10-08T13:20:23.312391+00:00
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-10-08T13:20:23.312391+00:00
+
+/przelicz answers from a local density table first (chat-commands.ts, g per 100 ml for ~25 kitchen staples) and only falls back to a gateway call for what the table lacks, the same exact-then-heuristic shape recipe import uses. Every answer names the density it assumed, because the numbers are approximations a household may disagree with. Stem matching allows a longer inflected ending for longer stems (2 chars up to 4-letter stems, 4 beyond) so "mąki" matches mąka without "makaron" doing so.
+---
+[node:3f1c6749-2df5-49d0-946d-576268ddcfa3]
+type: decision
+tier: mid-term
+path: /artifact/menu-renders-each-argument-taking-chat
+created_at: 2026-10-08T13:20:23.697742+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> ABOUT [node:49ba726c-031e-4a01-839f-11a76a8bf009] @ 2026-10-08T13:20:23.697742+00:00
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-10-08T13:20:23.697742+00:00
+-> ABOUT [node:7b73e502-b1fb-4587-96bd-f005b1ead665] @ 2026-10-08T13:20:23.697742+00:00
+-> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-10-08T13:20:23.697742+00:00
+
+/menu renders each argument-taking chat command as a form from a declarative spec (COMMAND_FORMS: fields + build()), with quick picks filled from live state (models, the thread's last recipe ingredients, timer presets). The spec is pure and tested; the card only renders it. On a wall iPad, typing "/" and remembering argument syntax is the real barrier to the harness being used at all.
+---
+[node:71fb4822-99fe-4ed6-b579-61b779bdf31f]
+type: constraint
+tier: mid-term
+path: /artifact/plan-states-where-its-calendar-knowledg
+created_at: 2026-10-08T13:20:24.165078+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:68b03a85-d372-45c5-80a4-549ebf826798] @ 2026-10-08T13:20:24.165078+00:00
+-> HAS_FACET [node:956d5165-5c27-4183-a5e2-c077d213f32a] @ 2026-10-08T13:20:24.165078+00:00
+-> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-10-08T13:20:24.165078+00:00
+
+/plan states where its calendar knowledge stops: days past the range /api/calendar/week fetched (today + CALENDAR_FUTURE_DAYS since the agenda-range change; the current week when /plan was written) are labelled "brak danych z kalendarza", not "nic zaplanowanego". An unseen day and a free day are different claims, and the plan would otherwise schedule a big dinner on an evening that is already taken.
+---
+[node:e0025475-5a6d-4d6b-b1ac-50da8ff7a5a9]
+type: slice
+tier: short-term
+path: /change/k7-google-oauth-connect
+created_at: 2026-10-08T13:20:24.825726+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> SCOPED_TO [node:2ae35b8f-3d6e-4a00-a130-55d72c74d39a] @ 2026-10-08T13:20:25.466849+00:00
+-> SCOPED_TO [node:52473f20-ff53-4d2b-aa02-c3be0dd0aa8e] @ 2026-10-08T13:20:26.763306+00:00
+-> SCOPED_TO [node:59469f3f-7618-4d00-9344-681454ddaa7f] @ 2026-10-08T13:20:26.437765+00:00
+-> SCOPED_TO [node:9e5c7868-9375-46fb-8c93-d0029300d5e6] @ 2026-10-08T13:20:25.778247+00:00
+-> SCOPED_TO [node:a5c95d7b-cf85-44ee-80e2-d58ffee37c47] @ 2026-10-08T13:20:26.109609+00:00
+-> SCOPED_TO [node:c0d83d5c-ad0f-4b18-8559-57c558a8e04c] @ 2026-10-08T13:20:25.152116+00:00
+-> SCOPED_TO [node:e25f7a0d-8713-4507-aaa0-aa3a7f413d16] @ 2026-10-08T13:20:24.825726+00:00
+
+change scope: k7-google-oauth-connect
+---
+[event:50efeae8-b33f-42e9-81ac-61163d7d8701]
+node_id: e0025475-5a6d-4d6b-b1ac-50da8ff7a5a9
+type: slice_activated
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:24.835180+00:00
+
+create_change k7-google-oauth-connect
+---
+[node:e25f7a0d-8713-4507-aaa0-aa3a7f413d16]
+type: goal
+tier: short-term
+path: /goal/k7-google-oauth-connect
+created_at: 2026-10-08T13:20:24.825726+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:2ae35b8f-3d6e-4a00-a130-55d72c74d39a] @ 2026-10-08T13:20:25.466849+00:00
+-> DEPENDS_ON [node:52473f20-ff53-4d2b-aa02-c3be0dd0aa8e] @ 2026-10-08T13:20:26.763306+00:00
+-> DEPENDS_ON [node:59469f3f-7618-4d00-9344-681454ddaa7f] @ 2026-10-08T13:20:26.437765+00:00
+-> DEPENDS_ON [node:9e5c7868-9375-46fb-8c93-d0029300d5e6] @ 2026-10-08T13:20:25.778247+00:00
+-> DEPENDS_ON [node:a5c95d7b-cf85-44ee-80e2-d58ffee37c47] @ 2026-10-08T13:20:26.109609+00:00
+-> DEPENDS_ON [node:ab43353e-e0e8-49d5-88d5-8333b9f6912d] @ 2026-10-08T13:20:24.825726+00:00
+-> DEPENDS_ON [node:c0d83d5c-ad0f-4b18-8559-57c558a8e04c] @ 2026-10-08T13:20:25.152116+00:00
+
+Connect a Google account from the kiosk's admin page through an OAuth consent flow, storing the refresh token encrypted in the database.
+---
+[node:c0d83d5c-ad0f-4b18-8559-57c558a8e04c]
+type: decision
+tier: mid-term
+path: /artifact/the-google-oauth-refresh-token-is-resolv
+created_at: 2026-10-08T13:20:25.152116+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-10-08T13:20:25.152116+00:00
+-> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-10-08T13:20:25.152116+00:00
+-> CONTRADICTS [node:ab43353e-e0e8-49d5-88d5-8333b9f6912d] @ 2026-10-08T13:20:25.152116+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-10-08T13:20:25.152116+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-10-08T13:20:25.152116+00:00
+
+The Google OAuth refresh token is resolved database row first, then GOOGLE_OAUTH_REFRESH_TOKEN, then absent. The opposite order makes a successful consent flow silently inert against a stale env var: the UI would report success while the calendar kept using the old token. This change adds the consent-flow UI that an earlier decision ruled out; that decision's two supports (no registrable redirect URI, no authenticated surface on an open kiosk) were removed by the LAN TLS work and by K7_ADMIN_TOKEN.
+---
+[node:2ae35b8f-3d6e-4a00-a130-55d72c74d39a]
+type: decision
+tier: mid-term
+path: /artifact/the-google-connect-admin-routes-are-guar
+created_at: 2026-10-08T13:20:25.466849+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-10-08T13:20:25.466849+00:00
+-> DEPENDS_ON [node:ac006a24-2763-40e7-8423-2b851793efcf] @ 2026-10-08T13:20:25.466849+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-10-08T13:20:25.466849+00:00
+
+The Google-connect admin routes are guarded by K7_ADMIN_TOKEN; the client-side localStorage flag only reveals the button. With the token unset the routes answer 404, so a default deployment exposes no credential-granting surface, and a wrong token gets 404 too, not 403. The client flag is ergonomics on an unauthenticated kiosk LAN, not load-bearing.
+---
+[node:9e5c7868-9375-46fb-8c93-d0029300d5e6]
+type: decision
+tier: mid-term
+path: /artifact/the-google-refresh-token-is-encrypted-at
+created_at: 2026-10-08T13:20:25.778247+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-10-08T13:20:25.778247+00:00
+-> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-10-08T13:20:25.778247+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-10-08T13:20:25.778247+00:00
+
+The Google refresh token is encrypted at rest with AES-256-GCM under a key derived (HKDF) from the env-supplied K7_SECRET_KEY, not a host-derived key. It defends a database file that leaks on its own (backups, support copies); it does not defend against shell access on the host, where the key sits in .env.local. A host-tied key covered the same threat but bricks on restore or host migration with re-auth as the only recovery.
+---
+[event:b447d214-9e3e-438b-ac99-42d1ef49e220]
+node_id: 9e5c7868-9375-46fb-8c93-d0029300d5e6
+type: noted
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T13:20:27.145013+00:00
+
+replayed 2026-10-08 from memory-backlog.md: deploy.sh runs git reset --hard without git clean, so the gitignored data/k7.sqlite survives deploys; that is what makes the database a valid home for the credential
+---
+[node:a5c95d7b-cf85-44ee-80e2-d58ffee37c47]
+type: constraint
+tier: mid-term
+path: /artifact/the-oauth-callback-is-authorised-by-a-si
+created_at: 2026-10-08T13:20:26.109609+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> DEPENDS_ON [node:2ae35b8f-3d6e-4a00-a130-55d72c74d39a] @ 2026-10-08T13:20:26.109609+00:00
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-10-08T13:20:26.109609+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-10-08T13:20:26.109609+00:00
+
+The OAuth callback is authorised by a single-use state, not by the admin header: Google's redirect cannot carry X-K7-Admin-Token, so the state minted by the guarded auth/start (32 random bytes, 10-minute TTL, deleted on first use, in memory) is both the CSRF defence and the callback's authorisation.
+---
+[node:59469f3f-7618-4d00-9344-681454ddaa7f]
+type: constraint
+tier: mid-term
+path: /artifact/the-oauth-redirect-uri-is-derived-from-c
+created_at: 2026-10-08T13:20:26.437765+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-10-08T13:20:26.437765+00:00
+-> HAS_FACET [node:c3dc31be-39b3-4422-a4f6-41136bfb48aa] @ 2026-10-08T13:20:26.437765+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-10-08T13:20:26.437765+00:00
+
+The OAuth redirect URI is derived from config, never from the request Host header, and needs a Web-application OAuth client: the existing Desktop client cannot register an https:// redirect.
+---
+[node:52473f20-ff53-4d2b-aa02-c3be0dd0aa8e]
+type: constraint
+tier: mid-term
+path: /artifact/a-google-refresh-token-is-bound-to-the-o
+created_at: 2026-10-08T13:20:26.763306+00:00
+needs_review: false
+retrieval_weight: 1.0
+trust_weight: 1.0
+archived: false
+-> HAS_FACET [node:4c740d82-541d-4c70-9970-793467c4f26e] @ 2026-10-08T13:20:26.763306+00:00
+-> ABOUT [node:a7e45cb9-b530-4d56-a7aa-f446de485af0] @ 2026-10-08T13:20:26.763306+00:00
+-> DEPENDS_ON [node:c0d83d5c-ad0f-4b18-8559-57c558a8e04c] @ 2026-10-08T13:20:26.763306+00:00
+-> HAS_FACET [node:ccc18558-7181-44df-9608-de587d8d937c] @ 2026-10-08T13:20:26.763306+00:00
+
+A Google refresh token is bound to the OAuth client that issued it. Pointing GOOGLE_OAUTH_CLIENT_ID at the Web-application client the browser flow needs invalidates a GOOGLE_OAUTH_REFRESH_TOKEN minted against the Desktop client (unauthorized_client on every refresh), so the env var is a fallback only if it was minted against the same client; the switch-over is restart and connect back to back. Found on 2026-09-21, after #62 had claimed the manual path "keeps working throughout".

@@ -1,5 +1,8 @@
 # Memory backlog — k7-chat-harness
 
+> **REPLAYED 2026-10-08 — do not replay again.** Goal 9a5df681-0539-4335-b190-17ceec71ca04. Captures: c1 → f5e505dd, c2 → d0109057, c3 → 755bb29e, c4 → b458394d, c5 → 37bf679b, c6 → 8a1f81de, c7 → 4108ab4a, c8 → 3f1c6749, c9 → 71fb4822. Each claim was re-checked against the code on 2026-10-08 and worded to what is true now; facet names mapped onto the graph's vocabulary.
+> Not replayed: capture 6 had no node to contradict: no node ever recorded the model picker as locked once a thread exists (checked 2026-10-08)
+
 The agentic-memory store was unreachable for this whole session (2026-09-18):
 the `agentic-memory-mcp` binary named in `.mcp.json` is not on PATH, and the
 `agentic-memory` CLI is not installed either (`which` finds neither;

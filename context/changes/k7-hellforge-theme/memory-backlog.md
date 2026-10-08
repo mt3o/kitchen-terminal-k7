@@ -1,5 +1,7 @@
 # Memory backlog — k7-hellforge-theme
 
+> **REPLAYED 2026-10-08 — do not replay again.** Goal 199d77c3-11e1-4d00-89da-ea4478a56b92. Captures: c1 → 235838fe, c2 → ca67cd98, c3 → 6e276b8d, c4 → ac881e1e. Each claim was re-checked against the code on 2026-10-08 and worded to what is true now; facet names mapped onto the graph's vocabulary.
+
 Degraded mode per CLAUDE.md. `.mcp.json` starts the memory server through
 `sh -c`, and this session runs on Windows (PowerShell); the `agentic-memory`
 CLI is not on PATH here either, so neither transport reaches the store. Queued

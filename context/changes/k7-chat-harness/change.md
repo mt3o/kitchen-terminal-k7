@@ -2,9 +2,7 @@
 
 status: in-review
 created: 2026-09-18
-memory_goal: pending — agentic-memory store unreachable this session (no
-  `agentic-memory-mcp` binary, no `agentic-memory` CLI on PATH); every
-  would-be operation is queued in `memory-backlog.md` for replay.
+memory_goal: 9a5df681-0539-4335-b190-17ceec71ca04   # minted 2026-10-08 when memory-backlog.md was replayed
 branch: claude/ai-chat-recipe-archive-9c8a28
 design_surface: k7-chat-card
 

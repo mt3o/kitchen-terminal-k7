@@ -3,9 +3,7 @@
 status: implemented
 created: 2026-09-21
 branch: claude/steampunk-k7-theme-0c408c
-memory_goal: UNAVAILABLE — agentic-memory unreachable this session (MCP server
-  ENOENT on `agentic-memory-mcp`, `agentic-memory` CLI not on PATH). The store
-  itself could not be reached by either transport; see memory-backlog.md.
+memory_goal: 49fcdbed-ab78-4380-a6d7-1ca8972a7e4a   # minted 2026-10-08 when memory-backlog.md was replayed
 design_surface: n/a — a theme instance plus optional token slots. No screen's
   structure, order or copy changes; under the default theme every surface is
   pixel-identical to before (screenshot-diffed, see "Verified").

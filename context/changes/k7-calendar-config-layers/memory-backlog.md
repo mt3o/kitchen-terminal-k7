@@ -1,5 +1,7 @@
 # Memory backlog — k7-calendar-config-layers
 
+> **REPLAYED 2026-10-08 — do not replay again.** Goal ee760e80-791f-40db-adcc-d74df3edac5e. Captures: c1 → 2da93dec, c2 → d74d3349. Each claim was re-checked against the code on 2026-10-08 and worded to what is true now; facet names mapped onto the graph's vocabulary.
+
 Degraded mode per CLAUDE.md: `agentic-memory-mcp` failed to connect (ENOENT)
 and the `agentic-memory` CLI is not on PATH — the store is unreachable by
 either transport. Queued for replay.
