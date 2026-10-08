@@ -13246,6 +13246,16 @@ created_at: 2026-09-15T13:39:29.114918+00:00
 
 create_change k7-mobile-responsive
 ---
+[event:673dbc7f-070c-4dc5-b94a-7c2f7b3a09f8]
+node_id: 3f8b10ec-c3ab-49fd-950d-82b19eea4424
+type: slice_deactivated
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T11:55:53.219768+00:00
+
+merge: deactivate k7-mobile-responsive
+---
 [node:ac7165c9-3d52-47bd-817b-da698678783c]
 type: goal
 tier: short-term
@@ -13254,7 +13264,7 @@ created_at: 2026-09-15T13:39:29.109335+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:015d07b2-9ade-4321-9f00-7cb21ec0ef29] @ 2026-09-15T13:46:28.171203+00:00
 -> DEPENDS_ON [node:0cadf65f-e79e-4a26-9008-bb68e44cfb42] @ 2026-09-15T14:44:56.889588+00:00
 -> DEPENDS_ON [node:14679772-a89b-4f80-9679-1572e5cd68b8] @ 2026-09-15T15:42:14.349101+00:00
@@ -13288,6 +13298,16 @@ source: agent-surface
 created_at: 2026-09-15T15:00:03.588393+00:00
 
 gw-plan-review pass 3 (confirmatory): found one residual factual-accuracy defect the pass-1 fix did not fully close — plan.md line 55 ('every page in layout.yaml (5 pages, page card counts 4-6)') and line 134's Phase 4 heading ('across all 5 pages') still say 5 pages, while layout.yaml actually has 4 pages (glowna, dom, kuchnia, system; card counts 4/4/5/6, matching the stated 4-6 range) and line 65 was correctly fixed to say 4. Two-line mechanical fix needed before this routes cleanly to /gw-implement.
+---
+[event:136cdc31-336e-40fb-8e3f-1457c19f325f]
+node_id: ac7165c9-3d52-47bd-817b-da698678783c
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T11:55:53.258415+00:00
+
+10x lifecycle sweep
 ---
 [node:269dbb14-0ecb-4e92-95d2-b29a27ca69c0]
 type: issue
@@ -13323,7 +13343,7 @@ created_at: 2026-09-15T13:45:48.575402+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:1afc718d-b700-4331-8d2f-a8eb21690d24] @ 2026-09-15T13:45:48.575402+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T13:45:48.575402+00:00
 
@@ -13379,6 +13399,16 @@ created_at: 2026-09-25T07:32:17.069638+00:00
 
 the phone rule still derives the row count from grid-auto-rows; verified 240px auto rows in Chromium at 375x667
 ---
+[event:17e72fc1-5e68-4cde-854f-ef461643cdb3]
+node_id: 3ea28fac-3a03-48dc-a228-894731fa5541
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T11:55:53.258415+00:00
+
+10x lifecycle sweep
+---
 [node:3218cf7b-eb04-46dc-a6a6-1bd89155936d]
 type: constraint
 tier: mid-term
@@ -13387,7 +13417,7 @@ created_at: 2026-09-15T13:45:57.548601+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:1afc718d-b700-4331-8d2f-a8eb21690d24] @ 2026-09-15T13:45:57.548601+00:00
 -> DEPENDS_ON [node:3ea28fac-3a03-48dc-a228-894731fa5541] @ 2026-09-15T13:45:57.548601+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T13:45:57.548601+00:00
@@ -13494,9 +13524,19 @@ created_at: 2026-10-08T10:32:45.990650+00:00
 
 guided review: still_valid
 ---
+[event:ed37675c-5d97-4465-bd42-8f335c9cc9e8]
+node_id: 3218cf7b-eb04-46dc-a6a6-1bd89155936d
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T11:55:53.258415+00:00
+
+10x lifecycle sweep
+---
 [node:611bc3d8-caa1-4e81-82ab-d955bbcbba4f]
 type: issue
-tier: mid-term
+tier: long-term
 path: /artifact/fresh-gap-found-during-k7-mobile-respons
 created_at: 2026-09-15T13:46:08.727077+00:00
 needs_review: false
@@ -13529,6 +13569,26 @@ created_at: 2026-09-15T15:00:03.587111+00:00
 
 gw-plan-review pass 3: re-confirmed the non-goals section correctly leaves the dropped breakpointTabletPx/breakpointDesktopPx theme-schema wiring out of scope, citing this issue node.
 ---
+[event:9b60acbc-5787-4f30-b81a-9e86f45938fe]
+node_id: 611bc3d8-caa1-4e81-82ab-d955bbcbba4f
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T11:53:48.990863+00:00
+
+gw-archive: re-checked 2026-10-08, generate.ts still emits no breakpoint tokens; issue still open
+---
+[event:c120eb6d-bd2b-4390-b931-d5af096f475f]
+node_id: 611bc3d8-caa1-4e81-82ab-d955bbcbba4f
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T11:55:15.750264+00:00
+
+tier -> long-term: human ruling 2026-10-08 at the k7-mobile-responsive archive gate
+---
 [node:97d0c4ba-55ce-407d-8ecd-14a6a1269357]
 type: issue
 tier: short-term
@@ -13537,7 +13597,7 @@ created_at: 2026-09-15T13:46:19.358223+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:3ea28fac-3a03-48dc-a228-894731fa5541] @ 2026-09-15T13:46:19.358223+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T13:46:19.358223+00:00
 
@@ -13583,6 +13643,16 @@ created_at: 2026-09-15T15:42:41.849381+00:00
 
 per-card overflow audit issue directly motivated this session's chrome-shrink, wrap-scroll, and truncation fixes
 ---
+[event:c18da839-00e9-48a1-9f2f-635966633728]
+node_id: 97d0c4ba-55ce-407d-8ecd-14a6a1269357
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T11:55:53.258415+00:00
+
+10x lifecycle sweep
+---
 [node:015d07b2-9ade-4321-9f00-7cb21ec0ef29]
 type: decision
 tier: short-term
@@ -13591,7 +13661,7 @@ created_at: 2026-09-15T13:46:28.171203+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:1afc718d-b700-4331-8d2f-a8eb21690d24] @ 2026-09-15T13:46:28.171203+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T13:46:28.171203+00:00
 
@@ -13617,6 +13687,16 @@ created_at: 2026-09-15T15:00:03.587782+00:00
 
 gw-plan-review pass 3: re-confirmed the sidebar-phone-collapsible non-goal citation is accurate (sidebar has no runtime representation at all in this codebase).
 ---
+[event:1bed717b-9126-43a8-a21c-877378415d74]
+node_id: 015d07b2-9ade-4321-9f00-7cb21ec0ef29
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T11:55:53.258415+00:00
+
+10x lifecycle sweep
+---
 [node:1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea]
 type: decision
 tier: mid-term
@@ -13625,7 +13705,7 @@ created_at: 2026-09-15T14:42:15.974385+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:1afc718d-b700-4331-8d2f-a8eb21690d24] @ 2026-09-15T14:42:15.974385+00:00
 -> CONTRADICTS [node:3218cf7b-eb04-46dc-a6a6-1bd89155936d] @ 2026-09-15T14:42:15.974385+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T14:42:15.974385+00:00
@@ -13752,6 +13832,16 @@ created_at: 2026-10-08T11:45:18.499892+00:00
 
 10x lifecycle sweep
 ---
+[event:7277712c-9de5-4cf1-bcd4-9e815ab8b106]
+node_id: 1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T11:55:53.258415+00:00
+
+10x lifecycle sweep
+---
 [node:c77c25d1-e7f0-4e2d-894c-b0d4a7744b2b]
 type: concept
 tier: short-term
@@ -13760,10 +13850,20 @@ created_at: 2026-09-15T14:42:31.088660+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T14:42:31.088660+00:00
 
 Clarifying note: the CONTRADICTS edge from [node:1580e5d3] (zero-scroll ruling) to [node:3218cf7b] (the scroll-policy tension) is a loose fit — 3218cf7b described an open architectural fork ("needs an explicit decision, not a silent violation"), and 1580e5d3 is that decision, resolving the fork rather than reversing a settled claim. Noted for whoever reviews the resulting needs_review flag at /gw-resolve, so it reads as "this open question was settled" rather than "a prior fact was found wrong."
+---
+[event:de3e031d-7975-4792-984f-c01c26798af0]
+node_id: c77c25d1-e7f0-4e2d-894c-b0d4a7744b2b
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T11:55:53.258415+00:00
+
+10x lifecycle sweep
 ---
 [node:d8ef0463-6746-4a43-b4d9-1699db3f1fca]
 type: decision
@@ -13773,7 +13873,7 @@ created_at: 2026-09-15T14:42:39.908359+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea] @ 2026-09-15T14:42:39.908359+00:00
 -> DEPENDS_ON [node:3ea28fac-3a03-48dc-a228-894731fa5541] @ 2026-09-15T14:42:39.908359+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T14:42:39.908359+00:00
@@ -13820,9 +13920,29 @@ created_at: 2026-09-26T11:40:42.324260+00:00
 
 its deck text still described grid-auto-rows minmax(0, 1fr); found stale in review and updated in the deck, the decision itself (CSS-only row derivation) still holds
 ---
+[event:f4d0b938-f6a4-4f27-b0dc-b66a4efa0325]
+node_id: d8ef0463-6746-4a43-b4d9-1699db3f1fca
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T11:53:48.992948+00:00
+
+gw-archive: grid-auto-rows minmax(0,1fr) mechanism replaced by k7-phone-page-scroll's minmax(var(--card-min-h),1fr); left to go dormant
+---
+[event:bb367b69-946d-449a-88dd-5ca48244e8b5]
+node_id: d8ef0463-6746-4a43-b4d9-1699db3f1fca
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T11:55:53.258415+00:00
+
+10x lifecycle sweep
+---
 [node:538d1960-cb76-4fb7-be15-d72ae9f34b45]
 type: decision
-tier: mid-term
+tier: long-term
 path: /artifact/k7-mobile-responsive-wireframe-timer-s
 created_at: 2026-09-15T14:42:49.124904+00:00
 needs_review: false
@@ -13924,6 +14044,26 @@ created_at: 2026-10-08T10:48:19.043039+00:00
 
 guided review: still_valid
 ---
+[event:214d7354-b35b-4652-9549-745cd026a37b]
+node_id: 538d1960-cb76-4fb7-be15-d72ae9f34b45
+type: used
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T11:53:48.988458+00:00
+
+gw-archive k7-mobile-responsive: precedent cited by long-term decision a2717fde; recommended for promotion
+---
+[event:2addd09a-de6e-49b5-a681-c90d51a41ef4]
+node_id: 538d1960-cb76-4fb7-be15-d72ae9f34b45
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T11:55:15.551706+00:00
+
+tier -> long-term: human ruling 2026-10-08 at the k7-mobile-responsive archive gate
+---
 [node:0cadf65f-e79e-4a26-9008-bb68e44cfb42]
 type: decision
 tier: mid-term
@@ -13932,7 +14072,7 @@ created_at: 2026-09-15T14:44:56.889588+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:538d1960-cb76-4fb7-be15-d72ae9f34b45] @ 2026-09-15T14:44:56.889588+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T14:44:56.889588+00:00
 -> DEPENDS_ON [node:d8ef0463-6746-4a43-b4d9-1699db3f1fca] @ 2026-09-15T14:44:56.889588+00:00
@@ -13959,6 +14099,16 @@ created_at: 2026-09-15T14:53:06.792617+00:00
 
 4-phase structure decision; confirmed plan.md matches.
 ---
+[event:520ae3e8-ca5b-4c26-aaee-084f6efa7af0]
+node_id: 0cadf65f-e79e-4a26-9008-bb68e44cfb42
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T11:55:53.258415+00:00
+
+10x lifecycle sweep
+---
 [node:e37a024b-cfe5-4d42-8bc9-d0bb0bd07ba1]
 type: decision
 tier: mid-term
@@ -13967,7 +14117,7 @@ created_at: 2026-09-15T14:54:57.844174+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:0cadf65f-e79e-4a26-9008-bb68e44cfb42] @ 2026-09-15T14:54:57.844174+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T14:54:57.844174+00:00
 
@@ -13993,6 +14143,16 @@ created_at: 2026-09-15T15:00:46.120523+00:00
 
 fixed the two remaining 5-pages instances the confirmatory review found
 ---
+[event:8db29288-b6fd-420b-9c46-33cbfacd0f17]
+node_id: e37a024b-cfe5-4d42-8bc9-d0bb0bd07ba1
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T11:55:53.258415+00:00
+
+10x lifecycle sweep
+---
 [node:6b6857da-39e1-4d5c-9c0b-8fe2b3836111]
 type: decision
 tier: short-term
@@ -14001,7 +14161,7 @@ created_at: 2026-09-15T15:01:30.316077+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T15:01:30.316077+00:00
 -> DEPENDS_ON [node:d8ef0463-6746-4a43-b4d9-1699db3f1fca] @ 2026-09-15T15:01:30.316077+00:00
 
@@ -14017,6 +14177,16 @@ created_at: 2026-09-15T15:01:34.391446+00:00
 
 Phase 1 implementation of the grid row/column fix
 ---
+[event:289e043a-6361-43d5-afd0-d47bf9bcc588]
+node_id: 6b6857da-39e1-4d5c-9c0b-8fe2b3836111
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T11:55:53.258415+00:00
+
+10x lifecycle sweep
+---
 [node:409630ca-1b54-40e4-a0b1-610b76be65fd]
 type: decision
 tier: short-term
@@ -14025,7 +14195,7 @@ created_at: 2026-09-15T15:02:25.755876+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:538d1960-cb76-4fb7-be15-d72ae9f34b45] @ 2026-09-15T15:02:25.755876+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T15:02:25.755876+00:00
 
@@ -14041,6 +14211,16 @@ created_at: 2026-09-15T15:02:29.712094+00:00
 
 npm run test confirmed 312/312 pass with the new .wrap markup, no test breakage
 ---
+[event:91bc8a1a-0182-4986-bae5-71ce74496a88]
+node_id: 409630ca-1b54-40e4-a0b1-610b76be65fd
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T11:55:53.258415+00:00
+
+10x lifecycle sweep
+---
 [node:2ee73f47-a258-479c-acf0-5e1a6fbf46b4]
 type: decision
 tier: short-term
@@ -14049,7 +14229,7 @@ created_at: 2026-09-15T15:02:59.081203+00:00
 needs_review: false
 retrieval_weight: 1.0
 trust_weight: 1.0
-archived: false
+archived: true
 -> DEPENDS_ON [node:538d1960-cb76-4fb7-be15-d72ae9f34b45] @ 2026-09-15T15:02:59.081203+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-15T15:02:59.081203+00:00
 
@@ -14085,6 +14265,16 @@ created_at: 2026-10-08T09:58:41.850805+00:00
 
 the same rows-wrap rule fixed the card footer's split badge; 15/15 tests green
 ---
+[event:3a672d5e-87b9-4073-8d19-199fcdb675d4]
+node_id: 2ee73f47-a258-479c-acf0-5e1a6fbf46b4
+type: archived
+weight: 0.0
+polarity: -1
+source: lifecycle-cli
+created_at: 2026-10-08T11:55:53.258415+00:00
+
+10x lifecycle sweep
+---
 [node:622597fb-68a0-4e83-8aa7-26c6f2a69a5b]
 type: facet_value
 tier: lifetime
@@ -14111,7 +14301,7 @@ css
 ---
 [node:db145886-1644-4fb9-bfe1-796c6efbeca7]
 type: decision
-tier: mid-term
+tier: long-term
 path: /artifact/phone-width-layout-keeps-the-page-s-conf
 created_at: 2026-09-15T15:41:56.863133+00:00
 needs_review: false
@@ -14136,9 +14326,29 @@ created_at: 2026-09-26T11:40:42.328718+00:00
 
 column count left as the layout's own; raised for a human whether phones should go to one column now that pages scroll
 ---
+[event:77974ba7-e9e9-4a36-9d5a-307056f51b2f]
+node_id: db145886-1644-4fb9-bfe1-796c6efbeca7
+type: manual_review
+weight: 0.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T11:53:48.995013+00:00
+
+gw-archive: still how the phone grid works; the clock fix measured a half-width card at 375px
+---
+[event:4e050ff7-0297-4b50-b72f-41d62aa312e0]
+node_id: db145886-1644-4fb9-bfe1-796c6efbeca7
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T11:55:15.339198+00:00
+
+tier -> long-term: human ruling 2026-10-08 at the k7-mobile-responsive archive gate
+---
 [node:e24899db-3191-464e-a7c6-12cdef56aa6f]
 type: constraint
-tier: mid-term
+tier: long-term
 path: /artifact/card-shell-chrome-padding-inter-row-ga
 created_at: 2026-09-15T15:42:04.999864+00:00
 needs_review: false
@@ -14152,9 +14362,29 @@ archived: false
 
 Card shell chrome (padding, inter-row gap, head-row padding-bottom) shrinks at the phone breakpoint in BOTH shell components — Card.svelte and K7Card.svelte. K7Card.svelte is a separate, independently-duplicated component (backs the generic k7-card custom element used for the clock card and unimplemented-placeholder case) that does NOT import Card.svelte, so a fix to one never reaches the other — verified by a real-browser re-test where the clock card alone stayed at the old, larger height after the first fix landed only in Card.svelte. K7Card.svelte's .card-body was also missing min-height:0 (present in Card.svelte's version), fixed at the same time as a separate pre-existing discrepancy. Only non-height chrome shrinks; button/control min-height (the touch-target floor, DESIGN.md §6) is never touched.
 ---
+[event:cc4b9a97-426e-4648-9183-1422fa8e9937]
+node_id: e24899db-3191-464e-a7c6-12cdef56aa6f
+type: confirmation_added
+weight: 1.0
+polarity: 1
+source: agent-surface
+created_at: 2026-10-08T11:53:48.978144+00:00
+
+exercised twice on 2026-10-08: the badge fix (card-foot-badge.test.ts) and the clock-date fix (clock-date-phone-fit.test.ts) each had to land in K7Card.svelte separately from Card.svelte
+---
+[event:3f0dac58-e59a-43d2-bed3-03d972752ebf]
+node_id: e24899db-3191-464e-a7c6-12cdef56aa6f
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T11:55:15.045080+00:00
+
+tier -> long-term: human ruling 2026-10-08 at the k7-mobile-responsive archive gate
+---
 [node:14679772-a89b-4f80-9679-1572e5cd68b8]
 type: constraint
-tier: mid-term
+tier: long-term
 path: /artifact/a-card-shell-pattern-found-broken-during
 created_at: 2026-09-15T15:42:14.349101+00:00
 needs_review: false
@@ -14167,9 +14397,19 @@ archived: false
 
 A card-shell pattern found broken during k7-mobile-responsive's phone-width pass: when a card's body is "scrollable list + a rigid trailing form" (K7ShoppingList's list+add, K7Timer's presets+custom, K7Recipes' list+import), giving the inner list its own overflow-y:auto and flex:1 1 auto/min-height:0 (so it shrinks and scrolls to make room for the form) works ONLY as long as the list has no more content than fits — once squeezed hard enough that the list's own overflowing rows exceed its shrunk box, they visually spill past it and collide with the form's text below, because flex-wrap/flex-column children are never clipped by a shrunk parent unless that parent sets its own overflow. Found via real-browser verification at desktop width (1024x768), not phone — the bug is about squeeze ratio, not viewport size. The correct pattern: overflow-y:auto goes on the OUTER wrapper (.wrap/.idle-wrap) only; the inner list stays flex:0 0 auto (natural size, non-shrinking, no min-height:0) so it never has anything of its own to spill — the outer wrapper's scroll reveals the full stack (list + form) when it doesn't fit, with zero overlap.
 ---
+[event:50a71ed0-49d3-4a05-9782-d87aa93ee917]
+node_id: 14679772-a89b-4f80-9679-1572e5cd68b8
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T11:55:15.439107+00:00
+
+tier -> long-term: human ruling 2026-10-08 at the k7-mobile-responsive archive gate
+---
 [node:25827824-ea3d-4245-8597-3b9841ef3725]
 type: constraint
-tier: mid-term
+tier: long-term
 path: /artifact/card-head-row-text-hud-label-meta-nee
 created_at: 2026-09-15T15:42:25.125702+00:00
 needs_review: false
@@ -14182,9 +14422,19 @@ archived: false
 
 Card head-row text (hud-label, meta) needs explicit min-width:0 + overflow:hidden/text-overflow:ellipsis/white-space:nowrap at the phone breakpoint: flex children default to min-width:auto, refusing to shrink below their own content width, so a label plus a meta string that together exceed a squeezed (or, after the 2-column phone decision, half-width) card silently overflow past Card.svelte's own overflow:hidden with no ellipsis to show it happened. A related trap found immediately after adding min-width:0 to Card.svelte's .card-head-right: its .fullscreen-btn renders literal text "[ + ]"/"[ x ]" (spaces included) with no white-space:nowrap, so once the container was allowed to shrink, the browser wrapped the button's own label onto three lines at the spaces instead of just staying one line. Any button/label whose text contains spaces needs white-space:nowrap (and usually flex-shrink:0, to keep priority over less-critical sibling text) before its container is given min-width:0 — the two changes are not safe to make independently.
 ---
+[event:9789f598-3ecc-42d3-b5a8-3e9ec3e2484a]
+node_id: 25827824-ea3d-4245-8597-3b9841ef3725
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T11:55:15.142914+00:00
+
+tier -> long-term: human ruling 2026-10-08 at the k7-mobile-responsive archive gate
+---
 [node:c5e8c11c-643e-4b93-be3d-61f93ac70500]
 type: decision
-tier: mid-term
+tier: long-term
 path: /artifact/at-the-phone-breakpoint-when-a-row-of-c
 created_at: 2026-09-15T15:42:32.346070+00:00
 needs_review: false
@@ -14197,9 +14447,19 @@ archived: false
 
 At the phone breakpoint, when a row of controls doesn't fit a half-width card, decorative or redundant elements are dropped before any control's touch-target size is reduced — DESIGN.md's touch-target floor (min-height) is never negotiable, but horizontal padding and non-essential decoration are. Two applications: K7Carousel.svelte hides its dot indicators at phone width (redundant with the prev/next arrows' own disabled-at-the-ends state) rather than shrinking the arrow buttons, after prev+dots+next didn't fit beside the "KARUZELA" label. K7Chat.svelte's composer buttons (mic, wyslij) get reduced horizontal padding only (--control-pad-x's 16px a side down to --space-2) at phone width, keeping min-height untouched, after full padding on both buttons left no room for the message input in a half-width card.
 ---
+[event:0db28dbd-403c-462d-838f-3bb815fe64c0]
+node_id: c5e8c11c-643e-4b93-be3d-61f93ac70500
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T11:55:15.241484+00:00
+
+tier -> long-term: human ruling 2026-10-08 at the k7-mobile-responsive archive gate
+---
 [node:f7db89bf-2d21-4fd3-8b14-3d8eea6377f3]
 type: concept
-tier: mid-term
+tier: long-term
 path: /artifact/k7-mobile-responsive-made-the-kitchen-t
 created_at: 2026-09-17T07:31:29.447560+00:00
 needs_review: false
@@ -14207,23 +14467,40 @@ retrieval_weight: 1.0
 trust_weight: 1.0
 archived: false
 -> CONSOLIDATES [node:14679772-a89b-4f80-9679-1572e5cd68b8] @ 2026-09-17T07:31:29.447560+00:00
+-> DEPENDS_ON [node:14679772-a89b-4f80-9679-1572e5cd68b8] @ 2026-10-08T11:52:44.605269+00:00
 -> DEPENDS_ON [node:1580e5d3-a9b6-4b2e-9fc5-ee93a2e67aea] @ 2026-09-17T07:31:29.447560+00:00
 -> CONSOLIDATES [node:25827824-ea3d-4245-8597-3b9841ef3725] @ 2026-09-17T07:31:29.447560+00:00
+-> DEPENDS_ON [node:25827824-ea3d-4245-8597-3b9841ef3725] @ 2026-10-08T11:52:43.665969+00:00
 -> DEPENDS_ON [node:3ea28fac-3a03-48dc-a228-894731fa5541] @ 2026-09-17T07:31:29.447560+00:00
+-> DEPENDS_ON [node:4b94d744-3404-4999-a3b5-98900807ece0] @ 2026-10-08T11:52:44.902531+00:00
 -> DEPENDS_ON [node:538d1960-cb76-4fb7-be15-d72ae9f34b45] @ 2026-09-17T07:31:29.447560+00:00
+-> DEPENDS_ON [node:611bc3d8-caa1-4e81-82ab-d955bbcbba4f] @ 2026-10-08T11:52:45.206067+00:00
 -> HAS_FACET [node:a1174884-8d33-4260-af5b-0f97264a2ea2] @ 2026-09-17T07:31:29.447560+00:00
 -> HAS_FACET [node:a2faed56-f852-4bfd-ac27-c49c30586aaf] @ 2026-09-17T07:31:29.447560+00:00
 -> CONSOLIDATES [node:c5e8c11c-643e-4b93-be3d-61f93ac70500] @ 2026-09-17T07:31:29.447560+00:00
+-> DEPENDS_ON [node:c5e8c11c-643e-4b93-be3d-61f93ac70500] @ 2026-10-08T11:52:43.965088+00:00
 -> DEPENDS_ON [node:d8ef0463-6746-4a43-b4d9-1699db3f1fca] @ 2026-09-17T07:31:29.447560+00:00
 -> CONSOLIDATES [node:db145886-1644-4fb9-bfe1-796c6efbeca7] @ 2026-09-17T07:31:29.447560+00:00
+-> DEPENDS_ON [node:db145886-1644-4fb9-bfe1-796c6efbeca7] @ 2026-10-08T11:52:44.294375+00:00
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-17T07:31:29.447560+00:00
 -> CONSOLIDATES [node:e24899db-3191-464e-a7c6-12cdef56aa6f] @ 2026-09-17T07:31:29.447560+00:00
+-> DEPENDS_ON [node:e24899db-3191-464e-a7c6-12cdef56aa6f] @ 2026-10-08T11:52:43.343985+00:00
 
 k7-mobile-responsive: made the Kitchen Terminal K7 dashboard usable at phone width. Started as a 4-phase fix for a grid row/column math desync (JS computed desktop row count, phone media query only overrode columns) that clipped Timer and ascii-art content. Real-browser verification against the actual production build (not a split dev server, whose vite proxy silently drops /theme.css and masks every design-token-dependent bug) revealed the problem was much larger — nearly every card overflowed at phone width. Per explicit human ruling, the change expanded in-place (Phase 5) rather than shipping a partial fix: reversed the blanket single-column-at-phone rule to keep pages' configured 2-column grid (a dense 6-card page in 1 column left cards too short for even glance-tier text); shrank Card.svelte's and K7Card.svelte's shell chrome at the phone breakpoint (two separate components, since K7Card.svelte doesn't import Card.svelte); added head-row text truncation and fixed a fullscreen-button text-wrapping bug it exposed; dropped decorative carousel dots and trimmed chat-composer padding (never touch-target height) at phone width; and fixed a scrollable-list-plus-rigid-form pattern across three cards (shopping list, timer, recipes) where the trailing form had no shrink/scroll escape hatch — including a self-caught regression where a naive fix let a shrunk, un-clipped list visually spill into the form below it, found only via desktop-width verification. Outcome: all 4 layout.yaml pages verified overflow-free and zero-scroll at 375x667, desktop/tablet render confirmed unchanged at 1024x768, full check suite green (316 tests after merging concurrent origin/main work).
 ---
+[event:20df89ba-b0f1-45d3-9379-2b0120774fe8]
+node_id: f7db89bf-2d21-4fd3-8b14-3d8eea6377f3
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T11:55:14.935133+00:00
+
+tier -> long-term: human ruling 2026-10-08 at the k7-mobile-responsive archive gate
+---
 [node:4b94d744-3404-4999-a3b5-98900807ece0]
 type: constraint
-tier: mid-term
+tier: long-term
 path: /artifact/gw-review-lesson-for-k7-mobile-responsiv
 created_at: 2026-09-17T07:35:04.864664+00:00
 needs_review: false
@@ -14235,6 +14512,16 @@ archived: false
 -> HAS_FACET [node:e12ca220-5f82-4226-a2eb-9964701f03c4] @ 2026-09-17T07:35:04.864664+00:00
 
 gw-review lesson for k7-mobile-responsive: after a mid-implementation scope expansion (a "Phase 5" documenting a reversed earlier decision), both plan.md's own file-modified list AND any design deck screens describing the superseded mechanism must be updated in the same pass — an independent fresh-session code review caught two drifts a self-review missed: (1) plan.md claimed K7Weather.svelte needed "no change" when it was in fact modified with the same .wrap pattern as K7AsciiArt.svelte; (2) context/design/<surface>/deck.json's page-grid-reflow screen still described the original 1-column-at-phone mechanism (wireframe label, states, behavior, cites) after Phase 5 reversed it to keep 2 columns at phone width. General lesson: a scope-reversing decision made mid-implementation is easy to record in the new plan text while forgetting the OLDER artifacts (deck.json, earlier phase's own "Modified:" list) that assumed the mechanism being reversed — check both when closing out a phase that reverses an earlier one.
+---
+[event:191d8412-f12b-41fe-8183-a512b2bc2127]
+node_id: 4b94d744-3404-4999-a3b5-98900807ece0
+type: tier_change
+weight: 0.0
+polarity: 1
+source: gui
+created_at: 2026-10-08T11:55:15.650889+00:00
+
+tier -> long-term: human ruling 2026-10-08 at the k7-mobile-responsive archive gate
 ---
 [node:1c386aee-50dd-4adf-af38-d38bf9ec0c4f]
 type: goal
