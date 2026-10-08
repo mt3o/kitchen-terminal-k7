@@ -107,6 +107,10 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+    /* The clock's date in a half-width card: "poniedziałek," cannot break and
+       is wider than the content box at --text-base, so it ran past the right
+       border. One notch down, the way the timer readout steps down. */
+    .body { font-size: var(--text-sm); }
   }
 
   .card-body { flex: 1 1 auto; min-height: 0; }
