@@ -16,12 +16,16 @@
  * `justify-content`/`align-items: center` overflow both ways, and
  * `safe center` is Safari 15.4+, past this project's floor); and at the
  * phone breakpoint the presentation steps down from the wall's sizes.
+ *
+ * Since #101 the same look is the weather card's manual fullscreen view, so
+ * it is keyed on `.k7-fullscreen-active` (set for both causes of fullscreen)
+ * and this contract covers both.
  */
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { describe, it } from 'node:test'
 
-const PRESENTING = ':host(.k7-slideshow-presenting)'
+const PRESENTING = ':host(.k7-fullscreen-active)'
 const PHONE = /max-width:\s*767px/
 
 interface Rule {

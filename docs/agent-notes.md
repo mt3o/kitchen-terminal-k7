@@ -88,6 +88,14 @@ after any change to title size, leading, card padding or header height.
 - **`changelog/` is one file per entry** (`YYYY-MM-DD-NN-slug.yaml`). Never edit
   or renumber somebody else's; that directory exists because a single file
   conflicted on every same-day merge.
+- **Svelte 5's `ontouchstart` is passive.** A `preventDefault()` inside it
+  does nothing (Chrome logs "Unable to preventDefault inside passive event
+  listener"), so the browser still sends the mousedown and click that follow
+  the touch. A handler that needs to cancel them must be attached with
+  `addEventListener('touchstart', fn, { passive: false })`. Card.svelte's
+  fullscreen button does this since #101. Test taps with
+  `page.touchscreen.tap` and `hasTouch: true`. `locator.click()` sends no
+  touch events at all, so it never shows this bug.
 - **The memory store is usually unreachable** from anywhere but the main dev
   box (the MCP entry shells out to `sh`, and the CLI is not on PATH elsewhere).
   That is the documented degraded mode: queue what you would have captured in
