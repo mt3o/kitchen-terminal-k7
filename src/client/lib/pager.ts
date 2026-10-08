@@ -97,7 +97,13 @@ export interface Pager {
  * Returns a handle so a re-render can tear the old one down — leaving listeners
  * on a replaced DOM tree is how a kiosk slows down over a week.
  */
-export function createPager(viewport: HTMLElement, pages: PagerPage[]): Pager {
+export interface PagerOptions {
+  /** Called whenever the page showing changes — by a swipe, a key, or `go()`.
+   *  Not called for a `go()` that lands where it already was. */
+  onChange?: (index: number) => void
+}
+
+export function createPager(viewport: HTMLElement, pages: PagerPage[], options: PagerOptions = {}): Pager {
   const track = viewport.querySelector<HTMLElement>('.pager-track')
   const dots = viewport.querySelector<HTMLElement>('.pager-dots')
   let index = 0
@@ -125,7 +131,9 @@ export function createPager(viewport: HTMLElement, pages: PagerPage[]): Pager {
   }
 
   function go(next: number): void {
+    const previous = index
     index = Math.min(Math.max(next, 0), Math.max(0, count - 1))
+    if (index !== previous) options.onChange?.(index)
     paint()
     if (dots) {
       for (const [i, dot] of [...dots.children].entries()) {

@@ -96,6 +96,17 @@ after any change to title size, leading, card padding or header height.
   fullscreen button does this since #101. Test taps with
   `page.touchscreen.tap` and `hasTouch: true`. `locator.click()` sends no
   touch events at all, so it never shows this bug.
+- **A card's shadow root is empty for one microtask after `render()`.** Svelte
+  custom elements mount in an async `connectedCallback`, so right after
+  `render()` returns no card has its buttons or its `$effect` listeners yet. A
+  `k7-events` request dispatched synchronously from `render()` answers
+  `'absent'` even when the card is in the layout. The deep-link router
+  (`lib/deep-link.ts`) re-applies the URL in a `setTimeout(0)` for this reason.
+- **History is written by `lib/deep-link.ts` only.** Page changes, manual
+  fullscreen and the open recipe go through its reducer. The Slideshow is
+  deliberately invisible to it, because the router watches `manualElIdStore`
+  and not `promotedElIdStore`. While a route is being applied, events are
+  recorded and never pushed. A new kind of link goes through the same reducer.
 - **The memory store is usually unreachable** from anywhere but the main dev
   box (the MCP entry shells out to `sh`, and the CLI is not on PATH elsewhere).
   That is the documented degraded mode: queue what you would have captured in

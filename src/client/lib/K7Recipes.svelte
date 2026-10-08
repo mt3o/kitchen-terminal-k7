@@ -41,6 +41,13 @@
   import { RECIPE_DRAFT, requestReveal, requestTimerStart, type RecipeDraft, type RecipeDraftDetail } from './k7-events.ts'
   import { renderRecipeSteps } from './recipe-steps.ts'
   import { stepsMarkdownFrom } from '../../shared/recipe-steps.ts'
+  import {
+    RECIPE_CLOSE,
+    RECIPE_OPEN,
+    announceRecipeShown,
+    type RecipeCloseDetail,
+    type RecipeOpenDetail,
+  } from './k7-events.ts'
   import { isHttpUrl } from '../../shared/url.ts'
   import { ageLabel } from './wmo.ts'
 
@@ -440,6 +447,7 @@
     // The list unmounts with its scroll container; with every recipe listed,
     // losing the position means scrolling back to row 85 by hand.
     listScrollTop = scroller?.scrollTop ?? 0
+    linkedRecipeId = summary.id
     detailController?.abort()
     const ac = new AbortController()
     detailController = ac
@@ -510,6 +518,61 @@
     }
     window.addEventListener(RECIPE_DRAFT, onDraft)
     return () => window.removeEventListener(RECIPE_DRAFT, onDraft)
+  })
+
+  // Deep links (lib/deep-link.ts, wired in main.ts). This card only says which
+  // recipe it shows and obeys open/close requests; the URL is main.ts's.
+  // The recipe a link names: the one on show, or being edited through EDYTUJ.
+  let linkedRecipeId = $state<string | null>(null)
+  let shownRecipeId = $derived(mode === 'detail' ? linkedRecipeId : mode === 'review' && reviewId ? reviewId : null)
+  let announcedRecipeId: string | null = null
+  $effect(() => {
+    const id = shownRecipeId
+    if (id === announcedRecipeId) return
+    announcedRecipeId = id
+    announceRecipeShown(id)
+  })
+
+  $effect(() => {
+    const host = $host()
+    const onOpen = (e: Event): void => {
+      const request = (e as CustomEvent<RecipeOpenDetail>).detail
+      if (request.result) return
+      // A half-edited form is never thrown away by a link or by Back.
+      if (mode === 'review') {
+        request.result = 'busy'
+        return
+      }
+      request.result = 'opened'
+      requestReveal(host)
+      if (mode === 'detail' && linkedRecipeId === request.recipeId) return
+      const id = request.recipeId
+      void openDetail({ id, title: '', tags: [], importedAt: '' }).then(() => {
+        // A link to a recipe that is not there falls back to the list,
+        // silently: the URL is corrected to match, it is not an error.
+        if (mode !== 'detail' || linkedRecipeId !== id || detail || !detailError) return
+        closeDetail()
+        announcedRecipeId = null
+        announceRecipeShown(null, true)
+      })
+    }
+    const onClose = (e: Event): void => {
+      const request = (e as CustomEvent<RecipeCloseDetail>).detail
+      if (request.result) return
+      if (mode === 'review' && shownRecipeId) {
+        request.result = 'busy'
+        request.recipeId = shownRecipeId
+        return
+      }
+      if (mode === 'detail') closeDetail()
+      request.result = 'closed'
+    }
+    window.addEventListener(RECIPE_OPEN, onOpen)
+    window.addEventListener(RECIPE_CLOSE, onClose)
+    return () => {
+      window.removeEventListener(RECIPE_OPEN, onOpen)
+      window.removeEventListener(RECIPE_CLOSE, onClose)
+    }
   })
 
   // A request per pause in typing, not per keystroke.

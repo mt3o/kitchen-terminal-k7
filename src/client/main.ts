@@ -33,8 +33,18 @@ import { dealCardBackground, redealCardBackgrounds, redealIfThemeChanged } from 
 import { createPullToRefresh } from './lib/pull-refresh.ts'
 import { createPager, type Pager } from './lib/pager.ts'
 import { createSlideshowController, extractSlideshow, isForbiddenNestedSlideshow, type SlideshowController } from './lib/slideshow.ts'
-import { configure as configureFullscreenLock } from './lib/fullscreen-lock.ts'
-import { MENU_SELECT, REVEAL, type MenuSelectDetail } from './lib/k7-events.ts'
+import { acquireManual, configure as configureFullscreenLock, manualElIdStore, releaseManual } from './lib/fullscreen-lock.ts'
+import {
+  MENU_SELECT,
+  RECIPE_SHOWN,
+  REVEAL,
+  requestRecipeClose,
+  requestRecipeOpen,
+  requestReveal,
+  type MenuSelectDetail,
+  type RecipeShownDetail,
+} from './lib/k7-events.ts'
+import { createDeepLinkRouter, type Route } from './lib/deep-link.ts'
 
 import type { Card, CardType, NormalisedLayout, Page } from '../shared/layout.ts'
 
@@ -154,6 +164,9 @@ function menuHiddenIds(page: Page): Set<string> {
 
 function render(rawLayout: NormalisedLayout): void {
   if (!deck) return
+  // Everything below fires pager/fullscreen events while the deck is rebuilt;
+  // none of them is a person navigating, so none may push history.
+  deepLink.hold()
   // Idempotent: boot() runs again after a reconnect, and appending a second set
   // of pages is the obvious way to get that wrong.
   deck.replaceChildren()
@@ -251,8 +264,14 @@ function render(rawLayout: NormalisedLayout): void {
   // household back to page 1 of whatever page they were actually looking at.
   const previousPage = pager?.current()
   pager?.destroy()
-  pager = createPager(deck, layout.pages.map((p) => ({ id: p.id, label: p.label })))
+  pageIds = layout.pages.map((p) => p.id)
+  pager = createPager(
+    deck,
+    layout.pages.map((p) => ({ id: p.id, label: p.label })),
+    { onChange: (index) => reportPage(index) },
+  )
   if (previousPage !== undefined) pager.go(previousPage)
+  reportPage(pager.current())
 
   // Started only now that every card is in the DOM — `document.getElementById`
   // for each `cardIds` entry must resolve. (Already destroyed at the top of
@@ -269,7 +288,98 @@ function render(rawLayout: NormalisedLayout): void {
   // first reconnect. Resets its own pure state too, since the DOM it
   // described no longer exists.
   configureFullscreenLock({ track, pager, slideshow: slideshowController })
+
+  // The address bar's route, applied once the cards have mounted: a Svelte
+  // custom element renders its shadow root a microtask after it is connected,
+  // so the fullscreen button a route needs, and the recipes card's request
+  // listeners, exist only by the next task. Also what restores a manual
+  // fullscreen or an open recipe after a pull-to-refresh rebuilt the deck.
+  window.setTimeout(() => deepLink.syncFromLocation({ force: true }), 0)
 }
+
+// --- deep links (lib/deep-link.ts) -----------------------------------------
+
+/** The rendered layout's page ids, in pager order. Recomputed by every render(). */
+let pageIds: string[] = []
+/** fullscreen-lock's manual owner — never the Slideshow's element. */
+let manualHolder: string | null = null
+
+const deepLink = createDeepLinkRouter({
+  readHash: () => window.location.hash,
+  push: (url) => window.history.pushState(null, '', url),
+  replace: (url) => window.history.replaceState(null, '', url),
+  apply: applyRoute,
+})
+
+function reportPage(index: number): void {
+  const pageId = pageIds[index]
+  if (pageId !== undefined) deepLink.dispatch({ type: 'page-shown', pageId })
+}
+
+/**
+ * Whether a card host carries Card.svelte's fullscreen button — only those may
+ * be fullscreened from a link, since only those can be left again by a tap.
+ * Read off the rendered shadow root rather than a list of card types, so a
+ * widget that opts in later (`<Card fullscreen>`) is linkable with no change here.
+ */
+function fullscreenCapable(el: HTMLElement): boolean {
+  return Boolean(el.shadowRoot?.querySelector('.fullscreen-btn'))
+}
+
+/**
+ * Make the UI show `route`. Synchronous; whatever it cannot honour (an id this
+ * layout does not have, a card with no fullscreen trait) it simply does not
+ * do, and the router replaces the URL with what is actually on screen.
+ *
+ * Order matters: the manual fullscreen is released before paging, because
+ * the pager repaints `.pager-track`'s transform, which fullscreen-lock clears
+ * while anything is promoted.
+ */
+function applyRoute(route: Route): void {
+  if (!pager || !deck) return
+
+  if (route.kind !== 'recipe') {
+    const closed = requestRecipeClose()
+    if (closed.result === 'busy' && closed.recipeId) {
+      deepLink.dispatch({ type: 'recipe-shown', recipeId: closed.recipeId })
+    }
+  }
+
+  const card = route.kind === 'page' && route.cardId ? document.getElementById(route.cardId) : null
+  const target = card && deck.contains(card) ? card : null
+  const fullscreenId = route.kind === 'page' && route.fullscreen && target && fullscreenCapable(target) ? target.id : null
+
+  if (manualHolder && manualHolder !== fullscreenId) releaseManual(manualHolder)
+
+  if (route.kind === 'page') {
+    // A card's own page wins over the one the link names: on a layout where
+    // the card lives elsewhere (layout.local.yaml), the card is what was meant.
+    if (target) requestReveal(target)
+    else {
+      const index = pageIds.indexOf(route.pageId)
+      if (index >= 0) pager.go(index)
+    }
+    if (fullscreenId && manualHolder !== fullscreenId) acquireManual(fullscreenId)
+  } else if (route.kind === 'recipe') {
+    // No recipes card in this layout, or one with a review form open (which a
+    // link must not discard): the recipe is not shown, and the URL says so.
+    const result = requestRecipeOpen(route.recipeId)
+    if (result !== 'opened') deepLink.dispatch({ type: 'recipe-shown', recipeId: null })
+  }
+}
+
+manualElIdStore.subscribe((elId) => {
+  manualHolder = elId
+  deepLink.dispatch({ type: 'manual-fullscreen', cardId: elId })
+})
+
+window.addEventListener(RECIPE_SHOWN, (e) => {
+  const { recipeId, missing } = (e as CustomEvent<RecipeShownDetail>).detail
+  deepLink.dispatch({ type: 'recipe-shown', recipeId, ...(missing ? { fallback: true } : {}) })
+})
+
+window.addEventListener('popstate', () => deepLink.syncFromLocation())
+window.addEventListener('hashchange', () => deepLink.syncFromLocation())
 
 /**
  * A card asking to be brought on screen (lib/k7-events.ts) — the recipes

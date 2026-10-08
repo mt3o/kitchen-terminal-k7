@@ -1,0 +1,7 @@
+date: "2026-10-08"
+title: "Adres strony pamięta, co jest na ekranie"
+items:
+  - "Zmiana strony, karta otwarta na pełny ekran i otwarty przepis zapisują się w adresie (np. #/recipe/…). Taki link otwiera ten sam widok na innym urządzeniu."
+  - "Przycisk Wstecz cofa ostatnie przejście: zamyka przepis, wychodzi z pełnego ekranu albo wraca na poprzednią stronę."
+  - "Pokaz slajdów nie zapisuje się w historii — Wstecz nie cofa jego kolejnych kart."
+  - "Link do strony, karty albo przepisu, którego tu nie ma, po cichu otwiera zwykły widok."
