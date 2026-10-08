@@ -36,10 +36,11 @@ describe('RecipeRepository', () => {
       description: 'Cienkie naleśniki na śniadanie.',
       sourceUrl: 'https://example.test/nalesniki',
       ingredients: ['mąka', 'mleko', 'jajka'],
-      steps: ['wymieszać', 'smażyć'],
+      stepsMarkdown: '## Ciasto\n\n- wymieszać\n- smażyć',
       tags: ['śniadanie'],
     })
     const got = await repos.recipes.get(saved.id)
+    assert.equal(got?.stepsMarkdown, '## Ciasto\n\n- wymieszać\n- smażyć', 'a saved method comes back as written, not numbered')
     assert.deepEqual(got?.ingredients, ['mąka', 'mleko', 'jajka'])
     assert.equal(got?.tags[0], 'śniadanie', 'Polish diacritics survived the round trip')
     assert.ok(got?.importedAt instanceof Date, 'timestamp came back as a Date, not a number')
@@ -47,8 +48,8 @@ describe('RecipeRepository', () => {
   })
 
   it('filters by tag and deletes', async () => {
-    await repos.recipes.save({ id: '', title: 'A', description: '', sourceUrl: null, ingredients: [], steps: [], tags: ['obiad'] })
-    const b = await repos.recipes.save({ id: '', title: 'B', description: '', sourceUrl: null, ingredients: [], steps: [], tags: ['deser'] })
+    await repos.recipes.save({ id: '', title: 'A', description: '', sourceUrl: null, ingredients: [], stepsMarkdown: '', tags: ['obiad'] })
+    const b = await repos.recipes.save({ id: '', title: 'B', description: '', sourceUrl: null, ingredients: [], stepsMarkdown: '', tags: ['deser'] })
     assert.equal((await repos.recipes.list({ tag: 'obiad' })).length, 1)
     assert.equal(await repos.recipes.delete(b.id), true)
     assert.equal(await repos.recipes.delete(b.id), false, 'deleting twice reported success')
@@ -56,14 +57,14 @@ describe('RecipeRepository', () => {
 
   it('returns the whole collection for limit: Infinity, past the default 50', async () => {
     for (let n = 0; n < 51; n += 1) {
-      await repos.recipes.save({ id: '', title: `R${n}`, description: '', sourceUrl: null, ingredients: [], steps: [], tags: [] })
+      await repos.recipes.save({ id: '', title: `R${n}`, description: '', sourceUrl: null, ingredients: [], stepsMarkdown: '', tags: [] })
     }
     assert.equal((await repos.recipes.list()).length, 50)
     assert.equal((await repos.recipes.list({ limit: Infinity })).length, 51)
   })
 
   it('reports a NULL description column back as an empty string, not null', async () => {
-    const saved = await repos.recipes.save({ id: '', title: 'C', description: '', sourceUrl: null, ingredients: [], steps: [], tags: [] })
+    const saved = await repos.recipes.save({ id: '', title: 'C', description: '', sourceUrl: null, ingredients: [], stepsMarkdown: '', tags: [] })
     assert.equal(saved.description, '')
     assert.equal((await repos.recipes.get(saved.id))?.description, '')
   })

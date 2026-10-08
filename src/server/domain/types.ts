@@ -13,7 +13,13 @@ export interface Recipe {
   description: string
   sourceUrl: string | null
   ingredients: string[]
-  steps: string[]
+  /**
+   * The method, as one Markdown document the household writes: headings,
+   * sub-lists, emphasis, links, and numbering only where they typed it. Was
+   * `steps: string[]` until 2026-10-08; that shape is still read, as a
+   * numbered list (shared/recipe-steps.ts).
+   */
+  stepsMarkdown: string
   tags: string[]
   importedAt: Date
 }

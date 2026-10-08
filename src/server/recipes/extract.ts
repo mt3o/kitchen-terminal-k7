@@ -14,6 +14,7 @@ import { JSDOM } from 'jsdom'
 import { Readability } from '@mozilla/readability'
 
 import type { Recipe } from '../domain/types.ts'
+import { numberedSteps } from '../../shared/recipe-steps.ts'
 
 /** What both strategies produce: everything but storage identity. */
 export type ExtractedRecipe = Omit<Recipe, 'id' | 'importedAt'>
@@ -125,7 +126,8 @@ export function extractJsonLd(html: string, sourceUrl: string): ExtractedRecipe 
         description: typeof node.description === 'string' ? node.description.trim() : '',
         sourceUrl,
         ingredients: toStringArray(node.recipeIngredient ?? node.ingredients),
-        steps: extractInstructions(node.recipeInstructions),
+        // An array (or newline-split string) of steps, as a numbered Markdown list.
+        stepsMarkdown: numberedSteps(extractInstructions(node.recipeInstructions)),
         tags: extractTags(node),
       }
     }
@@ -189,7 +191,7 @@ export function extractFallback(html: string, sourceUrl: string): ExtractedRecip
         description: '',
         sourceUrl,
         ingredients,
-        steps,
+        stepsMarkdown: numberedSteps(steps),
         tags,
       }
     } finally {

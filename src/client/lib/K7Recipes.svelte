@@ -37,9 +37,10 @@
 
 <script lang="ts">
   import Card from './Card.svelte'
-  import { formatDuration, linkDurations } from './chat-commands.ts'
+  import { formatDuration } from './chat-commands.ts'
   import { RECIPE_DRAFT, requestReveal, requestTimerStart, type RecipeDraft, type RecipeDraftDetail } from './k7-events.ts'
-  import { escapeHtml } from './markdown.ts'
+  import { renderRecipeSteps } from './recipe-steps.ts'
+  import { stepsMarkdownFrom } from '../../shared/recipe-steps.ts'
   import { isHttpUrl } from '../../shared/url.ts'
   import { ageLabel } from './wmo.ts'
 
@@ -49,7 +50,8 @@
     description: string
     sourceUrl: string | null
     ingredients: string[]
-    steps: string[]
+    /** One Markdown document (server/domain/types.ts); rendered by renderRecipeSteps. */
+    stepsMarkdown: string
     tags: string[]
     importedAt: string
   }
@@ -289,7 +291,8 @@
       description: typeof input.description === 'string' ? input.description : '',
       sourceUrl: typeof input.sourceUrl === 'string' ? input.sourceUrl : null,
       ingredients: strings(input.ingredients),
-      steps: strings(input.steps),
+      // A rejection saved before 2026-10-08 carries `steps: string[]`; read as a numbered list.
+      stepsMarkdown: stepsMarkdownFrom(input) ?? '',
       tags: strings(input.tags),
     }
   }
@@ -339,7 +342,7 @@
     reviewTitle = recipe.title
     reviewDescription = recipe.description
     reviewIngredients = recipe.ingredients.join('\n')
-    reviewSteps = recipe.steps.join('\n')
+    reviewSteps = recipe.stepsMarkdown
     reviewTags = recipe.tags.join(', ')
     saveError = ''
     mode = 'review'
@@ -357,7 +360,7 @@
         body: JSON.stringify({ url }),
       })
       const body = (await res.json()) as
-        | { title: string; description: string; sourceUrl: string | null; ingredients: string[]; steps: string[]; tags: string[] }
+        | RecipeDraft
         | { error: string; reason?: string }
       if (!res.ok || 'error' in body) {
         importError = 'error' in body ? body.error : `import ${res.status}`
@@ -375,7 +378,7 @@
   }
 
   function openManualEntry(): void {
-    openReview({ sourceUrl: null, title: '', description: '', ingredients: [], steps: [], tags: [] })
+    openReview({ sourceUrl: null, title: '', description: '', ingredients: [], stepsMarkdown: '', tags: [] })
   }
 
   async function saveReview(): Promise<void> {
@@ -393,7 +396,7 @@
           description: reviewDescription.trim(),
           sourceUrl: reviewSourceUrl.trim(),
           ingredients: linesOf(reviewIngredients),
-          steps: linesOf(reviewSteps),
+          stepsMarkdown: reviewSteps.trim(),
           tags: tagsOf(reviewTags),
         }),
       })
@@ -575,8 +578,8 @@
         <textarea class="field-area" bind:value={reviewIngredients} rows="4"></textarea>
       </label>
       <label class="field">
-        <span class="field-label">kroki (jedna linia = jeden krok)</span>
-        <textarea class="field-area" bind:value={reviewSteps} rows="4"></textarea>
+        <span class="field-label">kroki (markdown: ## sekcja, - lista, 1. krok, **wazne**)</span>
+        <textarea class="field-area field-markdown" bind:value={reviewSteps} rows="8" spellcheck="false"></textarea>
       </label>
       <label class="field">
         <span class="field-label">tagi (po przecinku)</span>
@@ -619,17 +622,17 @@
         <p class="empty">brak</p>
       {/if}
       <p class="field-label">kroki</p>
-      {#if detail.steps.length > 0}
+      {#if detail.stepsMarkdown.trim() !== ''}
         <!-- The click lands on generated <button class="dur"> elements, which are
-             keyboard-operable on their own; the list only delegates. -->
-        <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
-        <ol class="detail-list" onclick={onStepsClick}>
-          {#each detail.steps as step, i (i)}
-            <!-- escapeHtml runs before linkDurations adds its own tags (see chat-commands.ts). -->
-            <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-            <li>{@html linkDurations(escapeHtml(step))}</li>
-          {/each}
-        </ol>
+             keyboard-operable on their own; the block only delegates.
+             No <ol> around it: numbering is whatever the household wrote. -->
+        <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
+        <div class="detail-steps" onclick={onStepsClick}>
+          <!-- renderRecipeSteps escapes raw HTML and emits only allowlisted tags
+               before linkDurations adds its buttons (lib/recipe-steps.ts). -->
+          <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+          {@html renderRecipeSteps(detail.stepsMarkdown)}
+        </div>
       {:else}
         <p class="empty">brak</p>
       {/if}
@@ -1101,6 +1104,8 @@
 
   .field-input { min-height: var(--control-h-sm); }
   .field-area { resize: vertical; }
+  /* Raw Markdown: a fixed-width face keeps list indents and `##` legible. */
+  .field-markdown { font-family: var(--font-mono); }
 
   .field-input:focus,
   .field-area:focus {
@@ -1150,9 +1155,88 @@
     font-size: var(--text-sm);
   }
 
+  /* The method, rendered from the household's Markdown (lib/recipe-steps.ts).
+     Same allowlist as the chat bubble, so the same rules as K7Chat's .content,
+     at the read tier (--text-base) rather than the bubble's --text-sm. */
+  .detail-steps {
+    font-size: var(--text-base);
+    overflow-wrap: anywhere;
+  }
+  .detail-steps :global(p) { margin: 0 0 var(--space-2); }
+  .detail-steps :global(ul),
+  .detail-steps :global(ol) {
+    margin: 0 0 var(--space-2);
+    padding-left: var(--space-5);
+  }
+  /* The numbers hang outside the padding, and "10." is three glyphs at the
+     read tier (20–24px by density): a fixed space token clipped the leading
+     digit, so this one is sized in the text's own em. */
+  .detail-steps :global(ol) { padding-left: 2.5em; }
+  .detail-steps :global(li) { margin-bottom: var(--space-1); }
+  .detail-steps :global(li > p) { margin: 0 0 var(--space-1); }
+  .detail-steps :global(li > ul),
+  .detail-steps :global(li > ol) { margin: var(--space-1) 0 0; }
+  .detail-steps :global(li > ul) { padding-left: var(--space-4); }
+  .detail-steps :global(:is(p, ul, ol, pre, blockquote, .md-table):last-child) { margin-bottom: 0; }
+  /* Every heading renders at h3–h6 (shared/markdown.ts): section labels
+     ("Ciasto", "Krem") inside the method, never larger than its own text. */
+  .detail-steps :global(:is(h3, h4, h5, h6)) {
+    margin: var(--space-3) 0 var(--space-1);
+    font-size: var(--text-base);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-label);
+    color: var(--fg-display);
+    line-height: var(--leading-tight);
+  }
+  .detail-steps :global(:is(h3, h4, h5, h6):first-child) { margin-top: 0; }
+  .detail-steps :global(strong) { font-weight: var(--weight-bold); }
+  .detail-steps :global(a) { color: var(--signal); }
+  .detail-steps :global(code) {
+    font-family: var(--font-mono);
+    background: var(--surface-sunken);
+    border-radius: var(--radius);
+    padding: 0 0.25em;
+  }
+  .detail-steps :global(pre) {
+    margin: 0 0 var(--space-2);
+    padding: var(--space-2);
+    background: var(--surface-sunken);
+    border: var(--border-w) solid var(--border);
+    border-radius: var(--radius);
+    overflow-x: auto;
+  }
+  .detail-steps :global(pre code) { background: none; padding: 0; }
+  .detail-steps :global(blockquote) {
+    margin: 0 0 var(--space-2);
+    padding-left: var(--space-3);
+    border-left: var(--border-w-strong) solid var(--border-strong);
+    color: var(--fg-muted);
+  }
+  .detail-steps :global(hr) {
+    margin: var(--space-3) 0;
+    border: none;
+    border-top: var(--border-w) solid var(--rule);
+  }
+  .detail-steps :global(del) { color: var(--fg-muted); }
+  .detail-steps :global(.md-table) {
+    margin: 0 0 var(--space-2);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .detail-steps :global(table) { border-collapse: collapse; overflow-wrap: normal; }
+  .detail-steps :global(:is(th, td)) {
+    padding: var(--space-1) var(--space-2);
+    border: var(--border-w) solid var(--border);
+    text-align: left;
+    vertical-align: top;
+  }
+  .detail-steps :global(th) { background: var(--surface-sunken); font-weight: var(--weight-bold); }
+  .detail-steps :global(.al-c) { text-align: center; }
+  .detail-steps :global(.al-r) { text-align: right; }
+
   /* Durations inside a step, generated by linkDurations — a text-rank button
      (DESIGN.md §8): dashed underline, no fill, raises contrast on hover. */
-  .detail-list :global(button.dur) {
+  .detail-steps :global(button.dur) {
     padding: 0 var(--space-1);
     background: transparent;
     border: none;
@@ -1163,8 +1247,8 @@
     font-size: inherit;
     cursor: pointer;
   }
-  .detail-list :global(button.dur:hover) { background: var(--ghost-hover); }
-  .detail-list :global(button.dur:active) { background: var(--ghost-active); }
+  .detail-steps :global(button.dur:hover) { background: var(--ghost-hover); }
+  .detail-steps :global(button.dur:active) { background: var(--ghost-active); }
 
   .review-actions {
     display: flex;

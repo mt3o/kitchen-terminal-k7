@@ -31,6 +31,17 @@ describe('sanitizeRejectionInput', () => {
     assert.deepEqual(JSON.parse(JSON.stringify(out)), out)
   })
 
+  it('keeps a long stepsMarkdown intact up to 20000 chars, while other fields keep the 4000 cap', () => {
+    const scrub = createScrubber([])
+    const method = Array.from({ length: 1500 }, (_, i) => `${i + 1}. krok`).join('\n')
+    assert.ok(method.length > 4000 && method.length < 20_000)
+    const out = sanitizeRejectionInput({ stepsMarkdown: method, description: method }, scrub)
+    assert.equal(out.stepsMarkdown, method, 'a rejected long method survives PONOW whole')
+    assert.equal((out.description as string).length, 4000)
+    const huge = sanitizeRejectionInput({ stepsMarkdown: 'a'.repeat(25_000) }, scrub)
+    assert.equal((huge.stepsMarkdown as string).length, 20_000)
+  })
+
   it('caps an array to 200 elements, and each string element within it', () => {
     const scrub = createScrubber([])
     const out = sanitizeRejectionInput({ ingredients: Array.from({ length: 300 }, (_, i) => `item ${i}`.repeat(1000)) }, scrub)

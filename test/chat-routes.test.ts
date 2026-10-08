@@ -264,8 +264,10 @@ describe('POST /api/chat/conversations/:id/recipe-draft', () => {
       description: '',
       sourceUrl: null,
       ingredients: ['4 jajka'],
-      steps: ['Podsmaż'],
+      stepsMarkdown: '1. Podsmaż',
       tags: ['jajka'],
+      // Transitional, for a kiosk on the pre-#102 bundle (recipes/legacy-steps.ts).
+      steps: ['1. Podsmaż'],
     })
     const [call] = await repos.aiCalls.listRecent(1)
     assert.equal(call?.purpose, 'recipe-extraction')

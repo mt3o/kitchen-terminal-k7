@@ -1,0 +1,7 @@
+date: "2026-10-08"
+title: "Kroki przepisu piszesz w Markdown, bez narzuconej numeracji"
+items:
+  - "Kroki przepisu to teraz jeden tekst w Markdown: nagłówki sekcji (## Ciasto, ## Krem), listy i podlisty, **pogrubienie**, linki."
+  - "Numeracja nie jest już dodawana automatycznie — numerujesz sam (1. 2. 3.) tam, gdzie chcesz."
+  - "Zapisane wcześniej i importowane przepisy pokazują kroki jako listę numerowaną, w tej samej kolejności co dotąd."
+  - "Czasy w krokach („10 min”) dalej uruchamiają minutnik po dotknięciu — także w pogrubionym tekście; w linkach i w `kodzie` nie."

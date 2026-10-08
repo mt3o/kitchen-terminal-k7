@@ -35,7 +35,7 @@ describe('extractJsonLd', () => {
     assert.equal(recipe.title, 'Naleśniki')
     assert.equal(recipe.description, 'Cienkie naleśniki na śniadanie.')
     assert.deepEqual(recipe.ingredients, ['2 szklanki mąki', '2 jajka', '1 szklanka mleka'])
-    assert.deepEqual(recipe.steps, ['Wymieszać składniki.', 'Smażyć na patelni.'])
+    assert.equal(recipe.stepsMarkdown, '1. Wymieszać składniki.\n2. Smażyć na patelni.')
     assert.deepEqual(recipe.tags, ['śniadanie', 'szybkie', 'deser'])
     assert.equal(recipe.sourceUrl, SOURCE)
   })
@@ -53,7 +53,7 @@ describe('extractJsonLd', () => {
     </head><body></body></html>`
 
     const recipe = extractJsonLd(html, SOURCE)
-    assert.deepEqual(recipe?.steps, ['Zagotuj wode.', 'Dodaj sol.'])
+    assert.equal(recipe?.stepsMarkdown, '1. Zagotuj wode.\n2. Dodaj sol.')
   })
 
   it('finds a Recipe node nested under @graph', () => {
@@ -120,8 +120,8 @@ describe('extractFallback', () => {
     assert.equal(recipe.description, '')
     assert.equal(recipe.ingredients.length, 4)
     assert.ok(recipe.ingredients.includes('1 kg kapusty kiszonej'))
-    assert.equal(recipe.steps.length, 4)
-    assert.ok(recipe.steps.includes('Dus na wolnym ogniu przez dwie godziny.'))
+    assert.equal(recipe.stepsMarkdown.split('\n').length, 4)
+    assert.match(recipe.stepsMarkdown, /^\d\. Dus na wolnym ogniu przez dwie godziny\.$/m)
     assert.deepEqual(recipe.tags, ['obiad', 'tradycyjne'])
     assert.equal(recipe.sourceUrl, SOURCE)
   })

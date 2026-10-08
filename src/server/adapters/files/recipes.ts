@@ -172,7 +172,7 @@ export function createFileRecipeRepository(dir: string, options: FileRecipeRepos
         description: recipe.description,
         sourceUrl: recipe.sourceUrl,
         ingredients: recipe.ingredients,
-        steps: recipe.steps,
+        stepsMarkdown: recipe.stepsMarkdown,
         tags: recipe.tags,
         importedAt,
       })

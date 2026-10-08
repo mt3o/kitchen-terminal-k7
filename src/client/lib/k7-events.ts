@@ -32,7 +32,8 @@ export interface RecipeDraft {
   description: string
   sourceUrl: string | null
   ingredients: string[]
-  steps: string[]
+  /** The method as one Markdown document — see server/domain/types.ts's Recipe. */
+  stepsMarkdown: string
   tags: string[]
 }
 

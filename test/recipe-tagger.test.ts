@@ -24,7 +24,7 @@ const recipe = {
   title: 'Żurek',
   description: 'Na zakwasie, mrozi się dobrze',
   ingredients: ['zakwas', 'biała kiełbasa'],
-  steps: ['gotuj wywar', 'dodaj zakwas'],
+  stepsMarkdown: '1. gotuj wywar\n2. dodaj zakwas',
   tags: [] as string[],
 }
 

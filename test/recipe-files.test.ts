@@ -16,6 +16,7 @@ import { createRepositories, openDatabase } from '../src/server/adapters/drizzle
 import { createFileRecipeRepository, migrateRecipesToFiles } from '../src/server/adapters/files/recipes.ts'
 import { loadConfig } from '../src/server/config.ts'
 import { runMigrations } from '../src/server/db/migrate.ts'
+import * as schema from '../src/server/db/schema.ts'
 import type { Recipe } from '../src/server/domain/types.ts'
 import { parseRecipeMarkdown, serializeRecipe, slugify } from '../src/server/recipes/markdown-format.ts'
 
@@ -27,7 +28,7 @@ const zurek: Recipe = {
   description: 'Wielkanocna zupa na zakwasie, z białą kiełbasą i jajkiem.',
   sourceUrl: 'https://example.test/żurek',
   ingredients: ['500 ml zakwasu', 'biała kiełbasa', '4 jajka'],
-  steps: ['Zagotować wodę z zakwasem.', 'Dodać kiełbasę i gotować 20 minut.'],
+  stepsMarkdown: '1. Zagotować wodę z zakwasem.\n2. Dodać kiełbasę i gotować 20 minut.',
   tags: ['zupa', 'wielkanoc'],
   importedAt: new Date('2026-04-05T10:30:00.000Z'),
 }
@@ -38,7 +39,7 @@ const draft = (title: string, extra: Partial<Recipe> = {}): Omit<Recipe, 'import
   description: '',
   sourceUrl: null,
   ingredients: [],
-  steps: [],
+  stepsMarkdown: '',
   tags: [],
   ...extra,
 })
@@ -65,13 +66,52 @@ describe('markdown format', () => {
     assert.equal(parseRecipeMarkdown(text, { id: 'zurek', mtime: MTIME }).description, 'Pierwsza linia.\nDruga linia.')
   })
 
-  it('collapses a line break inside an item to one space', () => {
-    const text = serializeRecipe({ ...zurek, steps: ['Wymieszać\n  i odstawić', 'Podać'] })
-    assert.deepEqual(parseRecipeMarkdown(text, { id: 'zurek', mtime: MTIME }).steps, ['Wymieszać i odstawić', 'Podać'])
+  it('collapses a line break inside an ingredient to one space', () => {
+    const text = serializeRecipe({ ...zurek, ingredients: ['500 ml\n  zakwasu', 'sól'] })
+    assert.deepEqual(parseRecipeMarkdown(text, { id: 'zurek', mtime: MTIME }).ingredients, ['500 ml zakwasu', 'sól'])
+  })
+
+  it('round-trips a Markdown method as written: headings, sub-lists, bold, links, own numbering', () => {
+    const stepsMarkdown = [
+      '## Ciasto',
+      '',
+      '1. Wymieszaj mąkę z jajkami.',
+      '   - nie za długo',
+      '2. Odstaw na **30 min**.',
+      '',
+      '### Krem',
+      '',
+      'Ubij śmietanę ([film](https://example.test/krem)), potem `10 min` w lodówce.',
+    ].join('\n')
+    const text = serializeRecipe({ ...zurek, stepsMarkdown })
+    assert.ok(text.endsWith(`## Kroki\n\n${stepsMarkdown}\n`), text)
+    assert.equal(parseRecipeMarkdown(text, { id: 'zurek', mtime: MTIME }).stepsMarkdown, stepsMarkdown)
+  })
+
+  it('keeps a same-level unknown heading inside the method instead of ending it', () => {
+    const recipe = parseRecipeMarkdown('## Składniki\n\n- mąka\n\n## Kroki\n\n- zagnieć\n\n## Uwagi\n\nmrozi się dobrze\n', {
+      id: 'x',
+      mtime: MTIME,
+    })
+    assert.equal(recipe.stepsMarkdown, '- zagnieć\n\n## Uwagi\n\nmrozi się dobrze')
+    assert.deepEqual(recipe.ingredients, ['mąka'])
+  })
+
+  it('ends the method at another known section, so a file with Kroki first still reads', () => {
+    const recipe = parseRecipeMarkdown('## Kroki\n\n1. gotuj\n\n## Składniki\n\n- woda\n', { id: 'x', mtime: MTIME })
+    assert.equal(recipe.stepsMarkdown, '1. gotuj')
+    assert.deepEqual(recipe.ingredients, ['woda'])
+  })
+
+  it('demotes a heading in the method that names another section, so a save never moves the method into it', () => {
+    const text = serializeRecipe({ ...zurek, stepsMarkdown: '1. gotuj\n\n## Składniki sosu\n\n## Składniki\n\n- śmietana' })
+    const recipe = parseRecipeMarkdown(text, { id: 'zurek', mtime: MTIME })
+    assert.deepEqual(recipe.ingredients, zurek.ingredients)
+    assert.equal(recipe.stepsMarkdown, '1. gotuj\n\n## Składniki sosu\n\n#### Składniki\n\n- śmietana')
   })
 
   it('omits a null sourceUrl, an empty description, and keeps both headings for empty lists', () => {
-    const empty: Recipe = { ...zurek, description: '', sourceUrl: null, ingredients: [], steps: [], tags: [] }
+    const empty: Recipe = { ...zurek, description: '', sourceUrl: null, ingredients: [], stepsMarkdown: '', tags: [] }
     const text = serializeRecipe(empty)
     assert.doesNotMatch(text, /sourceUrl/)
     // No description at all means no ## Opis section — file shape stays exactly what it was before this field existed.
@@ -113,7 +153,8 @@ describe('markdown format', () => {
     assert.equal(recipe.id, 'Pierogi ruskie')
     assert.equal(recipe.title, 'Pierogi ruskie')
     assert.deepEqual(recipe.ingredients, ['500 g mąki', '1 kg ziemniaków najlepiej mączystych', 'twaróg', 'woda'])
-    assert.deepEqual(recipe.steps, ['Ugotować ziemniaki.', 'Zmielić z twarogiem.', 'Lepić i gotować, aż wypłyną.'])
+    // A legacy method is read as the Markdown it already is: its own numbering, its own order.
+    assert.equal(recipe.stepsMarkdown, '1) Ugotować ziemniaki.\n2) Zmielić z twarogiem.\nLepić i gotować, aż wypłyną.')
     assert.deepEqual(recipe.tags, [])
     assert.equal(recipe.sourceUrl, null)
     assert.deepEqual(recipe.importedAt, MTIME, 'no importedAt in the file falls back to its mtime')
@@ -149,7 +190,7 @@ describe('markdown format', () => {
   it('falls back to the file name when there is neither a title nor an H1', () => {
     const recipe = parseRecipeMarkdown('## Kroki\n\n- zjeść\n', { id: 'bez-tytulu', mtime: MTIME })
     assert.equal(recipe.title, 'bez-tytulu')
-    assert.deepEqual(recipe.steps, ['zjeść'])
+    assert.equal(recipe.stepsMarkdown, '- zjeść')
   })
 
   it('accepts tags as a comma-separated string and ignores an unparseable date', () => {
@@ -245,11 +286,11 @@ describe('file RecipeRepository', () => {
   it('keeps importedAt when a recipe is edited', async () => {
     const repo = createFileRecipeRepository(dir)
     const original = await repo.save({ ...draft('Bigos'), importedAt: new Date('2025-12-24T12:00:00.000Z') })
-    const edited = await repo.save({ ...draft('Bigos', { steps: ['dusić trzy dni'] }), id: original.id })
+    const edited = await repo.save({ ...draft('Bigos', { stepsMarkdown: 'dusić **trzy dni**' }), id: original.id })
 
     assert.equal(edited.id, original.id)
     assert.deepEqual(edited.importedAt, original.importedAt)
-    assert.deepEqual((await repo.get(original.id))?.steps, ['dusić trzy dni'])
+    assert.equal((await repo.get(original.id))?.stepsMarkdown, 'dusić **trzy dni**')
     assert.equal((await readdir(dir)).length, 1, 'no temp file left behind')
   })
 
@@ -322,6 +363,23 @@ describe('migrateRecipesToFiles', () => {
     for (const name of await readdir(target)) if (name.endsWith('.md')) await unlink(join(target, name))
     assert.equal(await migrateRecipesToFiles(source, target), undefined, 'an emptied collection was refilled')
     assert.deepEqual(await repo.list(), [])
+  })
+
+  it('migrates a legacy steps array row as a numbered Markdown list', async () => {
+    const db = openDatabase(':memory:')
+    runMigrations(db)
+    await db.insert(schema.recipes).values({
+      id: 'legacy',
+      title: 'Kompot',
+      sourceUrl: null,
+      ingredients: ['jabłka'],
+      steps: ['Pokrój jabłka.', 'Gotuj 15 min.'],
+      tags: [],
+      importedAt: new Date('2025-12-25T12:00:00.000Z'),
+    })
+    assert.deepEqual(await migrateRecipesToFiles(createRepositories(db).recipes, dir), { migrated: 1, skipped: 0 })
+    assert.equal((await createFileRecipeRepository(dir).get('kompot'))?.stepsMarkdown, '1. Pokrój jabłka.\n2. Gotuj 15 min.')
+    assert.match(await readFile(join(dir, 'kompot.md'), 'utf8'), /## Kroki\n\n1\. Pokrój jabłka\.\n2\. Gotuj 15 min\.\n$/)
   })
 
   it('does not duplicate what an interrupted earlier run already copied', async () => {

@@ -112,6 +112,14 @@ after any change to title size, leading, card padding or header height.
 | `scripts/check-token-contract.py` | The "components read only tokens" lint. It strips comments first, because the prose describing the rule necessarily contains every pattern it bans. |
 | `scripts/build-precache.mjs` | Builds the service worker's precache manifest from what the build actually emitted. |
 
+`theme-preview.mjs` cans no recipes (`/api/recipes` is an empty list). To look
+at the recipes card, run the real server against scratch data instead:
+`K7_PORT=<free> K7_HOST=127.0.0.1 K7_DB_PATH=/tmp/x/k7.sqlite
+K7_RECIPES_DIR=/tmp/x/przepisy node src/server/index.ts` after `npx vite build`,
+with hand-written `.md` files in that directory — never the household's own
+recipe directory. Stop it by its pid, not `pkill -f` on a pattern that also
+appears in your own shell's command line (that kills the shell).
+
 For screenshots, drive an installed Chrome with `playwright-core`
 (`npm i --no-save playwright-core`, then `executablePath`) — no 150 MB browser
 download, and it works the same on Windows and Linux.

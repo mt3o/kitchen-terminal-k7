@@ -25,7 +25,13 @@ export const recipes = sqliteTable('recipes', {
   sourceUrl: text('source_url'),
   /** JSON arrays: the shapes vary too much between sources for columns. */
   ingredients: text('ingredients', { mode: 'json' }).$type<string[]>().notNull(),
-  steps: text('steps', { mode: 'json' }).$type<string[]>().notNull(),
+  /**
+   * The method. A string[] in every row written before 2026-10-08 (read as a
+   * numbered list); a row saved since holds Recipe.stepsMarkdown as a JSON
+   * string. No migration: this table is only the files store's one-time
+   * migration source and rollback path.
+   */
+  steps: text('steps', { mode: 'json' }).$type<string[] | string>().notNull(),
   tags: text('tags', { mode: 'json' }).$type<string[]>().notNull(),
   importedAt: integer('imported_at', { mode: 'timestamp_ms' }).notNull().default(now),
 })
