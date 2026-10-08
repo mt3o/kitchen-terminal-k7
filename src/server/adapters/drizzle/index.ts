@@ -229,6 +229,10 @@ export function createRepositories(db: Db): Repositories {
       const rows = await db.delete(schema.issueLog).where(lt(schema.issueLog.createdAt, olderThan)).returning()
       return rows.length
     },
+    async clear() {
+      const rows = await db.delete(schema.issueLog).returning()
+      return rows.length
+    },
   }
 
   const recipeRejections: RecipeRejectionRepository = {

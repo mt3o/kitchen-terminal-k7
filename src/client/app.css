@@ -692,6 +692,8 @@ body {
   padding-bottom: var(--space-2);
 }
 
+.issue-log-actions { display: flex; gap: var(--space-2); }
+
 /* Same title treatment as .changelog-title: the theme's display face, case
    and tracking, which unthemed are the UI face, uppercase and
    --tracking-label this heading always had. */

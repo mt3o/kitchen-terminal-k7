@@ -1,0 +1,5 @@
+date: "2026-10-08"
+title: "Czyszczenie dziennika błędów i pilnowanie dostępu do kalendarza"
+items:
+  - "W DZIENNIKU BŁĘDÓW jest przycisk [ wyczyść ] — pierwsze dotknięcie pyta „na pewno?”, drugie usuwa wszystkie wpisy."
+  - "Połączenie konta Google bez zaznaczonego uprawnienia do kalendarza jest odrzucane z wyjaśnieniem, poprzednie połączenie zostaje, a próba trafia do dziennika błędów."

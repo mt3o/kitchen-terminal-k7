@@ -184,6 +184,13 @@ describe('IssueLogRepository', () => {
     assert.equal(removed, 1)
     assert.deepEqual((await repos.issueLog.listRecent()).map((e) => e.message), ['fresh'])
   })
+
+  it('clears every entry and reports how many', async () => {
+    await repos.issueLog.record({ severity: 'warn', source: 'ics', message: 'one', detail: null })
+    await repos.issueLog.record({ severity: 'error', source: 'client', message: 'two', detail: null })
+    assert.equal(await repos.issueLog.clear(), 2)
+    assert.deepEqual(await repos.issueLog.listRecent(), [])
+  })
 })
 
 describe('RecipeRejectionRepository', () => {

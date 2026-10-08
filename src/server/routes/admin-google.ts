@@ -29,6 +29,7 @@ import {
   buildConsentUrl,
   exchangeCode,
   fetchAccountEmail,
+  grantsCalendarRead,
   revokeToken,
   type StateStore,
 } from '../oauth/google-consent.ts'
@@ -45,6 +46,8 @@ export interface AdminGoogleRouteDeps {
   connection: GoogleConnection
   states: StateStore
   reportError: (err: unknown, extra?: Record<string, unknown>) => void
+  /** A refused consent the household has to redo — the issue log, not an exception tracker. */
+  reportIssue: (message: string) => void
   fetchImpl?: typeof fetch
 }
 
@@ -115,6 +118,25 @@ export async function registerAdminGoogleRoutes(app: FastifyInstance, deps: Admi
         redirectUri: deps.redirectUri,
         fetchImpl: deps.fetchImpl,
       })
+      if (!grantsCalendarRead(exchanged.scope)) {
+        // Not stored: the previous credential, if any, keeps working. Not
+        // revoked either — revocation at Google drops the whole grant for this
+        // client, which would take that previous credential down with it.
+        // (Mostly a different account in practice: `include_granted_scopes`
+        // would already have folded an earlier calendar grant into this one.)
+        deps.reportIssue(
+          `Google consent refused: the grant has no calendar.readonly scope (granted: ${exchanged.scope})`,
+        )
+        return reply
+          .code(400)
+          .type('text/html; charset=utf-8')
+          .send(
+            resultPage(
+              'brak dostępu do kalendarza',
+              'Google nie przyznał dostępu do kalendarza — na ekranie zgody zaznacz uprawnienie do kalendarza i połącz ponownie. Poprzednie połączenie pozostaje bez zmian.',
+            ),
+          )
+      }
       const accountEmail = await fetchAccountEmail(exchanged.accessToken, deps.fetchImpl)
       await deps.store.write({
         refreshToken: exchanged.refreshToken,

@@ -387,6 +387,17 @@ app.get('/api/issues', async (req) => {
 })
 
 /**
+ * The popup's WYCZYŚĆ. Unauthenticated for the same reason the read is: the
+ * kiosk that shows the log has no admin token, and a clear button only an
+ * admin browser could use would leave the iPad's log cluttered. And
+ * this table is a household view of what went wrong, not the record of it;
+ * where errors must survive, that is GlitchTip's job.
+ */
+app.delete('/api/issues', async () => {
+  return { removed: await repos.issueLog.clear() }
+})
+
+/**
  * The client's own crash reporter (`client/lib/issue-log.ts`) posts here —
  * `window.onerror` / `unhandledrejection`, throttled client-side so a
  * crash loop cannot flood this table. Body fields are bounded and coerced to
@@ -933,6 +944,7 @@ if (config.adminToken && credentialStore) {
       Sentry.captureException(err, { extra })
       logIssue('error', 'server', err instanceof Error ? err.message : 'admin/google-connect error', err)
     },
+    reportIssue: (message) => logIssue('error', 'google-calendar', message),
   })
 }
 
