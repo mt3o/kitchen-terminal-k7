@@ -26,13 +26,20 @@
      *  widget to fullscreen via fullscreen-lock.ts, the same mechanism the
      *  Slideshow uses. */
     fullscreen?: boolean
+    /** The fullscreen button's rank (DESIGN.md §8). `ghost` (the default) is
+     *  the framed control every other card has, 44px tall, and it makes the
+     *  head that tall. `text` draws only the bracketed label, one head line
+     *  high, and keeps the 44px touch target as an invisible hit area around
+     *  it, so the head stays the height it was without the button. For a
+     *  card whose cell has no row to spare (the weather card). */
+    fullscreenRank?: 'ghost' | 'text'
   }
 
   // Renamed from the prop's own `state` on the way in: a local binding named
   // `state` turns every `$state(...)` rune in this file into Svelte's
   // store-subscription syntax, and the compiler blames the runes rather than
   // the name (same gotcha K7Calendar.svelte's own `cardState` works around).
-  let { label, meta = '', state: cardStatus = 'idle', actions, toolbar, children, fullscreen = false }: Props = $props()
+  let { label, meta = '', state: cardStatus = 'idle', actions, toolbar, children, fullscreen = false, fullscreenRank = 'ghost' }: Props = $props()
 
   // Colour never carries state alone: a wall display is read at an angle, in
   // sunlight, by people with colour-vision deficiency, through a greasy
@@ -128,6 +135,25 @@
     else acquire()
   }
 
+  // The touchstart listener is added by hand, non-passive, and not as
+  // `ontouchstart={...}` in the markup: Svelte 5 registers `ontouchstart`
+  // passive, which turns the `preventDefault()` above into a no-op ("Unable
+  // to preventDefault inside passive event listener"). The trailing
+  // mousedown and click then arrive anyway. While the promoted card still
+  // sits where it was (it spends its first moments at the deck's size, not
+  // the screen's), a card in the top-right cell has its [ x ] exactly where
+  // the [ + ] was, so that click lands on it and releases the fullscreen the
+  // same tap acquired. Found with the weather card (#101) in Chromium at
+  // 1024x768; the calendar only escaped because its button moves away
+  // ([node:89241737]).
+  let fullscreenBtn = $state<HTMLElement | undefined>(undefined)
+  $effect(() => {
+    const btn = fullscreenBtn
+    if (!btn) return
+    btn.addEventListener('touchstart', onPointerDown, { passive: false })
+    return () => btn.removeEventListener('touchstart', onPointerDown)
+  })
+
   function acquire(): void {
     if (hostId) acquireManual(hostId)
   }
@@ -150,8 +176,9 @@
           <button
             type="button"
             class="fullscreen-btn"
+            class:rank-text={fullscreenRank === 'text'}
             aria-label={isManuallyMine ? 'zamknij' : 'pelny ekran'}
-            ontouchstart={onPointerDown}
+            bind:this={fullscreenBtn}
             onmousedown={onPointerDown}
             onclick={onActivate}
           >{isManuallyMine ? '[ x ]' : '[ + ]'}</button>
@@ -345,6 +372,33 @@
   @supports selector(:focus-visible) {
     .fullscreen-btn:focus:not(:focus-visible) { outline: none; }
   }
+
+  /* The text rank: no frame, no fill, no height of its own beyond the
+     label's line. The 44px floor is not given up but moved into a hit area
+     drawn by ::before, centred on the label and reaching into the card's
+     padding above and the gap below, where it takes no room from anything.
+     Measured on the weather card at 1024x768: the ghost button grows the
+     head from 32 to 53px and cuts the 3-day row by 14px ([node:d1f56964]);
+     this rank leaves the head at 32 ([node:487f72d5]). Hover and press raise
+     the ink instead of painting a box, since a 44px fill would cross the
+     head's rule. */
+  .fullscreen-btn.rank-text {
+    position: relative;
+    min-height: 0;
+    padding: 0;
+    border-style: none;
+    line-height: inherit;
+  }
+  .fullscreen-btn.rank-text::before {
+    content: '';
+    position: absolute;
+    left: calc(-1 * var(--space-2));
+    right: calc(-1 * var(--space-2));
+    top: calc(50% - var(--control-h-sm) / 2);
+    bottom: calc(50% - var(--control-h-sm) / 2);
+  }
+  .fullscreen-btn.rank-text:hover,
+  .fullscreen-btn.rank-text:active { background: transparent; color: var(--fg); }
 
   .card-body { flex: 1 1 auto; min-height: 0; }
 

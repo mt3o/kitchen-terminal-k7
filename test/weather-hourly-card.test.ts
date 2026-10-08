@@ -4,12 +4,13 @@
  * module; this file pins how K7Weather.svelte wires that module in, in the
  * same source-reading style as test/weather-presenting-fit.test.ts.
  *
- * - The standard card stays exactly as it was, by the user's ruling
- *   [node:d1f56964]: no hourly strip and no [ + ] fullscreen button. On the
- *   main page its cell is 184 px of body and today's content fills it; the
- *   button's 44 px touch target alone grew the head by 21 px and cut the
- *   3-day row through the middle. Both guards below fail loudly if either
- *   comes back without that trade being re-decided.
+ * - The standard card keeps its height, by the user's ruling
+ *   [node:d1f56964]: no hourly strip, and the head no taller than it was.
+ *   That ruling also refused the ghost [ + ] button, whose 44 px touch target
+ *   grew the head by 21 px and cut the 3-day row through the middle. Issue
+ *   #101 brought the button back in the `text` rank, which keeps the 44 px
+ *   target as a hit area but lends the head only one line, so the trade is
+ *   no longer needed (test/weather-fullscreen.test.ts pins the mechanism).
  * - The graphs trim against a clock that advances on EVERY load attempt
  *   ([node:0c340910]): a failed refresh keeps the last answer on screen, and
  *   its past hours must still drop off rather than freeze.
@@ -37,11 +38,13 @@ function loadBody(): string {
 }
 
 describe('K7Weather.svelte: the standard card keeps its height budget', () => {
-  it('does not opt into the fullscreen button', () => {
-    assert.doesNotMatch(
-      markup,
-      /<Card [^>]*\bfullscreen\b/,
-      'the [ + ] button grows the head by 21 px and clips the 3-day row on the main page (node d1f56964)',
+  it('opts into the fullscreen button only in the text rank, which adds no head height', () => {
+    const card = /<Card [^>]*>/.exec(markup)?.[0] ?? ''
+    assert.match(card, /\bfullscreen\b/, 'issue #101: the weather card has the [ + ] button')
+    assert.match(
+      card,
+      /fullscreenRank="text"/,
+      'the ghost [ + ] grows the head by 21 px and clips the 3-day row on the main page (node d1f56964)',
     )
   })
 
@@ -67,15 +70,15 @@ describe('K7Weather.svelte: graphs in the Slideshow presentation', () => {
     assert.match(script, /timeZone = \$derived\(aged\?\.data\.timezone \?\? 'Europe\/Warsaw'\)/)
   })
 
-  it('draws graphs only while presenting with hours; otherwise the old presentation', () => {
-    assert.match(script, /hasHours = \$derived\(presenting && upcoming\.length > 0\)/)
+  it('draws graphs only while fullscreen with hours; otherwise the old presentation', () => {
+    assert.match(script, /hasHours = \$derived\(expanded && upcoming\.length > 0\)/)
     assert.match(markup, /\{:else if hasHours\}[\s\S]*class="graphs"[\s\S]*\{:else\}\s*\{@render hero\(aged\)\}/)
   })
 
   it('scopes every presented hero/graphs rule to the graph layout, so a presentation without hours is unchanged', () => {
     for (const m of css.matchAll(/([^{}]+)\{[^}]*\}/g)) {
       const sel = m[1].trim()
-      if (/\.(hero|graphs)\b/.test(sel) && sel.includes('k7-slideshow-presenting')) {
+      if (/\.(hero|graphs)\b/.test(sel) && sel.includes('k7-fullscreen-active')) {
         assert.match(sel, /\.has-hours|\.hero >/, `${sel} must be scoped to the graph layout`)
       }
     }

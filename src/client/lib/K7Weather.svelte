@@ -12,7 +12,7 @@
 <script lang="ts">
   import Card from './Card.svelte'
   import { untrack } from 'svelte'
-  import { hostIdOf, presentingElIdStore } from './fullscreen-lock.ts'
+  import { hostIdOf, promotedElIdStore } from './fullscreen-lock.ts'
   import {
     DEFAULT_CELLS,
     fitCells,
@@ -106,27 +106,40 @@
     }
   })
 
-  // The grid cell has room for three days; a card the Slideshow is presenting
-  // owns the whole screen, so it shows every day the server returned. Content,
-  // not styling, hence the store rather than the `:host(...)` class alone.
+  // The grid cell has room for three days; a card that owns the whole screen
+  // shows every day the server returned. Content, not styling, hence the
+  // store rather than the `:host(...)` class alone.
+  //
+  // "Owns the whole screen" is either cause of fullscreen: the Slideshow
+  // presenting it, or a person opening it with [ + ] (issue #101). The other
+  // cards key their big look on presenting only, because a card opened by
+  // hand is one people mean to use in its ordinary shape ([node:8b25dd73]).
+  // Weather has nothing to use in its ordinary shape: no controls, nothing
+  // to scroll to, and the cell layout stretched to the screen is the same
+  // three days with a lot of empty floor. Somebody who taps [ + ] on it wants
+  // more weather, so manual fullscreen gets the presentation: every day and
+  // the hourly graphs. That is why this reads the promoted store, which is
+  // set for both causes, and the styles below match `.k7-fullscreen-active`,
+  // which fullscreen-lock.ts puts on the host for both ([node:14c6d1a8]).
   let wrapEl = $state<HTMLElement | undefined>(undefined)
   let hostId = $state<string | undefined>(undefined)
   $effect(() => {
     if (!wrapEl) return
     hostId = hostIdOf(wrapEl)
   })
-  let presenting = $derived(hostId !== undefined && $presentingElIdStore === hostId)
-  let forecast = $derived(aged ? aged.data.daily.slice(1, presenting ? undefined : 4) : [])
+  let expanded = $derived(hostId !== undefined && $promotedElIdStore === hostId)
+  let forecast = $derived(aged ? aged.data.daily.slice(1, expanded ? undefined : 4) : [])
 
-  // --- hourly graphs, Slideshow presentation only (deck k7-weather-card) ---
+  // --- hourly graphs, fullscreen only (deck k7-weather-card) ---------------
   //
   // The standard card has no row to spare for hourly data ([node:d1f56964]),
-  // so the graphs exist only while the Slideshow presents the card and owns
-  // the screen. No hours (an answer cached before the series existed) means
-  // no graph column at all: the presentation is then exactly the old one.
+  // so the graphs exist only while the card owns the screen: presented by the
+  // Slideshow or opened with [ + ]. No hours (an answer cached before the
+  // series existed) means no graph column at all: the fullscreen view is then
+  // exactly the old centred one.
   let timeZone = $derived(aged?.data.timezone ?? 'Europe/Warsaw')
   let upcoming = $derived(upcomingHours(aged?.data.hourly, nowMs, 72))
-  let hasHours = $derived(presenting && upcoming.length > 0)
+  let hasHours = $derived(expanded && upcoming.length > 0)
 
   /**
    * Geometry is measured, never set per breakpoint ([node:e0d9cfb5]): one
@@ -189,7 +202,7 @@
    * fit"), then the detail row, then the decorative drawing — never the
    * temperature or the condition, which are what the presentation is for
    * (at 844x390 the condition was clipped to the dot of an "i"). Each drop is latched for the rest of the
-   * presentation: dropping makes room, and deciding again from the roomier
+   * fullscreen view: dropping makes room, and deciding again from the roomier
    * layout would put the row straight back ([node:21b0b80b]).
    */
   const MIN_LINES_WITH_DETAIL = 8
@@ -215,7 +228,7 @@
   })
   let dropDetail = $state(false)
   $effect(() => {
-    if (!presenting) {
+    if (!expanded) {
       dropDetail = false
       dropDays = false
       dropArt = false
@@ -305,7 +318,9 @@
   {/if}
 {/snippet}
 
-<Card label={label} meta={meta} state={cardState as 'ok' | 'warn' | 'fail' | 'idle'}>
+<!-- `text` rank: the ghost [ + ] is 44px tall and would grow the head by
+     21px, which on the 1024x768 wall cuts the 3-day row ([node:d1f56964]). -->
+<Card label={label} meta={meta} state={cardState as 'ok' | 'warn' | 'fail' | 'idle'} fullscreen fullscreenRank="text">
   <div class="wrap" class:has-hours={hasHours} bind:this={wrapEl}>
   {#if failed && !aged}
     <p class="msg">brak danych pogodowych</p>
@@ -405,12 +420,19 @@
 
   .stale { margin: var(--space-2) 0 0; color: var(--warn); font-size: var(--text-sm); }
 
-  /* --- Slideshow presentation ----------------------------------------------
+  /* --- Fullscreen: Slideshow presentation and manual [ + ] ------------------
    * Read from the doorway with nobody in the room, so the same centred,
-   * glance-tier shape as the clock (K7Card.svelte, which explains why this is
-   * keyed on `-presenting` and not on `.k7-fullscreen-active`). The
-   * temperature takes the top of the glance scale; everything else steps up
-   * from the meta sizes a grid cell needs to the read tier's upper end.
+   * glance-tier shape as the clock. Unlike the clock and the calendar
+   * (K7Card.svelte explains their `-presenting` vs `.k7-fullscreen-active`
+   * split), this card keys its big look on `.k7-fullscreen-active`, which
+   * fullscreen-lock.ts sets for BOTH causes: a person who opens the weather
+   * with [ + ] wants more weather, not the cell stretched (issue #101; the
+   * script's `expanded` says the same for the content). The one rule that
+   * stays presentation-only is `overflow: hidden`: nobody can scroll a
+   * presentation, but a person holding the tablet can, so in manual
+   * fullscreen anything that does not fit scrolls rather than being cut.
+   * The temperature takes the top of the glance scale; everything else steps
+   * up from the meta sizes a grid cell needs to the read tier's upper end.
    *
    * Centred with auto margins, not `justify-content`/`align-items: center`:
    * the Slideshow is in the shared layout.yaml, so a phone presents this too,
@@ -418,56 +440,57 @@
    * that cannot scroll — the start of the temperature was cut off at 375px.
    * Auto margins collapse to zero on overflow, so at worst the end is lost,
    * never the start. (`safe center` would say this directly; Safari 15.4+.) */
-  :host(.k7-slideshow-presenting) .wrap {
+  :host(.k7-fullscreen-active) .wrap {
     gap: var(--space-8);
     text-align: center;
-    overflow: hidden;
   }
-  :host(.k7-slideshow-presenting) .now { justify-content: center; gap: var(--space-8); }
-  :host(.k7-slideshow-presenting) .art { font-size: var(--text-xl); }
-  :host(.k7-slideshow-presenting) .readout { text-align: left; }
-  :host(.k7-slideshow-presenting) .glance { font-size: var(--glance-lg); }
-  :host(.k7-slideshow-presenting) .unit { font-size: var(--glance-sm); }
-  :host(.k7-slideshow-presenting) .cond { margin: 0; font-size: var(--text-xl); }
-  :host(.k7-slideshow-presenting) .detail { justify-content: center; gap: var(--space-12); margin-top: 0; margin-bottom: 0; }
-  :host(.k7-slideshow-presenting) .detail div,
-  :host(.k7-slideshow-presenting) .days li { align-items: center; }
-  :host(.k7-slideshow-presenting) dt,
-  :host(.k7-slideshow-presenting) .dow { font-size: var(--text-base); }
-  :host(.k7-slideshow-presenting) dd,
-  :host(.k7-slideshow-presenting) .range { font-size: var(--text-xl); }
-  :host(.k7-slideshow-presenting) .days { justify-content: center; flex-wrap: wrap; gap: var(--space-6) var(--space-12); }
-  :host(.k7-slideshow-presenting) .stale { margin-top: 0; font-size: var(--text-lg); }
+  :host(.k7-slideshow-presenting) .wrap { overflow: hidden; }
+  :host(.k7-fullscreen-active) .now { justify-content: center; gap: var(--space-8); }
+  :host(.k7-fullscreen-active) .art { font-size: var(--text-xl); }
+  :host(.k7-fullscreen-active) .readout { text-align: left; }
+  :host(.k7-fullscreen-active) .glance { font-size: var(--glance-lg); }
+  :host(.k7-fullscreen-active) .unit { font-size: var(--glance-sm); }
+  :host(.k7-fullscreen-active) .cond { margin: 0; font-size: var(--text-xl); }
+  :host(.k7-fullscreen-active) .detail { justify-content: center; gap: var(--space-12); margin-top: 0; margin-bottom: 0; }
+  :host(.k7-fullscreen-active) .detail div,
+  :host(.k7-fullscreen-active) .days li { align-items: center; }
+  :host(.k7-fullscreen-active) dt,
+  :host(.k7-fullscreen-active) .dow { font-size: var(--text-base); }
+  :host(.k7-fullscreen-active) dd,
+  :host(.k7-fullscreen-active) .range { font-size: var(--text-xl); }
+  :host(.k7-fullscreen-active) .days { justify-content: center; flex-wrap: wrap; gap: var(--space-6) var(--space-12); }
+  :host(.k7-fullscreen-active) .stale { margin-top: 0; font-size: var(--text-lg); }
   /* Last, so they win the margin ties with the per-element rules above. */
-  :host(.k7-slideshow-presenting) .wrap > * { margin-left: auto; margin-right: auto; }
-  :host(.k7-slideshow-presenting) .wrap > :first-child { margin-top: auto; }
-  :host(.k7-slideshow-presenting) .wrap > :last-child { margin-bottom: auto; }
+  :host(.k7-fullscreen-active) .wrap > * { margin-left: auto; margin-right: auto; }
+  :host(.k7-fullscreen-active) .wrap > :first-child { margin-top: auto; }
+  :host(.k7-fullscreen-active) .wrap > :last-child { margin-bottom: auto; }
 
   /* A phone is held at arm's length, not read from the doorway (DESIGN.md
      §4.2's glanceable floor is for the wall), and the wall's sizes do not fit
      it: a 112px figure beside its art is wider than 375px. One step down
      the same scales, at the same breakpoint the rest of the app uses. */
   @media (max-width: 767px) {
-    :host(.k7-slideshow-presenting) .wrap { gap: var(--space-4); }
-    :host(.k7-slideshow-presenting) .now { gap: var(--space-4); }
-    :host(.k7-slideshow-presenting) .art { font-size: var(--text-sm); }
-    :host(.k7-slideshow-presenting) .glance { font-size: var(--glance-md); }
-    :host(.k7-slideshow-presenting) .unit { font-size: var(--text-xl); }
-    :host(.k7-slideshow-presenting) .cond { font-size: var(--text-lg); }
-    :host(.k7-slideshow-presenting) .detail { gap: var(--space-6); }
-    :host(.k7-slideshow-presenting) dt,
-    :host(.k7-slideshow-presenting) .dow { font-size: var(--text-xs); }
-    :host(.k7-slideshow-presenting) dd,
-    :host(.k7-slideshow-presenting) .range { font-size: var(--text-lg); }
-    :host(.k7-slideshow-presenting) .days { gap: var(--space-2) var(--space-6); }
-    :host(.k7-slideshow-presenting) .stale { font-size: var(--text-base); }
+    :host(.k7-fullscreen-active) .wrap { gap: var(--space-4); }
+    :host(.k7-fullscreen-active) .now { gap: var(--space-4); }
+    :host(.k7-fullscreen-active) .art { font-size: var(--text-sm); }
+    :host(.k7-fullscreen-active) .glance { font-size: var(--glance-md); }
+    :host(.k7-fullscreen-active) .unit { font-size: var(--text-xl); }
+    :host(.k7-fullscreen-active) .cond { font-size: var(--text-lg); }
+    :host(.k7-fullscreen-active) .detail { gap: var(--space-6); }
+    :host(.k7-fullscreen-active) dt,
+    :host(.k7-fullscreen-active) .dow { font-size: var(--text-xs); }
+    :host(.k7-fullscreen-active) dd,
+    :host(.k7-fullscreen-active) .range { font-size: var(--text-lg); }
+    :host(.k7-fullscreen-active) .days { gap: var(--space-2) var(--space-6); }
+    :host(.k7-fullscreen-active) .stale { font-size: var(--text-base); }
   }
 
-  /* --- Slideshow presentation with hourly graphs ----------------------------
-   * Deck k7-weather-card, screens slideshow-presenting(-phone). Everything
-   * here is scoped under `.has-hours`, which only exists while presenting
-   * WITH hours, so a presentation without hourly data is exactly the one
-   * above (test/weather-presenting-fit.test.ts pins it).
+  /* --- Fullscreen with hourly graphs ----------------------------------------
+   * Deck k7-weather-card, screens slideshow-presenting(-phone); since #101
+   * also the manual fullscreen view. Everything here is scoped under
+   * `.has-hours`, which only exists while fullscreen WITH hours, so a
+   * fullscreen view without hourly data is exactly the one above
+   * (test/weather-presenting-fit.test.ts pins it).
    *
    * Orientation picks the arrangement, width picks the size step
    * ([node:7f4027ac]): landscape puts the hero and the graphs side by side,
@@ -479,8 +502,8 @@
    * hero, centring is auto margins again, never `align-items: center`, so a
    * hero too wide for its column loses its end and never its start
    * ([node:32f913e8]). */
-  :host(.k7-slideshow-presenting) .wrap.has-hours { text-align: left; }
-  :host(.k7-slideshow-presenting) .wrap.has-hours > .hero {
+  :host(.k7-fullscreen-active) .wrap.has-hours { text-align: left; }
+  :host(.k7-fullscreen-active) .wrap.has-hours > .hero {
     display: flex;
     flex-direction: column;
     gap: var(--space-6);
@@ -491,8 +514,8 @@
     margin: 0;
     text-align: center;
   }
-  :host(.k7-slideshow-presenting) .hero > * { margin-left: auto; margin-right: auto; }
-  :host(.k7-slideshow-presenting) .wrap.has-hours > .graphs {
+  :host(.k7-fullscreen-active) .hero > * { margin-left: auto; margin-right: auto; }
+  :host(.k7-fullscreen-active) .wrap.has-hours > .graphs {
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
@@ -502,25 +525,25 @@
     margin: 0;
   }
   @media (orientation: landscape) {
-    :host(.k7-slideshow-presenting) .wrap.has-hours { flex-direction: row; }
+    :host(.k7-fullscreen-active) .wrap.has-hours { flex-direction: row; }
     /* Half and half, not the wireframe's 5:7: measured at 1024x768, a
        5/12 column (~400px) cannot hold the wall-size art beside the 112px
        figure, so the hero stacked and ran ~125px past the card. At half
        width it sits on one line; the graphs drop only the mm figure, which
        the bar already carries. */
-    :host(.k7-slideshow-presenting) .wrap.has-hours > .hero { flex: 1 1 0; }
-    :host(.k7-slideshow-presenting) .wrap.has-hours > .graphs { flex: 1 1 0; }
+    :host(.k7-fullscreen-active) .wrap.has-hours > .hero { flex: 1 1 0; }
+    :host(.k7-fullscreen-active) .wrap.has-hours > .graphs { flex: 1 1 0; }
     /* Sharing the width with the graphs, the hero tightens what is not read
        from the doorway: the drawing one step down, the detail row closer.
        The temperature, condition and values keep their wall sizes. */
-    :host(.k7-slideshow-presenting) .wrap.has-hours .art { font-size: var(--text-lg); }
-    :host(.k7-slideshow-presenting) .wrap.has-hours .detail { gap: var(--space-6); }
+    :host(.k7-fullscreen-active) .wrap.has-hours .art { font-size: var(--text-lg); }
+    :host(.k7-fullscreen-active) .wrap.has-hours .detail { gap: var(--space-6); }
     /* Three wall-size days at the --space-12 gap need ~498px; the half
        column has ~490, so the third day wrapped and the row stopped fitting. */
-    :host(.k7-slideshow-presenting) .wrap.has-hours .days { gap: var(--space-6) var(--space-8); }
+    :host(.k7-fullscreen-active) .wrap.has-hours .days { gap: var(--space-6) var(--space-8); }
     /* Vertically centred in its column, by auto margins. */
-    :host(.k7-slideshow-presenting) .hero > :first-child { margin-top: auto; }
-    :host(.k7-slideshow-presenting) .hero > :last-child { margin-bottom: auto; }
+    :host(.k7-fullscreen-active) .hero > :first-child { margin-top: auto; }
+    :host(.k7-fullscreen-active) .hero > :last-child { margin-bottom: auto; }
   }
 
   .g-rows {
@@ -568,9 +591,9 @@
 
   @media (max-width: 767px) {
     .g-text { font-size: var(--text-sm); }
-    :host(.k7-slideshow-presenting) .wrap.has-hours > .hero { gap: var(--space-3); }
+    :host(.k7-fullscreen-active) .wrap.has-hours > .hero { gap: var(--space-3); }
     /* The landscape hero rules above out-rank the phone step for these two. */
-    :host(.k7-slideshow-presenting) .wrap.has-hours .art { font-size: var(--text-sm); }
-    :host(.k7-slideshow-presenting) .wrap.has-hours .detail { gap: var(--space-4); }
+    :host(.k7-fullscreen-active) .wrap.has-hours .art { font-size: var(--text-sm); }
+    :host(.k7-fullscreen-active) .wrap.has-hours .detail { gap: var(--space-4); }
   }
 </style>
