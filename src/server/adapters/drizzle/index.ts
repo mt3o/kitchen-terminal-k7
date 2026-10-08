@@ -32,6 +32,7 @@ import type {
   UpstreamCacheRepository,
 } from '../../ports/repositories.ts'
 import * as schema from '../../db/schema.ts'
+import { numberedSteps } from '../../../shared/recipe-steps.ts'
 
 export type Db = BetterSQLite3Database<typeof schema>
 
@@ -60,7 +61,7 @@ const toRecipe = (r: schema.RecipeRow): Recipe => ({
   description: r.description ?? '',
   sourceUrl: r.sourceUrl,
   ingredients: r.ingredients,
-  steps: r.steps,
+  stepsMarkdown: typeof r.steps === 'string' ? r.steps : numberedSteps(r.steps),
   tags: r.tags,
   importedAt: r.importedAt,
 })
@@ -91,7 +92,13 @@ export function createRepositories(db: Db): Repositories {
     },
     async save(recipe) {
       const id = recipe.id || randomUUID()
-      const values = { ...recipe, id, importedAt: 'importedAt' in recipe ? recipe.importedAt : new Date() }
+      const { stepsMarkdown, ...rest } = recipe
+      const values = {
+        ...rest,
+        id,
+        steps: stepsMarkdown,
+        importedAt: 'importedAt' in recipe ? recipe.importedAt : new Date(),
+      }
       const [row] = await db
         .insert(schema.recipes)
         .values(values)

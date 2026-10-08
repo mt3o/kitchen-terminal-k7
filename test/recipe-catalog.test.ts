@@ -15,7 +15,7 @@ function recipe(id: string, day: number, over: Partial<Recipe> = {}): Recipe {
     description: 'opis',
     sourceUrl: null,
     ingredients: ['mąka'],
-    steps: ['piecz'],
+    stepsMarkdown: '1. piecz',
     tags: [],
     importedAt: new Date(Date.UTC(2026, 0, day)),
     ...over,
@@ -111,7 +111,7 @@ describe('listCatalog search', () => {
     const all = [
       recipe('url', 6, { sourceUrl: 'https://example.test/cebula' }),
       recipe('opis', 5, { description: 'z cebulą' }),
-      recipe('kroki', 4, { steps: ['podsmaż cebulę'] }),
+      recipe('kroki', 4, { stepsMarkdown: '## Sos\n\n- podsmaż cebulę' }),
       recipe('skladniki', 3, { ingredients: ['cebula'] }),
       recipe('tagi', 2, { tags: ['cebula'] }),
       recipe('tytul', 1, { title: 'Zupa cebulowa' }),
@@ -137,7 +137,7 @@ describe('listCatalog search', () => {
       recipe('wszedzie', 2, {
         tags: ['jajko'],
         ingredients: ['jajko'],
-        steps: ['jajko'],
+        stepsMarkdown: '1. jajko',
         description: 'jajko',
       }),
       recipe('tytul', 1, { title: 'Jajko sadzone' }),

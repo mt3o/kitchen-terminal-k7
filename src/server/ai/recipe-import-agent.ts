@@ -22,6 +22,7 @@ import type { AiCallRepository } from '../ports/repositories.ts'
 import type { ExtractedRecipe } from '../recipes/extract.ts'
 import { pageToText } from '../recipes/page-text.ts'
 import { estimateCostUsd, type ChatMessage, type KiloGatewayClient, type ModelCatalog } from '../upstream/kilo.ts'
+import { numberedSteps } from '../../shared/recipe-steps.ts'
 
 export interface RecipeImportAgentDeps {
   aiCalls: AiCallRepository
@@ -127,7 +128,9 @@ export function validateRecipeReply(content: string, sourceUrl: string): { recip
       return { problem: 'Pole steps zawiera składniki zamiast kroków przygotowania. Kroki to czynności (np. „Wymieszaj…”).' }
     }
   }
-  return { recipe: { title, description, sourceUrl, ingredients, steps, tags } }
+  // The model's step list (one step per element, the schema above) becomes
+  // the numbered Markdown list the review form shows (shared/recipe-steps.ts).
+  return { recipe: { title, description, sourceUrl, ingredients, stepsMarkdown: numberedSteps(steps), tags } }
 }
 
 export function createRecipeImportAgent(deps: RecipeImportAgentDeps): RecipeImportAgent {
@@ -140,7 +143,7 @@ export function createRecipeImportAgent(deps: RecipeImportAgentDeps): RecipeImpo
     if (input.hint) {
       parts.push(
         'DANE STRUKTURALNE ODCZYTANE AUTOMATYCZNIE (mogą być niepełne lub źle podzielone — sprawdź je z tekstem strony):\n' +
-          JSON.stringify({ title: input.hint.title, ingredients: input.hint.ingredients, steps: input.hint.steps }),
+          JSON.stringify({ title: input.hint.title, ingredients: input.hint.ingredients, steps: input.hint.stepsMarkdown }),
       )
     }
     const messages: ChatMessage[] = [
@@ -198,7 +201,7 @@ export function createRecipeImportAgent(deps: RecipeImportAgentDeps): RecipeImpo
       if ('recipe' in checked) {
         // A page that genuinely publishes no method is a thin but honest recipe;
         // the retry is for the cases a second look can actually fix.
-        if (checked.recipe.steps.length > 0 || attempt === 2) return checked.recipe
+        if (checked.recipe.stepsMarkdown !== '' || attempt === 2) return checked.recipe
         lastProblem = 'Pole steps jest puste, a strona zwykle zawiera sposób przygotowania — poszukaj go w tekście strony.'
       } else {
         lastProblem = checked.problem

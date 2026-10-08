@@ -17,6 +17,7 @@
 import type { AiCallRepository, ConversationRepository } from '../ports/repositories.ts'
 import type { ExtractedRecipe } from '../recipes/extract.ts'
 import { estimateCostUsd, type KiloGatewayClient, type ModelCatalog } from '../upstream/kilo.ts'
+import { numberedSteps } from '../../shared/recipe-steps.ts'
 
 export type RecipeDraftErrorReason =
   | 'no-such-conversation'
@@ -97,7 +98,9 @@ export function parseRecipeDraft(content: string): ExtractedRecipe {
   }
   const tags = [...new Set(cleanList(o.tags, /^#/).map((t) => t.toLowerCase()))]
   // Not asked of the model: same "no guess presented as authored data" reasoning as extractFallback.
-  return { title, description: '', sourceUrl: null, ingredients, steps, tags }
+  // The model answers with a step list; the draft carries it as the numbered
+  // Markdown list the household then edits (shared/recipe-steps.ts).
+  return { title, description: '', sourceUrl: null, ingredients, stepsMarkdown: numberedSteps(steps), tags }
 }
 
 export function createRecipeDrafter(deps: RecipeDrafterDeps): RecipeDrafter {

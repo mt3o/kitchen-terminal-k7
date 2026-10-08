@@ -21,7 +21,7 @@ describe('validateRecipeReply', () => {
     const r = validateRecipeReply('{"title":"Żurek","description":"","ingredients":["zakwas"],"steps":["1. gotuj"],"tags":["#Zupa"]}', URL_)
     assert.ok('recipe' in r)
     assert.equal(r.recipe.sourceUrl, URL_)
-    assert.deepEqual(r.recipe.steps, ['gotuj'])
+    assert.equal(r.recipe.stepsMarkdown, '1. gotuj')
     assert.deepEqual(r.recipe.tags, ['zupa'])
   })
 
@@ -70,8 +70,8 @@ describe('createRecipeImportAgent', () => {
   const good = '{"title":"Żurek","description":"","ingredients":["zakwas"],"steps":["Gotuj."],"tags":[]}'
 
   it('sends the page text and the hint, asks for a json_schema, and records the spend', async () => {
-    const recipe = await agent([good]).extract({ html, sourceUrl: URL_, hint: { title: 'zły', description: '', sourceUrl: URL_, ingredients: [], steps: [], tags: [] } })
-    assert.deepEqual(recipe.steps, ['Gotuj.'])
+    const recipe = await agent([good]).extract({ html, sourceUrl: URL_, hint: { title: 'zły', description: '', sourceUrl: URL_, ingredients: [], stepsMarkdown: '', tags: [] } })
+    assert.equal(recipe.stepsMarkdown, '1. Gotuj.')
     assert.equal(requests[0]?.responseFormat?.type, 'json_schema')
     const user = requests[0]?.messages[1]?.content ?? ''
     assert.match(user, /## Żurek/)
@@ -83,7 +83,7 @@ describe('createRecipeImportAgent', () => {
 
   it('retries once, naming the problem, when the reply has no steps', async () => {
     const recipe = await agent(['{"title":"Żurek","ingredients":["zakwas"],"steps":[],"tags":[]}', good]).extract({ html, sourceUrl: URL_ })
-    assert.deepEqual(recipe.steps, ['Gotuj.'])
+    assert.equal(recipe.stepsMarkdown, '1. Gotuj.')
     assert.equal(requests.length, 2)
     assert.match(requests[1]?.messages.at(-1)?.content ?? '', /steps jest puste/)
   })
@@ -91,7 +91,7 @@ describe('createRecipeImportAgent', () => {
   it('accepts a page with no method after the retry rather than inventing one', async () => {
     const empty = '{"title":"Żurek","ingredients":["zakwas"],"steps":[],"tags":[]}'
     const recipe = await agent([empty, empty]).extract({ html, sourceUrl: URL_ })
-    assert.deepEqual(recipe.steps, [])
+    assert.equal(recipe.stepsMarkdown, '')
   })
 
   it('drops the json_schema and tries again when the model refuses it', async () => {
@@ -127,11 +127,11 @@ describe('pageToText', () => {
 describe('importRecipeFromUrl with an agent', () => {
   const html = '<html><body><script type="application/ld+json">{"@type":"Recipe","name":"Żurek","description":"Opis strony","recipeIngredient":["zakwas"],"recipeInstructions":[]}</script></body></html>'
   const fetcher = async () => ({ text: async () => html })
-  const read = { title: 'Żurek', description: 'z modelu', sourceUrl: URL_, ingredients: ['zakwas'], steps: ['Gotuj.'], tags: [] }
+  const read = { title: 'Żurek', description: 'z modelu', sourceUrl: URL_, ingredients: ['zakwas'], stepsMarkdown: '1. Gotuj.', tags: [] }
 
   it('prefers the agent, keeping the page-authored description', async () => {
     const recipe = await importRecipeFromUrl(URL_, { fetcher, agent: async () => read })
-    assert.deepEqual(recipe.steps, ['Gotuj.'])
+    assert.equal(recipe.stepsMarkdown, '1. Gotuj.')
     assert.equal(recipe.description, 'Opis strony')
   })
 

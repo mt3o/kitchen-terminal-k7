@@ -40,7 +40,7 @@ describe('parseRecipeDraft', () => {
       }),
     )
     assert.deepEqual(draft.ingredients, ['mąka', 'jajko'])
-    assert.deepEqual(draft.steps, ['wymieszaj', 'smaż'])
+    assert.equal(draft.stepsMarkdown, '1. wymieszaj\n2. smaż')
     assert.deepEqual(draft.tags, ['obiad', 'ziemniaki'])
   })
 

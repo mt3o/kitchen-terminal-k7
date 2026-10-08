@@ -264,7 +264,7 @@ describe('POST /api/chat/conversations/:id/recipe-draft', () => {
       description: '',
       sourceUrl: null,
       ingredients: ['4 jajka'],
-      steps: ['Podsmaż'],
+      stepsMarkdown: '1. Podsmaż',
       tags: ['jajka'],
     })
     const [call] = await repos.aiCalls.listRecent(1)

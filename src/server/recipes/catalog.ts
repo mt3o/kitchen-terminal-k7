@@ -116,7 +116,7 @@ function searchFields(recipe: Recipe): string[] {
     recipe.title,
     recipe.tags.join(' '),
     recipe.ingredients.join(' '),
-    recipe.steps.join(' '),
+    recipe.stepsMarkdown,
     recipe.description,
     recipe.sourceUrl ?? '',
   ].map(normalizeSearchText)

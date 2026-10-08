@@ -1,6 +1,7 @@
 /**
  * The on-disk shape of one recipe: YAML frontmatter for the fields a person
- * rarely touches, then plain Markdown lists for the ones they do.
+ * rarely touches, then plain Markdown lists for the ones they do — and, under
+ * `## Kroki`, the method as the household wrote it (`Recipe.stepsMarkdown`).
  *
  * Pure — no filesystem — so the format can be tested without a directory and
  * the adapter stays a thin layer of reads, writes and renames.
@@ -62,6 +63,24 @@ export function slugify(title: string): string {
   return slug || 'przepis'
 }
 
+/**
+ * A heading inside the method that names another section (`## Składniki`)
+ * would end `## Kroki` on read and take the rest of the method with it.
+ * Pushed to level 4, which the reader never treats as a section — it renders
+ * the same way in the detail view (every level shows as h3–h6).
+ */
+function guardSectionHeadings(stepsMarkdown: string): string {
+  return stepsMarkdown
+    .split('\n')
+    .map((line) => {
+      const heading = HEADING.exec(line)
+      if (!heading || heading[1]!.length > 3) return line
+      const known = SECTION_BY_HEADING[normalize(heading[2]!)]
+      return known && known !== 'steps' ? `#### ${heading[2]}` : line
+    })
+    .join('\n')
+}
+
 /** One list item is one line; a line break inside it would start a new item on read. */
 function oneLine(item: string): string {
   return item.replace(/\s*[\r\n]+\s*/g, ' ').trim()
@@ -74,7 +93,7 @@ export function serializeRecipe(recipe: Recipe): string {
 
   const description = recipe.description.split(/\r?\n/).map(oneLine).filter(Boolean)
   const ingredients = recipe.ingredients.map(oneLine).filter(Boolean)
-  const steps = recipe.steps.map(oneLine).filter(Boolean)
+  const steps = guardSectionHeadings(recipe.stepsMarkdown.replace(/\r\n?/g, '\n').trim())
 
   const lines = [
     '---',
@@ -89,7 +108,7 @@ export function serializeRecipe(recipe: Recipe): string {
     ...(ingredients.length ? [...ingredients.map((i) => `- ${i}`), ''] : []),
     `## ${STEPS_HEADING}`,
     '',
-    ...steps.map((s, n) => `${n + 1}. ${s}`),
+    ...(steps ? [steps] : []),
   ]
   return `${lines.join('\n').trimEnd()}\n`
 }
@@ -142,7 +161,13 @@ export function parseRecipeMarkdown(text: string, fallback: { id: string; mtime:
   const { data, body } = splitFrontmatter(text.replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n'))
 
   let h1: string | undefined
-  const lists = { description: [] as string[], ingredients: [] as string[], steps: [] as string[] }
+  const lists = { description: [] as string[], ingredients: [] as string[] }
+  // The method is kept as written, not as list items: it is Markdown with
+  // headings, sub-lists and the household's own numbering (see
+  // shared/recipe-steps.ts). A legacy file's numbered list reads back as
+  // exactly that numbered list.
+  const stepLines: string[] = []
+  let inSteps = false
   // Where items currently go, and the heading level that opened it: a deeper
   // heading the reader doesn't recognise (`### Ciasto` under `## Składniki`)
   // is a subsection of the list, not the end of it.
@@ -151,12 +176,25 @@ export function parseRecipeMarkdown(text: string, fallback: { id: string; mtime:
 
   for (const line of body.split('\n')) {
     const heading = HEADING.exec(line)
+    if (inSteps) {
+      // Only a heading that opens another known section ends the method;
+      // any other (`## Krem`, `### Ciasto`, `## Uwagi`) is part of it.
+      const other = heading && heading[1]!.length <= 3 ? SECTION_BY_HEADING[normalize(heading[2]!)] : undefined
+      if (!other || other === 'steps') {
+        stepLines.push(line)
+        continue
+      }
+      inSteps = false
+    }
     if (heading) {
       const level = heading[1]!.length
       const name = heading[2]!
       if (level === 1 && h1 === undefined) h1 = name.trim() || undefined
       const known = level <= 3 ? SECTION_BY_HEADING[normalize(name)] : undefined
-      if (known) section = { list: lists[known], level }
+      if (known === 'steps') {
+        inSteps = true
+        section = undefined
+      } else if (known) section = { list: lists[known], level }
       else if (section && level <= section.level) section = undefined
       canContinue = false
       continue
@@ -186,7 +224,7 @@ export function parseRecipeMarkdown(text: string, fallback: { id: string; mtime:
     description: lists.description.join('\n'),
     sourceUrl: scalarText(data.sourceUrl) ?? null,
     ingredients: lists.ingredients,
-    steps: lists.steps,
+    stepsMarkdown: stepLines.join('\n').trim(),
     tags: readTags(data.tags),
     importedAt: readDate(data.importedAt) ?? fallback.mtime,
   }

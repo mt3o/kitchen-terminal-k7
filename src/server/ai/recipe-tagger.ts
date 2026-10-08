@@ -15,7 +15,7 @@ import type { Recipe } from '../domain/types.ts'
 import type { AiCallRepository } from '../ports/repositories.ts'
 import { estimateCostUsd, type KiloGatewayClient, type ModelCatalog } from '../upstream/kilo.ts'
 
-export type TaggableRecipe = Pick<Recipe, 'title' | 'description' | 'ingredients' | 'steps'>
+export type TaggableRecipe = Pick<Recipe, 'title' | 'description' | 'ingredients' | 'stepsMarkdown'>
 
 export interface RecipeTaggerDeps {
   aiCalls: AiCallRepository
@@ -49,7 +49,7 @@ export function buildTaggingInput(recipe: TaggableRecipe): string {
   const parts = [`Tytuł: ${recipe.title}`]
   if (recipe.description.trim()) parts.push(`Opis: ${recipe.description.trim()}`)
   if (recipe.ingredients.length) parts.push(`Składniki:\n${recipe.ingredients.map((i) => `- ${i}`).join('\n')}`)
-  if (recipe.steps.length) parts.push(`Kroki:\n${recipe.steps.map((s, n) => `${n + 1}. ${s}`).join('\n')}`)
+  if (recipe.stepsMarkdown.trim()) parts.push(`Kroki:\n${recipe.stepsMarkdown.trim()}`)
   return parts.join('\n\n')
 }
 
