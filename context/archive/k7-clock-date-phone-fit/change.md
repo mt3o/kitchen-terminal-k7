@@ -1,6 +1,8 @@
 # k7-clock-date-phone-fit
 
-status: implemented, PR pending
+status: archived
+archived: 2026-10-08
+merged: 2026-10-08, PR #94 (ee95ce1); reviewed post-merge 2026-10-08 (review.md)
 created: 2026-10-08
 lifecycle: /gw-fix (bug — red test before the source edit)
 branch: claude/k7-clock-date-phone-fit
@@ -62,3 +64,15 @@ The dump is not in this branch. The local store and `origin/main`'s dump have
 diverged both ways (main has 10 nodes and 20 events the store lacks, the store
 has 7 nodes and 22 events main lacks). Rebuilding from either side alone would
 lose the other's, so the union is a separate, deliberate step.
+
+## Archive (2026-10-08)
+
+The memory dump did go in separately, as planned: PR #95 merged the
+diverged store with main's dump.
+
+Promoted by the human: decision a2717fde → long-term (before the review),
+change summary cde437b9 → long-term (at the review gate). Issue 726faa94,
+which this change fixed, was archived by the human after #94 merged.
+
+`memory_lifecycle.py deactivate k7-clock-date-phone-fit --sweep`: 1 swept
+dormant, this change's goal 6605aad8. Nothing else changed.
