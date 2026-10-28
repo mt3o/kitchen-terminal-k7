@@ -30,6 +30,28 @@ export interface Config {
   /** Absent means error reporting is off. That is a supported way to run. */
   glitchtipDsn: string | undefined
   kiloGatewayKey: string | undefined
+  /**
+   * An alternative OpenAI-compatible gateway (e.g. Anthropic's, at
+   * https://api.anthropic.com/v1). All four AI settings below are opt-in and
+   * independent of the Kilo ones above, so going back to Kilo is unsetting
+   * them — `KILO_GATEWAY_KEY` is never touched. Unset means Kilo's own URL.
+   */
+  aiGatewayUrl: string | undefined
+  /** Takes precedence over `kiloGatewayKey` for every gateway call except transcription. */
+  aiGatewayKey: string | undefined
+  /**
+   * When set, every chat completion is sent with this model id, whatever the
+   * layout, a stored conversation or a caller asked for. One switch rather than
+   * editing `kilo-auto/free` out of five places, and it survives threads that
+   * were created with the old model id.
+   */
+  aiModelOverride: string | undefined
+  /**
+   * Voice input needs `/audio/transcriptions`, which not every gateway has
+   * (Anthropic's does not). Defaults to the main gateway and key.
+   */
+  transcriptionGatewayUrl: string | undefined
+  transcriptionGatewayKey: string | undefined
   /** The model that reads an imported recipe page. Smarter than the free default on purpose: it is one call per import. */
   recipeImportModel: string
   googleOauthRefreshToken: string | undefined
@@ -106,6 +128,11 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     // (sentry.rashell.pl) goes by; GLITCHTIP_DSN stays for existing deployments.
     glitchtipDsn: env.SENTRY_DSN || env.GLITCHTIP_DSN || undefined,
     kiloGatewayKey: env.KILO_GATEWAY_KEY || undefined,
+    aiGatewayUrl: env.K7_AI_GATEWAY_URL || undefined,
+    aiGatewayKey: env.K7_AI_GATEWAY_KEY || undefined,
+    aiModelOverride: env.K7_AI_MODEL_OVERRIDE || undefined,
+    transcriptionGatewayUrl: env.K7_TRANSCRIPTION_GATEWAY_URL || undefined,
+    transcriptionGatewayKey: env.K7_TRANSCRIPTION_GATEWAY_KEY || undefined,
     recipeImportModel: env.K7_RECIPE_IMPORT_MODEL || 'kilo-auto/balanced',
     googleOauthRefreshToken: env.GOOGLE_OAUTH_REFRESH_TOKEN || undefined,
     googleOauthClientId: env.GOOGLE_OAUTH_CLIENT_ID || undefined,
@@ -135,6 +162,8 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
 export function secretValues(config: Config): readonly (string | undefined)[] {
   return [
     config.kiloGatewayKey,
+    config.aiGatewayKey,
+    config.transcriptionGatewayKey,
     config.googleOauthRefreshToken,
     config.googleOauthClientId,
     config.googleOauthClientSecret,
@@ -166,10 +195,19 @@ export function describeConfig(config: Config): string {
     `admin=${present(config.adminToken)}`,
     `secret_key=${present(config.secretKey)}`,
     `kilo_key=${present(config.kiloGatewayKey)}`,
+    `ai_gateway=${config.aiGatewayUrl ?? 'kilo'}`,
+    `ai_key=${present(config.aiGatewayKey)}`,
+    `ai_model=${config.aiModelOverride ?? 'as-requested'}`,
+    `transcription=${config.transcriptionGatewayUrl ?? 'same'}`,
     `google_refresh=${present(config.googleOauthRefreshToken)}`,
     `google_oauth_client=${present(config.googleOauthClientId)}/${present(config.googleOauthClientSecret)}`,
     `unsplash=${present(config.unsplashAccessKey)}`,
     `tls=${config.hostname ? `${config.hostname}${config.acmeProduction ? '' : ' (staging)'}` : 'off'}`,
     `cloudflare=${present(config.cloudflareApiToken)}`,
   ].join(' ')
+}
+
+/** The key AI calls authenticate with: the alternative gateway's when one is configured, else Kilo's. */
+export function gatewayKey(config: Config): string | undefined {
+  return config.aiGatewayKey ?? config.kiloGatewayKey
 }

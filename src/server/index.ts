@@ -24,7 +24,7 @@ import {
   isSafeId,
   migrateRecipesToFiles,
 } from './adapters/files/recipes.ts'
-import { describeConfig, loadConfig, secretValues } from './config.ts'
+import { describeConfig, gatewayKey, loadConfig, secretValues } from './config.ts'
 import { runMigrations } from './db/migrate.ts'
 import { initObservability, Sentry } from './observability.ts'
 import { createScrubber } from './redact.ts'
@@ -147,7 +147,14 @@ function logRejection(kind: 'save' | 'import', reason: string, attemptedInput: u
 // AI chat (Faza 4) and ascii-art-of-the-day (Faza 5) share one Kilo Gateway
 // client and model catalogue — see routes/chat.ts for why the chat routes
 // themselves live in their own module.
-const kiloClient = createKiloGatewayClient({ apiKey: config.kiloGatewayKey })
+const aiKey = gatewayKey(config)
+const kiloClient = createKiloGatewayClient({
+  apiKey: aiKey,
+  baseUrl: config.aiGatewayUrl,
+  modelOverride: config.aiModelOverride,
+  transcriptionBaseUrl: config.transcriptionGatewayUrl,
+  transcriptionApiKey: config.transcriptionGatewayKey,
+})
 const modelCatalog = createModelCatalog(fetchThrough, kiloClient)
 const conversationService = createConversationService({
   conversations: repos.conversations,
@@ -162,16 +169,16 @@ const recipeDrafter = createRecipeDrafter({
   gateway: kiloClient,
 })
 // Absent key means URL import falls back to the markup-only extractors.
-const recipeImportAgent = config.kiloGatewayKey
+const recipeImportAgent = aiKey
   ? createRecipeImportAgent({ aiCalls: repos.aiCalls, modelCatalog, gateway: kiloClient, model: config.recipeImportModel })
   : undefined
 // Absent key means recipes simply save untagged — see ai/recipe-tagger.ts.
-const recipeTagger = config.kiloGatewayKey
+const recipeTagger = aiKey
   ? createRecipeTagger({ aiCalls: repos.aiCalls, modelCatalog, gateway: kiloClient })
   : undefined
 // Absent means the card fails honestly with a clear cause rather than every
 // request racing to discover a missing key — see the /api/ascii-art route.
-const generateAndRecordAsciiArt = config.kiloGatewayKey
+const generateAndRecordAsciiArt = aiKey
   ? createAsciiArtGenerator(repos.aiCalls, kiloClient, modelCatalog)
   : undefined
 
