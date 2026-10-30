@@ -170,3 +170,43 @@ surprised:
 - **`normaliseLayout` and the recursive card containers.** `cells` and `slides`
   nest arbitrarily, and several features (calendar lookup, local overrides,
   slideshow) each walk that tree separately with their own copy of the walk.
+
+## 8. The deployed box, and how it is reached from outside
+
+Production runs on `revert` (192.168.0.10), from **this same checkout**, as a
+systemd **user** unit: `systemctl --user status k7.service`. It reads
+`.env.local` through `EnvironmentFile=` and listens with its own TLS on `:8443`.
+Two traps follow from that:
+
+- **Never `pkill -f "node src/server/index.ts"`.** The production unit runs that
+  exact command line, so the pattern kills it as well as your dev server
+  (systemd restarts it after 5 s, but the kitchen display goes dark meanwhile).
+  `pkill -f <anything>` from the Bash tool also matches the tool's own
+  `bash -c` wrapper and kills it (exit 144). Kill by PID, found with
+  `ss -ltnp | grep :<port>`.
+- **`npm run build` replaces the `dist/` production serves from.** A build on
+  a feature branch is live on the wall at the next reload.
+
+External access already exists, so a `trycloudflare` quick tunnel is not
+needed. The named tunnel `h0m3` (system `cloudflared` service) routes
+`k7-ext.revert-h0m3.co.pl` and `k7-preview.revert-h0m3.co.pl` to
+`127.0.0.1:8081`, behind Cloudflare Access (one-time PIN). On `:8081`, nginx
+(`/etc/nginx/sites-available/k7-tunnel-preview`) does three things:
+- returns 403 without a `Cf-Access-Jwt-Assertion` header;
+- overwrites `X-Forwarded-For` with `127.0.0.1`;
+- proxies to `https://127.0.0.1:8443` with `Host: k7.revert-h0m3.co.pl`.
+
+That is why production can keep `K7_TRUST_PROXY=127.0.0.1`.
+`k7.revert-h0m3.co.pl` itself resolves only to the LAN address.
+
+If you do need an ad-hoc instance with the real `.env.local`, run it next to
+production rather than instead of it:
+`K7_PORT=8091 K7_HOST=127.0.0.1 K7_TRUST_PROXY= CLOUDFLARE_API_TOKEN= node --env-file=.env.local src/server/index.ts`.
+This takes two overrides:
+- **Clear the trust proxy.** Otherwise the visitor's public IP from
+  `X-Forwarded-For` hits the private-address check and every request gets a 403.
+- **Clear the Cloudflare token.** Otherwise the instance starts ACME/TLS.
+
+A tunnel to that instance needs `--http-host-header localhost`, because the
+Host check rejects any other name. Mind that the instance shares
+`./data/k7.sqlite` with production.
