@@ -1,0 +1,5 @@
+date: "2026-10-28"
+title: "Czat i ASCII-art mogą korzystać z innej bramki AI"
+items:
+  - "Serwer da się przełączyć z Kilo Gateway na inną bramkę AI (np. Claude Haiku) samymi zmiennymi środowiskowymi; powrót to ich usunięcie."
+  - "Awaria katalogu modeli nie przerywa już odpowiedzi czatu."

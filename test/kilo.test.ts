@@ -211,3 +211,40 @@ describe('chatCompletion deadlines', () => {
     )
   })
 })
+
+describe('gateway overrides', () => {
+  const realFetch = globalThis.fetch
+  afterEach(() => {
+    globalThis.fetch = realFetch
+  })
+
+  it('sends the override model instead of the requested one, and keeps the transcription gateway apart', async () => {
+    const seen: { url: string; body?: string; auth?: string }[] = []
+    globalThis.fetch = (async (url: string, init?: RequestInit) => {
+      seen.push({
+        url,
+        body: typeof init?.body === 'string' ? init.body : undefined,
+        auth: (init?.headers as Record<string, string> | undefined)?.authorization,
+      })
+      return url.endsWith('/audio/transcriptions')
+        ? Response.json({ text: 'hej' })
+        : Response.json({ choices: [{ message: { content: 'ok' } }], usage: { prompt_tokens: 1, completion_tokens: 1 } })
+    }) as unknown as typeof fetch
+
+    const client = createKiloGatewayClient({
+      apiKey: 'ai-key',
+      baseUrl: 'https://ai.example/v1',
+      modelOverride: 'claude-haiku-5-5',
+      transcriptionBaseUrl: 'https://kilo.example/gw',
+      transcriptionApiKey: 'kilo-key',
+    })
+    await client.chatCompletionOnce({ model: 'kilo-auto/free', messages: [{ role: 'user', content: 'hi' }] })
+    await client.transcribeAudio({ data: Buffer.from('x'), contentType: 'audio/webm' })
+
+    assert.equal(seen[0]?.url, 'https://ai.example/v1/chat/completions')
+    assert.equal(JSON.parse(seen[0]?.body ?? '{}').model, 'claude-haiku-5-5')
+    assert.equal(seen[0]?.auth, 'Bearer ai-key')
+    assert.equal(seen[1]?.url, 'https://kilo.example/gw/audio/transcriptions')
+    assert.equal(seen[1]?.auth, 'Bearer kilo-key')
+  })
+})

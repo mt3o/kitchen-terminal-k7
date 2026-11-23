@@ -126,8 +126,13 @@ export function mapGatewayModel(raw: RawModel): GatewayModel {
   }
 }
 
-export async function fetchModels(baseUrl: string = BASE_URL, timeoutMs?: number): Promise<GatewayModel[]> {
-  const res = await fetchWithTimeout(`${baseUrl}/models`, timeoutMs)
+export async function fetchModels(baseUrl: string = BASE_URL, timeoutMs?: number, apiKey?: string): Promise<GatewayModel[]> {
+  // Kilo's catalogue needs no auth; other gateways (Anthropic's) do.
+  const res = await fetchWithTimeout(
+    `${baseUrl}/models`,
+    timeoutMs,
+    apiKey ? { authorization: `Bearer ${apiKey}`, 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' } : undefined,
+  )
   const raw = (await res.json()) as RawModelsResponse
   return (raw.data ?? []).map(mapGatewayModel)
 }
@@ -244,9 +249,22 @@ export function fileNameForContentType(contentType: string): string {
 }
 
 export function createKiloGatewayClient(
-  options: { apiKey?: string; baseUrl?: string; connectTimeoutMs?: number; idleTimeoutMs?: number } = {},
+  options: {
+    apiKey?: string
+    baseUrl?: string
+    connectTimeoutMs?: number
+    idleTimeoutMs?: number
+    /** Sent as `model` on every chat completion in place of the requested one — see Config.aiModelOverride. */
+    modelOverride?: string
+    /** Voice input only; each defaults to the chat gateway's own. */
+    transcriptionBaseUrl?: string
+    transcriptionApiKey?: string
+  } = {},
 ): KiloGatewayClient {
   const baseUrl = options.baseUrl ?? BASE_URL
+  const transcriptionBaseUrl = options.transcriptionBaseUrl ?? baseUrl
+  const transcriptionApiKey = options.transcriptionApiKey ?? options.apiKey
+  const modelFor = (request: ChatCompletionRequest): string => options.modelOverride ?? request.model
   const connectTimeoutMs = options.connectTimeoutMs ?? CHAT_STREAM_CONNECT_TIMEOUT_MS
   const idleTimeoutMs = options.idleTimeoutMs ?? CHAT_STREAM_IDLE_TIMEOUT_MS
 
@@ -282,7 +300,7 @@ export function createKiloGatewayClient(
           headers: buildHeaders(options.apiKey),
           signal: controller.signal,
           body: JSON.stringify({
-            model: request.model,
+            model: modelFor(request),
             messages: request.messages,
             stream: true,
             stream_options: { include_usage: true },
@@ -354,7 +372,7 @@ export function createKiloGatewayClient(
         headers: buildHeaders(options.apiKey),
         signal: controller.signal,
         body: JSON.stringify({
-          model: request.model,
+          model: modelFor(request),
           messages: request.messages,
           stream: false,
           ...(request.responseFormat !== undefined ? { response_format: request.responseFormat } : {}),
@@ -390,9 +408,9 @@ export function createKiloGatewayClient(
       new Blob([new Uint8Array(request.data)], { type: request.contentType }),
       fileNameForContentType(request.contentType),
     )
-    const res = await fetch(`${baseUrl}/audio/transcriptions`, {
+    const res = await fetch(`${transcriptionBaseUrl}/audio/transcriptions`, {
       method: 'POST',
-      headers: buildAuthHeader(options.apiKey),
+      headers: buildAuthHeader(transcriptionApiKey),
       signal: opts.signal,
       body: form,
     })
@@ -406,7 +424,7 @@ export function createKiloGatewayClient(
   }
 
   return {
-    fetchModels: () => fetchModels(baseUrl),
+    fetchModels: () => fetchModels(baseUrl, undefined, options.apiKey),
     chatCompletion,
     chatCompletionOnce,
     transcribeAudio,
@@ -442,7 +460,10 @@ export function createModelCatalog(fetchThrough: FreshnessService, client: Pick<
   return {
     list,
     async get(modelId) {
-      const models = await list()
+      // Context length and price are bookkeeping with a documented fallback
+      // (conversation-service.ts); a catalogue that is down or refuses this
+      // key must not take the chat turn down with it.
+      const models = await list().catch(() => [])
       return models.find((m) => m.id === modelId)
     },
   }
